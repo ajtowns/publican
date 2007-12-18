@@ -128,7 +128,7 @@ Common_Content:: entities
 					cp $$xml_file $(PWD)/Common_Content/common/$$lang/$$xml_file; \
 				else \
 					echo "		Processing ../$$lang/$$po_file"; \
-					po2xml $(PWD)/Common_Content/common/$$lang/$$xml_file ../$$lang/$$po_file > $(PWD)/Common_Content/common/$$lang/$$xml_file; \
+					po2xml $$xml_file ../$$lang/$$po_file > $(PWD)/Common_Content/common/$$lang/$$xml_file; \
 				fi; \
 			done; \
 			cp $$xml_file $(PWD)/Common_Content/common/en-US/$$xml_file; \

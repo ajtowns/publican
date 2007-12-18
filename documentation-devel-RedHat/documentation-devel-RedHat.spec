@@ -4,7 +4,7 @@ Name:		documentation-devel-%{brand}
 Summary:	Common documentation files for %{brand}
 Version:	0.3
 Release:	0%{?dist}
-License:	OPL + Restrictions
+License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
 Buildarch:	noarch
@@ -13,6 +13,7 @@ Requires(post): coreutils
 Requires(postun): coreutils
 Requires:	documentation-devel
 BuildRequires:	documentation-devel
+URL:		https://fedorahosted.org/documentation-devel
 
 %description
 Common files for building %{brand} documentation.
@@ -32,17 +33,14 @@ cp -rf Common_Content $RPM_BUILD_ROOT%{_usr}/share/documentation-devel/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-
-%postun
-
-%preun
-
 %files
 %defattr(-,root,root)
 %doc README
 %{_usr}/share/documentation-devel/Common_Content/%{brand}
 
 %changelog
-* Fri Jul 13 2007 Jeff Fearn <jfearn@redhat.com> 0.1.0
+* Fri Jul 20 2007 Jeff Fearn <jfearn@redhat.com> 0.3-0
+- Update
+
+* Fri Jul 13 2007 Jeff Fearn <jfearn@redhat.com> 0.1-0
 - Initial creation

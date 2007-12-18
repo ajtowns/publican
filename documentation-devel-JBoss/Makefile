@@ -11,7 +11,7 @@ REAL_RPMDIR = $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \
 TAR_NAME = $(NAME)-$(VERSION)
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 
-FILES	= pot README documentation-devel-$(BRAND).spec Makefile $(LANGS) en-US
+FILES	= pot README Makefile $(LANGS) en-US
 
 local: srpm
 	@echo "Start $@"
@@ -22,9 +22,12 @@ local: srpm
 srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
-	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -ts $(TAR_NAME).tgz
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -ts $(TAR_NAME).tgz
+	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES
+	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
+	@cp documentation-devel-$(BRAND).spec $(RPMDIR)/SPECS/.
+	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel-$(BRAND).spec
+	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel-$(BRAND).spec
+	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel-$(BRAND).spec
 	@echo "End $@"
 
 dist: clean
@@ -115,7 +118,7 @@ Common_Content:: entities
 				echo "../$$lang/$$po_file MISSING Using en-US file"; \
 				cp $$xml_file $(PWD)/Common_Content/$(BRAND)/$$lang/$$xml_file; \
 			else \
-				po2xml $(PWD)/Common_Content/$(BRAND)/$$lang/$$xml_file ../$$lang/$$po_file > $(PWD)/Common_Content/$(BRAND)/$$lang/$$xml_file; \
+				po2xml $$xml_file ../$$lang/$$po_file > $(PWD)/Common_Content/$(BRAND)/$$lang/$$xml_file; \
 			fi; \
 		done; \
 		cp $$xml_file $(PWD)/Common_Content/$(BRAND)/en-US/$$xml_file; \
