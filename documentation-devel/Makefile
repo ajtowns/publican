@@ -9,7 +9,7 @@ REAL_RPMDIR = $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \
 
 TAR_NAME = $(NAME)-$(VERSION)
 
-FILES	= bin Book_Template content documentation-devel.spec fop fop.txt make Makefile README templates xsl
+FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl
 
 local: srpm
 	@echo "Start $@"
@@ -20,9 +20,12 @@ local: srpm
 srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
-	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -ts $(TAR_NAME).tgz
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -ts $(TAR_NAME).tgz
+	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES
+	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
+	@cp documentation-devel.spec $(RPMDIR)/SPECS/.
+	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel.spec
+	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel.spec
+	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel.spec
 	@echo "End $@"
 
 dist: clean

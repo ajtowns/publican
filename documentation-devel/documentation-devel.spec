@@ -11,6 +11,7 @@ Requires(post): coreutils
 Requires(postun): coreutils
 Requires:	gettext libxslt kdesdk dejavu-lgc-fonts
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
+URL:		https://fedorahosted.org/documentation-devel
 
 # postuff docbook-style-xsl
 
@@ -77,21 +78,21 @@ Common files and scripts for building Red Hat documentation.
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_usr}/share/%{name}
 mkdir -p -m755 $RPM_BUILD_ROOT/usr/share/applications
-mkdir -p -m775 $RPM_BUILD_ROOT/%{_prefix}/bin
+mkdir -p -m755 $RPM_BUILD_ROOT/%{_prefix}/bin
 #cp -rf bin $RPM_BUILD_ROOT%{_usr}/share/%{name}/bin
-install -m 775 bin/create_book $RPM_BUILD_ROOT/%{_prefix}/bin/create_book
-install -m 775 bin/entity2pot $RPM_BUILD_ROOT/%{_prefix}/bin/entity2pot
-install -m 775 bin/mkxpot $RPM_BUILD_ROOT/%{_prefix}/bin/mkxpot
-install -m 775 bin/msgxmerge $RPM_BUILD_ROOT/%{_prefix}/bin/msgxmerge
-install -m 775 bin/po2entity $RPM_BUILD_ROOT/%{_prefix}/bin/po2entity
-install -m 775 bin/po2xlf $RPM_BUILD_ROOT/%{_prefix}/bin/po2xlf
-install -m 775 bin/po2sgml $RPM_BUILD_ROOT/%{_prefix}/bin/po2sgml
-install -m 775 bin/potmerge $RPM_BUILD_ROOT/%{_prefix}/bin/potmerge
-install -m 775 bin/poxmerge $RPM_BUILD_ROOT/%{_prefix}/bin/poxmerge
-install -m 775 bin/rmImages $RPM_BUILD_ROOT/%{_prefix}/bin/rmImages
-install -m 775 bin/StSe_Reports $RPM_BUILD_ROOT/%{_prefix}/bin/StSe_Reports
-install -m 775 bin/xlf2pot $RPM_BUILD_ROOT/%{_prefix}/bin/xlf2pot
-install -m 775 bin/xmlClean $RPM_BUILD_ROOT/%{_prefix}/bin/xmlClean
+install -m 755 bin/create_book $RPM_BUILD_ROOT/%{_prefix}/bin/create_book
+install -m 755 bin/entity2pot $RPM_BUILD_ROOT/%{_prefix}/bin/entity2pot
+install -m 755 bin/mkxpot $RPM_BUILD_ROOT/%{_prefix}/bin/mkxpot
+install -m 755 bin/msgxmerge $RPM_BUILD_ROOT/%{_prefix}/bin/msgxmerge
+install -m 755 bin/po2entity $RPM_BUILD_ROOT/%{_prefix}/bin/po2entity
+install -m 755 bin/po2xlf $RPM_BUILD_ROOT/%{_prefix}/bin/po2xlf
+install -m 755 bin/po2sgml $RPM_BUILD_ROOT/%{_prefix}/bin/po2sgml
+install -m 755 bin/potmerge $RPM_BUILD_ROOT/%{_prefix}/bin/potmerge
+install -m 755 bin/poxmerge $RPM_BUILD_ROOT/%{_prefix}/bin/poxmerge
+install -m 755 bin/rmImages $RPM_BUILD_ROOT/%{_prefix}/bin/rmImages
+install -m 755 bin/StSe_Reports $RPM_BUILD_ROOT/%{_prefix}/bin/StSe_Reports
+install -m 755 bin/xlf2pot $RPM_BUILD_ROOT/%{_prefix}/bin/xlf2pot
+install -m 755 bin/xmlClean $RPM_BUILD_ROOT/%{_prefix}/bin/xmlClean
 cp -rf fop $RPM_BUILD_ROOT%{_usr}/share/%{name}/fop
 cp -rf make $RPM_BUILD_ROOT%{_usr}/share/%{name}/make
 cp -rf xsl $RPM_BUILD_ROOT%{_usr}/share/%{name}/xsl
@@ -188,10 +189,10 @@ rm -rf $RPM_BUILD_ROOT
 - Added build message when copying Product Specific common files
 - Move local entity to first position so it overrides common entity files
 - Added missing DocBook tags to xmlClean:
--    accel blockquote classname code colophon envar example footnote
--    guisubmenu interface keycap keycombo literal literallayout option
--    parameter prompt property see seealso substeps systemitem wordasword
--    glossary glossdiv glosssee glossseealso
+- 	accel blockquote classname code colophon envar example footnote
+- 	guisubmenu interface keycap keycombo literal literallayout option
+- 	parameter prompt property see seealso substeps systemitem wordasword
+- 	glossary glossdiv glosssee glossseealso
 - Moved executables in to bin directory.
 - Fixed layout of formal para titles in PDF
 - Removed trunctaion and elipses from title used for page headers
@@ -406,5 +407,5 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Mar 19 2007 Jeff Fearn <jfearn@redhat.com> 0.1.6
 - Fix path for reports script
 
-* Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0.0.1
+* Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
