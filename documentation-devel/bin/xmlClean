@@ -1,0 +1,795 @@
+#!/usr/bin/env perl
+
+=head xmlClean
+
+Description: This script allows cleaning, truncation and manipulation of xml files.
+
+Arguments:	
+	
+	-in <infile> (mandatory)
+	-out <outfile> (mandatory, may be same as infile)
+	-lang <lang> (optional, source language)
+	-arch <arch> (optional, arch to filter on)
+	-trans <translation lang,lang> (optional, langauges to validate on)
+	-u | --update (optional, update the xi:includes lang attribute based on translation completion)
+	--defaults <deafult lang,lang'> (optional, langauges to include even if translation isn't complete)
+	-cleanids (option, clean ids)
+	-U (report when an unknown tag is detected)
+	-book <book name> (optional, if set we include the bookname.ent file in all xml files)
+
+=cut
+
+use strict;
+use warnings;
+use XML::TreeBuilder;
+use Getopt::Long;
+use Text::Wrap qw(wrap $columns);
+
+my $in_file         = '';
+my $out_file        = '';
+my $lang            = undef;
+my $trans_langs     = '';
+my $update_includes = 0;
+my $def_langs       = '';
+my $book_name       = '';
+my $clean_id        = 0;
+my $SHOW_UNKNOWN    = 0;
+my $arch            = undef;
+my $condition       = undef;
+my $DEFAULT_WRAP    = 82;
+
+$columns = $DEFAULT_WRAP;
+
+if ((   !GetOptions(
+            "in=s"        => \$in_file,
+            "out=s"       => \$out_file,
+            "lang=s"      => \$lang,
+            "arch=s"      => \$arch,
+            "condition=s" => \$condition,
+            "trans=s"     => \$trans_langs,
+            "update|u"    => \$update_includes,
+            "defaults=s"  => \$def_langs,
+            "cleanids"    => \$clean_id,
+            "U"           => \$SHOW_UNKNOWN,
+            "book=s"      => \$book_name
+        )
+    )
+    || ( !( $in_file && $out_file ) )
+    )
+{
+    die("Usage: \
+	txmlClean -in <infile>\
+	-out <outfile>\
+	[-lang <lang>]\
+	[-arch <arch>]\
+	[-condition <condition>]\
+	[-trans <translation lang,lang>]\
+	-u | --update\
+	[--defaults <deaful lang,lang'>]\
+	[-cleanid]\
+	-U"
+    );
+}
+
+my %UPDATED_IDS;
+
+my %MAP_OUT = (
+    'section'       => { 'block'         => 1, 'newline_after' => 1 },
+    'chapter'       => { 'block'         => 1 },
+    'preface'       => { 'block'         => 1 },
+    'bibliography'  => { 'block'         => 1 },
+    'bibliodiv'     => { 'block'         => 1 },
+    'biblioentry'   => { 'block'         => 1 },
+    'othercredit'   => { 'block'         => 1 },
+    'legalnotice'   => { 'block'         => 1 },
+    'address'       => { 'block'         => 1 },
+    'book'          => { 'block'         => 1 },
+    'article'       => { 'block'         => 1 },
+    'part'          => { 'block'         => 1 },
+    'partintro'     => { 'block'         => 1 },
+    'para'          => { 'block'         => 1 },
+    'formalpara'    => { 'block'         => 1 },
+    'itemizedlist'  => { 'block'         => 1 },
+    'orderedlist'   => { 'block'         => 1 },
+    'variablelist'  => { 'block'         => 1 },
+    'seglistitem'   => { 'block'         => 1 },
+    'segtitle'      => { 'block'         => 1 },
+    'segmentedlist' => { 'block'         => 1 },
+    'simplelist'    => { 'block'         => 1 },
+    'qandaset'      => { 'block'         => 1 },
+    'qandaentry'    => { 'block'         => 1, 'fake_id'       => 1 },
+    'question'      => { 'block'         => 1 },
+    'answer'        => { 'block'         => 1 },
+    'member'        => { 'newline_after' => 1 },
+    'remark'        => { 'newline_after' => 1 },
+    'userinput'     => {},
+    'listitem' => { 'block'         => 1 },
+    'title'    => { 'newline_after' => 1 },
+    'street'   => { 'newline_after' => 1 },
+    'city'     => {},
+    'state'    => {},
+    'postcode' => {},
+    'coutry'   => {},
+    'phone'    => { 'newline_after' => 1 },
+    'fax'      => { 'newline_after' => 1 },
+    'pob'      => {},
+    'subtitle' => { 'newline_after' => 1 },
+    'screen'           => { 'block' => 1, 'verbatim'      => 1 },
+    'programlisting'   => { 'block' => 1, 'verbatim'      => 1 },
+    'programlistingco' => { 'block' => 1, 'newline_after' => 1 },
+    'xref'        => { 'force_empty' => 1, 'keep_empty_attr' => 'linkend' },
+    'caution'     => { 'block'       => 1, 'no_id'           => 1 },
+    'important'   => { 'block'       => 1, 'no_id'           => 1 },
+    'note'        => { 'block'       => 1, 'no_id'           => 1 },
+    'tip'         => { 'block'       => 1, 'no_id'           => 1 },
+    'warning'     => { 'block'       => 1, 'no_id'           => 1 },
+    'figure'      => { 'block'       => 1 },
+    'mediaobject' => { 'block'       => 1 },
+    'imageobject' => { 'block'       => 1 },
+    'imagedata'   => {},
+    'xi:include'    => { 'newline_after' => 1 },
+    'glossary'      => { 'block'         => 1 },
+    'glossentry'    => { 'block'         => 1, 'keep_id' => 1 },
+    'glossdiv'      => { 'block'         => 1 },
+    'glossdef'      => { 'block'         => 1 },
+    'glossterm'     => { 'newline_after' => 1 },
+    'glosssee'      => { 'newline_after' => 1 },
+    'glossseealso'  => { 'newline_after' => 1 },
+    'table'         => { 'block'         => 1 },
+    'informaltable' => { 'block'         => 1 },
+    'thead'         => { 'block'         => 1 },
+    'tgroup'        => { 'block'         => 1 },
+    'tbody'         => { 'block'         => 1 },
+    'tr'            => { 'block'         => 1 },
+    'td'            => { 'block'         => 1 },
+    'row'           => { 'block'         => 1 },
+    'entry'         => { 'block'         => 1 },
+    'indexterm'     => { 'block'         => 1 },
+    'primary'       => { 'newline_after' => 1 },
+    'secondary'     => { 'newline_after' => 1 },
+    'tertiary'      => { 'newline_after' => 1 },
+    'bookinfo'      => { 'block'         => 1 },
+    'articleinfo'   => { 'block'         => 1 },
+    'abstract' =>
+        { 'block' => 1, 'left_justify_child' => 1, 'line_wrap' => 79 },
+    'inlinemediaobject' => { 'block'         => 1 },
+    'publisher'         => { 'block'         => 1 },
+    'copyright'         => { 'block'         => 1 },
+    'authorgroup'       => { 'block'         => 1 },
+    'author'            => { 'block'         => 1 },
+    'corpauthor'        => { 'block'         => 1 },
+    'revision'          => { 'block'         => 1 },
+    'revhistory'        => { 'block'         => 1 },
+    'revdescription'    => { 'block'         => 1 },
+    'publishername'     => { 'block'         => 1 },
+    'affiliation'       => { 'block'         => 1 },
+    'year'              => { 'newline_after' => 1 },
+    'holder'            => { 'newline_after' => 1 },
+    'revnumber'         => { 'newline_after' => 1 },
+    'date'              => { 'newline_after' => 1 },
+    'honorific'         => { 'newline_after' => 1 },
+    'firstname'         => { 'newline_after' => 1 },
+    'surname'           => { 'newline_after' => 1 },
+    'email'             => { 'newline_after' => 1 },
+    'isbn'              => { 'newline_after' => 1 },
+    'issuenum'          => { 'newline_after' => 1 },
+    'productnumber'     => { 'newline_after' => 1 },
+    'shortaffil'        => { 'newline_after' => 1 },
+    'jobtitle'          => { 'newline_after' => 1 },
+    'orgname'           => { 'newline_after' => 1 },
+    'orgdiv'            => { 'newline_after' => 1 },
+    'citetitle'         => {},
+    'country'           => {},
+    'trademark'         => {},
+    'ulink'             => {},
+    'firstterm'         => {},
+    'acronym'           => {},
+    'abbrev'            => {},
+    'command'           => {},
+    'filename'          => {},
+    'application'       => {},
+    'guimenu'           => {},
+    'guilabel'          => {},
+    'guibutton'         => {},
+    'emphasis'          => {},
+    'replaceable'       => {},
+    'computeroutput'    => {},
+    'guimenuitem'       => {},
+    'textobject'        => { 'block'         => 1 },
+    'varlistentry'      => { 'block'         => 1 },
+    'term'              => { 'newline_after' => 1 },
+    'colspec'           => { 'newline_after' => 1 },
+    'areaspec'          => { 'block'         => 1 },
+    'areaset'       => { 'block'         => 1, 'keep_id'       => 1 },
+    'area'          => { 'newline_after' => 1, 'keep_id'       => 1 },
+    'calloutlist'   => { 'block'         => 1 },
+    'callout'       => { 'block'         => 1 },
+    'procedure'     => { 'block'         => 1, 'newline_after' => 1 },
+    'step'          => { 'block'         => 1 },
+    'appendix'      => { 'block'         => 1 },
+    'appendixinfo'  => { 'block'         => 1 },
+    'cmdsynopsis'   => { 'block'         => 1 },
+    'arg'           => { 'block'         => 1 },
+    'group'         => { 'block'         => 1 },
+    'accel'         => {},
+    'blockquote'    => { 'block'         => 1 },
+    'classname'     => {},
+    'code'          => {},
+    'colophon'      => { 'block'         => 1 },
+    'envar'         => {},
+    'example'       => { 'block'         => 1 },
+    'footnote'      => {},
+    'guisubmenu'    => {},
+    'interface'     => {},
+    'keycap'        => {},
+    'keycombo'      => {},
+    'literal'       => {},
+    'literallayout' => { 'verbatim'      => 1},
+    'option'        => {},
+    'parameter'     => {},
+    'prompt'        => {},
+    'property'      => {},
+    'see'           => {'newline_after' => 1,},
+    'seealso'       => {'newline_after' => 1,},
+    'substeps'      => {'block'         => 1},
+    'systemitem'    => {},
+    'wordasword'    => {},
+);
+
+=head PruneXML($node)
+
+Remove unwanted nodes.
+
+If $lang is set then delete all nodes that have lang set and do not contain $lang
+
+If $arch is set then delete all nodes that have arch set and do not contain $arch
+
+If $condition is set then delete all nodes that have condition set and do not contain $condition 
+
+=cut
+
+sub PruneXML($) {
+    my $xml_doc = shift();
+
+    if ($xml_doc) {
+        if ($lang) {
+            $xml_doc->pos( $xml_doc->root() );
+            while (
+                my $node = $xml_doc->look_down(
+                    sub {
+                        $_[0]->attr('lang') && $_[0]->attr('lang') !~ ($lang);
+                    }
+                )
+                )
+            {
+                $node->delete();
+            }
+        }
+        if ($arch) {
+            $xml_doc->pos( $xml_doc->root() );
+            while (
+                my $node = $xml_doc->look_down(
+                    sub {
+                        $_[0]->attr('arch') && $_[0]->attr('arch') !~ ($arch);
+                    }
+                )
+                )
+            {
+                $node->delete();
+            }
+        }
+
+        if ($condition) {
+            $xml_doc->pos( $xml_doc->root() );
+            while (
+                my $node = $xml_doc->look_down(
+                    sub {
+                        $_[0]->attr('condition')
+                            && $_[0]->attr('condition') !~ ($condition);
+                    }
+                )
+                )
+            {
+                $node->delete();
+            }
+        }
+    }
+}
+
+=head Clean_ID
+
+Rename ID's and update xrefs.
+
+If this node has a title as a child set it's ID else remove the ID
+
+=cut
+
+sub Clean_ID($) {
+    my $node  = shift();
+    my $my_id = "";
+
+    if ($node) {
+        my $tag = $node->{'_tag'};
+
+        if ( $MAP_OUT{$tag}->{'keep_id'} ) {
+            $my_id = $node->id() || "";
+        }
+        elsif ( !$MAP_OUT{$tag}->{'no_id'} ) {
+            foreach my $child ( $node->content_refs_list() ) {
+                if ( ref $$child && $$child->{'_tag'} eq 'title' ) {
+                    $my_id = $$child->as_text;
+                    $my_id =~ s/[- ]/_/g;
+                    $my_id =~ s/[^a-zA-Z0-9\._]//g;
+
+                    # Must start with a letter!
+                    if ( $my_id =~ /^\d/ ) {
+                        $my_id = 'a' . $my_id;
+                    }
+
+                    if ( $node->parent() ) {
+                        my $par_title = $node->parent()
+                            ->look_up( sub { $_[0]->attr('id'); } );
+                        if ( $my_id ne "" && $par_title ) {
+                            my $my_p_id = $par_title->attr('id');
+
+    # TODO: Confirm we want the start of the parents id, and not the end of it
+                            $my_p_id =~ s/^.*-//;
+                            $my_id = "$my_p_id-$my_id";
+                        }
+                    }
+                    last;
+                }
+            }
+        }
+
+        # prepend book name (to avoid problems in sets)
+        if ( $my_id ne "" ) {
+            $my_id = "$book_name-$my_id";
+        }
+
+        if ( $node->id() && $node->id() ne $my_id ) {
+            $UPDATED_IDS{ $node->id() } = $my_id;
+        }
+
+        if ( $my_id eq "" ) {
+            $my_id = undef;
+        }
+
+        $node->attr( 'id', $my_id );
+    }
+}
+
+=head Update_Include
+
+Attempt to update all xi:include links to set the lang attribute for Translated languages.
+
+If a language has less that 100% translation it is excluded.
+
+TODO: Make % complete a parameter.
+
+=cut
+
+sub Update_Include($) {
+    my $xml_doc = shift();
+
+    if ($xml_doc) {
+        $xml_doc->pos( $xml_doc->root() );
+        foreach my $node ( $xml_doc->find_by_tag_name('xi:include') ) {
+            my $file = $node->attr('href');
+            if ( $file =~ /^Common_Content/ ) {
+                next;
+            }
+
+            $file =~ s/\.xml/\.po/;
+            my $include_langs = "$lang";
+            if ($def_langs) {
+                $include_langs .= ",$def_langs";
+            }
+
+            my $lang_excluded = 0;
+
+            foreach my $tran ( split( ',', $trans_langs ) ) {
+                if ( !-f "$tran/$file" ) {
+                    print( STDERR
+                            "Excluding $tran from $file, file missing!\n" );
+                    $lang_excluded = 1;
+                }
+                elsif ( $def_langs =~ /$tran/
+                    || ( qx|po2sgml --report -c $tran/$file| == 100 ) )
+                {
+                    $include_langs .= ",$tran";
+                }
+                else {
+                    print( STDERR
+                            "Excluding $tran/$file, translation incomplete.\n"
+                    );
+                    $lang_excluded = 1;
+                }
+            }
+
+            if ($lang_excluded) {
+                $node->attr( 'lang', $include_langs );
+            }
+            else {
+                $node->attr( 'lang', undef );
+            }
+        }
+    }
+}
+
+=head PrintXML
+
+Print out utf8 XML files
+
+Have to output xml/DTD header
+
+TODO: Add a aparmater to allow chunking to smaller XML files.
+
+=cut
+
+sub PrintXML($) {
+    my $xml_doc = shift();
+    my $lvl     = 0;
+
+    if ($xml_doc) {
+        my $file = $out_file;
+        my $path = '';
+
+        # handle nested directories
+        # BUGBUG probaly breaks RHEL4 ...
+        if ( $file =~ /\.\.\/xml\/\.?\/?(.*\/)[^\/]*\.xml/ ) {
+            $path = $1;
+            $path =~ s/[^\/]*\//\.\.\//g;
+        }
+
+        $xml_doc->pos( $xml_doc->root() );
+        my $type = $xml_doc->root->attr("_tag");
+        my $text = my_as_XML($xml_doc);
+        $text =~ s/&#10;//g;
+        $text =~ s/&#9;//g;
+        $text =~ s/&#38;([a-zA-Z-]+;)/&$1/g;
+        $text =~ s/&#38;/&amp;/g;
+        $text =~ s/&amp;#x200B;/&#x200B;/g;
+        $text =~ s/&#x200B; &#x200B;/ /g;
+        $text =~ s/&#x200B; / /g;
+        $text =~ s/&#60;/&lt;/g;
+        $text =~ s/&#62;/&gt;/g;
+        $text =~ s/&#34;/"/g;
+        $xml_doc->root()->delete();
+
+        open( OUTDOC, ">:utf8", "$out_file" )
+            || die("Could not open $out_file for output!\n");
+        print( OUTDOC q|<?xml version='1.0'?>| . "\n" );
+        print(    OUTDOC q|<!DOCTYPE | 
+                . $type
+                . q| PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [|
+                . "\n" );
+
+      # Don't output this header for the source xml as it breaks the ANT build
+        if ( !$clean_id ) {
+            if ( $book_name && -e '../xml/' . $book_name . '.ent' ) {
+                print(    OUTDOC q|<!ENTITY % BOOK_ENTITIES SYSTEM "| 
+                        . $path
+                        . $book_name
+                        . q|.ent">|
+                        . "\n" );
+                print( OUTDOC q|%BOOK_ENTITIES;| . "\n" );
+            }
+            print(    OUTDOC q|<!ENTITY % RH_ENTITIES SYSTEM "| 
+                    . $path
+                    . q|Common_Content/Entities.ent">|
+                    . "\n" );
+            print( OUTDOC q|%RH_ENTITIES;| . "\n" );
+            print(    OUTDOC q|<!ENTITY % RH_TRANS_ENTITIES SYSTEM "| 
+                    . $path
+                    . q|Common_Content/Translatable-Entities.ent">|
+                    . "\n" );
+            print( OUTDOC q|%RH_TRANS_ENTITIES;| . "\n" );
+
+        }
+
+        print( OUTDOC q|]>| . "\n\n" );
+
+        print( OUTDOC $text );
+        close(OUTDOC);
+    }
+
+}
+
+=head my_as_XML
+
+Traverse tree and output xml as text. Overrides traverse ... evil stuff.
+
+=cut
+
+sub my_as_XML($) {
+
+    # based on as_HTML
+    my $xml_doc           = shift();
+    my ($self)            = $xml_doc->root();            #@_;
+    my @xml               = ();
+    my $empty_element_map = $self->_empty_element_map;
+
+    # This flags tags that use  /> instead of end tags IF they are empty.
+    $empty_element_map->{'xref'}       = 1;
+    $empty_element_map->{'xi:include'} = 1;
+    $empty_element_map->{'imagedata'}  = 1;
+    $empty_element_map->{'area'}       = 1;
+
+    my $depth  = 0;
+    my $indent = "\t";
+
+    my ( $tag, $node, $start );    # per-iteration scratch
+
+    # $_[0] = node
+    # $_[1] = startflag
+    # $_[2] = depth
+    # $_[3] = parent
+    # $_[4] = text node index
+
+    $self->traverse(
+        sub {
+            ( $node, $start ) = @_;
+            if ( ref $node ) {     # it's an element
+                                   # delete internal attrs
+                $node->attr( 'depth',    undef );
+                $node->attr( 'name',     undef );
+                $node->attr( 'NoExpand', undef );
+
+                $tag = $node->{'_tag'};
+
+                if ($start) {      # on the way in
+                    if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
+                        warn("Unknown tag: $tag\n");
+                    }
+                    if ($clean_id) {
+                        Clean_ID($node);
+                    }
+
+                    if ( $MAP_OUT{$tag}->{'newline'} ) {
+                        push( @xml, "\n", $indent x $depth );
+                    }
+
+                    if ( $MAP_OUT{$tag}->{'block'} ) {
+
+                   # Check to make sure the block is starting on it's own line
+                   # If not add a new line and indent
+                        if ( $xml[$#xml] && $xml[$#xml] =~ /\S/ ) {
+                            push( @xml, "\n", $indent x $depth );
+                        }
+                        $depth++;
+                    }
+
+                    if ( $empty_element_map->{$tag} ) {
+                        push( @xml, $node->starttag_XML( undef, 1 ) );
+                        if ( $MAP_OUT{$tag}->{'newline_after'} ) {
+                            push( @xml, "\n", $indent x $depth );
+                        }
+                    }
+                    else {
+
+                      # remove previous line if it's empty and we are verbatim
+                        if ($MAP_OUT{$tag}->{'verbatim'}
+                            || (   $node->parent()
+                                && $MAP_OUT{ $node->parent()->{'_tag'} }
+                                ->{'verbatim'} )
+                            )
+                        {
+                            my $prev = pop(@xml);
+                            if ( $prev && $prev =~ /\S/ ) {
+                                push( @xml, $prev );
+                            }
+                        }
+                        push( @xml, $node->starttag_XML(undef) );
+                    }
+
+                    if (!( $MAP_OUT{$tag}->{'left_justify_child'} )
+                        && (!( $node->parent() )
+                            || !(
+                                $MAP_OUT{ $node->parent()->{'_tag'} }
+                                ->{'left_justify_child'}
+                            )
+                        )
+                        )
+                    {
+                        if ( $MAP_OUT{$tag}->{'block'} ) {
+                            if ( not $MAP_OUT{$tag}->{'verbatim'} ) {
+                                push( @xml, "\n", $indent x $depth );
+                            }
+                        }
+                    }
+                }
+                else {    # on the way out
+                    if ( $MAP_OUT{$tag}->{'block'} ) {
+
+                        # remove empty lines
+                        if ( $xml[$#xml] =~ /^\s*$/ ) {
+                            if ( pop(@xml) ne "\n" ) {
+                                pop(@xml);
+                            }
+                        }
+
+                        # remove trailing space
+                        if ( $xml[$#xml] =~ /\s*$/ )    # ||
+                        {
+                            $xml[$#xml] =~ s/\s*$//;
+                        }
+
+                        $depth--;
+                        if (!( $MAP_OUT{$tag}->{'left_justify_child'} )
+                            && (!( $node->parent() )
+                                || !(
+                                    $MAP_OUT{ $node->parent()->{'_tag'} }
+                                    ->{'left_justify_child'}
+                                )
+                            )
+                            )
+                        {
+                            if ( $MAP_OUT{$tag}->{'block'} ) {
+                                if ( $MAP_OUT{$tag}->{'verbatim'} ) {
+                                    push( @xml, "\n" );
+                                }
+                                else {
+                                    push( @xml, "\n", $indent x $depth );
+                                }
+                            }
+                        }
+                    }
+
+                    unless ( $empty_element_map->{$tag} ) {
+                        push( @xml, $node->endtag_XML() );
+                    }    # otherwise it will have been an <... /> tag.
+
+                    if ((   !( $node->parent() ) || !(
+                                $MAP_OUT{ $node->parent()->{'_tag'} }
+                                ->{'left_justify_child'}
+                            )
+                        )
+                        )
+                    {
+                        if ( $MAP_OUT{$tag}->{'newline_after'} ) {
+                            push( @xml, "\n", $indent x $depth );
+                        }
+
+                        if ( ( $MAP_OUT{$tag}->{'block'} ) ) {
+                            push( @xml, "\n", $indent x $depth );
+                        }
+                    }
+                }
+            }
+            else {    # it's just text
+                my $parent = $_[3];
+
+                # Remove extra space from non-verbatim tags
+                if ( $parent
+                    && !( $MAP_OUT{ $parent->{'_tag'} }->{'verbatim'} ) )
+                {
+
+                    # Don't out put empty Block tags
+                    if ( $node !~ /^\s*$/ ) {
+
+                        # Truncate leading space
+                        $node =~ s/[\n\r\f\t\s ]+/ /g;
+
+                        if ( $MAP_OUT{ $parent->{'_tag'} }->{'block'} ) {
+
+                     # for the first child, remove leading space and indent it
+                            if ( $_[4] == 0 ) {
+                                $node =~ s/^ //g;
+                            }
+                        }
+
+                        $self->_xml_escape($node);
+
+# If my grantparent wants me left aligned do so
+# This used for abstract as white space & long lines cause problems with RPM Spec file
+                        if ((   $MAP_OUT{ $parent->{'_tag'} }
+                                ->{'left_justify_child'}
+                            )
+                            || (   $parent->parent()
+                                && $MAP_OUT{ $parent->parent()->{'_tag'} }
+                                ->{'left_justify_child'} )
+                            )
+                        {
+                            $columns = 68;
+                            $node    = wrap( "", "", $node );
+                            $columns = $DEFAULT_WRAP;
+                        }
+
+                        # zero width space to allow Chinese to wrap
+                        if ( $lang
+                            && ( $lang eq 'zh-CN' || $lang eq 'zh-TW' ) )
+                        {
+                            $node =~ s/([\x{2000}-\x{AFFF}])/$1\&\#x200B\;/g;
+                        }
+
+                        push( @xml, $node );
+                    }
+                }
+                else    # Verbatim
+                {
+                    if ( $node =~ /\n/ ) {
+                        foreach my $line ( split( "\n", $node ) ) {
+
+                            $self->_xml_escape($line);
+                            push( @xml, $line, "\n" );
+                        }
+                    }
+                    else {
+                        $self->_xml_escape($node);
+                        push( @xml, $node );
+                    }
+                }
+            }
+            1;    # keep traversing
+        }
+    );
+
+    return ( join( '', @xml, "\n" ) );
+}
+
+=head main loop
+
+Create XML::TreeBuilder object and perform operations.
+
+=cut
+
+my $xml_doc = XML::TreeBuilder->new({'NoExpand' => "1"});
+$xml_doc->parse_file($in_file);
+if ($update_includes) {
+    Update_Include($xml_doc);
+}
+else {
+    PruneXML($xml_doc);
+}
+
+PrintXML($xml_doc);
+
+if ($clean_id) {
+    foreach my $key ( keys(%UPDATED_IDS) ) {
+        my $cmd
+            = q{for file in `grep -lR "} 
+            . $key
+            . q{" *`; do sed -i -e 's/linkend="}
+            . $key
+            . '"/linkend="'
+            . $UPDATED_IDS{$key}
+            . q|"/g' $file; done|;
+        `$cmd`;
+
+        # Update po files - all of string on one line
+        $cmd
+            = q{for file in `grep -lR "} 
+            . $key
+            . q{" ../*`; do sed -i -e 's/=\\\\"}
+            . $key
+            . '\\\\"/=\\\\"'
+            . $UPDATED_IDS{$key}
+            . q|\\\\"/g' $file; done|;
+        `$cmd`;
+
+        # Update po files - tail of string line wrapped
+        $cmd
+            = q{for file in `grep -lR "} 
+            . $key
+            . q{" ../*`; do sed -i -e 's/=\\\\"}
+            . $key
+            . '"/=\\\\"'
+            . $UPDATED_IDS{$key}
+            . q|"/g' $file; done|;
+        `$cmd`;
+
+        # Update po files - string line wrapped after '='
+        $cmd
+            = q{for file in `grep -lR "} 
+            . $key
+            . q{" ../*`; do sed -i -e 's/\\\\"}
+            . $key
+            . '\\\\"/\\\\"'
+            . $UPDATED_IDS{$key}
+            . q|\\\\"/g' $file; done|;
+        `$cmd`;
+
+    }
+}
+exit(0);

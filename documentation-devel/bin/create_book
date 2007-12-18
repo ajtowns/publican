@@ -1,0 +1,208 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Getopt::Long;
+use Pod::Usage;
+use Carp;
+
+my $name     = undef;
+my $version  = '0.1';
+my $revision = '0';
+my $product  = undef;
+my $brand  = undef;
+my $man      = 0;
+my $help     = 0;
+my $article  = undef;
+
+GetOptions(
+    'h|help|?'   => \$help,
+    'man'        => \$man,
+    'name=s'     => \$name,
+    'version=s'  => \$version,
+    'revision=s' => \$revision,
+    'product=s'  => \$product,
+    'article'    => \$article,
+    'brand=s'  => \$brand,
+) or pod2usage(2);
+pod2usage(1) if $help;
+pod2usage( -verbose => 2 ) if $man;
+pod2usage(1) if !$name;
+
+my $bookname = $name;
+$bookname =~ s/_/ /g;
+
+my $cmd = "cp -rf /usr/share/documentation-devel/Book_Template $name";
+system($cmd);
+if ($@) {
+    carp "can't copy Book_Template: $!";
+}
+
+if ($article) {
+    $cmd = qq|mv $name/en-US/Article.xml $name/en-US/$name.xml|;
+    system($cmd);
+    if ($@) {
+        carp "can't rename Article.xml: $!";
+    }
+
+    $cmd = qq|rm -f $name/en-US/Book.xml $name/en-US/Chapter.xml $name/en-US/Preface.xml|;
+    system($cmd);
+    if ($@) {
+        carp "can't rm Book.xml: $!";
+    }
+}
+else {
+    $cmd = qq|mv $name/en-US/Book.xml $name/en-US/$name.xml|;
+    system($cmd);
+    if ($@) {
+        carp "can't rename Book.xml: $!";
+    }
+
+    $cmd = qq|rm -f $name/en-US/Article.xml|;
+    system($cmd);
+    if ($@) {
+        carp "can't rename Book.xml: $!";
+    }
+}
+
+$cmd = qq|mv $name/en-US/Book.ent $name/en-US/$name.ent|;
+system($cmd);
+if ($@) {
+    carp "can't rename Book.ent: $!";
+}
+
+$cmd
+    = qq|sed -i -e 's/<issuenum>.*<\\/issuenum>/<issuenum>$version<\\/issuenum>/g' $name/en-US/$name.xml|;
+system($cmd);
+if ($@) {
+    carp "can't update version: $!";
+}
+
+$cmd
+    = qq|sed -i -e 's/<productnumber>.*<\\/productnumber>/<productnumber>$revision<\\/productnumber>/g'  $name/en-US/$name.xml|;
+system($cmd);
+if ($@) {
+    carp "can't update revision: $!";
+}
+
+if ($article) {
+    $cmd = qq|mv $name/en-US/Book_Info.xml $name/en-US/Article_Info.xml|;
+    system($cmd);
+    if ($@) {
+        carp "can't rename Book_Info.xml: $!";
+    }
+
+    $cmd = qq|sed -i -e 's/book/article/g' $name/en-US/Article_Info.xml|;
+    system($cmd);
+    if ($@) {
+        carp "can't change book to article: $!";
+    }
+
+    $cmd
+        = qq|sed -i -e 's/DOCNAME/DOC_TYPE		= Article\\nDOCNAME/g' $name/Makefile|;
+    system($cmd);
+    if ($@) {
+        carp "can't set DOC_TYPE: $!";
+    }
+}
+
+$cmd = qq|find $name  -type f \| xargs sed -i -e 's/MYBOOKNAME/$bookname/g'|;
+system($cmd);
+if ($@) {
+    carp "can't update MYBOOKNAME: $!";
+}
+
+$cmd = qq|find $name  -type f \| xargs sed -i -e 's/MYBOOK/$name/g'|;
+system($cmd);
+if ($@) {
+    carp "can't update MYBOOK: $!";
+}
+
+$cmd = qq|find $name -type f \| xargs sed -i -e 's/MYPRODUCT/$product/g'|;
+system($cmd);
+if ($@) {
+    carp "can't update MYPRODUCT: $!";
+}
+
+if ( $product and $product ne '' ) {
+    $cmd
+        = qq|sed -i -e 's/#PRODUCT	= FIX_ME!/PRODUCT	= $product/g' $name/Makefile|;
+    system($cmd);
+    if ($@) {
+        carp "can't update PRODUCT: $!";
+    }
+}
+
+if ($brand and $brand ne '' ) {
+    $cmd
+        = qq|sed -i -e 's/#BRAND	= FIX_ME!/BRAND	= $brand/g' $name/Makefile|;
+    system($cmd);
+    if ($@) {
+        carp "can't update BRAND: $!";
+    }
+}
+
+__END__
+
+=head1 NAME
+
+create_book
+
+=head1 SYNOPSIS
+
+create_book --name=<book_name> [options]
+
+ Options:
+   -help               Brief help message
+   -man                Full documentation
+   --name              Name (Required)
+   --version           Version
+   --revision          Revision
+   --product           Product
+   --article           Article not Book
+   --brand             Select Brand
+
+=head1 OPTIONS
+
+=over
+
+=item B<-help>
+
+Print a brief help message and exits.
+
+=item B<-man>
+
+Prints the manual page and exits.
+
+=item B<--name>
+
+Name of Book/Article
+
+=item B<--version>
+
+Version of this Book. Defaults to 0.1
+
+=item B<--revision>
+
+Revison of this Book. Defaults to 0
+
+=item B<--product>
+
+Product which contains this Book. Defaults to Red_Hat_Enterprise_Linux.
+
+=item B<--article>
+
+Create an Article instead of a Book.
+
+=item B<--brand>
+
+Use the specified brand for branding output.
+
+=back
+
+=head1 DESCRIPTION
+
+B<This program> creates a new Book or Article for use with the documenation-devel package.
+
+=cut
+

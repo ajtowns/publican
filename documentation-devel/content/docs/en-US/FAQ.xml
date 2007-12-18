@@ -1,0 +1,109 @@
+<?xml version='1.0'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+
+<chapter id="Documentation_Devel-FAQ">
+	<title>FAQ</title>
+	<para>
+		The following is a list of frequently asked questions regarding the documentation-devel toolchain:
+	</para>
+	<qandaset defaultlabel="qanda">
+		<qandaentry>
+			<question>
+				<para>
+					How do I add another language to my book?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Append the language to <computeroutput>OTHER_LANGS</computeroutput> in the <filename>Makefile</filename>. Run the <command>make update-po-<replaceable>language</replaceable></command> command. For example, <command>make update-po-ja-JP</command> creates the language directory and language specific po files.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I add another language to my book?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Append the language to <computeroutput>OTHER_LANGS</computeroutput> in the <filename>Makefile</filename>. Run the <command>make update-po-<replaceable>language</replaceable></command> command. For example, <command>make update-po-ja-JP</command> creates the language directory and language specific po files.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					What if I only use the country code? For example, <computeroutput>OTHER_LANGS = en de fr</computeroutput>?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make update-po-en</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I update all po files?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make update-po-all</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Where can I get a complete list of make targets?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make help</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Where can I get a complete list of parameters that can be set in the <filename>Makefile</filename>?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make help_params</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Where are the documentation-devel common files located?
+				</para>
+			</question>
+			<answer>
+				<para>
+					By default they are in the <filename>/usr/share/documentation-devel</filename> directory.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Can I use the OASIS DocBook DTD for XML completion in editors such as Kate?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Yes. The OASIS DocBook DTD is included in the documentation-devel package, and is located here: <filename>/usr/share/documentation-devel/xsl/docbook.dtd.xml</filename>
+				</para>
+			</answer>
+		</qandaentry>
+	</qandaset>
+</chapter>
+

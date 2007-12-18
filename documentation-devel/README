@@ -1,0 +1,78 @@
+Copyright 2007 Red Hat, Inc.
+Author: Jeff Fearn <jfearn@redhat.com>
+
+Common files and scripts for building Red Hat documentation.
+
+Assumptions: DocBook xml, *nix, en-US source language.
+
+Minimal Makefile:
+
+XML_LANG        = en-US
+DOCNAME         = Book_Name
+TRANSLATIONS    = $(XML_LANG)
+COMMON_CONFIG  = /usr/share/documentation-devel
+include $(COMMON_CONFIG)/make/Makefile.common
+
+
+Would expect to be able to find ./en-US/Book_Name.xml
+
+
+Makefile with Translations:
+
+XML_LANG        = en-US
+DOCNAME         = Virtualization
+OTHER_LANGS     = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
+TRANSLATIONS    = $(XML_LANG) $(OTHER_LANGS)
+COMMON_CONFIG  = /usr/share/documentation-devel
+include $(COMMON_CONFIG)/make/Makefile.common
+
+
+
+Makefile for a Book belonging to a Product with Translations:
+
+XML_LANG        = en-US
+DOCNAME         = Virtualization
+PRODUCT          = Red_Hat_Enterprise_Linux
+OTHER_LANGS     = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
+TRANSLATIONS    = $(XML_LANG) $(OTHER_LANGS)
+COMMON_CONFIG  = /usr/share/documentation-devel
+include $(COMMON_CONFIG)/make/Makefile.common
+
+
+Languages: we use RFC??? for language specification.
+
+Is that compulsory?
+
+No.
+
+How do I add a language?
+
+Append the language to OTHER_LANGS then run make update-po-<lang> e.g. update-po-ja-JP.
+
+This will create the language directory and create the language specific po files.
+
+
+What if I only use the country code? e.g. OTHER_LANGS = en de fr
+
+Run: make update-po-en
+
+
+How do I update all po files?
+
+Run: make update-po-all
+
+
+What make targets are their?
+
+Run: make help
+
+
+What Book specific options can I use?
+
+Run: make help_params
+
+
+Where are the common files located?
+
+By default they are in /usr/share/documentation-devel
+
