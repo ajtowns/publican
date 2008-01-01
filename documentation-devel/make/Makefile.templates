@@ -5,6 +5,7 @@
 # Default values, only set if not set in book Makefile
 # default 2 section levels in TOC
 TOC_SECTION_DEPTH	?= 2
+CHUNK_SECTION_DEPTH	?= 4
 PO2ENTITY		?= po2entity
 ENITY2PO		?= entity2po
 XMLPOMERGE		?= poxmerge
@@ -147,17 +148,17 @@ ifeq "${1}" "txt"
 	@cd tmp/${2} && /usr/bin/links -dump -dump-width 72 -force-html -dump-charset UTF8 -no-numbering html-single/index.html > txt/$(DOCNAME).txt
 else 
 ifeq "${1}" "pdf"
-	@cd tmp/${2}/xml && $(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $(COMMON_CONFIG)/xsl/${3} $(DOCNAME).xml
+	@cd tmp/${2}/xml && $(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $(COMMON_CONFIG)/xsl/${3} $(DOCNAME).xml
 	@cd tmp/${2}/xml && fop -q -c $(COMMON_CONFIG)/fop/fop-0.20.5.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else
 ifeq "${1}" "html-single"
-	@cd tmp/${2}/${1} && $(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam embedtoc $(EMBEDTOC) --stringparam show.comments $(SHOW_REMARKS) --xinclude  -o index.html $(COMMON_CONFIG)/xsl/${3} ../xml/$(DOCNAME).xml
+	@cd tmp/${2}/${1} && $(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam embedtoc $(EMBEDTOC) --stringparam show.comments $(SHOW_REMARKS) --xinclude  -o index.html $(COMMON_CONFIG)/xsl/${3} ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
 else
-	@cd tmp/${2}/${1} && $(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $(EMBEDTOC) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --xinclude $(COMMON_CONFIG)/xsl/${3} ../xml/$(DOCNAME).xml
+	@cd tmp/${2}/${1} && $(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $(EMBEDTOC) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --xinclude $(COMMON_CONFIG)/xsl/${3} ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.

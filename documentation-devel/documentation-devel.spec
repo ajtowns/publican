@@ -143,6 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_usr}/share/applications/%{name}.desktop
 
 %changelog
+* Wed Jan 02 2008 Jeff Fearn <jfearn@redhat.com> 0.26
+- Added chunk.section.depth override. BZ #427172
+
 * Tue Dec 11 2007 Jeff Fearn <jfearn@redhat.com> 0.25
 - Add html.longdesc.embed xsl param to allow long descriptions of images to be embedded in html output
 - Remove Boilerplate files as ther are dupes of Legal_Notice
