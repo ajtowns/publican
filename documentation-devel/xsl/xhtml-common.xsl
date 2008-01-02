@@ -534,4 +534,19 @@ Version: 1.72.0
   </xsl:choose>
 </xsl:template>
 
+<xsl:template name="formal.object.heading">
+  <xsl:param name="object" select="."/>
+  <xsl:param name="title">
+    <xsl:apply-templates select="$object" mode="object.title.markup">
+      <xsl:with-param name="allow-anchors" select="1"/>
+    </xsl:apply-templates>
+  </xsl:param>
+
+  <p class="title">
+    <strong>
+      <xsl:copy-of select="$title"/>
+    </strong>
+  </p>
+</xsl:template>
+
 </xsl:stylesheet>
