@@ -75,14 +75,11 @@ update-pot:
 	@make -C content/docs update-pot
 	@echo "End $@"
 
-CVS_ROOT = cvs.devel.redhat.com:/cvs/ecs
-CVS_REPO = GUI_Strings/documentation-devel
-
 SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/documentation-devel/1.0/GUI_Strings
 
 resync-po:: clean
 	@echo "Start $@"
-	@echo  "	Exporting PO files from $(CVS_ROOT)/$(CVS_REPO)"
+	@echo  "	Exporting PO files from $(SOURCE)"
 	@mkdir -p tmp/SVN
 	@pushd tmp/SVN  > /dev/null; \
 		svn export $(SOURCE) gui_strings; \
