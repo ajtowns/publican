@@ -511,6 +511,19 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				Two entities are defined: <computeroutput>FDP</computeroutput> and <computeroutput>FDS</computeroutput>. Instead of typing <computeroutput>Fedora Documentation Project</computeroutput> you can use <computeroutput>&amp;FDP&semi;</computeroutput>. The build system adds the required entities to the XML files at build time. In the example above, <computeroutput>&amp;FDP&semi;</computeroutput> would be replaced with Fedora Documentation Project.
 			</para>
+			<formalpara>
+				<title>Required Entities</title>
+				<para>
+					You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the book will not build:
+				</para>
+			</formalpara>
+			<para>
+<screen>
+&lt;!ENTITY YEAR "<replaceable>2008</replaceable>"&gt;
+&lt;!ENTITY HOLDER "<replaceable>Red Hat, Inc</replaceable>"&gt;
+</screen>
+</para>
+
 		</section>
 
 	</section>
@@ -541,10 +554,18 @@ include $(COMMON_CONFIG)/make/Makefile.common
 	
 	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Building_a_Book">
 		<title>Building a Book</title>
+		<para>
+			To build a book:
+		</para>
 		<orderedlist>
 			<listitem>
 				<para>
-					There are several commands available for building a book. Before running any of them change into the root directory of the book. For example, if the book was named <computeroutput>Test_Book</computeroutput> and was located in the <filename>/books/</filename> directory, run the following command:
+					Confirm the <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities have been configured in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file, as per <xref linkend="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent" />.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Change into the root directory of the book. For example, if the book was named <computeroutput>Test_Book</computeroutput> and was located in the <filename>/books/</filename> directory, run the following command:
 				</para>
 				<para>
 <screen>
