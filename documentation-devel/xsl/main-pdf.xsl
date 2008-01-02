@@ -218,6 +218,19 @@ article toc
 
 <xsl:param name="title.color">#a70000</xsl:param>
 
+<xsl:attribute-set name="formal.title.properties" use-attribute-sets="normal.para.spacing">
+	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
+	<xsl:attribute name="font-weight">bold</xsl:attribute>
+	<xsl:attribute name="font-size">
+		<xsl:value-of select="$body.font.master * 1.2"/>
+		<xsl:text>pt</xsl:text>
+	</xsl:attribute>
+	<xsl:attribute name="hyphenate">false</xsl:attribute>
+	<xsl:attribute name="space-before.optimum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
+	<xsl:attribute name="space-before.minimum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
+	<xsl:attribute name="space-before.maximum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:attribute-set name="section.title.level1.properties">
 	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
 	<xsl:attribute name="font-size">

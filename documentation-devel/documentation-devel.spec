@@ -150,6 +150,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed Brand not updating. BZ #426043
 - Replaced FORMAL-RHI with HOLDER in Book_Template. BZ #426041
 - Remove reference to non-existant svg file. BZ #426063
+- Override formal.title.properties for PDF BZ #425894
 
 * Tue Dec 11 2007 Jeff Fearn <jfearn@redhat.com> 0.25
 - Add html.longdesc.embed xsl param to allow long descriptions of images to be embedded in html output
