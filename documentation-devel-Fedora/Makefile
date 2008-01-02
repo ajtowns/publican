@@ -15,14 +15,14 @@ FILES	= pot README Makefile $(LANGS) en-US
 
 local: srpm
 	@echo "Start $@"
-	@rpmbuild --define "dist .$(OS_VER)" --rebuild $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el4.src.rpm
-	@sudo rpm -Uvh $(REAL_RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
+	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bb $(RPMDIR)/SPECS/$(SPEC)
+	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
 	@echo "End $@"
 
 srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
-	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES
+	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp documentation-devel-$(BRAND).spec $(RPMDIR)/SPECS/.
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel-$(BRAND).spec
