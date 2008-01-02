@@ -9,8 +9,8 @@ use Carp;
 my $name     = undef;
 my $version  = '0.1';
 my $revision = '0';
-my $product  = undef;
-my $brand  = undef;
+my $product  = 'Documentation';
+my $brand    = undef;
 my $man      = 0;
 my $help     = 0;
 my $article  = undef;
@@ -23,7 +23,7 @@ GetOptions(
     'revision=s' => \$revision,
     'product=s'  => \$product,
     'article'    => \$article,
-    'brand=s'  => \$brand,
+    'brand=s'    => \$brand,
 ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage( -verbose => 2 ) if $man;
@@ -45,7 +45,8 @@ if ($article) {
         carp "can't rename Article.xml: $!";
     }
 
-    $cmd = qq|rm -f $name/en-US/Book.xml $name/en-US/Chapter.xml $name/en-US/Preface.xml|;
+    $cmd
+        = qq|rm -f $name/en-US/Book.xml $name/en-US/Chapter.xml $name/en-US/Preface.xml|;
     system($cmd);
     if ($@) {
         carp "can't rm Book.xml: $!";
@@ -124,18 +125,15 @@ if ($@) {
     carp "can't update MYPRODUCT: $!";
 }
 
-if ( $product and $product ne '' ) {
-    $cmd
-        = qq|sed -i -e 's/#PRODUCT	= FIX_ME!/PRODUCT	= $product/g' $name/Makefile|;
-    system($cmd);
-    if ($@) {
-        carp "can't update PRODUCT: $!";
-    }
+$cmd
+    = qq|sed -i -e 's/#PRODUCT	= FIX_ME!/PRODUCT	= $product/g' $name/Makefile|;
+system($cmd);
+if ($@) {
+    carp "can't update PRODUCT: $!";
 }
 
-if ($brand and $brand ne '' ) {
-    $cmd
-        = qq|sed -i -e 's/#BRAND	= FIX_ME!/BRAND	= $brand/g' $name/Makefile|;
+if ( $brand and $brand ne '' ) {
+    $cmd = qq|sed -i -e 's/#BRAND	= FIX_ME!/BRAND	= $brand/g' $name/Makefile|;
     system($cmd);
     if ($@) {
         carp "can't update BRAND: $!";
@@ -188,7 +186,7 @@ Revison of this Book. Defaults to 0
 
 =item B<--product>
 
-Product which contains this Book. Defaults to Red_Hat_Enterprise_Linux.
+Product which contains this Book. Defaults to Documentation.
 
 =item B<--article>
 
