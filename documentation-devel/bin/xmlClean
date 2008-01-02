@@ -16,7 +16,7 @@ Arguments:
 	-cleanids (option, clean ids)
 	-U (report when an unknown tag is detected)
 	-book <book name> (optional, if set we include the bookname.ent file in all xml files)
-
+	--common (building common files)
 =cut
 
 use strict;
@@ -37,6 +37,7 @@ my $SHOW_UNKNOWN    = 0;
 my $arch            = undef;
 my $condition       = undef;
 my $DEFAULT_WRAP    = 82;
+my $common          = 0;
 
 $columns = $DEFAULT_WRAP;
 
@@ -51,7 +52,8 @@ if ((   !GetOptions(
             "defaults=s"  => \$def_langs,
             "cleanids"    => \$clean_id,
             "U"           => \$SHOW_UNKNOWN,
-            "book=s"      => \$book_name
+            "book=s"      => \$book_name,
+            "common"      => \$common,
         )
     )
     || ( !( $in_file && $out_file ) )
@@ -67,7 +69,9 @@ if ((   !GetOptions(
 	-u | --update\
 	[--defaults <deaful lang,lang'>]\
 	[-cleanid]\
-	-U"
+	-U\
+	[--common]\
+	"
     );
 }
 
@@ -200,18 +204,18 @@ my %MAP_OUT = (
     'term'              => { 'newline_after' => 1 },
     'colspec'           => { 'newline_after' => 1 },
     'areaspec'          => { 'block'         => 1 },
-    'areaset'       => { 'block'         => 1, 'keep_id'       => 1 },
-    'area'          => { 'newline_after' => 1, 'keep_id'       => 1 },
-    'calloutlist'   => { 'block'         => 1 },
-    'callout'       => { 'block'         => 1 },
-    'procedure'     => { 'block'         => 1, 'newline_after' => 1 },
-    'step'          => { 'block'         => 1 },
-    'appendix'      => { 'block'         => 1 },
-    'appendixinfo'  => { 'block'         => 1 },
-    'cmdsynopsis'   => { 'block'         => 1 },
-    'arg'           => { 'block'         => 1 },
-    'group'         => { 'block'         => 1 },
-    'accel'         => {},
+    'areaset'      => { 'block'         => 1, 'keep_id'       => 1 },
+    'area'         => { 'newline_after' => 1, 'keep_id'       => 1 },
+    'calloutlist'  => { 'block'         => 1 },
+    'callout'      => { 'block'         => 1 },
+    'procedure'    => { 'block'         => 1, 'newline_after' => 1 },
+    'step'         => { 'block'         => 1 },
+    'appendix'     => { 'block'         => 1 },
+    'appendixinfo' => { 'block'         => 1 },
+    'cmdsynopsis'  => { 'block'         => 1 },
+    'arg'          => { 'block'         => 1 },
+    'group'        => { 'block'         => 1 },
+    'accel'        => {},
     'blockquote'    => { 'block'         => 1 },
     'classname'     => {},
     'code'          => {},
@@ -224,14 +228,14 @@ my %MAP_OUT = (
     'keycap'        => {},
     'keycombo'      => {},
     'literal'       => {},
-    'literallayout' => { 'verbatim'      => 1},
+    'literallayout' => { 'verbatim'      => 1 },
     'option'        => {},
     'parameter'     => {},
     'prompt'        => {},
     'property'      => {},
-    'see'           => {'newline_after' => 1,},
-    'seealso'       => {'newline_after' => 1,},
-    'substeps'      => {'block'         => 1},
+    'see'           => { 'newline_after' => 1, },
+    'seealso'       => { 'newline_after' => 1, },
+    'substeps'      => { 'block'         => 1 },
     'systemitem'    => {},
     'wordasword'    => {},
 );
@@ -442,6 +446,10 @@ sub PrintXML($) {
             $path =~ s/[^\/]*\//\.\.\//g;
         }
 
+        if ($common) {
+            $path = '../' . $path;
+        }
+
         $xml_doc->pos( $xml_doc->root() );
         my $type = $xml_doc->root->attr("_tag");
         my $text = my_as_XML($xml_doc);
@@ -512,7 +520,7 @@ sub my_as_XML($) {
 
     # This flags tags that use  /> instead of end tags IF they are empty.
     $empty_element_map->{'xref'}       = 1;
-    $empty_element_map->{'xi:include'} = 1;
+#    $empty_element_map->{'xi:include'} = 1;
     $empty_element_map->{'imagedata'}  = 1;
     $empty_element_map->{'area'}       = 1;
 
@@ -734,7 +742,7 @@ Create XML::TreeBuilder object and perform operations.
 
 =cut
 
-my $xml_doc = XML::TreeBuilder->new({'NoExpand' => "1"});
+my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1" } );
 $xml_doc->parse_file($in_file);
 if ($update_includes) {
     Update_Include($xml_doc);

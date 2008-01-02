@@ -6,6 +6,7 @@ PWD		= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
 OS_VER = $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
 REAL_RPMDIR = $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
+XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
 
@@ -13,14 +14,14 @@ FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl
 
 local: srpm
 	@echo "Start $@"
-	@rpmbuild --define "dist .$(OS_VER)" --rebuild $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el4.src.rpm
-	@sudo rpm -Uvh $(REAL_RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
+	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bb $(RPMDIR)/SPECS/documentation-devel.spec
+	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
 	@echo "End $@"
 
 srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
-	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES
+	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp documentation-devel.spec $(RPMDIR)/SPECS/.
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel.spec
@@ -128,10 +129,12 @@ Common_Content:: entities
 					cp $$xml_file $(PWD)/Common_Content/common/$$lang/$$xml_file; \
 				else \
 					echo "		Processing ../$$lang/$$po_file"; \
-					po2xml $$xml_file ../$$lang/$$po_file > $(PWD)/Common_Content/common/$$lang/$$xml_file; \
+					po2xml $$xml_file ../$$lang/$$po_file > tmp.xml; \
+					$(XMLCLEAN) --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang; \
+					rm tmp.xml; \
 				fi; \
 			done; \
-			cp $$xml_file $(PWD)/Common_Content/common/en-US/$$xml_file; \
+			$(XMLCLEAN) --common -in $$xml_file -out $(PWD)/Common_Content/common/en-US/$$xml_file -lang en-US; \
 		done; \
 		cd ..; \
 		for lang in $(LANGS) en-US; do \

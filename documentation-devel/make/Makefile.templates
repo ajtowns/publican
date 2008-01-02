@@ -98,7 +98,7 @@ endif
 # copy original local ent, then copy translated local ent over the top
 	@if [ -f $(XML_LANG)/${2}.ent ]; then \
 		cp -rf $(XML_LANG)/${2}.ent tmp/${1}/xml/.; \
-		sed -i -e 's/^]>$$$$/<!ENTITY % BOOK_ENTITIES SYSTEM "..\/${2}.ent">\n%BOOK_ENTITIES\;\n]>/' tmp/${1}/xml/Common_Content/*.xml; \
+		sed -i -e 's/docbookx.dtd" \[/docbookx.dtd" \[\n<!ENTITY % BOOK_ENTITIES SYSTEM "..\/${2}.ent">\n%BOOK_ENTITIES\;/' tmp/${1}/xml/Common_Content/*.xml; \
 	fi
 	@if [ -f ${1}/${2}.ent ]; then cp -rf ${1}/${2}.ent tmp/${1}/xml/.; fi
 # copy original images, then copy translated images over the top
