@@ -1,7 +1,7 @@
 Name:		documentation-devel
 Summary:	Common files and scripts for building Documentation
 Version:	0.25
-Release:	0.t3%{?dist}
+Release:	0.t4%{?dist}
 License:	GPL
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
@@ -147,6 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 - Added CHUNK_SECTION_DEPTH param to allow chunk.section.depth override. BZ #427172
 - Fixed EXTRA_DIRS to ignore .svn dirs, Added svn_add_po target BZ #427178
 - Fixed "uninitialized value" error when product not set BZ #426038
+- Fixed Brand not updating. BZ #426043
 
 * Tue Dec 11 2007 Jeff Fearn <jfearn@redhat.com> 0.25
 - Add html.longdesc.embed xsl param to allow long descriptions of images to be embedded in html output

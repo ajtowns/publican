@@ -133,7 +133,7 @@ if ($@) {
 }
 
 if ( $brand and $brand ne '' ) {
-    $cmd = qq|sed -i -e 's/#BRAND	= FIX_ME!/BRAND	= $brand/g' $name/Makefile|;
+    $cmd = qq|sed -i -e 's/#BRAND\\s*= FIX_ME!/BRAND\\t= $brand/g' $name/Makefile|;
     system($cmd);
     if ($@) {
         carp "can't update BRAND: $!";
