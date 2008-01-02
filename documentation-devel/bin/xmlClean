@@ -101,7 +101,7 @@ my %MAP_OUT = (
     'segmentedlist' => { 'block'         => 1 },
     'simplelist'    => { 'block'         => 1 },
     'qandaset'      => { 'block'         => 1 },
-    'qandaentry'    => { 'block'         => 1, 'fake_id'       => 1 },
+    'qandaentry'    => { 'block'         => 1 },
     'question'      => { 'block'         => 1 },
     'answer'        => { 'block'         => 1 },
     'member'        => { 'newline_after' => 1 },
@@ -315,6 +315,7 @@ sub Clean_ID($) {
     if ($node) {
         my $tag = $node->{'_tag'};
 
+		# keep_id means keep the current ID without modification.
         if ( $MAP_OUT{$tag}->{'keep_id'} ) {
             $my_id = $node->id() || "";
         }
@@ -347,8 +348,10 @@ sub Clean_ID($) {
         }
 
         # prepend book name (to avoid problems in sets)
+		# prepend tag type for translations BZ #427312
         if ( $my_id ne "" ) {
             $my_id = "$book_name-$my_id";
+			$my_id = substr($tag, 0, 4) . "-$my_id";
         }
 
         if ( $node->id() && $node->id() ne $my_id ) {
