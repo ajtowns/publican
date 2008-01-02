@@ -502,30 +502,27 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		<section id="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent">
 			<title><replaceable>Book_Name</replaceable>.ent</title>
 			<para>
-				The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is used to define local entities. Use entities to make writing commonly used terms quicker. The following is an example <filename><replaceable>Book_Name</replaceable>.ent</filename> file:
+				The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is used to define local entities. You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the book will not build:
 			</para>
-<screen>
-&lt;!ENTITY FDP "Fedora Documentation Project"&gt;
-&lt;!ENTITY FDS "Fedora Directory Server"&gt;
-</screen>
-			<para>
-				Two entities are defined: <computeroutput>FDP</computeroutput> and <computeroutput>FDS</computeroutput>. Instead of typing <computeroutput>Fedora Documentation Project</computeroutput> you can use <computeroutput>&amp;FDP&semi;</computeroutput>. The build system adds the required entities to the XML files at build time. In the example above, <computeroutput>&amp;FDP&semi;</computeroutput> would be replaced with Fedora Documentation Project.
-			</para>
-			<formalpara>
-				<title>Required Entities</title>
-				<para>
-					You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the book will not build:
-				</para>
-			</formalpara>
 			<para>
 <screen>
 &lt;!ENTITY YEAR "<replaceable>2008</replaceable>"&gt;
 &lt;!ENTITY HOLDER "<replaceable>Red Hat, Inc</replaceable>"&gt;
 </screen>
-</para>
-
+			</para>
+			<para>
+				The <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities are used for copyright information. Use entities to make writing commonly used terms quicker:
+			</para>
+			<para>
+<screen>
+&lt;!ENTITY FDP "Fedora Documentation Project"&gt;
+&lt;!ENTITY FDS "Fedora Directory Server"&gt;
+</screen>
+			</para>
+			<para>
+				Two entities are defined: <computeroutput>FDP</computeroutput> and <computeroutput>FDS</computeroutput>. Instead of typing <computeroutput>Fedora Documentation Project</computeroutput> you can use <computeroutput>&amp;FDP&semi;</computeroutput>. The build system adds the required entities to the XML files at build time. In the example above, <computeroutput>&amp;FDP&semi;</computeroutput> would be replaced with Fedora Documentation Project.
+			</para>
 		</section>
-
 	</section>
 	
 	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Adding_Images">
