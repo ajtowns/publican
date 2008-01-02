@@ -13,7 +13,7 @@ PWD				= $(shell pwd)
 CONFIDENTIAL	?= 0
 BREW_DIST		?= dist-5E-qu-candidate
 TRANSLATIONS	?= $(XML_LANG) $(OTHER_LANGS)
-EXTRA_DIRS		?= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
+EXTRA_DIRS		?= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v '.svn' | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
 XMLCLEAN		= xmlClean
 PRODUCT			?= Documentation
 
@@ -474,8 +474,15 @@ srpm-all:: $(foreach FORMAT,$(TAR_FORMATS),srpm-${FORMAT})
 ###############################################################################
 ###############################################################################
 
+svn_add_po:
+	@echo "START: $@ `date`"
+	@for lang in $(OTHER_LANGS); do echo "adding $$lang"; svn add $$lang;done;
+	@echo "END: $@ `date`"
+
 checkin_po_files:
+	@echo "START: $@ `date`"
 	@for lang in $(OTHER_LANGS); do cvs ci -m"updating po files" $$lang;done; cvs ci -m"updating po files" pot
+	@echo "END: $@ `date`"
 
 update_includes:
 ifdef DEFAULT_LANGS
@@ -556,6 +563,8 @@ help_params::
 	@echo "BREW_DIST: brew tag, currently $(BREW_DIST)"
 	@echo
 	@echo "TOC_SECTION_DEPTH: How many levels of sections should be included in TOC? Defaults to 2"
+	@echo
+	@echo "CHUNK_SECTION_DEPTH: Override the max section depth to chunk to. Currently: $(CHUNK_SECTION_DEPTH)"
 	@echo
 	@echo "CHUNK_FIRST: Controls chunking of first sections, defaults to 1. Currently: $(CHUNK_FIRST)"
 	@echo
@@ -707,4 +716,6 @@ help::
 		echo "	Run publish-$$format-<LANG>-<LOC> for all languages.";\
 		echo;\
 	done;
+	@echo "svn_add_po: Run svn add for all translations."
+	@echo
 
