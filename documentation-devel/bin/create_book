@@ -73,14 +73,14 @@ if ($@) {
 }
 
 $cmd
-    = qq|sed -i -e 's/<issuenum>.*<\\/issuenum>/<issuenum>$version<\\/issuenum>/g' $name/en-US/$name.xml|;
+    = qq|sed -i -e 's/<issuenum>.*<\\/issuenum>/<issuenum>$version<\\/issuenum>/g' $name/en-US/Book_Info.xml|;
 system($cmd);
 if ($@) {
     carp "can't update version: $!";
 }
 
 $cmd
-    = qq|sed -i -e 's/<productnumber>.*<\\/productnumber>/<productnumber>$revision<\\/productnumber>/g'  $name/en-US/$name.xml|;
+    = qq|sed -i -e 's/<productnumber>.*<\\/productnumber>/<productnumber>$revision<\\/productnumber>/g'  $name/en-US/Book_Info.xml|;
 system($cmd);
 if ($@) {
     carp "can't update revision: $!";
