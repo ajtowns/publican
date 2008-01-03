@@ -700,19 +700,20 @@ make <replaceable>format</replaceable>
 							<command>make clean_ids</command>
 						</entry>
 						<entry>
-							Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput>
+							<para>
+								Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput>
+						</para>
 						</entry>
 					</row>
 				</tbody>
 			</tgroup>
 		</table>
-		<warning>
+			<warning>
 			<title><command>make clean_ids</command></title>
-			<para>
-				Be careful using the <command>make clean_ids</command> command. It will modify all IDs (chapter, book, section, and so on). As well, running <command>make clean_ids</command> removes all comments!
-			</para>
-		</warning>
-	</section>
-
+				<para>
+					Be careful running the <command>make clean_ids</command> command. To make translation easier, <command>make clean_ids</command> prepends the first four characters of the tag to the ID. Therefore you must ensure you have checked out the latest versions of the source and the translations before running <command>make clean_ids</command>. Failing to have the po files checked out when you run <command>make clean_ids</command> will result in the XML and po files becoming out of sync. This will require all links in the po files to be manually updated. As well, running <command>make clean_ids</command> will remove all comments!
+				</para>
+			</warning>
+		</section>
 </chapter>
 
