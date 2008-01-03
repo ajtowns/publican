@@ -1,7 +1,7 @@
 Name:		documentation-devel
 Summary:	Common files and scripts for building Documentation
-Version:	0.25
-Release:	0.t20%{?dist}
+Version:	0.26
+Release:	0%{?dist}
 License:	GPL
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
