@@ -541,12 +541,7 @@ Version: 1.72.0
       <xsl:with-param name="allow-anchors" select="1"/>
     </xsl:apply-templates>
   </xsl:param>
-
-  <p class="title">
-    <strong>
-      <xsl:copy-of select="$title"/>
-    </strong>
-  </p>
+  <h6><xsl:copy-of select="$title"/></h6>
 </xsl:template>
 
 </xsl:stylesheet>

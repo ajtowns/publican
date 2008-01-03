@@ -1,7 +1,7 @@
 Name:		documentation-devel
 Summary:	Common files and scripts for building Documentation
 Version:	0.25
-Release:	0.t19%{?dist}
+Release:	0.t20%{?dist}
 License:	GPL
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
@@ -151,6 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 - Replaced FORMAL-RHI with HOLDER in Book_Template. BZ #426041
 - Remove reference to non-existant svg file. BZ #426063
 - Override formal.title.properties for PDF. BZ #425894
+- Override formal.object.heading for HTML. Fix H5 & H6 css. BZ #425894
 - Prepended first 4 characters of tag to IDs to aid Translation. BZ #427312
 
 * Tue Dec 11 2007 Jeff Fearn <jfearn@redhat.com> 0.25
