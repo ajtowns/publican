@@ -261,12 +261,14 @@ include $(COMMON_CONFIG)/make/Makefile.common
 	&lt;abstract&gt;&lt;para&gt;This book is about... (Be brief; this para is used for the RPM spec
 	file)&lt;/para&gt;
 	&lt;/abstract&gt;
-	&lt;corpauthor&gt;&lt;inlinemediaobject&gt;
-		&lt;imageobject&gt;
-			&lt;imagedata fileref="Common_Content/images/title_logo.png" /&gt;
-		&lt;/imageobject&gt;
-	&lt;/inlinemediaobject&gt;
-&lt;/corpauthor&gt;&lt;copyright&gt;
+	&lt;corpauthor&gt;
+		&lt;inlinemediaobject&gt;
+			&lt;imageobject&gt;
+				&lt;imagedata fileref="Common_Content/images/title_logo.png" /&gt;
+			&lt;/imageobject&gt;
+		&lt;/inlinemediaobject&gt;
+	&lt;/corpauthor&gt;
+	&lt;copyright&gt;
 		&lt;year&gt;&amp;YEAR&semi;&lt;/year&gt;
 		&lt;holder&gt;&amp;HOLDER&semi;&lt;/holder&gt;
 	&lt;/copyright&gt;
@@ -325,7 +327,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;&lt;/abstract&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>abstract</replaceable> with the abstract for the book. The abstract appears before the table of contents when using HTML, and usually on the second page when using PDF.
+							replace <replaceable>abstract</replaceable> with the abstract for the book. The abstract appears before the table of contents when using HTML, and usually on the second page when using PDF. When building a book as an RPM, the abstract is used in the RPM's spec file.
 						</para>
 					</listitem>
 				</varlistentry>
