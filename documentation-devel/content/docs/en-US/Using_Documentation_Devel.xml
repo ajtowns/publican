@@ -267,10 +267,10 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		&lt;/imageobject&gt;
 	&lt;/inlinemediaobject&gt;
 &lt;/corpauthor&gt;&lt;copyright&gt;
-		&lt;year&gt;2007&lt;/year&gt;
-		&lt;holder&gt;Red Hat, Inc&lt;/holder&gt;
+		&lt;year&gt;&amp;YEAR&semi;&lt;/year&gt;
+		&lt;holder&gt;&amp;HOLDER&semi;&lt;/holder&gt;
 	&lt;/copyright&gt;
-	&lt;xi:include href="Common_Content/Boilerplate.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
+	&lt;xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
 	&lt;xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
 &lt;/bookinfo&gt;
 </programlisting>
@@ -330,18 +330,18 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					</listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><filename>&lt;year&gt;<replaceable>year</replaceable>&lt;/year&gt;</filename></term>
+					<term><filename>&lt;year&gt;&amp;YEAR&semi;&lt;/year&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>year</replaceable> with the copyright year for the book. For example, 2007.
+							The <filename>&amp;YEAR&semi;</filename> entity is defined in <filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to set the copyright year of the book. Refer to <xref linkend="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent"/> for configuration details
 						</para>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><filename>&lt;holder&gt;<replaceable>holder</replaceable>&lt;/holder&gt;</filename></term>
+					<term><filename>&lt;holder&gt;&amp;HOLDER&semi;&lt;/holder&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>holder</replaceable> with the owner or the company who owns the copyright for the book. For example, Red Hat, Inc. The copyright section is not required.
+							The <filename>&amp;HOLDER&semi;</filename> entity is defined in <filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to set the copyright holder of the book. Refer to <xref linkend="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent"/> for configuration details. The copyright section is not required.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -393,9 +393,9 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		</section>
 		
 		<section id="Documentation_Devel-Files_in_the_Book_directory-Chapter.xml">
-			<title><replaceable>Chapter</replaceable>.xml</title>
+			<title>Chapter.xml</title>
 			<para>
-				The <filename><replaceable>Chapter</replaceable>.xml</filename> is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created after running the <command>create_book</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
+				The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created after running the <command>create_book</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
 			</para>
 <screen>
 &lt;?xml version=&#39;1.0&#39;?&gt;
@@ -461,7 +461,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 				This example loads the <filename>Book_Info.xml</filename> file, and the <filename>Chapter1.xml</filename>, <filename>Chapter2.xml</filename>, and <filename>Chapter3.xml</filename> files. Replace the <filename>Chapter<replaceable>X</replaceable>.xml</filename> files with the name of your chapter files.
 			</para>
 			<para>
-				The <filename>Book_Info.xml</filename> file is not limited to using <filename>xi:include</filename> directives. Books can be created using a single XML file. The following is an example of a book created using a single XML file:
+				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is not limited to using <filename>xi:include</filename> directives. Books can be created using a single XML file. The following is an example of a book created using a single XML file:
 			</para>
 <screen>
 &lt;book&gt;
