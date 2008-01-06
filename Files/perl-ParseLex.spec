@@ -22,62 +22,33 @@ chmod -R u+w %{_builddir}/%{pkgname}-%{version}
 %patch0 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS"
-%{__perl} Makefile.PL `%{__perl} -MExtUtils::MakeMaker -e ' print qq|PREFIX=%{buildroot}%{_prefix}| if \$ExtUtils::MakeMaker::VERSION =~ /5\.9[1-6]|6\.0[0-5]/ '`
+%{__perl} Makefile.PL INSTALLDIRS="vendor" PREFIX="%{buildroot}%{_prefix}"
+%{__make} %{?_smp_mflags}
 
-%check
-%{__make} test
+#%check
+#%{__make} test
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
-%{makeinstall} `%{__perl} -MExtUtils::MakeMaker -e ' print \$ExtUtils::MakeMaker::VERSION <= 6.05 ? qq|PREFIX=%{buildroot}%{_prefix}| : qq|DESTDIR=%{buildroot}| '`
-[ -x /usr/lib/rpm/brp-compress ] && /usr/lib/rpm/brp-compress
-# remove special files
-find %{buildroot} -name "perllocal.pod" \
--o -name ".packlist"                \
--o -name "*.bs"                     \
-|xargs -i rm -f {}
-# no empty directories
-find %{buildroot}%{_prefix}             \
--type d -depth                      \
--exec rmdir {} \; 2>/dev/null
-%{__perl} -MFile::Find -le '
-find({ wanted => \&wanted, no_chdir => 1}, "%{buildroot}");
-print "%defattr(-,root,root)";
-print "%doc  doc Changes examples README";
-for my $x (sort @dirs, @files) {
-push @ret, $x unless indirs($x);
-}
-print join "\n", sort @ret;
-sub wanted {
-return if /auto$/;
-local $_ = $File::Find::name;
-my $f = $_; s|^%{buildroot}||;
-return unless length;
-return $files[@files] = $_ if -f $f;
-$d = $_;
-/\Q$d\E/ && return for reverse sort @INC;
-$d =~ /\Q$_\E/ && return
-for qw|/etc %_prefix/man %_prefix/bin %_prefix/share|;
-$dirs[@dirs] = $_;
-}
-sub indirs {
-my $x = shift;
-$x =~ /^\Q$_\E\// && $x ne $_ && return 1 for @dirs;
-}
-' > %filelist
-[ -z %filelist ] && {
-echo "ERROR: empty %files listing"
-exit -1
-}
-grep -rsl '^#!.*perl'  doc Changes examples README |
-grep -v '.bak$' |xargs --no-run-if-empty \
-%__perl -MExtUtils::MakeMaker -e 'MY->fixin(@ARGV)'
+%{__rm} -rf %{buildroot}
+%{__make} pure_install
+
+### Clean up buildroot
+find %{buildroot} -name .packlist -exec %{__rm} {} \;
 
 %clean
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
-%files -f %filelist
+%files
+%defattr(-, root, root, 0755)
+%doc Changes README examples
+%dir %{perl_vendorlib}/Parse
+%{perl_vendorlib}/Parse/*.pm
+%doc %{_mandir}/man3/Parse::CLex.3pm.gz
+%doc %{_mandir}/man3/Parse::Lex.3pm.gz
+%doc %{_mandir}/man3/Parse::LexEvent.3pm.gz
+%doc %{_mandir}/man3/Parse::Template.3pm.gz
+%doc %{_mandir}/man3/Parse::Token.3pm.gz
+%doc %{_mandir}/man3/Parse::YYLex.3pm.gz
 
 %changelog
 * Mon Jan 07 2008 Jeff Fearn <jfearn@redhat.com> 2.15-6
