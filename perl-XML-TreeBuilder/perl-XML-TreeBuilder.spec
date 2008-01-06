@@ -11,8 +11,8 @@ Summary: Perl module that implements a parser that builds a tree of XML::Element
 Name: perl-XML-TreeBuilder
 Version: 3.10
 Release: 2%{?dist}
-License: Artistic/GPL
-Group: Applications/CPAN
+License: GPL+ or Artistic
+Group: Development/Languages
 URL: http://search.cpan.org/dist/XML-TreeBuilder/
 
 Source: http://www.cpan.org/modules/by-module/XML/XML-TreeBuilder-%{version}.tar.gz
@@ -27,7 +27,7 @@ perl-XML-TreeBuilder is a Perl module that implements a parser
 that builds a tree of XML::Element objects.
 
 %prep
-%setup -n %{real_name}-%{version}
+%setup -q -n %{real_name}-%{version}
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS="vendor" PREFIX="%{buildroot}%{_prefix}"

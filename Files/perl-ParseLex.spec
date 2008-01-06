@@ -5,8 +5,8 @@ Name:	perl-ParseLex
 Summary:	ParseLex - Perl module
 Version:	2.15
 Release:	6%{?dist}
-License:	GPL
-Group:	Applications/CPAN
+License:	GPL+ or Artistic
+Group:	Development/Languages
 URL:	http://search.cpan.org/dist/ParseLex
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
 BuildArch:	noarch
