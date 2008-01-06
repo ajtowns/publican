@@ -116,12 +116,6 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-
-%postun
-
-%preun
-
 %files
 %defattr(-,root,root)
 %doc README

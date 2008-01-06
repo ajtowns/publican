@@ -45,7 +45,7 @@ find %{buildroot} -name .packlist -exec %{__rm} {} \;
 
 %files
 %defattr(-, root, root, 0755)
-%doc Changes MANIFEST MANIFEST.SKIP META.yml README
+%doc Changes README
 %doc %{_mandir}/man3/XML::Element.3pm*
 %doc %{_mandir}/man3/XML::TreeBuilder.3pm*
 %dir %{perl_vendorlib}/XML/
@@ -53,7 +53,10 @@ find %{buildroot} -name .packlist -exec %{__rm} {} \;
 %{perl_vendorlib}/XML/TreeBuilder.pm
 
 %changelog
-* Wed Dec 12 2007 Jeff Fearn <jfearn@redhat.com> - 3.10
+* Mon Jan 07 2008 Jeff Fearn <jfearn@redhat.com> - 3.10-2
+- Tidy spec file
+
+* Wed Dec 12 2007 Jeff Fearn <jfearn@redhat.com> - 3.10-0
 - Add dist param
 - Add NoExpand to allow entities to pass thru un-expanded
 

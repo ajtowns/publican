@@ -1,7 +1,7 @@
 Name:		documentation-devel
 Summary:	Common files and scripts for building Documentation
 Version:	0.26
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPL+
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
@@ -115,12 +115,6 @@ EOF
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post
-
-%postun
-
-%preun
 
 %files
 %defattr(-,root,root)
