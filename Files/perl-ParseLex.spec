@@ -1,26 +1,21 @@
-#
 %define pkgname ParseLex
 %define filelist %{pkgname}-%{version}-filelist
-%define NVR %{pkgname}-%{version}-%{release}
-%define maketest 0
-name:	perl-ParseLex
-summary:	ParseLex - Perl module
-version:	2.15
-release:	5%{?dist}
-vendor:    Timo Trinks <ttrinks@redhat.com>
-packager:  Red Hat Engineering Services <https://engineering.redhat.com/rt3>
-license:	GPL
-group:	Applications/CPAN
-url:	http://www.cpan.org
-buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
-buildarch:	noarch
-source: http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-2.15.tar.gz
+
+Name:	perl-ParseLex
+Summary:	ParseLex - Perl module
+Version:	2.15
+Release:	6%{?dist}
+License:	GPL
+Group:	Applications/CPAN
+URL:	http://search.cpan.org/dist/ParseLex
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
+BuildArch:	noarch
+Source: http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-2.15.tar.gz
 Patch0: ParseLex-2.15-syntax.patch
 
 %description
-None.
-#
-#
+The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
+
 %prep
 %setup -q -n %{pkgname}-%{version} 
 chmod -R u+w %{_builddir}/%{pkgname}-%{version}
@@ -29,21 +24,14 @@ chmod -R u+w %{_builddir}/%{pkgname}-%{version}
 %build
 CFLAGS="$RPM_OPT_FLAGS"
 %{__perl} Makefile.PL `%{__perl} -MExtUtils::MakeMaker -e ' print qq|PREFIX=%{buildroot}%{_prefix}| if \$ExtUtils::MakeMaker::VERSION =~ /5\.9[1-6]|6\.0[0-5]/ '`
-%{__make} 
-%if %maketest
+
+%check
 %{__make} test
-%endif
+
 %install
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 %{makeinstall} `%{__perl} -MExtUtils::MakeMaker -e ' print \$ExtUtils::MakeMaker::VERSION <= 6.05 ? qq|PREFIX=%{buildroot}%{_prefix}| : qq|DESTDIR=%{buildroot}| '`
 [ -x /usr/lib/rpm/brp-compress ] && /usr/lib/rpm/brp-compress
-# SuSE Linux
-if [ -e /etc/SuSE-release ]; then
-%{__mkdir_p} %{buildroot}/var/adm/perl-modules
-%{__cat} `find %{buildroot} -name "perllocal.pod"`  \
-| %{__sed} -e s+%{buildroot}++g                 \
-> %{buildroot}/var/adm/perl-modules/%{name}
-fi
 # remove special files
 find %{buildroot} -name "perllocal.pod" \
 -o -name ".packlist"                \
@@ -85,10 +73,16 @@ exit -1
 grep -rsl '^#!.*perl'  doc Changes examples README |
 grep -v '.bak$' |xargs --no-run-if-empty \
 %__perl -MExtUtils::MakeMaker -e 'MY->fixin(@ARGV)'
+
 %clean
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+
 %files -f %filelist
+
 %changelog
+* Mon Jan 07 2008 Jeff Fearn <jfearn@redhat.com> 2.15-6
+- Tidy up spec
+
 * Mon Dec 10 2007 Jeff Fearn <jfearn@redhat.com> 2.15-5
 - noarch FTW
 - add dist to release
