@@ -22,7 +22,7 @@ chmod -R u+w %{_builddir}/%{pkgname}-%{version}
 %patch0 -p1
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS="vendor" PREFIX="%{buildroot}%{_prefix}"
+%{__perl} Makefile.PL INSTALLDIRS="vendor" OPTIMIZE="$RPM_OPT_FLAGS"
 %{__make} %{?_smp_mflags}
 
 #%check

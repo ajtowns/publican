@@ -30,7 +30,7 @@ that builds a tree of XML::Element objects.
 %setup -q -n %{real_name}-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS="vendor" PREFIX="%{buildroot}%{_prefix}"
+%{__perl} Makefile.PL INSTALLDIRS="vendor" OPTIMIZE="$RPM_OPT_FLAGS"
 %{__make} %{?_smp_mflags}
 
 %install
