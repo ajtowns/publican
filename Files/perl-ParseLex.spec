@@ -30,7 +30,7 @@ chmod -R u+w %{_builddir}/%{pkgname}-%{version}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} pure_install
+%{__make} pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT create_packlist=0
 
 ### Clean up buildroot
 find %{buildroot} -name .packlist -exec %{__rm} {} \;
