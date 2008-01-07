@@ -76,10 +76,10 @@ Common files and scripts for building Red Hat documentation.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m755 $RPM_BUILD_ROOT%{_usr}/share/%{name}
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/%{name}
 mkdir -p -m755 $RPM_BUILD_ROOT/usr/share/applications
 mkdir -p -m755 $RPM_BUILD_ROOT/%{_prefix}/bin
-#cp -rf bin $RPM_BUILD_ROOT%{_usr}/share/%{name}/bin
+#cp -rf bin $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 install -m 755 bin/create_book $RPM_BUILD_ROOT/%{_prefix}/bin/create_book
 install -m 755 bin/entity2pot $RPM_BUILD_ROOT/%{_prefix}/bin/entity2pot
 install -m 755 bin/mkxpot $RPM_BUILD_ROOT/%{_prefix}/bin/mkxpot
@@ -93,15 +93,15 @@ install -m 755 bin/rmImages $RPM_BUILD_ROOT/%{_prefix}/bin/rmImages
 install -m 755 bin/StSe_Reports $RPM_BUILD_ROOT/%{_prefix}/bin/StSe_Reports
 install -m 755 bin/xlf2pot $RPM_BUILD_ROOT/%{_prefix}/bin/xlf2pot
 install -m 755 bin/xmlClean $RPM_BUILD_ROOT/%{_prefix}/bin/xmlClean
-cp -rf fop $RPM_BUILD_ROOT%{_usr}/share/%{name}/fop
-cp -rf make $RPM_BUILD_ROOT%{_usr}/share/%{name}/make
-cp -rf xsl $RPM_BUILD_ROOT%{_usr}/share/%{name}/xsl
-cp -rf Common_Content $RPM_BUILD_ROOT%{_usr}/share/%{name}/Common_Content
-cp -rf templates $RPM_BUILD_ROOT%{_usr}/share/%{name}/templates
-cp -rf Book_Template $RPM_BUILD_ROOT%{_usr}/share/%{name}/Book_Template
+cp -rf fop $RPM_BUILD_ROOT%{_datadir}/%{name}/fop
+cp -rf make $RPM_BUILD_ROOT%{_datadir}/%{name}/make
+cp -rf xsl $RPM_BUILD_ROOT%{_datadir}/%{name}/xsl
+cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/%{name}/Common_Content
+cp -rf templates $RPM_BUILD_ROOT%{_datadir}/%{name}/templates
+cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Book_Template
 
 # TODO This should be automated
-cat > $RPM_BUILD_ROOT/%{_usr}/share/applications/%{name}.desktop <<'EOF'
+cat > $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop <<'EOF'
 [Desktop Entry]
 Name=Documentation Devel
 Comment=How to use Documentation Devel
@@ -120,7 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc README
 %doc docs/*
-%{_usr}/share/%{name}
+%{_datadir}/%{name}
 %{_prefix}/bin/create_book
 %{_prefix}/bin/entity2pot
 %{_prefix}/bin/mkxpot
@@ -134,7 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/bin/StSe_Reports
 %{_prefix}/bin/xlf2pot
 %{_prefix}/bin/xmlClean
-%{_usr}/share/applications/%{name}.desktop
+%{_datadir}/applications/%{name}.desktop
 
 %changelog
 * Wed Jan 02 2008 Jeff Fearn <jfearn@redhat.com> 0.26

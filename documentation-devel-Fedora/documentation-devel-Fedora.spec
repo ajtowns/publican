@@ -26,8 +26,8 @@ Common files for building %{brand} documentation.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m755 $RPM_BUILD_ROOT%{_usr}/share/documentation-devel/
-cp -rf Common_Content $RPM_BUILD_ROOT%{_usr}/share/documentation-devel/
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/documentation-devel/
+cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/documentation-devel/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -35,7 +35,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc README
-%{_usr}/share/documentation-devel/Common_Content/%{brand}
+%{_datadir}/documentation-devel/Common_Content/%{brand}
 
 %changelog
 * Wed Jan 02 2008 Jeff Fearn <jfearn@redhat.com> 0.4-0
