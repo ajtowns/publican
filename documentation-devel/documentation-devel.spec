@@ -137,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Mon Jan 07 2008 Jeff Fearn <jfearn@redhat.com> 0.26-2
+- tidy spec file
+
 * Wed Jan 02 2008 Jeff Fearn <jfearn@redhat.com> 0.26
 - Added CHUNK_SECTION_DEPTH param to allow chunk.section.depth override. BZ #427172
 - Fixed EXTRA_DIRS to ignore .svn dirs, Added svn_add_po target. BZ #427178
