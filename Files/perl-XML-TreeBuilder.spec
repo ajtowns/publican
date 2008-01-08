@@ -1,15 +1,19 @@
 Summary:	Perl module that implements a parser that builds a tree of XML::Element objects
 Name:		perl-XML-TreeBuilder
 Version:	3.10
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPL+ or Artistic
-Group:		Development/Languages
+Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/XML-TreeBuilder/
 Source:		http://www.cpan.org/modules/by-module/XML/XML-TreeBuilder-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 BuildArch:	noarch
 BuildRequires:	perl
 BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:	perl(HTML::Element)
+BuildRequires:	perl(HTML::Tagset)
+BuildRequires:	perl(XML::Parser)
+Requires:	perl(HTML::Element) perl(HTML::Tagset) perl(XML::Parser)
 
 %description
 perl-XML-TreeBuilder is a Perl module that implements a parser
@@ -39,6 +43,9 @@ find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 %{perl_vendorlib}/XML/
 
 %changelog
+* Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> - 3.10-4
+- Changed Development/Languages to Development/Libraries
+
 * Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> - 3.10-3
 - Remove %%doc from man files, used glob
 - Simplify XML in filelist
