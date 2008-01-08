@@ -1,56 +1,59 @@
-%define pkgname ParseLex
-%define filelist %{pkgname}-%{version}-filelist
-
-Name:	perl-ParseLex
+Name:		perl-ParseLex
 Summary:	ParseLex - Perl module
 Version:	2.15
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	GPL+ or Artistic
-Group:	Development/Languages
-URL:	http://search.cpan.org/dist/ParseLex
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
+Group:		Development/Languages
+URL:		http://search.cpan.org/dist/ParseLex
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 BuildArch:	noarch
-Source: http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-2.15.tar.gz
-Patch0: ParseLex-2.15-syntax.patch
+Source:		http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-2.15.tar.gz
+Patch0:		ParseLex-2.15-syntax.patch
 
 %description
 The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
 
 %prep
-%setup -q -n %{pkgname}-%{version} 
-chmod -R u+w %{_builddir}/%{pkgname}-%{version}
+%setup -q -n ParseLex-%{version} 
 %patch0 -p1
 
+# remove all execute bits from the doc stuff and fix interpreter
+# so that dependency generator doesn't try to fulfill deps
+find examples -type f -exec chmod -x {} 2>/dev/null ';'
+find examples -type f -exec sed -i 's#/usr/local/bin/perl#/usr/bin/perl#' {} 2>/dev/null ';'
+
 %build
-%{__perl} Makefile.PL INSTALLDIRS="vendor" OPTIMIZE="$RPM_OPT_FLAGS"
+%{__perl} Makefile.PL INSTALLDIRS="vendor"
 %{__make} %{?_smp_mflags}
 
 #%check
 #%{__make} test
 
 %install
-%{__rm} -rf %{buildroot}
+%{__rm} -rf $RPM_BUILD_ROOT
 %{__make} pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT create_packlist=0
 
 ### Clean up buildroot
-find %{buildroot} -name .packlist -exec %{__rm} {} \;
+find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-, root, root, 0755)
+%defattr(-, root, root, -)
 %doc Changes README examples
-%dir %{perl_vendorlib}/Parse
-%{perl_vendorlib}/Parse/*.pm
-%doc %{_mandir}/man3/Parse::CLex.3pm.gz
-%doc %{_mandir}/man3/Parse::Lex.3pm.gz
-%doc %{_mandir}/man3/Parse::LexEvent.3pm.gz
-%doc %{_mandir}/man3/Parse::Template.3pm.gz
-%doc %{_mandir}/man3/Parse::Token.3pm.gz
-%doc %{_mandir}/man3/Parse::YYLex.3pm.gz
+%{perl_vendorlib}/Parse/
+%{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> 2.15-7
+- Remove %%doc from man files, used glob
+- Simplify Parse in filelist
+- Simplify %%clean
+- Remove OPTIMIZE setting from make call
+- Change buildroot to fedora style
+- Remove unused defines
+
 * Mon Jan 07 2008 Jeff Fearn <jfearn@redhat.com> 2.15-6
 - Tidy up spec
 
