@@ -1,11 +1,16 @@
 Summary:	Perl module that implements a parser that builds a tree of XML::Element objects
 Name:		perl-XML-TreeBuilder
 Version:	3.10
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/XML-TreeBuilder/
-Source:		http://www.cpan.org/modules/by-module/XML/XML-TreeBuilder-%{version}.tar.gz
+# have to:
+#  seperate patch
+#  push the patch upstream
+#  reset Source
+#Source:		http://www.cpan.org/modules/by-module/XML/XML-TreeBuilder-%{version}.tar.gz
+Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/XML-TreeBuilder-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 BuildArch:	noarch
 BuildRequires:	perl
@@ -26,6 +31,9 @@ that builds a tree of XML::Element objects.
 %{__perl} Makefile.PL INSTALLDIRS="vendor"
 %{__make} %{?_smp_mflags}
 
+%check
+%{__make} test
+
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
 %{__make} pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT create_packlist=0
@@ -43,6 +51,11 @@ find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 %{perl_vendorlib}/XML/
 
 %changelog
+* Fri Jan 11 2008 Jeff Fearn <jfearn@redhat.com> - 3.10-5
+- Fixed test
+- Fixed Source URL
+- Added %%check
+
 * Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> - 3.10-4
 - Changed Development/Languages to Development/Libraries
 
