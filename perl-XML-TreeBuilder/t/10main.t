@@ -20,7 +20,7 @@ $x->parse(
 );
 
 my $y = XML::Element->new_from_lol(
- ['Gee',
+ ['Gee', { 'NoExpand' => '0'},
    ['~comment', {'text' => ' myorp '}],
    ['foo', {'Id'=> 'me', 'xml:foo' => 'lal'}, 'Hello World'],
    ['lor'],
@@ -29,8 +29,7 @@ my $y = XML::Element->new_from_lol(
  ]
 );
 
-
-ok $x->same_as($y);
+ok($x->same_as($y));
 
 unless( $ENV{'HARNESS_ACTIVE'} ) {
   $x->dump;
