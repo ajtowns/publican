@@ -1,9 +1,9 @@
 Name:		perl-ParseLex
 Summary:	ParseLex - Perl module
 Version:	2.15
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	GPL+ or Artistic
-Group:		Development/Languages
+Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/ParseLex
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 BuildArch:	noarch
@@ -46,6 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> 2.15-8
+- Changed Development/Languages to Development/Libraries
+
 * Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> 2.15-7
 - Remove %%doc from man files, used glob
 - Simplify Parse in filelist
