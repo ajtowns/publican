@@ -61,6 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 - Changed Development/Languages to Development/Libraries
 - Fixed test
 - Removed useless-explicit-provides
+- Converted Changes to utf-8
 
 * Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> 2.15-7
 - Remove %%doc from man files, used glob
