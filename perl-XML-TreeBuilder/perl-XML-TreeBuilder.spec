@@ -1,4 +1,4 @@
-Summary:	Perl module that implements a parser that builds a tree of XML::Element objects
+Summary:	Parser that builds a tree of XML::Element objects
 Name:		perl-XML-TreeBuilder
 Version:	3.10
 Release:	5%{?dist}
