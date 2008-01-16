@@ -1,7 +1,7 @@
 Name:		perl-ParseLex
 Summary:	ParseLex - Perl module
 Version:	2.15
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/ParseLex
@@ -10,6 +10,7 @@ BuildArch:	noarch
 Source:		http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-2.15.tar.gz
 # TODO Push patches upstream
 Patch0:		ParseLex-2.15-syntax.patch
+BuildRequires:	perl(ExtUtils::MakeMaker)
 
 %description
 The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
@@ -57,6 +58,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Wed Jan 16 2008 Jeff Fearn <jfearn@redhat.com> 2.15-9
+- Add missing BuildRequires
+
 * Wed Jan 16 2008 Jeff Fearn <jfearn@redhat.com> 2.15-8
 - Changed Development/Languages to Development/Libraries
 - Fixed test
