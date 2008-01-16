@@ -57,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*.3pm*
 
 %changelog
-* Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> 2.15-8
+* Wed Jan 16 2008 Jeff Fearn <jfearn@redhat.com> 2.15-8
 - Changed Development/Languages to Development/Libraries
 - Fixed test
 - Removed useless-explicit-provides
