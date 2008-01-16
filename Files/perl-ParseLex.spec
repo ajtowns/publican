@@ -8,6 +8,7 @@ URL:		http://search.cpan.org/dist/ParseLex
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 BuildArch:	noarch
 Source:		http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-2.15.tar.gz
+# TODO Push patches upstream
 Patch0:		ParseLex-2.15-syntax.patch
 
 %description
@@ -16,6 +17,16 @@ The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
 %prep
 %setup -q -n ParseLex-%{version} 
 %patch0 -p1
+
+# Filter unwanted Provides:
+cat << \EOF > ParseLex-prov
+#!/bin/sh
+%{__perl_provides} $* |\
+  sed -e '/perl(unwanted_provide)/d'
+EOF
+
+%define __perl_provides %{_builddir}/ParseLex-%{version}/ParseLex-prov
+chmod +x %{__perl_provides}
 
 # remove all execute bits from the doc stuff and fix interpreter
 # so that dependency generator doesn't try to fulfill deps
@@ -26,8 +37,8 @@ find examples -type f -exec sed -i 's#/usr/local/bin/perl#/usr/bin/perl#' {} 2>/
 %{__perl} Makefile.PL INSTALLDIRS="vendor"
 %{__make} %{?_smp_mflags}
 
-#%check
-#%{__make} test
+%check
+%{__make} test
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
@@ -48,6 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> 2.15-8
 - Changed Development/Languages to Development/Libraries
+- Fixed test
+- Removed useless-explicit-provides
 
 * Tue Jan 08 2008 Jeff Fearn <jfearn@redhat.com> 2.15-7
 - Remove %%doc from man files, used glob
