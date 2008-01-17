@@ -1,7 +1,7 @@
 Name:		perl-ParseLex
-Summary:	ParseLex - Perl module
+Summary:	Generator of lexical analyzers
 Version:	2.15
-Release:	9%{?dist}
+Release:	10%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/ParseLex
@@ -20,19 +20,19 @@ The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
 %patch0 -p1
 
 # Filter unwanted Provides:
-cat << \EOF > ParseLex-prov
+%{__cat} << \EOF > ParseLex-prov
 #!/bin/sh
 %{__perl_provides} $* |\
-  sed -e '/perl(unwanted_provide)/d'
+  %{__sed} -e '/perl(Parse::Token)$/d'
 EOF
 
 %define __perl_provides %{_builddir}/ParseLex-%{version}/ParseLex-prov
-chmod +x %{__perl_provides}
+%{__chmod} +x %{__perl_provides}
 
 # remove all execute bits from the doc stuff and fix interpreter
 # so that dependency generator doesn't try to fulfill deps
-find examples -type f -exec chmod -x {} 2>/dev/null ';'
-find examples -type f -exec sed -i 's#/usr/local/bin/perl#/usr/bin/perl#' {} 2>/dev/null ';'
+find examples -type f -exec %{__chmod} -x {} 2>/dev/null ';'
+find examples -type f -exec %{__sed} -i 's#/usr/local/bin/perl#/usr/bin/perl#' {} 2>/dev/null ';'
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS="vendor"
@@ -49,7 +49,7 @@ find examples -type f -exec sed -i 's#/usr/local/bin/perl#/usr/bin/perl#' {} 2>/
 find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+%{__rm} -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root, -)
@@ -58,6 +58,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Wed Jan 16 2008 Jeff Fearn <jfearn@redhat.com> 2.15-10
+- Fixed unwanted Provides Filter
+- Consistant use of macros
+- Better summary
+
 * Wed Jan 16 2008 Jeff Fearn <jfearn@redhat.com> 2.15-9
 - Add missing BuildRequires
 
