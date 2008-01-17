@@ -1,76 +1,23 @@
 Name:		documentation-devil
 Summary:	Common files and scripts for building Documentation
 Version:	0.26
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPL+
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
 Buildarch:	noarch
 Source:		%{name}-%{version}.tgz
-Requires(post): coreutils
-Requires(postun): coreutils
+# need kdesdk for po2xml
 Requires:	gettext libxslt kdesdk dejavu-lgc-fonts
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
-URL:		https://fedorahosted.org/documentation-devel
-Obsoletes:	documentation-devel
-
-# postuff docbook-style-xsl
-
-# These are the font Req's for PDF creation in FOP ... not sure when we should enable these
-# WARNING: We will also need to have a seperate fop.conf file for RHEL5 due to different font paths :(
-# RHEL 4 | 5 fonts
-
-# RHEL 4 fonts
-# /usr/share/fonts/ja/TrueType/kochi-mincho-subst.ttf RHEL5 fonts-japanese
-#Requires:	ttfonts-ja
-# /usr/share/fonts/ko/TrueType/batang.ttf
-#Requires:	ttfonts-ko
-# /usr/share/fonts/zh_CN/TrueType/zysong.ttf
-#Requires:	ttfonts-zh_CN
-# /usr/share/fonts/bn/lohit_bn.ttf
-#Requires:	ttfonts-bn
-# /usr/share/fonts/ta/lohit_ta.ttf
-#Requires:	ttfonts-ta
-# /usr/share/fonts/pa/lohit_pa.ttf
-#Requires:	ttfonts-pa
-# /usr/share/fonts/hi/lohit_hi.ttf
-#Requires:	ttfonts-hi
-# /usr/share/fonts/gu/lohit_gu.ttf
-#Requires:	ttfonts-gu
-# /usr/share/fonts/zh_TW/TrueType/bsmi00lp.ttf
-#Requires:	ttfonts-zh_TW
-
-# RHEL 5 fonts
-# /usr/share/fonts/ja/TrueType/kochi-mincho-subst.ttf
-#Requires:	fonts-japanese
-# /usr/share/fonts/ko/TrueType/batang.ttf  RHEL5 /usr/share/fonts/korean/TrueType/batang.ttf
-#Requires:	fonts-korean
-# /usr/share/fonts/zh_CN/TrueType/zysong.ttf
-#Requires:	fonts-chinese
-# /usr/share/onts/bn/lohit_bn.ttf RHEL5 /usr/share/fonts/bengali/lohit_bn.ttf
-#Requires:	fonts-bengali
-# /usr/share/fonts/ta/lohit_ta.ttf RHEL5 /usr/share/fonts/tamil/lohit_ta.ttf
-#Requires:	fonts-tamil
-# /usr/share/fonts/pa/lohit_pa.ttf RHEl5 /usr/share/fonts/punjabi/lohit_pa.ttf
-#Requires:	fonts-punjabi
-# /usr/share/fonts/hi/lohit_hi.ttf RHEl5 /usr/share/fonts/hindi/lohit_hi.ttf
-#Requires:	fonts-hindi
-# /usr/share/fonts/gu/lohit_gu.ttf RHEL5 /usr/share/fonts/gujarati/lohit_gu.ttf
-#Requires:	fonts-gujarati
-# /usr/share/fonts/zh_TW/TrueType/bsmi00lp.ttf RHEL5 /usr/share/fonts/zh_TW/TrueType/bsmi00lp.ttf
-#Requires:	fonts-chinese
-
-# When we get fop packaged properly
-# BUG BUG fop 0.20.5 isn't packaged for RHEL5 yet :(
-# BUG BUG Fedora is using 0.94 which is broken in different ways than 0.20.5
-#	which will require major reworking of the custom xsl
-#Requires:	fop = 0.20.5 
+URL:		https://fedorahosted.org/documentation-devil
+Obsoletes:	documentation-devel  < 0.26-3
 
 %description
 Common files and scripts for building Red Hat documentation.
 
 %prep
-%setup -q -n %{name}-%{version} 
+%setup -q
 
 %build
 %{__make} docs
@@ -78,28 +25,12 @@ Common files and scripts for building Red Hat documentation.
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/%{name}
-mkdir -p -m755 $RPM_BUILD_ROOT/usr/share/applications
-mkdir -p -m755 $RPM_BUILD_ROOT/%{_prefix}/bin
-#cp -rf bin $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
-install -m 755 bin/create_book $RPM_BUILD_ROOT/%{_prefix}/bin/create_book
-install -m 755 bin/entity2pot $RPM_BUILD_ROOT/%{_prefix}/bin/entity2pot
-install -m 755 bin/mkxpot $RPM_BUILD_ROOT/%{_prefix}/bin/mkxpot
-install -m 755 bin/msgxmerge $RPM_BUILD_ROOT/%{_prefix}/bin/msgxmerge
-install -m 755 bin/po2entity $RPM_BUILD_ROOT/%{_prefix}/bin/po2entity
-install -m 755 bin/po2xlf $RPM_BUILD_ROOT/%{_prefix}/bin/po2xlf
-install -m 755 bin/po2sgml $RPM_BUILD_ROOT/%{_prefix}/bin/po2sgml
-install -m 755 bin/potmerge $RPM_BUILD_ROOT/%{_prefix}/bin/potmerge
-install -m 755 bin/poxmerge $RPM_BUILD_ROOT/%{_prefix}/bin/poxmerge
-install -m 755 bin/rmImages $RPM_BUILD_ROOT/%{_prefix}/bin/rmImages
-install -m 755 bin/StSe_Reports $RPM_BUILD_ROOT/%{_prefix}/bin/StSe_Reports
-install -m 755 bin/xlf2pot $RPM_BUILD_ROOT/%{_prefix}/bin/xlf2pot
-install -m 755 bin/xmlClean $RPM_BUILD_ROOT/%{_prefix}/bin/xmlClean
-cp -rf fop $RPM_BUILD_ROOT%{_datadir}/%{name}/fop
-cp -rf make $RPM_BUILD_ROOT%{_datadir}/%{name}/make
-cp -rf xsl $RPM_BUILD_ROOT%{_datadir}/%{name}/xsl
-cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/%{name}/Common_Content
-cp -rf templates $RPM_BUILD_ROOT%{_datadir}/%{name}/templates
-cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Book_Template
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/applications
+mkdir -p -m755 $RPM_BUILD_ROOT%{_bindir}
+install -m 755 bin/* $RPM_BUILD_ROOT%{_bindir}
+for i in fop make xsl Common_Content templates Book_Template; do
+	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
+done
 
 # TODO This should be automated
 cat > $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop <<'EOF'
@@ -118,26 +49,30 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc README
 %doc docs/*
 %{_datadir}/%{name}
-%{_prefix}/bin/create_book
-%{_prefix}/bin/entity2pot
-%{_prefix}/bin/mkxpot
-%{_prefix}/bin/msgxmerge
-%{_prefix}/bin/po2entity
-%{_prefix}/bin/po2xlf
-%{_prefix}/bin/po2sgml
-%{_prefix}/bin/potmerge
-%{_prefix}/bin/poxmerge
-%{_prefix}/bin/rmImages
-%{_prefix}/bin/StSe_Reports
-%{_prefix}/bin/xlf2pot
-%{_prefix}/bin/xmlClean
+%{_bindir}/create_book
+%{_bindir}/entity2pot
+%{_bindir}/mkxpot
+%{_bindir}/msgxmerge
+%{_bindir}/po2entity
+%{_bindir}/po2xlf
+%{_bindir}/po2sgml
+%{_bindir}/potmerge
+%{_bindir}/poxmerge
+%{_bindir}/rmImages
+%{_bindir}/StSe_Reports
+%{_bindir}/xlf2pot
+%{_bindir}/xmlClean
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Thu Jan 17 2008 Jeff Fearn <jfearn@redhat.com> 0.26-4
+- Tidy up %%files, %%build, %%prep and remove comments from spec file.
+- Added --atime-preserve to tar command
+
 * Mon Jan 07 2008 Jeff Fearn <jfearn@redhat.com> 0.26-3
 - Rename from documentation-devel to documentation-devil
 

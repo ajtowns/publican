@@ -76,3 +76,58 @@ Where are the common files located?
 
 By default they are in /usr/share/documentation-devil
 
+
+Font notes:
+
+# postuff docbook-style-xsl
+
+# These are the font Req's for PDF creation in FOP ... not sure when we should enable these
+# WARNING: We will also need to have a seperate fop.conf file for RHEL5 due to different font paths :(
+# RHEL 4 | 5 fonts
+
+# RHEL 4 fonts
+# /usr/share/fonts/ja/TrueType/kochi-mincho-subst.ttf RHEL5 fonts-japanese
+#Requires:	ttfonts-ja
+# /usr/share/fonts/ko/TrueType/batang.ttf
+#Requires:	ttfonts-ko
+# /usr/share/fonts/zh_CN/TrueType/zysong.ttf
+#Requires:	ttfonts-zh_CN
+# /usr/share/fonts/bn/lohit_bn.ttf
+#Requires:	ttfonts-bn
+# /usr/share/fonts/ta/lohit_ta.ttf
+#Requires:	ttfonts-ta
+# /usr/share/fonts/pa/lohit_pa.ttf
+#Requires:	ttfonts-pa
+# /usr/share/fonts/hi/lohit_hi.ttf
+#Requires:	ttfonts-hi
+# /usr/share/fonts/gu/lohit_gu.ttf
+#Requires:	ttfonts-gu
+# /usr/share/fonts/zh_TW/TrueType/bsmi00lp.ttf
+#Requires:	ttfonts-zh_TW
+
+# RHEL 5 fonts
+# /usr/share/fonts/ja/TrueType/kochi-mincho-subst.ttf
+#Requires:	fonts-japanese
+# /usr/share/fonts/ko/TrueType/batang.ttf  RHEL5 /usr/share/fonts/korean/TrueType/batang.ttf
+#Requires:	fonts-korean
+# /usr/share/fonts/zh_CN/TrueType/zysong.ttf
+#Requires:	fonts-chinese
+# /usr/share/onts/bn/lohit_bn.ttf RHEL5 /usr/share/fonts/bengali/lohit_bn.ttf
+#Requires:	fonts-bengali
+# /usr/share/fonts/ta/lohit_ta.ttf RHEL5 /usr/share/fonts/tamil/lohit_ta.ttf
+#Requires:	fonts-tamil
+# /usr/share/fonts/pa/lohit_pa.ttf RHEl5 /usr/share/fonts/punjabi/lohit_pa.ttf
+#Requires:	fonts-punjabi
+# /usr/share/fonts/hi/lohit_hi.ttf RHEl5 /usr/share/fonts/hindi/lohit_hi.ttf
+#Requires:	fonts-hindi
+# /usr/share/fonts/gu/lohit_gu.ttf RHEL5 /usr/share/fonts/gujarati/lohit_gu.ttf
+#Requires:	fonts-gujarati
+# /usr/share/fonts/zh_TW/TrueType/bsmi00lp.ttf RHEL5 /usr/share/fonts/zh_TW/TrueType/bsmi00lp.ttf
+#Requires:	fonts-chinese
+
+# When we get fop packaged properly
+# BUG BUG fop 0.20.5 isn't packaged for RHEL5 yet :(
+# BUG BUG Fedora is using 0.94 which is broken in different ways than 0.20.5
+#	which will require major reworking of the custom xsl
+#Requires:	fop = 0.20.5 
+

@@ -37,7 +37,7 @@ dist: clean
 	@find $(TAR_NAME) -name "*.swp" | xargs rm -rf
 	@find $(TAR_NAME) -name "*.mo" | xargs rm -rf
 	@find $(TAR_NAME) -name "*~" | xargs rm -rf
-	@tar czf $(TAR_NAME).tgz $(TAR_NAME)
+	@tar --atime-preserve -czf $(TAR_NAME).tgz $(TAR_NAME)
 	@echo "End $@"
 
 
