@@ -1,7 +1,7 @@
 Summary:	Parser that builds a tree of XML::Element objects
 Name:		perl-XML-TreeBuilder
 Version:	3.10
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/XML-TreeBuilder/
@@ -51,6 +51,9 @@ find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 %{perl_vendorlib}/XML/
 
 %changelog
+* Thu Jan 17 2008 Jeff Fearn <jfearn@redhat.com> - 3.10-6
+- Trimmed Summary
+
 * Fri Jan 11 2008 Jeff Fearn <jfearn@redhat.com> - 3.10-5
 - Fixed test
 - Fixed Source URL
