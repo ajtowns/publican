@@ -1,6 +1,6 @@
-BRAND	= Fedora
-SPEC	= documentation-devel-$(BRAND).spec
-NAME	= documentation-devel-$(BRAND)
+BRAND	= fedora
+SPEC	= documentation-devil-$(BRAND).spec
+NAME	= documentation-devil-$(BRAND)
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD		= $(shell pwd)
@@ -24,10 +24,10 @@ srpm: dist
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
-	@cp documentation-devel-$(BRAND).spec $(RPMDIR)/SPECS/.
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel-$(BRAND).spec
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel-$(BRAND).spec
-	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devel-$(BRAND).spec
+	@cp documentation-devil-$(BRAND).spec $(RPMDIR)/SPECS/.
+	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
+	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
+	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
 	@echo "End $@"
 
 dist: clean
@@ -70,22 +70,23 @@ update-pot:
 	popd  > /dev/null;
 	@echo "End $@"
 
-CVS_ROOT = cvs.devel.redhat.com:/cvs/ecs
-CVS_REPO = GUI_Strings/documentation-devel-RHEL
+# TODO Get this in to SVN?
+#CVS_ROOT = cvs.devel.redhat.com:/cvs/ecs
+#CVS_REPO = GUI_Strings/documentation-devil-RHEL
 
-resync-po:: clean
-	@echo "Start $@"
-	@echo  "	Exporting PO files from $(CVS_ROOT)/$(CVS_REPO)"
-	@mkdir -p tmp/CVS
-	@pushd tmp/CVS  > /dev/null; \
-		cvs -d $(CVS_ROOT) export -r HEAD $(CVS_REPO); \
-	popd > /dev/null;
-	@echo "	Copying PO files"
-	@pushd tmp/CVS/$(CVS_REPO)  > /dev/null; \
-		find . -name Legal_Notice.po | xargs --no-run-if-empty rm;\
-		find . -name *.po | sed -e 's/\.\///g' | xargs -i{} cp {} $(PWD)/{}; \
-	popd > /dev/null;
-	@echo "End $@"
+#resync-po:: clean
+#	@echo "Start $@"
+#	@echo  "	Exporting PO files from $(CVS_ROOT)/$(CVS_REPO)"
+#	@mkdir -p tmp/CVS
+#	@pushd tmp/CVS  > /dev/null; \
+#		cvs -d $(CVS_ROOT) export -r HEAD $(CVS_REPO); \
+#	popd > /dev/null;
+#	@echo "	Copying PO files"
+#	@pushd tmp/CVS/$(CVS_REPO)  > /dev/null; \
+#		find . -name Legal_Notice.po | xargs --no-run-if-empty rm;\
+#		find . -name *.po | sed -e 's/\.\///g' | xargs -i{} cp {} $(PWD)/{}; \
+#	popd > /dev/null;
+#	@echo "End $@"
 
 entities::
 	@echo "Start $@"

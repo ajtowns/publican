@@ -23,7 +23,7 @@ BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post):	coreutils
 Requires(postun):	coreutils
-BuildRequires:	documentation-devel
+BuildRequires:	documentation-devil
 
 %description<xsl:value-of select="/bookinfo/abstract[1]" /><xsl:value-of select="/setinfo/abstract[1]" />
 

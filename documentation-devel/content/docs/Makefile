@@ -15,7 +15,7 @@ STANDALONE	?= 0
 PWD			= $(shell pwd)
 
 ifeq "$(STANDALONE)" "0" 
-COMMON_CONFIG  = /usr/share/documentation-devel
+COMMON_CONFIG  = /usr/share/documentation-devil
 else
 COMMON_CONFIG	= $(PWD)/../..
 endif

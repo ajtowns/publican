@@ -3,14 +3,14 @@
 ]>
 
 <chapter id="Documentation_Devel-Using_the_documentation_devel_tool_chain">
-	<title>Using the documentation-devel tool chain</title>
+	<title>Using the documentation-devil tool chain</title>
 	<para>
-		This chapter describes the process of installing the documentation-devel package, creating books, the main configuration files, example book files, and how to build a book.
+		This chapter describes the process of installing the documentation-devil package, creating books, the main configuration files, example book files, and how to build a book.
 	</para>
 	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Installing_documentation_devel">
-		<title>Installing documentation-devel</title>
+		<title>Installing documentation-devil</title>
 		<para>
-			To install documentation-devel:
+			To install documentation-devil:
 		</para>
 		<orderedlist>
 			<listitem>
@@ -26,20 +26,20 @@ Password:
 			</listitem>
 			<listitem>
 				<para>
-					Run the following command to install the documentation-devel package:
+					Run the following command to install the documentation-devil package:
 				</para>
 				<para>
 <screen>
-# yum install documentation-devel
+# yum install documentation-devil
 </screen>
 				</para>
 			</listitem>
 		</orderedlist>
 		<para>
-			Alternatively, there are three branded documentation-devel packages available: RedHat, Fedora and JBoss. Run the following command as the root user to build branded books:
+			Alternatively, there are three branded documentation-devil packages available: RedHat, Fedora and JBoss. Run the following command as the root user to build branded books:
 		</para>
 <screen>
-# yum install documentation-devel-<replaceable>brand</replaceable>
+# yum install documentation-devil-<replaceable>brand</replaceable>
 </screen>
 		<para>
 			Replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss.
@@ -67,7 +67,7 @@ Password:
 				<term><filename>-man</filename></term>
 				<listitem>
 					<para>
-						view the documentation-devel manual page. The manual page contains the same information returned by the <command>create_book -help</command> command.
+						view the documentation-devil manual page. The manual page contains the same information returned by the <command>create_book -help</command> command.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -115,7 +115,7 @@ Password:
 				<term><filename>--brand <replaceable>brand</replaceable></filename></term>
 				<listitem>
 					<para>
-						replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This requires the appropriate documentation-devel package to be installed. For example, to build RedHat branded books, you must install the documentation-devel-RedHat package. See <xref linkend="Documentation_Devel-Using_the_documentation_devel_tool_chain-Installing_documentation_devel" /> for instructions on installing the branded documentation-devel packages.
+						replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This requires the appropriate documentation-devil package to be installed. For example, to build RedHat branded books, you must install the documentation-devil-RedHat package. See <xref linkend="Documentation_Devel-Using_the_documentation_devel_tool_chain-Installing_documentation_devel" /> for instructions on installing the branded documentation-devil packages.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -163,7 +163,7 @@ PRODUCT        = Test_Product
 #OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN
 TRANSLATIONS   = $(XML_LANG) $(OTHER_LANGS)
 	
-COMMON_CONFIG   = /usr/share/documentation-devel
+COMMON_CONFIG   = /usr/share/documentation-devil
 include $(COMMON_CONFIG)/make/Makefile.common
 </screen>
 			<variablelist>
@@ -227,7 +227,7 @@ OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN
 ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 TRANSLATIONS   = $(XML_LANG) $(OTHER_LANGS)
 	
-COMMON_CONFIG  = /usr/share/documentation-devel
+COMMON_CONFIG  = /usr/share/documentation-devil
 include $(COMMON_CONFIG)/make/Makefile.common
 </screen>
 			</para>

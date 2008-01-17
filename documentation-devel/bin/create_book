@@ -32,7 +32,7 @@ pod2usage(1) if !$name;
 my $bookname = $name;
 $bookname =~ s/_/ /g;
 
-my $cmd = "cp -rf /usr/share/documentation-devel/Book_Template $name";
+my $cmd = "cp -rf /usr/share/documentation-devil/Book_Template $name";
 system($cmd);
 if ($@) {
     carp "can't copy Book_Template: $!";
