@@ -1,23 +1,24 @@
 Name:		perl-ParseLex
 Summary:	Generator of lexical analyzers
-Version:	2.16
-Release:	0%{?dist}
+Version:	2.15
+Release:	11%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 BuildArch:	noarch
 # TODO Try to Push patches to CPAN when there is time
-#URL:		http://search.cpan.org/dist/ParseLex
-#Source:	http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-%{version}.tar.gz
-URL:		https://fedorahosted.org/documentation-devel/wiki/ParseLex
-Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/ParseLex-%{version}.tar.gz
-BuildRequires:	perl(ExtUtils::MakeMaker)
+URL:		http://search.cpan.org/dist/ParseLex
+Source:		http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-%{version}.tar.gz
+Patch0:		ParseLex-2.15-syntax.patch
+# glibc-common supplies iconv
+BuildRequires:	perl(ExtUtils::MakeMaker) glibc-common
 
 %description
 The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
 
 %prep
 %setup -q -n ParseLex-%{version} 
+%patch0 -p1
 
 # Filter unwanted Provides:
 %{__cat} << \EOF > ParseLex-prov
@@ -33,6 +34,13 @@ EOF
 # so that dependency generator doesn't try to fulfill deps
 find examples -type f -exec %{__chmod} -x {} 2>/dev/null ';'
 find examples -type f -exec %{__sed} -i 's#/usr/local/bin/perl#/usr/bin/perl#' {} 2>/dev/null ';'
+
+# convert Changes to UTF8
+iconv -f iso8859-1 -t utf-8 Changes > changes
+%{__mv} changes Changes
+
+# fix test4
+%{__sed} -i -e 's/chunk/line/g' t/test4.t
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS="vendor"
@@ -58,8 +66,8 @@ find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 %{_mandir}/man3/*.3pm*
 
 %changelog
-* Fri Jan 18 2008 Jeff Fearn <jfearn@redhat.com> 2.16-0
-- Become upstream
+* Fri Jan 18 2008 Jeff Fearn <jfearn@redhat.com> 2.15-11
+- iconv in the prep, beer on the way
 
 * Thu Jan 17 2008 Jeff Fearn <jfearn@redhat.com> 2.15-10
 - Fixed unwanted Provides Filter
