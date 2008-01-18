@@ -1,15 +1,16 @@
 Name:		perl-ParseLex
 Summary:	Generator of lexical analyzers
-Version:	2.15
-Release:	10%{?dist}
+Version:	2.16
+Release:	0%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
-URL:		http://search.cpan.org/dist/ParseLex
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root%(%{__id_u} -n)
 BuildArch:	noarch
-Source:		http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-2.15.tar.gz
-# TODO Push patches upstream
-Patch0:		ParseLex-2.15-syntax.patch
+# TODO Try to Push patches to CPAN when there is time
+#URL:		http://search.cpan.org/dist/ParseLex
+#Source:	http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-%{version}.tar.gz
+URL:		https://fedorahosted.org/documentation-devel/wiki/ParseLex
+Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/ParseLex-%{version}.tar.gz
 BuildRequires:	perl(ExtUtils::MakeMaker)
 
 %description
@@ -17,7 +18,6 @@ The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
 
 %prep
 %setup -q -n ParseLex-%{version} 
-%patch0 -p1
 
 # Filter unwanted Provides:
 %{__cat} << \EOF > ParseLex-prov
@@ -58,7 +58,10 @@ find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 %{_mandir}/man3/*.3pm*
 
 %changelog
-* Wed Jan 16 2008 Jeff Fearn <jfearn@redhat.com> 2.15-10
+* Fri Jan 18 2008 Jeff Fearn <jfearn@redhat.com> 2.16-0
+- Become upstream
+
+* Thu Jan 17 2008 Jeff Fearn <jfearn@redhat.com> 2.15-10
 - Fixed unwanted Provides Filter
 - Consistant use of macros
 - Better summary
