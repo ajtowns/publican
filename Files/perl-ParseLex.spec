@@ -10,8 +10,7 @@ BuildArch:	noarch
 URL:		http://search.cpan.org/dist/ParseLex
 Source:		http://www.cpan.org/authors/id/P/PV/PVERD/ParseLex-%{version}.tar.gz
 Patch0:		ParseLex-2.15-syntax.patch
-# glibc-common supplies iconv
-BuildRequires:	perl(ExtUtils::MakeMaker) glibc-common
+BuildRequires:	perl(ExtUtils::MakeMaker)
 
 %description
 The classes "Parse::Lex" and "Parse::CLex" create lexical analyzers.
