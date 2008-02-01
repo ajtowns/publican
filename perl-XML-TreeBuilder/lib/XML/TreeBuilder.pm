@@ -8,7 +8,7 @@ use XML::Parser ();
 use Carp;
 use vars qw(@ISA $VERSION);
 
-$VERSION = '3.10';
+$VERSION = '3.09';
 @ISA = ('XML::Element');
 
 #==========================================================================
