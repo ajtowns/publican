@@ -32,7 +32,7 @@ pod2usage(1) if !$name;
 my $bookname = $name;
 $bookname =~ s/_/ /g;
 
-my $cmd = "cp -rf /usr/share/documentation-devil/Book_Template $name";
+my $cmd = "cp -rf /usr/share/publican/Book_Template $name";
 system($cmd);
 if ($@) {
     carp "can't copy Book_Template: $!";
@@ -200,7 +200,7 @@ Use the specified brand for branding output.
 
 =head1 DESCRIPTION
 
-B<This program> creates a new Book or Article for use with the documenation-devel package.
+B<This program> creates a new Book or Article for use with the publican package.
 
 =cut
 

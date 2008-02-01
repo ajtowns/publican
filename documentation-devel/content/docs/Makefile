@@ -3,7 +3,7 @@
 #Copyright Red Hat Inc. 2006
 
 XML_LANG	= en-US
-DOCNAME		= Documentation_Devel
+DOCNAME		= Publican
 PRODUCT		= Software
 
 #OTHER_LANGS	= as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
@@ -15,7 +15,7 @@ STANDALONE	?= 0
 PWD			= $(shell pwd)
 
 ifeq "$(STANDALONE)" "0" 
-COMMON_CONFIG  = /usr/share/documentation-devil
+COMMON_CONFIG  = /usr/share/publican
 else
 COMMON_CONFIG	= $(PWD)/../..
 endif

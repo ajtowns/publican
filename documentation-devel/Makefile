@@ -1,5 +1,5 @@
-SPEC	= documentation-devil.spec
-NAME	= $(shell grep 'Name:' $(SPEC) | sed -e 's/Name:\s*\(.*\)$$/\1/g')
+NAME	= publican
+SPEC	= $(NAME).spec
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD		= $(shell pwd)
@@ -14,7 +14,7 @@ FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl
 
 local: srpm
 	@echo "Start $@"
-	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bb $(RPMDIR)/SPECS/documentation-devil.spec
+	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bb $(RPMDIR)/SPECS/$(NAME).spec
 	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
 	@echo "End $@"
 
@@ -23,10 +23,10 @@ srpm: dist
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
-	@cp documentation-devil.spec $(RPMDIR)/SPECS/.
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil.spec
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil.spec
-	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil.spec
+	@cp $(NAME).spec $(RPMDIR)/SPECS/.
+	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
+	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
+	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
 	@echo "End $@"
 
 dist: clean
@@ -76,7 +76,7 @@ update-pot:
 	@make -C content/docs update-pot
 	@echo "End $@"
 
-SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/documentation-devil/1.0/GUI_Strings
+SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/$(NAME)/1.0/GUI_Strings
 
 resync-po:: clean
 	@echo "Start $@"

@@ -1,7 +1,7 @@
-Name:		documentation-devil
-Summary:	Common files and scripts for building Documentation
+Name:		publican	
+Summary:	Common files and scripts for publishing Documentation
 Version:	0.26
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPL+
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
@@ -10,11 +10,11 @@ Source:		%{name}-%{version}.tgz
 # need kdesdk for po2xml
 Requires:	gettext libxslt kdesdk dejavu-lgc-fonts
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
-URL:		https://fedorahosted.org/documentation-devil
+URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel  < 0.26-3
 
 %description
-Common files and scripts for building Red Hat documentation.
+Common files and scripts for publishing documentation.
 
 %prep
 %setup -q
@@ -35,8 +35,8 @@ done
 # TODO This should be automated
 cat > $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop <<'EOF'
 [Desktop Entry]
-Name=Documentation Devel
-Comment=How to use Documentation Devel
+Name=Publication
+Comment=How to use Publication
 Exec=yelp %{_docdir}/%{name}-%{version}/en-US/index.html
 Icon=%{_docdir}/%{name}-%{version}/en-US/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
@@ -69,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Fri Feb 01 2008 Jeff Fearn <jfearn@redhat.com> 0.26-5
+- renamed from documentation-devil to publican
+
 * Thu Jan 17 2008 Jeff Fearn <jfearn@redhat.com> 0.26-4
 - Tidy up %%files, %%build, %%prep and remove comments from spec file.
 - Added --atime-preserve to tar command

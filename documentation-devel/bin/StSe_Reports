@@ -28,7 +28,7 @@ chomp($book);
 chomp($system);
 
 my $config = {
-    INCLUDE_PATH => '/usr/share/documentation-devil/templates',  # or list ref
+    INCLUDE_PATH => '/usr/share/publican/templates',  # or list ref
     DEBUG        => 1,
 };
 
@@ -180,7 +180,7 @@ sub report {
 
         my $template = HTML::Template->new(
             filename => 'language.tmpl',
-            path     => ['/usr/share/documentation-devil/templates']
+            path     => ['/usr/share/publican/templates']
         ) or croak "Template->error";
 
         $template->param( title                => $title );
@@ -204,7 +204,7 @@ sub report {
 
     my $template = HTML::Template->new(
         filename => 'project.tmpl',
-        path     => ['/usr/share/documentation-devil/templates']
+        path     => ['/usr/share/publican/templates']
     ) or croak "Template->error";
 
     $template->param( title   => $title );

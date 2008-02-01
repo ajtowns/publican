@@ -2,15 +2,15 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<chapter id="Documentation_Devel-Using_the_documentation_devel_tool_chain">
-	<title>Using the documentation-devil tool chain</title>
+<chapter id="chap-Publican-Using_the_publican_tool_chain">
+	<title>Using the publican tool chain</title>
 	<para>
-		This chapter describes the process of installing the documentation-devil package, creating books, the main configuration files, example book files, and how to build a book.
+		This chapter describes the process of installing the publican package, creating books, the main configuration files, example book files, and how to build a book.
 	</para>
-	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Installing_documentation_devel">
-		<title>Installing documentation-devil</title>
+	<section id="sect-Publican-Using_the_publican_tool_chain-Installing_publican">
+		<title>Installing publican</title>
 		<para>
-			To install documentation-devil:
+			To install publican:
 		</para>
 		<orderedlist>
 			<listitem>
@@ -26,27 +26,27 @@ Password:
 			</listitem>
 			<listitem>
 				<para>
-					Run the following command to install the documentation-devil package:
+					Run the following command to install the publican package:
 				</para>
 				<para>
 <screen>
-# yum install documentation-devil
+# yum install publican
 </screen>
 				</para>
 			</listitem>
 		</orderedlist>
 		<para>
-			Alternatively, there are three branded documentation-devil packages available: RedHat, Fedora and JBoss. Run the following command as the root user to build branded books:
+			Alternatively, there are three branded publican packages available: RedHat, Fedora and JBoss. Run the following command as the root user to build branded books:
 		</para>
 <screen>
-# yum install documentation-devil-<replaceable>brand</replaceable>
+# yum install publican-<replaceable>brand</replaceable>
 </screen>
 		<para>
 			Replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss.
 		</para>
 	</section>
 	
-	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Creating_a_Book">
+	<section id="sect-Publican-Using_the_publican_tool_chain-Creating_a_Book">
 		<title>Creating a Book</title>
 		<para>
 			Use the <command>create_book</command> command to create a new book. The <command>create_book</command> command creates all the necessary files to create a book.
@@ -67,7 +67,7 @@ Password:
 				<term><filename>-man</filename></term>
 				<listitem>
 					<para>
-						view the documentation-devil manual page. The manual page contains the same information returned by the <command>create_book -help</command> command.
+						view the publican manual page. The manual page contains the same information returned by the <command>create_book -help</command> command.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -115,7 +115,7 @@ Password:
 				<term><filename>--brand <replaceable>brand</replaceable></filename></term>
 				<listitem>
 					<para>
-						replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This requires the appropriate documentation-devil package to be installed. For example, to build RedHat branded books, you must install the documentation-devil-RedHat package. See <xref linkend="Documentation_Devel-Using_the_documentation_devel_tool_chain-Installing_documentation_devel" /> for instructions on installing the branded documentation-devil packages.
+						replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This requires the appropriate publican package to be installed. For example, to build RedHat branded books, you must install the publican-RedHat package. See <xref linkend="sect-Publican-Using_the_publican_tool_chain-Installing_publican" /> for instructions on installing the branded publican packages.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -135,9 +135,9 @@ create_book --name Test_Book
 		</para>
 	</section>
 	
-	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Files_in_the_Book_directory">
+	<section id="sect-Publican-Using_the_publican_tool_chain-Files_in_the_Book_directory">
 		<title>Files in the Book directory</title>
-		<formalpara id="Documentation_Devel-Files_in_the_Book_directory-Directory_Structure">
+		<formalpara id="form-Publican-Files_in_the_Book_directory-Directory_Structure">
 			<title>Directory Structure</title>
 			<para>
 				Running the <command>create_book --name <replaceable>Book_Name</replaceable></command> command will create a directory structure and the required files, similar to the following:
@@ -150,7 +150,7 @@ create_book --name Test_Book
 				</imageobject>
 			</mediaobject>
 		</para>
-		<section id="Documentation_Devel-Files_in_the_Book_directory-The_Makefile">
+		<section id="sect-Publican-Files_in_the_Book_directory-The_Makefile">
 			<title>The <filename>Makefile</filename></title>
 			<para>
 				The <filename>Makefile</filename> is used to configure build options, and is located in the root of the book directory. The following is an example <filename>Makefile</filename>, with instructions following afterwards:
@@ -163,7 +163,7 @@ PRODUCT        = Test_Product
 #OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN
 TRANSLATIONS   = $(XML_LANG) $(OTHER_LANGS)
 	
-COMMON_CONFIG   = /usr/share/documentation-devil
+COMMON_CONFIG   = /usr/share/publican
 include $(COMMON_CONFIG)/make/Makefile.common
 </screen>
 			<variablelist>
@@ -227,7 +227,7 @@ OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN
 ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 TRANSLATIONS   = $(XML_LANG) $(OTHER_LANGS)
 	
-COMMON_CONFIG  = /usr/share/documentation-devil
+COMMON_CONFIG  = /usr/share/publican
 include $(COMMON_CONFIG)/make/Makefile.common
 </screen>
 			</para>
@@ -242,7 +242,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</tip>
 		</section>
 		
-		<section id="Documentation_Devel-Files_in_the_Book_directory-Book_Info.xml">
+		<section id="sect-Publican-Files_in_the_Book_directory-Book_Info.xml">
 			<title>Book_Info.xml</title>
 			<para>
 				The <filename>Book_Info.xml</filename> file is used to set the book ID, title, subtitle, issue and product numbers, and an abstract which appears at the start of the book. The following is an example <filename>Book_Info.xml</filename> file for the Test_Book book, with instructions following afterwards:
@@ -327,7 +327,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;&lt;/abstract&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>abstract</replaceable> with the abstract for the book. The abstract appears before the table of contents when using HTML, and usually on the second page when using PDF. When building a book as an RPM the abstract is used in the RPM's spec file.
+							replace <replaceable>abstract</replaceable> with the abstract for the book. The abstract appears before the table of contents when using HTML, and usually on the second page when using PDF. When building a book as an RPM the abstract is used in the RPM&#39;s spec file.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -335,7 +335,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;year&gt;&amp;YEAR&semi;&lt;/year&gt;</filename></term>
 					<listitem>
 						<para>
-							The <filename>&amp;YEAR&semi;</filename> entity is defined in <filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to set the copyright year of the book. Refer to <xref linkend="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent"/> for configuration details.
+							The <filename>&amp;YEAR&semi;</filename> entity is defined in <filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to set the copyright year of the book. Refer to <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Name.ent" /> for configuration details.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -343,14 +343,14 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;holder&gt;&amp;HOLDER&semi;&lt;/holder&gt;</filename></term>
 					<listitem>
 						<para>
-							The <filename>&amp;HOLDER&semi;</filename> entity is defined in <filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to set the copyright holder of the book. Refer to <xref linkend="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent"/> for configuration details. The copyright section is not required.
+							The <filename>&amp;HOLDER&semi;</filename> entity is defined in <filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to set the copyright holder of the book. Refer to <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Name.ent" /> for configuration details. The copyright section is not required.
 						</para>
 					</listitem>
 				</varlistentry>
 			</variablelist>
 		</section>
 		
-		<section id="Documentation_Devel-Files_in_the_Book_directory-Author_Group.xml">
+		<section id="sect-Publican-Files_in_the_Book_directory-Author_Group.xml">
 			<title>Author_Group.xml</title>
 			<para>
 				Use the <filename>Author_Group.xml</filename> file to configure author details. This file is not required. The following is an example <filename>Author_Group.xml</filename> file:
@@ -394,7 +394,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 </screen>
 		</section>
 		
-		<section id="Documentation_Devel-Files_in_the_Book_directory-Chapter.xml">
+		<section id="sect-Publican-Files_in_the_Book_directory-Chapter.xml">
 			<title>Chapter.xml</title>
 			<para>
 				The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created after running the <command>create_book</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
@@ -437,7 +437,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</note>
 		</section>
 		
-		<section id="Documentation_Devel-Files_in_the_Book_directory-Book_Name.xml">
+		<section id="sect-Publican-Files_in_the_Book_directory-Book_Name.xml">
 			<title><replaceable>Book_Name</replaceable>.xml</title>
 			<para>
 				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file contains <filename>xi:include</filename> directives to include the chapters for a book. Chapters are contained in separate XML files, and the <filename><replaceable>Book_Name</replaceable>.xml</filename> file brings them together into a single book.
@@ -501,7 +501,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 		</section>
 		
-		<section id="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent">
+		<section id="sect-Publican-Files_in_the_Book_directory-Book_Name.ent">
 			<title><replaceable>Book_Name</replaceable>.ent</title>
 			<para>
 				The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is used to define local entities. You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the book will not build:
@@ -525,9 +525,10 @@ include $(COMMON_CONFIG)/make/Makefile.common
 				Two entities are defined: <computeroutput>FDP</computeroutput> and <computeroutput>FDS</computeroutput>. Instead of typing <computeroutput>Fedora Documentation Project</computeroutput> you can use <computeroutput>&amp;FDP&semi;</computeroutput>. The build system adds the required entities to the XML files at build time. In the example above, <computeroutput>&amp;FDP&semi;</computeroutput> would be replaced with Fedora Documentation Project.
 			</para>
 		</section>
+
 	</section>
 	
-	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Adding_Images">
+	<section id="sect-Publican-Using_the_publican_tool_chain-Adding_Images">
 		<title>Adding Images</title>
 		<para>
 			Use the <filename>images</filename> subdirectory in the <filename>en-<replaceable>US</replaceable>/</filename> directory to store images. Use <computeroutput>./images/<replaceable>image-name</replaceable></computeroutput> to insert images into a book. The following is an example that inserts the <filename>testimage.png</filename> image:
@@ -551,7 +552,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		</para>
 	</section>
 	
-	<section id="Documentation_Devel-Using_the_documentation_devel_tool_chain-Building_a_Book">
+	<section id="sect-Publican-Using_the_publican_tool_chain-Building_a_Book">
 		<title>Building a Book</title>
 		<para>
 			To build a book:
@@ -559,7 +560,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		<orderedlist>
 			<listitem>
 				<para>
-					Confirm the <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities have been configured in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file, as per <xref linkend="Documentation_Devel-Files_in_the_Book_directory-Book_Name.ent" />.
+					Confirm the <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities have been configured in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file, as per <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Name.ent" />.
 				</para>
 			</listitem>
 			<listitem>
@@ -609,7 +610,7 @@ make <replaceable>format</replaceable>
 		<para>
 			The following table lists commonly used <command>make</command> commands:
 		</para>
-		<table id="Documentation_Devel-Building_a_Book-Common_make_Commands">
+		<table id="tabl-Publican-Building_a_Book-Common_make_Commands">
 			<title>Common make Commands</title>
 			<tgroup cols="2">
 				<colspec colname="column1"></colspec>
@@ -704,18 +705,19 @@ make <replaceable>format</replaceable>
 						<entry>
 							<para>
 								Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput>
-						</para>
+							</para>
 						</entry>
 					</row>
 				</tbody>
 			</tgroup>
 		</table>
-			<warning>
+		<warning>
 			<title><command>make clean_ids</command></title>
-				<para>
-					Be careful running the <command>make clean_ids</command> command. To make translation easier, <command>make clean_ids</command> prepends the first four characters of the tag to the ID. Therefore you must ensure you have checked out the latest versions of the source and the translations before running <command>make clean_ids</command>. Failing to have the po files checked out when you run <command>make clean_ids</command> will result in the XML and po files becoming out of sync. This will require all links in the po files to be manually updated. As well, running <command>make clean_ids</command> will remove all comments!
-				</para>
-			</warning>
-		</section>
+			<para>
+				Be careful running the <command>make clean_ids</command> command. To make translation easier, <command>make clean_ids</command> prepends the first four characters of the tag to the ID. Therefore you must ensure you have checked out the latest versions of the source and the translations before running <command>make clean_ids</command>. Failing to have the po files checked out when you run <command>make clean_ids</command> will result in the XML and po files becoming out of sync. This will require all links in the po files to be manually updated. As well, running <command>make clean_ids</command> will remove all comments!
+			</para>
+		</warning>
+	</section>
+
 </chapter>
 
