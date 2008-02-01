@@ -1,6 +1,7 @@
-BRAND	= JBoss
-SPEC	= documentation-devil-$(BRAND).spec
-NAME	= documentation-devil-$(BRAND)
+REAL_BRAND	= JBoss
+BRAND	= jboss
+SPEC	= publican-$(BRAND).spec
+NAME	= publican-$(BRAND)
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD		= $(shell pwd)
@@ -24,10 +25,10 @@ srpm: dist
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
-	@cp documentation-devil-$(BRAND).spec $(RPMDIR)/SPECS/.
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
-	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
+	@cp publican-$(BRAND).spec $(RPMDIR)/SPECS/.
+	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
+	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
+	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
 	@echo "End $@"
 
 dist: clean
@@ -73,7 +74,7 @@ update-pot:
 # TODO: Get this in to SVN
 
 #CVS_ROOT = cvs.devel.redhat.com:/cvs/ecs
-#CVS_REPO = GUI_Strings/documentation-devil-JBoss
+#CVS_REPO = GUI_Strings/publican-JBoss
 
 #resync-po:: clean
 #	@echo "Start $@"
@@ -91,19 +92,19 @@ update-pot:
 
 entities::
 	@echo "Start $@"
-	@mkdir -p $(PWD)/Common_Content/$(BRAND)/en-US
-	@cp $(PWD)/en-US/*.ent $(PWD)/Common_Content/$(BRAND)/en-US/.
+	@mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/en-US
+	@cp $(PWD)/en-US/*.ent $(PWD)/Common_Content/$(REAL_BRAND)/en-US/.
 	@if [ -f en-US/Translatable-Entities.ent ]; then \
 		pushd en-US > /dev/null; \
 		for lang in $(LANGS); do \
-			if [ ! -d $(PWD)/Common_Content/$(BRAND)/$$lang ]; then \
-				mkdir -p $(PWD)/Common_Content/$(BRAND)/$$lang; \
+			if [ ! -d $(PWD)/Common_Content/$(REAL_BRAND)/$$lang ]; then \
+				mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/$$lang; \
 			fi; \
 			if [ ! -f ../$$lang/Translatable-Entities.po ]; then \
 				echo "../$$lang/Translatable-Entities.po MISSING Using en-US file"; \
 				cp Translatable-Entities.ent $(PWD)/Common_Content/common/$$lang/.; \
 			else \
-				$(PO2ENTITY) Translatable-Entities.ent ../$$lang/Translatable-Entities.po > $(PWD)/Common_Content/$(BRAND)/$$lang/Translatable-Entities.ent; \
+				$(PO2ENTITY) Translatable-Entities.ent ../$$lang/Translatable-Entities.po > $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/Translatable-Entities.ent; \
 			fi; \
 		done; \
 		popd > /dev/null; \
@@ -118,24 +119,24 @@ Common_Content:: entities
 		for lang in $(LANGS); do \
 			if [ ! -f ../$$lang/$$po_file ]; then \
 				echo "../$$lang/$$po_file MISSING Using en-US file"; \
-				cp $$xml_file $(PWD)/Common_Content/$(BRAND)/$$lang/$$xml_file; \
+				cp $$xml_file $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/$$xml_file; \
 			else \
-				po2xml $$xml_file ../$$lang/$$po_file > $(PWD)/Common_Content/$(BRAND)/$$lang/$$xml_file; \
+				po2xml $$xml_file ../$$lang/$$po_file > $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/$$xml_file; \
 			fi; \
 		done; \
-		cp $$xml_file $(PWD)/Common_Content/$(BRAND)/en-US/$$xml_file; \
+		cp $$xml_file $(PWD)/Common_Content/$(REAL_BRAND)/en-US/$$xml_file; \
 	done; \
 	cd ..; \
 	for lang in $(LANGS) en-US; do \
 		if [ -d $$lang/css ]; then \
-			mkdir -p  $(PWD)/Common_Content/$(BRAND)/$$lang/css; \
-			cp -rf $$lang/css/*.css  $(PWD)/Common_Content/$(BRAND)/$$lang/css/.; \
+			mkdir -p  $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/css; \
+			cp -rf $$lang/css/*.css  $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/css/.; \
 		fi; \
 	done; \
 	for lang in $(LANGS) en-US; do \
 		if [ -d $$lang/images ]; then \
-			mkdir -p  $(PWD)/Common_Content/$(BRAND)/$$lang/images; \
-			cp -rf $$lang/images/*  $(PWD)/Common_Content/$(BRAND)/$$lang/images/.; \
+			mkdir -p  $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/images; \
+			cp -rf $$lang/images/*  $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/images/.; \
 		fi; \
 	done; \
 	cd $(PWD);

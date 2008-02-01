@@ -1,6 +1,6 @@
 BRAND	= fedora
-SPEC	= documentation-devil-$(BRAND).spec
-NAME	= documentation-devil-$(BRAND)
+SPEC	= publican-$(BRAND).spec
+NAME	= publican-$(BRAND)
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD		= $(shell pwd)
@@ -24,10 +24,10 @@ srpm: dist
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
-	@cp documentation-devil-$(BRAND).spec $(RPMDIR)/SPECS/.
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
-	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/documentation-devil-$(BRAND).spec
+	@cp publican-$(BRAND).spec $(RPMDIR)/SPECS/.
+	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
+	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
+	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
 	@echo "End $@"
 
 dist: clean
@@ -72,7 +72,7 @@ update-pot:
 
 # TODO Get this in to SVN?
 #CVS_ROOT = cvs.devel.redhat.com:/cvs/ecs
-#CVS_REPO = GUI_Strings/documentation-devil-RHEL
+#CVS_REPO = GUI_Strings/publican-RHEL
 
 #resync-po:: clean
 #	@echo "Start $@"

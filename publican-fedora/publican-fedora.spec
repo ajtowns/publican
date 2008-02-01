@@ -1,8 +1,8 @@
 %define brand fedora
 
-Name:		documentation-devil-%{brand}
+Name:		publican-%{brand}
 Summary:	Common documentation files for %{brand}
-Version:	0.5
+Version:	0.6
 Release:	0%{?dist}
 License:	Open Publication License
 Group:		Applications/Text
@@ -11,8 +11,8 @@ Buildarch:	noarch
 Source:		%{name}-%{version}.tgz
 Requires(post): coreutils
 Requires(postun): coreutils
-Requires:	documentation-devil
-BuildRequires:	documentation-devil
+Requires:	publican
+BuildRequires:	publican
 URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel-Fedora
 
@@ -27,8 +27,8 @@ Common files for building %{brand} documentation.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/documentation-devil/
-cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/documentation-devil/
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/
+cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -36,9 +36,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc README
-%{_datadir}/documentation-devil/Common_Content/%{brand}
+%{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Feb 01 2008 Jeff Fearn <jfearn@redhat.com> 0.6-0
+- Switch from documentation-devil to publican
+
 * Thu Jan 17 2008 Jeff Fearn <jfearn@redhat.com> 0.5-0
 - Switch from documentation-devel to documentation-devil
 
