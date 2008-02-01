@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title><TMPL_VAR name="title"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="Common_Content/css/reporting.css" />
+  </head>
+  <body class="results">
+	<h1><TMPL_VAR name="title"></h1>
+	<p id="powered"><strong>Powered by Red Hat</strong></p>
+	<p class="home"><a class="home-link" href="index.html">Overview</a></p>
+	<div id="words">
+		<h2 class="words">Words</h2>
+		<div class="progress">
+			<span class="translated" style="width:<TMPL_VAR name="words_translated_pct">%"></span>
+			<span class="fuzzy" style="width:<TMPL_VAR name="words_fuzzy_pct">%"></span>
+		</div>
+		<dl>
+			<dt class="fuzzy">Fuzzy:</dt> <dd  class="fuzzy"><TMPL_VAR name="words_fuzzy"></dd>
+			<dt class="translated">Translated:</dt> <dd class="translated"><TMPL_VAR name="words_translated"></dd>
+			<dt class="total">Total:</st> <dd class="total"><TMPL_VAR name="words_total"></dd>
+		</dl>
+	</div>
+	<div id="hours">
+		<h2 class="hours">Hours</h2>
+		<div class="progress">
+			<span class="translated" style="width:<TMPL_VAR name="hours_translated_pct">%"></span>
+			<span class="fuzzy" style="width:<TMPL_VAR name="hours_fuzzy_pct">%"></span>
+		</div>
+		<dl>
+			<dt class="fuzzy">Fuzzy:</dt> <dd class="fuzzy"><TMPL_VAR name="hours_fuzzy"></dd>
+			<dt class="untranslated">Untranslated:</dt> <dd class="untranslated"><TMPL_VAR name="hours_untranslated"></dd>
+			<dt class="remaining">Remaining:</st> <dd class="remaining"><TMPL_VAR name="hours_remaining"></dd>
+		</dl>
+	</div>
+	<ul class="locale">
+	<TMPL_LOOP NAME="files">
+		<li>
+			<h3 class="pofile"><TMPL_VAR name="file">:</h3>
+			<div class="progress">
+				<span class="translated" style="width:<TMPL_VAR name="translated_pct">%"></span>
+				<span class="fuzzy" style="width:<TMPL_VAR name="fuzzy_pct">%"></span>
+			</div>
+			<dl>
+				<dt class="fuzzy">Fuzzy:</dt> <dd  class="fuzzy"><TMPL_VAR name="fuzzy"></dd>
+				<dt class="translated">Translated:</dt> <dd class="translated"><TMPL_VAR name="translated"></dd>
+				<dt class="total">Total:</st> <dd class="total"><TMPL_VAR name="total"></dd>
+			</dl>
+			<form class="controls" method="post" action=cgi-bin/docbot>
+				<input class="disabled" type="submit" name="take" disabled value="Take"/>
+				<input class="disabled" type="submit" name="release" disabled value="Release"/>
+				<input class="disabled" type="submit" name="free" disabled value="Free"/>
+			</form>
+		</li>
+	</TMPL_LOOP>
+	</ul>
+</body>
+</html>
+
