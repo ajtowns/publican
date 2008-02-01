@@ -35,8 +35,8 @@ done
 # TODO This should be automated
 cat > $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop <<'EOF'
 [Desktop Entry]
-Name=Publication
-Comment=How to use Publication
+Name=Publican
+Comment=How to use Publican
 Exec=yelp %{_docdir}/%{name}-%{version}/en-US/index.html
 Icon=%{_docdir}/%{name}-%{version}/en-US/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
