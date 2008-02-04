@@ -2,12 +2,12 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<chapter id="chap-Publican-Using_the_publican_tool_chain">
-	<title>Using the publican tool chain</title>
+<chapter id="chap-Publican-Using_the_publican_package">
+	<title>Using the publican package</title>
 	<para>
 		This chapter describes the process of installing the publican package, creating books, the main configuration files, example book files, and how to build a book.
 	</para>
-	<section id="sect-Publican-Using_the_publican_tool_chain-Installing_publican">
+	<section id="sect-Publican-Using_the_publican_package-Installing_publican">
 		<title>Installing publican</title>
 		<para>
 			To install publican:
@@ -36,7 +36,7 @@ Password:
 			</listitem>
 		</orderedlist>
 		<para>
-			Alternatively, there are three branded publican packages available: RedHat, Fedora and JBoss. Run the following command as the root user to build branded books:
+			As well, there are three branded publican packages available: RedHat, Fedora and JBoss. Run the following command as the root user to build branded books:
 		</para>
 <screen>
 # yum install publican-<replaceable>brand</replaceable>
@@ -46,7 +46,7 @@ Password:
 		</para>
 	</section>
 	
-	<section id="sect-Publican-Using_the_publican_tool_chain-Creating_a_Book">
+	<section id="sect-Publican-Using_the_publican_package-Creating_a_Book">
 		<title>Creating a Book</title>
 		<para>
 			Use the <command>create_book</command> command to create a new book. The <command>create_book</command> command creates all the necessary files to create a book.
@@ -115,7 +115,7 @@ Password:
 				<term><filename>--brand <replaceable>brand</replaceable></filename></term>
 				<listitem>
 					<para>
-						replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This requires the appropriate publican package to be installed. For example, to build RedHat branded books, you must install the publican-RedHat package. See <xref linkend="sect-Publican-Using_the_publican_tool_chain-Installing_publican" /> for instructions on installing the branded publican packages.
+						replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This requires the appropriate publican package to be installed. For example, to build RedHat branded books, you must install the publican-RedHat package. See <xref linkend="sect-Publican-Using_the_publican_package-Installing_publican" /> for instructions on installing the branded publican packages.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -135,7 +135,7 @@ create_book --name Test_Book
 		</para>
 	</section>
 	
-	<section id="sect-Publican-Using_the_publican_tool_chain-Files_in_the_Book_directory">
+	<section id="sect-Publican-Using_the_publican_package-Files_in_the_Book_directory">
 		<title>Files in the Book directory</title>
 		<formalpara id="form-Publican-Files_in_the_Book_directory-Directory_Structure">
 			<title>Directory Structure</title>
@@ -528,7 +528,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 
 	</section>
 	
-	<section id="sect-Publican-Using_the_publican_tool_chain-Adding_Images">
+	<section id="sect-Publican-Using_the_publican_package-Adding_Images">
 		<title>Adding Images</title>
 		<para>
 			Use the <filename>images</filename> subdirectory in the <filename>en-<replaceable>US</replaceable>/</filename> directory to store images. Use <computeroutput>./images/<replaceable>image-name</replaceable></computeroutput> to insert images into a book. The following is an example that inserts the <filename>testimage.png</filename> image:
@@ -552,7 +552,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		</para>
 	</section>
 	
-	<section id="sect-Publican-Using_the_publican_tool_chain-Building_a_Book">
+	<section id="sect-Publican-Using_the_publican_package-Building_a_Book">
 		<title>Building a Book</title>
 		<para>
 			To build a book:
