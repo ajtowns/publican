@@ -8,7 +8,7 @@
 	Author: Andy Fitzsimon <afitzsim@redhat.com>
 -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 				xmlns:exsl="http://exslt.org/common"
 				xmlns:xtext="xalan://com.nwalsh.xalan.Text"
 				xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -36,7 +36,7 @@
 <xsl:param name="html.stylesheet.type" select="'text/css'"/>
 <xsl:param name="html.cleanup" select="1"/>
 <xsl:param name="html.ext" select="'.html'"/>
-<xsl:output method="html" indent="yes"/>
+<xsl:output method="xml" indent="yes"/>
 
 
 <!-- TOC -->

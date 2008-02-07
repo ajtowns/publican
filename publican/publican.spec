@@ -1,7 +1,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.26
-Release:	6%{?dist}
+Release:	6.19%{?dist}
 License:	GPL+
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
@@ -69,12 +69,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
-* Thu Feb 07 2008 Jeff Fearn <jfearn@redhat.com> 0.26-6
+* Thu Feb 07 2008 Jeff Fearn <jfearn@redhat.com> 0.27-0
 - Use docbook-style-xsl: this will break formatting.
-- Update custom xsl to use docbook-xsl-1.73.2: this will break formatting
-- Remove CATALOGS over ride: may impact build speed
-- Remove Red hat specific clause from Makefile.common:
-- 	This means Red Hat writers can't use fedora
+- Update custom xsl to use docbook-xsl-1.73.2: this will break formatting.
+- Remove CATALOGS override
+- Remove Red Hat specific clause from Makefile.common
+- Fixed inavlid xhtml BZ 428931
 
 * Fri Feb 01 2008 Jeff Fearn <jfearn@redhat.com> 0.26-5
 - renamed from documentation-devil to publican
