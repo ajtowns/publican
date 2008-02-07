@@ -1,8 +1,8 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.26
-Release:	6.19%{?dist}
-License:	GPL+
+Version:	0.27
+Release:	0%{?dist}
+License:	GPL2
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
 Buildarch:	noarch
@@ -75,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 - Remove CATALOGS override
 - Remove Red Hat specific clause from Makefile.common
 - Fixed inavlid xhtml BZ 428931
+- Update License to GPL2
+- Add GPL2 Header to numerous files
 
 * Fri Feb 01 2008 Jeff Fearn <jfearn@redhat.com> 0.26-5
 - renamed from documentation-devil to publican
