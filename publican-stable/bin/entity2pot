@@ -1,0 +1,22 @@
+#!/usr/bin/env perl
+
+# updated for RHN: Bernd Groh <bgroh@redhat.com>, 2005
+use strict;
+use warnings;
+
+while (<>) {
+	next unless /\<\!ENTITY/;
+	#<!ENTITY RH "Red Hat">
+	chomp;
+	if (/^[^"]+\s+([^"]+)\s+\"([^"]+)\"/) {
+		my $tag = $1;
+		my $string = $2;
+		print qq [
+#. $tag
+#: rh-entity:$.
+#, no-c-format
+msgid "$string"
+msgstr ""
+];
+	}
+}

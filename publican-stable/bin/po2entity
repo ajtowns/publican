@@ -1,0 +1,50 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+
+open(PO, "<$ARGV[1]") || die "$!";
+
+my $rs = $/;
+my %po;
+my ($msgid, $msgstr);
+
+$/="\n\n";
+
+while (<PO>) {
+	next unless /#: rh-entity/s;
+	($msgid, $msgstr) = /msgid \"(.*?)\"\nmsgstr \"(.*?)\"\n/;
+	$po{$msgid} = $msgstr;
+}
+
+close (PO);
+
+$/ = $rs;
+
+open(XML, "<$ARGV[0]") || die "$!";
+
+while (<XML>) {
+	my $line = $_;
+	while (($line =~ /^\s*<!\s*ENTITY/s) && (!($line =~ />\s*$/s)) && (my $nextline = <XML>)) {
+		$line .= $nextline;
+	}
+	
+	if ($line =~ /^\s*<!\s*ENTITY\s+[^"]+\s+\"([^"]+)\"\s*>/s) {
+		my $entitystr = $1;
+		my $entityid = $entitystr;
+		$entityid =~ s/\n//sg;
+		
+		foreach $msgid (keys %po) {
+			if ($msgid eq $entityid) {
+				next unless $msgstr = $po{$msgid};
+				$line =~ s/\"$entitystr\"/\"$msgstr\"/s;
+				last;
+			}
+		}
+	}
+	
+	print $line;
+}
+
+close(XML);

@@ -1,0 +1,182 @@
+# translation of Code-Conventions.po to
+# Xi HUANG <xhuang@redhat.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: Code-Conventions\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2007-12-16 21:41+0000\n"
+"PO-Revision-Date: 2007-10-23 10:40+1000\n"
+"Last-Translator: Xi HUANG <xhuang@redhat.com>\n"
+"Language-Team:  <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Tag: title
+#: Code-Conventions.xml:5
+#, no-c-format
+msgid "Code Presentation Conventions"
+msgstr "代码显示约定"
+
+#. Tag: para
+#: Code-Conventions.xml:7
+#, fuzzy, no-c-format
+msgid ""
+"In addition to the standard document conventions covered in <xref linkend="
+"\"Document_Conventions\"/>, there are some additional conventions related "
+"specifically to discussing source code:"
+msgstr ""
+"除了 <xref linkend=\"sn-conventions\"/> 里涵盖的标准文档约定，我们还有一些与"
+"源码相关的其他约定："
+
+#. Tag: classname
+#: Code-Conventions.xml:16
+#, no-c-format
+msgid "classname"
+msgstr "classname"
+
+#. Tag: para
+#: Code-Conventions.xml:18
+#, no-c-format
+msgid ""
+"This is the name of a class in an object-oriented (<firstterm>OO</"
+"firstterm>) programming language. For example, the class <classname>com."
+"arsdigita.categorization.CategoryTreeNode</classname> ."
+msgstr ""
+"这是面向对象（<firstterm>OO</firstterm>）编程语言里的类的名字。例如，"
+"<classname>com.arsdigita.categorization.CategoryTreeNode</classname> 类。"
+
+#. Tag: methodname
+#: Code-Conventions.xml:29
+#, no-c-format
+msgid "method name"
+msgstr "method name"
+
+#. Tag: para
+#: Code-Conventions.xml:31
+#, no-c-format
+msgid ""
+"This is the name of a method in an OO programming language, e.g. the method "
+"<methodname>getBaseDataObjectType</methodname> ."
+msgstr ""
+"这是面向对象编程语言里的方法的名字。例如，<methodname>getBaseDataObjectType</"
+"methodname> 方法。"
+
+#. Tag: function
+#: Code-Conventions.xml:41
+#, no-c-format
+msgid "function"
+msgstr "function"
+
+#. Tag: para
+#: Code-Conventions.xml:43
+#, no-c-format
+msgid ""
+"The name of a function or subroutine, as in a programming language. For "
+"example, the function <function>SecurityLogger.warn()</function> ."
+msgstr ""
+"这是编程语言里的函数或子程序的名字。例如，<function>SecurityLogger.warn()</"
+"function> 函数。"
+
+#. Tag: varname
+#: Code-Conventions.xml:53
+#, no-c-format
+msgid "variable name"
+msgstr "variable name"
+
+#. Tag: para
+#: Code-Conventions.xml:55
+#, no-c-format
+msgid ""
+"The name of a variable. For example, the variable "
+"<varname>BASE_DATA_OBJECT_TYPE</varname> ."
+msgstr "变量的名字。例如，变量 <varname>BASE_DATA_OBJECT_TYPE</varname>。"
+
+#. Tag: option
+#: Code-Conventions.xml:64
+#, no-c-format
+msgid "option"
+msgstr "option"
+
+#. Tag: para
+#: Code-Conventions.xml:66
+#, no-c-format
+msgid ""
+"An option for a software command or <methodname>Method</methodname> . For "
+"example, a user has been granted <option>read</option> privileges on an "
+"object."
+msgstr ""
+"软件命令或<methodname>方法</methodname>的参数。例如，用户已经被赋予某个对象的"
+"<option>读</option>权限。"
+
+#. Tag: returnvalue
+#: Code-Conventions.xml:76
+#, no-c-format
+msgid "return value"
+msgstr "return value"
+
+#. Tag: para
+#: Code-Conventions.xml:78
+#, no-c-format
+msgid ""
+"The value returned by a function. For example, a method returns "
+"<returnvalue>null</returnvalue> ."
+msgstr ""
+"函数所返回的值。例如，某个方法返回的值为 <returnvalue>null</returnvalue>。"
+
+#. Tag: term
+#: Code-Conventions.xml:87
+#, no-c-format
+msgid "program listing"
+msgstr "program listing"
+
+#. Tag: para
+#: Code-Conventions.xml:89
+#, no-c-format
+msgid "A literal listing of all or part of a program:"
+msgstr "某个程序的全部或部分代码列表："
+
+#. Tag: programlisting
+#: Code-Conventions.xml:92
+#, no-c-format
+msgid ""
+"extern void sem_exit (void);\n"
+"extern struct task_struct *child_reaper;\n"
+" \n"
+"int getrusage(struct task_struct *, int, struct rusage *);\n"
+" \n"
+"static void __unhash_process(struct task_struct *p)\n"
+"{\n"
+"        nr_threads--;\n"
+"        detach_pid(p, PIDTYPE_PID);\n"
+"        detach_pid(p, PIDTYPE_TGID);\n"
+"        if (thread_group_leader(p)) {\n"
+"                detach_pid(p, PIDTYPE_PGID);\n"
+"                detach_pid(p, PIDTYPE_SID);\n"
+"        }\n"
+" \n"
+"        REMOVE_LINKS(p);\n"
+"        p->pid = 0;\n"
+"}"
+msgstr ""
+
+#. Tag: term
+#: Code-Conventions.xml:97
+#, no-c-format
+msgid "first term"
+msgstr "first term"
+
+#. Tag: para
+#: Code-Conventions.xml:99
+#, no-c-format
+msgid ""
+"The first occurrence of a term, such as the first time we introduce a "
+"<firstterm>bulletin-board</firstterm> and note its abbreviated form, "
+"<firstterm>bboard</firstterm>."
+msgstr ""
+"术语的第一次出现，如我们第一次介绍 <firstterm>bulletin-board</firstterm> 并以"
+"其缩写形式标记为 <firstterm>bboard</firstterm>。"
+
+#~ msgid "translator-credits"
+#~ msgstr "translator-credits"

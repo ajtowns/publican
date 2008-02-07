@@ -1,0 +1,227 @@
+#!/usr/bin/perl -w
+#
+# Usage:
+#	poxmerge
+#		[--quiet]
+#		[--output=<output-dir>]
+#		[--sub-dirs=<sub-directories>]
+#		--langs=<locales>
+#		--lang-dir=<lang-dir>
+#		<main-file>
+#
+# Description:
+#	poxmerge merges po files into xml files for an entire book
+#	--lang-dir is the directory of the po files
+#	if --langs contains more than one lang, <lang-dir> must contain a %s
+#	to substitute it with individual langs
+#	--langs is a comma-delimited list of locales, for which to merge
+#
+# Author:
+#	Bernd Groh <bgroh@redhat.com>, 2005
+#
+
+use strict;
+use warnings;
+use Getopt::Long;
+use File::Path;
+
+my $home = $ENV{'HOME'};
+my $startdir = `pwd`;
+$startdir =~ s/\/?\n$/\//;
+
+my $langdir = undef;
+my $locales = undef;
+my $output = './';
+my $quiet = 0;
+my $subdirs = undef;
+
+GetOptions(
+	'q|quiet' => \$quiet,
+	'o|output=s' => \$output,
+	'd|lang-dir=s' => \$langdir,
+	'l|lang|langs=s' => \$locales,
+	's|sub|subs|sub-dir|sub-dirs|sub-directory|sub-directories=s' => \$subdirs
+);
+
+if ((!@ARGV) || (!$locales) || (!$langdir)) {
+	print STDERR "Usage: poxmerge\n\t[--quiet]\n\t[--output=<output-dir>]\n\t--langs=<locales>\n\t--lang-dir=<lang-dir>\n\t[--sub-dirs=<sub-directories>]\n\t<main-file>\n";
+	exit 0;
+}
+
+my $main_file = shift(@ARGV);
+
+if (!(-f $main_file)) {
+	print STDERR "$main_file: No such file exists\n";
+	exit 0;
+}
+
+my $dir = undef;
+my $main = undef;
+
+if ($main_file =~ /^(.+\/)([^\/]+\.xml)$/) {
+	$dir = $1;
+	$main = $2;
+} elsif ($main_file =~ /^([^\/]+\.xml)$/) {
+	$dir = './';
+	$main = $1;
+} else {
+	print STDERR "$main_file: Not a valid file\n";
+	exit 0;
+}
+
+if ($langdir =~ /^~\//) {
+	$langdir =~ s/^~/$home/;
+} elsif ($langdir =~ /^[^\/]/) {
+	$langdir = $startdir . $langdir;
+}
+if (!($langdir =~ /\/$/)) {
+	$langdir .= '/';
+}
+
+if ($output =~ /^~\//) {
+	$output =~ s/^~/$home/;
+}
+if (!(-d $output)) {
+	#jfearn: try making the output instead of making user create it manually
+	mkdir $output;
+	if (!(-d $output)) {
+		print(STDERR "$output: No such directory exists\n");
+		exit 0;
+	}
+} elsif (!($output =~ /\/$/)) {
+	$output .= '/';
+}
+
+# jfearn: stay here, modify system commands later on to redirect output
+#if ($output ne './') {
+#	chdir $output or die $0;
+#}
+
+my @subs = ();
+if ($subdirs) {
+	@subs = split(',', $subdirs);
+}
+
+if (!($langdir =~ /\/$/)) {
+	$langdir .= '/';
+}
+
+my @langs = split(',', $locales);
+my @lang_dirs = ();
+
+if (@langs > 1) {
+	if (!($langdir =~ /%s/)) {
+		print STDERR "$langdir: Not a valid lang-dir string\nNeeds to contain a \%s to allow for substitution of langs\n";
+		exit 0;
+	}
+	
+	for (my $i = 0; $i < @langs; $i++) {
+		my $lang_dir = sprintf($langdir, $langs[$i]);
+
+		if (!(-d $lang_dir)) {
+			print STDERR "$lang_dir: No such directory exists\n";
+			exit 0;
+		}
+		
+		push @lang_dirs, $lang_dir;
+		
+		if (!(-d $langs[$i])) {
+			mkdir $langs[$i] or die "Cant create dir " .  $langs[$i] . ": $!";
+		}
+		
+		foreach my $sub (@subs) {
+			if (!(-d ($langs[$i] . '/' . $sub))) {
+				mkpath ($langs[$i] . '/' . $sub) or die "Cant create dir " .  $langs[$i] . "/$sub: $!";
+			}
+		}
+	}
+} elsif (@langs == 1) {
+	if ($langdir =~ /%s/) {
+		$langdir = sprintf($langdir, $langs[0]);
+	}
+	
+	if (!(-d $langdir)) {
+		print STDERR "$langdir: No such directory exists\n";
+		exit 0;
+	}
+	
+	my $lang = $langs[0];
+	
+	if (!($langdir =~ /\W$lang\W/)) {
+		print STDERR "$langdir: Not a valid lang-dir for the given lang\n";
+		exit 0;
+	}
+	
+	push @lang_dirs, $langdir;
+	
+	if (!(-d $lang)) {
+		mkdir $lang or die "Cant create dir $lang: $!";
+	}
+	
+	foreach my $sub (@subs) {
+		if (!(-d ($lang . '/' . $sub))) {
+			mkpath ($lang . '/' . $sub) or die "Cant create dir $lang/$sub: $!";
+		}
+	}
+}
+
+my $file = undef;
+# jfearn: found pwd useful
+opendir(DIR, $dir) or die "Error: Cannot opendir $dir at " . `pwd`;
+
+while (defined($file = readdir(DIR))) {
+	if ($file =~ /\.xml$/) {
+		if (!$quiet) {
+			 print(STDERR "Processing $dir$file...\n");
+		}
+		my $i = 0;
+		foreach my $lang (@langs) {
+			my $pofile = $lang_dirs[$i] . $file;
+			$pofile =~ s/\.xml$/\.po/;
+			if (!$quiet) {
+				 print(STDERR "-n Merging $pofile...");
+			}
+			# jfearn: adding $output makes paths works nicer
+			system("po2xml $dir$file $pofile > $output/$file");
+			if (!$quiet) {
+				 print(STDERR "done.");
+			}
+			$i++;
+		}
+		if (!$quiet) {
+			 print(STDERR "Done.\n");
+		}
+	}
+}
+closedir(DIR);
+
+foreach my $sub (@subs) {
+	if (!($sub =~ /\/$/)) { $sub .= '/' };
+	opendir(DIR, "$dir$sub") or die "Error: Cannot opendir $dir$sub";
+	while (defined($file = readdir(DIR))) {
+		if ($file =~ /\.xml$/) {
+			if (!$quiet) {
+				print(STDERR "Processing $dir$sub$file...\n");
+			}
+			my $i = 0;
+			foreach my $lang (@langs) {
+				my $pofile = $lang_dirs[$i] . $sub . $file;
+				$pofile =~ s/\.xml$/\.po/;
+				my $cmd = "po2xml $dir$sub$file $pofile > $output$sub$file";
+				if (!$quiet) {
+					 print(STDERR "-n Merging $pofile...");
+				}
+				# jfearn: adding $output makes paths works nicer
+				system($cmd);
+				if (!$quiet) {
+					 print(STDERR "done.");
+				}
+				$i++;
+			}
+			if (!$quiet) {
+				print(STDERR "Done.\n");
+			}
+		}
+	}
+	closedir(DIR);
+}
