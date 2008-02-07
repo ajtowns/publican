@@ -13,7 +13,7 @@
 				version="1.0"
 				exclude-result-prefixes="exsl">
 
-	<xsl:import href="http://docbook.sourceforge.net/release/xsl/1.72.0/xhtml/docbook.xsl"/>
+	<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"/>
 
 	<xsl:include href="defaults.xsl"/>
 	<xsl:include href="xhtml-common.xsl"/>

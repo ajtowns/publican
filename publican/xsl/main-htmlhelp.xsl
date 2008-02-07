@@ -12,10 +12,10 @@
 				xmlns:exsl="http://exslt.org/common"
 				version="1.0"
 				exclude-result-prefixes="exsl">
-<!--xsl:import href="http://docbook.sourceforge.net/release/xsl/1.72.0/htmlhelp/htmlhelp.xsl"/-->
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/1.72.0/xhtml/docbook.xsl"/>
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/1.72.0/xhtml/chunk-common.xsl"/>
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/1.72.0/xhtml/chunk-code.xsl"/>
+<!--xsl:import href="http://docbook.sourceforge.net/release/xsl/current/htmlhelp/htmlhelp.xsl"/-->
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk-common.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk-code.xsl"/>
 <xsl:import href="xhtml-common.xsl"/>
 
 <xsl:include href="defaults.xsl"/>

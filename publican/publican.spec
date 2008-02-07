@@ -1,15 +1,15 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.26
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPL+
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
 Buildarch:	noarch
 Source:		%{name}-%{version}.tgz
 # need kdesdk for po2xml
-Requires:	gettext libxslt kdesdk dejavu-lgc-fonts
-BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
+Requires:	gettext libxslt kdesdk dejavu-lgc-fonts docbook-style-xsl
+BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel  < 0.26-3
 
@@ -69,6 +69,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Thu Feb 07 2008 Jeff Fearn <jfearn@redhat.com> 0.26-6
+- Use docbook-style-xsl: this will break formatting.
+- Update custom xsl to use docbook-xsl-1.73.2: this will break formatting
+- Remove CATALOGS over ride: may impact build speed
+- Remove Red hat specific clause from Makefile.common:
+- 	This means Red Hat writers can't use fedora
+
 * Fri Feb 01 2008 Jeff Fearn <jfearn@redhat.com> 0.26-5
 - renamed from documentation-devil to publican
 

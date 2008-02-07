@@ -3,56 +3,28 @@
 #Copyright Red Hat Inc. 2006
 
 # Default values, only set if not set in book Makefile
-XMLFILE			?= $(XML_LANG)/$(DOCNAME).xml
-DOC_TYPE		?= Book
-VERSION			?= $(shell awk '/<issuenum>(.*)<\/issuenum>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*issuenum>//g')
-RELEASE			?= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
-MKPOT			?= mkxpot
-XSLTPROC		?= xsltproc
-PWD				= $(shell pwd)
+XMLFILE		?= $(XML_LANG)/$(DOCNAME).xml
+DOC_TYPE	?= Book
+VERSION		?= $(shell awk '/<issuenum>(.*)<\/issuenum>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*issuenum>//g')
+RELEASE		?= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
+MKPOT		?= mkxpot
+XSLTPROC	?= xsltproc
+PWD		= $(shell pwd)
 CONFIDENTIAL	?= 0
-BREW_DIST		?= dist-5E-qu-candidate
+BREW_DIST	?= dist-5E-qu-candidate
 TRANSLATIONS	?= $(XML_LANG) $(OTHER_LANGS)
-EXTRA_DIRS		?= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v '.svn' | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
-XMLCLEAN		= xmlClean
-PRODUCT			?= Documentation
+EXTRA_DIRS	?= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v '.svn' | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
+XMLCLEAN	= xmlClean
+PRODUCT		?= Documentation
 
 ###############################################################################
 ######### SPEC File Vars ##############
 ###############################################################################
-SPEC_NAME		= $(PRODUCT)-$(DOCNAME)
-SPEC_XSL		?= $(COMMON_CONFIG)/xsl/spec.xsl
+SPEC_NAME	= $(PRODUCT)-$(DOCNAME)
+SPEC_XSL	?= $(COMMON_CONFIG)/xsl/spec.xsl
 SUB_SPEC_XSL	?= $(COMMON_CONFIG)/xsl/sub_package.xsl
-
-# hack, RHEL SHIPPED products where in RHEL5 before this multi-product layout was in place
-# So we have to use a different naming scheme for the 4 shipped books
-ifeq "$(PRODUCT)" "Red_Hat_Enterprise_Linux"
-ifeq "$(DOCNAME)" "Deployment_Guide"
-SPEC_NAME		= $(DOCNAME)
-# TODO: verify the new style sheets don't break the shipped books
-# the old ones are still there just in case
-#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
-#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
-endif
-ifeq "$(DOCNAME)" "Virtualization"
-SPEC_NAME		= $(DOCNAME)
-#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
-#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
-endif
-ifeq "$(DOCNAME)" "Global_File_System"
-SPEC_NAME		= $(DOCNAME)
-#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
-#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
-endif
-ifeq "$(DOCNAME)" "Cluster_Administration"
-SPEC_NAME		= $(DOCNAME)
-#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
-#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
-endif
-endif
-
-BUILD_NAME		= $(SPEC_NAME)-$(VERSION)
-TAR_NAME		= $(BUILD_NAME)-$(RELEASE)
+BUILD_NAME	= $(SPEC_NAME)-$(VERSION)
+TAR_NAME	= $(BUILD_NAME)-$(RELEASE)
 
 ###############################################################################
 ###############################################################################

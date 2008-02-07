@@ -19,8 +19,8 @@
 		xmlns:fo="http://www.w3.org/1999/XSL/Format"
 		exclude-result-prefixes="#default">
 
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/1.72.0/fo/docbook.xsl"/>
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/1.72.0/fo/graphics.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
 <xsl:import href="defaults.xsl"/>
 <xsl:param name="alignment">left</xsl:param>
 <xsl:param name="use.extensions" select="0"/>
