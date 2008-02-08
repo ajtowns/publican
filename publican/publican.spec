@@ -2,14 +2,15 @@ Name:		publican
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.27
 Release:	0%{?dist}
-License:	GPL2
+License:	GPLv2+
 Group:		Applications/Text
-Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		%{name}-%{version}.tgz
 # need kdesdk for po2xml
 Requires:	gettext libxslt kdesdk dejavu-lgc-fonts docbook-style-xsl
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
+BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel  < 0.26-3
 
@@ -32,18 +33,7 @@ for i in fop make xsl Common_Content templates Book_Template; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
 
-# TODO This should be automated
-cat > $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop <<'EOF'
-[Desktop Entry]
-Name=Publican
-Comment=How to use Publican
-Exec=yelp %{_docdir}/%{name}-%{version}/en-US/index.html
-Icon=%{_docdir}/%{name}-%{version}/en-US/images/icon.svg
-Categories=Documentation;X-Red-Hat-Base;
-Type=Application
-Encoding=UTF-8
-Terminal=false
-EOF
+desktop-file-install --vendor="fedora" --dir=%{RPM_BUILD_ROOT}%{_datadir}/applications %{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -51,6 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README
+%doc gpl.txt
 %doc docs/*
 %{_datadir}/%{name}
 %{_bindir}/create_book
@@ -69,12 +60,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Fri Feb 08 2008 Jeff Fearn <jfearn@redhat.com> 0.27-1
+- Added gpl.txt
+- Fix GPL identifier
+- Fixed Build root
+
 * Thu Feb 07 2008 Jeff Fearn <jfearn@redhat.com> 0.27-0
 - Use docbook-style-xsl: this will break formatting.
 - Update custom xsl to use docbook-xsl-1.73.2: this will break formatting.
 - Remove CATALOGS override
 - Remove Red Hat specific clause from Makefile.common
-- Fixed inavlid xhtml BZ 428931
+- Fixed invalid xhtml BZ 428931
 - Update License to GPL2
 - Add GPL2 Header to numerous files
 
