@@ -22,6 +22,8 @@ Common files and scripts for publishing documentation.
 
 %build
 %{__make} docs
+sed -i -e 's/@@FILE@@/%{_docdir}\/%{name}-%{version}\/en-US\/index.html/' %{name}.desktop
+sed -i -e 's/@@ICON@@/%{_docdir}\/%{name}-%{version}\/en-US\/images\/icon.svg/'  %{name}.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -32,6 +34,7 @@ install -m 755 bin/* $RPM_BUILD_ROOT%{_bindir}
 for i in fop make xsl Common_Content templates Book_Template; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
+
 
 desktop-file-install --vendor="fedora" --dir=%{RPM_BUILD_ROOT}%{_datadir}/applications %{name}.desktop
 
