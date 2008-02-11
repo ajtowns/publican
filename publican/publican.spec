@@ -15,7 +15,7 @@ Source:		%{name}-%{version}.tgz
 Requires:	gettext libxslt kdesdk dejavu-lgc-fonts docbook-style-xsl
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
-URL:		https://fedorahosted.org/documentation-devel
+URL:		https://fedorahosted.org/documentation-devel/%{name}-%{version}.tgz
 Obsoletes:	documentation-devel  < 0.26-3
 Provides:	documentation-devel
 
