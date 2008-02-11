@@ -83,7 +83,7 @@ update-desktop-database /usr/share/applications
 %{_datadir}/applications/%{vendor}-%{name}.desktop
 
 %changelog
-* Fri Feb 08 2008 Jeff Fearn <jfearn@redhat.com> 0.28-0
+* Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.28-0
 - Added gpl.txt
 - Fix GPL identifier as GPLv2+
 - Fixed Build root
@@ -95,6 +95,7 @@ update-desktop-database /usr/share/applications
 - Put docs in sub package
 - Added GFDL to License to cover content and Book_Template directories.
 - Included GFDL txt file
+- set full path to source
 
 * Thu Feb 07 2008 Jeff Fearn <jfearn@redhat.com> 0.27-0
 - Use docbook-style-xsl: this will break formatting.
