@@ -159,6 +159,10 @@ define	BUILD_Template
 ${1}-${2}:: xml-${2} test-${2} ${4}
 	@echo "START: ${1}-${2} `date`"
 	@mkdir -p tmp/${2}/${1}
+ifeq "${2}" "$(findstring ${2},$(IGNORED_TRANSLATIONS))"
+	@echo "	Bypassing translation for ${2}"
+	@cp -rf tmp/$(XML_LANG)/${1} tmp/${2}/.
+else
 ifeq "${1}" "txt"
 	@cd tmp/${2} && /usr/bin/links -dump -dump-width 72 -force-html -dump-charset UTF8 -no-numbering html-single/index.html > txt/$(DOCNAME).txt
 else 
@@ -182,6 +186,7 @@ endif
 endif
 	@find tmp -name CVS | xargs rm -rf
 	@find tmp -name '.svn' | xargs rm -rf
+endif
 	@echo "END: ${1}-${2} `date`"
 endef
 

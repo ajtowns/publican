@@ -1,7 +1,8 @@
+%define	vendor fedora
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.27
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -36,7 +37,7 @@ for i in fop make xsl Common_Content templates Book_Template; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
 
-desktop-file-install --vendor="fedora" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
+desktop-file-install --vendor="%{vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,15 +61,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/StSe_Reports
 %{_bindir}/xlf2pot
 %{_bindir}/xmlClean
-%{_datadir}/applications/fedora-%{name}.desktop
+%{_datadir}/applications/%{vendor}-%{name}.desktop
 
 %changelog
-* Fri Feb 08 2008 Jeff Fearn <jfearn@redhat.com> 0.27-1
+* Fri Feb 08 2008 Jeff Fearn <jfearn@redhat.com> 0.28-0
 - Added gpl.txt
 - Fix GPL identifier as GPLv2+
 - Fixed Build root
 - Fix desktop file
 - Added Provides for documentation-devel
+- Fix dist build target
+- Add dist-srpm target
+- fix dist failing on missing pot dir
 
 * Thu Feb 07 2008 Jeff Fearn <jfearn@redhat.com> 0.27-0
 - Use docbook-style-xsl: this will break formatting.
