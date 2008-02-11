@@ -2,7 +2,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.5
+Version:	0.7
 Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.7-0
+- Updated YEAR entity with better message.
+
 * Fri Feb 01 2008 Jeff Fearn <jfearn@redhat.com> 0.6-0
 - Switch from documentation-devil to publican
 
