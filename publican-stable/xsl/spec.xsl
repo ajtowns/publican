@@ -41,14 +41,13 @@ Requires(postun):	coreutils
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/usr/share/applications/
+mkdir -p $RPM_BUILD_ROOT
 
 cat > $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
 <xsl:value-of select="$titles"/>
 Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" />
-#Exec=yelp ghelp:%{name}
 Exec=htmlview %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/index.html
 Icon=%{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
@@ -57,32 +56,15 @@ Encoding=UTF-8
 Terminal=false
 EOF
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/gnome/help/%{name}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %description -n %{name}-<xsl:value-of select="$book-lang"/><xsl:value-of select="/bookinfo/abstract[1]" />
 
-%posttrans -n %{name}-<xsl:value-of select="$book-lang"/>
-%define _locale %(echo <xsl:value-of select="$book-lang"/> |sed 's/-/_/')
-if [ -d /usr/share/gnome/help/%{name}/%{_locale} ]; then
-	rm -rf /usr/share/gnome/help/%{name}/%{_locale}
-fi
-if [ -d /usr/share/gnome/help/%{name}/C ]; then
-	rm -rf /usr/share/gnome/help/%{name}/C
-fi
-if [ -d %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} ]; then
-	mkdir -p /usr/share/gnome/help/%{name}
-	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/%{_locale};
-	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/C;
-fi
-
 %files -n %{name}-<xsl:value-of select="$book-lang"/>
 %defattr(-,root,root,-)
 %doc publish/<xsl:value-of select="$book-lang"/>/*
 /usr/share/applications/%{name}.desktop
-/usr/share/gnome/help/%{name}
 
 @@@SUBPACKAGES@@@
 

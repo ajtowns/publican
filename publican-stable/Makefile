@@ -1,21 +1,43 @@
+
+#    Copyright (C) 2008 Red Hat, Inc.
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
 NAME	= publican
 SPEC	= $(NAME).spec
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
-PWD		= $(shell pwd)
+PWD	= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
-OS_VER = $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
-REAL_RPMDIR = $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
+OS_VER	= $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
+REAL_RPMDIR	= $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
 XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
 
-FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl
+FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl gpl.txt publican.desktop
 
-local: srpm
+local: rpm
+	@echo "Start $@"
+	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
+	@echo "End $@"
+
+rpm: srpm
 	@echo "Start $@"
 	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bb $(RPMDIR)/SPECS/$(NAME).spec
-	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
 	@echo "End $@"
 
 srpm: dist

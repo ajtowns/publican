@@ -1,18 +1,20 @@
+%define	vendor redhat
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.27
-Release:	16%{?dist}
-License:	GPL+
+Release:	17%{?dist}
+License:	GPLv2+
 Group:		Applications/Text
-Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		%{name}-%{version}.tgz
 # need kdesdk for po2xml
 Requires:	gettext libxslt kdesdk
-#dejavu-lgc-fonts
+# dejavu-lgc-fonts
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
 URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel  < 0.26-3
+Provides:	documentation-devel
 
 %description
 Common files and scripts for publishing documentation.
@@ -22,6 +24,9 @@ Common files and scripts for publishing documentation.
 
 %build
 %{__make} docs
+sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-%{version}/en-US/index.html|' %{name}.desktop
+sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-%{version}/en-US/images/icon.svg|'  %{name}.desktop
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -33,18 +38,7 @@ for i in fop make xsl Common_Content templates Book_Template; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
 
-# TODO This should be automated
-cat > $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop <<'EOF'
-[Desktop Entry]
-Name=Publican
-Comment=How to use Publican
-Exec=yelp %{_docdir}/%{name}-%{version}/en-US/index.html
-Icon=%{_docdir}/%{name}-%{version}/en-US/images/icon.svg
-Categories=Documentation;X-Red-Hat-Base;
-Type=Application
-Encoding=UTF-8
-Terminal=false
-EOF
+desktop-file-install --vendor="%{vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -52,6 +46,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README
+%doc gpl.txt
 %doc docs/*
 %{_datadir}/%{name}
 %{_bindir}/create_book
@@ -67,10 +62,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/StSe_Reports
 %{_bindir}/xlf2pot
 %{_bindir}/xmlClean
-%{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/%{vendor}-%{name}.desktop
 
 %changelog
 * Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.28-0
+- Added gpl.txt
+- Fix GPL identifier as GPLv2+
+- Fixed Build root
+- Fix desktop file
+- Added Provides for documentation-devel
 - Fix dist build target
 - Add dist-srpm target
 - fix dist failing on missing pot dir
