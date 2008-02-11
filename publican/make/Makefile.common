@@ -428,6 +428,7 @@ srpm:: tar
 	@echo "START: srpm `date`"
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
 #	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -ts tmp/tar/$(TAR_NAME).tgz
+	@cp tmp/tar/$(TAR_NAME).tgz tmp/rpm/SOURCES/.
 	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME).spec
 	@echo "END: srpm `date`"
 

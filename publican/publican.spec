@@ -1,9 +1,12 @@
 %define	vendor fedora
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.27
-Release:	3%{?dist}
-License:	GPLv2+
+Version:	0.28
+Release:	0%{?dist}
+License:	GPLv2+ and GFDL
+# The following directories are licensed under the GFDL:
+#	content
+#	Book_Template
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -25,7 +28,7 @@ Common files and scripts for publishing documentation.
 %build
 %{__make} docs
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-%{version}/en-US/index.html|' %{name}.desktop
-sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-%{version}/en-US/images/icon.svg|'  %{name}.desktop
+sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-%{version}/en-US/images/icon.svg|' %{name}.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -46,7 +49,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README
 %doc gpl.txt
-%doc docs/*
+%doc fdl.txt
 %{_datadir}/%{name}
 %{_bindir}/create_book
 %{_bindir}/entity2pot
@@ -61,6 +64,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/StSe_Reports
 %{_bindir}/xlf2pot
 %{_bindir}/xmlClean
+
+%package doc
+Group:		Documentation
+Summary:	Documentation for the Publican package
+
+%description doc
+Documentation for the Publican publishing tool chain.
+
+%post doc
+update-desktop-database /usr/share/applications
+
+%postun doc
+update-desktop-database /usr/share/applications
+
+%files doc
+%doc docs/*
 %{_datadir}/applications/%{vendor}-%{name}.desktop
 
 %changelog
@@ -73,6 +92,9 @@ rm -rf $RPM_BUILD_ROOT
 - Fix dist build target
 - Add dist-srpm target
 - fix dist failing on missing pot dir
+- Put docs in sub package
+- Added GFDL to License to cover content and Book_Template directories.
+- Included GFDL txt file
 
 * Thu Feb 07 2008 Jeff Fearn <jfearn@redhat.com> 0.27-0
 - Use docbook-style-xsl: this will break formatting.
