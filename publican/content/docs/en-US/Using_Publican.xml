@@ -297,7 +297,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>subtitle</replaceable> with the subtitle of the book. The subtitle will appear under the title when the book is built. Remove the <computeroutput>&lt;subtitle&gt;</computeroutput> tags to remove the subtitle. A subtitle is required to build an RPM.
+							replace <replaceable>subtitle</replaceable> with the subtitle of the book. The subtitle will appear under the title when the book is built. Remove the <computeroutput>&lt;subtitle&gt;</computeroutput> tags to remove the subtitle. A subtitle is required to build an RPM. When building a book as an RPM the subtitle is used as the <computeroutput>Summary</computeroutput> in the RPM spec file.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -305,7 +305,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;issuenum&gt;<replaceable>issue-number</replaceable>&lt;/issuenum&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>issue-number</replaceable> with the issue number. The issue number changes the first two digits of the version number used when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the issue number to <filename>1.2</filename> and building the book using the <command>make srpm</command> command would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are set in the <filename>Makefile</filename>.
+							replace <replaceable>issue-number</replaceable> with the issue number. The issue number changes the version number (the first two digits) when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the issue number to <filename>1.2</filename> and building the book using the <command>make srpm</command> command would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
 						</para>
 						<para>
 							Running the <command>create_book --name <replaceable> Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the issue number.
@@ -316,7 +316,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;productnumber&gt;<replaceable>product-number</replaceable>&lt;/productnumber&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>product-number</replaceable> with the product number. The product number changes the last digit of the version number used when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the product number to <filename>1</filename> and building the book using the <command>make srpm</command> command, would build the book in an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are set in the <filename>Makefile</filename>.
+							replace <replaceable>product-number</replaceable> with the product number. The product number changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the product number to <filename>1</filename> and building the book using the <command>make srpm</command> command, would build the book in an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
 						</para>
 						<para>
 							Running the <command>create_book --name<replaceable> Book_Name</replaceable> --revision <replaceable>revision</replaceable></command> command correctly configures the product number.
@@ -327,7 +327,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;&lt;/abstract&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>abstract</replaceable> with the abstract for the book. The abstract appears before the table of contents when using HTML, and usually on the second page when using PDF. When building a book as an RPM the abstract is used in the RPM&#39;s spec file.
+							replace <replaceable>abstract</replaceable> with the abstract for the book. The abstract appears before the table of contents when using HTML, and  on the second page when using PDF. When building a book as an RPM the abstract is used as the <computeroutput>description</computeroutput> in the RPM spec file.
 						</para>
 					</listitem>
 				</varlistentry>
