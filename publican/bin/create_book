@@ -52,7 +52,16 @@ pod2usage(1) if !$name;
 my $bookname = $name;
 $bookname =~ s/_/ /g;
 
-my $cmd = "cp -rf /usr/share/publican/Book_Template $name";
+my $cmd = '';
+
+if (! $brand) {
+    $cmd  = "cp -rf /usr/share/publican/Templates/common-Book_Template $name";
+}
+else {
+    carp("Brand $brand does not contain a Book_Template!") if(! -d "/usr/share/publican/Templates/$brand-Book_Template");
+    $cmd  = "cp -rf /usr/share/publican/Templates/$brand-Book_Template $name";
+}
+
 system($cmd);
 if ($@) {
     carp "can't copy Book_Template: $!";

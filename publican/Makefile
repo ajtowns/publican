@@ -19,7 +19,7 @@
 NAME	= publican
 SPEC	= $(NAME).spec
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
-RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
+RELEASE = $(shell grep 'define\s*real_release' $(SPEC) | sed -e 's/^.*real_release\s*\(.*\)$$/\1/g')
 PWD	= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
 OS_VER	= $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
@@ -28,7 +28,7 @@ XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
 
-FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl gpl.txt publican.desktop
+FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl gpl.txt fdl.txt publican.desktop
 
 local: rpm
 	@echo "Start $@"
@@ -44,7 +44,7 @@ srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
-	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
+	@cp $(TAR_NAME)-$(RELEASE).tgz $(RPMDIR)/SOURCES/.
 	@cp $(NAME).spec $(RPMDIR)/SPECS/.
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
 	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
@@ -59,7 +59,7 @@ dist: clean
 	@find $(TAR_NAME) -name "*.swp" | xargs rm -rf
 	@find $(TAR_NAME) -name "*.mo" | xargs rm -rf
 	@find $(TAR_NAME) -name "*~" | xargs rm -rf
-	@tar --atime-preserve -czf $(TAR_NAME).tgz $(TAR_NAME)
+	@tar --atime-preserve -czf $(TAR_NAME)-$(RELEASE).tgz $(TAR_NAME)
 	@echo "End $@"
 
 

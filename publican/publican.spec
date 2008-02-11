@@ -1,8 +1,10 @@
 %define	vendor fedora
+%define real_release 1
+
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.28
-Release:	0%{?dist}
+Release:	%{real_release}%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -10,12 +12,12 @@ License:	GPLv2+ and GFDL
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		%{name}-%{version}.tgz
+Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/%{name}-%{version}-%{real_release}.tgz
 # need kdesdk for po2xml
 Requires:	gettext libxslt kdesdk dejavu-lgc-fonts docbook-style-xsl
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
-URL:		https://fedorahosted.org/documentation-devel/%{name}-%{version}.tgz
+URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel  < 0.26-3
 Provides:	documentation-devel
 
@@ -32,13 +34,14 @@ sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-%{version}/en-US/images/icon.svg|' %{na
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/%{name}
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p -m755 $RPM_BUILD_ROOT%{_bindir}
 install -m 755 bin/* $RPM_BUILD_ROOT%{_bindir}
-for i in fop make xsl Common_Content templates Book_Template; do
+for i in fop make xsl Common_Content templates; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
+cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Template
 
 desktop-file-install --vendor="%{vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
@@ -83,6 +86,11 @@ update-desktop-database /usr/share/applications
 %{_datadir}/applications/%{vendor}-%{name}.desktop
 
 %changelog
+* Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.29-0
+- Setup per Brand Book_Templates
+- Fix soure and URL paths
+- Use release in source
+
 * Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.28-0
 - Added gpl.txt
 - Fix GPL identifier as GPLv2+
