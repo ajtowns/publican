@@ -48,8 +48,8 @@ cat > $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop &lt;&lt;'EOF'
 Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
 <xsl:value-of select="$titles"/>
 Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" />
-Exec=yelp ghelp:%{name}
-#Exec=yelp %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/index.html
+#Exec=yelp ghelp:%{name}
+Exec=htmlview %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/index.html
 Icon=%{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
 Type=Application

@@ -68,8 +68,6 @@ ifdef EXTRA_DIRS
 EXTRA_DIRS_C	?= $(shell echo $(EXTRA_DIRS) | sed -e 's/ /,/g')
 endif
 
-TRANSLATIONS ?= $(XML_LANG)
-
 include $(COMMON_CONFIG)/make/Makefile.templates
 
 # Stub for books that need to pre generate things (Services_Plan)
@@ -380,17 +378,17 @@ test-po-all:: $(foreach L,$(TRANSLATIONS), test-${L})
 
 tar_dir:
 	@echo "START: tar `date`"
-	@mkdir -p tmp/tar/$(TAR_NAME)
+	@mkdir -p tmp/tar/$(BUILD_NAME)
 ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec.xsl"
-	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/html-single/index.html tmp/tar/$(TAR_NAME)/$$lang;done
+	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/html-single/index.html tmp/tar/$(BUILD_NAME)/$$lang;done
 else
-	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/xml tmp/tar/$(TAR_NAME)/$$lang;done
+	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/xml tmp/tar/$(BUILD_NAME)/$$lang;done
 endif
-	@find tmp/tar/$(TAR_NAME) -name CVS | xargs rm -rf
-	@find tmp/tar/$(TAR_NAME) -name '*.swp' | xargs rm -rf
-	@find tmp/tar/$(TAR_NAME) -name '*~' | xargs rm -rf
-	@find tmp/tar/$(TAR_NAME) -name '*.swo' | xargs rm -rf
-	@find tmp/tar/$(TAR_NAME) -name '*.bak' | xargs rm -rf
+	@find tmp/tar/$(BUILD_NAME) -name CVS | xargs rm -rf
+	@find tmp/tar/$(BUILD_NAME) -name '*.swp' | xargs rm -rf
+	@find tmp/tar/$(BUILD_NAME) -name '*~' | xargs rm -rf
+	@find tmp/tar/$(BUILD_NAME) -name '*.swo' | xargs rm -rf
+	@find tmp/tar/$(BUILD_NAME) -name '*.bak' | xargs rm -rf
 	@echo "END: $@ `date`"
 
 # TODO
@@ -404,7 +402,7 @@ endif
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt tmp/extra_files*.txt
 	@for lang in $(TRANSLATIONS); do \
 		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
-		find tmp/tar/$(TAR_NAME)/$$lang -maxdepth 1 -type d | grep -P "$$lang\/\S" | sed -e "s/tmp\/tar\/$(TAR_NAME)\/$$lang\///g" | sed -e "s/^/%doc $$lang\//g" >> tmp/extra_files-$$lang.txt; \
+		find tmp/tar/$(BUILD_NAME)/$$lang -maxdepth 1 -type d | grep -P "$$lang\/\S" | sed -e "s/tmp\/tar\/$(BUILD_NAME)\/$$lang\///g" | sed -e "s/^/%doc $$lang\//g" >> tmp/extra_files-$$lang.txt; \
  	done;
 	@for lang in $(OTHER_LANGS); do \
 		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-title "$(SPEC_NAME)" \
@@ -432,8 +430,8 @@ endif
 
 tar:: spec
 	@echo "START: tar `date`"
-	@cp -f tmp/$(SPEC_NAME).spec tmp/tar/$(TAR_NAME)/.
-	@cd tmp/tar && tar -cf $(TAR_NAME).tar $(TAR_NAME)
+#	@cp -f tmp/$(SPEC_NAME).spec tmp/tar/$(TAR_NAME)/.
+	@cd tmp/tar && tar -cf $(TAR_NAME).tar $(BUILD_NAME)
 	@cd tmp/tar && gzip -9 $(TAR_NAME).tar
 	@cd tmp/tar && mv $(TAR_NAME).tar.gz $(TAR_NAME).tgz
 	@echo "The archive is in tmp/tar/$(TAR_NAME).tgz"
@@ -442,7 +440,9 @@ tar:: spec
 srpm:: tar
 	@echo "START: srpm `date`"
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -ts tmp/tar/$(TAR_NAME).tgz
+#	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -ts tmp/tar/$(TAR_NAME).tgz
+	@cp tmp/tar/$(TAR_NAME).tgz tmp/rpm/SOURCES/.
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME).spec
 	@echo "END: srpm `date`"
 
 # Brew the srpm
@@ -528,13 +528,21 @@ dist-spec: xml-all
 dist: clean dist-spec
 	@echo "START: $@ `date`"
 	@mkdir -p publish/$(BUILD_NAME)
-	@cp -rft publish/$(BUILD_NAME) Makefile $(TRANSLATIONS) pot $(SPEC_NAME).spec
+	@cp -rft publish/$(BUILD_NAME) Makefile $(TRANSLATIONS) $(SPEC_NAME).spec
+	@if [ -d pot ]; then cp -rft publish/$(BUILD_NAME) pot; fi
 	@chmod 0664 publish/$(BUILD_NAME)/$(SPEC_NAME).spec
 	@pushd publish > /dev/null; \
 		tar -cz --exclude-from=$(COMMON_CONFIG)/make/tar-excludes -f $(TAR_NAME).tgz $(BUILD_NAME); \
 	popd > /dev/null
 	@rm -rf publish/$(BUILD_NAME)
 	@echo "The archive is in publish/$(TAR_NAME).tgz"
+	@echo "END: $@ `date`"
+
+dist-srpm: dist
+	@echo "START: $@ `date`"
+	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
+	@cp publish/$(TAR_NAME).tgz tmp/rpm/SOURCES/.
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs $(SPEC_NAME).spec
 	@echo "END: $@ `date`"
 
 ###############################################################################

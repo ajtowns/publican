@@ -1,7 +1,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.26
-Release:	6%{?dist}
+Version:	0.27
+Release:	16%{?dist}
 License:	GPL+
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
@@ -70,6 +70,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.28-0
+- Fix dist build target
+- Add dist-srpm target
+- fix dist failing on missing pot dir
+
 * Fri Feb 01 2008 Jeff Fearn <jfearn@redhat.com> 0.26-5
 - renamed from documentation-devil to publican
 
