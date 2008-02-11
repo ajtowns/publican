@@ -305,7 +305,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;issuenum&gt;<replaceable>issue-number</replaceable>&lt;/issuenum&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>issue-number</replaceable> with the issue number. The issue number changes the version number (the first two digits) when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the issue number to <filename>1.2</filename> and building the book using the <command>make srpm</command> command would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
+							replace <replaceable>issue-number</replaceable> with the issue number. The issue number changes the version number (the first two digits) when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the issue number to <filename>1.2</filename> and building the book using the <command>make srpm</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
 						</para>
 						<para>
 							Running the <command>create_book --name <replaceable> Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the issue number.
@@ -316,7 +316,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;productnumber&gt;<replaceable>product-number</replaceable>&lt;/productnumber&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>product-number</replaceable> with the product number. The product number changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the product number to <filename>1</filename> and building the book using the <command>make srpm</command> command, would build the book in an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
+							replace <replaceable>product-number</replaceable> with the product number. The product number changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the product number to <filename>1</filename> and building the book using the <command>make srpm</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
 						</para>
 						<para>
 							Running the <command>create_book --name<replaceable> Book_Name</replaceable> --revision <replaceable>revision</replaceable></command> command correctly configures the product number.
