@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf tmp
 mkdir -p tmp
 cd tmp
 create_book --name=Test-Common
