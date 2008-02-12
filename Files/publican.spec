@@ -1,10 +1,9 @@
 %define	vendor fedora
-%define real_release 0
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	%{real_release}%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -12,12 +11,12 @@ License:	GPLv2+ and GFDL
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/%{name}-%{version}-%{real_release}.tgz
+Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 # need kdesdk for po2xml
 Requires:	gettext libxslt kdesdk dejavu-lgc-fonts docbook-style-xsl
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
-URL:		https://fedorahosted.org/documentation-devel
+URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel  < 0.26-3
 
 %description
@@ -26,6 +25,7 @@ Common files and scripts for publishing documentation.
 %package doc
 Group:		Documentation
 Summary:	Documentation for the Publican package
+Requires:	xdg-utils
 
 %description doc
 Documentation for the Publican publishing tool chain.
@@ -47,18 +47,12 @@ for i in fop make xsl Common_Content templates; do
 done
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Template
 
-sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-%{version}/en-US/index.html|' %{name}.desktop
-sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-%{version}/en-US/images/icon.svg|' %{name}.desktop
+sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
+sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
 desktop-file-install --vendor="%{vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post doc
-update-desktop-database /usr/share/applications
-
-%postun doc
-update-desktop-database /usr/share/applications
 
 %files
 %defattr(-,root,root,-)
@@ -87,6 +81,14 @@ update-desktop-database /usr/share/applications
 %doc fdl.txt
 
 %changelog
+* Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.29-1
+- removed %%post and %%postun as update-desktop-database is
+-   for desktop files with mime types
+- removed release for source path and tar name
+- fixed package name in desktop file to include -doc
+- switched from htmlview to xdg-open
+- Added xdg-utils requires for doc package
+
 * Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.29-0
 - Setup per Brand Book_Templates
 - Fix soure and URL paths

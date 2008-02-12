@@ -32,7 +32,7 @@ FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl
 
 local: rpm
 	@echo "Start $@"
-	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
+	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/*.rpm
 	@echo "End $@"
 
 rpm: srpm
@@ -44,7 +44,7 @@ srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
-	@cp $(TAR_NAME)-$(RELEASE).tgz $(RPMDIR)/SOURCES/.
+	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp $(NAME).spec $(RPMDIR)/SPECS/.
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
 	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
@@ -59,7 +59,7 @@ dist: clean
 	@find $(TAR_NAME) -name "*.swp" | xargs rm -rf
 	@find $(TAR_NAME) -name "*.mo" | xargs rm -rf
 	@find $(TAR_NAME) -name "*~" | xargs rm -rf
-	@tar --atime-preserve -czf $(TAR_NAME)-$(RELEASE).tgz $(TAR_NAME)
+	@tar --atime-preserve -czf $(TAR_NAME).tgz $(TAR_NAME)
 	@echo "End $@"
 
 
