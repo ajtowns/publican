@@ -11,7 +11,7 @@ OS_VER = $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
 TAR_NAME = $(NAME)-$(VERSION)
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 
-FILES	= pot README Makefile $(LANGS) en-US Book_Template cc-by-nc-sa.txt 
+FILES	= pot README Makefile $(LANGS) en-US Book_Template COPYING
 
 local: srpm
 	@echo "Start $@"

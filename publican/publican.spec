@@ -1,9 +1,9 @@
 %define	vendor fedora
-%define real_release 1
+%define real_release 0
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.28
+Version:	0.29
 Release:	%{real_release}%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
@@ -19,18 +19,22 @@ BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel  < 0.26-3
-Provides:	documentation-devel
 
 %description
 Common files and scripts for publishing documentation.
+
+%package doc
+Group:		Documentation
+Summary:	Documentation for the Publican package
+
+%description doc
+Documentation for the Publican publishing tool chain.
 
 %prep
 %setup -q
 
 %build
 %{__make} docs
-sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-%{version}/en-US/index.html|' %{name}.desktop
-sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-%{version}/en-US/images/icon.svg|' %{name}.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -43,15 +47,23 @@ for i in fop make xsl Common_Content templates; do
 done
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Template
 
+sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-%{version}/en-US/index.html|' %{name}.desktop
+sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-%{version}/en-US/images/icon.svg|' %{name}.desktop
 desktop-file-install --vendor="%{vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post doc
+update-desktop-database /usr/share/applications
+
+%postun doc
+update-desktop-database /usr/share/applications
+
 %files
 %defattr(-,root,root,-)
 %doc README
-%doc gpl.txt
+%doc COPYING
 %doc fdl.txt
 %{_datadir}/%{name}
 %{_bindir}/create_book
@@ -68,28 +80,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/xlf2pot
 %{_bindir}/xmlClean
 
-%package doc
-Group:		Documentation
-Summary:	Documentation for the Publican package
-
-%description doc
-Documentation for the Publican publishing tool chain.
-
-%post doc
-update-desktop-database /usr/share/applications
-
-%postun doc
-update-desktop-database /usr/share/applications
 
 %files doc
 %doc docs/*
 %{_datadir}/applications/%{vendor}-%{name}.desktop
+%doc fdl.txt
 
 %changelog
 * Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.29-0
 - Setup per Brand Book_Templates
 - Fix soure and URL paths
-- Use release in source
+- Use release in source path
+- correct GPL version text and changed file name to COPYING
+- dropped Provides
+- reordered spec file
+- added fdl.txt to tar ball.
+- added fdl.txt to doc package
 
 * Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.28-0
 - Added gpl.txt

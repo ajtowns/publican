@@ -28,7 +28,7 @@ XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
 
-FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl gpl.txt fdl.txt publican.desktop
+FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop
 
 local: rpm
 	@echo "Start $@"

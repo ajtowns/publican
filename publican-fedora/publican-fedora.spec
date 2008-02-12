@@ -1,9 +1,9 @@
 %define brand fedora
-%define real_release 1
+%define real_release 0
 
 Name:		publican-%{brand}
 Summary:	Common documentation files for %{brand}
-Version:	0.7
+Version:	0.8
 Release:	%{real_release}%{?dist}
 License:	Open Publication License
 Group:		Applications/Text
@@ -16,7 +16,6 @@ Requires:	publican
 BuildRequires:	publican
 URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel-Fedora
-Provides:	documentation-devel-Fedora
 
 %description
 Common files for building %{brand} documentation.
@@ -39,7 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc README
-%doc opl.txt
+%doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
 %{_datadir}/publican/Templates/%{brand}-Book_Template
 
@@ -47,8 +46,8 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.8-0
 - Setup per Brand Book_Templates
 - Fix soure and URL paths
-- Use release in source
-- add OPL text
+- Use release in source path
+- add OPL text as COPYING
 
 * Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.7-0
 - Updated YEAR entity with better message.
