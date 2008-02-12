@@ -10,8 +10,6 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/%{name}-%{version}-%{real_release}.tgz
-Requires(post): coreutils
-Requires(postun): coreutils
 Requires:	publican
 BuildRequires:	publican
 URL:		https://fedorahosted.org/documentation-devel
