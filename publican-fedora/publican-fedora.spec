@@ -44,7 +44,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Templates/%{brand}-Book_Template
 
 %changelog
-%changelog
 * Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.8-0
 - Setup per Brand Book_Templates
 - Fix soure and URL paths

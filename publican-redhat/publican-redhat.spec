@@ -1,35 +1,37 @@
 %define brand RedHat
+%define real_release 1
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
 Version:	0.7
-Release:	0%{?dist}
+Release:	%{real_release}%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
-Buildroot:	%{_tmppath}/%{name}-%{version}-%(id -u -n)
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		%{name}-%{version}.tgz
+Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/%{name}-%{version}-%{real_release}.tgz
 Requires(post): coreutils
 Requires(postun): coreutils
 Requires:	publican
 BuildRequires:	publican
 URL:		https://fedorahosted.org/documentation-devel
 Obsoletes:	documentation-devel-%{brand}
+Provides:	documentation-devel-%{brand}
 
 %description
 Common files for building %{brand} documentation.
 
 %prep
-%setup -q -n %{name}-%{version} 
+%setup -q 
 
 %build
 %{__make} Common_Content
 
-
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Templates
 cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
+cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -37,9 +39,17 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc README
+%doc opl.txt
 %{_datadir}/publican/Common_Content/%{brand}
+%{_datadir}/publican/Templates/%{brand}-Book_Template
 
 %changelog
+* Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.8-0
+- Setup per Brand Book_Templates
+- Fix soure and URL paths
+- Use release in source
+- add OPL text
+
 * Mon Feb 11 2008 Jeff Fearn <jfearn@redhat.com> 0.7-0
 - Updated YEAR entity with better message.
 
