@@ -1,18 +1,19 @@
 %define brand fedora
-%define real_release 0
 
 Name:		publican-%{brand}
 Summary:	Common documentation files for %{brand}
 Version:	0.8
-Release:	%{real_release}%{?dist}
-License:	Open Publication License
+Release:	2%{?dist}
+License:	Open Publication 
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/%{name}-%{version}-%{real_release}.tgz
+Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
+Requires(post): coreutils
+Requires(postun): coreutils
 Requires:	publican
 BuildRequires:	publican
-URL:		https://fedorahosted.org/documentation-devel
+URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel-Fedora
 
 %description
@@ -41,6 +42,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Templates/%{brand}-Book_Template
 
 %changelog
+* Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.8-1
+- Correct License name
+- Remove release from urls and file names
+
 * Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.8-0
 - Setup per Brand Book_Templates
 - Fix soure and URL paths
