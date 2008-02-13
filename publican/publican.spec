@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
+- replace tab in changelog with spaces
+
 * Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.29-1
 - removed %%post and %%postun as update-desktop-database is
 -   for desktop files with mime types
