@@ -15,7 +15,8 @@ URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel-Fedora
 
 %description
-Common files for building %{brand} documentation.
+This package provides common files and templates needed to build documentation
+for %{brand} with publican.
 
 %prep
 %setup -q
