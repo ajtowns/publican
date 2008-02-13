@@ -1,16 +1,14 @@
 %define brand fedora
 
 Name:		publican-%{brand}
-Summary:	Common documentation files for %{brand}
-Version:	0.8
-Release:	2%{?dist}
+Summary:	Publican documentation template files for %{brand}
+Version:	0.9
+Release:	0%{?dist}
 License:	Open Publication 
-Group:		Applications/Text
+Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
-Requires(post): coreutils
-Requires(postun): coreutils
 Requires:	publican
 BuildRequires:	publican
 URL:		https://fedorahosted.org/publican
@@ -35,13 +33,20 @@ cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc README
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
 %{_datadir}/publican/Templates/%{brand}-Book_Template
 
 %changelog
+* Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
+- Changed Group
+- Updated Legal Notice
+- Removed Requires(post) and Requires(postun)
+- Added missing logo.png
+- Updated Summary
+
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.8-1
 - Correct License name
 - Remove release from urls and file names
