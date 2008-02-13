@@ -22,7 +22,7 @@ srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
-	@cp $(TAR_NAME)-$(RELEASE).tgz $(RPMDIR)/SOURCES/.
+	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican-$(BRAND).spec $(RPMDIR)/SPECS/.
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
 	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
@@ -37,7 +37,7 @@ dist: clean
 	@find $(TAR_NAME) -name ".swp" | xargs rm -rf
 	@find $(TAR_NAME) -name "*.mo" | xargs rm -rf
 	@find $(TAR_NAME) -name "*~" | xargs rm -rf
-	@tar czf $(TAR_NAME)-$(RELEASE).tgz $(TAR_NAME)
+	@tar czf $(TAR_NAME).tgz $(TAR_NAME)
 	@echo "End $@"
 
 clean:
