@@ -1,4 +1,4 @@
-%define	vendor fedora
+%define	pants_vendor fedora
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
@@ -49,7 +49,7 @@ cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Te
 
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
-desktop-file-install --vendor="%{vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
+desktop-file-install --vendor="%{pants_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
