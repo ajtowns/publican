@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	2%{?dist}
+Release:	6%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -77,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files doc
 %doc docs/*
-%{_datadir}/applications/%{vendor}-%{name}.desktop
+%{_datadir}/applications/%{pants_vendor}-%{name}.desktop
 %doc fdl.txt
 
 %changelog
