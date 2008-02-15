@@ -1,9 +1,9 @@
-%define	pants_vendor fedora
+%define	my_vendor fedora
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	6%{?dist}
+Release:	8%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -13,7 +13,7 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 # need kdesdk for po2xml
-Requires:	gettext libxslt kdesdk dejavu-lgc-fonts docbook-style-xsl
+Requires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl dejavu-lgc-fonts
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/publican
@@ -49,7 +49,7 @@ cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Te
 
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
-desktop-file-install --vendor="%{pants_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
+desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -77,10 +77,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files doc
 %doc docs/*
-%{_datadir}/applications/%{pants_vendor}-%{name}.desktop
+%{_datadir}/applications/%{my_vendor}-%{name}.desktop
 %doc fdl.txt
 
 %changelog
+* Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
+- Added requires  perl(XML::TreeBuilder)
+- Fix xref to listitem breaking BZ #432574
+
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces
 

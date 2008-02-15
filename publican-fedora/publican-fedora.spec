@@ -41,6 +41,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Templates/%{brand}-Book_Template
 
 %changelog
+* Fri Feb 15 2008 Jeff Fearn <jfearn@redhat.com> 0.10-0
+- Added PRODUCT entity with default msg. BZ #431171
+- Added BOOKID entity with default msg. BZ #431171
+
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
 - Changed Group
 - Updated Legal Notice
