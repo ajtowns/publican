@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	8%{?dist}
+Release:	12%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added requires  perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
+- Die with a decent warning when an invalid Brand is chosen. BZ #429236
+- Modified title page of PDF. BZ #429977
+- Fix PDF list whit space issue BZ #429237
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces

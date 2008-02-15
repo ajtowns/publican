@@ -165,14 +165,14 @@ article toc
 <xsl:param name="variablelist.as.blocks">1</xsl:param>
 
 <!-- The horrible list spacing problems, this is much better. -->
-<xsl:attribute-set name="list.block.spacing">
+<!--xsl:attribute-set name="list.block.spacing">
 	<xsl:attribute name="space-before.optimum">2em</xsl:attribute>
 	<xsl:attribute name="space-before.minimum">1em</xsl:attribute>
 	<xsl:attribute name="space-before.maximum">3em</xsl:attribute>
 	<xsl:attribute name="space-after.optimum">0.1em</xsl:attribute>
 	<xsl:attribute name="space-after.minimum">0.1em</xsl:attribute>
 	<xsl:attribute name="space-after.maximum">0.1em</xsl:attribute>
-</xsl:attribute-set>
+</xsl:attribute-set-->
 
 <!-- Some padding inside tables -->
 <xsl:attribute-set name="table.cell.padding">
@@ -983,7 +983,7 @@ Version:1.72
 </xsl:template>
 
 <xsl:template match="issuenum" mode="book.titlepage.recto.auto.mode">
-<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.style" text-align="center" font-size="16pt" space-before="15.552pt" font-family="{$title.fontset}">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.style" text-align="center" font-size="34pt" space-before="30pt" font-family="{$title.fontset}">
 <xsl:apply-templates select="." mode="book.titlepage.recto.mode"/>
 </fo:block>
 </xsl:template>
@@ -1009,10 +1009,6 @@ Version:1.72
     </xsl:when>
   </xsl:choose>
 
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/issuenum"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/issuenum"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="issuenum"/>
-
   <xsl:choose>
     <xsl:when test="bookinfo/subtitle">
       <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/subtitle"/>
@@ -1024,6 +1020,10 @@ Version:1.72
       <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="subtitle"/>
     </xsl:when>
   </xsl:choose>
+
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/issuenum"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/issuenum"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="issuenum"/>
 
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/corpauthor"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/corpauthor"/>

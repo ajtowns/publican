@@ -86,6 +86,11 @@ pre::
 		echo "ERROR: RELEASE can only contain 0-9 and '.'! '$(RELEASE)' is not valid, please edit <productnumber> in your $(DOC_TYPE)_Info.xml file"; \
 		exit 1; \
 	fi
+	@if [ ! -d $(COMMON_CONTENT)/$(BRAND) ]; then \
+		echo; \
+		echo "ERROR: Brand $(BRAND) is not installed. Either install $(BRAND) or change to a valid Brand."; \
+		exit 1; \
+	fi
 
 
 ###############################################################################
