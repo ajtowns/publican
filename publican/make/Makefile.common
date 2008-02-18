@@ -403,7 +403,8 @@ endif
 		--stringparam trans-lang $$lang\
 		$(SUB_SPEC_XSL) tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/subpackages.txt; \
 	done;
-	@$(CATALOGS) $(XSLTPROC) --nonet $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$(DOC_TYPE)_Info.xml > tmp/changelog.txt
+	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
+		$(CATALOGS) $(XSLTPROC) --nonet $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$$rev_file > tmp/changelog.txt
 	@$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
 	--stringparam main-file "$(DOCNAME).xml" \
 	--stringparam book-lang "$(XML_LANG)" \

@@ -88,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 - Modified title page of PDF. BZ #429977
 - Fix PDF list whit space issue BZ #429237
 - Fix ulinks too big for tables BZ #430623
+- Allowed rev history to be in any file BZ #297411
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces
