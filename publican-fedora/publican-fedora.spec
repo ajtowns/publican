@@ -44,6 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Feb 15 2008 Jeff Fearn <jfearn@redhat.com> 0.10-0
 - Added PRODUCT entity with default msg. BZ #431171
 - Added BOOKID entity with default msg. BZ #431171
+- Fix keycap hard to read in admon BZ #369161
 
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
 - Changed Group

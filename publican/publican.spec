@@ -82,13 +82,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
-- Added requires  perl(XML::TreeBuilder)
+- Added requires perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
 - Die with a decent warning when an invalid Brand is chosen. BZ #429236
 - Modified title page of PDF. BZ #429977
 - Fix PDF list whit space issue BZ #429237
 - Fix ulinks too big for tables BZ #430623
 - Allowed rev history to be in any file BZ #297411
+- Fix keycap hard to read in admon BZ #369161
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces
