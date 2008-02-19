@@ -3,15 +3,15 @@ BRAND	= redhat
 SPEC	= publican-$(BRAND).spec
 NAME	= publican-$(BRAND)
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
-RELEASE = $(shell grep 'define\s*real_release' $(SPEC) | sed -e 's/^.*real_release\s*\(.*\)$$/\1/g')
+RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD	= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
-OS_VER = $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
+OS_VER	= $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
 
 TAR_NAME = $(NAME)-$(VERSION)
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 
-FILES	= pot README Makefile $(LANGS) en-US Book_Template COPYING
+FILES	= pot README Makefile $(LANGS) en-US Book_Template COPYING make
 
 local: srpm
 	@echo "Start $@"
@@ -23,7 +23,7 @@ srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
-	@cp $(TAR_NAME)-$(RELEASE).tgz $(RPMDIR)/SOURCES/.
+	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican-$(BRAND).spec $(RPMDIR)/SPECS/.
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
 	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
@@ -38,7 +38,7 @@ dist: clean
 	@find $(TAR_NAME) -name ".swp" | xargs rm -rf
 	@find $(TAR_NAME) -name "*.mo" | xargs rm -rf
 	@find $(TAR_NAME) -name "*~" | xargs rm -rf
-	@tar czf $(TAR_NAME)-$(RELEASE).tgz $(TAR_NAME)
+	@tar czf $(TAR_NAME).tgz $(TAR_NAME)
 	@echo "End $@"
 
 clean:

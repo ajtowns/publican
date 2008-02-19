@@ -1,24 +1,22 @@
 %define brand RedHat
-%define real_release 0
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
 Version:	0.8
-Release:	%{real_release}%{?dist}
+Release:	1%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		http://svn.fedorahosted.org/svn/documentation-devel/trunk/Files/%{name}-%{version}-%{real_release}.tgz
-Requires(post): coreutils
-Requires(postun): coreutils
+Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 Requires:	publican
 BuildRequires:	publican
-URL:		https://fedorahosted.org/documentation-devel
+URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel-%{brand}
 
 %description
-Common files for building %{brand} documentation.
+This package provides common files and templates needed to build documentation
+for %{brand} with publican.
 
 %prep
 %setup -q 
@@ -29,8 +27,10 @@ Common files for building %{brand} documentation.
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Templates
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/make
 cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
+install -m 755 make/Makefile.%{brand} $RPM_BUILD_ROOT%{_datadir}/publican/make/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,12 +41,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
 %{_datadir}/publican/Templates/%{brand}-Book_Template
+%{_datadir}/publican/make/Makefile.%{brand}
 
 %changelog
 * Fri Feb 15 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
 - Added PRODUCT entity with default msg. BZ #431171
 - Added BOOKID entity with default msg. BZ #431171
 - Fix keycap hard to read in admon BZ #369161
+- Added Brand Makefile
 
 * Tue Feb 12 2008 Jeff Fearn <jfearn@redhat.com> 0.8-0
 - Setup per Brand Book_Templates

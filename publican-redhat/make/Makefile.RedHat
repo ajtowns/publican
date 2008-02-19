@@ -1,0 +1,31 @@
+# hack, RHEL SHIPPED products where in RHEL5 before this multi-product layout was in place
+# So we have to use a different naming scheme for the 4 shipped books
+ifeq "$(PRODUCT)" "Red_Hat_Enterprise_Linux"
+#Makefile for Red Hat Documentation
+#Created by Jeff Fearn <jfearn@redhat.com>
+#    Copyright (C) 2008 Red Hat, Inc.
+
+ifeq "$(DOCNAME)" "Deployment_Guide"
+SPEC_NAME		= $(DOCNAME)
+# TODO: verify the new style sheets don't break the shipped books
+# the old ones are still there just in case
+#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
+#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
+endif
+ifeq "$(DOCNAME)" "Virtualization"
+SPEC_NAME		= $(DOCNAME)
+#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
+#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
+endif
+ifeq "$(DOCNAME)" "Global_File_System"
+SPEC_NAME		= $(DOCNAME)
+#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
+#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
+endif
+ifeq "$(DOCNAME)" "Cluster_Administration"
+SPEC_NAME		= $(DOCNAME)
+#SPEC_XSL		= $(COMMON_CONFIG)/xsl/spec2.xsl
+#SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
+endif
+endif
+
