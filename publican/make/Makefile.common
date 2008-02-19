@@ -55,6 +55,16 @@ ifdef EXTRA_DIRS
 EXTRA_DIRS_C	?= $(shell echo $(EXTRA_DIRS) | sed -e 's/ /,/g')
 endif
 
+# Is there a brand specific Makefile?
+ifdef BRAND
+BRAND_MAKE	= $(shell if [ -f $(COMMON_CONFIG)/make/Makefile.$(BRAND) ]; then echo "1";else echo "0";fi)
+endif
+
+# If there is include it
+ifeq "$(BRAND_MAKE)" "1"
+include $(COMMON_CONFIG)/make/Makefile.$(BRAND)
+endif
+
 include $(COMMON_CONFIG)/make/Makefile.templates
 
 # Stub for books that need to pre generate things (Services_Plan)

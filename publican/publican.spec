@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	13%{?dist}
+Release:	25%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -13,7 +13,7 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 # need kdesdk for po2xml
-Requires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl dejavu-lgc-fonts
+Requires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl dejavu-lgc-fonts elinks
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/publican
@@ -82,14 +82,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
-- Added requires perl(XML::TreeBuilder)
+- Added missing Requires perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
 - Die with a decent warning when an invalid Brand is chosen. BZ #429236
 - Modified title page of PDF. BZ #429977
-- Fix PDF list whit space issue BZ #429237
-- Fix ulinks too big for tables BZ #430623
+- Fix PDF list white space issue BZ #429237
+- Fix PDF ulinks too big for tables BZ #430623
 - Allowed rev history to be in any file BZ #297411
 - Fix keycap hard to read in admon BZ #369161
+- Added per Brand Makefile
+- Add per Brand xsl files
+- Added Requires elinks (used for formatted text output)
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces
