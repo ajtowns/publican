@@ -93,6 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 - Added per Brand Makefile
 - Add per Brand xsl files
 - Added Requires elinks (used for formatted text output)
+- Handle different FOP versions
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces
