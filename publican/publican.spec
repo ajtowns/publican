@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	25%{?dist}
+Release:	26%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -94,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add per Brand xsl files
 - Added Requires elinks (used for formatted text output)
 - Handle different FOP versions
+- Fix PDF issue with nested images
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces
