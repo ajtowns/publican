@@ -29,6 +29,7 @@ CHUNK_FIRST		?= 1
 SHOW_REMARKS	?= 0
 EMBEDTOC	?= 0
 BRAND		?= common
+FOP_VER		= $(shell fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g';)
 
 ###############################################################################
 # SECTION: PUBLISHING 
@@ -165,13 +166,23 @@ ifeq "${1}" "txt"
 	@cd tmp/${2} && /usr/bin/links -dump -dump-width 72 -force-html -dump-charset UTF8 -no-numbering html-single/index.html > txt/$(DOCNAME).txt
 else
 ifeq "${1}" "pdf"
+	cd tmp/${2}/xml; \
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then \
+			xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; \
+		else \
+			xsl_file="$(COMMON_CONFIG)/xsl/${3}"; \
+		fi; \
+		if [ "$(FOP_VER)" = "0.20.5" ]; then \
+			$(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+		else \
+			$(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
+		fi
 	@cd tmp/${2}/xml; \
-		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file  $(DOCNAME).xml
-	@cd tmp/${2}/xml; \
-		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`;\
-		if [ ! -f $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf ]; then echo "ERROR: config file for FOP version '$$$$fop_ver' not found"; exit 1;fi;\
-		fop -q -c $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
+		if [ ! -f $(COMMON_CONFIG)/fop/fop-$(FOP_VER).xconf ]; then \
+			echo "ERROR: config file for FOP version '$(FOP_VER)' not found"; \
+			exit 1; \
+		fi; \
+		fop -q -c $(COMMON_CONFIG)/fop/fop-$(FOP_VER).xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else
 ifeq "${1}" "html-single"

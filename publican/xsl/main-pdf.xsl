@@ -30,7 +30,7 @@
 <xsl:param name="img.src.path"/>
 <xsl:param name="confidential" select="0"/>
 <xsl:param name="qandadiv.autolabel" select="0"/>
-<xsl:param name="keep.relative.image.uris" select="1"/>
+<xsl:param name="keep.relative.image.uris" select="0"/>
 <xsl:param name="hyphenation-character">-</xsl:param>
 
 <!--xsl:param name="hyphenate.verbatim" select="0"/-->
