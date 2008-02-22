@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	41%{?dist}
+Release:	43%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -12,7 +12,7 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
-# need kdesdk for po2xml
+# need kdesdk for po2xml & xml2pot
 Requires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl dejavu-lgc-fonts elinks
 BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
