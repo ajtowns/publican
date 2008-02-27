@@ -3,7 +3,7 @@
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
 Version:	0.9
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
