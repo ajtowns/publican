@@ -128,6 +128,9 @@ endif
 		if [ "$(CONDITION)" != "" ]; then \
 			args=`echo "$$$$args -condition $(CONDITION)"`; \
 		fi; \
+		if [ "$(DTD_VER)" != "" ]; then \
+			args=`echo "$$$$args -dtd $(DTD_VER)"`; \
+		fi; \
 		pushd tmp/${1}/xml_tmp > /dev/null; \
 			echo "cleaning files"; \
 			for file in `find . -name "*.xml" | sort`; do \

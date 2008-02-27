@@ -57,6 +57,7 @@ my $arch            = undef;
 my $condition       = undef;
 my $DEFAULT_WRAP    = 82;
 my $common          = 0;
+my $dtdver          = '4.5';
 
 $columns = $DEFAULT_WRAP;
 
@@ -73,6 +74,7 @@ if ((   !GetOptions(
             "U"           => \$SHOW_UNKNOWN,
             "book=s"      => \$book_name,
             "common"      => \$common,
+            "dtd=s"       => \$dtdver,
         )
     )
     || ( !( $in_file && $out_file ) )
@@ -90,6 +92,7 @@ if ((   !GetOptions(
 	[-cleanid]\
 	-U\
 	[--common]\
+	[-dtd <dtd version>]\
 	"
     );
 }
@@ -493,7 +496,7 @@ sub PrintXML($) {
         print( OUTDOC q|<?xml version='1.0'?>| . "\n" );
         print(    OUTDOC q|<!DOCTYPE | 
                 . $type
-                . q| PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [|
+                . qq| PUBLIC "-//OASIS//DTD DocBook XML V$dtdver//EN" "http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd" [|
                 . "\n" );
 
       # Don't output this header for the source xml as it breaks the ANT build

@@ -12,13 +12,17 @@ TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
 CHUNK_FIRST	= 0
 
 STANDALONE	?= 0
-PWD			= $(shell pwd)
+PWD		= $(shell pwd)
 
 ifeq "$(STANDALONE)" "0" 
 COMMON_CONFIG  = /usr/share/publican
 else
 COMMON_CONFIG	= $(PWD)/../..
+CATALOGS	= XML_CATALOG_FILES="/usr/share/sgml/docbook/xmlcatalog $(PWD)/../../xslcat"
+DTD_VER		= 4.3
+XMLCLEAN	= $(PWD)/../../bin/xmlClean
 endif
+
 
 include $(COMMON_CONFIG)/make/Makefile.common
 
