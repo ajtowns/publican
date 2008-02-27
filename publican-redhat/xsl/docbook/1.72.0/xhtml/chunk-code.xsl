@@ -575,7 +575,7 @@
     </xsl:call-template>
   </xsl:variable>
 
-<!--
+<!-- -->
   <xsl:message>
     <xsl:text>in.other.chunk: </xsl:text>
     <xsl:value-of select="name($chunk)"/>
@@ -586,7 +586,7 @@
     <xsl:text> </xsl:text>
     <xsl:value-of select="$is.chunk"/>
   </xsl:message>
--->
+<!-- -->
 
   <xsl:choose>
     <xsl:when test="$chunk = $node">0</xsl:when>

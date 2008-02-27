@@ -22,6 +22,8 @@ table after
 procedure before 
 </xsl:param>
 
+<xsl:param name="doc.url" select="'http://www.redhat.com/docs'"/>
+
 <!--
 Copied from fo/params.xsl
 -->

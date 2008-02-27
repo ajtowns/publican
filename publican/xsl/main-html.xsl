@@ -30,36 +30,55 @@
 <xsl:param name="chunk.toc" select="''"/>
 
 <!--
-From: xhtml/footnote.xsl
+From: xsl/docbook/1.72.0/xhtml/chunk-code.xsl
 Reason: remove inline css from hr
 Version: 1.72.0
 -->
 <xsl:template name="process.footnotes">
   <xsl:variable name="footnotes" select=".//footnote"/>
-  <xsl:variable name="table.footnotes" select=".//tgroup//footnote"/>
+  <xsl:variable name="fcount">
+    <xsl:call-template name="count.footnotes.in.this.chunk">
+      <xsl:with-param name="node" select="."/>
+      <xsl:with-param name="footnotes" select="$footnotes"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+<!--
+  <xsl:message>
+    <xsl:value-of select="name(.)"/>
+    <xsl:text> fcount: </xsl:text>
+    <xsl:value-of select="$fcount"/>
+  </xsl:message>
+-->
 
   <!-- Only bother to do this if there's at least one non-table footnote -->
-  <xsl:if test="count($footnotes)&gt;count($table.footnotes)">
-    <div class="footnotes">
+  <xsl:if test="$fcount &gt; 0">
+    <div class="footnotes" xmlns="http://www.w3.org/1999/xhtml">
       <br/>
       <hr/>
-      <xsl:apply-templates select="$footnotes" mode="process.footnote.mode"/>
+      <xsl:call-template name="process.footnotes.in.this.chunk">
+        <xsl:with-param name="node" select="."/>
+        <xsl:with-param name="footnotes" select="$footnotes"/>
+      </xsl:call-template>
     </div>
   </xsl:if>
 
+  <!-- FIXME: When chunking, only the annotations actually used
+              in this chunk should be referenced. I don't think it
+              does any harm to reference them all, but it adds
+              unnecessary bloat to each chunk. -->
   <xsl:if test="$annotation.support != 0 and //annotation">
     <div class="annotation-list">
       <div class="annotation-nocss">
-	<p>The following annotations are from this essay. You are seeing
-	them here because your browser doesn&#8217;t support the user-interface
-	techniques used to make them appear as &#8216;popups&#8217; on modern browsers.</p>
+        <p>The following annotations are from this essay. You are seeing
+        them here because your browser doesn&#8217;t support the user-interface
+        techniques used to make them appear as &#8216;popups&#8217; on modern browsers.</p>
       </div>
 
       <xsl:apply-templates select="//annotation" mode="annotation-popup"/>
     </div>
   </xsl:if>
 </xsl:template>
-
 <!--
 From: xhtml/chunk-common.xsl
 Reason: remove tables, truncate link text
@@ -82,7 +101,7 @@ Version:
 					</xsl:attribute>
 					<a>
 						<xsl:attribute name="href">
-							<xsl:text>http://www.redhat.com/docs</xsl:text>
+							<xsl:value-of select="$doc.url"/>
 						</xsl:attribute>
 						<strong>
 							<xsl:apply-templates select="." mode="object.title.markup"/>

@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	43%{?dist}
+Release:	47%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -95,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 - Added Requires elinks (used for formatted text output)
 - Handle different FOP versions
 - Fix PDF issue with nested images
+- Added id_node to clean_ids to use none title nodes for id's BZ #434726
+- Fix footnotes being duplicated in wrong chunks BZ #431388
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces
