@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Wed Feb 27 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.30-1
+ - fixed bold text CSS bug for BZ #430617
+
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
