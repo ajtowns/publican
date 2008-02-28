@@ -2,8 +2,8 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	0.9
-Release:	4%{?dist}
+Version:	0.10
+Release:	0%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,7 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/make/Makefile.%{brand}
 
 %changelog
-* Fri Feb 15 2008 Jeff Fearn <jfearn@redhat.com> 0.10-0
+* Thu Feb 28 2008 Jeff Fearn <jfearn@redhat.com> 0.10-0
 - Added PRODUCT entity with default msg. BZ #431171
 - Added BOOKID entity with default msg. BZ #431171
 - Fix keycap hard to read in admon BZ #369161

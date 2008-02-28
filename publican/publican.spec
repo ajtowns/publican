@@ -2,8 +2,8 @@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.29
-Release:	49%{?dist}
+Version:	0.30
+Release:	0%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -81,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
+* Thu Feb 24 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
 - Die with a decent warning when an invalid Brand is chosen. BZ #429236

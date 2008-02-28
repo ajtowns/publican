@@ -2,7 +2,7 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	0.9
+Version:	0.10
 Release:	0%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
@@ -27,8 +27,10 @@ for %{brand} with publican.
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Templates
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/make
 cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
+install -m 755 make/Makefile.%{brand} $RPM_BUILD_ROOT%{_datadir}/publican/make/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -39,8 +41,16 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
 %{_datadir}/publican/Templates/%{brand}-Book_Template
+%{_datadir}/publican/make/Makefile.%{brand}
 
 %changelog
+* Thu Feb 28 2008 Jeff Fearn <jfearn@redhat.com> 0.10-0
+- Added PRODUCT entity with default msg. BZ #431171
+- Added BOOKID entity with default msg. BZ #431171
+- Fix keycap hard to read in admon BZ #369161
+- Added Brand Makefile
+- Fix docs URL BZ #434733
+
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
 - Changed Group
 - Updated Legal Notice
