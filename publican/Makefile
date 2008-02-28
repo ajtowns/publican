@@ -23,6 +23,9 @@ RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' 
 PWD	= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
 OS_VER	= $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
+ifeq "$(OS_VER)" "ELx"
+OS_VER	= "el4"
+endif
 REAL_RPMDIR	= $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
 XMLCLEAN = $(PWD)/bin/xmlClean
 

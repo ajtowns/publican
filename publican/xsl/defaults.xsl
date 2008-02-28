@@ -23,7 +23,10 @@ procedure before
 </xsl:param>
 
 <xsl:param name="doc.url" select="'http://www.redhat.com/docs'"/>
-
+<xsl:template name="user.preroot">
+  <!-- Pre-root output, can be used to output comments and PIs. -->
+  <!-- This must not output any element content! -->
+</xsl:template>
 <!--
 Copied from fo/params.xsl
 -->
