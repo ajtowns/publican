@@ -28,11 +28,9 @@ for %{brand} with publican.
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Templates
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/make
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/xsl
 cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
 install -m 755 make/Makefile.%{brand} $RPM_BUILD_ROOT%{_datadir}/publican/make/.
-cp -rf xsl/docbook $RPM_BUILD_ROOT%{_datadir}/publican/xsl/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -44,7 +42,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 %{_datadir}/publican/Templates/%{brand}-Book_Template
 %{_datadir}/publican/make/Makefile.%{brand}
-%{_datadir}/publican/xsl/docbook
 
 %changelog
 * Fri Feb 15 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0

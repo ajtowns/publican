@@ -28,7 +28,7 @@ XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
 
-FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop
+FILES	= bin Book_Template content fop fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop xsl_extras
 
 local: rpm
 	@echo "Start $@"
@@ -69,13 +69,6 @@ MYPATH = $(shell echo $$PATH)
 docs: PATH=$(MYPATH):$(PWD)/bin
 docs: Common_Content
 	@echo "Start $@"
-	@echo '<?xml version="1.0" encoding="utf-8"?>' > xslcat;
-	@echo '<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">' >> xslcat;
-	@echo '   <rewriteURI uriStartString="http://docbook.sourceforge.net/release/xsl/current/" rewritePrefix="/usr/share/sgml/docbook/xsl-stylesheets/"/>' >> xslcat;
-	@echo '   <rewriteSystem systemIdStartString="http://docbook.sourceforge.net/release/xsl/current/" rewritePrefix="/usr/share/sgml/docbook/xsl-stylesheets/"/>' >> xslcat;
-	@echo '   <rewriteURI uriStartString="http://docbook.sourceforge.net/release/xsl/1.72.0/" rewritePrefix="/usr/share/sgml/docbook/xsl-stylesheets/"/>' >> xslcat;
-	@echo '   <rewriteSystem systemIdStartString="http://docbook.sourceforge.net/release/xsl/1.72.0/" rewritePrefix="/usr/share/sgml/docbook/xsl-stylesheets/"/>' >> xslcat;
-	@echo '</catalog>' >> xslcat;
 	@make -C content/docs STANDALONE=1 publish-dist
 	@mv content/docs/publish docs
 	@echo "End $@"
@@ -158,11 +151,11 @@ Common_Content:: entities
 				else \
 					echo "		Processing ../$$lang/$$po_file"; \
 					po2xml $$xml_file ../$$lang/$$po_file > tmp.xml; \
-					$(XMLCLEAN) -dtd "4.3" --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang; \
+					$(XMLCLEAN) --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang; \
 					rm tmp.xml; \
 				fi; \
 			done; \
-			$(XMLCLEAN) -dtd "4.3" --common -in $$xml_file -out $(PWD)/Common_Content/common/en-US/$$xml_file -lang en-US; \
+			$(XMLCLEAN) --common -in $$xml_file -out $(PWD)/Common_Content/common/en-US/$$xml_file -lang en-US; \
 		done; \
 		cd ..; \
 		for lang in $(LANGS) en-US; do \

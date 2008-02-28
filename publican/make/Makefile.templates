@@ -32,6 +32,8 @@ BRAND		?= common
 FOP_VER		= $(shell fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g';)
 DOC_URL		?= http://www.redhat.com/doc
 
+#CATALOGS_OVERRIDE
+
 ###############################################################################
 # SECTION: PUBLISHING 
 ###############################################################################
@@ -177,9 +179,9 @@ ifeq "${1}" "pdf"
 			xsl_file="$(COMMON_CONFIG)/xsl/${3}"; \
 		fi; \
 		if [ "$(FOP_VER)" = "0.20.5" ]; then \
-			$(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+			$(CATALOGS) xsltproc --nonet --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 		else \
-			$(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
+			$(CATALOGS) xsltproc --nonet --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
 		fi
 	@cd tmp/${2}/xml; \
 		if [ ! -f $(COMMON_CONFIG)/fop/fop-$(FOP_VER).xconf ]; then \
@@ -192,14 +194,14 @@ else
 ifeq "${1}" "html-single"
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam embedtoc $(EMBEDTOC) --stringparam show.comments $(SHOW_REMARKS) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
+		$(CATALOGS) xsltproc --nonet --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam embedtoc $(EMBEDTOC) --stringparam show.comments $(SHOW_REMARKS) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
 else
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $(EMBEDTOC) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
+		$(CATALOGS) xsltproc --nonet --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $(EMBEDTOC) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
@@ -343,7 +345,7 @@ define	TEST_Template
 .PHONY:	test-${1}
 test-${1}:: xml-${1}
 	@echo "START: test-${1} `date`"
-	@$(CATALOGS) xmllint --noout --postvalid --xinclude tmp/${1}/xml/$(DOCNAME).xml
+	@$(CATALOGS) xmllint --nonet --noout --postvalid --xinclude tmp/${1}/xml/$(DOCNAME).xml
 	@echo "END: test-${1} `date`"
 endef
 

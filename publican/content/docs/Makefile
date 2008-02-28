@@ -18,8 +18,7 @@ ifeq "$(STANDALONE)" "0"
 COMMON_CONFIG  = /usr/share/publican
 else
 COMMON_CONFIG	= $(PWD)/../..
-CATALOGS	= XML_CATALOG_FILES="/usr/share/sgml/docbook/xmlcatalog $(PWD)/../../xslcat"
-DTD_VER		= 4.3
+CATALOGS	= XML_CATALOG_FILES="$(PWD)/../../xsl_extras/docbook/dtd-4.5/catalog.xml $(PWD)/../../xsl_extras/docbook/1.72.0/catalog.xml"
 XMLCLEAN	= $(PWD)/../../bin/xmlClean
 endif
 

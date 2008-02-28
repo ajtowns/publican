@@ -10,7 +10,7 @@ done
 
 for brand in Common fedora JBoss RedHat; do
 	make --directory=Test-$brand html html-single;
-	firefox Test-$brand/tmp/en-US/html-single/index.html;
-	firefox Test-$brand/tmp/en-US/html/index.html;
+	firefox Test-$brand/tmp/en-US/html-single/index.html&;
+	firefox Test-$brand/tmp/en-US/html/index.html&;
 done
 

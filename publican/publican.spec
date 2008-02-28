@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	47%{?dist}
+Release:	49%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -81,9 +81,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Feb 27 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.30-1
- - fixed bold text CSS bug for BZ #430617
-
 * Thu Feb 14 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
@@ -100,6 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix PDF issue with nested images
 - Added id_node to clean_ids to use none title nodes for id's BZ #434726
 - Fix footnotes being duplicated in wrong chunks BZ #431388
+- fixed bold text CSS bug for BZ #430617
 
 * Wed Feb 13 2008 Jeff Fearn <jfearn@redhat.com> 0.29-2
 - replace tab in changelog with spaces

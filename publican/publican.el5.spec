@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.29
-Release:	47%{?dist}
+Release:	49%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -13,8 +13,8 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 # need kdesdk for po2xml & xml2pot
-Requires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl dejavu-lgc-fonts elinks
-BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
+Requires:	gettext libxslt kdesdk perl(XML::TreeBuilder) dejavu-lgc-fonts elinks
+BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
 BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel  < 0.26-3
@@ -42,10 +42,13 @@ mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p -m755 $RPM_BUILD_ROOT%{_bindir}
 install -m 755 bin/* $RPM_BUILD_ROOT%{_bindir}
+%{__perl} -p -i -e 's|^#CATALOGS_OVERRIDE$|CATALOGS\t= XML_CATALOG_FILES="%{_datadir}/%{name}/xsl/docbook/dtd-4.5/catalog.xml %{_datadir}/%{name}/xsl/docbook/1.72.0/catalog.xml"|g' make/Makefile.templates
+
 for i in fop make xsl Common_Content templates; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Template
+cp -rf xsl_extras/docbook $RPM_BUILD_ROOT%{_datadir}/publican/xsl/.
 
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
