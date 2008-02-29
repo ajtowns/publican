@@ -178,17 +178,18 @@ ifeq "${1}" "pdf"
 		else \
 			xsl_file="$(COMMON_CONFIG)/xsl/${3}"; \
 		fi; \
-		if [ "$(FOP_VER)" = "0.20.5" ]; then \
+		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
+		if [ "$$$$fop_ver" = "0.20.5" ]; then \
 			$(CATALOGS) xsltproc --nonet --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 		else \
 			$(CATALOGS) xsltproc --nonet --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
 		fi
 	@cd tmp/${2}/xml; \
-		if [ ! -f $(COMMON_CONFIG)/fop/fop-$(FOP_VER).xconf ]; then \
-			echo "ERROR: config file for FOP version '$(FOP_VER)' not found"; \
+		if [ ! -f $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf ]; then \
+			echo "ERROR: config file for FOP version '$$$$fop_ver' not found"; \
 			exit 1; \
 		fi; \
-		fop -q -c $(COMMON_CONFIG)/fop/fop-$(FOP_VER).xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
+		fop -q -c $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else
 ifeq "${1}" "html-single"
@@ -239,6 +240,8 @@ endif
 		if [ ! -f ../${1}/$$$$po_file ]; then \
 			echo "Creating new po file: ../${1}/$$$$po_file"; \
 			msginit -l ${1} --no-translator -i $$$$pot_file -o ../${1}/$$$$po_file; \
+			sed -i -e 's/PACKAGE/$(DOCNAME)/g' ../${1}/$$$$po_file; \
+			sed -i -e 's/VERSION/$(VERSION)/g' ../${1}/$$$$po_file; \
 		else \
 			echo "Merging existing po file: ../${1}/$$$$po_file"; \
 			echo -n "	Before:	";\

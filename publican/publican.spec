@@ -81,6 +81,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Fri Feb 25 2008 Jeff Fearn <jfearn@redhat.com> 0.31-0
+- Fixed Project-Id-Version not being set on PO creation BZ #435401
+- Fixed java slowing down every make run BZ #435407
+
 * Thu Feb 24 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
