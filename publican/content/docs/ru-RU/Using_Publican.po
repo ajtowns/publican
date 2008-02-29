@@ -1,0 +1,1294 @@
+# Language ru-RU translations for Publican package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Publican 1.0\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2008-02-29 12:08+0000\n"
+"PO-Revision-Date: 2008-02-29 12:08+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Using_Publican.xml:6
+#, no-c-format
+msgid "Using the publican package"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:7
+#, no-c-format
+msgid ""
+"This chapter describes the process of installing the publican package, "
+"creating books, the main configuration files, example book files, and how to "
+"build a book."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:11
+#, no-c-format
+msgid "Installing publican"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:12
+#, no-c-format
+msgid "To install publican:"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:17
+#, no-c-format
+msgid "Change to the root user:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:21
+#, no-c-format
+msgid ""
+"$ su -\n"
+"Password:"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:25
+#, no-c-format
+msgid "Run the following command to install the publican package:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:29
+#, no-c-format
+msgid "# yum install publican"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:33
+#, no-c-format
+msgid ""
+"As well, there are three branded publican packages available: RedHat, Fedora "
+"and JBoss. Run the following command as the root user to build branded books:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:36
+#, no-c-format
+msgid "# yum install publican-<replaceable>brand</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:37
+#, no-c-format
+msgid "Replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:43
+#, no-c-format
+msgid "Creating a Book"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:44
+#, no-c-format
+msgid ""
+"Use the <command>create_book</command> command to create a new book. The "
+"<command>create_book</command> command creates all the necessary files to "
+"create a book."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:47
+#, no-c-format
+msgid ""
+"The following is a list of valid options for the <command>create_book</"
+"command> command. Append these options to the end of the "
+"<command>create_book</command> command. For example, <command>create_book -"
+"help</command>, <command>create_book --name New_Book</command>, and so on:"
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:52
+#, no-c-format
+msgid "-help"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:54
+#, no-c-format
+msgid "print a list of all <command>create_book</command> command options."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:60
+#, no-c-format
+msgid "-man"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:62
+#, no-c-format
+msgid ""
+"view the publican manual page. The manual page contains the same information "
+"returned by the <command>create_book -help</command> command."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:68
+#, no-c-format
+msgid "--name<replaceable> Book_Name</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:70
+#, no-c-format
+msgid ""
+"replace <replaceable>Book_Name</replaceable> with the name of the book or "
+"article. This variable must not contain any spaces. For example, running the "
+"<command>create_book --name Test_Book</command> command creates a book named "
+"Test_Book, and all the necessary files to build the book. This updates the "
+"<filename>Makefile</filename> with the correct <computeroutput>DOCNAME</"
+"computeroutput>, and the <filename><replaceable>Book_Name</replaceable>.ent</"
+"filename> file with the correct <computeroutput>BOOKID</computeroutput>."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:76
+#, no-c-format
+msgid "--version<replaceable> version</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:78
+#, no-c-format
+msgid ""
+"replace <replaceable>version</replaceable> with the version number of the "
+"book. The default version is 0.1. Using <command>--version <replaceable> "
+"version</replaceable></command> updates the <computeroutput>&lt;issuenum&gt;"
+"&lt;/issuenum&gt;</computeroutput> tags in the <filename>Book_Info.xml</"
+"filename> file."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:84
+#, no-c-format
+msgid "--revision<replaceable> revision</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:86
+#, no-c-format
+msgid ""
+"replace <replaceable> revision</replaceable> with the revision number of the "
+"book. The default value is 0. Using <command>--revision<replaceable> "
+"revision</replaceable></command> updates the <computeroutput>&lt;"
+"productnumber&gt;&lt;/productnumber&gt;</computeroutput> tags in the "
+"<filename>Book_Info.xml</filename> file."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:92
+#, no-c-format
+msgid "--product<replaceable> Product_Name</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:94
+#, no-c-format
+msgid ""
+"replace <replaceable> Product_Name</replaceable> with the product name. This "
+"variable must not contain any spaces. Set this to <computeroutput>Fedora</"
+"computeroutput> for core Fedora documentation, and the name of the product "
+"for other products, for example, <computeroutput>Fedora_Directory_Server</"
+"computeroutput>. The <command>--product<replaceable> Product_Name</"
+"replaceable></command> option updates the <filename>Makefile</filename> and "
+"the <filename><replaceable>Book_Name</replaceable>.ent</filename> file with "
+"the correct product name."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:100
+#, no-c-format
+msgid "--article --name<replaceable> Article_Name</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:102
+#, no-c-format
+msgid ""
+"create an article instead of a book. Replace <replaceable> Article_Name</"
+"replaceable> with the article name. This variable must not contain any "
+"spaces."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:108
+#, no-c-format
+msgid "--brand <replaceable>brand</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:110
+#, no-c-format
+msgid ""
+"replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This "
+"requires the appropriate publican package to be installed. For example, to "
+"build RedHat branded books, you must install the publican-RedHat package. "
+"See <xref linkend=\"sect-Publican-Using_the_publican_package-"
+"Installing_publican\"/> for instructions on installing the branded publican "
+"packages."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:116
+#, no-c-format
+msgid ""
+"Before running the <command>create_book</command> command, use the "
+"<command>cd</command> command to change into the directory where you want "
+"the book to be created. For example, to create a book named Test_Book in the "
+"<filename>/my/books/</filename> directory, run the following commands:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:120
+#, no-c-format
+msgid "cd /my/books/"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:123
+#, no-c-format
+msgid "create_book --name Test_Book"
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:128
+#, no-c-format
+msgid "Files in the Book directory"
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:130
+#, no-c-format
+msgid "Directory Structure"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:131
+#, no-c-format
+msgid ""
+"Running the <command>create_book --name <replaceable>Book_Name</"
+"replaceable></command> command will create a directory structure and the "
+"required files, similar to the following:"
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:143
+#, no-c-format
+msgid "The <filename>Makefile</filename>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:144
+#, no-c-format
+msgid ""
+"The <filename>Makefile</filename> is used to configure build options, and is "
+"located in the root of the book directory. The following is an example "
+"<filename>Makefile</filename>, with instructions following afterwards:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:147
+#, no-c-format
+msgid ""
+"XML_LANG        = en-US\n"
+"DOCNAME         = Test_Name\n"
+"PRODUCT        = Test_Product\n"
+"        \n"
+"#OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN\n"
+"TRANSLATIONS   = $(XML_LANG) $(OTHER_LANGS)\n"
+"        \n"
+"COMMON_CONFIG   = /usr/share/publican\n"
+"include $(COMMON_CONFIG)/make/Makefile.common"
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:150
+#, no-c-format
+msgid "XML_LANG"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:152
+#, no-c-format
+msgid ""
+"set this to the language of the source xml files, for example, "
+"<computeroutput>en-US</computeroutput>."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:158
+#, no-c-format
+msgid "DOCNAME"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:160
+#, no-c-format
+msgid ""
+"this must be set to the same name as the main book file, "
+"<filename><replaceable>Book_Name</replaceable>.xml</filename>, otherwise the "
+"book will not build. This variable must not contain any spaces."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:163
+#, no-c-format
+msgid ""
+"Running the <command>create_book --name <replaceable>Book_Name</"
+"replaceable></command> command correctly configures the "
+"<computeroutput>DOCNAME</computeroutput>."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:169
+#, no-c-format
+msgid "PRODUCT"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:171
+#, no-c-format
+msgid ""
+"the product the book is associated with. This variable must not contain any "
+"spaces. Set this to <computeroutput>Fedora</computeroutput> for core Fedora "
+"documentation. For other documentation, this will be the product, for "
+"example, <computeroutput>Fedora_Directory_Server</computeroutput>."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:174
+#, no-c-format
+msgid ""
+"Running the <command>create_book --name <replaceable>Book_Name</replaceable> "
+"--product <replaceable>Product_Name</replaceable></command> command "
+"correctly configures the <computeroutput>PRODUCT</computeroutput>."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:180
+#, no-c-format
+msgid "TRANSLATIONS"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:182
+#, no-c-format
+msgid ""
+"list of language locales to build the book in. Specify additional languages "
+"using <filename>OTHER_LANGS</filename>, then add <filename>$(OTHER_LANGS)</"
+"filename> to <filename>TRANSLATIONS</filename>."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:188
+#, no-c-format
+msgid "OTHER_LANGS"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:190
+#, no-c-format
+msgid ""
+"space-separated list of other language locales. Used to specify other "
+"language locales to build the book in."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:196
+#, no-c-format
+msgid ""
+"The following is an example <filename>Makefile</filename> that includes "
+"translations:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:200
+#, no-c-format
+msgid ""
+"XML_LANG       = en-US\n"
+"DOCNAME        = Test_Name\n"
+"PRODUCT        = Test Product\n"
+"\n"
+"OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-"
+"IN\n"
+"ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW\n"
+"TRANSLATIONS   = $(XML_LANG) $(OTHER_LANGS)\n"
+"        \n"
+"COMMON_CONFIG  = /usr/share/publican\n"
+"include $(COMMON_CONFIG)/make/Makefile.common"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:202
+#, no-c-format
+msgid ""
+"Note that <computeroutput>OTHER_LANGS</computeroutput> is no longer "
+"commented out, and <computeroutput>$(OTHER_LANGS)</computeroutput> has been "
+"added to <computeroutput>TRANSLATIONS</computeroutput>."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:206 Using_Publican.xml:468
+#, no-c-format
+msgid "make help_params"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:207
+#, no-c-format
+msgid ""
+"Run the <command>make help_params</command> command in the root directory of "
+"a book for a full list of parameters that can be set in the "
+"<filename>Makefile</filename>."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:214
+#, no-c-format
+msgid "Book_Info.xml"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:215
+#, no-c-format
+msgid ""
+"The <filename>Book_Info.xml</filename> file is used to set the book ID, "
+"title, subtitle, issue and product numbers, and an abstract which appears at "
+"the start of the book. The following is an example <filename>Book_Info.xml</"
+"filename> file for the Test_Book book, with instructions following "
+"afterwards:"
+msgstr ""
+
+#. Tag: programlisting
+#: Using_Publican.xml:218
+#, no-c-format
+msgid ""
+"&lt;?xml version=&#39;1.0&#39;?&gt;\n"
+"&lt;!DOCTYPE bookinfo PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\"\n"
+"\"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"]&gt;\n"
+"\n"
+"&lt;bookinfo id=\"Test_Book-Product_Name_and_Version\"&gt;\n"
+"        &lt;title&gt;Product Name and Version&lt;/title&gt;\n"
+"        &lt;subtitle&gt;Test Book&lt;/subtitle&gt;\n"
+"        &lt;issuenum&gt;0.0&lt;/issuenum&gt;\n"
+"        &lt;productnumber&gt;0&lt;/productnumber&gt;\n"
+"        &lt;abstract&gt;&lt;para&gt;This book is about... (Be brief; this "
+"para is used for the RPM spec\n"
+"        file)&lt;/para&gt;\n"
+"        &lt;/abstract&gt;\n"
+"        &lt;corpauthor&gt;\n"
+"                &lt;inlinemediaobject&gt;\n"
+"                        &lt;imageobject&gt;\n"
+"                                &lt;imagedata fileref=\"Common_Content/"
+"images/title_logo.png\" /&gt;\n"
+"                        &lt;/imageobject&gt;\n"
+"                &lt;/inlinemediaobject&gt;\n"
+"        &lt;/corpauthor&gt;\n"
+"        &lt;copyright&gt;\n"
+"                &lt;year&gt;&amp;YEAR&semi;&lt;/year&gt;\n"
+"                &lt;holder&gt;&amp;HOLDER&semi;&lt;/holder&gt;\n"
+"        &lt;/copyright&gt;\n"
+"        &lt;xi:include href=\"Common_Content/Legal_Notice.xml\" xmlns:xi="
+"\"http://www.w3.org/2001/XInclude\" /&gt;\n"
+"        &lt;xi:include href=\"Author_Group.xml\" xmlns:xi=\"http://www.w3."
+"org/2001/XInclude\" /&gt;\n"
+"&lt;/bookinfo&gt;"
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:221
+#, no-c-format
+msgid "&lt;bookinfo id=\"<replaceable>book_id</replaceable>\"&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:223
+#, no-c-format
+msgid ""
+"replace <replaceable>book_id</replaceable> with an ID for the book; however, "
+"if you run the <command>make clean_ids</command> command, this ID along with "
+"all other IDs will be changed to a <replaceable>Book_Name-Title</"
+"replaceable> format, where \"Title\" is the title of the article, book, "
+"section, or chapter."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:229
+#, no-c-format
+msgid "&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:231
+#, no-c-format
+msgid ""
+"replace <replaceable>title</replaceable> with the title of the book. Remove "
+"the <computeroutput>&lt;title&gt;</computeroutput> tags to remove the title."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:237
+#, no-c-format
+msgid "&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:239
+#, no-c-format
+msgid ""
+"replace <replaceable>subtitle</replaceable> with the subtitle of the book. "
+"The subtitle will appear under the title when the book is built. Remove the "
+"<computeroutput>&lt;subtitle&gt;</computeroutput> tags to remove the "
+"subtitle. A subtitle is required to build an RPM. When building a book as an "
+"RPM the subtitle is used as the <computeroutput>Summary</computeroutput> in "
+"the RPM spec file."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:245
+#, no-c-format
+msgid ""
+"&lt;issuenum&gt;<replaceable>issue-number</replaceable>&lt;/issuenum&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:247
+#, no-c-format
+msgid ""
+"replace <replaceable>issue-number</replaceable> with the issue number. The "
+"issue number changes the version number (the first two digits) when building "
+"a book with the <command>tar</command> or <command>srpm</command> options. "
+"For example, setting the issue number to <filename>1.2</filename> and "
+"building the book using the <command>make srpm</command> command, would "
+"create an RPM file named <filename><replaceable>PRODUCT</replaceable>-"
+"<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. "
+"<replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> "
+"are configured in the <filename>Makefile</filename>."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:250
+#, no-c-format
+msgid ""
+"Running the <command>create_book --name <replaceable> Book_Name</"
+"replaceable> --version <replaceable>version</replaceable></command> command "
+"correctly configures the issue number."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:256
+#, no-c-format
+msgid ""
+"&lt;productnumber&gt;<replaceable>product-number</replaceable>&lt;/"
+"productnumber&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:258
+#, no-c-format
+msgid ""
+"replace <replaceable>product-number</replaceable> with the product number. "
+"The product number changes the release number (the last digit) when building "
+"a book with the <filename>tar</filename> or <filename>srpm</filename> "
+"options. For example, setting the product number to <filename>1</filename> "
+"and building the book using the <command>make srpm</command> command, would "
+"create an RPM file named <filename><replaceable>PRODUCT</replaceable>-"
+"<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. "
+"<replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> "
+"are configured in the <filename>Makefile</filename>."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:261
+#, no-c-format
+msgid ""
+"Running the <command>create_book --name<replaceable> Book_Name</replaceable> "
+"--revision <replaceable>revision</replaceable></command> command correctly "
+"configures the product number."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:267
+#, no-c-format
+msgid ""
+"&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;"
+"&lt;/abstract&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:269
+#, no-c-format
+msgid ""
+"replace <replaceable>abstract</replaceable> with the abstract for the book. "
+"The abstract appears before the table of contents when using HTML, and on "
+"the second page when using PDF. When building a book as an RPM the abstract "
+"is used as the <computeroutput>description</computeroutput> in the RPM spec "
+"file."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:275
+#, no-c-format
+msgid "&lt;year&gt;&amp;YEAR&semi;&lt;/year&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:277
+#, no-c-format
+msgid ""
+"The <filename>&amp;YEAR&semi;</filename> entity is defined in "
+"<filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to "
+"set the copyright year of the book. Refer to <xref linkend=\"sect-Publican-"
+"Files_in_the_Book_directory-Book_Name.ent\"/> for configuration details."
+msgstr ""
+
+#. Tag: filename
+#: Using_Publican.xml:283
+#, no-c-format
+msgid "&lt;holder&gt;&amp;HOLDER&semi;&lt;/holder&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:285
+#, no-c-format
+msgid ""
+"The <filename>&amp;HOLDER&semi;</filename> entity is defined in "
+"<filename><replaceable>Book_Name</replaceable>.ent</filename>. Use this to "
+"set the copyright holder of the book. Refer to <xref linkend=\"sect-Publican-"
+"Files_in_the_Book_directory-Book_Name.ent\"/> for configuration details. The "
+"copyright section is not required."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:294
+#, no-c-format
+msgid "Author_Group.xml"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:295
+#, no-c-format
+msgid ""
+"Use the <filename>Author_Group.xml</filename> file to configure author "
+"details. This file is not required. The following is an example "
+"<filename>Author_Group.xml</filename> file:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:298
+#, no-c-format
+msgid ""
+"&lt;?xml version=&#39;1.0&#39;?&gt;\n"
+"&lt;!DOCTYPE authorgroup PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\"\n"
+"\"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"                  ]&gt;\n"
+"\n"
+"&lt;authorgroup&gt;\n"
+"        &lt;corpauthor&gt;\n"
+"                     Red Hat Documentation Group\n"
+"         &lt;/corpauthor&gt;\n"
+"        &lt;author&gt;\n"
+"                &lt;firstname&gt;Murray&lt;/firstname&gt;\n"
+"                 &lt;surname&gt;McAllister&lt;/surname&gt;\n"
+"                &lt;affiliation&gt;\n"
+"                     &lt;orgname&gt;Red Hat&lt;/orgname&gt;\n"
+"                     &lt;orgdiv&gt;Engineering Content Services&lt;/"
+"orgdiv&gt;\n"
+"                &lt;/affiliation&gt;\n"
+"                &lt;email&gt;mmcallis@redhat.com&lt;/email&gt;\n"
+"        &lt;/author&gt;\n"
+"&lt;/authorgroup&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:299
+#, no-c-format
+msgid ""
+"The <filename>Author_Group.xml</filename> file does not have to contain all "
+"of the above information: include as much or as little as required. The "
+"above <filename>Author_Group.xml</filename> file will create the following "
+"HTML output on the first page of the book:"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:309
+#, no-c-format
+msgid ""
+"Delete the following line from the <filename>Book_Info.xml</filename> file "
+"to remove the author information:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:312
+#, no-c-format
+msgid ""
+"&lt;xi:include href=\"Author_Group.xml\" xmlns:xi=\"http://www.w3.org/2001/"
+"XInclude\" /&gt;"
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:316
+#, no-c-format
+msgid "Chapter.xml"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:317
+#, no-c-format
+msgid ""
+"The <filename>Chapter.xml</filename> file is a template for creating chapter "
+"files. Chapter files contain the content that make up a book. The following "
+"is a chapter template (<filename>Chapter.xml</filename>) that is created "
+"after running the <command>create_book</command> command. Note the "
+"<filename>DOCTYPE</filename> is set to <filename>chapter</filename>:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:320
+#, no-c-format
+msgid ""
+"&lt;?xml version=&#39;1.0&#39;?&gt;\n"
+"&lt;!DOCTYPE chapter PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\"\n"
+"\"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"]&gt;\n"
+"        \n"
+"&lt;chapter id=\"Test_Book-Test\"&gt;&gt;\n"
+"        &lt;title&gt;Test&lt;/title&gt;\n"
+"        &lt;para&gt;\n"
+"                A test paragraph.\n"
+"        &lt;/para&gt;\n"
+"        &lt;section id=\"Test_Book-Test-Section_1_Test\"&gt;\n"
+"                &lt;title&gt;Section 1 Test&lt;/title&gt;\n"
+"                &lt;para&gt;\n"
+"                        A paragraph in section 1.\n"
+"                &lt;/para&gt;\n"
+"        &lt;/section&gt;\n"
+"        \n"
+"        &lt;section id=\"Test_Book-Test-Section_2_Test\"&gt;\n"
+"                &lt;title&gt;Section 2 Test&lt;/title&gt;\n"
+"                &lt;para&gt;\n"
+"                        A paragraph in section 2.\n"
+"                &lt;/para&gt;\n"
+"        &lt;/section&gt;\n"
+"        \n"
+"&lt;/chapter&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:321
+#, no-c-format
+msgid ""
+"This chapter has two sections, <filename>Section 1 Test</filename> and "
+"<filename>Section 2 Test</filename>. Please refer to <ulink url=\"http://"
+"docbook.org/tdg/en/html/chapter.html\"></ulink> for further information "
+"about chapters."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:325
+#, no-c-format
+msgid "Note"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:326
+#, no-c-format
+msgid ""
+"The chapter file should be renamed to something significant to the subject "
+"of the chapter. For example, a file on installing a product might be named "
+"<filename>Installation.xml</filename>, whereas a file on how to setup a "
+"piece of software might be renamed to <filename>Setup.xml</filename> or "
+"<filename>Configuration.xml</filename>."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:333
+#, no-c-format
+msgid "<replaceable>Book_Name</replaceable>.xml"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:334
+#, no-c-format
+msgid ""
+"The <filename><replaceable>Book_Name</replaceable>.xml</filename> file "
+"contains <filename>xi:include</filename> directives to include the chapters "
+"for a book. Chapters are contained in separate XML files, and the "
+"<filename><replaceable>Book_Name</replaceable>.xml</filename> file brings "
+"them together into a single book."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:337
+#, no-c-format
+msgid ""
+"The following is an example <filename><replaceable>Book_Name</replaceable>."
+"xml</filename> file. Note the <filename>DOCTYPE</filename> is set to "
+"<filename>book</filename>:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:340
+#, no-c-format
+msgid ""
+"&lt;?xml version=&#39;1.0&#39;?&gt;\n"
+"&lt;!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\"\n"
+"\"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"                ]&gt;\n"
+"\n"
+"&lt;book&gt;\n"
+"        &lt;xi:include href=\"Book_Info.xml\" xmlns:xi=\"http://www.w3."
+"org/2001/XInclude\" /&gt;\n"
+"        &lt;xi:include href=\"Chapter1.xml\" xmlns:xi=\"http://www.w3."
+"org/2001/XInclude\" /&gt;\n"
+"        &lt;xi:include href=\"Chatper2.xml\" xmlns:xi=\"http://www.w3."
+"org/2001/XInclude\" /&gt;\n"
+"        &lt;xi:include href=\"Chapter3.xml\" xmlns:xi=\"http://www.w3."
+"org/2001/XInclude\" /&gt;\n"
+"        \n"
+"&lt;/book&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:341
+#, no-c-format
+msgid ""
+"This example loads the <filename>Book_Info.xml</filename> file, and the "
+"<filename>Chapter1.xml</filename>, <filename>Chapter2.xml</filename>, and "
+"<filename>Chapter3.xml</filename> files. Replace the "
+"<filename>Chapter<replaceable>X</replaceable>.xml</filename> files with the "
+"name of your chapter files."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:344
+#, no-c-format
+msgid ""
+"The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is "
+"not limited to using <filename>xi:include</filename> directives. Books can "
+"be created using a single XML file. The following is an example of a book "
+"created using a single XML file:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:347
+#, no-c-format
+msgid ""
+"&lt;book&gt;\n"
+"\n"
+"&lt;chapter&gt;\n"
+"&lt;title&gt;Chapter 1&lt;/title&gt;\n"
+"        &lt;para&gt;\n"
+"                A paragraph in Chapter 1.\n"
+"        &lt;/para&gt;\n"
+"        &lt;section id=\"section1\"&gt;\n"
+"        &lt;title&gt;Chapter 1 Section 1&lt;/title&gt;\n"
+"                &lt;para&gt;\n"
+"                        A paragraph in Section 1.\n"
+"                &lt;/para&gt;\n"
+"        &lt;/section&gt;\n"
+"        &lt;section id=\"section2\"&gt;\n"
+"        &lt;title&gt;Chapter 1 Section 2&lt;/title&gt;\n"
+"                &lt;para&gt;\n"
+"                        A paragraph in Section 2.\n"
+"                &lt;/para&gt;\n"
+"        &lt;/section&gt;\n"
+"&lt;/chapter&gt;\n"
+"\n"
+"&lt;chapter&gt;\n"
+"&lt;title&gt;Chapter 2&lt;/title&gt;\n"
+"        &lt;para&gt;\n"
+"                A paragraph in Chapter 2.\n"
+"        &lt;/para&gt;\n"
+"&lt;/chapter&gt;\n"
+"\n"
+"&lt;/book&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:348
+#, no-c-format
+msgid ""
+"This book contains two chapters. Chapter one contains two sections. Please "
+"refer to <ulink url=\"http://docbook.org/tdg/en/html/section.html\"></ulink> "
+"for further information about sections, and <ulink url=\"http://docbook.org/"
+"tdg/en/html/book.html\"></ulink> for further information about books."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:354
+#, no-c-format
+msgid "<replaceable>Book_Name</replaceable>.ent"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:355
+#, no-c-format
+msgid ""
+"The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is "
+"used to define local entities. You must define <computeroutput>YEAR</"
+"computeroutput> and <computeroutput>HOLDER</computeroutput> entities, "
+"otherwise the book will not build:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:359
+#, no-c-format
+msgid ""
+"&lt;!ENTITY YEAR \"<replaceable>2008</replaceable>\"&gt;\n"
+"&lt;!ENTITY HOLDER \"<replaceable>Red Hat, Inc</replaceable>\"&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:361
+#, no-c-format
+msgid ""
+"The <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</"
+"computeroutput> entities are used for copyright information. Use entities to "
+"make writing commonly used terms quicker:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:365
+#, no-c-format
+msgid ""
+"&lt;!ENTITY FDP \"Fedora Documentation Project\"&gt;\n"
+"&lt;!ENTITY FDS \"Fedora Directory Server\"&gt;"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:367
+#, no-c-format
+msgid ""
+"Two entities are defined: <computeroutput>FDP</computeroutput> and "
+"<computeroutput>FDS</computeroutput>. Instead of typing "
+"<computeroutput>Fedora Documentation Project</computeroutput> you can use "
+"<computeroutput>&amp;FDP&semi;</computeroutput>. The build system adds the "
+"required entities to the XML files at build time. In the example above, "
+"<computeroutput>&amp;FDP&semi;</computeroutput> would be replaced with "
+"Fedora Documentation Project."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:375
+#, no-c-format
+msgid "Adding Images"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:376
+#, no-c-format
+msgid ""
+"Use the <filename>images</filename> subdirectory in the <filename>en-"
+"<replaceable>US</replaceable>/</filename> directory to store images. Use "
+"<computeroutput>./images/<replaceable>image-name</replaceable></"
+"computeroutput> to insert images into a book. The following is an example "
+"that inserts the <filename>testimage.png</filename> image:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:380
+#, no-c-format
+msgid ""
+"&lt;mediaobject&gt;\n"
+"        &lt;imageobject&gt;\n"
+"                &lt;imagedata fileref=\"./images/testimage.png\" /&gt;\n"
+"        &lt;/imageobject&gt;\n"
+"&lt;/mediaobject&gt;"
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:384
+#, no-c-format
+msgid "Image File Locations"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:385
+#, no-c-format
+msgid ""
+"The build system will only use images in the <filename>en-<replaceable>US</"
+"replaceable>/images</filename> subdirectory. Other directories will not work."
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:393
+#, no-c-format
+msgid "Building a Book"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:394
+#, no-c-format
+msgid "To build a book:"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:399
+#, no-c-format
+msgid ""
+"Confirm the <computeroutput>YEAR</computeroutput> and "
+"<computeroutput>HOLDER</computeroutput> entities have been configured in the "
+"<filename><replaceable>Book_Name</replaceable>.ent</filename> file, as per "
+"<xref linkend=\"sect-Publican-Files_in_the_Book_directory-Book_Name.ent\"/>."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:404
+#, no-c-format
+msgid ""
+"Change into the root directory of the book. For example, if the book was "
+"named <computeroutput>Test_Book</computeroutput> and was located in the "
+"<filename>/books/</filename> directory, run the following command:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:408
+#, no-c-format
+msgid "cd <replaceable>/books/Test_Book</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:412
+#, no-c-format
+msgid ""
+"Run the <command>ls</command> command in the root of a book directory. The "
+"output will be similar to the following:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:416
+#, no-c-format
+msgid "en-US  Makefile"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:420
+#, no-c-format
+msgid ""
+"Run the following command to check for any errors that would stop the book "
+"from building:"
+msgstr ""
+
+#. #-#-#-#-#  - (Publican 1.0)  #-#-#-#-#
+#. Tag: screen
+#. #-#-#-#-#  - (Publican 1.0)  #-#-#-#-#
+#. Tag: command
+#: Using_Publican.xml:424 Using_Publican.xml:476
+#, no-c-format
+msgid "make test"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:428
+#, no-c-format
+msgid "Run the following command to build the book:"
+msgstr ""
+
+#. Tag: screen
+#: Using_Publican.xml:432
+#, no-c-format
+msgid "make <replaceable>format</replaceable>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:434
+#, no-c-format
+msgid ""
+"Replace <replaceable>format</replaceable> with the desired format, for "
+"example, <computeroutput>html</computeroutput>."
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:439
+#, no-c-format
+msgid ""
+"The following table lists commonly used <command>make</command> commands:"
+msgstr ""
+
+#. Tag: title
+#: Using_Publican.xml:443
+#, no-c-format
+msgid "Common make Commands"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:449
+#, no-c-format
+msgid "Command"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:452
+#, no-c-format
+msgid "Result"
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:460
+#, no-c-format
+msgid "make help"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:462
+#, no-c-format
+msgid "List available <command>make</command> commands for building a book."
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:470
+#, no-c-format
+msgid ""
+"List available parameters that can be set in the <filename>Makefile</"
+"filename>."
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:478
+#, no-c-format
+msgid ""
+"Check that the book can be built correctly. Run the <command>make test</"
+"command> command before running any other <command>make</command> command, "
+"and before checking a book back into a repository (i.e. CVS or SVN)."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:484
+#, no-c-format
+msgid "make html"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:486
+#, no-c-format
+msgid ""
+"Build the book in HTML format. The HTML output will be located in the "
+"<filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</"
+"replaceable>/html/</filename> directory."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:492
+#, no-c-format
+msgid "make html-single"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:494
+#, no-c-format
+msgid ""
+"Build the book HTML format. The output will be a single HTML file located in "
+"the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</"
+"replaceable>/html-single/</filename> directory."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:500
+#, no-c-format
+msgid "make htmlhelp"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:502
+#, no-c-format
+msgid ""
+"Build the book in HTML HELP format. HTML HELP is a limited form of HTML, "
+"designed to be viewed regardless of your platform or Web browser. The output "
+"is located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-"
+"<replaceable>US</replaceable>/htmlhelp/</filename> directory."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:508
+#, no-c-format
+msgid "make pdf"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:510
+#, no-c-format
+msgid "Build the book in PDF format. This may not be supported on all systems."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:516
+#, no-c-format
+msgid "make clean"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:518
+#, no-c-format
+msgid ""
+"Remove all files and folders in the <filename>tmp/</filename> subdirectory. "
+"The <filename>tmp/</filename> subdirectory is created after running a "
+"<command>make</command> command to build a book, such as <command>make html</"
+"command>."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:524
+#, no-c-format
+msgid "make tar-<replaceable>format</replaceable>"
+msgstr ""
+
+#. Tag: entry
+#: Using_Publican.xml:526
+#, no-c-format
+msgid ""
+"Create a tar archive for the specified format. For example, running the "
+"<command>make tar-html</command> command creates a tar archive of the book "
+"in HTML format. The tar archive is located in the <filename>publish/en-"
+"<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/"
+"<replaceable>book-version</replaceable>/tar/</filename> directory."
+msgstr ""
+
+#. Tag: command
+#: Using_Publican.xml:532 Using_Publican.xml:544
+#, no-c-format
+msgid "make clean_ids"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:535
+#, no-c-format
+msgid ""
+"Change all IDs to a standard format. This format is <replaceable>Book_Name-"
+"title</replaceable>. For example, a section with a title of "
+"<computeroutput>First Section</computeroutput> in a book named "
+"<computeroutput>Test_Book</computeroutput> will have the following ID after "
+"running <command>make clean_ids</command>: <computeroutput>&lt;section id="
+"\"Test_Book-First_Section\"&gt;</computeroutput>"
+msgstr ""
+
+#. Tag: para
+#: Using_Publican.xml:545
+#, no-c-format
+msgid ""
+"Be careful running the <command>make clean_ids</command> command. To make "
+"translation easier, <command>make clean_ids</command> prepends the first "
+"four characters of the tag to the ID. Therefore you must ensure you have "
+"checked out the latest versions of the source and the translations before "
+"running <command>make clean_ids</command>. Failing to have the po files "
+"checked out when you run <command>make clean_ids</command> will result in "
+"the XML and po files becoming out of sync. This will require all links in "
+"the po files to be manually updated. As well, running <command>make "
+"clean_ids</command> will remove all comments!"
+msgstr ""
