@@ -59,7 +59,7 @@ Version:
       <script type="text/javascript">
 onload=function(){
 var el=document.getElementById("tocdiv");
-el.innerHTML='<iframe><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="src"><xsl:value-of select="$l10n.gentext.language"/>/toc.html</xsl:attribute></iframe>';
+el.innerHTML='<iframe><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="src">/<xsl:value-of select="$l10n.gentext.language"/>/toc.html</xsl:attribute></iframe>';
 }
       </script>
       </xsl:if>
