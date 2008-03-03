@@ -183,8 +183,7 @@ ifeq "${1}" "pdf"
 			$(CATALOGS) xsltproc --nonet --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 		else \
 			$(CATALOGS) xsltproc --nonet --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
-		fi
-	@cd tmp/${2}/xml; \
+		fi; \
 		if [ ! -f $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf ]; then \
 			echo "ERROR: config file for FOP version '$$$$fop_ver' not found"; \
 			exit 1; \
