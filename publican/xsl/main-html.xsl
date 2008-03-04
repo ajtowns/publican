@@ -289,7 +289,7 @@ Version:
       <xsl:call-template name="body.attributes"/>
       <xsl:if test="$embedtoc != 0">
 	  <xsl:attribute name="class">toc_embeded</xsl:attribute>
-      <div id="tocdiv" class="toc"></div>
+      <div id="tocdiv" class="toc">This site requires JavaScript to be enabled!</div>
       <script type="text/javascript">
 onload=function(){
 var el=document.getElementById("tocdiv");
