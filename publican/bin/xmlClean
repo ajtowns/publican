@@ -343,7 +343,10 @@ sub Clean_ID($) {
         }
         elsif ( !$MAP_OUT{$tag}->{'no_id'} ) {
             foreach my $child ( $node->content_refs_list() ) {
-                if ( ref $$child && $$child->{'_tag'} eq ($MAP_OUT{$tag}->{'id_node'} || 'title') ) {
+                if ( ref $$child
+                    && $$child->{'_tag'} eq
+                    ( $MAP_OUT{$tag}->{'id_node'} || 'title' ) )
+                {
                     $my_id = $$child->as_text;
                     $my_id =~ s/[- ]/_/g;
                     $my_id =~ s/[^a-zA-Z0-9\._]//g;
@@ -596,6 +599,14 @@ sub my_as_XML($) {
                     }
 
                     if ( $empty_element_map->{$tag} ) {
+                        if ( $tag = 'imagedata' ) {
+                            $node->attr('fileref') =~ m/$.*\.([^\.]*)$/;
+                            my $format = uc($1);
+                            if ($format) {
+                                $node->attr( 'fileref', $format );
+                            }
+                        }
+
                         push( @xml, $node->starttag_XML( undef, 1 ) );
                         if ( $MAP_OUT{$tag}->{'newline_after'} ) {
                             push( @xml, "\n", $indent x $depth );
