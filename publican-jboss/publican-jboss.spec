@@ -3,7 +3,7 @@
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
 Version:	0.9
-Release:	0%{?dist}
+Release:	1%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,7 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/make/Makefile.%{brand}
 
 %changelog
-* Mon Mar 10 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.9-1
+* Mon Mar 10 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.10-0
 - added css for website iframes
 
 * Thu Feb 28 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
