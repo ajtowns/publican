@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/make/Makefile.%{brand}
 
 %changelog
+* Mon Mar 10 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.9-1
+- added css for website iframes
+
 * Thu Feb 28 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
 - Added PRODUCT entity with default msg. BZ #431171
 - Added BOOKID entity with default msg. BZ #431171
