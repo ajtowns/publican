@@ -52,7 +52,7 @@ my $update_includes = 0;
 my $def_langs       = '';
 my $book_name       = '';
 my $clean_id        = 0;
-my $SHOW_UNKNOWN    = 0;
+my $SHOW_UNKNOWN    = 1;
 my $arch            = undef;
 my $condition       = undef;
 my $DEFAULT_WRAP    = 82;
@@ -578,7 +578,7 @@ sub my_as_XML($) {
 
                 if ($start) {      # on the way in
                     if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
-                        warn("Unknown tag: $tag\n");
+                        warn("WARNING: Unknown tag: $tag. This tag may not be displayed correctly\n");
                     }
                     if ($clean_id) {
                         Clean_ID($node);
@@ -599,11 +599,11 @@ sub my_as_XML($) {
                     }
 
                     if ( $empty_element_map->{$tag} ) {
-                        if ( $tag = 'imagedata' ) {
-                            $node->attr('fileref') =~ m/$.*\.([^\.]*)$/;
+                        if ( $tag eq 'imagedata' ) {
+                            $node->attr('fileref') =~ m/(...)$/;
                             my $format = uc($1);
                             if ($format) {
-                                $node->attr( 'fileref', $format );
+                                $node->attr( 'format', $format );
                             }
                         }
 
