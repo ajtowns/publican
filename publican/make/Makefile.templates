@@ -197,6 +197,7 @@ ifeq "${1}" "html-single"
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
+	@find tmp/${2}/${1}/Common_Content -name '*.xml' | xargs rm -rf
 else
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
@@ -204,6 +205,7 @@ else
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
+	@find tmp/${2}/${1}/Common_Content -name '*.xml' | xargs rm -rf
 endif
 endif
 endif
@@ -446,8 +448,10 @@ ifeq "${1}" "$(findstring ${1},$(IGNORED_TRANSLATIONS))"
 	@cp $(XML_LANG)/$(DOC_TYPE)_Info.xml tmp/${1}/xml_tmp/.
 else
 	@if [ -f ${1}/$(DOC_TYPE)_Info.po ]; then \
-		po2xml en-US/Book_Info.xml ja-JP/Book_Info.po > tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml; \
+		echo "${1}/$(DOC_TYPE)_Info.po found"; \
+		po2xml en-US/Book_Info.xml ${1}/$(DOC_TYPE)_Info.po > tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml; \
 	else \
+		echo "${1}/$(DOC_TYPE)_Info.po NOT found"; \
 		cp -rf $(XML_LANG)/$(DOC_TYPE)_Info.xml tmp/${1}/xml_tmp/.; \
 	fi
 # copy common files
@@ -464,7 +468,7 @@ else
 		cp -rf $(XML_LANG)/$(DOCNAME).ent tmp/${1}/xml/.; \
 		sed -i -e 's/docbookx.dtd" \[/docbookx.dtd" \[\n<!ENTITY % BOOK_ENTITIES SYSTEM "..\/$(DOCNAME).ent">\n%BOOK_ENTITIES\;/' tmp/${1}/xml/Common_Content/*.xml; \
 	fi
-	@if [ -f ${1}/${2}.ent ]; then cp -rf ${1}/${2}.ent tmp/${1}/xml/.; fi
+	@if [ -f ${1}/$(DOCNAME).ent ]; then cp -rf ${1}/$(DOCNAME).ent tmp/${1}/xml/.; fi
 	@$(XMLCLEAN) -in tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml -out tmp/${1}/xml/$(DOC_TYPE)_Info.xml -book $(DOCNAME) -lang ${1} $$$$args
 	@find tmp -name CVS | xargs rm -rf
 	@find tmp -name '.svn' | xargs rm -rf

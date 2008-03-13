@@ -26,7 +26,7 @@ Requires:       perl-Documentation-WebSite
 Prefix:		/var/www/html/docs
 
 %description
-<xsl:value-of select="/bookinfo/abstract[1]" /><xsl:value-of select="/setinfo/abstract[1]" />
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
 %prep
 %setup -q

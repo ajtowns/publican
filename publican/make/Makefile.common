@@ -481,6 +481,7 @@ $(foreach L,$(TRANSLATIONS),$(eval $(call Trans_Info_Template,${L})))
 $(foreach L,$(TRANSLATIONS),$(eval $(call WEB_SRPM_Template,${L})))
 $(foreach L,$(TRANSLATIONS),$(eval $(call Publish-WEB_Template,${L})))
 
+web-srpm-all:: $(foreach L,$(TRANSLATIONS), web-srpm-${L})
 
 ###############################################################################
 ###############################################################################
