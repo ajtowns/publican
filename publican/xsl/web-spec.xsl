@@ -23,7 +23,7 @@ BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
 Requires:       perl-Documentation-WebSite
-Prefix:		/var/www/html/docs
+Prefix:		/var/www/html
 
 %description
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
