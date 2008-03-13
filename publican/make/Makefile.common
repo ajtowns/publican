@@ -473,6 +473,14 @@ $(foreach FORMAT,$(TAR_FORMATS),$(eval $(call SRPM_Template,${FORMAT})))
 
 srpm-all:: $(foreach FORMAT,$(TAR_FORMATS),srpm-${FORMAT})
 
+###############################################################################
+# Web SRPMs
+###############################################################################
+
+$(foreach L,$(TRANSLATIONS),$(eval $(call Trans_Info_Template,${L})))
+$(foreach L,$(TRANSLATIONS),$(eval $(call WEB_SRPM_Template,${L})))
+$(foreach L,$(TRANSLATIONS),$(eval $(call Publish-WEB_Template,${L})))
+
 
 ###############################################################################
 ###############################################################################

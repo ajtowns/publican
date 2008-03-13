@@ -423,6 +423,96 @@ srpm-${1}:: publish-${1}-all tar-${1} spec-${1}
 endef
 
 ###############################################################################
+# Template for Web SRPMS
+#
+# produces phony rules like: web-srpm-en-US
+# Parameters:
+#	1: Lang en-US, ja-JP, etc)
+#
+# TODO: We really only need Book_Info.xml not the thtire LANG xml
+# 	would be cool to be able to just generate that one file
+###############################################################################
+WEB_FORMATS = html html-single pdf
+WEB_FILES = $(XML_LANG) pot Makefile
+
+define	Trans_Info_Template
+.PHONY:	trans-info-${1}
+trans-info-${1}::
+	@echo "START: trans-info-${1} `date`"
+	-@mkdir -p tmp/${1}/xml_tmp
+	-@mkdir -p tmp/${1}/xml/Common_Content
+ifeq "${1}" "$(findstring ${1},$(IGNORED_TRANSLATIONS))"
+	@echo "	Bypassing translation for ${1}"
+	@cp $(XML_LANG)/$(DOC_TYPE)_Info.xml tmp/${1}/xml_tmp/.
+else
+	@if [ -f ${1}/$(DOC_TYPE)_Info.po ]; then \
+		po2xml en-US/Book_Info.xml ja-JP/Book_Info.po > tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml; \
+	else \
+		cp -rf $(XML_LANG)/$(DOC_TYPE)_Info.xml tmp/${1}/xml_tmp/.; \
+	fi
+# copy common files
+	@if [ -d $(COMMON_CONTENT)/$(BRAND)/$(XML_LANG) ]; then \
+		echo "	copying $(BRAND)/$(XML_LANG) Common_Content"; \
+		cp -rf $(COMMON_CONTENT)/$(BRAND)/$(XML_LANG)/* tmp/${1}/xml/Common_Content/.; \
+	fi
+	@if [ -d $(COMMON_CONTENT)/$(BRAND)/${1} ]; then \
+		echo "	copying $(BRAND)/${1} Common_Content"; \
+		cp -rf $(COMMON_CONTENT)/$(BRAND)/${1}/* tmp/${1}/xml/Common_Content/.; \
+	fi
+# copy original local ent, then copy translated local ent over the top
+	@if [ -f $(XML_LANG)/$(DOCNAME).ent ]; then \
+		cp -rf $(XML_LANG)/$(DOCNAME).ent tmp/${1}/xml/.; \
+		sed -i -e 's/docbookx.dtd" \[/docbookx.dtd" \[\n<!ENTITY % BOOK_ENTITIES SYSTEM "..\/$(DOCNAME).ent">\n%BOOK_ENTITIES\;/' tmp/${1}/xml/Common_Content/*.xml; \
+	fi
+	@if [ -f ${1}/${2}.ent ]; then cp -rf ${1}/${2}.ent tmp/${1}/xml/.; fi
+	@$(XMLCLEAN) -in tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml -out tmp/${1}/xml/$(DOC_TYPE)_Info.xml -book $(DOCNAME) -lang ${1} $$$$args
+	@find tmp -name CVS | xargs rm -rf
+	@find tmp -name '.svn' | xargs rm -rf
+	@cd tmp/${1}/xml && rmImages
+endif
+	@echo "END: trans-info-${1} `date`"
+endef
+
+###############################################################################
+# Template for Web SRPMS
+#
+# produces phony rules like: web-srpm-en-US
+# Parameters:
+#	1: Lang en-US, ja-JP, etc)
+#
+# TODO: We really only need Book_Info.xml not the thtire LANG xml
+# 	would be cool to be able to just generate that one file
+###############################################################################
+
+define	WEB_SRPM_Template
+.PHONY:	web-srpm-${1}
+web-srpm-${1}:: clean trans-info-${1}
+	@echo "START: web-srpm-${1} `date`"
+	@mkdir -p publish tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
+	@cp -rf ${1} tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)/.
+	@for file in $(WEB_FILES); do \
+		cp -rf $$$$file tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)/.; \
+	done
+	@tar --directory tmp --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file publish/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
+	@$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}" \
+		--stringparam lang "${1}" \
+		--stringparam  prod "$(PRODUCT)" \
+		--stringparam  ver "$(VERSION)" \
+		--stringparam  docname "$(DOCNAME)" \
+		-o publish/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec \
+		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
+	@echo "END: web-srpm-${1} `date`"
+endef
+
+define	Publish-WEB_Template
+.PHONY:	web-srpm-${1}
+publish-web-${1}:: EMBEDTOC = 1
+publish-web-${1}:: publish-html-${1} publish-html-single-${1} publish-pdf-${1}
+endef
+
+
+
+###############################################################################
 ###############################################################################
 
 clean::
