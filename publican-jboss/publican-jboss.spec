@@ -2,8 +2,8 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	0.9
-Release:	1%{?dist}
+Version:	0.10
+Release:	0%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
