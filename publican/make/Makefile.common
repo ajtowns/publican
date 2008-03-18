@@ -381,8 +381,8 @@ test-po-all:: $(foreach L,$(TRANSLATIONS), test-${L})
 tar_dir:
 	@echo "START: tar `date`"
 	@mkdir -p tmp/tar/$(BUILD_NAME)
-ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec.xsl"
-	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/html-single/index.html tmp/tar/$(BUILD_NAME)/$$lang;done
+ifneq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
+	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/html-single tmp/tar/$(BUILD_NAME)/$$lang;done
 else
 	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/xml tmp/tar/$(BUILD_NAME)/$$lang;done
 endif
@@ -395,7 +395,7 @@ endif
 
 # TODO
 # Fix ghelp for O/S deployed books (xsl/spec2.xsl)
-ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec.xsl"
+ifneq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
 spec: html-single-all tar_dir
 else
 spec: xml-all tar_dir

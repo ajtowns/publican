@@ -18,14 +18,14 @@ Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setin
 Group:	Documentation
 License:	Open Publication License
 URL:	http://www.redhat.com/docs
-Source0:	%{name}-%{version}-%{release}.tgz
+Source0:	%{name}-%{version}.tgz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post):	coreutils
 Requires(postun):	coreutils
 BuildRequires:	publican
 
-%description<xsl:value-of select="/bookinfo/abstract[1]" /><xsl:value-of select="/setinfo/abstract[1]" />
+%description<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
 %package -n %{name}-<xsl:value-of select="$book-lang"/>
 Summary:	<xsl:value-of select="/bookinfo/subtitle" /><xsl:value-of select="/setinfo/subtitle" />

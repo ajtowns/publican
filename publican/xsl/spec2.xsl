@@ -24,7 +24,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post,postun): coreutils
 
 %description
-<xsl:value-of select="/bookinfo/abstract[1]" /><xsl:value-of select="/setinfo/abstract[1]" />
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
 %package -n %{name}-<xsl:value-of select="$book-lang"/>
 Summary:    <xsl:value-of select="/bookinfo/subtitle" /><xsl:value-of select="/setinfo/subtitle" />
@@ -32,10 +32,10 @@ Group:      Documentation
 Requires(post,postun): coreutils
 
 %description -n %{name}-<xsl:value-of select="$book-lang"/>
-<xsl:value-of select="/bookinfo/abstract[1]" />
+<xsl:value-of select="/bookinfo/abstract/para" />
 
 %prep
-%setup -q -n %{name}-%{version}-%{release}
+%setup -q
 
 %build
 
@@ -75,9 +75,7 @@ ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/sh
 
 
 %postun -n %{name}-<xsl:value-of select="$book-lang"/>
-#if [ "$1" -eq "0" ]; then
-	rm -rf /usr/share/gnome/help/%{name}
-#fi
+rm -rf /usr/share/gnome/help/%{name}
 
 %posttrans -n %{name}-<xsl:value-of select="$book-lang"/>
 %define _locale %(echo <xsl:value-of select="$book-lang"/> |sed 's/-/_/')

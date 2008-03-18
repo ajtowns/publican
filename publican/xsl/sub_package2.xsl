@@ -16,16 +16,11 @@ Requires: %{name}-<xsl:value-of select="$book-lang"/> = <xsl:value-of select="/b
 Requires(post,postun): coreutils
 
 %description -n %{name}-<xsl:value-of select="$trans-lang"/>
-<xsl:value-of select="/bookinfo/abstract[1]" /><xsl:value-of select="/setinfo/abstract[1]" />
-
-%install -n %{name}-<xsl:value-of select="$trans-lang"/>
-mkdir -p $RPM_BUILD_ROOT/usr/share/gnome/help/%{name}/<xsl:value-of select="$trans-lang"/>
-cp -rf <xsl:value-of select="$trans-lang"/>/* $RPM_BUILD_ROOT/usr/share/gnome/help/%{name}/.
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
 %files -n %{name}-<xsl:value-of select="$trans-lang"/>
 %defattr(-,root,root,-)
 %doc <xsl:value-of select="$trans-lang"/>
-/usr/share/gnome/help/%{name}/<xsl:value-of select="$trans-lang"/>
 <xsl:value-of select="$extra-files"/>
 </xsl:template>
 </xsl:stylesheet>
