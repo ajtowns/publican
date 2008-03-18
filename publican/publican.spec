@@ -2,8 +2,8 @@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.30
-Release:	34%{?dist}
+Version:	0.31
+Release:	0%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -81,10 +81,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Fri Feb 25 2008 Jeff Fearn <jfearn@redhat.com> 0.31-0
+* Tue Mar 18 2008 Jeff Fearn <jfearn@redhat.com> 0.31-0
 - Fixed Project-Id-Version not being set on PO creation BZ #435401
 - Fixed java slowing down every make run BZ #435407
 - cleanIds now sets format for imagedata
+- Fixed Desktop RPM build errors
+- Changed Default web url to publican web site
 
 * Thu Feb 24 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)
