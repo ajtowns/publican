@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.31
-Release:	0%{?dist}
+Release:	0.t2%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -25,7 +25,7 @@ Common files and scripts for publishing documentation.
 %package doc
 Group:		Documentation
 Summary:	Documentation for the Publican package
-Requires:	htmlview
+Requires:	yelp
 
 %description doc
 Documentation for the Publican publishing tool chain.
@@ -92,6 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 - cleanIds now sets format for imagedata
 - Fixed Desktop RPM build errors
 - Changed Default web url to publican web site
+- Fixed yelp search not working BZ #...
 
 * Thu Feb 24 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)

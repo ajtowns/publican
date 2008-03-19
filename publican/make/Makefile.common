@@ -31,6 +31,7 @@ TRANSLATIONS	?= $(XML_LANG) $(OTHER_LANGS)
 EXTRA_DIRS	?= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v '.svn' | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
 XMLCLEAN	?= xmlClean
 PRODUCT		?= Documentation
+CATEGORY	?= User Guide
 
 ###############################################################################
 ######### SPEC File Vars ##############
@@ -379,7 +380,7 @@ test-po-all:: $(foreach L,$(TRANSLATIONS), test-${L})
 ###############################################################################
 
 tar_dir:
-	@echo "START: tar `date`"
+	@echo "START: $@ `date`"
 	@mkdir -p tmp/tar/$(BUILD_NAME)
 ifneq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
 	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/html-single tmp/tar/$(BUILD_NAME)/$$lang;done
@@ -424,6 +425,19 @@ endif
 	-o tmp/$(SPEC_NAME).spec \
 	$(SPEC_XSL) tmp/$(XML_LANG)/xml/$(DOC_TYPE)_Info.xml
 	@perl -p -i -e '$$foo = `cat tmp/subpackages.txt`; s/\@\@\@SUBPACKAGES\@\@\@/$$foo/g' tmp/$(SPEC_NAME).spec
+ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
+	@mkdir -p tmp/tar/$(BUILD_NAME)/omf
+	@for lang in $(TRANSLATIONS); do \
+		$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)" \
+		--stringparam lang "$$lang" \
+		--stringparam  prod "$(PRODUCT)" \
+		--stringparam  docname "$(DOCNAME)" \
+		--stringparam category "$(CATEGORY)" \
+		-o tmp/tar/$(BUILD_NAME)/omf/$(PRODUCT)-$(DOCNAME)-$$lang.omf \
+		$(COMMON_CONFIG)/xsl/omf.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml; \
+	done
+	@cp tmp/tar/$(BUILD_NAME)/omf/$(PRODUCT)-$(DOCNAME)-$(XML_LANG).omf tmp/tar/$(BUILD_NAME)/omf/$(PRODUCT)-$(DOCNAME)-C.omf
+endif
 	@echo "END: spec `date`"
 
 
