@@ -18,6 +18,7 @@ BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
 BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel  < 0.26-3
+Obsoletes:	perl-SGML-Translate <= 0.37-3
 
 %description
 Common files and scripts for publishing documentation.
@@ -93,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed Desktop RPM build errors
 - Changed Default web url to publican web site
 - Fixed yelp search not working BZ #...
+- Fixed perl-SGML-Translate file conflict
 
 * Thu Feb 24 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)
