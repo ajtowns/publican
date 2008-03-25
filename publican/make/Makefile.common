@@ -428,15 +428,18 @@ endif
 ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
 	@mkdir -p tmp/tar/$(BUILD_NAME)/omf
 	@for lang in $(TRANSLATIONS); do \
-		$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)" \
+		lang2=`echo $$lang | sed -e 's/-/_/g'`; \
+		$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
 		--stringparam lang "$$lang" \
+		--stringparam lang2 "$$lang2" \
 		--stringparam  prod "$(PRODUCT)" \
 		--stringparam  docname "$(DOCNAME)" \
 		--stringparam category "$(CATEGORY)" \
-		-o tmp/tar/$(BUILD_NAME)/omf/$(PRODUCT)-$(DOCNAME)-$$lang.omf \
+		-o tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-$$lang.omf \
 		$(COMMON_CONFIG)/xsl/omf.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml; \
 	done
-	@cp tmp/tar/$(BUILD_NAME)/omf/$(PRODUCT)-$(DOCNAME)-$(XML_LANG).omf tmp/tar/$(BUILD_NAME)/omf/$(PRODUCT)-$(DOCNAME)-C.omf
+	@mv tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-en-US.omf tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
+	@sed -i -e 's/code="en_US"/code="C"/g' tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
 endif
 	@echo "END: spec `date`"
 
@@ -454,7 +457,7 @@ tar:: spec
 	@echo "The archive is in tmp/tar/$(TAR_NAME).tgz"
 	@echo "END: tar `date`"
 
-srpm:: tar
+srpm:: clean tar
 	@echo "START: srpm `date`"
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
 #	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -ts tmp/tar/$(TAR_NAME).tgz

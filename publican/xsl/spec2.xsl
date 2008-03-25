@@ -58,6 +58,8 @@ Terminal=false
 EOF
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/gnome/help/%{name}
+mkdir -p $RPM_BUILD_ROOT/usr/share/omf/%{name}
+cp omf/*.omf $RPM_BUILD_ROOT/usr/share/omf/%{name}/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -72,10 +74,11 @@ if [ -d /usr/share/gnome/help/%{name}/C ]; then
 	rm -rf /usr/share/gnome/help/%{name}/C
 fi
 ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/C;
-
+scrollkeeper-update
 
 %postun -n %{name}-<xsl:value-of select="$book-lang"/>
 rm -rf /usr/share/gnome/help/%{name}
+scrollkeeper-update
 
 %posttrans -n %{name}-<xsl:value-of select="$book-lang"/>
 %define _locale %(echo <xsl:value-of select="$book-lang"/> |sed 's/-/_/')
@@ -90,7 +93,7 @@ if [ -d %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} ]; the
 	fi
 	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/C;
 fi
-
+scrollkeeper-update
 %files -n %{name}-<xsl:value-of select="$book-lang"/>
 %defattr(-,root,root,-)
 %doc <xsl:value-of select="$book-lang"/>/*.*
@@ -98,6 +101,7 @@ fi
 %doc <xsl:value-of select="$book-lang"/>/images
 /usr/share/applications/%{name}.desktop
 /usr/share/gnome/help/%{name}
+/usr/share/omf/%{name}/%{name}-C.omf
 <xsl:value-of select="$extra-files"/>
 
 @@@SUBPACKAGES@@@
