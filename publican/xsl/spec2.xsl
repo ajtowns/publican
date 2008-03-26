@@ -96,9 +96,7 @@ fi
 scrollkeeper-update
 %files -n %{name}-<xsl:value-of select="$book-lang"/>
 %defattr(-,root,root,-)
-%doc <xsl:value-of select="$book-lang"/>/*.*
-%doc <xsl:value-of select="$book-lang"/>/Common_Content
-%doc <xsl:value-of select="$book-lang"/>/images
+%doc <xsl:value-of select="$book-lang"/>/*
 /usr/share/applications/%{name}.desktop
 /usr/share/gnome/help/%{name}
 /usr/share/omf/%{name}/%{name}-C.omf

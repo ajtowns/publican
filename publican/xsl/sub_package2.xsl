@@ -18,15 +18,13 @@ Requires(post,postun): coreutils
 %description -n %{name}-<xsl:value-of select="$trans-lang"/>
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
-%post -n %{name}-<xsl:value-of select="$trans-lang"/>
-scrollkeeper-update
+%post -n %{name}-<xsl:value-of select="$trans-lang"/> -p /usr/bin/scrollkeeper-update
 
-%postun -n %{name}-<xsl:value-of select="$trans-lang"/>
-scrollkeeper-update
+%postun -n %{name}-<xsl:value-of select="$trans-lang"/> -p /usr/bin/scrollkeeper-update
 
 %files -n %{name}-<xsl:value-of select="$trans-lang"/>
 %defattr(-,root,root,-)
-%doc <xsl:value-of select="$trans-lang"/>
+%doc <xsl:value-of select="$trans-lang"/>/*
 /usr/share/omf/%{name}/%{name}-<xsl:value-of select="$trans-lang"/>.omf
 <xsl:value-of select="$extra-files"/>
 </xsl:template>

@@ -34,15 +34,6 @@ PRODUCT		?= Documentation
 CATEGORY	?= User Guide
 
 ###############################################################################
-######### SPEC File Vars ##############
-###############################################################################
-SPEC_NAME	= $(PRODUCT)-$(DOCNAME)
-SPEC_XSL	?= $(COMMON_CONFIG)/xsl/spec.xsl
-SUB_SPEC_XSL	?= $(COMMON_CONFIG)/xsl/sub_package.xsl
-BUILD_NAME	= $(SPEC_NAME)-$(VERSION)
-TAR_NAME	= $(BUILD_NAME)-$(RELEASE)
-
-###############################################################################
 ###############################################################################
 
 COMMON_CONTENT	= $(COMMON_CONFIG)/Common_Content
@@ -65,6 +56,16 @@ endif
 ifeq "$(BRAND_MAKE)" "1"
 include $(COMMON_CONFIG)/make/Makefile.$(BRAND)
 endif
+
+###############################################################################
+######### SPEC File Vars ##############
+###############################################################################
+SPEC_NAME	?= $(PRODUCT)-$(DOCNAME)
+SPEC_XSL	?= $(COMMON_CONFIG)/xsl/spec.xsl
+SUB_SPEC_XSL	?= $(COMMON_CONFIG)/xsl/sub_package.xsl
+BUILD_NAME	= $(SPEC_NAME)-$(VERSION)
+TAR_NAME	= $(BUILD_NAME)-$(RELEASE)
+
 
 include $(COMMON_CONFIG)/make/Makefile.templates
 
@@ -211,6 +212,7 @@ publish-crazy:: publish-html-all publish-html-single-all publish-eclipse-all pub
 $(foreach L,$(TRANSLATIONS),$(eval $(call XML_Template,${L},$(DOCNAME))))
 
 xml-all::$(foreach L,$(TRANSLATIONS),xml-${L})
+	@echo "END: $@"
 
 ###############################################################################
 ### BUILDING HTML ###
@@ -401,12 +403,13 @@ spec: html-single-all tar_dir
 else
 spec: xml-all tar_dir
 endif
-	@echo "START: spec `date`"
+	@echo "START: spec `date`: $(SPEC_XSL)"
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt tmp/extra_files*.txt
 	@for lang in $(TRANSLATIONS); do \
 		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
-		find tmp/tar/$(BUILD_NAME)/$$lang -maxdepth 1 -type d | grep -P "$$lang\/\S" | sed -e "s/tmp\/tar\/$(BUILD_NAME)\/$$lang\///g" | sed -e "s/^/%doc $$lang\//g" >> tmp/extra_files-$$lang.txt; \
- 	done;
+	done
+#		find tmp/tar/$(BUILD_NAME)/$$lang -maxdepth 1 -type d | grep -P "$$lang\/\S" | sed -e "s/tmp\/tar\/$(BUILD_NAME)\/$$lang\///g" | sed -e "s/^/%doc $$lang\//g" >> tmp/extra_files-$$lang.txt; \
+# 	done;
 	@for lang in $(OTHER_LANGS); do \
 		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-title "$(SPEC_NAME)" \
 		--stringparam book-lang en-US \
