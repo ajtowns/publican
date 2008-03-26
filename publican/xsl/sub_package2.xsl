@@ -18,9 +18,9 @@ Requires(post,postun): coreutils
 %description -n %{name}-<xsl:value-of select="$trans-lang"/>
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
-%post -n %{name}-<xsl:value-of select="$trans-lang"/> -p /usr/bin/scrollkeeper-update
+#%post -n %{name}-<xsl:value-of select="$trans-lang"/> -p /usr/bin/scrollkeeper-update
 
-%postun -n %{name}-<xsl:value-of select="$trans-lang"/> -p /usr/bin/scrollkeeper-update
+#%postun -n %{name}-<xsl:value-of select="$trans-lang"/> -p /usr/bin/scrollkeeper-update
 
 %files -n %{name}-<xsl:value-of select="$trans-lang"/>
 %defattr(-,root,root,-)
