@@ -404,16 +404,13 @@ else
 spec: xml-all tar_dir
 endif
 	@echo "START: spec `date`: $(SPEC_XSL)"
-	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt tmp/extra_files*.txt
+	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
 	@for lang in $(TRANSLATIONS); do \
 		$(CATALOGS) $(XSLTPROC) --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
 	done
-#		find tmp/tar/$(BUILD_NAME)/$$lang -maxdepth 1 -type d | grep -P "$$lang\/\S" | sed -e "s/tmp\/tar\/$(BUILD_NAME)\/$$lang\///g" | sed -e "s/^/%doc $$lang\//g" >> tmp/extra_files-$$lang.txt; \
-# 	done;
 	@for lang in $(OTHER_LANGS); do \
 		$(CATALOGS) $(XSLTPROC) --stringparam book-title "$(SPEC_NAME)" \
 		--stringparam book-lang en-US \
-		--stringparam extra-files "$$(<tmp/extra_files-$$lang.txt)" \
 		--stringparam trans-lang $$lang\
 		$(SUB_SPEC_XSL) tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/subpackages.txt; \
 	done;
@@ -424,7 +421,6 @@ endif
 	--stringparam book-lang "$(XML_LANG)" \
 	--stringparam titles "$$(<tmp/titles.txt)" \
 	--stringparam book-log "$$(<tmp/changelog.txt)" \
-	--stringparam extra-files "$$(<tmp/extra_files-$(XML_LANG).txt)" \
 	-o tmp/$(SPEC_NAME).spec \
 	$(SPEC_XSL) tmp/$(XML_LANG)/xml/$(DOC_TYPE)_Info.xml
 	@perl -p -i -e '$$foo = `cat tmp/subpackages.txt`; s/\@\@\@SUBPACKAGES\@\@\@/$$foo/g' tmp/$(SPEC_NAME).spec

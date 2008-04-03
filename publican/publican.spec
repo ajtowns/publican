@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.31
-Release:	0.t20%{?dist}
+Release:	0.t21%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -91,6 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 - Changed Default DOC_URL to publican web site
 - Fixed perl-SGML-Translate file conflict
 - Removed --nonet from xsltproc call BZ #436342
+- Removed extra files logic from spec and xsl files.
 
 * Thu Feb 24 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)

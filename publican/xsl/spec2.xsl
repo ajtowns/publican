@@ -100,7 +100,6 @@ fi
 /usr/share/applications/%{name}.desktop
 /usr/share/gnome/help/%{name}
 #/usr/share/omf/%{name}/%{name}-C.omf
-<xsl:value-of select="$extra-files"/>
 
 @@@SUBPACKAGES@@@
 
