@@ -13,7 +13,6 @@
 Summary: <xsl:value-of select="/bookinfo/subtitle" /><xsl:value-of select="/setinfo/subtitle" />
 Group: Documentation
 Requires: %{name}-<xsl:value-of select="$book-lang"/> = <xsl:value-of select="/bookinfo/issuenum" /><xsl:value-of select="/setinfo/issuenum" />-<xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" />
-Requires(post,postun): coreutils
 
 %description -n %{name}-<xsl:value-of select="$trans-lang"/>
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />

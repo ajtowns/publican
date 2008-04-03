@@ -21,17 +21,16 @@ URL:	http://www.redhat.com/docs
 Source0:	%{name}-%{version}.tgz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires(post):	coreutils
-Requires(postun):	coreutils
 BuildRequires:	publican
+Requires: htmlview
 
-%description<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
+%description
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
 %package -n %{name}-<xsl:value-of select="$book-lang"/>
 Summary:	<xsl:value-of select="/bookinfo/subtitle" /><xsl:value-of select="/setinfo/subtitle" />
 Group:	Documentation
-Requires(post):	coreutils
-Requires(postun):	coreutils
+Requires: htmlview
 
 %prep
 %setup -q
@@ -59,7 +58,8 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%description -n %{name}-<xsl:value-of select="$book-lang"/><xsl:value-of select="/bookinfo/abstract[1]" />
+%description -n %{name}-<xsl:value-of select="$book-lang"/>
+<xsl:value-of select="/bookinfo/abstract/para" />
 
 %files -n %{name}-<xsl:value-of select="$book-lang"/>
 %defattr(-,root,root,-)

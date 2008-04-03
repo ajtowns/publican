@@ -21,7 +21,7 @@ URL:            http://www.redhat.com/docs
 Source0:         %{name}-%{version}-%{release}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires(post,postun): coreutils
+Requires: yelp
 
 %description
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
@@ -29,7 +29,7 @@ Requires(post,postun): coreutils
 %package -n %{name}-<xsl:value-of select="$book-lang"/>
 Summary:    <xsl:value-of select="/bookinfo/subtitle" /><xsl:value-of select="/setinfo/subtitle" />
 Group:      Documentation
-Requires(post,postun): coreutils
+Requires: yelp
 
 %description -n %{name}-<xsl:value-of select="$book-lang"/>
 <xsl:value-of select="/bookinfo/abstract/para" />
@@ -58,8 +58,8 @@ Terminal=false
 EOF
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/gnome/help/%{name}
-mkdir -p $RPM_BUILD_ROOT/usr/share/omf/%{name}
-cp omf/*.omf $RPM_BUILD_ROOT/usr/share/omf/%{name}/.
+#mkdir -p $RPM_BUILD_ROOT/usr/share/omf/%{name}
+#cp omf/*.omf $RPM_BUILD_ROOT/usr/share/omf/%{name}/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -99,7 +99,7 @@ fi
 %doc <xsl:value-of select="$book-lang"/>/*
 /usr/share/applications/%{name}.desktop
 /usr/share/gnome/help/%{name}
-/usr/share/omf/%{name}/%{name}-C.omf
+#/usr/share/omf/%{name}/%{name}-C.omf
 <xsl:value-of select="$extra-files"/>
 
 @@@SUBPACKAGES@@@
