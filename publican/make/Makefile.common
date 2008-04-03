@@ -403,7 +403,7 @@ spec: html-single-all tar_dir
 else
 spec: xml-all tar_dir
 endif
-	@echo "START: spec `date`: $(SPEC_XSL)"
+	@echo "START: spec `date`"
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
 	@for lang in $(TRANSLATIONS); do \
 		$(CATALOGS) $(XSLTPROC) --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
