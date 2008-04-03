@@ -18,7 +18,7 @@ Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select=
 Group:          Documentation
 License:        OPL + Restrictions
 URL:            http://www.redhat.com/docs
-Source0:         %{name}-%{version}-%{release}.tgz
+Source0:         %{name}-%{version}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: yelp

@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Fri Apr 4 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
+- Remove release from package name in html desktop spec file
+
 * Thu Apr 3 2008 Jeff Fearn <jfearn@redhat.com> 0.32-0
 - Bump version
 
