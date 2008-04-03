@@ -2,7 +2,7 @@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.31
+Version:	0.32
 Release:	0%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Thu Apr 3 2008 Jeff Fearn <jfearn@redhat.com> 0.32-0
+- Bump version
+
 * Tue Mar 18 2008 Jeff Fearn <jfearn@redhat.com> 0.31-0
 - Fixed Project-Id-Version not being set on PO creation BZ #435401
 - Fixed java slowing down every make run BZ #435407
