@@ -2,7 +2,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.10
+Version:	0.11
 Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
@@ -44,6 +44,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/make/Makefile.%{brand}
 
 %changelog
+* Thu Apr 3 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.11-0
+- optimised default stylesheet colours
+- author group improvements
+- formatting for revision history 
+- merged tocnav and documentation.css to defauly.css
+- updated icons
+- Fix doc URL
+
 * Tue Mar 18 2008 Jeff Fearn <jfearn@redhat.com> 0.10-0
 - Fix doc URL
 - Fix Desktop build

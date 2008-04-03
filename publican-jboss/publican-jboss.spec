@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	0.10
+Version:	0.11
 Release:	0%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
@@ -44,11 +44,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/make/Makefile.%{brand}
 
 %changelog
-* Tue Mar 18 2008 Jeff Fearn <jfearn@redhat.com> 0.10-0
+* Thu Apr 3 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.11-0
+- optimised default stylesheet colours
+- author group improvements
+- formatting for revision history 
+- merged tocnav and documentation.css to defauly.css
+- updated icons
 - Fix doc URL
-
-* Mon Mar 10 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.10-0
-- added css for website iframes
 
 * Thu Feb 28 2008 Jeff Fearn <jfearn@redhat.com> 0.9-0
 - Added PRODUCT entity with default msg. BZ #431171
