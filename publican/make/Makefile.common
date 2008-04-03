@@ -406,20 +406,20 @@ endif
 	@echo "START: spec `date`: $(SPEC_XSL)"
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt tmp/extra_files*.txt
 	@for lang in $(TRANSLATIONS); do \
-		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
+		$(CATALOGS) $(XSLTPROC) --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
 	done
 #		find tmp/tar/$(BUILD_NAME)/$$lang -maxdepth 1 -type d | grep -P "$$lang\/\S" | sed -e "s/tmp\/tar\/$(BUILD_NAME)\/$$lang\///g" | sed -e "s/^/%doc $$lang\//g" >> tmp/extra_files-$$lang.txt; \
 # 	done;
 	@for lang in $(OTHER_LANGS); do \
-		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-title "$(SPEC_NAME)" \
+		$(CATALOGS) $(XSLTPROC) --stringparam book-title "$(SPEC_NAME)" \
 		--stringparam book-lang en-US \
 		--stringparam extra-files "$$(<tmp/extra_files-$$lang.txt)" \
 		--stringparam trans-lang $$lang\
 		$(SUB_SPEC_XSL) tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/subpackages.txt; \
 	done;
 	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
-		$(CATALOGS) $(XSLTPROC) --nonet $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$$rev_file > tmp/changelog.txt
-	@$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
+		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$$rev_file > tmp/changelog.txt
+	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
 	--stringparam main-file "$(DOCNAME).xml" \
 	--stringparam book-lang "$(XML_LANG)" \
 	--stringparam titles "$$(<tmp/titles.txt)" \
@@ -432,7 +432,7 @@ ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
 	@mkdir -p tmp/tar/$(BUILD_NAME)/omf
 	@for lang in $(TRANSLATIONS); do \
 		lang2=`echo $$lang | sed -e 's/-/_/g'`; \
-		$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
+		$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
 		--stringparam lang "$$lang" \
 		--stringparam lang2 "$$lang2" \
 		--stringparam  prod "$(PRODUCT)" \
@@ -537,17 +537,17 @@ publish-dist: html-single-all
 dist-spec: xml-all
 	@echo "START: $@ `date`"
 	@for lang in $(TRANSLATIONS); do \
-		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
+		$(CATALOGS) $(XSLTPROC) --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
  	done;
 	@for lang in $(OTHER_LANGS); do \
-		$(CATALOGS) $(XSLTPROC) --nonet --stringparam book-title "$(SPEC_NAME)" \
+		$(CATALOGS) $(XSLTPROC) --stringparam book-title "$(SPEC_NAME)" \
 		--stringparam book-lang $(XML_LANG) \
 		--stringparam trans-lang $$lang\
 		$(SUB_SPEC_XSL) tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/subpackages.txt; \
 	done;
 	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
-		$(CATALOGS) $(XSLTPROC) --nonet $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$$rev_file > tmp/changelog.txt
-	@$(CATALOGS) $(XSLTPROC) --nonet --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
+		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$$rev_file > tmp/changelog.txt
+	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
 	--stringparam main-file "$(DOCNAME).xml" \
 	--stringparam book-lang "$(XML_LANG)" \
 	--stringparam titles "$$(<tmp/titles.txt)" \

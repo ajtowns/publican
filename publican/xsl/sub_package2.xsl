@@ -24,7 +24,7 @@ Requires: %{name}-<xsl:value-of select="$book-lang"/> = <xsl:value-of select="/b
 %files -n %{name}-<xsl:value-of select="$trans-lang"/>
 %defattr(-,root,root,-)
 %doc <xsl:value-of select="$trans-lang"/>/*
-/usr/share/omf/%{name}/%{name}-<xsl:value-of select="$trans-lang"/>.omf
+#/usr/share/omf/%{name}/%{name}-<xsl:value-of select="$trans-lang"/>.omf
 <xsl:value-of select="$extra-files"/>
 </xsl:template>
 </xsl:stylesheet>
