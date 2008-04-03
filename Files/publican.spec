@@ -2,7 +2,7 @@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.30
+Version:	0.32
 Release:	0%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
@@ -18,6 +18,7 @@ BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel  < 0.26-3
+Obsoletes:	perl-SGML-Translate <= 0.37-3
 
 %description
 Common files and scripts for publishing documentation.
@@ -81,6 +82,20 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Thu Apr 3 2008 Jeff Fearn <jfearn@redhat.com> 0.32-0
+- Bump version
+
+* Tue Mar 18 2008 Jeff Fearn <jfearn@redhat.com> 0.31-0
+- Fixed Project-Id-Version not being set on PO creation BZ #435401
+- Fixed java slowing down every make run BZ #435407
+- cleanIds now sets format for imagedata
+- Fixed Desktop RPM build errors
+- Added param DOC_URL BZ #437705
+- Changed Default DOC_URL to publican web site
+- Fixed perl-SGML-Translate file conflict
+- Removed --nonet from xsltproc call BZ #436342
+- Removed extra files logic from spec and xsl files.
+
 * Thu Feb 24 2008 Jeff Fearn <jfearn@redhat.com> 0.30-0
 - Added missing Requires perl(XML::TreeBuilder)
 - Fix xref to listitem breaking BZ #432574
