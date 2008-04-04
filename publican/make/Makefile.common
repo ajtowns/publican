@@ -405,10 +405,11 @@ endif
 
 # TODO
 # Fix ghelp for O/S deployed books (xsl/spec2.xsl)
+spec:: DESKTOP = 1
 ifndef XML_DESKTOP
-spec: html-single-all tar_dir
+spec:: html-single-all tar_dir
 else
-spec: xml-all tar_dir
+spec:: xml-all tar_dir
 endif
 	@echo "START: spec `date`"
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt

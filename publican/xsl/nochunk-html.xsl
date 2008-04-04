@@ -50,7 +50,10 @@ Version:
       <xsl:if test="$embedtoc != 0">
 	  <xsl:attribute name="class">toc_embeded</xsl:attribute>
       </xsl:if>
-      <xsl:call-template name="user.header.content">
+       <xsl:if test="$desktop != 0">
+	  <xsl:attribute name="class">desktop</xsl:attribute>
+      </xsl:if>
+     <xsl:call-template name="user.header.content">
         <xsl:with-param name="node" select="$doc"/>
       </xsl:call-template>
       <xsl:if test="$embedtoc != 0">
