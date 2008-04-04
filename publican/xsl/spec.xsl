@@ -18,7 +18,7 @@ Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setin
 Group:	Documentation
 License:	Open Publication License
 URL:	http://www.redhat.com/docs
-Source0:	%{name}-%{version}.tgz
+Source0:	%{name}-%{version}-%{release}.tgz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
@@ -36,13 +36,12 @@ Requires: htmlview
 %setup -q
 
 %build
-%{__make} publish-dist
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 
-cat > $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop &lt;&lt;'EOF'
+cat > $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
 <xsl:value-of select="$titles"/>
@@ -63,8 +62,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n %{name}-<xsl:value-of select="$book-lang"/>
 %defattr(-,root,root,-)
-%doc publish/<xsl:value-of select="$book-lang"/>/*
-/usr/share/applications/%{name}.desktop
+%doc <xsl:value-of select="$book-lang"/>/*
+%{_datadir}/applications/%{name}.desktop
 
 @@@SUBPACKAGES@@@
 

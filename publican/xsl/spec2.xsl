@@ -18,7 +18,7 @@ Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select=
 Group:          Documentation
 License:        OPL + Restrictions
 URL:            http://www.redhat.com/docs
-Source0:         %{name}-%{version}.tgz
+Source0:         %{name}-%{version}-%{release}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: yelp
@@ -41,9 +41,9 @@ Requires: yelp
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/usr/share/applications/
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications/
 
-cat > $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop &lt;&lt;'EOF'
+cat > $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
 <xsl:value-of select="$titles"/>
@@ -57,49 +57,49 @@ Encoding=UTF-8
 Terminal=false
 EOF
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/gnome/help/%{name}
-#mkdir -p $RPM_BUILD_ROOT/usr/share/omf/%{name}
-#cp omf/*.omf $RPM_BUILD_ROOT/usr/share/omf/%{name}/.
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/help/%{name}
+#mkdir -p $RPM_BUILD_ROOT%{_datadir}/omf/%{name}
+#cp omf/*.omf $RPM_BUILD_ROOT%{_datadir}/omf/%{name}/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post -n %{name}-<xsl:value-of select="$book-lang"/>
 %define _locale %(echo <xsl:value-of select="$book-lang"/> |sed 's/-/_/')
-if [ -d /usr/share/gnome/help/%{name}/%{_locale} ]; then
-	rm -rf /usr/share/gnome/help/%{name}/%{_locale}
+if [ -d %{_datadir}/gnome/help/%{name}/%{_locale} ]; then
+	rm -rf %{_datadir}/gnome/help/%{name}/%{_locale}
 fi
-ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/%{_locale};
-if [ -d /usr/share/gnome/help/%{name}/C ]; then
-	rm -rf /usr/share/gnome/help/%{name}/C
+ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/%{_locale};
+if [ -d %{_datadir}/gnome/help/%{name}/C ]; then
+	rm -rf %{_datadir}/gnome/help/%{name}/C
 fi
-ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/C;
+ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/C;
 #scrollkeeper-update
 
 %postun -n %{name}-<xsl:value-of select="$book-lang"/>
-rm -rf /usr/share/gnome/help/%{name}
+rm -rf %{_datadir}/gnome/help/%{name}
 #scrollkeeper-update
 
 %posttrans -n %{name}-<xsl:value-of select="$book-lang"/>
 %define _locale %(echo <xsl:value-of select="$book-lang"/> |sed 's/-/_/')
 if [ -d %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} ]; then
-	mkdir -p /usr/share/gnome/help/%{name}
-	if [ -d /usr/share/gnome/help/%{name}/%{_locale} ]; then
-		rm -rf /usr/share/gnome/help/%{name}/%{_locale}
+	mkdir -p %{_datadir}/gnome/help/%{name}
+	if [ -d %{_datadir}/gnome/help/%{name}/%{_locale} ]; then
+		rm -rf %{_datadir}/gnome/help/%{name}/%{_locale}
 	fi
-	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/%{_locale};
-	if [ -d /usr/share/gnome/help/%{name}/C ]; then
-		rm -rf /usr/share/gnome/help/%{name}/C
+	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/%{_locale};
+	if [ -d %{_datadir}/gnome/help/%{name}/C ]; then
+		rm -rf %{_datadir}/gnome/help/%{name}/C
 	fi
-	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} /usr/share/gnome/help/%{name}/C;
+	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/C;
 fi
 
 %files -n %{name}-<xsl:value-of select="$book-lang"/>
 %defattr(-,root,root,-)
 %doc <xsl:value-of select="$book-lang"/>/*
-/usr/share/applications/%{name}.desktop
-/usr/share/gnome/help/%{name}
-#/usr/share/omf/%{name}/%{name}-C.omf
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/gnome/help/%{name}
+#%{_datadir}/omf/%{name}/%{name}-C.omf
 
 @@@SUBPACKAGES@@@
 

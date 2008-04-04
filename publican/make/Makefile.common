@@ -437,7 +437,7 @@ ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
 		-o tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-$$lang.omf \
 		$(COMMON_CONFIG)/xsl/omf.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml; \
 	done
-	@mv tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-en-US.omf tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
+#	@mv tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-en-US.omf tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
 	@sed -i -e 's/code="en_US"/code="C"/g' tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
 endif
 	@echo "END: spec `date`"
@@ -449,7 +449,6 @@ endif
 
 tar:: spec
 	@echo "START: tar `date`"
-#	@cp -f tmp/$(SPEC_NAME).spec tmp/tar/$(TAR_NAME)/.
 	@cd tmp/tar && tar -cf $(TAR_NAME).tar $(BUILD_NAME)
 	@cd tmp/tar && gzip -9 $(TAR_NAME).tar
 	@cd tmp/tar && mv $(TAR_NAME).tar.gz $(TAR_NAME).tgz
@@ -459,7 +458,6 @@ tar:: spec
 srpm:: clean tar
 	@echo "START: srpm `date`"
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-#	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -ts tmp/tar/$(TAR_NAME).tgz
 	@cp tmp/tar/$(TAR_NAME).tgz tmp/rpm/SOURCES/.
 	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME).spec
 	@echo "END: srpm `date`"

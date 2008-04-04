@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.32
-Release:	0%{?dist}
+Release:	0.B7%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -84,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Apr 4 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
+- Removed --nonet from xsltproc call BZ #436342
 
 * Thu Apr 3 2008 Jeff Fearn <jfearn@redhat.com> 0.32-0
 - Bump version
