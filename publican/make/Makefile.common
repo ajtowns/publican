@@ -61,8 +61,14 @@ endif
 ######### SPEC File Vars ##############
 ###############################################################################
 SPEC_NAME	?= $(PRODUCT)-$(DOCNAME)
-SPEC_XSL	?= $(COMMON_CONFIG)/xsl/spec.xsl
-SUB_SPEC_XSL	?= $(COMMON_CONFIG)/xsl/sub_package.xsl
+ifdef XML_DESKTOP
+SPEC_XSL	= $(COMMON_CONFIG)/xsl/dt_xml_spec.xsl
+SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package_xml.xsl
+else
+SPEC_XSL	= $(COMMON_CONFIG)/xsl/dt_htmlsingle_spec.xsl
+SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package_htmlsingle.xsl
+endif
+
 BUILD_NAME	= $(SPEC_NAME)-$(VERSION)
 TAR_NAME	= $(BUILD_NAME)-$(RELEASE)
 
@@ -101,6 +107,7 @@ pre::
 	@if [ ! -d $(COMMON_CONTENT)/$(BRAND) ]; then \
 		echo; \
 		echo "ERROR: Brand $(BRAND) is not installed. Either install $(BRAND) or change to a valid Brand."; \
+		echo "Installed Brands: `ls $(COMMON_CONTENT)/`"; \
 		exit 1; \
 	fi
 
@@ -384,7 +391,7 @@ test-po-all:: $(foreach L,$(TRANSLATIONS), test-${L})
 tar_dir:
 	@echo "START: $@ `date`"
 	@mkdir -p tmp/tar/$(BUILD_NAME)
-ifneq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
+ifndef XML_DESKTOP
 	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/html-single tmp/tar/$(BUILD_NAME)/$$lang;done
 else
 	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/xml tmp/tar/$(BUILD_NAME)/$$lang;done
@@ -398,7 +405,7 @@ endif
 
 # TODO
 # Fix ghelp for O/S deployed books (xsl/spec2.xsl)
-ifneq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
+ifndef XML_DESKTOP
 spec: html-single-all tar_dir
 else
 spec: xml-all tar_dir
@@ -424,7 +431,7 @@ endif
 	-o tmp/$(SPEC_NAME).spec \
 	$(SPEC_XSL) tmp/$(XML_LANG)/xml/$(DOC_TYPE)_Info.xml
 	@perl -p -i -e '$$foo = `cat tmp/subpackages.txt`; s/\@\@\@SUBPACKAGES\@\@\@/$$foo/g' tmp/$(SPEC_NAME).spec
-ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
+ifdef XML_DESKTOP
 	@mkdir -p tmp/tar/$(BUILD_NAME)/omf
 	@for lang in $(TRANSLATIONS); do \
 		lang2=`echo $$lang | sed -e 's/-/_/g'`; \
@@ -437,7 +444,7 @@ ifeq "$(SPEC_XSL)" "$(COMMON_CONFIG)/xsl/spec2.xsl"
 		-o tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-$$lang.omf \
 		$(COMMON_CONFIG)/xsl/omf.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml; \
 	done
-#	@mv tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-en-US.omf tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
+	@mv tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-en-US.omf tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
 	@sed -i -e 's/code="en_US"/code="C"/g' tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
 endif
 	@echo "END: spec `date`"
