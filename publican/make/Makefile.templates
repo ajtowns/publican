@@ -349,7 +349,12 @@ define	TEST_Template
 .PHONY:	test-${1}
 test-${1}:: xml-${1}
 	@echo "START: test-${1} `date`"
-	@$(CATALOGS) xmllint  --noout --postvalid --xinclude tmp/${1}/xml/$(DOCNAME).xml
+ifeq "${1}" "$(findstring ${1},$(IGNORED_TRANSLATIONS))"
+	@echo "	Bypassing translation test for ${1}"
+	@cp -rf tmp/$(XML_LANG)/* tmp/${1}/.
+else
+	@$(CATALOGS) xmllint --noout --postvalid --xinclude tmp/${1}/xml/$(DOCNAME).xml
+endif
 	@echo "END: test-${1} `date`"
 endef
 
