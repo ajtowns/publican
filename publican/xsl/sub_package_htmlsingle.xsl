@@ -21,6 +21,6 @@ Requires(postun): coreutils
 
 %files -n %{name}-<xsl:value-of select="$trans-lang"/>
 %defattr(-,root,root,-)
-%doc publish/<xsl:value-of select="$trans-lang"/>/*
+%doc <xsl:value-of select="$trans-lang"/>/*
 </xsl:template>
 </xsl:stylesheet>
