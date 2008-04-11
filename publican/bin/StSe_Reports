@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+
 =head
     Generate HTML translation reports.
     Copyright (C) 2008 Red Hat, Inc.
@@ -47,7 +48,7 @@ chomp($book);
 chomp($system);
 
 my $config = {
-    INCLUDE_PATH => '/usr/share/publican/templates',  # or list ref
+    INCLUDE_PATH => '/usr/share/publican/templates',    # or list ref
     DEBUG        => 1,
 };
 
@@ -137,6 +138,7 @@ sub report {
 
                 push @results,
                     {
+                    'file'           => $po_file,
                     'fuzzy'          => $fuzzy,
                     'translated'     => $translated,
                     'total'          => $total,

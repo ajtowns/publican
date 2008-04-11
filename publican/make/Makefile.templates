@@ -138,7 +138,7 @@ endif
 			for file in `find . -name "*.xml" | sort`; do \
 				file=`echo $$$$file | sed -e 's/^\.\///'`; \
 				echo "	$$$$file"; \
-				$(XMLCLEAN) -in $$$$file -out ../xml/$$$$file -book ${2} -lang ${1} $$$$args; \
+				$(XMLCLEAN) -U -in $$$$file -out ../xml/$$$$file -book ${2} -lang ${1} $$$$args; \
 			done; \
 		popd > /dev/null; \
 	fi;
@@ -475,7 +475,7 @@ else
 		sed -i -e 's/docbookx.dtd" \[/docbookx.dtd" \[\n<!ENTITY % BOOK_ENTITIES SYSTEM "..\/$(DOCNAME).ent">\n%BOOK_ENTITIES\;/' tmp/${1}/xml/Common_Content/*.xml; \
 	fi
 	@if [ -f ${1}/$(DOCNAME).ent ]; then cp -rf ${1}/$(DOCNAME).ent tmp/${1}/xml/.; fi
-	@$(XMLCLEAN) -in tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml -out tmp/${1}/xml/$(DOC_TYPE)_Info.xml -book $(DOCNAME) -lang ${1} $$$$args
+	@$(XMLCLEAN) -U -in tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml -out tmp/${1}/xml/$(DOC_TYPE)_Info.xml -book $(DOCNAME) -lang ${1} $$$$args
 	@find tmp -name CVS | xargs rm -rf
 	@find tmp -name '.svn' | xargs rm -rf
 	@cd tmp/${1}/xml && rmImages
@@ -594,7 +594,7 @@ clean_ids:
 	@cd $(XML_LANG) && \
 	for file in `find . -name "*.xml" | sed -e 's/^\.\///' | sort`; do \
 		echo "	$$file"; \
-		$(XMLCLEAN) -in $$file -out $$file -book $(DOCNAME) -cleanids ; \
+		$(XMLCLEAN) -U -in $$file -out $$file -book $(DOCNAME) -cleanids ; \
 	done && cd ..;
 	@echo "END: $@ `date`"
 

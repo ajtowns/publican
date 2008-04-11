@@ -52,7 +52,7 @@ my $update_includes = 0;
 my $def_langs       = '';
 my $book_name       = '';
 my $clean_id        = 0;
-my $SHOW_UNKNOWN    = 1;
+my $SHOW_UNKNOWN    = 0;
 my $arch            = undef;
 my $condition       = undef;
 my $DEFAULT_WRAP    = 82;
@@ -277,6 +277,8 @@ If $condition is set then delete all nodes that have condition set and do not co
 sub PruneXML($) {
     my $xml_doc = shift();
 
+    my $original_tag = $xml_doc->root()->{'_tag'};
+
     if ($xml_doc) {
         if ($lang) {
             $xml_doc->pos( $xml_doc->root() );
@@ -318,6 +320,32 @@ sub PruneXML($) {
             {
                 $node->delete();
             }
+        }
+    }
+
+    if (   !$xml_doc
+        || !$xml_doc->root()
+        || !$xml_doc->root()->{'_tag'}
+        || $xml_doc->root()->{'_tag'} eq '' )
+    {
+        warn("WARNING: Root tag is NULL, adding remark to avoid implosion");
+        if (   $original_tag =~ m/chapter/
+            || $original_tag =~ m/sect/
+            || $original_tag =~ m/part/ )
+        {
+            $xml_doc->root()->{'_tag'} = $original_tag;
+            my $title = XML::Element->new('title');
+            $title->push_content('ERROR');
+            my $remark = XML::Element->new('remark');
+            $remark->push_content('This file is empty for this language');
+            $xml_doc->root()->push_content($title);
+            $xml_doc->root()->push_content($remark);
+        }
+        else {
+            warn("\tWARNING: Don't know how to handle $original_tag");
+            $xml_doc->root()->{'_tag'} = 'remark';
+            $xml_doc->root()
+                ->push_content("This file is empty for this language");
         }
     }
 }
@@ -578,7 +606,9 @@ sub my_as_XML($) {
 
                 if ($start) {      # on the way in
                     if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
-                        warn("WARNING: Unknown tag: $tag. This tag may not be displayed correctly\n");
+                        warn(
+                            "WARNING: Unknown tag: $tag. This tag may not be displayed correctly\n"
+                        );
                     }
                     if ($clean_id) {
                         Clean_ID($node);

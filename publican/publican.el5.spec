@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0%{?dist}
+Release:	0.t14%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -87,6 +87,13 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Fri Apr 11 2008 Jeff Fearn <jfearn@redhat.com> 0.34-0
+- Fix PO file name missing from translation status report
+- Modify xmlClean to output dummy content for empty files
+- Default SHOW_UNKNOWN tags off
+- Make unset entity warnings more obvious
+- Make docs use DESKTOP styles
+
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
 - Removed --nonet from xsltproc call BZ #436342

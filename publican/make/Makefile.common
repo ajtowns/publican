@@ -520,9 +520,9 @@ checkin_po_files:
 
 update_includes:
 ifdef DEFAULT_LANGS
-	@for file in `find $(XML_LANG)/*.xml | sort`; do $(XMLCLEAN) -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C) --defaults $(DEFAULT_LANGS) ;done
+	@for file in `find $(XML_LANG)/*.xml | sort`; do $(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C) --defaults $(DEFAULT_LANGS) ;done
 else
-	@for file in `find $(XML_LANG)/*.xml | sort`; do $(XMLCLEAN) -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C);done
+	@for file in `find $(XML_LANG)/*.xml | sort`; do $(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C);done
 endif
 
 ###############################################################################
