@@ -115,7 +115,7 @@ Password:
 				<term><filename>--brand <replaceable>brand</replaceable></filename></term>
 				<listitem>
 					<para>
-						replace <replaceable>brand</replaceable> with RedHat, Fedora, or JBoss. This requires the appropriate publican package to be installed. For example, to build Red Hat branded books, you must install the publican-redhat package. See <xref linkend="sect-Publican-Using_the_publican_package-Installing_publican" /> for instructions on installing the branded publican packages.
+						replace <replaceable>brand</replaceable> with RedHat, fedora, or JBoss. This requires the appropriate publican package to be installed. For example, to build Red Hat branded books, you must install the publican-redhat package. See <xref linkend="sect-Publican-Using_the_publican_package-Installing_publican" /> for instructions on installing the branded publican packages. If no brand is specified, the default brand is used.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -158,10 +158,11 @@ create_book --name Test_Book
 <screen>
 XML_LANG        = en-US
 DOCNAME         = Test_Name
-PRODUCT        = Test_Product
+PRODUCT         = Test_Product
+BRAND		= RedHat
 	
 #OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN
-TRANSLATIONS   = $(XML_LANG) $(OTHER_LANGS)
+TRANSLATIONS    = $(XML_LANG) $(OTHER_LANGS)
 	
 COMMON_CONFIG   = /usr/share/publican
 include $(COMMON_CONFIG)/make/Makefile.common
@@ -198,6 +199,17 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					</listitem>
 				</varlistentry>
 				<varlistentry>
+					<term><filename>BRAND</filename></term>
+					<listitem>
+						<para>
+							set the brand of the book. Accepted values are <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, and <computeroutput>JBoss</computeroutput>. If no brand is specified, the default brand is used.
+						</para>
+						<para>
+							Running the <command>create_book --name <replaceable>Book_Name</replaceable> --brand <replaceable>brand</replaceable></command> command correctly configures the <computeroutput>BRAND</computeroutput>.
+						</para>
+					</listitem>
+				</varlistentry>		
+				<varlistentry>
 					<term><filename>TRANSLATIONS</filename></term>
 					<listitem>
 						<para>
@@ -222,6 +234,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 XML_LANG       = en-US
 DOCNAME        = Test_Name
 PRODUCT        = Test Product
+BRAND	       = RedHat
 
 OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN
 ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
@@ -232,7 +245,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 </screen>
 			</para>
 			<para>
-				Note that <computeroutput>OTHER_LANGS</computeroutput> is no longer commented out, and <computeroutput>$(OTHER_LANGS)</computeroutput> has been added to <computeroutput>TRANSLATIONS</computeroutput>.
+				Note: <computeroutput>OTHER_LANGS</computeroutput> is no longer commented out.
 			</para>
 			<tip>
 				<title><command>make help_params</command></title>
