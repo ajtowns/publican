@@ -3,7 +3,7 @@
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
 Version:	0.12
-Release:	0.t1%{?dist}
+Release:	0.t2%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -46,6 +46,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Apr 14 2008 Jeff Fearn <jfearn@redhat.com> 0.13-0
 - Fix missing list image in html-single articles
+- QANDA set css fix BZ #442674
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations
