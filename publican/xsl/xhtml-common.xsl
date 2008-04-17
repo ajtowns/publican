@@ -542,4 +542,133 @@ Version: 1.72.0
   <h6><xsl:copy-of select="$title"/></h6>
 </xsl:template>
 
+<!--
+From: xhtml/qandaset.xsl
+Reason: No stinking tables
+Version: 1.72.0
+-->
+
+<xsl:template name="qandaset">
+  <div class="qandaset">
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates />
+  </div>
+</xsl:template>
+
+<xsl:template name="process.qandaset">
+  <div class="qandaset">
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates />
+  </div>
+</xsl:template>
+
+<xsl:template match="qandadiv">
+  <xsl:variable name="preamble" select="*[local-name(.) != 'title'                                           and local-name(.) != 'titleabbrev'                                           and local-name(.) != 'qandadiv'                                           and local-name(.) != 'qandaentry']"/>
+
+  <xsl:if test="blockinfo/title|info/title|title">
+    <div class="qandadiv">
+        <xsl:apply-templates select="(blockinfo/title|info/title|title)[1]"/>
+    </div>
+  </xsl:if>
+
+  <xsl:variable name="toc">
+    <xsl:call-template name="dbhtml-attribute">
+      <xsl:with-param name="pis" select="processing-instruction('dbhtml')"/>
+      <xsl:with-param name="attribute" select="'toc'"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:variable name="toc.params">
+    <xsl:call-template name="find.path.params">
+      <xsl:with-param name="table" select="normalize-space($generate.toc)"/>
+    </xsl:call-template>
+  </xsl:variable>
+  <xsl:if test="(contains($toc.params, 'toc') and $toc != '0') or $toc = '1'">
+    <div class="toc">
+        <xsl:call-template name="process.qanda.toc"/>
+    </div>
+  </xsl:if>
+  <xsl:if test="$preamble">
+    <div class="preamble">
+        <xsl:apply-templates select="$preamble"/>
+    </div>
+  </xsl:if>
+  <div>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates select="qandadiv|qandaentry"/>
+  </div>
+</xsl:template>
+
+<xsl:template match="qandaentry">
+  <div>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates/>
+  </div>
+</xsl:template>
+
+<xsl:template match="question">
+  <xsl:variable name="deflabel">
+    <xsl:choose>
+      <xsl:when test="ancestor-or-self::*[@defaultlabel]">
+        <xsl:value-of select="(ancestor-or-self::*[@defaultlabel])[last()] /@defaultlabel"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$qanda.defaultlabel"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:variable name="label.content">
+    <xsl:apply-templates select="." mode="label.markup"/>
+    <xsl:if test="$deflabel = 'number' and not(label)">
+      <xsl:apply-templates select="." mode="intralabel.punctuation"/>
+    </xsl:if>
+  </xsl:variable>
+  <div>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+      <xsl:call-template name="anchor">
+        <xsl:with-param name="node" select=".."/>
+        <xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template>
+      <xsl:call-template name="anchor">
+        <xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template>
+      <xsl:if test="string-length($label.content) &gt; 0">
+        <label>
+          <xsl:copy-of select="$label.content"/>
+        </label>
+      </xsl:if>
+    <div class="data">
+      <xsl:apply-templates/>
+    </div>
+  </div>
+</xsl:template>
+
+<xsl:template match="answer">
+  <xsl:variable name="deflabel">
+    <xsl:choose>
+      <xsl:when test="ancestor-or-self::*[@defaultlabel]">
+        <xsl:value-of select="(ancestor-or-self::*[@defaultlabel])[last()] /@defaultlabel"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$qanda.defaultlabel"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <div>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:variable name="answer.label">
+      <xsl:apply-templates select="." mode="label.markup"/>
+    </xsl:variable>
+    <xsl:if test="string-length($answer.label) &gt; 0">
+      <label>
+        <xsl:copy-of select="$answer.label"/>
+      </label>
+    </xsl:if>
+     <div class="data">
+       <xsl:apply-templates />
+     </div>
+   </div>
+</xsl:template>
+
 </xsl:stylesheet>

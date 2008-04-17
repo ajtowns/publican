@@ -49,7 +49,6 @@ cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{prefix}/.
 %defattr(-,root,root,-)
 %{prefix}/<xsl:value-of select="$lang"/>
 
-
 %changelog
 <xsl:apply-templates select="//revision"/>
 

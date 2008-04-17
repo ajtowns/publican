@@ -11,31 +11,27 @@
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
 <xsl:template match="/"># Red Hat Documentation Specfile
-Name:	<xsl:value-of select="$book-title"/>
+Name:	<xsl:value-of select="$book-title"/>-<xsl:value-of select="$book-lang"/>
 Version:	<xsl:value-of select="/bookinfo/issuenum"/><xsl:value-of select="/setinfo/issuenum"/>
 Release:	<xsl:value-of select="/bookinfo/productnumber"/><xsl:value-of select="/setinfo/productnumber"/>
 Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
-Group:	Documentation
+Group:		Documentation
 License:	Open Publication License
-URL:	http://www.redhat.com/docs
+URL:		http://www.redhat.com/docs
 Source0:	%{name}-%{version}-%{release}.tgz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
-Requires: htmlview
+Requires: 	htmlview
 
 %description
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
-
-%package -n %{name}-<xsl:value-of select="$book-lang"/>
-Summary:	<xsl:value-of select="/bookinfo/subtitle" /><xsl:value-of select="/setinfo/subtitle" />
-Group:	Documentation
-Requires: htmlview
 
 %prep
 %setup -q
 
 %build
+%{__make} DESKTOP=1 html-single-<xsl:value-of select="$book-lang"/>
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -44,10 +40,9 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
-<xsl:value-of select="$titles"/>
 Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" />
-Exec=htmlview %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/index.html
-Icon=%{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/images/icon.svg
+Exec=htmlview %{_docdir}/%{name}-%{version}/index.html
+Icon=%{_docdir}/%{name}-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
 Type=Application
 Encoding=UTF-8
@@ -57,15 +52,10 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%description -n %{name}-<xsl:value-of select="$book-lang"/>
-<xsl:value-of select="/bookinfo/abstract/para" />
-
-%files -n %{name}-<xsl:value-of select="$book-lang"/>
+%files
 %defattr(-,root,root,-)
-%doc <xsl:value-of select="$book-lang"/>/*
+%doc tmp/<xsl:value-of select="$book-lang"/>/html-single/*
 %{_datadir}/applications/%{name}.desktop
-
-@@@SUBPACKAGES@@@
 
 %changelog<xsl:value-of select="$book-log"/>
 

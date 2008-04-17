@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t15%{?dist}
+Release:	0.t43%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -94,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 - Make unset entity warnings more obvious
 - Make docs use DESKTOP styles
 - Fix missing list image in html-single articles
+- Commented out debug output in chunking xsl
+- QANDA set html and css fix BZ #442674
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
