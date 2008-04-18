@@ -47,6 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Apr 14 2008 Jeff Fearn <jfearn@redhat.com> 0.13-0
 - Fix missing list image in html-single articles
 - QANDA set css fix BZ #442674
+- Removed entities with mandatory overrides
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations
