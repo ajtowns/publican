@@ -23,6 +23,13 @@ CATALOGS	= XML_CATALOG_FILES="$(PWD)/../../xsl_extras/docbook/dtd-4.5/catalog.xm
 XMLCLEAN	= $(PWD)/../../bin/xmlClean
 endif
 
-
 include $(COMMON_CONFIG)/make/Makefile.common
+
+publish-dist: html-single-all
+	@rm -rf publish
+	@mkdir -p publish
+	@for lang in $(TRANSLATIONS); do \
+		mkdir -p publish/$$lang; \
+		cp -rf tmp/$$lang/html-single/*  publish/$$lang/.; \
+	done
 
