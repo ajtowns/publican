@@ -18,7 +18,7 @@
 #
 
 # Default values, only set if not set in book Makefile
-PWD			= $(shell pwd)
+PWD		= $(shell pwd)
 PRODUCT		?= Red_Hat_Enterprise_Linux
 COMMON_CONTENT	= $(COMMON_CONFIG)/Common_Content
 VERSION		?= HEAD
@@ -50,7 +50,7 @@ update-po-all:: $(foreach L,$(OTHER_LANGS),update-po-${L})
 # Create report-LANG for all Translations
 $(foreach L,$(OTHER_LANGS),$(eval $(call PO_Report_Totals_Template,${L})))
 
-report-totals:: $(foreach L,$(OTHER_LANGS), report-total-${L})
+report-total-all:: $(foreach L,$(OTHER_LANGS), report-total-${L})
 
 
 # Create report-LANG for all Translations
@@ -71,6 +71,14 @@ publish-report:: report-all
 	@mkdir -p publish/Reports/$(PRODUCT)/$(VERSION)/${DOCNAME}
 	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(VERSION)/${DOCNAME}/.
 	@echo "END: publish-report `date`"
+
+###############################################################################
+# Remove temporary files
+###############################################################################
+clean::
+	@echo "START: $@ `date`"
+	@rm -rf tmp publish
+	@echo "END: $@ `date`"
 
 help::
 	@echo ""

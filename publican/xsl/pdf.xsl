@@ -126,7 +126,6 @@
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
 	<xsl:attribute name="hyphenate">false</xsl:attribute>
 	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
-
 </xsl:attribute-set>
 
 <!--xsl:attribute-set name="admonition.properties"></xsl:attribute-set-->
@@ -344,7 +343,7 @@ article toc
 	<xsl:attribute name="font-family">
 		<xsl:value-of select="$title.fontset"/>
 	</xsl:attribute>
-	<xsl:attribute name="color">#a70000</xsl:attribute>
+	<xsl:attribute name="color"></xsl:attribute>
 	<xsl:attribute name="font-size">12pt</xsl:attribute>
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
@@ -364,7 +363,7 @@ Version:1.72
   <!-- highlight this entry? -->
   <xsl:if test="ancestor::thead or ancestor::tfoot">
     <xsl:attribute name="font-weight">bold</xsl:attribute>
-	<xsl:attribute name="background-color">#a70000</xsl:attribute>
+	<xsl:attribute name="background-color"><xsl:value-of select="$title.color"/></xsl:attribute>
 	<xsl:attribute name="color">white</xsl:attribute>
   </xsl:if>
 </xsl:template>
@@ -388,7 +387,7 @@ Version:1.72
     </xsl:attribute>
   </xsl:if>
   <xsl:if test="ancestor::thead or ancestor::tfoot">
-	<xsl:attribute name="background-color">#a70000</xsl:attribute>
+	<xsl:attribute name="background-color"><xsl:value-of select="$title.color"/></xsl:attribute>
   </xsl:if>
 </xsl:template>
 
@@ -823,7 +822,7 @@ Version: 1.72
 	<xsl:if test="$header.rule != 0">
 		<xsl:attribute name="border-bottom-width">0.5pt</xsl:attribute>
 		<xsl:attribute name="border-bottom-style">solid</xsl:attribute>
-		<xsl:attribute name="border-bottom-color">#a70000</xsl:attribute>
+		<xsl:attribute name="border-bottom-color"></xsl:attribute>
 	</xsl:if>
 </xsl:template>
 
@@ -840,7 +839,7 @@ Version: 1.72
 	<xsl:if test="$footer.rule != 0">
 		<xsl:attribute name="border-top-width">0.5pt</xsl:attribute>
 		<xsl:attribute name="border-top-style">solid</xsl:attribute>
-		<xsl:attribute name="border-top-color">#a70000</xsl:attribute>
+		<xsl:attribute name="border-top-color"></xsl:attribute>
 	</xsl:if>
 </xsl:template>
 

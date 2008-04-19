@@ -21,18 +21,32 @@
 # default 2 section levels in TOC
 TOC_SECTION_DEPTH	?= 2
 CHUNK_SECTION_DEPTH	?= 4
-PO2ENTITY		?= po2entity
-ENITY2PO		?= entity2po
-XMLPOMERGE		?= poxmerge
-POTMERGE		?= potmerge
+XMLPOMERGE		= poxmerge
+POTMERGE		= potmerge
 CHUNK_FIRST		?= 1
 SHOW_REMARKS	?= 0
 EMBEDTOC	?= 0
 BRAND		?= common
 DOC_URL		?= https://fedorahosted.org/publican
 DESKTOP		?= 0
+XMLCLEAN	?= xmlClean
 
 #CATALOGS_OVERRIDE
+
+###############################################################################
+# ALL_Template
+#  Create rules to handle all languages for a given format and a shortcut rule
+#  for the default langauge.
+#
+#  Creates rules like:
+#    html-all:: html-en-US htnl-ja-JP ...
+#
+#    html:: html-en-US
+###############################################################################
+define	ALL_Template
+.PHONY:	${1}-all
+${1}-all:: $(foreach L,$(TRANSLATIONS), ${1}-${L})
+endef
 
 ###############################################################################
 # SECTION: PUBLISHING 
@@ -73,6 +87,9 @@ endef
 define	XML_Template
 .PHONY:	xml-${1}
 xml-${1}:: pre
+ifeq "${1}" "$(findstring ${1},$(IGNORED_TRANSLATIONS))"
+xml-${1}:: xml
+endif
 	@echo "START: xml-${1} `date`"
 	-@mkdir -p tmp/${1}/xml_tmp
 	-@mkdir -p tmp/${1}/xml/Common_Content
@@ -104,11 +121,15 @@ else
 	@$(XMLPOMERGE) --langs=${1} --output=tmp/${1}/xml_tmp --sub-dirs="$(EXTRA_DIRS_C)" --lang-dir=${1} $(XML_LANG)/${2}.xml
 endif
 # copy common files
-	@if [ -d $(COMMON_CONTENT)/$(BRAND)/$(XML_LANG) ]; then \
+	@if [ -d $(COMMON_CONTENT)/$(BRAND)/en-US ]; then \
+		echo "	copying $(BRAND)/en-US  Common_Content"; \
+		cp -rf $(COMMON_CONTENT)/$(BRAND)/en-US/* tmp/${1}/xml/Common_Content/.; \
+	fi
+	@if [ "$(XML_LANG)" != "en-US" ] && [ -d $(COMMON_CONTENT)/$(BRAND)/$(XML_LANG) ]; then \
 		echo "	copying $(BRAND)/$(XML_LANG) Common_Content"; \
 		cp -rf $(COMMON_CONTENT)/$(BRAND)/$(XML_LANG)/* tmp/${1}/xml/Common_Content/.; \
 	fi
-	@if [ -d $(COMMON_CONTENT)/$(BRAND)/${1} ]; then \
+	@if [ "${1}" != "$(XML_LANG)" ] && [ -d $(COMMON_CONTENT)/$(BRAND)/${1} ]; then \
 		echo "	copying $(BRAND)/${1} Common_Content"; \
 		cp -rf $(COMMON_CONTENT)/$(BRAND)/${1}/* tmp/${1}/xml/Common_Content/.; \
 	fi
@@ -158,9 +179,16 @@ endef
 #	2: Language (ko-KR, bn-IN etc)
 #	3: XSL file
 #	4: Extra Deps
+#
+# TODO FIXME: Need a cleaner way of handling ignored translations.
 ###############################################################################
 define	BUILD_Template
 .PHONY:	${1}-${2}
+ifeq "${2}" "$(findstring ${2},$(IGNORED_TRANSLATIONS))"
+${1}-${2}:: GENLANG = $(XML_LANG)
+else
+${1}-${2}:: GENLANG = ${2}
+endif
 ${1}-${2}:: xml-${2} test-${2} ${4}
 	@echo "START: ${1}-${2} `date`"
 	@mkdir -p tmp/${2}/${1}
@@ -180,9 +208,9 @@ ifeq "${1}" "pdf"
 		fi; \
 		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
 		if [ "$$$$fop_ver" = "0.20.5" ]; then \
-			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 		else \
-			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
+			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
 		fi; \
 		if [ ! -f $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf ]; then \
 			echo "ERROR: config file for FOP version '$$$$fop_ver' not found"; \
@@ -194,7 +222,7 @@ else
 ifeq "${1}" "html-single"
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP)  --stringparam show.comments $(SHOW_REMARKS) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
+		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP)  --stringparam show.comments $(SHOW_REMARKS) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
@@ -202,7 +230,7 @@ ifeq "${1}" "html-single"
 else
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc  --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "${2}" --stringparam l10n.gentext.language "${2}" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
+		$(CATALOGS) xsltproc  --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
@@ -256,11 +284,6 @@ endif
 			echo "WARNING: No source xml file exists for $$$$pot_file"; \
 		fi; \
 	done;
-#ifneq "$(EXTRA_DIRS_C)" ""
-#	@$(POTMERGE) --lang=${1} --lang-dir=${1} --sub-dirs="$(EXTRA_DIRS_C)" pot/${2}.pot
-#else
-#	@$(POTMERGE) --lang=${1} --lang-dir=${1} pot/${2}.pot
-#endif
 	@echo "END: update-po-${1} `date`"
 endef
 
@@ -318,26 +341,6 @@ endif
 endef
 
 ###############################################################################
-# Template for Testing PO files
-#
-# produces phony rules like: test-po-ko-KR.
-# Parameters:
-#	1: Language (ko-KR, bn-IN etc)
-###############################################################################
-
-define	TEST_PO_Template
-.PHONY:	test-po-${1}
-test-po-${1}::
-	@echo "START: $@ `date`"
-	@for file in find ${1} -name "*.po"; do \
-		echo "	checking $$$$file"; \
-		po-validateXML $$$$file;\
-	done
-	@echo "END: $@ `date`"
-endef
-
-
-###############################################################################
 # Template for Testing
 #
 # produces phony rules like: test-ko-KR:: xml-ko-KR.
@@ -360,157 +363,97 @@ endef
 
 
 ###############################################################################
-# SPEC_Template
-#
-# Parameters:
-#	1: Format
+# Desktop RPMS
 ###############################################################################
 
-define	SPEC_Template
-.PHONY:	spec-${1}
-
-spec-${1}::
-	@echo "START: spec-${1} `date`"
-	@mkdir -p tmp/rpm/SPECS
-	@for lang in $(TRANSLATIONS); do \
-		$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)-${1}-$$$$lang" \
-		--stringparam lang "$$$$lang" \
-		--stringparam  prod "$(PRODUCT)" \
-		--stringparam  ver "$(VERSION)" \
-		--stringparam  format "${1}" \
-		--stringparam  docname "$(DOCNAME)" \
-		-o tmp/rpm/SPECS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-${1}-$$$$lang.spec \
-		$(COMMON_CONFIG)/xsl/format-specific-spec.xsl tmp/$(XML_LANG)/xml/$(DOC_TYPE)_Info.xml;\
-	done
-	@echo "END: spec-${1} `date`"
+define	TARDIR_Template
+.PHONY:	tardir-${1}
+tardir-${1}:: xml-${1}
+	@echo "START: tardir-${1} `date`"
+	@mkdir -p tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)
+	@cp -rf tmp/${1}/xml tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/${1}
+	@rm -rf tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/${1}/Common_Content
+	@cp Makefile tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/.
+	@sed -i -e 's/^XML_LANG.*$$$$/XML_LANG = ${1}/' tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/Makefile
+	@sed -i -e 's/^IGNORED_TRANSLATIONS.*$$$$//' tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/Makefile
+	@echo "END: tardir-${1} `date`"
 endef
-
-
-###############################################################################
-# Template for per format Tar
-#
-# produces phony rules like: tar-html:: publish-html-all.
-# Parameters:
-#	1: Format (html, pdf, etc)
-###############################################################################
 
 define	TAR_Template
 .PHONY:	tar-${1}
-tar-${1}:: publish-${1}-all
+tar-${1}:: tardir-${1}
 	@echo "START: tar-${1} `date`"
-	@for lang in $(TRANSLATIONS); do \
-		pushd publish > /dev/null; \
-		mkdir -p $$$$lang/$(PRODUCT)/$(VERSION)/tar; \
-		tar -czf $$$$lang/$(PRODUCT)/$(VERSION)/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-${1}-$$$$lang-$(RELEASE)-0.tgz $$$$lang/$(PRODUCT)/$(VERSION)/${1}/$(DOCNAME); \
-		popd > /dev/null; \
-	done;
+	@cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz $(SPEC_NAME)-${1}-$(VERSION)
+	@echo "The archive is in tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz"
 	@echo "END: tar-${1} `date`"
 endef
 
+define	SPEC_Template
+.PHONY:	spec-${1}
+spec-${1}:: tar-${1}
+	@echo "START: spec-${1} `date`"
+	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
+	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
+		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
+	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
+	--stringparam main-file "$(DOCNAME).xml" \
+	--stringparam book-lang "${1}" \
+	--stringparam book-log "$$(<tmp/changelog.txt)" \
+	-o tmp/$(SPEC_NAME)-${1}.spec \
+	$(SPEC_XSL) tmp/${1}/xml/$(DOC_TYPE)_Info.xml
+	@echo "END: spec-${1} `date`"
+endef
 
-
-###############################################################################
-# Template for per format SRPMS
-#
-# produces phony rules like: srpm-html:: tar-html spec-html.
-# Parameters:
-#	1: Format (html, pdf, etc)
-###############################################################################
 define	SRPM_Template
 .PHONY:	srpm-${1}
-srpm-${1}:: EMBEDTOC = 1
-srpm-${1}:: publish-${1}-all tar-${1} spec-${1}
+srpm-${1}:: clean spec-${1}
 	@echo "START: srpm-${1} `date`"
-	@mkdir -p tmp/rpm/SOURCES tmp/rpm/SRPMS publish/SRPMS
-	@for lang in $(TRANSLATIONS); do \
-		cp publish/$$$$lang/$(PRODUCT)/$(VERSION)/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-${1}-$$$$lang-$(RELEASE)-0.tgz tmp/rpm/SOURCES/.; \
-		rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/rpm/SPECS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-${1}-$$$$lang.spec; \
-		mv tmp/rpm/SRPMS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-${1}-$$$$lang-$(RELEASE)-0.src.rpm publish/SRPMS/.; \
-	done;
+	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
+	@cp tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz tmp/rpm/SOURCES/.
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME)-${1}.spec
 	@echo "END: srpm-${1} `date`"
 endef
 
-###############################################################################
-# Template for Web SRPMS
-#
-# produces phony rules like: web-srpm-en-US
-# Parameters:
-#	1: Lang en-US, ja-JP, etc)
-#
-# TODO: We really only need Book_Info.xml not the thtire LANG xml
-# 	would be cool to be able to just generate that one file
-###############################################################################
-WEB_FORMATS = html html-single pdf
-WEB_FILES = $(XML_LANG) pot Makefile
+define	BREW_Template
+.PHONY:	brew-${1}
+brew-${1}:: srpm-${1}
+	@echo "START: brew-${1} `date`"
+	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(SPEC_NAME)-${1}-$(VERSION).src.rpm
+	@echo "END: brew-${1} `date`"
+endef
 
-define	Trans_Info_Template
-.PHONY:	trans-info-${1}
-trans-info-${1}::
-	@echo "START: trans-info-${1} `date`"
-	-@mkdir -p tmp/${1}/xml_tmp
-	-@mkdir -p tmp/${1}/xml/Common_Content
-ifeq "${1}" "$(findstring ${1},$(IGNORED_TRANSLATIONS))"
-	@echo "	Bypassing translation for ${1}"
-	@cp $(XML_LANG)/$(DOC_TYPE)_Info.xml tmp/${1}/xml_tmp/.
-else
-	@if [ -f ${1}/$(DOC_TYPE)_Info.po ]; then \
-		echo "${1}/$(DOC_TYPE)_Info.po found"; \
-		po2xml en-US/Book_Info.xml ${1}/$(DOC_TYPE)_Info.po > tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml; \
-	else \
-		echo "${1}/$(DOC_TYPE)_Info.po NOT found"; \
-		cp -rf $(XML_LANG)/$(DOC_TYPE)_Info.xml tmp/${1}/xml_tmp/.; \
-	fi
-# copy common files
-	@if [ -d $(COMMON_CONTENT)/$(BRAND)/$(XML_LANG) ]; then \
-		echo "	copying $(BRAND)/$(XML_LANG) Common_Content"; \
-		cp -rf $(COMMON_CONTENT)/$(BRAND)/$(XML_LANG)/* tmp/${1}/xml/Common_Content/.; \
-	fi
-	@if [ -d $(COMMON_CONTENT)/$(BRAND)/${1} ]; then \
-		echo "	copying $(BRAND)/${1} Common_Content"; \
-		cp -rf $(COMMON_CONTENT)/$(BRAND)/${1}/* tmp/${1}/xml/Common_Content/.; \
-	fi
-# copy original local ent, then copy translated local ent over the top
-	@if [ -f $(XML_LANG)/$(DOCNAME).ent ]; then \
-		cp -rf $(XML_LANG)/$(DOCNAME).ent tmp/${1}/xml/.; \
-		sed -i -e 's/docbookx.dtd" \[/docbookx.dtd" \[\n<!ENTITY % BOOK_ENTITIES SYSTEM "..\/$(DOCNAME).ent">\n%BOOK_ENTITIES\;/' tmp/${1}/xml/Common_Content/*.xml; \
-	fi
-	@if [ -f ${1}/$(DOCNAME).ent ]; then cp -rf ${1}/$(DOCNAME).ent tmp/${1}/xml/.; fi
-	@$(XMLCLEAN) -U -in tmp/${1}/xml_tmp/$(DOC_TYPE)_Info.xml -out tmp/${1}/xml/$(DOC_TYPE)_Info.xml -book $(DOCNAME) -lang ${1} $$$$args
-	@find tmp -name CVS | xargs rm -rf
-	@find tmp -name '.svn' | xargs rm -rf
-	@cd tmp/${1}/xml && rmImages
-endif
-	@echo "END: trans-info-${1} `date`"
+define	BREW_Report_Template
+.PHONY:	brew-${1}
+brew-report-${1}::
+	@echo "START: brew-report-${1} `date`"
+	@brew latest-pkg $(BREW_DIST) $(DOCNAME)-${1}
+	@echo "END: brew-report-${1} `date`"
 endef
 
 ###############################################################################
 # Template for Web SRPMS
 #
 # produces phony rules like: web-srpm-en-US
+#
 # Parameters:
 #	1: Lang en-US, ja-JP, etc)
 #
-# TODO: We really only need Book_Info.xml not the thtire LANG xml
-# 	would be cool to be able to just generate that one file
 ###############################################################################
 
 define	WEB_SRPM_Template
 .PHONY:	web-srpm-${1}
-web-srpm-${1}:: clean trans-info-${1}
+web-srpm-${1}:: tar-${1}
 	@echo "START: web-srpm-${1} `date`"
-	@mkdir -p publish tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
-	@cp -rf ${1} tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)/.
-	@for file in $(WEB_FILES); do \
-		cp -rf $$$$file tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)/.; \
-	done
-	@tar --directory tmp --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file publish/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
+	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
+	@cp tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz tmp/rpm/SOURCES/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz
 	@$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}" \
 		--stringparam lang "${1}" \
 		--stringparam  prod "$(PRODUCT)" \
 		--stringparam  ver "$(VERSION)" \
 		--stringparam  docname "$(DOCNAME)" \
-		-o publish/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec \
+		-o tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spe
 	@echo "END: web-srpm-${1} `date`"
 endef
 
@@ -521,80 +464,4 @@ publish-web-${1}:: publish-html-${1} publish-html-single-${1} publish-pdf-${1}
 endef
 
 
-
-###############################################################################
-###############################################################################
-
-clean::
-	@echo "START: $@ `date`"
-	@rm -rf tmp publish
-	@echo "END: $@ `date`"
-
-# Clean all the books in this set
-clean_set_books::
-	@echo "START: $@ `date`"
-	@for dir in $(BOOKS); do \
-		if [ -d "$$dir" ] ; then \
-			pushd $$dir > /dev/null; \
-			make clean; \
-			popd > /dev/null; \
-		else \
-			echo "CAN'T CHANGE DIRS TO $$dir FOR CLEANING" ; \
-		fi; \
-	done;
-	@echo "END: $@ `date`"
-
-# build all the books in this set
-set_books::
-	@echo "START: $@ `date`"
-	@for dir in $(BOOKS); do \
-		if [ -d "$$dir" ] ; then \
-			pushd $$dir > /dev/null; \
-			make clean; \
-			make clean_ids; \
-			make xml-all; \
-			popd > /dev/null; \
-		else \
-			echo "$$dir DIRECTORY NOT FOUND"; \
-		fi; \
-		for lang in $(TRANSLATIONS); do mkdir -p tmp/$$lang/xml; \
-			cp -rf $$dir/tmp/$$lang/xml tmp/$$lang/xml/$$dir; \
-			if [ -d "tmp/$$lang/xml/$$dir/images" ]; then \
-				mkdir -p tmp/$$lang/xml/images; \
-				mv -f tmp/$$lang/xml/$$dir/images/* tmp/$$lang/xml/images/.; \
-				rm -rf tmp/$$lang/xml/$$dir/images; \
-			fi; \
-		done; \
-	done;
-	@echo "END: $@ `date`"
-
-# remove po and pot files if the xml files has been removed
-#
-# WARNING: Make sure you run `cvs up -d` first!!!
-#
-rm_rs_po:
-	@echo "START: $@ `date`"
-	@for lang in $(OTHER_LANGS) pot ; do \
-		cd $$lang && \
-		for file in `find . -name "*.po*" | sed -e 's/^\.\///' | sort` ; do \
-			xmlfile=`echo $$file | sed -e 's/po[t]*$$/xml/'`; \
-			if [ ! -f ../$(XML_LANG)/$$xmlfile ]; then \
-				echo "removing: $$lang/$$file"; \
-				cvs remove -f $$file; \
-			fi; \
-		done; \
-		cd ..; \
-	done;
-	@echo "END: $@ `date`"
-
-# Modify the id's of tags.
-# WARNING: this changes the source xml, it does not update translations
-clean_ids:
-	@echo "START: $@ `date`"
-	@cd $(XML_LANG) && \
-	for file in `find . -name "*.xml" | sed -e 's/^\.\///' | sort`; do \
-		echo "	$$file"; \
-		$(XMLCLEAN) -U -in $$file -out $$file -book $(DOCNAME) -cleanids ; \
-	done && cd ..;
-	@echo "END: $@ `date`"
 

@@ -18,20 +18,19 @@
 #
 
 # Default values, only set if not set in book Makefile
+XML_LANG	?= en-US
 XMLFILE		?= $(XML_LANG)/$(DOCNAME).xml
 DOC_TYPE	?= Book
-VERSION		?= $(shell awk '/<issuenum>(.*)<\/issuenum>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*issuenum>//g')
-RELEASE		?= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
-MKPOT		?= mkxpot
+VERSION		= $(shell awk '/<issuenum>(.*)<\/issuenum>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*issuenum>//g')
+RELEASE		= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
 XSLTPROC	?= xsltproc
 PWD		= $(shell pwd)
 CONFIDENTIAL	?= 0
 BREW_DIST	?= dist-5E-qu-candidate
-TRANSLATIONS	?= $(XML_LANG) $(OTHER_LANGS)
-EXTRA_DIRS	?= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v '.svn' | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
-XMLCLEAN	?= xmlClean
+TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
+EXTRA_DIRS	= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v '.svn' | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
 PRODUCT		?= Documentation
-CATEGORY	?= User Guide
+FORMATS		= html htmlhelp html-single pdf txt eclipse
 
 ###############################################################################
 ###############################################################################
@@ -40,11 +39,11 @@ COMMON_CONTENT	= $(COMMON_CONFIG)/Common_Content
 
 # a comma seperated list of other languages
 ifdef OTHER_LANGS
-OTHER_LANGS_C	?= $(shell echo $(OTHER_LANGS) | sed -e 's/ /,/g')
+OTHER_LANGS_C	= $(shell echo $(OTHER_LANGS) | sed -e 's/ /,/g')
 endif
 
 ifdef EXTRA_DIRS
-EXTRA_DIRS_C	?= $(shell echo $(EXTRA_DIRS) | sed -e 's/ /,/g')
+EXTRA_DIRS_C	= $(shell echo $(EXTRA_DIRS) | sed -e 's/ /,/g')
 endif
 
 # Is there a brand specific Makefile?
@@ -113,191 +112,73 @@ pre::
 
 
 ###############################################################################
-### PUBLISH HTML ###
+### Build XML ###
 ###############################################################################
+$(foreach L,$(TRANSLATIONS),$(eval $(call XML_Template,${L},$(DOCNAME))))
 
-# Create a fake publish-html-LANG rule for every Translation
-$(foreach L,$(TRANSLATIONS),$(eval $(call PUBLISH_template,html,${L})))
-
-# depened on publish-html-LANG for all Translations
-publish-html-all:: $(foreach L,$(TRANSLATIONS),publish-html-${L})
-
-# A seperate rule for origal language
-publish-html:: publish-html-$(XML_LANG)
+xml-all:$(foreach L,$(TRANSLATIONS),xml-${L})
 
 ###############################################################################
-### PUBLISH HTML SINGLE ###
+### Test XML  ###
 ###############################################################################
+$(foreach L,$(TRANSLATIONS),$(eval $(call TEST_Template,${L})))
 
-# Create a fake publish-html-LANG rule for every Translation
-$(foreach L,$(TRANSLATIONS),$(eval $(call PUBLISH_template,html-single,${L})))
-
-# depened on publish-html-LANG for all Translations
-publish-html-single-all:: $(foreach L,$(TRANSLATIONS),publish-html-single-${L})
-
-# A seperate rule for origal language
-publish-html-single:: publish-html-single-$(XML_LANG)
+test-all: $(foreach L,$(TRANSLATIONS), test-${L})
 
 ###############################################################################
-### PUBLISH ECLIPSE ###
+### Build Formats ###
 ###############################################################################
+$(foreach format, $(FORMATS), \
+	$(foreach L,$(TRANSLATIONS), \
+		$(eval $(call BUILD_Template,${format},${L},${format}.xsl))))
 
-# Create a fake publish-eclipse-LANG rule for every Translation
-$(foreach L,$(TRANSLATIONS),$(eval $(call PUBLISH_template,eclipse,${L})))
-
-# depened on publish-eclipse-LANG for all Translations
-publish-eclipse-all:: $(foreach L,$(TRANSLATIONS),publish-eclipse-${L})
-
-# A seperate rule for origal language
-publish-eclipse:: publish-eclipse-$(XML_LANG)
+$(foreach format, $(FORMATS), $(eval $(call ALL_Template,${format})))
 
 ###############################################################################
-### PUBLISH HTMLHELP ###
+### Publish Formats  ###
 ###############################################################################
+$(foreach format, $(FORMATS), \
+	$(foreach L,$(TRANSLATIONS), \
+		$(eval $(call PUBLISH_template,${format},${L}))))
 
-# Create a fake publish-html-LANG rule for every Translation
-$(foreach L,$(TRANSLATIONS),$(eval $(call PUBLISH_template,htmlhelp,${L})))
-
-# depened on publish-html-LANG for all Translations
-publish-htmlhelp-all:: $(foreach L,$(TRANSLATIONS),publish-htmlhelp-${L})
-
-# A seperate rule for origal language
-publish-htmlhelp:: publish-htmlhelp-$(XML_LANG)
+$(foreach format, $(FORMATS), $(eval $(call ALL_Template,publish-${format})))
 
 ###############################################################################
-### PUBLISH PDF ###
+### Desktop RPMS  ###
 ###############################################################################
+$(foreach L,$(TRANSLATIONS), $(eval $(call TARDIR_Template,${L})))
+$(foreach L,$(TRANSLATIONS), $(eval $(call SPEC_Template,${L})))
+$(foreach L,$(TRANSLATIONS), $(eval $(call TAR_Template,${L})))
+$(foreach L,$(TRANSLATIONS), $(eval $(call SRPM_Template,${L})))
 
-# Create publish-pdf-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call PUBLISH_template,pdf,${L})))
-
-# Depend on publish-pdf-LANG for all Translations
-publish-pdf-all:: $(foreach L,$(TRANSLATIONS),publish-pdf-${L})
-
-# A seperate rule for original language
-publish-pdf:: publish-pdf-$(XML_LANG)
 
 ###############################################################################
-### PUBLISH TXT ###
+### Brew Desktop rpm  ###
 ###############################################################################
-
-# Create publish-pdf-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call PUBLISH_template,txt,${L})))
-
-# Depend on publish-pdf-LANG for all Translations
-publish-txt-all:: $(foreach L,$(TRANSLATIONS),publish-txt-${L})
-
-# A seperate rule for original language
-publish-txt:: publish-txt-$(XML_LANG)	
+$(foreach L,$(TRANSLATIONS), $(eval $(call BREW_Template,${L})))
+$(foreach L,$(TRANSLATIONS), $(eval $(call BREW_Report_Template,${L})))
 
 ###############################################################################
-### PUBLISH RPM ###
+# Web SRPMs
 ###############################################################################
+$(foreach L,$(TRANSLATIONS),$(eval $(call Trans_Info_Template,${L})))
+$(foreach L,$(TRANSLATIONS),$(eval $(call WEB_SRPM_Template,${L})))
+$(foreach L,$(TRANSLATIONS),$(eval $(call Publish-WEB_Template,${L})))
 
-publish-srpm:: srpm
-	@mkdir -p publish
-	@cp -rf tmp/rpm/SRPMS publish/.
+web-srpm-all:: $(foreach L,$(TRANSLATIONS), web-srpm-${L})
 
 ###############################################################################
 ### PUBLISH TAR ###
+# This tars up everything in the publish directory
 ###############################################################################
 
-# A seperate rule for original language
-publish-tar:: tar
-	@mkdir -p publish/tar
-	@cp tmp/tar/$(TAR_NAME).tgz publish/tar/.
-
-publish-crazy:: publish-html-all publish-html-single-all publish-eclipse-all publish-htmlhelp-all publish-pdf-all publish-txt-all publish-srpm publish-tar
-	@echo "CRAZINESS!!!!"
-
-
-###############################################################################
-# SECTION: BUILDING 
-###############################################################################
-
-# Create xml-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call XML_Template,${L},$(DOCNAME))))
-
-xml-all::$(foreach L,$(TRANSLATIONS),xml-${L})
-	@echo "END: $@"
-
-###############################################################################
-### BUILDING HTML ###
-###############################################################################
-
-# Create html-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call BUILD_Template,html,${L},main-html.xsl)))
-
-# Depend on html-LANG for all Translations
-html-all:: $(foreach L,$(TRANSLATIONS),html-${L})
-
-# A seperate rule for original language
-html:: html-$(XML_LANG)
-
-###############################################################################
-### BUILDING HTML SINGLE ###
-###############################################################################
-
-# Create html-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call BUILD_Template,html-single,${L},nochunk-html.xsl)))
-
-# Depend on html-LANG for all Translations
-html-single-all:: $(foreach L,$(TRANSLATIONS),html-single-${L})
-
-# A seperate rule for original language
-html-single:: html-single-$(XML_LANG)
-
-###############################################################################
-### BUILDING HTML-HELP ###
-###############################################################################
-
-# Create html-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call BUILD_Template,htmlhelp,${L},main-htmlhelp.xsl)))
-
-# Depend on html-LANG for all Translations
-htmlhelp-all:: $(foreach L,$(TRANSLATIONS),htmlhelp-${L})
-
-# A seperate rule for original language
-htmlhelp:: htmlhelp-$(XML_LANG)
-
-###############################################################################
-### BUILDING ECLIPSE ###
-###############################################################################
-
-# Create eclipse-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call BUILD_Template,eclipse,${L},main-eclipse.xsl)))
-
-# Depend on eclipse-LANG for all Translations
-eclipse-all:: $(foreach L,$(TRANSLATIONS),eclipse-${L})
-
-# A seperate rule for original language
-eclipse:: eclipse-$(XML_LANG)
-
-###############################################################################
-### BUILDING PDF ###
-###############################################################################
-
-# Create pdf-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call BUILD_Template,pdf,${L},main-pdf.xsl)))
-
-# Depend on pdf-LANG for all Translations
-pdf-all:: $(foreach L,$(TRANSLATIONS),pdf-${L})
-
-# A seperate rule for original language
-pdf:: pdf-$(XML_LANG)
-
-###############################################################################
-### BUILDING TXT ###
-###############################################################################
-
-# Create txt-LANG for all Translations
-$(foreach L,$(TRANSLATIONS),$(eval $(call BUILD_Template,txt,${L},main-txt.xsl,html-single-${L})))
-
-# Depend on txt-LANG for all Translations
-txt-all:: $(foreach L,$(TRANSLATIONS),txt-${L})
-
-# A seperate rule for original language
-txt:: txt-$(XML_LANG)
+tar-publish::
+	@echo "START: $@ `date`"
+	@tar -czf $(PRODUCT)-$(VERSION)-$(DOCNAME).tgz publish
+	@mkdir publish/tar
+	@mv $(PRODUCT)-$(VERSION)-$(DOCNAME).tgz publish/tar/.
+	@echo "created $(PRODUCT)-$(VERSION)-$(DOCNAME).tgz"
+	@echo "END: $@ `date`"
 
 ###############################################################################
 # SECTION: PO FILES 
@@ -316,11 +197,6 @@ update-pot::
 ifneq "$(EXTRA_DIRS)" ""
 	@cd pot && mkdir -p $(EXTRA_DIRS)
 endif
-#	@cd $(XML_LANG) && for xml_file in `find . -name "*.xml"`; do \
-		pot_file=`echo $$xml_file | sed -e 's/\.xml/\.pot/'`;\
-		/usr/bin/xml2po -k -o ../pot/$$pot_file $$xml_file;\
-	done;
-#	$(MKPOT) --sub-dirs="$(EXTRA_DIRS_C)" $(XMLFILE)
 	@cd $(XML_LANG) && for xml_file in `find . -name "*.xml" | sed -e 's/^\.\///g' | sort`; do \
 		pot_file=`echo $$xml_file | sed -e 's/\.xml/\.pot/'`;\
 		echo "	$$xml_file => $$pot_file";\
@@ -329,20 +205,24 @@ endif
 	@echo "END: update-pot `date`"
 
 
-# Create report-LANG for all Translations
+# Create report-total-LANG for all Translations
 $(foreach L,$(TRANSLATIONS),$(eval $(call PO_Report_Totals_Template,${L})))
 
-report-totals:: $(foreach L,$(TRANSLATIONS), report-total-${L})
+report-total-all:: $(foreach L,$(TRANSLATIONS), report-total-${L})
 
 # Create report-LANG for all Translations
 $(foreach L,$(TRANSLATIONS),$(eval $(call PO_Report_Template,${L})))
 
+report-all::
+	@echo "START: $@ `date`"
+
 report-all:: $(foreach L,$(TRANSLATIONS), report-${L})
-	@echo "START: report-all `date`"
-	@echo "END: report-all `date`"
+	@echo "END: $@ `date`"
+
+publish-report::
+	@echo "START: publish-report `date`"
 
 publish-report:: report-all
-	@echo "START: publish-report `date`"
 	@mkdir -p tmp/Reports
 	@mkdir -p tmp/reports
 	@if [ ! -d pot ]; then \
@@ -366,399 +246,256 @@ publish-report:: report-all
 
 
 ###############################################################################
-# Validate the translated xml
+# WARNING: Experimental!
+# This target attempts to updtate the lang attribute in the src xml
+# so that only languages with 100% translation are included
 ###############################################################################
-
-$(foreach L,$(TRANSLATIONS),$(eval $(call TEST_Template,${L})))
-
-test:: test-$(XML_LANG)
-
-test-all:: $(foreach L,$(TRANSLATIONS), test-${L})
-
-###############################################################################
-# Validate the po files
-###############################################################################
-
-$(foreach L,$(TRANSLATIONS),$(eval $(call TEST_PO_Template,${L})))
-
-test-po-all:: $(foreach L,$(TRANSLATIONS), test-${L})
-
-
-###############################################################################
-# The spec file handles all languages
-###############################################################################
-
-tar_dir:
-	@echo "START: $@ `date`"
-	@mkdir -p tmp/tar/$(BUILD_NAME)
-ifndef XML_DESKTOP
-	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/html-single tmp/tar/$(BUILD_NAME)/$$lang;done
-else
-	@for lang in $(TRANSLATIONS); do cp -rf tmp/$$lang/xml tmp/tar/$(BUILD_NAME)/$$lang;done
-endif
-	@find tmp/tar/$(BUILD_NAME) -name CVS | xargs rm -rf
-	@find tmp/tar/$(BUILD_NAME) -name '*.swp' | xargs rm -rf
-	@find tmp/tar/$(BUILD_NAME) -name '*~' | xargs rm -rf
-	@find tmp/tar/$(BUILD_NAME) -name '*.swo' | xargs rm -rf
-	@find tmp/tar/$(BUILD_NAME) -name '*.bak' | xargs rm -rf
-	@echo "END: $@ `date`"
-
-# TODO
-# Fix ghelp for O/S deployed books (xsl/spec2.xsl)
-spec:: DESKTOP = 1
-ifndef XML_DESKTOP
-spec:: html-single-all tar_dir
-else
-spec:: xml-all tar_dir
-endif
-	@echo "START: spec `date`"
-	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
-	@for lang in $(TRANSLATIONS); do \
-		$(CATALOGS) $(XSLTPROC) --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
-	done
-	@for lang in $(OTHER_LANGS); do \
-		$(CATALOGS) $(XSLTPROC) --stringparam book-title "$(SPEC_NAME)" \
-		--stringparam book-lang en-US \
-		--stringparam trans-lang $$lang\
-		$(SUB_SPEC_XSL) tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/subpackages.txt; \
-	done;
-	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
-		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$$rev_file > tmp/changelog.txt
-	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
-	--stringparam main-file "$(DOCNAME).xml" \
-	--stringparam book-lang "$(XML_LANG)" \
-	--stringparam titles "$$(<tmp/titles.txt)" \
-	--stringparam book-log "$$(<tmp/changelog.txt)" \
-	-o tmp/$(SPEC_NAME).spec \
-	$(SPEC_XSL) tmp/$(XML_LANG)/xml/$(DOC_TYPE)_Info.xml
-	@perl -p -i -e '$$foo = `cat tmp/subpackages.txt`; s/\@\@\@SUBPACKAGES\@\@\@/$$foo/g' tmp/$(SPEC_NAME).spec
-ifdef XML_DESKTOP
-	@mkdir -p tmp/tar/$(BUILD_NAME)/omf
-	@for lang in $(TRANSLATIONS); do \
-		lang2=`echo $$lang | sed -e 's/-/_/g'`; \
-		$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
-		--stringparam lang "$$lang" \
-		--stringparam lang2 "$$lang2" \
-		--stringparam  prod "$(PRODUCT)" \
-		--stringparam  docname "$(DOCNAME)" \
-		--stringparam category "$(CATEGORY)" \
-		-o tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-$$lang.omf \
-		$(COMMON_CONFIG)/xsl/omf.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml; \
-	done
-	@mv tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-en-US.omf tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
-	@sed -i -e 's/code="en_US"/code="C"/g' tmp/tar/$(BUILD_NAME)/omf/$(SPEC_NAME)-C.omf
-endif
-	@echo "END: spec `date`"
-
-
-###############################################################################
-# The tar file contains all languages and the spec file
-###############################################################################
-
-tar:: spec
-	@echo "START: tar `date`"
-	@cd tmp/tar && tar -cf $(TAR_NAME).tar $(BUILD_NAME)
-	@cd tmp/tar && gzip -9 $(TAR_NAME).tar
-	@cd tmp/tar && mv $(TAR_NAME).tar.gz $(TAR_NAME).tgz
-	@echo "The archive is in tmp/tar/$(TAR_NAME).tgz"
-	@echo "END: tar `date`"
-
-srpm:: clean tar
-	@echo "START: srpm `date`"
-	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-	@cp tmp/tar/$(TAR_NAME).tgz tmp/rpm/SOURCES/.
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME).spec
-	@echo "END: srpm `date`"
-
-# Brew the srpm
-brew:: srpm
-	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME).src.rpm
-
-# Report on latest builds in brew
-brew_report::
-	@brew latest-pkg $(BREW_DIST) $(DOCNAME)
-
-
-###############################################################################
-###############################################################################
-
-TAR_FORMATS = html htmlhelp html-single pdf txt eclipse
-$(foreach FORMAT,$(TAR_FORMATS),$(eval $(call TAR_Template,${FORMAT})))
-
-tar-all:: $(foreach FORMAT,$(TAR_FORMATS),tar-${FORMAT})
-
-$(foreach FORMAT,$(TAR_FORMATS),$(eval $(call SPEC_Template,${FORMAT})))
-
-spec-all:: $(foreach FORMAT,$(TAR_FORMATS),spec-${FORMAT})
-
-$(foreach FORMAT,$(TAR_FORMATS),$(eval $(call SRPM_Template,${FORMAT})))
-
-srpm-all:: $(foreach FORMAT,$(TAR_FORMATS),srpm-${FORMAT})
-
-###############################################################################
-# Web SRPMs
-###############################################################################
-
-$(foreach L,$(TRANSLATIONS),$(eval $(call Trans_Info_Template,${L})))
-$(foreach L,$(TRANSLATIONS),$(eval $(call WEB_SRPM_Template,${L})))
-$(foreach L,$(TRANSLATIONS),$(eval $(call Publish-WEB_Template,${L})))
-
-web-srpm-all:: $(foreach L,$(TRANSLATIONS), web-srpm-${L})
-
-###############################################################################
-###############################################################################
-
-svn_add_po:
-	@echo "START: $@ `date`"
-	@for lang in $(OTHER_LANGS); do echo "adding $$lang"; svn add $$lang;done;
-	@echo "END: $@ `date`"
-
-checkin_po_files:
-	@echo "START: $@ `date`"
-	@for lang in $(OTHER_LANGS); do cvs ci -m"updating po files" $$lang;done; cvs ci -m"updating po files" pot
-	@echo "END: $@ `date`"
 
 update_includes:
 ifdef DEFAULT_LANGS
-	@for file in `find $(XML_LANG)/*.xml | sort`; do $(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C) --defaults $(DEFAULT_LANGS) ;done
+	@for file in `find $(XML_LANG)/*.xml | sort`; do \
+		$(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C) --defaults $(DEFAULT_LANGS); \
+	done
 else
-	@for file in `find $(XML_LANG)/*.xml | sort`; do $(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C);done
+	@for file in `find $(XML_LANG)/*.xml | sort`; do \
+		$(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C); \
+	done
 endif
 
 ###############################################################################
+# Modify the id's of tags.
+# WARNING: this changes the source xml
+#          It updates xrefs in translations.
 ###############################################################################
-
-publish-dist: html-single-all
+clean_ids:
 	@echo "START: $@ `date`"
-	@for lang in $(TRANSLATIONS); do \
-		mkdir -p publish/$$lang; \
-		cp -rf	tmp/$$lang/html-single/* publish/$$lang/.; \
-	done
+	@cd $(XML_LANG) && \
+	for file in `find . -name "*.xml" | sed -e 's/^\.\///' | sort`; do \
+		echo "	$$file"; \
+		$(XMLCLEAN) -U -in $$file -out $$file -book $(DOCNAME) -cleanids ; \
+	done && cd ..;
 	@echo "END: $@ `date`"
 
-dist-spec: xml-all
+
+###############################################################################
+# Remove temporary files
+###############################################################################
+clean::
 	@echo "START: $@ `date`"
-	@for lang in $(TRANSLATIONS); do \
-		$(CATALOGS) $(XSLTPROC) --stringparam book-lang $$lang $(COMMON_CONFIG)/xsl/subtitle.xsl tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/titles.txt; \
- 	done;
-	@for lang in $(OTHER_LANGS); do \
-		$(CATALOGS) $(XSLTPROC) --stringparam book-title "$(SPEC_NAME)" \
-		--stringparam book-lang $(XML_LANG) \
-		--stringparam trans-lang $$lang\
-		$(SUB_SPEC_XSL) tmp/$$lang/xml/$(DOC_TYPE)_Info.xml >> tmp/subpackages.txt; \
+	@rm -rf tmp publish
+	@echo "END: $@ `date`"
+
+###############################################################################
+# Clean all the books in this set
+###############################################################################
+clean_set_books::
+	@echo "START: $@ `date`"
+	@for dir in $(BOOKS); do \
+		if [ -d "$$dir" ] ; then \
+			pushd $$dir > /dev/null; \
+			make clean; \
+			popd > /dev/null; \
+		else \
+			echo "CAN'T CHANGE DIRS TO $$dir FOR CLEANING" ; \
+		fi; \
 	done;
-	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
-		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/$(XML_LANG)/xml/$$rev_file > tmp/changelog.txt
-	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
-	--stringparam main-file "$(DOCNAME).xml" \
-	--stringparam book-lang "$(XML_LANG)" \
-	--stringparam titles "$$(<tmp/titles.txt)" \
-	--stringparam book-log "$$(<tmp/changelog.txt)" \
-	-o $(SPEC_NAME).spec \
-	$(SPEC_XSL) tmp/$(XML_LANG)/xml/$(DOC_TYPE)_Info.xml
-	@perl -p -i -e '$$foo = `cat tmp/subpackages.txt`; s/\@\@\@SUBPACKAGES\@\@\@/$$foo/g' $(SPEC_NAME).spec
 	@echo "END: $@ `date`"
-
-dist: clean dist-spec
-	@echo "START: $@ `date`"
-	@mkdir -p publish/$(BUILD_NAME)
-	@cp -rft publish/$(BUILD_NAME) Makefile $(TRANSLATIONS) $(SPEC_NAME).spec
-	@if [ -d pot ]; then cp -rft publish/$(BUILD_NAME) pot; fi
-	@chmod 0664 publish/$(BUILD_NAME)/$(SPEC_NAME).spec
-	@pushd publish > /dev/null; \
-		tar -cz --exclude-from=$(COMMON_CONFIG)/make/tar-excludes -f $(TAR_NAME).tgz $(BUILD_NAME); \
-	popd > /dev/null
-	@rm -rf publish/$(BUILD_NAME)
-	@echo "The archive is in publish/$(TAR_NAME).tgz"
-	@echo "END: $@ `date`"
-
-dist-srpm: dist
-	@echo "START: $@ `date`"
-	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-	@cp publish/$(TAR_NAME).tgz tmp/rpm/SOURCES/.
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs $(SPEC_NAME).spec
-	@echo "END: $@ `date`"
-
 
 ###############################################################################
+# build all the books in this set
+###############################################################################
+set_books::
+	@echo "START: $@ `date`"
+	@for dir in $(BOOKS); do \
+		if [ -d "$$dir" ] ; then \
+			pushd $$dir > /dev/null; \
+			make clean; \
+			make clean_ids; \
+			make xml-all; \
+			popd > /dev/null; \
+		else \
+			echo "$$dir DIRECTORY NOT FOUND"; \
+		fi; \
+		for lang in $(TRANSLATIONS); do mkdir -p tmp/$$lang/xml; \
+			cp -rf $$dir/tmp/$$lang/xml tmp/$$lang/xml/$$dir; \
+			if [ -d "tmp/$$lang/xml/$$dir/images" ]; then \
+				mkdir -p tmp/$$lang/xml/images; \
+				mv -f tmp/$$lang/xml/$$dir/images/* tmp/$$lang/xml/images/.; \
+				rm -rf tmp/$$lang/xml/$$dir/images; \
+			fi; \
+		done; \
+	done;
+	@echo "END: $@ `date`"
 
+###############################################################################
+# Help the user
 ###############################################################################
 
 help_params::
 	@echo
-	@echo "Following is a list of the parameters that can be set in the $(DOC_TYPE)s Makefile"
+	@echo "Following is a list of the parameters that can be set in the Book's Makefile"
 	@echo
-	@echo "DOC_TYPE: defaults to Book, can also be Article or Set"
+	@echo "BOOKS: For Sets this defines the Books it contains. Currently: $(BOOKS)"
 	@echo
-	@echo "XML_LANG: source language of xml, mostly en-US"
+	@echo "BRAND:  Brand to style output with. Currently: $(BRAND)"
 	@echo
-	@echo "DOCNAME: Name of main Book file. Also used as publishing directory."
+	@echo "BREW_DIST: brew tag. Currently: $(BREW_DIST)"
 	@echo
-	@echo "OTHER_LANGS: space seperated list of language locales"
+	@echo "CHUNK_FIRST:  Controls chunking of first sections, defaults to 1. Currently: $(CHUNK_FIRST)"
 	@echo
-	@echo "CONFIDENTIAL: is this book confidential? defaults to 0"
+	@echo "CHUNK_SECTION_DEPTH:  Override the max section depth to chunk to. Currently: $(CHUNK_SECTION_DEPTH)"
+	@echo
+	@echo "CONFIDENTIAL:  is this book confidential? Currently: $(CONFIDENTIAL)"
+	@echo
+	@echo "DEFAULT_LANGS: Languages that should be included in xi:include even if the translation isn't 100%%."
+	@echo "	Used in update_includes. Currently: $(DEFAULT_LANGS)"
+	@echo
+	@echo "DESKTOP: Use the desktop CSS. Currently: $(DESKTOP)"
+	@echo
+	@echo "DOCNAME: Name of main Book file. Also used as publishing directory. Currently: $(DOCNAME)"
+	@echo
+	@echo "DOC_TYPE: Defaults to Book, can also be Article or Set. Currently: $(DOC_TYPE)"
+	@echo
+	@echo "DOC_URL: URL for top left link in html. Currently: $(DOC_URL)"
+	@echo
+	@echo "EMBEDTOC: Embed the Web Site NAV Bar in the HTML. Currently: $(EMBEDTOC)"
+	@echo
+	@echo "IGNORED_TRANSLATIONS: When building replace any languages in this list with the source langauge text"
+	@echo "	This allows you to work on translations without shipping incomplete translations. Currently: $(IGNORED_TRANSLATIONS)"
+	@echo
+	@echo "OTHER_LANGS:  space seperated list of language locales. Currently: $(OTHER_LANGS)"
 	@echo
 	@echo "PRODUCT: Product this book is associated with. Currently: $(PRODUCT)"
 	@echo "	When this book is published it will be nested in a directory named after the product"
 	@echo
-	@echo "BRAND: Brand to style output with. Currently $(BRAND)"
+	@echo "SHOW_REMARKS:  0 or 1. Display contents of remark tags in output? Currently $(SHOW_REMARKS)"
 	@echo
-	@echo "BREW_DIST: brew tag, currently $(BREW_DIST)"
+	@echo "SPEC_NAME: (CAUTION: This can be critical) Which spec file to use for rpms.  Currently: $(SPEC_NAME)"
 	@echo
-	@echo "TOC_SECTION_DEPTH: How many levels of sections should be included in TOC? Defaults to 2"
+	@echo "TOC_SECTION_DEPTH:  How many levels of sections should be included in the main TOC? Currently: $(TOC_SECTION_DEPTH)"
 	@echo
-	@echo "CHUNK_SECTION_DEPTH: Override the max section depth to chunk to. Currently: $(CHUNK_SECTION_DEPTH)"
+	@echo "XMLFILE: main XML file. Currently: $(XMLFILE)"
 	@echo
-	@echo "CHUNK_FIRST: Controls chunking of first sections, defaults to 1. Currently: $(CHUNK_FIRST)"
-	@echo
-	@echo "XSLTPROC: Tool for converting xml. Currently: $(XSLTPROC)"
-	@echo
-	@echo "BOOKS: For Sets this defines the Books it contains"
-	@echo
-	@echo "DEFAULT_LANGS: Languages that should be included in xi:include even if the translation isn't 100%%."
-	@echo "	Used in update_includes."
-	@echo
-	@echo "IGNORED_TRANSLATIONS: When building replace any languages in this list with the source langauge text"
-	@echo "	This allows you to work on translations without shipping incomplete translations."
-	@echo
-	@echo "SHOW_REMARKS: 0 or 1. Display contents of remark tags in output? Currently $(SHOW_REMARKS)"
+	@echo "XML_LANG: source language of xml. Currently: $(XML_LANG)"
 	@echo
 
+# TODO: Update this
+# grep -hoP '^[^\s\.]*\:+' * | sort -u
+# plus the loops for format and lang
 help::
-	@echo "List of Common make targets."
+	@echo "Publican Help Text."
 	@echo
-	@echo "dist: Create a tar for desktop package creation."
+	@echo "<FORMAT> is replaced by an output format."
+	@echo "	Current output formats: $(FORMATS)"
 	@echo
-	@echo "brew::"
-	@echo "	Build the SRPM then push it to Brew, current tag is: $(BREW_DIST)"
+	@echo "<LANG>-<LOC> is replaced by a language code"
+	@echo "	Current languages: $(TRANSLATIONS)"
 	@echo
-	@echo "brew_report::"
-	@echo "	Report on the latest packages in Brew, current tag is: $(BREW_DIST)"
+	@echo "List of make targets."
 	@echo
-	@echo "checkin_po_files:"
-	@echo "	Check in all PO files with the message 'updating PO files'"
-	@echo "	Intended for use in automated updating of PO files."
+	@echo "<FORMAT>-<LANG>-<LOC>"
+	@echo "	Generate the format for the given language."
+	@echo "	e.g. html-en-US, pdf-de-DE"
 	@echo
-	@echo "clean::"
+	@echo "<FORMAT>-all"
+	@echo "	Generate the format for all languages."
+	@echo "	e.g. html-all, pdf-all"
+	@echo
+	@echo "brew-<LANG>-<LOC>"
+	@echo "	Build the desktop SRPM for the given langauge and then push it to Brew."
+	@echo "	Current Brew tag is: $(BREW_DIST)"
+	@echo
+	@echo "brew-report-<LANG>-<LOC>"
+	@echo "	Report on the latest desktop packages in Brew."
+	@echo "	Current tag is: $(BREW_DIST)"
+	@echo
+	@echo "clean"
 	@echo "	Remove temporary files"
 	@echo
-	@echo "clean_ids:: DANGER This changes your source XML"
-	@echo "	Modify tag ID's to standard format."
+	@echo "clean_ids: DANGER This changes your source XML and PO files"
+	@echo "	Modify tag ID's to standard format. Updates xrefs"
 	@echo
-	@echo "clean_set_books::"
+	@echo "clean_set_books"
 	@echo "	For Sets of Books, this will run 'make clean' for all the Books."
 	@echo
-	@echo "help::"
+	@echo "help"
 	@echo "	Display this help message."
 	@echo
-	@echo "help_params::"
+	@echo "help_params"
 	@echo "	Display information about the parameters that can be set in the Books Makefile."
 	@echo
-	@echo "pre::"
+	@echo "pre"
 	@echo "	Special target to allow scripts to be run before any other targets are built."
 	@echo
-	@echo "publish-crazy::"
-	@echo "	Special test target to run publish targets for all languages and formats"
+	@echo "publish-<FORMAT>-<LANG>-<LOC>"
+	@echo "	Run the <FORMAT>-<LANG>-<LOC> target, then copy all publishable output"
+	@echo "	to a directory for publishing. Use with DocBot."
 	@echo
-	@echo "publish-report::"
-	@echo "	Run report-all then copy the output to the publish directory."
+	@echo "publish-report"
+	@echo "	Run report-all then copy the output to the publish directory. Used with DocBot"
 	@echo
-	@echo "report-<LANG>-<LOC>::"
-	@echo "	Generate the translation status for <LANG>-<LOC>."
+	@echo "publish-web-<LANG>-<LOC>"
+	@echo "	Run web-<LANG>-<LOC>, them move SRPM to publish dir. Used with DocBot."
 	@echo
-	@echo "report-all::"
+	@echo "report-<LANG>-<LOC>"
+	@echo "	Generate the translation status files for <LANG>-<LOC>."
+	@echo
+	@echo "report-all"
 	@echo "	Run report-<LANG>-<LOC> for all languages."
 	@echo
-	@echo "report-total-<LANG>-<LOC>::"
-	@echo "	Display the translation status."
+	@echo "report-total-<LANG>-<LOC>"
+	@echo "	Display the translation status for the given language on the command line."
 	@echo
-	@echo "report-totals::"
+	@echo "report-total-all"
 	@echo "	Run report-total-<LANG>-<LOC> for all languages."
 	@echo
-	@echo "set_books::"
+	@echo "set_books"
 	@echo "	For Sets of Books this will run 'make xml-all' for all the Books in that Set."
 	@echo
-	@echo "tar::"
-	@echo "	Generate the tar file for the XML RPM."
+	@echo "spec-<LANG>-<LOC>"
+	@echo "	Generate the Desktop RPM Spec file for the given language."
 	@echo
-	@echo "spec::"
-	@echo "	Generate the RPM Spec file for the XML RPM."
+	@echo "srpm-<LANG>-<LOC>"
+	@echo "	Generate the Desktop SRPM for the given language."
 	@echo
-	@echo "srpm::"
-	@echo "	Generate the source RPM for the XML RPM."
+	@echo "tar-<LANG>-<LOC>"
+	@echo "	Generate the tar file used in the Desktop SRPM for the given language."
 	@echo
-	@echo "tar-<FORMAT>::"
-	@echo "	Generate the tar file for the supplied Format."
+	@echo "tardir-<LANG>-<LOC>"
+	@echo "	Creates the directory structure and content for tar-<LANG>-<LOC>."
 	@echo
-	@echo "tar-all::"
-	@echo "	Run tar-<FORMAT> for all formats."
+	@echo "tar-publish"
+	@echo "	Tar and gzips all the published content. Used with docbot. Make this your last target."
 	@echo
-	@echo "	Current formats are: $(TAR_FORMATS)"
-	@echo
-	@echo "spec-<FORMAT>::"
-	@echo "	Generate an RPM Spec file to contain the supplied Format."
-	@echo
-	@echo "spec-all::"
-	@echo "	Run spec-<FORMAT> for all formats."
-	@echo
-	@echo "	Current formats are: $(TAR_FORMATS)"
-	@echo
-	@echo "srpm-<FORMAT>::"
-	@echo "	Generate an source RPM supplied Format."
-	@echo
-	@echo "srpm-all::"
-	@echo "	Run srpm-<FORMAT> for all formats."
-	@echo
-	@echo "	Current formats are: $(TAR_FORMATS)"
-	@echo
-	@echo "test::"
-	@echo "	Shortcut to test-$(XML_LANG)"
-	@echo
-	@echo "test-<LANG>-<LOC>::"
+	@echo "test-<LANG>-<LOC>"
 	@echo "	Validate the XML for the supplied language."
 	@echo
-	@echo "test-all::"
+	@echo "test-all"
 	@echo "	Run test-<LANG>-<LOC> for all languages."
 	@echo
 	@echo "update_includes: DANGER This updates your source XML"
 	@echo "	DANGER EXPERMINENTAL This could cause you a lot of heart ache and extra work."
-	@echo "	Modify all xi:include tags to exclude langauges that are not 100%% translated."
+	@echo "	Modify all xi:include tags to exclude langauges that are not 100% translated."
 	@echo
-	@echo "update-po-<LANG>-<LOC>::"
+	@echo "update-po-<LANG>-<LOC>"
 	@echo "	Update the PO files for the supplied language."
 	@echo
-	@echo "update-po-all::"
+	@echo "update-po-all"
 	@echo "	Run update-po-<LANG>-<LOC> for all languages."
 	@echo
-	@echo "update-pot::"
+	@echo "update-pot"
 	@echo "	Update the POT files."
 	@echo
-	@echo "xml-<LANG>-<LOC>::"
-	@echo "	Generate & validate the XML for the supplied language."
+	@echo "web-srpm-<LANG>-<LOC>"
+	@echo "	Creates the web SRPM for the supplied language."
 	@echo
-	@echo "xml-all::"
+	@echo "web-srpm-all"
+	@echo "	Runs web-srpm-<LANG>-<LOC> for all languages."
+	@echo
+	@echo "xml-<LANG>-<LOC>"
+	@echo "	Generate a working copy of the XML for the supplied language."
+	@echo
+	@echo "xml-all"
 	@echo "	Run xml-<LANG>-<LOC> for all languages."
-	@echo
-	@for format in $(TAR_FORMATS); do \
-		echo "$$format::"; \
-		echo "	Short cut to $$format-$(XML_LANG)";\
-		echo;\
-		echo "$$format-<LANG>-<LOC>::";\
-		echo "	Generate $$format output for <LANG>-<LOC>";\
-		echo;\
-		echo "$$format-all::";\
-		echo "	Run $$format-<LANG>-<LOC> for all languages.";\
-		echo;\
-		echo "publish-$$format::"; \
-		echo "	Short cut to publish-$$format-$(XML_LANG)";\
-		echo;\
-		echo "publish-$$format-<LANG>-<LOC>::";\
-		echo "	Run $$format-<LANG>-<LOC> and then copy output to the publish directory";\
-		echo;\
-		echo "publish-$$format-all::";\
-		echo "	Run publish-$$format-<LANG>-<LOC> for all languages.";\
-		echo;\
-	done;
-	@echo "svn_add_po: Run svn add for all translations."
 	@echo
 

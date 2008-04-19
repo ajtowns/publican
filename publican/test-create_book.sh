@@ -9,8 +9,9 @@ for brand in fedora JBoss RedHat; do
 done
 
 for brand in Common fedora JBoss RedHat; do
-	make --directory=Test-$brand html html-single;
-	firefox Test-$brand/tmp/en-US/html-single/index.html;
-	firefox Test-$brand/tmp/en-US/html/index.html;
+	make --directory=Test-$brand html-en-US html-single-en-US pdf-en-US;
+	(firefox Test-$brand/tmp/en-US/html-single/index.html &)
+	(firefox Test-$brand/tmp/en-US/html/index.html&)
+	(evince Test-$brand/tmp/en-US/pdf/Test-$brand.pdf &)
 done
 
