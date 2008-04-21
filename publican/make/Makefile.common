@@ -27,6 +27,7 @@ XSLTPROC	?= xsltproc
 PWD		= $(shell pwd)
 CONFIDENTIAL	?= 0
 BREW_DIST	?= dist-5E-qu-candidate
+WEB_BREW_DIST	?= docs-5E
 TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
 EXTRA_DIRS	= $(shell find $(XML_LANG) -type d | grep -v CVS | grep -v '.svn' | grep -v images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
 PRODUCT		?= Documentation
@@ -166,6 +167,10 @@ $(foreach L,$(TRANSLATIONS),$(eval $(call WEB_SRPM_Template,${L})))
 $(foreach L,$(TRANSLATIONS),$(eval $(call Publish-WEB_Template,${L})))
 
 web-srpm-all:: $(foreach L,$(TRANSLATIONS), web-srpm-${L})
+
+$(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Template,${L})))
+$(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Report_Template,${L})))
+web-brew-all:: $(foreach L,$(TRANSLATIONS), web-brew-${L})
 
 ###############################################################################
 ### PUBLISH TAR ###
@@ -339,7 +344,7 @@ help_params::
 	@echo
 	@echo "BRAND:  Brand to style output with. Currently: $(BRAND)"
 	@echo
-	@echo "BREW_DIST: brew tag. Currently: $(BREW_DIST)"
+	@echo "BREW_DIST: brew tag for desktop rpms. Currently: $(BREW_DIST)"
 	@echo
 	@echo "CHUNK_FIRST:  Controls chunking of first sections, defaults to 1. Currently: $(CHUNK_FIRST)"
 	@echo
@@ -373,6 +378,8 @@ help_params::
 	@echo "SPEC_NAME: (CAUTION: This can be critical) Which spec file to use for rpms.  Currently: $(SPEC_NAME)"
 	@echo
 	@echo "TOC_SECTION_DEPTH:  How many levels of sections should be included in the main TOC? Currently: $(TOC_SECTION_DEPTH)"
+	@echo
+	@echo "WEB_BREW_DIST: brew tag to use for web rpms. Currently: $(WEB_BREW_DIST)"
 	@echo
 	@echo "XMLFILE: main XML file. Currently: $(XMLFILE)"
 	@echo
@@ -491,6 +498,14 @@ help::
 	@echo
 	@echo "web-srpm-all"
 	@echo "	Runs web-srpm-<LANG>-<LOC> for all languages."
+	@echo
+	@echo "web-brew-<LANG>-<LOC>"
+	@echo "	Build the web SRPM for the given langauge and then push it to Brew."
+	@echo "	Current Brew tag is: $(WEB_BREW_DIST)"
+	@echo
+	@echo "web-brew-report-<LANG>-<LOC>"
+	@echo "	Report on the latest web packages in Brew."
+	@echo "	Current tag is: $(WEB_BREW_DIST)"
 	@echo
 	@echo "xml-<LANG>-<LOC>"
 	@echo "	Generate a working copy of the XML for the supplied language."

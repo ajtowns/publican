@@ -423,7 +423,7 @@ brew-${1}:: srpm-${1}
 endef
 
 define	BREW_Report_Template
-.PHONY:	brew-${1}
+.PHONY:	brew-report-${1}
 brew-report-${1}::
 	@echo "START: brew-report-${1} `date`"
 	@brew latest-pkg $(BREW_DIST) $(DOCNAME)-${1}
@@ -442,10 +442,12 @@ endef
 
 define	WEB_SRPM_Template
 .PHONY:	web-srpm-${1}
-web-srpm-${1}:: tar-${1}
+web-srpm-${1}:: clean tardir-${1}
 	@echo "START: web-srpm-${1} `date`"
+	@mv tmp/tar/$(SPEC_NAME)-${1}-$(VERSION) tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
+	@cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-	@cp tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz tmp/rpm/SOURCES/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz
+	@cp tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz tmp/rpm/SOURCES/.
 	@$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}" \
 		--stringparam lang "${1}" \
 		--stringparam  prod "$(PRODUCT)" \
@@ -453,7 +455,7 @@ web-srpm-${1}:: tar-${1}
 		--stringparam  docname "$(DOCNAME)" \
 		-o tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spe
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec
 	@echo "END: web-srpm-${1} `date`"
 endef
 
@@ -463,5 +465,20 @@ publish-web-${1}:: EMBEDTOC = 1
 publish-web-${1}:: publish-html-${1} publish-html-single-${1} publish-pdf-${1}
 endef
 
+define	WEB_BREW_Template
+.PHONY:	web-brew-${1}
+web-brew-${1}:: web-srpm-${1}
+	@echo "START: web-brew-${1} `date`"
+	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.src.rpm
+	@echo "END: brew-${1} `date`"
+endef
+
+define	WEB_BREW_Report_Template
+.PHONY:	web-brew-report-${1}
+web-brew-report-${1}::
+	@echo "START: web-brew-report-${1} `date`"
+	@brew latest-pkg $(WEB_BREW_DIST) $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}
+	@echo "END: brew-report-${1} `date`"
+endef
 
 

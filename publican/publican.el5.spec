@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t44%{?dist}
+Release:	0.t52%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -13,8 +13,10 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 # need kdesdk for po2xml & xml2pot
-Requires:	gettext libxslt kdesdk perl(XML::TreeBuilder) dejavu-lgc-fonts elinks
-BuildRequires:	gettext libxslt kdesdk perl(XML::TreeBuilder)
+Requires:	gettext libxslt perl(XML::TreeBuilder) dejavu-lgc-fonts elinks
+Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
+BuildRequires:	gettext libxslt perl(XML::TreeBuilder)
+BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel  < 0.26-3
@@ -96,6 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix missing list image in html-single articles
 - Commented out debug output in chunking xsl
 - QANDA set html and css fix BZ #442674
+- Fix kde requires. BZ #443024
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
