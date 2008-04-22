@@ -24,7 +24,7 @@
 <xsl:import href="../defaults.xsl"/>
 <xsl:import href="../pdf.xsl"/>
 
-<xsl:param name="title.color">#294172</xsl:param>
+<xsl:param name="title.color">#3c6eb4</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 
 
@@ -36,7 +36,7 @@
 			<xsl:text>#333333</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-			<xsl:text>#0093d9</xsl:text>
+			<xsl:text>#bfdce8</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
@@ -61,7 +61,7 @@
 
 <xsl:attribute-set name="graphical.admonition.properties">
 	<xsl:attribute name="color">white</xsl:attribute>
-	<xsl:attribute name="background-color">#0093d9</xsl:attribute>
+	<xsl:attribute name="background-color">#3c6eb4</xsl:attribute>
 	<xsl:attribute name="space-before.optimum">1em</xsl:attribute>
 	<xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
 	<xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>
