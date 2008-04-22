@@ -25,6 +25,7 @@
 <xsl:import href="../pdf.xsl"/>
 
 <xsl:param name="title.color">#294172</xsl:param>
+<xsl:param name="admon.graphics.extension" select="'.svg'"/>
 
 
 <xsl:attribute-set name="shade.verbatim.style">
