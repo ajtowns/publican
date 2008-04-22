@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t52%{?dist}
+Release:	0.t55%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -94,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 - Commented out debug output in chunking xsl
 - QANDA set html and css fix BZ #442674
 - Fix kde requires. BZ #443024
+- Add default FOP xconf file.
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
