@@ -132,7 +132,7 @@
 
 <xsl:attribute-set name="graphical.admonition.properties">
 	<xsl:attribute name="color">white</xsl:attribute>
-	<xsl:attribute name="background-color">#404040</xsl:attribute>
+	<xsl:attribute name="background-color">#555753</xsl:attribute>
 	<xsl:attribute name="space-before.optimum">1em</xsl:attribute>
 	<xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
 	<xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>
@@ -216,7 +216,7 @@ article toc
 <!-- No intendation of Titles -->
 <xsl:param name="title.margin.left">0pc</xsl:param>
 
-<xsl:param name="title.color">#a70000</xsl:param>
+<xsl:param name="title.color">#554931</xsl:param>
 
 <xsl:attribute-set name="formal.title.properties" use-attribute-sets="normal.para.spacing">
 	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
@@ -480,7 +480,7 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>KochiMincho,</xsl:text>
+				<xsl:text>SazanamiMincho,KochiMincho,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
@@ -525,7 +525,7 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>KochiMincho,</xsl:text>
+				<xsl:text>SazanamiMincho,KochiMincho,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
@@ -570,7 +570,7 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>KochiMincho,</xsl:text>
+				<xsl:text>SazanamiMincho,KochiMincho,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
@@ -1244,6 +1244,5 @@ Version:1.72
     </xsl:if>
   </fo:block>
 </xsl:template>
-
 
 </xsl:stylesheet>

@@ -3,7 +3,7 @@
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
 Version:	0.12
-Release:	0.t3%{?dist}
+Release:	0.t5%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -28,9 +28,11 @@ for %{brand} with publican.
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican//Templates
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/make
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}
 cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
 install -m 755 make/Makefile.%{brand} $RPM_BUILD_ROOT%{_datadir}/publican/make/.
+install -m 755 xsl/*.xsl $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -42,12 +44,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 %{_datadir}/publican/Templates/%{brand}-Book_Template
 %{_datadir}/publican/make/Makefile.%{brand}
+%{_datadir}/publican/xsl/%{brand}
 
 %changelog
 * Mon Apr 14 2008 Jeff Fearn <jfearn@redhat.com> 0.13-0
 - Fix missing list image in html-single articles
 - QANDA set css fix BZ #442674
 - Removed entities with mandatory overrides
+- Override PDF Theme
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations

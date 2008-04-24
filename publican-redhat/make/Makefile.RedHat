@@ -35,3 +35,9 @@ SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package2.xsl
 endif
 endif
 
+pre::
+	@if [[ "$(PRODUCT)" == "Documentation" ]]; then \
+		echo "ERROR! You MUST set a valid PRODUCT to use the RedHat Brand!"; \
+		exit 3; \
+	fi
+
