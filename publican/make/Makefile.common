@@ -69,8 +69,7 @@ SPEC_XSL	= $(COMMON_CONFIG)/xsl/dt_htmlsingle_spec.xsl
 SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package_htmlsingle.xsl
 endif
 
-BUILD_NAME	= $(SPEC_NAME)-$(VERSION)
-TAR_NAME	= $(BUILD_NAME)-$(RELEASE)
+TAR_NAME	= $(SPEC_NAME)-$(VERSION)-$(RELEASE)
 
 
 include $(COMMON_CONFIG)/make/Makefile.templates
@@ -257,6 +256,7 @@ publish-report:: report-all
 ###############################################################################
 
 update_includes:
+	@echo "START: $@ `date`"
 ifdef DEFAULT_LANGS
 	@for file in `find $(XML_LANG)/*.xml | sort`; do \
 		$(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C) --defaults $(DEFAULT_LANGS); \
@@ -266,6 +266,7 @@ else
 		$(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C); \
 	done
 endif
+	@echo "END: $@ `date`"
 
 ###############################################################################
 # Modify the id's of tags.
@@ -346,9 +347,13 @@ help_params::
 	@echo
 	@echo "BREW_DIST: brew tag for desktop rpms. Currently: $(BREW_DIST)"
 	@echo
+	@echo "CATALOGS: Override the system DTD catalog path. Currently: $(CATALOGS)"
+	@echo
 	@echo "CHUNK_FIRST:  Controls chunking of first sections, defaults to 1. Currently: $(CHUNK_FIRST)"
 	@echo
 	@echo "CHUNK_SECTION_DEPTH:  Override the max section depth to chunk to. Currently: $(CHUNK_SECTION_DEPTH)"
+	@echo
+	@echo "COMMON_CONTENT: Path to publican common files. Currently: $(COMMON_CONTENT)"
 	@echo
 	@echo "CONFIDENTIAL:  is this book confidential? Currently: $(CONFIDENTIAL)"
 	@echo
@@ -363,8 +368,6 @@ help_params::
 	@echo
 	@echo "DOC_URL: URL for top left link in html. Currently: $(DOC_URL)"
 	@echo
-	@echo "EMBEDTOC: Embed the Web Site NAV Bar in the HTML. Currently: $(EMBEDTOC)"
-	@echo
 	@echo "IGNORED_TRANSLATIONS: When building replace any languages in this list with the source langauge text"
 	@echo "	This allows you to work on translations without shipping incomplete translations. Currently: $(IGNORED_TRANSLATIONS)"
 	@echo
@@ -375,15 +378,54 @@ help_params::
 	@echo
 	@echo "SHOW_REMARKS:  0 or 1. Display contents of remark tags in output? Currently $(SHOW_REMARKS)"
 	@echo
-	@echo "SPEC_NAME: (CAUTION: This can be critical) Which spec file to use for rpms.  Currently: $(SPEC_NAME)"
-	@echo
 	@echo "TOC_SECTION_DEPTH:  How many levels of sections should be included in the main TOC? Currently: $(TOC_SECTION_DEPTH)"
 	@echo
 	@echo "WEB_BREW_DIST: brew tag to use for web rpms. Currently: $(WEB_BREW_DIST)"
 	@echo
+	@echo "XML_DESKTOP: Use XML for the desktop package instead of the default html-single. Currently: $(XML_DESKTOP)"
+	@echo
 	@echo "XMLFILE: main XML file. Currently: $(XMLFILE)"
 	@echo
 	@echo "XML_LANG: source language of xml. Currently: $(XML_LANG)"
+	@echo
+
+help_internals::
+	@echo
+	@echo "These variables are used internally by publican and are set automatically."
+	@echo
+	@echo "BRAND_MAKE: Path to a brand specific Makefile. Used to override internals."
+	@echo
+	@echo "EMBEDTOC: Embed the Web Site NAV Bar in the HTML. Currently: $(EMBEDTOC)"
+	@echo
+	@echo "EXTRA_DIRS: Helps handle nested directories."
+	@echo
+	@echo "EXTRA_DIRS_C: Comma seperated list of EXTRA_DIRS."
+	@echo
+	@echo "FORMATS: Output formats currently supported. Currently: $(FORMATS)."
+	@echo
+	@echo "OTHER_LANGS_C: Comma seperated list of non-source languages."
+	@echo
+	@echo "PWD: present working directory."
+	@echo
+	@echo "RELEASE: release number of this book, fetched from productnumber in Info file."
+	@echo
+	@echo "SPEC_NAME: Used to determine names for tar and rpm files. Currently: $(SPEC_NAME)"
+	@echo
+	@echo "SPEC_XSL: The xsl file to use to generate the desktop rpm spec file."
+	@echo
+	@echo "SUB_SPEC_XSL: Was used to set which xsl file to use to generate sub packages for translations. Kept arond just in case!"
+	@echo
+	@echo "TAR_NAME: Shortcut for the TAR name."
+	@echo
+	@echo "TRANSLATIONS: List of all langages, XML_LANG + OTHER_LANGS. No longer override-able."
+	@echo
+	@echo "VERSION: Version of the book, retrieved from issuenum tag in Info file."
+	@echo
+	@echo "XMLCLEAN: Program to use for pre-processing xml. Currently: $(XMLCLEAN)."
+	@echo
+	@echo "XMLPOMERGE: Program used to merge po and source xml in to translated xml. Currently: $(XMLPOMERGE)."
+	@echo
+	@echo "XSLTPROC: XSLT processor. Currently: $(XSLTPROC)."
 	@echo
 
 # TODO: Update this
