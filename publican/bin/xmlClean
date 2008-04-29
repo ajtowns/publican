@@ -43,7 +43,9 @@ use warnings;
 use XML::TreeBuilder;
 use Getopt::Long;
 use Text::Wrap qw(wrap $columns);
+use Carp;
 
+my $fascist         = 0;
 my $in_file         = '';
 my $out_file        = '';
 my $lang            = undef;
@@ -80,7 +82,7 @@ if ((   !GetOptions(
     || ( !( $in_file && $out_file ) )
     )
 {
-    die("Usage: \
+    croak("Usage: \
 	txmlClean -in <infile>\
 	-out <outfile>\
 	[-lang <lang>]\
@@ -262,6 +264,11 @@ my %MAP_OUT = (
     'wordasword'    => {},
 );
 
+my %BANNED_TAGS = (
+    'entrytbl' => {'reason' => 'Nested tables break pdf generation, rethink your data structure.'},
+    'link'     => {'reason' => 'Undesirable tag, use xref or ulink.'},
+    'olink'    => {'reason' => 'Undesirable tag, use xref or ulink.'},
+);
 =head PruneXML($node)
 
 Remove unwanted nodes.
@@ -328,7 +335,7 @@ sub PruneXML($) {
         || !$xml_doc->root()->{'_tag'}
         || $xml_doc->root()->{'_tag'} eq '' )
     {
-        warn("WARNING: Root tag is NULL, adding remark to avoid implosion");
+        carp("WARNING: Root tag is NULL, adding remark to avoid implosion");
         if (   $original_tag =~ m/chapter/
             || $original_tag =~ m/sect/
             || $original_tag =~ m/part/ )
@@ -342,7 +349,7 @@ sub PruneXML($) {
             $xml_doc->root()->push_content($remark);
         }
         else {
-            warn("\tWARNING: Don't know how to handle $original_tag");
+            carp("\tWARNING: Don't know how to handle $original_tag");
             $xml_doc->root()->{'_tag'} = 'remark';
             $xml_doc->root()
                 ->push_content("This file is empty for this language");
@@ -523,7 +530,7 @@ sub PrintXML($) {
         $xml_doc->root()->delete();
 
         open( OUTDOC, ">:utf8", "$out_file" )
-            || die("Could not open $out_file for output!\n");
+            || croak("Could not open $out_file for output!\n");
         print( OUTDOC q|<?xml version='1.0'?>| . "\n" );
         print(    OUTDOC q|<!DOCTYPE | 
                 . $type
@@ -605,8 +612,12 @@ sub my_as_XML($) {
                 $tag = $node->{'_tag'};
 
                 if ($start) {      # on the way in
+                    if ( $fascist && $BANNED_TAGS{$tag} ) {
+                       die("\nERROR: Banned tag ($tag) being used!\n\tReason: " . $BANNED_TAGS{$tag}->{'reason'});
+                    }
+
                     if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
-                        warn(
+                        carp(
                             "WARNING: Unknown tag: $tag. This tag may not be displayed correctly\n"
                         );
                     }
