@@ -23,6 +23,7 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
 <xsl:import href="../defaults.xsl"/>
 <xsl:import href="../pdf.xsl"/>
+<xsl:param name="keep.relative.image.uris" select="1"/>
 
 <xsl:param name="title.color">#a70000</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
