@@ -34,6 +34,7 @@ my $brand    = undef;
 my $man      = 0;
 my $help     = 0;
 my $article  = undef;
+my $lang     = undef;
 
 GetOptions(
     'h|help|?'   => \$help,
@@ -44,6 +45,7 @@ GetOptions(
     'product=s'  => \$product,
     'article'    => \$article,
     'brand=s'    => \$brand,
+    'lang=s'     => \$lang,
 ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage( -verbose => 2 ) if $man;
@@ -169,6 +171,19 @@ if ( $brand and $brand ne '' ) {
     }
 }
 
+if ( $lang and $lang ne '' ) {
+    $cmd = qq|sed -i -e 's/XML_LANG.*\$/XML_LANG\\t= $lang/g' $name/Makefile|;
+    system($cmd);
+    if ($@) {
+        carp "can't update XML_LANG: $!";
+    }
+    $cmd = qq|mv $name/en-US $name/$lang|;
+    system($cmd);
+    if ($@) {
+        carp "can't update XML_LANG: $!";
+    }
+}
+
 __END__
 
 =head1 NAME
@@ -188,6 +203,7 @@ create_book --name=<book_name> [options]
    --product           Product
    --article           Article not Book
    --brand             Select Brand
+   --lang              Source Language
 
 =head1 OPTIONS
 
@@ -224,6 +240,10 @@ Create an Article instead of a Book.
 =item B<--brand>
 
 Use the specified brand for branding output.
+
+=item B<--lang>
+
+Use the specified langauge as the source language.
 
 =back
 
