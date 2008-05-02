@@ -3,7 +3,7 @@
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
 Version:	0.12
-Release:	0.t5%{?dist}
+Release:	0.t6%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -52,6 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 - QANDA set css fix BZ #442674
 - Removed entities with mandatory overrides
 - Override PDF Theme
+- Added package tag BZ #444908
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations

@@ -3,7 +3,7 @@
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
 Version:	0.12
-Release:	0.t18%{?dist}
+Release:	0.t19%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -51,6 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix missing list image in html-single articles
 - QANDA set css fix BZ #442674
 - Override PDF Theme
+- Added package tag BZ #444908
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations

@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t69%{?dist}
+Release:	0.t70%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -103,6 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 - Added help_internals target.
 - Added check for banned tags.
 - Added --lang to create_book BZ #444851
+- Added package tag BZ #444908
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file

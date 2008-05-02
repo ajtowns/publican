@@ -1245,4 +1245,13 @@ Version:1.72
   </fo:block>
 </xsl:template>
 
+<!--
+From: fo/nline.xsl
+Reason: Italicise package name
+Version:1.72
+-->
+<xsl:template match="package">
+  <xsl:call-template name="inline.italicseq"/>
+</xsl:template>
+
 </xsl:stylesheet>
