@@ -3,7 +3,7 @@
 ]>
 
 <chapter id="chap-Publican-FAQ">
-	<title>FAQ</title>
+	<title>Frequently Asked Questions</title>
 	<para>
 		The following is a list of frequently asked questions regarding the publican toolchain:
 	</para>
@@ -90,6 +90,70 @@
 				<para>
 					Yes. The OASIS DocBook DTD is included in the publican package, and is located here: <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename>
 				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					I have extensive code samples for my book, how can I include them without having to xml escape everything?
+				</para>
+			</question>
+			<answer>
+				<para>
+					The best way to do this is to create a directory named <filename>extras</filename> in your source language directory and use an <command>xi:include</command> to pull in the code file.
+				
+				</para>
+				<example>
+					<title>Including code samples</title>
+					<orderedlist>
+						<listitem>
+							<para>Create the extras directory
+<programlisting>
+<command>mkdir <filename>en-US/extras</filename></command>
+</programlisting>
+							</para>
+						</listitem>
+						<listitem>
+							<para>Copy the code file to the extras directory
+<programlisting>
+<command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
+</programlisting>
+							</para>
+						</listitem>
+						<listitem>
+							<para>xi:iclude the sample file in your xml file
+<programlisting>
+&lt;programlisting&gt;
+&lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
+&lt;/programlisting&gt;
+</programlisting>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								You can now edit <filename>en-US/extras/foo.c</filename> in your favorite editor without having to be concerned about how it will affect the XML.
+							</para>
+						</listitem>
+					</orderedlist>
+				</example>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Is it possible to include arbitrary files in tar and rpm files?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Yes. If you make a directory named <filename>files</filename> in your source language directory it will be included in any tar or srpm files created by publican.
+				</para>
+				<warning>
+					<title>Warning</title>
+					<para>
+						The <filename>files</filename> directory will not be available during the validation process so you can not xi:include or otherwise embed any files in this directory in your XML.
+					</para>
+				</warning>
 			</answer>
 		</qandaentry>
 	</qandaset>
