@@ -45,7 +45,7 @@ use Getopt::Long;
 use Text::Wrap qw(wrap $columns);
 use Carp;
 
-my $fascist         = 0;
+my $STRICT          = 0;
 my $in_file         = '';
 my $out_file        = '';
 my $lang            = undef;
@@ -77,12 +77,14 @@ if ((   !GetOptions(
             "book=s"      => \$book_name,
             "common"      => \$common,
             "dtd=s"       => \$dtdver,
+            "strict=s"    => \$STRICT,
         )
     )
     || ( !( $in_file && $out_file ) )
     )
 {
-    croak("Usage: \
+    croak(
+        "Usage: \
 	txmlClean -in <infile>\
 	-out <outfile>\
 	[-lang <lang>]\
@@ -95,6 +97,7 @@ if ((   !GetOptions(
 	-U\
 	[--common]\
 	[-dtd <dtd version>]\
+	[-strict 0|1]\
 	"
     );
 }
@@ -121,7 +124,8 @@ my %MAP_OUT = (
     'orderedlist'   => { 'block'         => 1 },
     'variablelist'  => { 'block'         => 1 },
     'seglistitem'   => { 'block'         => 1 },
-    'segtitle'      => { 'block'         => 1 },
+    'segtitle'      => { 'newline_after' => 1 },
+    'seg'           => { 'newline_after' => 1 },
     'segmentedlist' => { 'block'         => 1 },
     'simplelist'    => { 'block'         => 1 },
     'qandaset'      => { 'block'         => 1 },
@@ -266,10 +270,20 @@ my %MAP_OUT = (
 );
 
 my %BANNED_TAGS = (
-    'entrytbl' => {'reason' => 'Nested tables break pdf generation, rethink your data structure.'},
-    'link'     => {'reason' => 'Undesirable tag, use xref or ulink.'},
-    'olink'    => {'reason' => 'Undesirable tag, use xref or ulink.'},
+    'entrytbl' => {
+        'reason' =>
+            'Nested tables break pdf generation, rethink your data structure.'
+    },
+    'link' => {
+        'reason' =>
+            'Undesirable tag, use xref for internal links or ulink for external links.'
+    },
+    'olink' => {
+        'reason' =>
+            'Undesirable tag, use xref for internal links or ulink for external links.'
+    },
 );
+
 =head PruneXML($node)
 
 Remove unwanted nodes.
@@ -613,8 +627,9 @@ sub my_as_XML($) {
                 $tag = $node->{'_tag'};
 
                 if ($start) {      # on the way in
-                    if ( $fascist && $BANNED_TAGS{$tag} ) {
-                       die("\nERROR: Banned tag ($tag) being used!\n\tReason: " . $BANNED_TAGS{$tag}->{'reason'});
+                    if ( $STRICT && $BANNED_TAGS{$tag} ) {
+                        die("\nERROR: Banned tag ($tag) being used!\n\tReason: "
+                                . $BANNED_TAGS{$tag}->{'reason'} );
                     }
 
                     if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
