@@ -148,6 +148,7 @@ create_book --name Test_Book
 				<imageobject>
 					<imagedata fileref="./images/directory_structure.png" format="PNG" />
 				</imageobject>
+				<textobject><phrase>directory structure</phrase></textobject>
 			</mediaobject>
 		</para>
 		<section id="sect-Publican-Files_in_the_Book_directory-The_Makefile">
@@ -397,6 +398,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<imageobject>
 						<imagedata fileref="./images/author_group.png" format="PNG" />
 					</imageobject>
+					<textobject><phrase>author group</phrase></textobject>
 				</mediaobject>
 			</para>
 			<para>
@@ -552,6 +554,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 	&lt;imageobject&gt;
 		&lt;imagedata fileref="./images/testimage.png" /&gt;
 	&lt;/imageobject&gt;
+	&lt;textobject&gt;&lt;phrase&gt;alternate text goes here&lt;/phrase&gt;&lt;/textobject&gt;
 &lt;/mediaobject&gt;
 </screen>
 		</para>
@@ -669,7 +672,7 @@ make <replaceable>format</replaceable>
 			</seglistitem>
 		</segmentedlist>
 		<warning>
-			<title><command>make clean_ids</command></title>
+			<title>Warning: <command>make clean_ids</command></title>
 			<para>
 				Be careful running the <command>make clean_ids</command> command. To make translation easier, <command>make clean_ids</command> prepends the first four characters of the tag to the ID. Therefore you must ensure you have checked out the latest versions of the source and the translations before running <command>make clean_ids</command>. Failing to have the po files checked out when you run <command>make clean_ids</command> will result in the XML and po files becoming out of sync. This will require all links in the po files to be manually updated. As well, running <command>make clean_ids</command> will remove all comments!
 			</para>
