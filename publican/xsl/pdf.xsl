@@ -40,6 +40,7 @@
 <xsl:param name="ulink.show" select="1"/>
 
 <xsl:param name="line-height" select="1.5"/>
+<xsl:param name="segmentedlist.as.table" select="1"/>
 
 <xsl:attribute-set name="xref.properties">
   <xsl:attribute name="font-style">italic</xsl:attribute>

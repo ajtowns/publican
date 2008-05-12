@@ -38,6 +38,8 @@
 <xsl:param name="html.ext" select="'.html'"/>
 <xsl:output method="xml" indent="yes"/>
 
+<xsl:param name="qanda.in.toc" select="0"/>
+<xsl:param name="segmentedlist.as.table" select="1"/>
 
 <!-- TOC -->
 <xsl:param name="section.autolabel" select="1"/>
@@ -49,7 +51,7 @@ book toc
 article toc
 chapter toc
 qandadiv toc
-qandaset nop
+qandaset toc
 sect1 nop
 sect2 nop
 sect3 nop

@@ -28,6 +28,7 @@
 <xsl:param name="chunk.section.depth" select="4"/>
 <xsl:param name="chunk.first.sections" select="1"/>
 <xsl:param name="chunk.toc" select="''"/>
+<xsl:param name="chunk.append"/>
 
 <!--
 From: xsl/docbook/1.72.0/xhtml/chunk-code.xsl

@@ -11,7 +11,7 @@
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
 <xsl:template match="/"># Red Hat Documentation Specfile
-Name:           <xsl:value-of select="$book-title"/>
+Name:           <xsl:value-of select="$book-title"/>-<xsl:value-of select="$book-lang"/>
 Version:        <xsl:value-of select="/bookinfo/issuenum"/><xsl:value-of select="/setinfo/issuenum"/>
 Release:        <xsl:value-of select="/bookinfo/productnumber"/><xsl:value-of select="/setinfo/productnumber"/>
 Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
@@ -26,14 +26,6 @@ Requires: yelp
 %description
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
-%package -n %{name}-<xsl:value-of select="$book-lang"/>
-Summary:    <xsl:value-of select="/bookinfo/subtitle" /><xsl:value-of select="/setinfo/subtitle" />
-Group:      Documentation
-Requires: yelp
-
-%description -n %{name}-<xsl:value-of select="$book-lang"/>
-<xsl:value-of select="/bookinfo/abstract/para" />
-
 %prep
 %setup -q
 
@@ -46,62 +38,23 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications/
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
-<xsl:value-of select="$titles"/>
 Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" />
-Exec=yelp ghelp:%{name}
-#Exec=yelp %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/<xsl:value-of select="$main-file"/>
-Icon=%{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version}/images/icon.svg
+Exec=yelp %{_docdir}/%{name}-%{version}/<xsl:value-of select="$main-file"/>
+Icon=%{_docdir}/%{name}-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
 Type=Application
 Encoding=UTF-8
 Terminal=false
 EOF
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/help/%{name}
-#mkdir -p $RPM_BUILD_ROOT%{_datadir}/omf/%{name}
-#cp omf/*.omf $RPM_BUILD_ROOT%{_datadir}/omf/%{name}/.
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -n %{name}-<xsl:value-of select="$book-lang"/>
-%define _locale %(echo <xsl:value-of select="$book-lang"/> |sed 's/-/_/')
-if [ -d %{_datadir}/gnome/help/%{name}/%{_locale} ]; then
-	rm -rf %{_datadir}/gnome/help/%{name}/%{_locale}
-fi
-ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/%{_locale};
-if [ -d %{_datadir}/gnome/help/%{name}/C ]; then
-	rm -rf %{_datadir}/gnome/help/%{name}/C
-fi
-ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/C;
-#scrollkeeper-update
-
-%postun -n %{name}-<xsl:value-of select="$book-lang"/>
-rm -rf %{_datadir}/gnome/help/%{name}
-#scrollkeeper-update
-
-%posttrans -n %{name}-<xsl:value-of select="$book-lang"/>
-%define _locale %(echo <xsl:value-of select="$book-lang"/> |sed 's/-/_/')
-if [ -d %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} ]; then
-	mkdir -p %{_datadir}/gnome/help/%{name}
-	if [ -d %{_datadir}/gnome/help/%{name}/%{_locale} ]; then
-		rm -rf %{_datadir}/gnome/help/%{name}/%{_locale}
-	fi
-	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/%{_locale};
-	if [ -d %{_datadir}/gnome/help/%{name}/C ]; then
-		rm -rf %{_datadir}/gnome/help/%{name}/C
-	fi
-	ln -sf %{_docdir}/%{name}-<xsl:value-of select="$book-lang"/>-%{version} %{_datadir}/gnome/help/%{name}/C;
-fi
-
-%files -n %{name}-<xsl:value-of select="$book-lang"/>
+%files
 %defattr(-,root,root,-)
 %doc <xsl:value-of select="$book-lang"/>/*
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/gnome/help/%{name}
-#%{_datadir}/omf/%{name}/%{name}-C.omf
-
-@@@SUBPACKAGES@@@
 
 %changelog
 <xsl:value-of select="$book-log"/>
