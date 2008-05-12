@@ -107,6 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 - Added ability to ship $lang/files directories with html/xml payloads BZ #444935
 - Hardcoded PDF footnote colour to black BZ #446011
 - Set segmentedlist.as.table to 1. BZ #445628
+- Force monospace on command
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
