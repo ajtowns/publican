@@ -60,47 +60,10 @@ my $condition       = undef;
 my $DEFAULT_WRAP    = 82;
 my $common          = 0;
 my $dtdver          = '4.5';
+my $print_known     = 0;
+my $print_banned    = 0;
 
 $columns = $DEFAULT_WRAP;
-
-if ((   !GetOptions(
-            "in=s"        => \$in_file,
-            "out=s"       => \$out_file,
-            "lang=s"      => \$lang,
-            "arch=s"      => \$arch,
-            "condition=s" => \$condition,
-            "trans=s"     => \$trans_langs,
-            "update|u"    => \$update_includes,
-            "defaults=s"  => \$def_langs,
-            "cleanids"    => \$clean_id,
-            "U"           => \$SHOW_UNKNOWN,
-            "book=s"      => \$book_name,
-            "common"      => \$common,
-            "dtd=s"       => \$dtdver,
-            "strict=s"    => \$STRICT,
-        )
-    )
-    || ( !( $in_file && $out_file ) )
-    )
-{
-    croak(
-        "Usage: \
-	txmlClean -in <infile>\
-	-out <outfile>\
-	[-lang <lang>]\
-	[-arch <arch>]\
-	[-condition <condition>]\
-	[-trans <translation lang,lang>]\
-	-u | --update\
-	[--defaults <deaful lang,lang'>]\
-	[-cleanid]\
-	-U\
-	[--common]\
-	[-dtd <dtd version>]\
-	[-strict 0|1]\
-	"
-    );
-}
 
 my %UPDATED_IDS;
 
@@ -284,6 +247,72 @@ my %BANNED_TAGS = (
     },
 );
 
+if ((   !GetOptions(
+            "in=s"        => \$in_file,
+            "out=s"       => \$out_file,
+            "lang=s"      => \$lang,
+            "arch=s"      => \$arch,
+            "condition=s" => \$condition,
+            "trans=s"     => \$trans_langs,
+            "update|u"    => \$update_includes,
+            "defaults=s"  => \$def_langs,
+            "cleanids"    => \$clean_id,
+            "U"           => \$SHOW_UNKNOWN,
+            "book=s"      => \$book_name,
+            "common"      => \$common,
+            "dtd=s"       => \$dtdver,
+            "strict=s"    => \$STRICT,
+            "known"       => \$print_known,
+            "banned"      => \$print_banned,
+        )
+    )
+    || ( !( $in_file && $out_file ) )
+    )
+{
+
+    if ($print_known) {
+        print_known_tags();
+        exit(0);
+    }
+    elsif ($print_banned) {
+        print_banned_tags();
+        exit(0);
+    }
+    else {
+        croak(
+            "Usage: \
+	txmlClean -in <infile>\
+	-out <outfile>\
+	[-lang <lang>]\
+	[-arch <arch>]\
+	[-condition <condition>]\
+	[-trans <translation lang,lang>]\
+	-u | --update\
+	[--defaults <deaful lang,lang'>]\
+	[-cleanid]\
+	-U\
+	[--common]\
+	[-dtd <dtd version>]\
+	[-strict 0|1]\
+	[--known]\
+	[--banned]\
+	"
+        );
+    }
+}
+
+sub print_known_tags {
+    foreach my $key ( sort( keys(%MAP_OUT) ) ) {
+        print( STDERR "$key\n" );
+    }
+}
+
+sub print_banned_tags {
+    foreach my $key ( sort( keys(%BANNED_TAGS) ) ) {
+        print( STDERR "$key:\t" . $BANNED_TAGS{$key}{'reason'} . "\n" );
+    }
+}
+
 =head PruneXML($node)
 
 Remove unwanted nodes.
@@ -307,7 +336,8 @@ sub PruneXML($) {
             while (
                 my $node = $xml_doc->look_down(
                     sub {
-                        $_[0]->attr('lang') && $_[0]->attr('lang') !~ ($lang);
+                        $_[0]->attr('lang')
+                            && $_[0]->attr('lang') !~ ($lang);
                     }
                 )
                 )
@@ -320,7 +350,8 @@ sub PruneXML($) {
             while (
                 my $node = $xml_doc->look_down(
                     sub {
-                        $_[0]->attr('arch') && $_[0]->attr('arch') !~ ($arch);
+                        $_[0]->attr('arch')
+                            && $_[0]->attr('arch') !~ ($arch);
                     }
                 )
                 )
@@ -896,3 +927,4 @@ if ($clean_id) {
     }
 }
 exit(0);
+

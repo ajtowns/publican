@@ -11,6 +11,18 @@
 		<qandaentry>
 			<question>
 				<para>
+					How do I add a language to my book?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Edit your books <filename>Makefile</filename> and uncomment the <computeroutput>OTHER_LANGS</computeroutput> entry. Add the required langauge code after the '=' sign.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
 					How do I add another language to my book?
 				</para>
 			</question>
@@ -165,6 +177,54 @@
 			<answer>
 				<para>
 					This warning indicates that the output for this tag had not been QA&#39;d to verify it&#39;s output is attractive or is xhtml 1.0 strict compliant.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I find out which tags have been QA'd in publican?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run <command>xmlClean --known</command>
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Why does publican give me an error about banned tags?
+				</para>
+			</question>
+			<answer>
+				<para>
+					This error indicates that the brand you are using has enabled STRICT mode in <command>xmlClean</command> and that the tag in question has been marked as undesirable. The error message should contain a reason why the tag was banned.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I find out which tags are banned in publican?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run <command>xmlClean --banned</command>
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Which brands enable STRICT mode?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Currently the Red Hat and JBoss brands enable STRICT mode.
 				</para>
 			</answer>
 		</qandaentry>
