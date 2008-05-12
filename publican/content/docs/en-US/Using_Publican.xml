@@ -623,107 +623,51 @@ make <replaceable>format</replaceable>
 		<para>
 			The following table lists commonly used <command>make</command> commands:
 		</para>
-		<table id="tabl-Publican-Building_a_Book-Common_make_Commands">
+		<segmentedlist id="segm-Publican-Building_a_Book-Common_make_Commands">
 			<title>Common make Commands</title>
-			<tgroup cols="2">
-				<colspec colname="column1"></colspec>
-				<colspec colname="column2"></colspec>
-				<thead>
-					<row>
-						<entry>
-							Command
-						</entry>
-						<entry>
-							Result
-						</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>
-							<command>make help</command>
-						</entry>
-						<entry>
-							List available <command>make</command> commands for building a book.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make help_params</command>
-						</entry>
-						<entry>
-							List available parameters that can be set in the <filename>Makefile</filename>.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make test</command>
-						</entry>
-						<entry>
-							Check that the book can be built correctly. Run the <command>make test</command> command before running any other <command>make</command> command, and before checking a book back into a repository (i.e. CVS or SVN).
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make html</command>
-						</entry>
-						<entry>
-							Build the book in HTML format. The HTML output will be located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/html/</filename> directory.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make html-single</command>
-						</entry>
-						<entry>
-							Build the book HTML format. The output will be a single HTML file located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/html-single/</filename> directory.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make htmlhelp</command>
-						</entry>
-						<entry>
-							Build the book in HTML HELP format. HTML HELP is a limited form of HTML, designed to be viewed regardless of your platform or Web browser. The output is located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/htmlhelp/</filename> directory.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make pdf</command>
-						</entry>
-						<entry>
-							Build the book in PDF format. This may not be supported on all systems.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make clean</command>
-						</entry>
-						<entry>
-							Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make tar-<replaceable>format</replaceable></command>
-						</entry>
-						<entry>
-							Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.
-						</entry>
-					</row>
-					<row>
-						<entry>
-							<command>make clean_ids</command>
-						</entry>
-						<entry>
-							<para>
-								Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput>
-							</para>
-						</entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</table>
+			<segtitle>Command</segtitle>
+			<segtitle>Result</segtitle>
+			<seglistitem>
+				<seg><command>make help</command></seg>
+				<seg>List available <command>make</command> commands for building a book.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make help_params</command></seg>
+				<seg>List available parameters that can be set in the <filename>Makefile</filename>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make test</command></seg>
+				<seg>Check that the book can be built correctly. Run the <command>make test</command> command before running any other <command>make</command> command, and before checking a book back into a repository (i.e. CVS or SVN).</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make html</command></seg>
+				<seg>Build the book in HTML format. The HTML output will be located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/html/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make html-single</command></seg>
+				<seg>Build the book HTML format. The output will be a single HTML file located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/html-single/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make htmlhelp</command></seg>
+				<seg>Build the book in HTML HELP format. HTML HELP is a limited form of HTML, designed to be viewed regardless of your platform or Web browser. The output is located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/htmlhelp/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make pdf</command></seg>
+				<seg>Build the book in PDF format. This may not be supported on all systems.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable></command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+		</segmentedlist>
 		<warning>
 			<title><command>make clean_ids</command></title>
 			<para>

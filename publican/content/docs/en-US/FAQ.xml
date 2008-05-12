@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<chapter id="chap-Publican-FAQ">
+<chapter id="chap-Publican-Frequently_Asked_Questions">
 	<title>Frequently Asked Questions</title>
 	<para>
 		The following is a list of frequently asked questions regarding the publican toolchain:
@@ -101,27 +101,27 @@
 			<answer>
 				<para>
 					The best way to do this is to create a directory named <filename>extras</filename> in your source language directory and use an <command>xi:include</command> to pull in the code file.
-				
 				</para>
-				<example>
+				<example id="exam-Publican-Frequently_Asked_Questions-Including_code_samples">
 					<title>Including code samples</title>
 					<orderedlist>
 						<listitem>
-							<para>Create the extras directory
-<programlisting>
-<command>mkdir <filename>en-US/extras</filename></command>
+							<para>
+								Create the extras directory 
+<programlisting><command>mkdir <filename>en-US/extras</filename></command>
 </programlisting>
 							</para>
 						</listitem>
 						<listitem>
-							<para>Copy the code file to the extras directory
-<programlisting>
-<command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
+							<para>
+								Copy the code file to the extras directory 
+<programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
 </programlisting>
 							</para>
 						</listitem>
 						<listitem>
-							<para>xi:iclude the sample file in your xml file
+							<para>
+								xi:iclude the sample file in your xml file 
 <programlisting>
 &lt;programlisting&gt;
 &lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
@@ -164,7 +164,7 @@
 			</question>
 			<answer>
 				<para>
-					This warning indicates that the output for this tag had not been QA'd to verify it's output is attractive or is xhtml 1.0 strict compliant.
+					This warning indicates that the output for this tag had not been QA&#39;d to verify it&#39;s output is attractive or is xhtml 1.0 strict compliant.
 				</para>
 			</answer>
 		</qandaentry>
@@ -176,7 +176,7 @@
 			</question>
 			<answer>
 				<para>
-					Because Jeff's memory is pants!
+					Because Jeff&#39;s memory is pants!
 				</para>
 			</answer>
 		</qandaentry>
