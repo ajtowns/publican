@@ -37,6 +37,7 @@
 <xsl:param name="hyphenate">false</xsl:param>
 <!--xsl:param name="ulink.hyphenate" select="1"/-->
 <xsl:param name="ulink.footnotes" select="1"/>
+<xsl:param name="ulink.show" select="1"/>
 
 <xsl:param name="line-height" select="1.5"/>
 
@@ -857,6 +858,7 @@ Version: 1.72
 	<xsl:attribute name="padding-top">48pt</xsl:attribute>
 	<xsl:attribute name="font-family"><xsl:value-of select="$body.fontset"/></xsl:attribute>
 	<xsl:attribute name="font-size"><xsl:value-of select="$footnote.font.size"/></xsl:attribute>
+	<xsl:attribute name="color">black</xsl:attribute>
 	<xsl:attribute name="font-weight">normal</xsl:attribute>
 	<xsl:attribute name="font-style">normal</xsl:attribute>
 	<xsl:attribute name="text-align"><xsl:value-of select="$alignment"/></xsl:attribute>
