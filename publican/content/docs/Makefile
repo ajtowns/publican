@@ -25,11 +25,25 @@ endif
 
 include $(COMMON_CONFIG)/make/Makefile.common
 
+# Copy the files form the BOOK_TEMPLATE so we get the correct examples
+# Change names to *.xmlt so the files don't get munged during processsing
+update-template:
+	@echo "Start $@"
+	@cp ../../Book_Template/en-US/Book_Info.xml en-US/extras/Book_Info.xmlt
+	@cp ../../Book_Template/Makefile en-US/extras/Makefile
+	@cp ../../Book_Template/en-US/Author_Group.xml en-US/extras/Author_Group.xmlt
+	@cp ../../Book_Template/en-US/Chapter.xml en-US/extras/Chapter.xmlt
+	@cp ../../Book_Template/en-US/Book.xml en-US/extras/Book_Name.xmlt
+	@cp ../../Book_Template/en-US/Book.ent en-US/extras/Book_Name.ent
+	@echo "End $@"
+
 publish-dist: html-single-all
+	@echo "Start $@"
 	@rm -rf publish
 	@mkdir -p publish
 	@for lang in $(TRANSLATIONS); do \
 		mkdir -p publish/$$lang; \
 		cp -rf tmp/$$lang/html-single/*  publish/$$lang/.; \
 	done
+	@echo "End $@"
 
