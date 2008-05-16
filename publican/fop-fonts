@@ -1,0 +1,73 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my %fontlist = (
+    'el5' => {
+        'BaekmukBatang' => '/usr/share/fonts/korean/TrueType/batang.ttf',
+        'LiberationMono-Regular' =>
+            '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
+        'LiberationMono-Bold' =>
+            '/usr/share/fonts/liberation/LiberationMono-Bold.ttf',
+        'LiberationMono-Italic' =>
+            '/usr/share/fonts/liberation/LiberationMono-Italic.ttf',
+        'LiberationMono-BoldItalic' =>
+            '/usr/share/fonts/liberation/LiberationMono-BoldItalic.ttf',
+        'LiberationSans-Regular' =>
+            '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+        'LiberationSans-Bold' =>
+            '/usr/share/fonts/liberation/LiberationSans-Bold.ttf',
+        'LiberationSans-Italic' =>
+            '/usr/share/fonts/liberation/LiberationSans-Italic.ttf',
+        'LiberationSans-BoldItalic' =>
+            '/usr/share/fonts/liberation/LiberationSans-BoldItalic.ttf',
+        'LiberationSerif-Regular' =>
+            '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
+        'LiberationSerif-Bold' =>
+            '/usr/share/fonts/liberation/LiberationSerif-Bold.ttf',
+        'LiberationSerif-Italic' =>
+            '/usr/share/fonts/liberation/LiberationSerif-Italic.ttf',
+        'LiberationSerif-BoldItalic' =>
+            '/usr/share/fonts/liberation/LiberationSerif-BoldItalic.ttf',
+        'LohitBengali'   => '/usr/share/fonts/bengali/lohit_bn.ttf',
+        'LohitTamil'     => '/usr/share/fonts/tamil/lohit_ta.ttf',
+        'LohitPunjabi'   => '/usr/share/fonts/punjabi/lohit_pa.ttf',
+        'LohitHindi'     => '/usr/share/fonts/hindi/lohit_hi.ttf',
+        'LohitGujarati'  => '/usr/share/fonts/gujarati/lohit_gu.ttf',
+        'LohitMalayalam' => '/usr/share/fonts/malayalam/lohit_ml.ttf',
+        'LohitKannada'   => '/usr/share/fonts/kannada/lohit_kn.ttf',
+        'LohitOriya'     => '/usr/share/fonts/oriya/lohit_or.ttf',
+        'LohitTelugu'    => '/usr/share/fonts/telugu/lohit_te.ttf',
+        'SazanamiGothic' =>
+            '/usr/share/fonts/japanese/TrueType/sazanami-gothic.ttf',
+        'Lklug'  => '/usr/share/fonts/sinhala/lklug.ttf',
+        'Zysong' => '/usr/share/fonts/chinese-zysong/TrueType/zysong.ttf',
+        'SazanamiMincho' =>
+            '/usr/share/fonts/japanese/TrueType/sazanami-mincho.ttf',
+        'Uming' => '/usr/share/fonts/chinese/TrueType/uming.ttf',
+
+        #        '' => '/usr/share/fonts/',
+    },
+);
+
+my $ttfcommand
+    = 'java -cp /usr/share/java/fop.jar:/usr/share/java/avalon-framework.jar:/usr/share/java/commons-logging.jar:/usr/share/java/commons-io.jar:/usr/share/java/xmlgraphics-commons.jar org.apache.fop.fonts.apps.TTFReader';
+
+my $release = 'el5';
+
+sub genfontmetrics {
+
+    `rm -rf fop/font-metrics`;
+    foreach my $name ( sort( keys( %{ $fontlist{$release} } ) ) ) {
+        my $path = $fontlist{$release}{$name};
+        system(
+            "$ttfcommand -fn $name $path fop/font-metrics/$name.xml"
+        );
+
+        # system("rpm -qf $path");
+    }
+}
+
+genfontmetrics();
+exit(0);

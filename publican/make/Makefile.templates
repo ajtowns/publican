@@ -216,6 +216,7 @@ ifeq "${1}" "pdf"
 		else \
 			fop_file=fop-$$$$fop_ver.xconf; \
 		fi; \
+		echo "fop -q -c $(COMMON_CONFIG)/fop/$$$$fop_file -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf"; \
 		fop -q -c $(COMMON_CONFIG)/fop/$$$$fop_file -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else

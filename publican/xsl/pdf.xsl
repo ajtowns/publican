@@ -25,8 +25,8 @@
 <xsl:param name="alignment">left</xsl:param>
 <xsl:param name="use.extensions" select="0"/>
 <xsl:param name="tablecolumns.extensions" select="0"/>
-<xsl:param name="fop.extensions" select="1"/>
-<xsl:param name="fop1.extensions" select="0"/>
+<xsl:param name="fop.extensions" select="0"/>
+<xsl:param name="fop1.extensions" select="1"/>
 <xsl:param name="img.src.path"/>
 <xsl:param name="confidential" select="0"/>
 <xsl:param name="qandadiv.autolabel" select="0"/>
@@ -482,13 +482,16 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>SazanamiMincho,KochiMincho,</xsl:text>
+				<xsl:text>SazanamiMincho,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-CN'">
-				<xsl:text>ARPLKaitiMGB,</xsl:text>
+				<xsl:text>Zysong,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'as-IN'">
+				<xsl:text>LohitBengali,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'bn-IN'">
 				<xsl:text>LohitBengali,</xsl:text>
@@ -502,23 +505,38 @@ Version:1.72
 			<xsl:when test="$l10n.gentext.language = 'hi-IN'">
 				<xsl:text>LohitHindi,</xsl:text>
 			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'mr-IN'">
+				<xsl:text>LohitHindi,</xsl:text>
+			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN'">
 				<xsl:text>LohitGujarati,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-TW'">
-				<xsl:text>ARPLMingti2LBig5,</xsl:text>
+				<xsl:text>Uming,</xsl:text>
 			</xsl:when>
-			<xsl:when test="$l10n.gentext.language = 'ru-RU'">
-				<xsl:text>DejaVuLGCSans,</xsl:text>
+			<xsl:when test="$l10n.gentext.language = 'kn-IN'">
+				<xsl:text>LohitKannada,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'ml-IN'">
+				<xsl:text>LohitMalayalam,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'or-IN'">
+				<xsl:text>LohitOriya,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'te-IN'">
+				<xsl:text>LohitTelugu,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'si-LK'">
+				<xsl:text>Lklug,</xsl:text>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:choose>
 		<xsl:when test="$fop.extensions != 0">
-		  <xsl:copy-of select="$font"/><xsl:text>sans-serif</xsl:text>
+		  <xsl:copy-of select="$font"/><xsl:text>LiberationSans,sans-serif</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-		  <xsl:copy-of select="$font"/><xsl:text>sans-serif</xsl:text>
+		  <xsl:copy-of select="$font"/><xsl:text>LiberationSans,sans-serif</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
@@ -527,13 +545,16 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>SazanamiMincho,KochiMincho,</xsl:text>
+				<xsl:text>SazanamiMincho,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-CN'">
-				<xsl:text>ARPLKaitiMGB,</xsl:text>
+				<xsl:text>Zysong,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'as-IN'">
+				<xsl:text>LohitBengali,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'bn-IN'">
 				<xsl:text>LohitBengali,</xsl:text>
@@ -547,23 +568,38 @@ Version:1.72
 			<xsl:when test="$l10n.gentext.language = 'hi-IN'">
 				<xsl:text>LohitHindi,</xsl:text>
 			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'mr-IN'">
+				<xsl:text>LohitHindi,</xsl:text>
+			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN'">
 				<xsl:text>LohitGujarati,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-TW'">
-				<xsl:text>ARPLMingti2LBig5,</xsl:text>
+				<xsl:text>Uming,</xsl:text>
 			</xsl:when>
-			<xsl:when test="$l10n.gentext.language = 'ru-RU'">
-				<xsl:text>DejaVuLGCSans,</xsl:text>
+			<xsl:when test="$l10n.gentext.language = 'kn-IN'">
+				<xsl:text>LohitKannada,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'ml-IN'">
+				<xsl:text>LohitMalayalam,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'or-IN'">
+				<xsl:text>LohitOriya,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'te-IN'">
+				<xsl:text>LohitTelugu,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'si-LK'">
+				<xsl:text>Lklug,</xsl:text>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:choose>
 		<xsl:when test="$fop.extensions != 0">
-		  <xsl:copy-of select="$font"/><xsl:text>serif</xsl:text>
+		  <xsl:copy-of select="$font"/><xsl:text>LiberationSerif,serif</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-		  <xsl:copy-of select="$font"/><xsl:text>serif</xsl:text>
+		  <xsl:copy-of select="$font"/><xsl:text>LiberationSerif,serif</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
@@ -572,13 +608,16 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>SazanamiMincho,KochiMincho,</xsl:text>
+				<xsl:text>SazanamiMincho,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-CN'">
-				<xsl:text>ARPLKaitiMGB,</xsl:text>
+				<xsl:text>Zysong,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'as-IN'">
+				<xsl:text>LohitBengali,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'bn-IN'">
 				<xsl:text>LohitBengali,</xsl:text>
@@ -592,23 +631,38 @@ Version:1.72
 			<xsl:when test="$l10n.gentext.language = 'hi-IN'">
 				<xsl:text>LohitHindi,</xsl:text>
 			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'mr-IN'">
+				<xsl:text>LohitHindi,</xsl:text>
+			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN'">
 				<xsl:text>LohitGujarati,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-TW'">
-				<xsl:text>ARPLMingti2LBig5,</xsl:text>
+				<xsl:text>Uming,</xsl:text>
 			</xsl:when>
-			<xsl:when test="$l10n.gentext.language = 'ru-RU'">
-				<xsl:text>DejaVuLGCSansMono,</xsl:text>
+			<xsl:when test="$l10n.gentext.language = 'kn-IN'">
+				<xsl:text>LohitKannada,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'ml-IN'">
+				<xsl:text>LohitMalayalam,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'or-IN'">
+				<xsl:text>LohitOriya,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'te-IN'">
+				<xsl:text>LohitTelugu,</xsl:text>
+			</xsl:when>
+			<xsl:when test="$l10n.gentext.language = 'si-LK'">
+				<xsl:text>Lklug,</xsl:text>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:choose>
 		<xsl:when test="$fop.extensions != 0">
-		  <xsl:copy-of select="$font"/><xsl:text>monospace</xsl:text>
+		  <xsl:copy-of select="$font"/><xsl:text>LiberationMono,monospace</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-		  <xsl:copy-of select="$font"/><xsl:text>monospace</xsl:text>
+		  <xsl:copy-of select="$font"/><xsl:text>LiberationMono,monospace</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>

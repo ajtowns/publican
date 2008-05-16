@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t87%{?dist}
+Release:	0.t109%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -13,11 +13,23 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 # need kdesdk for po2xml & xml2pot
-Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl dejavu-lgc-fonts elinks
+Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl elinks
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
+Requires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
+Requires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
+Requires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
+Requires:	fonts-tamil fonts-telugu liberation-fonts
+Requires:	fop
+
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
+BuildRequires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
+BuildRequires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
+BuildRequires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
+BuildRequires:	fonts-tamil fonts-telugu liberation-fonts
+BuildRequires:	fop
+
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel  < 0.26-3
 Obsoletes:	perl-SGML-Translate <= 0.37-3
@@ -37,6 +49,7 @@ Documentation for the Publican publishing tool chain.
 %setup -q
 
 %build
+# TODO: Need to run fop-fonts here to generate font-metric files
 %{__make} docs
 
 %install
