@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t109%{?dist}
+Release:	0.t113%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -124,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 - Hardcoded PDF footnote colour to black BZ #446011
 - Set segmentedlist.as.table to 1. BZ #445628
 - Force monospace on command
+- Switched to FOP 0.95Beta
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file

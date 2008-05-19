@@ -22,7 +22,16 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
 <xsl:import href="defaults.xsl"/>
-<xsl:param name="alignment">left</xsl:param>
+<xsl:param name="alignment">
+	<xsl:choose>
+		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW'">
+			<xsl:text>justify</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>left</xsl:text>
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:param>
 <xsl:param name="use.extensions" select="0"/>
 <xsl:param name="tablecolumns.extensions" select="0"/>
 <xsl:param name="fop.extensions" select="0"/>
@@ -212,8 +221,17 @@ article toc
 <xsl:param name="region.after.extent">10mm</xsl:param>
 <xsl:param name="page.margin.bottom">15mm</xsl:param>
 
-<xsl:param name="page.margin.outer">30mm</xsl:param>
-<xsl:param name="page.margin.inner">30mm</xsl:param>
+<xsl:param name="page.margin.outer">19mm</xsl:param>
+<xsl:param name="page.margin.inner">31mm</xsl:param>
+
+<xsl:param name="body.start.indent">
+  <xsl:choose>
+    <xsl:when test="$fop.extensions != 0">0pt</xsl:when>
+    <xsl:when test="$fop1.extensions != 0">0pt</xsl:when>
+    <xsl:when test="$passivetex.extensions != 0">0pt</xsl:when>
+    <xsl:otherwise>4pc</xsl:otherwise>
+  </xsl:choose>
+</xsl:param>
 
 <!-- No intendation of Titles -->
 <xsl:param name="title.margin.left">0pc</xsl:param>
