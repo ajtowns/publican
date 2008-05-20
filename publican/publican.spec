@@ -3,7 +3,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t113%{?dist}
+Release:	0.t117%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
