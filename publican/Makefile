@@ -41,7 +41,6 @@ local: rpm
 rpm: srpm
 	@echo "Start $@"
 	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" --rebuild $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).$(OS_VER).src.rpm
-#-bb $(RPMDIR)/SPECS/$(NAME).spec
 	@echo "End $@"
 
 srpm: dist
@@ -49,7 +48,14 @@ srpm: dist
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
-	@cp *.spec $(RPMDIR)/SPECS/.
+	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).el5.spec
+	@sed -i -e 's/@VENDOR@/redhat/' $(RPMDIR)/SPECS/$(NAME).el5.spec
+	@sed -i -e 's/@OVERRIDE@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
+	@sed -i -e 's/@HTMLVIEW@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
+	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
+	@sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec
+	@sed -i -e 's/@OVERRIDE@/0/' $(RPMDIR)/SPECS/$(NAME).spec
+	@sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@rpmbuild --define "dist .fc8" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec

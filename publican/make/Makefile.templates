@@ -30,6 +30,10 @@ DOC_URL		?= https://fedorahosted.org/publican
 DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
 
+# This gets overridden in the spec file for systems that don't
+# ship DocBook 4.5 DTD
+#CATALOGS_OVERRIDE
+
 ###############################################################################
 # ALL_Template
 #  Create rules to handle all languages for a given format and a shortcut rule

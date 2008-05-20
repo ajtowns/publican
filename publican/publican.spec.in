@@ -1,4 +1,6 @@
-%define	my_vendor redhat
+%define	my_vendor @VENDOR@
+%define	CATALOGS_OVERRIDE @OVERRIDE@
+%define	HTMLVIEW @HTMLVIEW@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
@@ -13,24 +15,23 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
 # need kdesdk for po2xml & xml2pot
-Requires:	gettext libxslt perl(XML::TreeBuilder) elinks
+Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl elinks
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
 Requires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
 Requires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
 Requires:	fonts-tamil fonts-telugu liberation-fonts
+Requires:	fop
 
-BuildRequires:	gettext libxslt perl(XML::TreeBuilder)
-BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
-BuildRequires:	desktop-file-utils
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
-BuildRequires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
-BuildRequires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
-BuildRequires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
-BuildRequires:	fonts-tamil fonts-telugu liberation-fonts
-BuildRequires:	fop
+# TODO: We will need these to get build time font-metric files
+#BuildRequires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
+#BuildRequires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
+#BuildRequires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
+#BuildRequires:	fonts-tamil fonts-telugu liberation-fonts
+#BuildRequires:	fop
 
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel  < 0.26-3
@@ -42,7 +43,7 @@ Common files and scripts for publishing documentation.
 %package doc
 Group:		Documentation
 Summary:	Documentation for the Publican package
-Requires:	htmlview
+Requires:	xdg-utils
 
 %description doc
 Documentation for the Publican publishing tool chain.
@@ -61,18 +62,24 @@ mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p -m755 $RPM_BUILD_ROOT%{_bindir}
 install -m 755 bin/* $RPM_BUILD_ROOT%{_bindir}
-%{__perl} -p -i -e 's|^#CATALOGS_OVERRIDE$|CATALOGS\t= XML_CATALOG_FILES="%{_datadir}/%{name}/xsl/docbook/dtd-4.5/catalog.xml %{_datadir}/%{name}/xsl/docbook/1.72.0/catalog.xml"|g' make/Makefile.templates
 
 for i in fop make xsl Common_Content templates; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Template
+
+%if %{CATALOGS_OVERRIDE}
+%{__perl} -p -i -e 's|^#CATALOGS_OVERRIDE$|CATALOGS\t= XML_CATALOG_FILES="%{_datadir}/%{name}/xsl/docbook/dtd-4.5/catalog.xml %{_datadir}/%{name}/xsl/docbook/1.72.0/catalog.xml"|g' make/Makefile.templates
 cp -rf xsl_extras/docbook $RPM_BUILD_ROOT%{_datadir}/publican/xsl/.
+%endif
 
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
-sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
+
+%if %{HTMLVIEW}
 sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
+%endif
+
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %clean
