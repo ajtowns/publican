@@ -17,7 +17,7 @@
 #
 
 NAME	= publican
-SPEC	= $(NAME).spec
+SPEC	= $(NAME).spec.in
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD	= $(shell pwd)
@@ -52,6 +52,7 @@ srpm: dist
 	@sed -i -e 's/@VENDOR@/redhat/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@sed -i -e 's/@OVERRIDE@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@sed -i -e 's/@HTMLVIEW@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
+	@sed -i -e 's/Requires:	xdg-utils/Requires:	htmlview/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@OVERRIDE@/0/' $(RPMDIR)/SPECS/$(NAME).spec

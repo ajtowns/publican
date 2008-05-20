@@ -280,7 +280,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;issuenum&gt;<replaceable>issue-number</replaceable>&lt;/issuenum&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>issue-number</replaceable> with the issue number. The issue number changes the version number (the first two digits) when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the issue number to <filename>1.2</filename> and building the book using the <command>make srpm</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
+							replace <replaceable>issue-number</replaceable> with the issue number. The issue number changes the version number (the first two digits) when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the issue number to <filename>1.2</filename> and building the book using the <command>make srpm-en-US</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
 						</para>
 						<para>
 							Running the <command>create_book --name <replaceable> Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the issue number.
@@ -291,7 +291,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;productnumber&gt;<replaceable>product-number</replaceable>&lt;/productnumber&gt;</filename></term>
 					<listitem>
 						<para>
-							replace <replaceable>product-number</replaceable> with the product number. The product number changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the product number to <filename>1</filename> and building the book using the <command>make srpm</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
+							replace <replaceable>product-number</replaceable> with the product number. The product number changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the product number to <filename>1</filename> and building the book using the <command>make srpm-en-US</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
 						</para>
 						<para>
 							Running the <command>create_book --name<replaceable> Book_Name</replaceable> --revision <replaceable>revision</replaceable></command> command correctly configures the product number.
@@ -504,7 +504,7 @@ en-US  Makefile
 				</para>
 				<para>
 <screen>
-make test
+make test-en-US
 </screen>
 				</para>
 			</listitem>
@@ -514,7 +514,7 @@ make test
 				</para>
 				<para>
 <screen>
-make <replaceable>format</replaceable>
+make <replaceable>format</replaceable>-en-US
 </screen>
 				</para>
 				<para>
@@ -538,23 +538,23 @@ make <replaceable>format</replaceable>
 				<seg>List available parameters that can be set in the <filename>Makefile</filename>.</seg>
 			</seglistitem>
 			<seglistitem>
-				<seg><command>make test</command></seg>
+				<seg><command>make test-en-US</command></seg>
 				<seg>Check that the book can be built correctly. Run the <command>make test</command> command before running any other <command>make</command> command, and before checking a book back into a repository (i.e. CVS or SVN).</seg>
 			</seglistitem>
 			<seglistitem>
-				<seg><command>make html</command></seg>
+				<seg><command>make html-en-US</command></seg>
 				<seg>Build the book in HTML format. The HTML output will be located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/html/</filename> directory.</seg>
 			</seglistitem>
 			<seglistitem>
-				<seg><command>make html-single</command></seg>
+				<seg><command>make html-single-en-US</command></seg>
 				<seg>Build the book HTML format. The output will be a single HTML file located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/html-single/</filename> directory.</seg>
 			</seglistitem>
 			<seglistitem>
-				<seg><command>make htmlhelp</command></seg>
+				<seg><command>make htmlhelp-en-US</command></seg>
 				<seg>Build the book in HTML HELP format. HTML HELP is a limited form of HTML, designed to be viewed regardless of your platform or Web browser. The output is located in the <filename><replaceable>Book_Name</replaceable>/tmp/en-<replaceable>US</replaceable>/htmlhelp/</filename> directory.</seg>
 			</seglistitem>
 			<seglistitem>
-				<seg><command>make pdf</command></seg>
+				<seg><command>make pdf-en-US</command></seg>
 				<seg>Build the book in PDF format. This may not be supported on all systems.</seg>
 			</seglistitem>
 			<seglistitem>
@@ -562,7 +562,7 @@ make <replaceable>format</replaceable>
 				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
 			</seglistitem>
 			<seglistitem>
-				<seg><command>make tar-<replaceable>format</replaceable></command></seg>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
 				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
 			</seglistitem>
 			<seglistitem>
