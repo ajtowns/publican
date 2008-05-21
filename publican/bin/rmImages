@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 =head
-    Remove any unreferenced images
+    Exclude unreferenced images from build
     Copyright (C) 2008 Red Hat, Inc.
 
     This program is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ foreach my $file (`$cmd`) {
     $file =~ /^.*\/([^\/]*)$/;
     my $img = $1;
     if ( $img ne "icon.svg" && `grep -rle '[\/"]$img' *` !~ /./ ) {
-        print("Removing unused image: $file\n");
-        system("rm -f $file") == 0 || die("Could not remove $file");
+        print("Excluding unused image: $file\n");
+        unlink($file) || die("Could not remove $file");
     }
 }

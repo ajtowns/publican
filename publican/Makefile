@@ -77,7 +77,7 @@ dist: clean
 
 # This is required to avoid this package depending on itself to build it's docs
 MYPATH = $(shell echo $$PATH)
-docs: PATH=$(MYPATH):$(PWD)/bin
+docs: PATH=$(PWD)/bin:$(MYPATH)
 docs: Common_Content
 	@echo "Start $@"
 	@make -C content/docs STANDALONE=1 publish-dist
