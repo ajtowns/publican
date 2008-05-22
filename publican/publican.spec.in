@@ -1,11 +1,11 @@
 %define	my_vendor @VENDOR@
-%define	CATALOGS_OVERRIDE @OVERRIDE@
+%define	EMBED_DOCKBOOK45 @EMBED45@
 %define	HTMLVIEW @HTMLVIEW@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t122%{?dist}
+Release:	0.t127%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -43,7 +43,11 @@ Common files and scripts for publishing documentation.
 %package doc
 Group:		Documentation
 Summary:	Documentation for the Publican package
+%if %{HTMLVIEW}
+Requires:	htmlview
+%else
 Requires:	xdg-utils
+%endif
 
 %description doc
 Documentation for the Publican publishing tool chain.
@@ -63,13 +67,16 @@ mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p -m755 $RPM_BUILD_ROOT%{_bindir}
 install -m 755 bin/* $RPM_BUILD_ROOT%{_bindir}
 
+%if %{EMBED_DOCKBOOK45}
+%{__perl} -p -i -e 's|^#CATALOGS_OVERRIDE$|CATALOGS\t= XML_CATALOG_FILES="%{_datadir}/%{name}/xsl/docbook/dtd-4.5/catalog.xml %{_datadir}/%{name}/xsl/docbook/1.72.0/catalog.xml"|g' make/Makefile.templates
+%endif
+
 for i in fop make xsl Common_Content templates; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Template
 
-%if %{CATALOGS_OVERRIDE}
-%{__perl} -p -i -e 's|^#CATALOGS_OVERRIDE$|CATALOGS\t= XML_CATALOG_FILES="%{_datadir}/%{name}/xsl/docbook/dtd-4.5/catalog.xml %{_datadir}/%{name}/xsl/docbook/1.72.0/catalog.xml"|g' make/Makefile.templates
+%if %{EMBED_DOCKBOOK45}
 cp -rf xsl_extras/docbook $RPM_BUILD_ROOT%{_datadir}/publican/xsl/.
 %endif
 

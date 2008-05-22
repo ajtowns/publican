@@ -50,12 +50,11 @@ srpm: dist
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@sed -i -e 's/@VENDOR@/redhat/' $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@sed -i -e 's/@OVERRIDE@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
+	@sed -i -e 's/@EMBED45@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@sed -i -e 's/@HTMLVIEW@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@sed -i -e 's/Requires:	xdg-utils/Requires:	htmlview/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec
-	@sed -i -e 's/@OVERRIDE@/0/' $(RPMDIR)/SPECS/$(NAME).spec
+	@sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec
 	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec
