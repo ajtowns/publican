@@ -1,0 +1,50 @@
+%define brand oVirt
+
+Name:		publican-ovirt
+Summary:	Common documentation files for %{brand}
+Version:	0.1
+Release:	0%{?dist}
+License:	Open Publication License + Restrictions
+Group:		Applications/Text
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Buildarch:	noarch
+Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
+Requires:	publican
+BuildRequires:	publican
+URL:		https://fedorahosted.org/publican
+
+%description
+This package provides common files and templates needed to build documentation
+for %{brand} with publican.
+
+%prep
+%setup -q 
+
+%build
+%{__make} Common_Content
+
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Templates
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/make
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}
+cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
+cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
+install -m 755 make/Makefile.%{brand} $RPM_BUILD_ROOT%{_datadir}/publican/make/.
+install -m 755 xsl/*.xsl $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}/.
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root)
+%doc README
+%doc COPYING
+%{_datadir}/publican/Common_Content/%{brand}
+%{_datadir}/publican/Templates/%{brand}-Book_Template
+%{_datadir}/publican/make/Makefile.%{brand}
+%{_datadir}/publican/xsl/%{brand}
+
+%changelog
+* Thu May 22 2008 Jeff Fearn <jfearn@redhat.com> 0.1-0
+- Initial creation
