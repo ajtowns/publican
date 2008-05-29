@@ -327,6 +327,7 @@ article toc
 	<xsl:attribute name="color">
 		<xsl:choose>
 			<xsl:when test="not(parent::chapter | parent::article | parent::appendix)"><xsl:value-of select="$title.color"/></xsl:when>
+			<xsl:otherwise>black</xsl:otherwise>
 		</xsl:choose>
 	</xsl:attribute>
 	<xsl:attribute name="text-align">
@@ -363,7 +364,7 @@ article toc
 	<xsl:attribute name="font-family">
 		<xsl:value-of select="$title.fontset"/>
 	</xsl:attribute>
-	<xsl:attribute name="color"></xsl:attribute>
+	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
 	<xsl:attribute name="font-size">12pt</xsl:attribute>
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
@@ -521,10 +522,10 @@ Version:1.72
 				<xsl:text>LohitPunjabi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'hi-IN'">
-				<xsl:text>LohitHindi,</xsl:text>
+				<xsl:text>Lohit-Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'mr-IN'">
-				<xsl:text>LohitHindi,</xsl:text>
+				<xsl:text>Lohit-Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN'">
 				<xsl:text>LohitGujarati,</xsl:text>
@@ -584,10 +585,10 @@ Version:1.72
 				<xsl:text>LohitPunjabi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'hi-IN'">
-				<xsl:text>LohitHindi,</xsl:text>
+				<xsl:text>Lohit-Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'mr-IN'">
-				<xsl:text>LohitHindi,</xsl:text>
+				<xsl:text>Lohit-Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN'">
 				<xsl:text>LohitGujarati,</xsl:text>
@@ -647,10 +648,10 @@ Version:1.72
 				<xsl:text>LohitPunjabi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'hi-IN'">
-				<xsl:text>LohitHindi,</xsl:text>
+				<xsl:text>Lohit-Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'mr-IN'">
-				<xsl:text>LohitHindi,</xsl:text>
+				<xsl:text>Lohit-Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN'">
 				<xsl:text>LohitGujarati,</xsl:text>

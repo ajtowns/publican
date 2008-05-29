@@ -22,8 +22,8 @@ Source:         %{name}-%{version}-%{release}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
-Requires:       perl-Documentation-WebSite
-Prefix:		/var/www/html
+Requires:       perl-Publican-WebSite
+Prefix:		/var/www/html/docs
 
 %description
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
@@ -40,26 +40,17 @@ mkdir -p $RPM_BUILD_ROOT/%{prefix}
 cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{prefix}/.
 
 %preun
-%{__perl} -e 'use Documentation::WebSite; my $ws = Documentation::WebSite->new(); foreach my $format ("html", "pdf", "html-single") { $ws->del_entry({language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format"}); } $ws->regen_all_toc();'
+%{__perl} -e 'use Publican::WebSite; my $ws = Publican::WebSite->new(); foreach my $format ("html", "pdf", "html-single") { $ws->del_entry({language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format"}); } $ws->regen_all_toc();'
 
 %post
-%{__perl} -e 'use Documentation::WebSite; my $ws = Documentation::WebSite->new(); foreach my $format ("html", "pdf", "html-single") { $ws->add_entry({language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format"}); } $ws->regen_all_toc();'
+%{__perl} -e 'use Publican::WebSite; my $ws = Publican::WebSite->new(); foreach my $format ("html", "pdf", "html-single") { $ws->add_entry({language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format"}); } $ws->regen_all_toc();'
 
 %files
 %defattr(-,root,root,-)
 %{prefix}/<xsl:value-of select="$lang"/>
 
-%changelog
-<xsl:apply-templates select="//revision"/>
+%changelog<xsl:value-of select="$book-log"/>
 
-</xsl:template>
-
-<xsl:template match="revision">
-<xsl:text>* </xsl:text><xsl:value-of select="./date"/><xsl:text> </xsl:text><xsl:value-of select="./author/firstname"/><xsl:text> </xsl:text><xsl:value-of select="./author/surname"/><xsl:text> </xsl:text><xsl:value-of select="./author/email"/><xsl:text> </xsl:text><xsl:value-of select="./revnumber"/>
-<xsl:apply-templates select="revdescription/simplelist/member"/>
-</xsl:template>
-
-<xsl:template match="member"><xsl:text>- </xsl:text><xsl:value-of select="."/>
 </xsl:template>
 
 </xsl:stylesheet>
