@@ -5,7 +5,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t127%{?dist}
+Release:	0.t134%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -17,6 +17,7 @@ Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}
 # need kdesdk for po2xml & xml2pot
 Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl elinks
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
+Requires:	perl-ParseLex perl-HTML-Template
 Requires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
 Requires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
 Requires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
