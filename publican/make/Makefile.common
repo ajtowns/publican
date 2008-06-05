@@ -157,18 +157,22 @@ $(foreach L,$(TRANSLATIONS), $(eval $(call SRPM_Template,${L})))
 ### Brew Desktop rpm  ###
 ###############################################################################
 $(foreach L,$(TRANSLATIONS), $(eval $(call BREW_Template,${L})))
+$(foreach L,$(TRANSLATIONS), $(eval $(call BREW_Scratch_Template,${L})))
 $(foreach L,$(TRANSLATIONS), $(eval $(call BREW_Report_Template,${L})))
 
 ###############################################################################
-# Web SRPMs
+# Web Site SRPMs
 ###############################################################################
-$(foreach L,$(TRANSLATIONS),$(eval $(call Trans_Info_Template,${L})))
 $(foreach L,$(TRANSLATIONS),$(eval $(call WEB_SRPM_Template,${L})))
 $(foreach L,$(TRANSLATIONS),$(eval $(call Publish-WEB_Template,${L})))
-
 web-srpm-all:: $(foreach L,$(TRANSLATIONS), web-srpm-${L})
 
+
+###############################################################################
+### Brew Web Site rpm  ###
+###############################################################################
 $(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Template,${L})))
+$(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Scratch_Template,${L})))
 $(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Report_Template,${L})))
 web-brew-all:: $(foreach L,$(TRANSLATIONS), web-brew-${L})
 
@@ -394,7 +398,7 @@ help_internals::
 	@echo
 	@echo "These variables are used internally by publican and are set automatically."
 	@echo
-	@echo "BRAND_MAKE: Path to a brand specific Makefile. Used to override internals."
+	@echo "BRAND_MAKE: Path to a brand specific Makefile. Which is used to override internals. Currently: $(BRAND_MAKE)"
 	@echo
 	@echo "EMBEDTOC: Embed the Web Site NAV Bar in the HTML. Currently: $(EMBEDTOC)"
 	@echo
@@ -455,6 +459,10 @@ help::
 	@echo "	Build the desktop SRPM for the given langauge and then push it to Brew."
 	@echo "	Current Brew tag is: $(BREW_DIST)"
 	@echo
+	@echo "brew-scratch -<LANG>-<LOC>"
+	@echo "	Build the desktop SRPM for the given langauge and then push it to Brew as a scratch build."
+	@echo "	Current Brew tag is: $(BREW_DIST)"
+	@echo
 	@echo "brew-report-<LANG>-<LOC>"
 	@echo "	Report on the latest desktop packages in Brew."
 	@echo "	Current tag is: $(BREW_DIST)"
@@ -472,7 +480,10 @@ help::
 	@echo "	Display this help message."
 	@echo
 	@echo "help_params"
-	@echo "	Display information about the parameters that can be set in the Books Makefile."
+	@echo "	Display information about parameters that can be set in the Books Makefile."
+	@echo
+	@echo "help_internals"
+	@echo "	Display information about parameters that can NOT be set in the Books Makefile."
 	@echo
 	@echo "pre"
 	@echo "	Special target to allow scripts to be run before any other targets are built."
@@ -480,6 +491,11 @@ help::
 	@echo "publish-<FORMAT>-<LANG>-<LOC>"
 	@echo "	Run the <FORMAT>-<LANG>-<LOC> target, then copy all publishable output"
 	@echo "	to a directory for publishing. Use with DocBot."
+	@echo
+	@echo "publish-<FORMAT>-all"
+	@echo "	Generate the format for all languages, then copy all publishable output"
+	@echo "	to a directory for publishing. Use with DocBot."
+	@echo "	e.g. publish-html-all, publish-pdf-all"
 	@echo
 	@echo "publish-report"
 	@echo "	Run report-all then copy the output to the publish directory. Used with DocBot"
@@ -544,6 +560,10 @@ help::
 	@echo
 	@echo "web-brew-<LANG>-<LOC>"
 	@echo "	Build the web SRPM for the given langauge and then push it to Brew."
+	@echo "	Current Brew tag is: $(WEB_BREW_DIST)"
+	@echo
+	@echo "web-brew-scratch-<LANG>-<LOC>"
+	@echo "	Build the web SRPM for the given langauge and then push it to Brew as a scratch build."
 	@echo "	Current Brew tag is: $(WEB_BREW_DIST)"
 	@echo
 	@echo "web-brew-report-<LANG>-<LOC>"

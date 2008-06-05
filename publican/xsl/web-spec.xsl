@@ -22,7 +22,8 @@ Source:         %{name}-%{version}-%{release}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
-Requires:       perl-Publican-WebSite
+BuildRequires:	<xsl:value-of select="$brand"/>
+Requires:	perl-Publican-WebSite
 Prefix:		/var/www/html/docs
 
 %description
@@ -32,6 +33,11 @@ Prefix:		/var/www/html/docs
 %setup -q
 
 %build
+export CLASSPATH=$CLASSPATH:%{_javadir}/ant/ant-trax-1.7.0.jar
+export CLASSPATH=$CLASSPATH:%{_javadir}/xmlgraphics-commons.jar
+export CLASSPATH=$CLASSPATH:%{_javadir}/batik-all.jar
+export CLASSPATH=$CLASSPATH:%{_javadir}/xml-commons-apis.jar
+export CLASSPATH=$CLASSPATH:%{_javadir}/xml-commons-apis-ext.jar
 %{__make} publish-web-<xsl:value-of select="$lang"/>
 
 %install

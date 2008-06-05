@@ -29,6 +29,7 @@ BRAND		?= common
 DOC_URL		?= https://fedorahosted.org/publican
 DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
+LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 
 # This gets overridden in the spec file for systems that don't
 # ship DocBook 4.5 DTD
@@ -433,6 +434,14 @@ brew-${1}:: srpm-${1}
 	@echo "END: brew-${1} `date`"
 endef
 
+define	BREW_Scratch_Template
+.PHONY:	brew-scratch-${1}
+brew-scratch-${1}:: srpm-${1}
+	@echo "START: brew-scratch-${1} `date`"
+	@brew build --scratch $(BREW_DIST) tmp/rpm/SRPMS/$(SPEC_NAME)-${1}-$(VERSION).src.rpm
+	@echo "END: brew-scratch-${1} `date`"
+endef
+
 define	BREW_Report_Template
 .PHONY:	brew-report-${1}
 brew-report-${1}::
@@ -459,11 +468,15 @@ web-srpm-${1}:: clean tardir-${1}
 	@cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
 	@cp tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz tmp/rpm/SOURCES/.
+	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
+		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
 	@$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}" \
 		--stringparam lang "${1}" \
 		--stringparam  prod "$(PRODUCT)" \
 		--stringparam  ver "$(VERSION)" \
 		--stringparam  docname "$(DOCNAME)" \
+		--stringparam book-log "$$(<tmp/changelog.txt)" \
+		--stringparam brand "publican-$(LC_BRAND)" \
 		-o tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
 	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec
@@ -471,7 +484,7 @@ web-srpm-${1}:: clean tardir-${1}
 endef
 
 define	Publish-WEB_Template
-.PHONY:	web-srpm-${1}
+.PHONY:	publish-web-${1}
 publish-web-${1}:: EMBEDTOC = 1
 publish-web-${1}:: publish-html-${1} publish-html-single-${1} publish-pdf-${1}
 endef
@@ -483,6 +496,15 @@ web-brew-${1}:: web-srpm-${1}
 	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.src.rpm
 	@echo "END: brew-${1} `date`"
 endef
+
+define	WEB_BREW_Scratch_Template
+.PHONY:	web-brew-scratch-${1}
+web-brew-scratch-${1}:: web-srpm-${1}
+	@echo "START: web-brew-scratch-${1} `date`"
+	@brew build --scratch $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.src.rpm
+	@echo "END: brew-scratch-${1} `date`"
+endef
+
 
 define	WEB_BREW_Report_Template
 .PHONY:	web-brew-report-${1}

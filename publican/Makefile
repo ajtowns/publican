@@ -43,6 +43,12 @@ rpm: srpm
 	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" --rebuild $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).$(OS_VER).src.rpm
 	@echo "End $@"
 
+brew:: srpm
+	brew build docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el5.src.rpm
+
+brew-scratch:: srpm
+	brew build --scratch docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el5.src.rpm
+
 srpm: dist
 	@echo "Start $@"
 	@mkdir -p $(RPMDIR)
