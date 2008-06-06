@@ -483,10 +483,15 @@ web-srpm-${1}:: clean tardir-${1}
 	@echo "END: web-srpm-${1} `date`"
 endef
 
+# BUGBUG No PDF for Indic languages!
 define	Publish-WEB_Template
 .PHONY:	publish-web-${1}
 publish-web-${1}:: EMBEDTOC = 1
+ifeq "-IN" "$(findstring -IN,${1})"
+publish-web-${1}:: publish-html-${1} publish-html-single-${1}
+else
 publish-web-${1}:: publish-html-${1} publish-html-single-${1} publish-pdf-${1}
+endif
 endef
 
 define	WEB_BREW_Template
