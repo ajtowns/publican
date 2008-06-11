@@ -246,6 +246,10 @@ my %BANNED_TAGS = (
         'reason' =>
             'Undesirable tag, use xref for internal links or ulink for external links.'
     },
+    'inlinegraphic' => {
+        'reason' =>
+            'This tag breaks section 508 accessibility standards and makes translation extremely difficult.'
+    },
 );
 
 if ((   !GetOptions(
@@ -630,7 +634,7 @@ sub my_as_XML($) {
     my $empty_element_map = $self->_empty_element_map;
 
     # This flags tags that use  /> instead of end tags IF they are empty.
-    $empty_element_map->{'xref'} = 1;
+    $empty_element_map->{'xref'}  = 1;
     $empty_element_map->{'index'} = 1;
 
     #    $empty_element_map->{'xi:include'} = 1;
@@ -660,9 +664,17 @@ sub my_as_XML($) {
                 $tag = $node->{'_tag'};
 
                 if ($start) {      # on the way in
-                    if ( $STRICT && $BANNED_TAGS{$tag} ) {
-                        die("\nERROR: Banned tag ($tag) being used!\n\tReason: "
-                                . $BANNED_TAGS{$tag}->{'reason'} );
+                    if ( $BANNED_TAGS{$tag} ) {
+                        if ($STRICT) {
+                            croak(
+                                "\nERROR: Banned tag ($tag) being used!\n\tReason: "
+                                    . $BANNED_TAGS{$tag}->{'reason'} );
+                        }
+                        else {
+                            carp(
+                                "\nWARNING: Banned tag ($tag) being used!\n\tReason: "
+                                    . $BANNED_TAGS{$tag}->{'reason'} );
+                        }
                     }
 
                     if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
