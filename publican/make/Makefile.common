@@ -32,7 +32,6 @@ TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
 EXTRA_DIRS	= $(shell find $(XML_LANG) -type d | grep -vw CVS | grep -vw '.svn' | grep -vw images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
 PRODUCT		?= Documentation
 FORMATS		= html htmlhelp html-single pdf txt eclipse
-STRICT		?= 0
 
 ###############################################################################
 ###############################################################################
@@ -57,6 +56,8 @@ endif
 ifeq "$(BRAND_MAKE)" "1"
 include $(COMMON_CONFIG)/make/Makefile.$(BRAND)
 endif
+
+STRICT		?= 0
 
 ###############################################################################
 ######### SPEC File Vars ##############
@@ -372,6 +373,8 @@ help_params::
 	@echo "DOC_TYPE: Defaults to Book, can also be Article or Set. Currently: $(DOC_TYPE)"
 	@echo
 	@echo "DOC_URL: URL for top left link in html. Currently: $(DOC_URL)"
+	@echo
+	@echo "GENERATE_SECTION_TOC_LEVEL: Include a TOC at the given section level. Currently: $(GENERATE_SECTION_TOC_LEVEL)"
 	@echo
 	@echo "IGNORED_TRANSLATIONS: When building replace any languages in this list with the source langauge text"
 	@echo "	This allows you to work on translations without shipping incomplete translations. Currently: $(IGNORED_TRANSLATIONS)"

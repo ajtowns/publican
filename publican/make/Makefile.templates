@@ -19,10 +19,11 @@
 
 # Default values, only set if not set in book Makefile
 # default 2 section levels in TOC
-TOC_SECTION_DEPTH	?= 2
-CHUNK_SECTION_DEPTH	?= 4
-XMLPOMERGE		= poxmerge
-CHUNK_FIRST		?= 1
+TOC_SECTION_DEPTH		?= 2
+GENERATE_SECTION_TOC_LEVEL	?= 0
+CHUNK_SECTION_DEPTH		?= 4
+XMLPOMERGE	= poxmerge
+CHUNK_FIRST	?= 0
 SHOW_REMARKS	?= 0
 EMBEDTOC	?= 0
 BRAND		?= common
@@ -30,6 +31,8 @@ DOC_URL		?= https://fedorahosted.org/publican
 DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
 LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
+XALAN		= java -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
+TEST_XALAN	= 1
 
 # This gets overridden in the spec file for systems that don't
 # ship DocBook 4.5 DTD
@@ -210,10 +213,15 @@ ifeq "${1}" "pdf"
 			xsl_file="$(COMMON_CONFIG)/xsl/${3}"; \
 		fi; \
 		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
-		if [ "$$$$fop_ver" = "0.20.5" ]; then \
-			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+		if [ "$(TEST_XALAN)" == "1" ]; then \
+			echo "$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth $(TOC_SECTION_DEPTH) -param chunk.section.depth $(CHUNK_SECTION_DEPTH) -param confidential ${CONFIDENTIAL} -param l10n.gentext.language $$(GENLANG) -param show.comments $(SHOW_REMARKS) -param use.extensions 1 -param tablecolumns.extensions 1 -param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL)"; \
+			$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth "$(TOC_SECTION_DEPTH)" -param chunk.section.depth "$(CHUNK_SECTION_DEPTH)" -param confidential ${CONFIDENTIAL} -param l10n.gentext.language "$$(GENLANG)" -param show.comments $(SHOW_REMARKS) -param use.extensions 1 -param tablecolumns.extensions 1 -param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL); \
 		else \
-			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
+		if [ "$$$$fop_ver" = "0.20.5" ]; then \
+			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+		else \
+			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
+		fi; \
 		fi; \
 		if [ ! -f $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf ]; then \
 			echo "WARNING: config file for FOP version '$$$$fop_ver' not found! Attempting to use default config file."; \
@@ -228,7 +236,7 @@ else
 ifeq "${1}" "html-single"
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP)  --stringparam show.comments $(SHOW_REMARKS) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
+		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP)  --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
@@ -239,7 +247,7 @@ ifeq "${1}" "html-single"
 else
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc  --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
+		$(CATALOGS) xsltproc  --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.

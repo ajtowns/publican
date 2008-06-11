@@ -5,7 +5,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t149%{?dist}
+Release:	0.t159%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -142,6 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 - Switched to FOP 0.95Beta
 - Fixed crash bug on files names with parentheses BZ #447659
 - Fix loose directory name matching when exluding directiories.
+- Added GENERATE_SECTION_TOC_LEVEL to allow section level TOC control. BZ #449720
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file

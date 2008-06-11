@@ -182,6 +182,7 @@ my %MAP_OUT = (
     'abbrev'            => {},
     'command'           => {},
     'filename'          => {},
+    'index'             => {},
     'application'       => {},
     'package'           => {},
     'guimenu'           => {},
@@ -630,6 +631,7 @@ sub my_as_XML($) {
 
     # This flags tags that use  /> instead of end tags IF they are empty.
     $empty_element_map->{'xref'} = 1;
+    $empty_element_map->{'index'} = 1;
 
     #    $empty_element_map->{'xi:include'} = 1;
     $empty_element_map->{'imagedata'} = 1;
