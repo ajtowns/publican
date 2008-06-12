@@ -49,7 +49,9 @@ endif
 
 # Is there a brand specific Makefile?
 ifdef BRAND
+ifneq "$(BRAND)" "common"
 BRAND_MAKE	= $(shell if [ -f $(COMMON_CONFIG)/make/Makefile.$(BRAND) ]; then echo "1";else echo "0";fi)
+endif
 endif
 
 # If there is include it
@@ -108,7 +110,8 @@ pre::
 	@if [ ! -d $(COMMON_CONTENT)/$(BRAND) ]; then \
 		echo; \
 		echo "ERROR: Brand $(BRAND) is not installed. Either install $(BRAND) or change to a valid Brand."; \
-		echo "Installed Brands: `ls $(COMMON_CONTENT)/`"; \
+		echo "Installed Brands:" \
+		echo "`ls $(COMMON_CONTENT)`"; \
 		exit 1; \
 	fi
 
