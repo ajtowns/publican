@@ -53,6 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 - Removed entities requiring mandadtory override
 - Override PDF Theme
 - Added package tag BZ #444908
+- Added Article and Set Templates
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations

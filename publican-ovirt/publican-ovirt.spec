@@ -46,6 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Jun 16 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
+- Added Article and Set Templates
+
 * Thu Jun 2 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.1-1
 - common content css and images update
 

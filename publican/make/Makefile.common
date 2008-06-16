@@ -342,6 +342,36 @@ set_books::
 	done;
 	@echo "END: $@ `date`"
 
+get_books::
+	@echo "Start $@ `date`"
+	@if [[ "$(BOOKS)" == "" ]]; then \
+		echo "BOOKS is empty, you need to set this!"; \
+	fi
+	@for dir in $(BOOKS); do \
+		if [ ! -d "$$dir" ] ; then \
+			echo "Fetching $$dir"; \
+			if [[ "$(SET_REPO_TYPE)" == "SVN" ]]; then \
+				svn export --quiet $(SET_REPO)/$$dir $$dir; \
+			else \
+				echo "Uknown repo type: $(SET_REPO)"; \
+				exit 4; \
+			fi; \
+		else \
+			echo "$$dir exists"; \
+		fi; \
+	done;
+	@echo "END: $@ `date`"
+
+realclean::
+	@echo "Start $@ `date`"
+	@for dir in $(BOOKS); do \
+		if [ -d "$$dir" ] ; then \
+ 			rm -rf $$dir; \
+		fi; \
+	done;
+	@rm -rf tmp
+	@echo "End $@ `date`"
+
 ###############################################################################
 # Help the user
 ###############################################################################

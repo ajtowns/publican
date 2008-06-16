@@ -46,5 +46,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Apr 14 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
+- Added Article and Set Templates
+
 * Wed Apr 30 2008 Jeff Fearn <jfearn@redhat.com> 0.1-0
 - Initial creation

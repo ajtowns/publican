@@ -52,6 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 - QANDA set css fix BZ #442674
 - Override PDF Theme
 - Added package tag BZ #444908
+- Added Article and Set Templates
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations

@@ -15,6 +15,9 @@ my $man      = 0;
 my $help     = 0;
 my $article  = undef;
 my $lang     = undef;
+my $tmpl_dir = undef;
+my $type      = 'Book';
+my @valid_types = ('Book', 'Set', 'Article');
 
 GetOptions(
     'h|help|?'   => \$help,
@@ -23,13 +26,15 @@ GetOptions(
     'version=s'  => \$version,
     'revision=s' => \$revision,
     'product=s'  => \$product,
-    'article'    => \$article,
     'brand=s'    => \$brand,
     'lang=s'     => \$lang,
+    'type=s'     => \$type,
 ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage( -verbose => 2 ) if $man;
-pod2usage(1) if !$name;
+pod2usage(1) if ( !$name || $type !~ /[Book|Set|Article]/);
+
+$tmpl_dir = $type . '_Template';
 
 my $bookname = $name;
 $bookname =~ s/_/ /g;
@@ -37,92 +42,49 @@ $bookname =~ s/_/ /g;
 my $productname = $product;
 $productname =~ s/_/ /g;
 
-croak("directory $bookname exists!") if (-e $bookname);
+croak("directory $name exists!") if (-e $name);
 
 my $cmd = '';
 
 if (! $brand) {
-    $cmd  = "cp -rf /usr/share/publican/Templates/common-Book_Template $name";
+    $cmd  = "cp -rf /usr/share/publican/Templates/common-$tmpl_dir $name";
 }
 else {
-    if(! -d "/usr/share/publican/Templates/$brand-Book_Template") {
-        croak("Brand $brand does not contain a Book_Template!\nValid brands are:\n" . `ls /usr/share/publican/Common_Content`);
+    if(! -d "/usr/share/publican/Templates/$brand-$tmpl_dir") {
+        croak("Brand $brand does not contain a $tmpl_dir!\nValid brands are:\n" . `ls /usr/share/publican/Common_Content`);
     }
-    $cmd  = "cp -rf /usr/share/publican/Templates/$brand-Book_Template $name";
+    $cmd  = "cp -rf /usr/share/publican/Templates/$brand-$tmpl_dir $name";
 }
 
 system($cmd);
 if ($@) {
-    croak "can't copy Book_Template: $!";
+    croak "can't copy $tmpl_dir: $!";
 }
 
-if ($article) {
-    $cmd = qq|mv $name/en-US/Article.xml $name/en-US/$name.xml|;
-    system($cmd);
-    if ($@) {
-        croak "can't rename Article.xml: $!";
-    }
-
-    $cmd
-        = qq|rm -f $name/en-US/Book.xml $name/en-US/Chapter.xml $name/en-US/Preface.xml|;
-    system($cmd);
-    if ($@) {
-        croak "can't rm Book.xml: $!";
-    }
-}
-else {
-    $cmd = qq|mv $name/en-US/Book.xml $name/en-US/$name.xml|;
-    system($cmd);
-    if ($@) {
-        croak "can't rename Book.xml: $!";
-    }
-
-    $cmd = qq|rm -f $name/en-US/Article.xml|;
-    system($cmd);
-    if ($@) {
-        croak "can't rename Book.xml: $!";
-    }
+$cmd = qq|mv $name/en-US/$type.xml $name/en-US/$name.xml|;
+system($cmd);
+if ($@) {
+    croak "can't rename $type.xml: $!";
 }
 
-$cmd = qq|mv $name/en-US/Book.ent $name/en-US/$name.ent|;
+$cmd = qq|mv $name/en-US/$type.ent $name/en-US/$name.ent|;
 system($cmd);
 if ($@) {
     croak "can't rename Book.ent: $!";
 }
 
 $cmd
-    = qq|sed -i -e 's/<issuenum>.*<\\/issuenum>/<issuenum>$version<\\/issuenum>/g' $name/en-US/Book_Info.xml|;
+    = qq|sed -i -e 's/<issuenum>.*<\\/issuenum>/<issuenum>$version<\\/issuenum>/g' $name/en-US/| . $type . qq|_Info.xml|;
 system($cmd);
 if ($@) {
     croak "can't update version: $!";
 }
 
 $cmd
-    = qq|sed -i -e 's/<productnumber>.*<\\/productnumber>/<productnumber>$revision<\\/productnumber>/g'  $name/en-US/Book_Info.xml|;
+    = qq|sed -i -e 's/<productnumber>.*<\\/productnumber>/<productnumber>$revision<\\/productnumber>/g'  $name/en-US/| . $type . qq|_Info.xml|;
 system($cmd);
 if ($@) {
     croak "can't update revision: $!";
-}
-
-if ($article) {
-    $cmd = qq|mv $name/en-US/Book_Info.xml $name/en-US/Article_Info.xml|;
-    system($cmd);
-    if ($@) {
-        croak "can't rename Book_Info.xml: $!";
-    }
-
-    $cmd = qq|sed -i -e 's/book/article/g' $name/en-US/Article_Info.xml|;
-    system($cmd);
-    if ($@) {
-        croak "can't change book to article: $!";
-    }
-
-    $cmd
-        = qq|sed -i -e 's/DOCNAME/DOC_TYPE		= Article\\nDOCNAME/g' $name/Makefile|;
-    system($cmd);
-    if ($@) {
-        croak "can't set DOC_TYPE: $!";
-    }
 }
 
 $cmd = qq|find $name  -type f \| xargs sed -i -e 's/MYBOOKNAME/$bookname/g'|;
@@ -168,6 +130,10 @@ if ( $lang and $lang ne '' ) {
     if ($@) {
         croak "can't update XML_LANG: $!";
     }
+}
+
+if( $type eq 'Set') {
+	warn("You must edit your new Makefile and set the BOOKS, SET_REPO and SET_REPO_TYPE parameters");
 }
 
 __END__
