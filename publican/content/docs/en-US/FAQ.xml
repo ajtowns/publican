@@ -1,245 +1,81 @@
-<?xml version='1.0'?>
+<?xml version="1.0"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
-
-<chapter id="chap-Publican-Frequently_Asked_Questions">
-	<title>Frequently Asked Questions</title>
-	<para>
+<chapter id="chap-Publican-Frequently_Asked_Questions"><title>Frequently Asked Questions</title><para>
 		The following is a list of frequently asked questions regarding the publican toolchain:
-	</para>
-	<qandaset defaultlabel="qanda">
-		<qandaentry>
-			<question>
-				<para>
+	</para><qandaset defaultlabel="qanda"><qandaentry><question><para>
 					How do I add a language to my book?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Edit your books <filename>Makefile</filename> and uncomment the <computeroutput>OTHER_LANGS</computeroutput> entry. Add the required language code after the '=' sign.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					How do I add another language to my book?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Append the language to <computeroutput>OTHER_LANGS</computeroutput> in the <filename>Makefile</filename>. Run the <command>make update-po-<replaceable>language</replaceable></command> command. For example, <command>make update-po-ja-JP</command> creates the Japanese language directory and the Japanese po files.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					What if I only use the country code? For example, <computeroutput>OTHER_LANGS = en de fr</computeroutput>?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Run the <command>make update-po-en</command> command.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					How do I update all po files?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Run the <command>make update-po-all</command> command.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					Where can I get a complete list of make targets?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Run the <command>make help</command> command.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					Where can I get a complete list of parameters that can be set in the <filename>Makefile</filename>?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Run the <command>make help_params</command> command.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					Where are the publican common files located?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					By default they are in the <filename>/usr/share/publican</filename> directory.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					Can I use the OASIS DocBook DTD for XML completion in editors such as Kate?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Yes. The OASIS DocBook DTD is included in the publican package, and is located here: <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename>
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></question><answer><para>
+					Yes. The OASIS DocBook DTD is included in the publican package, and is located here: <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename></para></answer></qandaentry><qandaentry><question><para>
 					I have extensive code samples for my book, how can I include them without having to xml escape everything?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					The best way to do this is to create a directory named <filename>extras</filename> in your source language directory and use an <command>xi:include</command> to pull in the code file.
-				</para>
-				<example id="exam-Publican-Frequently_Asked_Questions-Including_code_samples">
-					<title>Including code samples</title>
-					<orderedlist>
-						<listitem>
-							<para>
+				</para><example id="exam-Publican-Frequently_Asked_Questions-Including_code_samples"><title>Including code samples</title><orderedlist><listitem><para>
 								Create the extras directory 
-<programlisting><command>mkdir <filename>en-US/extras</filename></command>
-</programlisting>
-							</para>
-						</listitem>
-						<listitem>
-							<para>
+<programlisting><command>mkdir <filename>en-US/extras</filename></command></programlisting></para></listitem><listitem><para>
 								Copy the code file to the extras directory 
-<programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
-</programlisting>
-							</para>
-						</listitem>
-						<listitem>
-							<para>
+<programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command></programlisting></para></listitem><listitem><para>
 								xi:iclude the sample file in your xml file 
 <programlisting>
 &lt;programlisting&gt;
 &lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
 &lt;/programlisting&gt;
-</programlisting>
-							</para>
-						</listitem>
-						<listitem>
-							<para>
+</programlisting></para></listitem><listitem><para>
 								You can now edit <filename>en-US/extras/foo.c</filename> in your favorite editor without having to be concerned about how it will affect the XML.
-							</para>
-						</listitem>
-					</orderedlist>
-				</example>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+							</para></listitem></orderedlist></example></answer></qandaentry><qandaentry><question><para>
 					Is it possible to include arbitrary files in tar and rpm files?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Yes. If you make a directory named <filename>files</filename> in your source language directory it will be included in any tar or srpm files created by publican.
-				</para>
-				<warning>
-					<title>Warning</title>
-					<para>
+				</para><warning><title>Warning</title><para>
 						The <filename>files</filename> directory will not be available during the validation process so you can not xi:include or otherwise embed any files in this directory in your XML.
-					</para>
-				</warning>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+					</para></warning></answer></qandaentry><qandaentry><question><para>
 					Why does publican give me warnings about unknown tags?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					This warning informs you that you are using a tag whose output has not been tested for attractiveness or XHTML 1.0 Strict compliance.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					How do I find out which tags have been tested in publican?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Run <command>xmlClean --known</command>
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></question><answer><para>
+					Run <command>xmlClean --known</command></para></answer></qandaentry><qandaentry><question><para>
 					Why does publican give me an error about banned tags?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					This error indicates that the brand you are using has STRICT mode enabled for <command>xmlClean</command> and that the tag in question has been marked as undesirable. The error message should contain a reason why the tag was banned.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					How do I find out which tags are banned in publican?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Run <command>xmlClean --banned</command>
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></question><answer><para>
+					Run <command>xmlClean --banned</command></para></answer></qandaentry><qandaentry><question><para>
 					Which brands enable STRICT mode?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Currently the Red Hat and JBoss brands enable STRICT mode.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
+				</para></answer></qandaentry><qandaentry><question><para>
 					Why does Jeff call Isaac Ivan?
-				</para>
-			</question>
-			<answer>
-				<para>
+				</para></question><answer><para>
 					Because Jeff&#39;s memory is pants!
-				</para>
-			</answer>
-		</qandaentry>
-	</qandaset>
-</chapter>
-
+				</para></answer></qandaentry></qandaset></chapter>

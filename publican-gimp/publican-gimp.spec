@@ -3,7 +3,7 @@
 Name:		publican-gimp
 Summary:	Common documentation files for %{brand}
 Version:	0.1
-Release:	0.t1%{?dist}
+Release:	0.t2%{?dist}
 License:	GFDL
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -30,6 +30,8 @@ mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/make
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}
 cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
+cp -rf Set_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Set_Template
+cp -rf Article_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Article_Template
 install -m 755 make/Makefile.%{brand} $RPM_BUILD_ROOT%{_datadir}/publican/make/.
 install -m 755 xsl/*.xsl $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}/.
 
@@ -41,12 +43,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc README
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
-%{_datadir}/publican/Templates/%{brand}-Book_Template
+%{_datadir}/publican/Templates/%{brand}-*_Template
 %{_datadir}/publican/make/Makefile.%{brand}
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
-* Mon Apr 14 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
+* Mon Jun 16 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
 - Added Article and Set Templates
 
 * Wed Apr 30 2008 Jeff Fearn <jfearn@redhat.com> 0.1-0
