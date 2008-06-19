@@ -124,7 +124,7 @@ my %MAP_OUT = (
     'imageobject' => { 'block'       => 1 },
     'imagedata'   => {},
     'xi:include'    => { 'newline_after' => 1 },
-    'xi:fallback'    => { 'newline_after' => 1 },
+    'xi:fallback'   => { 'newline_after' => 1 },
     'glossary'      => { 'block'         => 1 },
     'glossentry'    => { 'block'         => 1, 'id_node' => 'glossterm' },
     'glossdiv'      => { 'block'         => 1 },
@@ -239,7 +239,7 @@ my %MAP_OUT = (
 my %BANNED_TAGS = (
     'entrytbl' => {
         'reason' =>
-            'Nested tables break pdf generation, rethink your data structure.'
+            'Nested tables break pdf generation — re-think your data structure.'
     },
     'link' => {
         'reason' =>
@@ -252,6 +252,17 @@ my %BANNED_TAGS = (
     'inlinegraphic' => {
         'reason' =>
             'This tag breaks section 508 accessibility standards and makes translation extremely difficult.'
+    },
+);
+
+my %BANNED_ATTRS = (
+    'xreflabel' => {
+        'reason' =>
+            'xreflabel hides data from translators and, consequently, causes translation errors.'
+    },
+    'endterm' => {
+        'reason' =>
+            'endterm hides data from translators and, consequently, causes translation errors.'
     },
 );
 
@@ -316,8 +327,17 @@ sub print_known_tags {
 }
 
 sub print_banned_tags {
+    print "\n*Banned Tags*\n\n";
     foreach my $key ( sort( keys(%BANNED_TAGS) ) ) {
-        print( STDERR "$key:\t" . $BANNED_TAGS{$key}{'reason'} . "\n" );
+	my $tabs = "\t";
+	# Line up output since linegraphic is bigger than 8
+	$tabs .= "\t" if(length($key) < 8);
+        print( "$key:$tabs" . $BANNED_TAGS{$key}{'reason'} . "\n" );
+    }
+
+    print "\n\n*Banned Attributes*\n\n";
+    foreach my $attr ( sort( keys(%BANNED_ATTRS) ) ) {
+        print( "$attr:\t" . $BANNED_ATTRS{$attr}{'reason'} . "\n" );
     }
 }
 
@@ -669,20 +689,39 @@ sub my_as_XML($) {
                 if ($start) {      # on the way in
                     if ( $BANNED_TAGS{$tag} ) {
                         if ($STRICT) {
-                            croak(
-                                "\nERROR: Banned tag ($tag) being used!\n\tReason: "
-                                    . $BANNED_TAGS{$tag}->{'reason'} );
+                            die(qq{\n*ERROR: BUILD FAILED! Banned tag found*\n$tag:\t}
+                                    . $BANNED_TAGS{$tag}->{'reason'}
+                                    . qq{\n\n} );
                         }
                         else {
-                            carp(
-                                "\nWARNING: Banned tag ($tag) being used!\n\tReason: "
-                                    . $BANNED_TAGS{$tag}->{'reason'} );
+                            warn(
+                                qq{\n*WARNING: Questionable tag found*\n$tag:\t}
+                                    . $BANNED_TAGS{$tag}->{'reason'}
+                                    . qq{\n\n} );
+                        }
+                    }
+
+                    foreach my $attr ( keys(%BANNED_ATTRS) ) {
+                        if ( $node->attr($attr) ) {
+                            if ($STRICT) {
+                                die(qq{\n*ERROR: BUILD FAILED! Banned attribute found*\n$attr:\t}
+                                        . $BANNED_ATTRS{$attr}->{'reason'}
+                                        . qq{\nRemove all $attr attributes before attempting to build.\n\n}
+                                );
+                            }
+                            else {
+                                warn(
+                                    qq{\n*WARNING: Questionable attribute found*\n$attr:\t}
+                                        . $BANNED_ATTRS{$attr}->{'reason'}
+                                        . qq{\nConsider not using this attribute.\n\n}
+                                );
+                            }
                         }
                     }
 
                     if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
-                        carp(
-                            "WARNING: Unknown tag: $tag. This tag may not be displayed correctly\n"
+                        warn(     qq{\n*WARNING: Unknown tag: $tag*\n}
+                                . qq{This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessability standards.\n\n}
                         );
                     }
                     if ($clean_id) {

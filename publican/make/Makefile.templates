@@ -34,6 +34,9 @@ LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 XALAN		= java -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
 TEST_XALAN	= 1
 
+# List of tags to exclude from aspell check
+ASPELL_EXCLUDES = programlisting,userinput,screen,filename,command,computeroutput,abbrev,accel,orgname
+
 # This gets overridden in the spec file for systems that don't
 # ship DocBook 4.5 DTD
 #CATALOGS_OVERRIDE
@@ -165,7 +168,7 @@ endif
 			for file in `find . -name "*.xml" | sort`; do \
 				file=`echo $$$$file | sed -e 's/^\.\///'`; \
 				echo "	$$$$file"; \
-				$(XMLCLEAN) -U -in $$$$file -out ../xml/$$$$file -book ${2} -lang ${1} $$$$args; \
+				$(XMLCLEAN) -U -in $$$$file -out ../xml/$$$$file -book ${2} -lang ${1} $$$$args || exit 4; \
 			done; \
 		popd > /dev/null; \
 	fi;
@@ -377,6 +380,15 @@ ifeq "${1}" "$(findstring ${1},$(IGNORED_TRANSLATIONS))"
 	@cp -rf tmp/$(XML_LANG)/* tmp/${1}/.
 else
 	@$(CATALOGS) xmllint --noout --postvalid --xinclude tmp/${1}/xml/$(DOCNAME).xml
+endif
+ifeq "${1}" "$(XML_LANG)"
+	@echo
+	@echo "*Start list of Unknown words*";
+	@for file in `find $(XML_LANG) -name *.xml`; do \
+		aspell --list --mode=sgml --add-sgml-skip={$(ASPELL_EXCLUDES)} < $$$$file ; \
+	done | sort -u;
+	@echo "*End list of Unknown words*";
+	@echo
 endif
 	@echo "END: test-${1} `date`"
 endef

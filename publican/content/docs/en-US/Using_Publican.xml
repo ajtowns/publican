@@ -148,7 +148,9 @@ create_book --name Test_Book
 				<imageobject>
 					<imagedata fileref="./images/directory_structure.png" format="PNG" />
 				</imageobject>
-				<textobject><phrase>directory structure</phrase></textobject>
+				<textobject>
+					<phrase>directory structure</phrase>
+				</textobject>
 			</mediaobject>
 		</para>
 		<section id="sect-Publican-Files_in_the_Book_directory-The_Makefile">
@@ -156,7 +158,8 @@ create_book --name Test_Book
 			<para>
 				The <filename>Makefile</filename> is used to configure build options, and is located in the root of the book directory. The following is an example <filename>Makefile</filename>, with instructions following afterwards:
 			</para>
-<screen><xi:include parse="text" href="extras/Makefile" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
+<screen><xi:include href="extras/Makefile" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</screen>
 			<variablelist>
 				<varlistentry>
 					<term><filename>XML_LANG</filename></term>
@@ -249,7 +252,8 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The <filename>Book_Info.xml</filename> file is used to set the book ID, title, subtitle, issue and product numbers, and an abstract which appears at the start of the book. The following is an example <filename>Book_Info.xml</filename> file for the Test_Book book, with instructions following afterwards:
 			</para>
-<programlisting><xi:include parse="text" href="extras/Book_Info.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
+<programlisting><xi:include href="extras/Book_Info.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</programlisting>
 			<variablelist>
 				<varlistentry>
 					<term><filename>&lt;bookinfo id="<replaceable>book_id</replaceable>"&gt;</filename></term>
@@ -329,7 +333,8 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				Use the <filename>Author_Group.xml</filename> file to configure author details. This file is not required. The following is an example <filename>Author_Group.xml</filename> file:
 			</para>
-<screen><xi:include parse="text" href="extras/Author_Group.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
+<screen><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</screen>
 			<para>
 				The <filename>Author_Group.xml</filename> file does not have to contain all of the above information: include as much or as little as required. The above <filename>Author_Group.xml</filename> file will create the following HTML output on the first page of the book:
 			</para>
@@ -338,7 +343,9 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<imageobject>
 						<imagedata fileref="./images/author_group.png" format="PNG" />
 					</imageobject>
-					<textobject><phrase>author group</phrase></textobject>
+					<textobject>
+						<phrase>author group</phrase>
+					</textobject>
 				</mediaobject>
 			</para>
 			<para>
@@ -354,7 +361,8 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created after running the <command>create_book</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
 			</para>
-<screen><xi:include parse="text" href="extras/Chapter.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
+<screen><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</screen>
 			<para>
 				This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Please refer to <ulink url="http://docbook.org/tdg/en/html/chapter.html"></ulink> for further information about chapters.
 			</para>
@@ -374,12 +382,13 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The following is an example <filename><replaceable>Book_Name</replaceable>.xml</filename> file. Note the <filename>DOCTYPE</filename> is set to <filename>book</filename>:
 			</para>
-<screen><xi:include parse="text" href="extras/Book_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
+<screen><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</screen>
 			<para>
 				This example loads the <filename>Book_Info.xml</filename> file, and the <filename>Chapter1.xml</filename>, <filename>Chapter2.xml</filename>, and <filename>Chapter3.xml</filename> files. Replace the <filename>Chapter<replaceable>X</replaceable>.xml</filename> files with the name of your chapter files.
 			</para>
 			<para>
- 				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is not limited to using <filename>xi:include</filename> directives. Books can be created using a single XML file. The following is an example of a book created using a single XML file:
+				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is not limited to using <filename>xi:include</filename> directives. Books can be created using a single XML file. The following is an example of a book created using a single XML file:
 			</para>
 <screen>
 &lt;book&gt;
@@ -423,7 +432,8 @@ include $(COMMON_CONFIG)/make/Makefile.common
 				The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is used to define local entities. You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the book will not build:
 			</para>
 			<para>
-<screen><xi:include parse="text" href="extras/Book_Name.ent" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
+<screen><xi:include href="extras/Book_Name.ent" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</screen>
 			</para>
 			<para>
 				The <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities are used for copyright information. Use entities to make writing commonly used terms quicker:
