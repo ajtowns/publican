@@ -691,13 +691,13 @@ sub my_as_XML($) {
                         if ($STRICT) {
                             die(qq{\n*ERROR: BUILD FAILED! Banned tag found*\n$tag:\t}
                                     . $BANNED_TAGS{$tag}->{'reason'}
-                                    . qq{\n\n} );
+                                    . qq{\nRemove all $tag tags before attempting to build.\n\n} );
                         }
                         else {
                             warn(
                                 qq{\n*WARNING: Questionable tag found*\n$tag:\t}
                                     . $BANNED_TAGS{$tag}->{'reason'}
-                                    . qq{\n\n} );
+                                    . qq{\nConsider not using this tag\n\n} );
                         }
                     }
 

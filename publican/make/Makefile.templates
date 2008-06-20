@@ -383,11 +383,11 @@ else
 endif
 ifeq "${1}" "$(XML_LANG)"
 	@echo
-	@echo "*Start list of Unknown words*";
+	@echo "*Start: Words Of Interest*";
 	@for file in `find $(XML_LANG) -name *.xml`; do \
 		aspell --list --mode=sgml --add-sgml-skip={$(ASPELL_EXCLUDES)} < $$$$file ; \
 	done | sort -u;
-	@echo "*End list of Unknown words*";
+	@echo "*End: Words Of Interest*";
 	@echo
 endif
 	@echo "END: test-${1} `date`"
