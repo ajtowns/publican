@@ -226,14 +226,7 @@ ifeq "${1}" "pdf"
 			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
 		fi; \
 		fi; \
-		if [ ! -f $(COMMON_CONFIG)/fop/fop-$$$$fop_ver.xconf ]; then \
-			echo "WARNING: config file for FOP version '$$$$fop_ver' not found! Attempting to use default config file."; \
-			fop_file=fop.xconf; \
-		else \
-			fop_file=fop-$$$$fop_ver.xconf; \
-		fi; \
-		echo "fop -q -c $(COMMON_CONFIG)/fop/fop.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf"; \
-		fop -q -c $(COMMON_CONFIG)/fop/$$$$fop_file -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
+		fop -q -c $(COMMON_CONFIG)/fop/fop.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else
 ifeq "${1}" "html-single"

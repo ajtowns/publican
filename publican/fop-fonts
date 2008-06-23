@@ -25,7 +25,7 @@ TODO: This needs to
 
 my $man      = undef;
 my $help     = undef;
-my $dist     = 'el5';
+my $dist     = '.el5';
 
 GetOptions(
     'h|help|?'   => \$help,
@@ -41,7 +41,7 @@ my $share       = '/usr/share/publican';
 my $metric_path = 'fop/font-metrics-test';
 
 my %fontlist = (
-    el5 => {
+    '.el5' => {
         'BaekmukBatang' => {
             path   => '/usr/share/fonts/korean/TrueType/batang.ttf',
             style  => [ 'normal', 'italic' ],
@@ -187,7 +187,7 @@ my %fontlist = (
         #		weight => ('normal', 'bold'),
         #	},
     },
-    fc9 => {
+    '.fc9' => {
         'BaekmukBatang' => {
             path   => '/usr/share/fonts/baekmuk-ttf-batang/batang.ttf',
             style  => [ 'normal', 'italic' ],

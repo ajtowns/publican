@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t195%{?dist}
+Release:	0.t197%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -70,10 +70,8 @@ Documentation for the Publican publishing tool chain.
 %setup -q
 
 %build
-# TODO: Need to run fop-fonts here to generate font-metric files
-# e.g. ./fop-fonts -r "%{?dist}"
 %{__make} docs
-./fop-fonts
+./fop-fonts --dist=%{?dist}
 
 %install
 rm -rf $RPM_BUILD_ROOT
