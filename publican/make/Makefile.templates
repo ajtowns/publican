@@ -187,7 +187,6 @@ endef
 #	1: Format (pdf/html etc)
 #	2: Language (ko-KR, bn-IN etc)
 #	3: XSL file
-#	4: Extra Deps
 #
 # TODO FIXME: Need a cleaner way of handling ignored translations.
 ###############################################################################
@@ -198,7 +197,11 @@ ${1}-${2}:: GENLANG = $(XML_LANG)
 else
 ${1}-${2}:: GENLANG = ${2}
 endif
-${1}-${2}:: xml-${2} test-${2} ${4}
+ifeq "${1}" "txt"
+${1}-${2}:: xml-${2} test-${2} html-single-${2}
+else
+${1}-${2}:: xml-${2} test-${2}
+endif
 	@echo "START: ${1}-${2} `date`"
 	@mkdir -p tmp/${2}/${1}
 ifeq "${2}" "$(findstring ${2},$(IGNORED_TRANSLATIONS))"
