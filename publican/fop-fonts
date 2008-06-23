@@ -1,6 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use Getopt::Long;
+use Pod::Usage;
+use Carp;
 
 =head1
 
@@ -19,6 +22,20 @@ TODO: This needs to
 6: Maybe do 5 on demand as well?
 
 =cut
+
+my $man      = undef;
+my $help     = undef;
+my $dist     = 'el5';
+
+GetOptions(
+    'h|help|?'   => \$help,
+    'man'        => \$man,
+    'dist=s'     => \$dist,
+) or pod2usage(2);
+pod2usage(1) if $help;
+pod2usage( -verbose => 2 ) if $man;
+pod2usage(1) if ( !$dist );
+
 
 my $share       = '/usr/share/publican';
 my $metric_path = 'fop/font-metrics-test';
@@ -172,7 +189,7 @@ my %fontlist = (
     },
     fc9 => {
         'BaekmukBatang' => {
-            path   => '/usr/share/fonts/korean/TrueType/batang.ttf',
+            path   => '/usr/share/fonts/baekmuk-ttf-batang/batang.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
@@ -240,72 +257,72 @@ my %fontlist = (
             weight => ['bold'],
         },
         'LohitBengali' => {
-            path   => '/usr/share/fonts/bengali/lohit_bn.ttf',
+            path   => '/usr/share/fonts/lohit-bengali/lohit_bn.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitTamil' => {
-            path   => '/usr/share/fonts/tamil/lohit_ta.ttf',
+            path   => '/usr/share/fonts/lohit-tamil/lohit_ta.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitPunjabi' => {
-            path   => '/usr/share/fonts/punjabi/lohit_pa.ttf',
+            path   => '/usr/share/fonts/lohit-punjabi/lohit_pa.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitHindi' => {
-            path   => '/usr/share/fonts/hindi/lohit_hi.ttf',
+            path   => '/usr/share/fonts/lohit-hindi/lohit_hi.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitGujarati' => {
-            path   => '/usr/share/fonts/gujarati/lohit_gu.ttf',
+            path   => '/usr/share/fonts/lohit-gujarati/lohit_gu.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitMalayalam' => {
-            path   => '/usr/share/fonts/malayalam/lohit_ml.ttf',
+            path   => '/usr/share/fonts/lohit-malayalam/lohit_ml.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitKannada' => {
-            path   => '/usr/share/fonts/kannada/lohit_kn.ttf',
+            path   => '/usr/share/fonts/lohit-kannada/lohit_kn.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitOriya' => {
-            path   => '/usr/share/fonts/oriya/lohit_or.ttf',
+            path   => '/usr/share/fonts/lohit-oriya/lohit_or.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'LohitTelugu' => {
-            path   => '/usr/share/fonts/telugu/lohit_te.ttf',
+            path   => '/usr/share/fonts/lohit-telugu/lohit_te.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'SazanamiGothic' => {
-            path  => '/usr/share/fonts/japanese/TrueType/sazanami-gothic.ttf',
+            path  => '/usr/share/fonts/sazanami-fonts-gothic/sazanami-gothic.ttf',
             style => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'Lklug' => {
-            path   => '/usr/share/fonts/sinhala/lklug.ttf',
+            path   => '/usr/share/fonts/lklug/lklug.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'Zysong' => {
-            path   => '/usr/share/fonts/chinese-zysong/TrueType/zysong.ttf',
+            path   => '/usr/share/fonts/zh_CN/TrueType/zysong.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'SazanamiMincho' => {
-            path  => '/usr/share/fonts/japanese/TrueType/sazanami-mincho.ttf',
+            path  => '/usr/share/fonts/sazanami-fonts-mincho/sazanami-mincho.ttf',
             style => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
         'Uming' => {
-            path   => '/usr/share/fonts/chinese/TrueType/uming.ttf',
+            path   => '/usr/share/fonts/cjkunifonts-uming/uming.ttf',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
@@ -315,21 +332,24 @@ my %fontlist = (
 my $ttfcommand
     = 'java -cp /usr/share/java/fop.jar:/usr/share/java/avalon-framework.jar:/usr/share/java/commons-logging.jar:/usr/share/java/commons-io.jar:/usr/share/java/xmlgraphics-commons.jar org.apache.fop.fonts.apps.TTFReader';
 
-my $release = 'el5';
-
 sub genfontmetrics {
+    my $dist = shift || croak("genfontmetrics requires a dist!");
 
     `rm -rf $metric_path`;
-    mkdir( $metric_path, 0777 ) || croak("can't create metric dir: $!");
-    foreach my $name ( sort( keys( %{ $fontlist{$release} } ) ) ) {
-        my $path = $fontlist{$release}{$name}{path};
-        system("$ttfcommand -fn $name $path  $metric_path/$name.xml");
+    system("mkdir -p $metric_path");
+    croak("can't create metric dir: $!") if($@);
 
-        # system("rpm -qf $path");
+    foreach my $name ( sort( keys( %{ $fontlist{$dist} } ) ) ) {
+        my $path = $fontlist{$dist}{$name}{path};
+        `$ttfcommand -fn $name $path $metric_path/$name.xml`;
     }
 }
 
 sub genfopconf {
+    my $dist = shift || croak("genfopconf requires a dist!");
+
+    croak("Unknown dist: $dist") if( ! defined($fontlist{$dist}));
+
     open( my $conf, '>', 'fop/fop.xconf' )
         || croak("Can't open fop.conf for output!: $!");
 
@@ -397,14 +417,14 @@ the location of this file.
       <fonts>
 TOP
 
-    foreach my $name ( sort( keys( %{ $fontlist{$release} } ) ) ) {
-        my $path = $fontlist{$release}{$name}{path};
+    foreach my $name ( sort( keys( %{ $fontlist{$dist} } ) ) ) {
+        my $path = $fontlist{$dist}{$name}{path};
         my $url  = qq{$share/$metric_path/$name.xml};
 
         print {$conf}
             qq{        <font metrics-url="$url" kerning="yes" embed-url="$path">\n};
-        foreach my $style ( @{ $fontlist{$release}{$name}{style} } ) {
-            foreach my $weight ( @{ $fontlist{$release}{$name}{weight} } ) {
+        foreach my $style ( @{ $fontlist{$dist}{$name}{style} } ) {
+            foreach my $weight ( @{ $fontlist{$dist}{$name}{weight} } ) {
                 print {$conf}
                     qq{            <font-triplet name="$name" style="$style" weight="$weight"/>\n};
             }
@@ -480,6 +500,6 @@ BOTTOM
     close($conf);
 }
 
-#genfontmetrics();
-genfopconf();
+genfontmetrics($dist);
+genfopconf($dist);
 exit(0);

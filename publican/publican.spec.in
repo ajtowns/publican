@@ -1,11 +1,12 @@
 %define	my_vendor @VENDOR@
 %define	EMBED_DOCKBOOK45 @EMBED45@
 %define	HTMLVIEW @HTMLVIEW@
+%define PRERETARDS @PRERETARDS@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t191%{?dist}
+Release:	0.t195%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -18,21 +19,33 @@ Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}
 Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl elinks aspell
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template
-Requires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
-Requires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
-Requires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
-Requires:	fonts-tamil fonts-telugu liberation-fonts
 Requires:	fop batik
 
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
-# TODO: We will need these to get build time font-metric files
-#BuildRequires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
-#BuildRequires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
-#BuildRequires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
-#BuildRequires:	fonts-tamil fonts-telugu liberation-fonts
-#BuildRequires:	fop
+BuildRequires:	fop
+%if %{PRERETARDS}
+Requires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
+Requires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
+Requires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
+Requires:	fonts-tamil fonts-telugu liberation-fonts
+
+BuildRequires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
+BuildRequires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
+BuildRequires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
+BuildRequires:	fonts-tamil fonts-telugu liberation-fonts
+%else
+Requires:	lohit-fonts-bengali cjkunifonts-uming lohit-fonts-gujarati
+Requires:	lohit-fonts-hindi sazanami-fonts-gothic sazanami-fonts-mincho lohit-fonts-kannada
+Requires:	lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
+Requires:	lohit-fonts-tamil lohit-fonts-telugu liberation-fonts fonts-korean
+
+BuildRequires:	lohit-fonts-bengali cjkunifonts-uming lohit-fonts-gujarati
+BuildRequires:	lohit-fonts-hindi sazanami-fonts-gothic sazanami-fonts-mincho lohit-fonts-kannada
+BuildRequires:	lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
+BuildRequires:	lohit-fonts-tamil lohit-fonts-telugu liberation-fonts  fonts-korean
+%endif
 
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel < 0.26-3
@@ -60,6 +73,7 @@ Documentation for the Publican publishing tool chain.
 # TODO: Need to run fop-fonts here to generate font-metric files
 # e.g. ./fop-fonts -r "%{?dist}"
 %{__make} docs
+./fop-fonts
 
 %install
 rm -rf $RPM_BUILD_ROOT

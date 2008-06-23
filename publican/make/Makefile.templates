@@ -32,7 +32,7 @@ DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
 LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 XALAN		= java -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
-TEST_XALAN	= 1
+TEST_XALAN	?= 0
 
 # List of tags to exclude from aspell check
 ASPELL_EXCLUDES = programlisting,userinput,screen,filename,command,computeroutput,abbrev,accel,orgname
@@ -232,7 +232,7 @@ ifeq "${1}" "pdf"
 		else \
 			fop_file=fop-$$$$fop_ver.xconf; \
 		fi; \
-		echo "fop -q -c $(COMMON_CONFIG)/fop/$$$$fop_file -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf"; \
+		echo "fop -q -c $(COMMON_CONFIG)/fop/fop.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf"; \
 		fop -q -c $(COMMON_CONFIG)/fop/$$$$fop_file -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else
@@ -381,15 +381,13 @@ ifeq "${1}" "$(findstring ${1},$(IGNORED_TRANSLATIONS))"
 else
 	@$(CATALOGS) xmllint --noout --postvalid --xinclude tmp/${1}/xml/$(DOCNAME).xml
 endif
-ifeq "${1}" "$(XML_LANG)"
 	@echo
 	@echo "*Start: Words Of Interest*";
 	@for file in `find $(XML_LANG) -name *.xml`; do \
-		aspell --list --mode=sgml --add-sgml-skip={$(ASPELL_EXCLUDES)} < $$$$file ; \
+		aspell --list --lang=${1} --mode=sgml --add-sgml-skip={$(ASPELL_EXCLUDES)} < $$$$file ; \
 	done | sort -u;
 	@echo "*End: Words Of Interest*";
 	@echo
-endif
 	@echo "END: test-${1} `date`"
 endef
 

@@ -21,17 +21,14 @@ SPEC	= $(NAME).spec.in
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD	= $(shell pwd)
-RPMDIR	=  $(PWD)/tmp/rpm
-OS_VER	= $(shell uname -a | sed -e 's/\.x86_64//g' | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
-ifeq "$(OS_VER)" "ELx"
-OS_VER	= "el4"
-endif
+RPMDIR	= $(PWD)/tmp/rpm
+OS_VER	= $(shell uname -r | perl -p -i -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
 REAL_RPMDIR	= $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
 XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
 
-FILES	= bin Book_Template Set_Template Article_Template content fop fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop xsl_extras
+FILES	= bin Book_Template Set_Template Article_Template content fop fop-fonts fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop xsl_extras
 
 local: rpm
 	@echo "Start $@"
@@ -58,14 +55,17 @@ srpm: dist
 	@sed -i -e 's/@VENDOR@/redhat/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@sed -i -e 's/@EMBED45@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@sed -i -e 's/@HTMLVIEW@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
+	@sed -i -e 's/@PRERETARDS@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@EMBED45@/1/' $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@rpmbuild --define "dist .fc8" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
+	@sed -i -e 's/@PRERETARDS@/0/' $(RPMDIR)/SPECS/$(NAME).spec
+	@if [ "$(OS_VER)" == "fc9" ]; then \
+		rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec; \
+	else \
+		rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec; \
+	fi
 	@echo "End $@"
 
 dist: clean
