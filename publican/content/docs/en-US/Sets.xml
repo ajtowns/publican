@@ -5,7 +5,7 @@
 <chapter id="chap-Publican-Using_Sets">
 	<title>Using Sets</title>
 	<para>
-		A set is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a book comprised of many other books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle>, to name just a few. The <command>create_book</command> command creates sets by setting the <parameter>type</parameter> parameter to Set.
+		A set is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a Set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle>, to name just a few. The <command>create_book</command> command creates sets by setting the <parameter>type</parameter> parameter to Set.
 	</para>
 	<section id="sect-Publican-Using_Sets-Creating_a_Set">
 		<title>Creating a Set</title>
@@ -14,7 +14,7 @@
 		</para>
 		<important>
 			<para>
-				This process assumes that <citetitle>Book A</citetitle>, <citetitle>Book B</citetitle> and <citetitle>Book C</citetitle> already exists and are avaialable in your <package>SVN</package> repository. Currently <package>publican</package> only supports <package>SVN</package>.
+				This process assumes that <citetitle>Book A</citetitle>, <citetitle>Book B</citetitle> and <citetitle>Book C</citetitle> already exists and are available in your <package>SVN</package> repository. Currently <package>publican</package> only supports <package>SVN</package>.
 			</para>
 		</important>
 		<procedure id="proc-Publican-Creating_a_Set-Creating_a_Set">
@@ -57,7 +57,7 @@ SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 				</para>
 				<important>
 					<para>
-						When building a set, the <command>make clean_ids</command> command will be run over each book because of the constraint that ID&#39;s must be unique across all books. Be careful of creating IDs that rely on content that may not be avaialable when building books independently of the set.
+						When building a set, the <command>make clean_ids</command> command will be run over each book because of the constraint that ID&#39;s must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
 					</para>
 				</important>
 			</step>
