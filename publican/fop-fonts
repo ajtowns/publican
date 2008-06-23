@@ -20,51 +20,295 @@ TODO: This needs to
 
 =cut
 
-my %fontlist = (
-    'el5' => {
-        'BaekmukBatang' => '/usr/share/fonts/korean/TrueType/batang.ttf',
-        'LiberationMono-Regular' =>
-            '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
-        'LiberationMono-Bold' =>
-            '/usr/share/fonts/liberation/LiberationMono-Bold.ttf',
-        'LiberationMono-Italic' =>
-            '/usr/share/fonts/liberation/LiberationMono-Italic.ttf',
-        'LiberationMono-BoldItalic' =>
-            '/usr/share/fonts/liberation/LiberationMono-BoldItalic.ttf',
-        'LiberationSans-Regular' =>
-            '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
-        'LiberationSans-Bold' =>
-            '/usr/share/fonts/liberation/LiberationSans-Bold.ttf',
-        'LiberationSans-Italic' =>
-            '/usr/share/fonts/liberation/LiberationSans-Italic.ttf',
-        'LiberationSans-BoldItalic' =>
-            '/usr/share/fonts/liberation/LiberationSans-BoldItalic.ttf',
-        'LiberationSerif-Regular' =>
-            '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
-        'LiberationSerif-Bold' =>
-            '/usr/share/fonts/liberation/LiberationSerif-Bold.ttf',
-        'LiberationSerif-Italic' =>
-            '/usr/share/fonts/liberation/LiberationSerif-Italic.ttf',
-        'LiberationSerif-BoldItalic' =>
-            '/usr/share/fonts/liberation/LiberationSerif-BoldItalic.ttf',
-        'LohitBengali'   => '/usr/share/fonts/bengali/lohit_bn.ttf',
-        'LohitTamil'     => '/usr/share/fonts/tamil/lohit_ta.ttf',
-        'LohitPunjabi'   => '/usr/share/fonts/punjabi/lohit_pa.ttf',
-        'LohitHindi'     => '/usr/share/fonts/hindi/lohit_hi.ttf',
-        'LohitGujarati'  => '/usr/share/fonts/gujarati/lohit_gu.ttf',
-        'LohitMalayalam' => '/usr/share/fonts/malayalam/lohit_ml.ttf',
-        'LohitKannada'   => '/usr/share/fonts/kannada/lohit_kn.ttf',
-        'LohitOriya'     => '/usr/share/fonts/oriya/lohit_or.ttf',
-        'LohitTelugu'    => '/usr/share/fonts/telugu/lohit_te.ttf',
-        'SazanamiGothic' =>
-            '/usr/share/fonts/japanese/TrueType/sazanami-gothic.ttf',
-        'Lklug'  => '/usr/share/fonts/sinhala/lklug.ttf',
-        'Zysong' => '/usr/share/fonts/chinese-zysong/TrueType/zysong.ttf',
-        'SazanamiMincho' =>
-            '/usr/share/fonts/japanese/TrueType/sazanami-mincho.ttf',
-        'Uming' => '/usr/share/fonts/chinese/TrueType/uming.ttf',
+my $share       = '/usr/share/publican';
+my $metric_path = 'fop/font-metrics-test';
 
-        #        '' => '/usr/share/fonts/',
+my %fontlist = (
+    el5 => {
+        'BaekmukBatang' => {
+            path   => '/usr/share/fonts/korean/TrueType/batang.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LiberationMono-Regular' => {
+            path  => '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
+            style => ['normal'],
+            weight => ['normal'],
+        },
+        'LiberationMono-Bold' => {
+            path   => '/usr/share/fonts/liberation/LiberationMono-Bold.ttf',
+            style  => ['normal'],
+            weight => ['bold'],
+        },
+        'LiberationMono-Italic' => {
+            path   => '/usr/share/fonts/liberation/LiberationMono-Italic.ttf',
+            style  => ['italic'],
+            weight => ['normal'],
+        },
+        'LiberationMono-BoldItalic' => {
+            path =>
+                '/usr/share/fonts/liberation/LiberationMono-BoldItalic.ttf',
+            style  => ['italic'],
+            weight => ['bold'],
+        },
+        'LiberationSans-Regular' => {
+            path  => '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+            style => ['normal'],
+            weight => ['normal'],
+        },
+        'LiberationSans-Bold' => {
+            path   => '/usr/share/fonts/liberation/LiberationSans-Bold.ttf',
+            style  => ['normal'],
+            weight => ['bold'],
+        },
+        'LiberationSans-Italic' => {
+            path   => '/usr/share/fonts/liberation/LiberationSans-Italic.ttf',
+            style  => ['italic'],
+            weight => ['normal'],
+        },
+        'LiberationSans-BoldItalic' => {
+            path =>
+                '/usr/share/fonts/liberation/LiberationSans-BoldItalic.ttf',
+            style  => ['italic'],
+            weight => ['bold'],
+        },
+        'LiberationSerif-Regular' => {
+            path => '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
+            style  => ['normal'],
+            weight => ['normal'],
+        },
+        'LiberationSerif-Bold' => {
+            path   => '/usr/share/fonts/liberation/LiberationSerif-Bold.ttf',
+            style  => ['normal'],
+            weight => ['bold'],
+        },
+        'LiberationSerif-Italic' => {
+            path  => '/usr/share/fonts/liberation/LiberationSerif-Italic.ttf',
+            style => ['italic'],
+            weight => ['normal'],
+        },
+        'LiberationSerif-BoldItalic' => {
+            path =>
+                '/usr/share/fonts/liberation/LiberationSerif-BoldItalic.ttf',
+            style  => ['italic'],
+            weight => ['bold'],
+        },
+        'LohitBengali' => {
+            path   => '/usr/share/fonts/bengali/lohit_bn.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitTamil' => {
+            path   => '/usr/share/fonts/tamil/lohit_ta.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitPunjabi' => {
+            path   => '/usr/share/fonts/punjabi/lohit_pa.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitHindi' => {
+            path   => '/usr/share/fonts/hindi/lohit_hi.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitGujarati' => {
+            path   => '/usr/share/fonts/gujarati/lohit_gu.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitMalayalam' => {
+            path   => '/usr/share/fonts/malayalam/lohit_ml.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitKannada' => {
+            path   => '/usr/share/fonts/kannada/lohit_kn.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitOriya' => {
+            path   => '/usr/share/fonts/oriya/lohit_or.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitTelugu' => {
+            path   => '/usr/share/fonts/telugu/lohit_te.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'SazanamiGothic' => {
+            path  => '/usr/share/fonts/japanese/TrueType/sazanami-gothic.ttf',
+            style => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'Lklug' => {
+            path   => '/usr/share/fonts/sinhala/lklug.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'Zysong' => {
+            path   => '/usr/share/fonts/chinese-zysong/TrueType/zysong.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'SazanamiMincho' => {
+            path  => '/usr/share/fonts/japanese/TrueType/sazanami-mincho.ttf',
+            style => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'Uming' => {
+            path   => '/usr/share/fonts/chinese/TrueType/uming.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+
+        #       '' =>{
+        #		path   => '/usr/share/fonts/',
+        #		style  => ('normal', 'italic'),
+        #		weight => ('normal', 'bold'),
+        #	},
+    },
+    fc9 => {
+        'BaekmukBatang' => {
+            path   => '/usr/share/fonts/korean/TrueType/batang.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LiberationMono-Regular' => {
+            path  => '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
+            style => ['normal'],
+            weight => ['normal'],
+        },
+        'LiberationMono-Bold' => {
+            path   => '/usr/share/fonts/liberation/LiberationMono-Bold.ttf',
+            style  => ['normal'],
+            weight => ['bold'],
+        },
+        'LiberationMono-Italic' => {
+            path   => '/usr/share/fonts/liberation/LiberationMono-Italic.ttf',
+            style  => ['italic'],
+            weight => ['normal'],
+        },
+        'LiberationMono-BoldItalic' => {
+            path =>
+                '/usr/share/fonts/liberation/LiberationMono-BoldItalic.ttf',
+            style  => ['italic'],
+            weight => ['bold'],
+        },
+        'LiberationSans-Regular' => {
+            path  => '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+            style => ['normal'],
+            weight => ['normal'],
+        },
+        'LiberationSans-Bold' => {
+            path   => '/usr/share/fonts/liberation/LiberationSans-Bold.ttf',
+            style  => ['normal'],
+            weight => ['bold'],
+        },
+        'LiberationSans-Italic' => {
+            path   => '/usr/share/fonts/liberation/LiberationSans-Italic.ttf',
+            style  => ['italic'],
+            weight => ['normal'],
+        },
+        'LiberationSans-BoldItalic' => {
+            path =>
+                '/usr/share/fonts/liberation/LiberationSans-BoldItalic.ttf',
+            style  => ['italic'],
+            weight => ['bold'],
+        },
+        'LiberationSerif-Regular' => {
+            path => '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
+            style  => ['normal'],
+            weight => ['normal'],
+        },
+        'LiberationSerif-Bold' => {
+            path   => '/usr/share/fonts/liberation/LiberationSerif-Bold.ttf',
+            style  => ['normal'],
+            weight => ['bold'],
+        },
+        'LiberationSerif-Italic' => {
+            path  => '/usr/share/fonts/liberation/LiberationSerif-Italic.ttf',
+            style => ['italic'],
+            weight => ['normal'],
+        },
+        'LiberationSerif-BoldItalic' => {
+            path =>
+                '/usr/share/fonts/liberation/LiberationSerif-BoldItalic.ttf',
+            style  => ['italic'],
+            weight => ['bold'],
+        },
+        'LohitBengali' => {
+            path   => '/usr/share/fonts/bengali/lohit_bn.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitTamil' => {
+            path   => '/usr/share/fonts/tamil/lohit_ta.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitPunjabi' => {
+            path   => '/usr/share/fonts/punjabi/lohit_pa.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitHindi' => {
+            path   => '/usr/share/fonts/hindi/lohit_hi.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitGujarati' => {
+            path   => '/usr/share/fonts/gujarati/lohit_gu.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitMalayalam' => {
+            path   => '/usr/share/fonts/malayalam/lohit_ml.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitKannada' => {
+            path   => '/usr/share/fonts/kannada/lohit_kn.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitOriya' => {
+            path   => '/usr/share/fonts/oriya/lohit_or.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'LohitTelugu' => {
+            path   => '/usr/share/fonts/telugu/lohit_te.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'SazanamiGothic' => {
+            path  => '/usr/share/fonts/japanese/TrueType/sazanami-gothic.ttf',
+            style => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'Lklug' => {
+            path   => '/usr/share/fonts/sinhala/lklug.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'Zysong' => {
+            path   => '/usr/share/fonts/chinese-zysong/TrueType/zysong.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'SazanamiMincho' => {
+            path  => '/usr/share/fonts/japanese/TrueType/sazanami-mincho.ttf',
+            style => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'Uming' => {
+            path   => '/usr/share/fonts/chinese/TrueType/uming.ttf',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
     },
 );
 
@@ -75,16 +319,167 @@ my $release = 'el5';
 
 sub genfontmetrics {
 
-    `rm -rf fop/font-metrics`;
+    `rm -rf $metric_path`;
+    mkdir( $metric_path, 0777 ) || croak("can't create metric dir: $!");
     foreach my $name ( sort( keys( %{ $fontlist{$release} } ) ) ) {
-        my $path = $fontlist{$release}{$name};
-        system(
-            "$ttfcommand -fn $name $path fop/font-metrics/$name.xml"
-        );
+        my $path = $fontlist{$release}{$name}{path};
+        system("$ttfcommand -fn $name $path  $metric_path/$name.xml");
 
         # system("rpm -qf $path");
     }
 }
 
-genfontmetrics();
+sub genfopconf {
+    open( my $conf, '>', 'fop/fop.xconf' )
+        || croak("Can't open fop.conf for output!: $!");
+
+    print {$conf} <<TOP;
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!--
+
+This is an example configuration file for FOP.
+This file contains the same settings as the default values
+and will have no effect if used unchanged.
+
+Relative config url's will be resolved relative to
+the location of this file.
+
+-->
+
+<!-- NOTE: This is the version of the configuration -->
+<fop version="1.0">
+
+  <!-- Base URL for resolving relative URLs -->
+  <base>.</base>
+  
+  <!-- Source resolution in dpi (dots/pixels per inch) for determining the size of pixels in SVG and bitmap images, default: 72dpi -->
+  <source-resolution>72</source-resolution>
+  <!-- Target resolution in dpi (dots/pixels per inch) for specifying the target resolution for generated bitmaps, default: 72dpi -->
+  <target-resolution>72</target-resolution>
+  
+  <!-- Default page-height and page-width, in case
+       value is specified as auto -->
+  <default-page-settings height="240mm" width="120mm"/>
+  
+  <!-- Information for specific renderers -->
+  <!-- Uses renderer mime type for renderers -->
+  <renderers>
+    <renderer mime="application/pdf">
+      <filterList>
+        <!-- provides compression using zlib flate (default is on) -->
+        <value>flate</value>
+  
+        <!-- encodes binary data into printable ascii characters (default off)
+             This provides about a 4:5 expansion of data size -->
+        <!-- <value>ascii-85</value> -->
+  
+        <!-- encodes binary data with hex representation (default off)
+             This filter is not recommended as it doubles the data size -->
+        <!-- <value>ascii-hex</value> -->
+      </filterList>
+
+      <fonts>
+TOP
+
+    foreach my $name ( sort( keys( %{ $fontlist{$release} } ) ) ) {
+        my $path = $fontlist{$release}{$name}{path};
+        my $url  = qq{$share/$metric_path/$name.xml};
+
+        print {$conf}
+            qq{        <font metrics-url="$url" kerning="yes" embed-url="$path">\n};
+        foreach my $style ( @{ $fontlist{$release}{$name}{style} } ) {
+            foreach my $weight ( @{ $fontlist{$release}{$name}{weight} } ) {
+                print {$conf}
+                    qq{            <font-triplet name="$name" style="$style" weight="$weight"/>\n};
+            }
+        }
+        print {$conf} qq{        </font>\n};
+
+        # system("rpm -qf $path");
+    }
+
+    print {$conf} <<BOTTOM;
+    </fonts>
+
+      <!-- This option lets you specify additional options on an XML handler -->
+      <!--xml-handler namespace="http://www.w3.org/2000/svg">
+        <stroke-text>false</stroke-text>
+      </xml-handler-->
+
+    </renderer>
+
+    <renderer mime="application/postscript">
+      <!-- This option forces the PS renderer to rotate landscape pages -->
+      <!--auto-rotate-landscape>true</auto-rotate-landscape-->
+      
+      <!-- This option lets you specify additional options on an XML handler -->
+      <!--xml-handler namespace="http://www.w3.org/2000/svg">
+        <stroke-text>false</stroke-text>
+      </xml-handler-->
+    </renderer>
+
+    <renderer mime="application/vnd.hp-PCL">
+    </renderer>
+
+    <!-- MIF does not have a renderer
+    <renderer mime="application/vnd.mif">
+    </renderer>
+    -->
+
+    <renderer mime="image/svg+xml">
+      <format type="paginated"/>
+      <link value="true"/>
+      <strokeText value="false"/>
+    </renderer>
+
+    <renderer mime="application/awt">
+    </renderer>
+
+    <renderer mime="image/png">
+      <!--transparent-page-background>true</transparent-page-background-->
+    </renderer>
+
+    <renderer mime="image/tiff">
+      <!--transparent-page-background>true</transparent-page-background-->
+      <!--compression>CCITT T.6</compression-->
+    </renderer>
+
+    <renderer mime="text/xml">
+    </renderer>
+
+    <!-- RTF does not have a renderer
+    <renderer mime="text/rtf">
+    </renderer>
+    -->
+
+    <renderer mime="text/plain">
+      <pageSize columns="80"/>
+    </renderer>
+
+  </renderers>
+
+</fop>
+BOTTOM
+
+    close($conf);
+}
+
+#genfontmetrics();
+genfopconf();
 exit(0);
