@@ -2,21 +2,26 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<chapter id="chap-Set-Creating_a_Set">
+<chapter id="chap-Publican-Using_Sets">
 	<title>Using Sets</title>
 	<para>
-		A set is a book that contains a collection of other books. The <citetitle>Services Plan</citetitle> for example is a book comprised of many other books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle>, to name just a few. The  <command>create_book</command> command creates sets by setting the <parameter>type</parameter> parameter to Set.
+		A set is a book that contains a collection of other books. The <citetitle>Services Plan</citetitle> for example is a book comprised of many other books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle>, to name just a few. The <command>create_book</command> command creates sets by setting the <parameter>type</parameter> parameter to Set.
 	</para>
-	<section id="sect-Set-Creating_a_Set-Creating_a_Set">
+	<section id="sect-Publican-Using_Sets-Creating_a_Set">
 		<title>Creating a Set</title>
 		<para>
 			The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle>, <citetitle>Book B</citetitle> and <citetitle>Book C</citetitle>.
 		</para>
-		<procedure id="proc-Set-Creating_a_Set-Creating_a_Set">
+		<important>
+			<para>
+				This process assumes that <citetitle>Book A</citetitle>, <citetitle>Book B</citetitle> and <citetitle>Book C</citetitle> already exists and are avaialable in your <package>SVN</package> repository. Currently <package>publican</package> only supports <package>SVN</package>.
+			</para>
+		</important>
+		<procedure id="proc-Publican-Creating_a_Set-Creating_a_Set">
 			<title>Creating a Set</title>
 			<step>
 				<para>
-					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style. 
+					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style.
 				</para>
 <programlisting>
 create_book --type=Set --name=My_Set --brand=RedHat
@@ -24,39 +29,26 @@ create_book --type=Set --name=My_Set --brand=RedHat
 			</step>
 			<step>
 				<para>
-					Edit the <filename>Makefile</filename> and change the following 2 lines from:  
+					Edit the <filename>Makefile</filename> and change the following 2 lines from:
 				</para>
 <programlisting>
 #BOOKS		= My_Other_Book His_Book Her_Book Their_Book
 #SET_REPO	= http://svn.repo.com/repos/project
 </programlisting>
 				<para>
-					to :  
+					to :
 				</para>
 <programlisting>
 BOOKS 		= Book_A Book_B Book_C
-SET_REPO	= http://<replaceable>PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
+SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 </programlisting>
-					
 			</step>
 			<step>
 				<para>
 					Open the <filename>My_Set.xml</filename> file in an editor add one <sgmltag>xi:include</sgmltag> to the primary xml files from each book. The <filename>My_Set.xml</filename> file should look similar to this:
 				</para>
 <programlisting>
-&lt;?xml version='1.0'?&gt;
-&lt;!DOCTYPE set PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
-"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-]&gt;
-
-&lt;set&gt;
-	&lt;xi:include href="Set_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-	&lt;xi:include href="Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-	&lt;xi:include href="Book_A/Book_A.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-	&lt;xi:include href="Book_B/Book_B.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-	&lt;xi:include href="Book_C/Book_C.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-	&lt;xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-&lt;/set&gt;
+<xi:include parse="text" href="extras/Set_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			</step>
 			<step>
@@ -65,7 +57,7 @@ SET_REPO	= http://<replaceable>PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 				</para>
 				<important>
 					<para>
-						When building a set, the <command>make clean_ids</command> command will be run over each book because of the constraint that ID's must be unique across all books. Be careful of creating IDs that rely on content that may not be avaialable when building books independently of the set.
+						When building a set, the <command>make clean_ids</command> command will be run over each book because of the constraint that ID&#39;s must be unique across all books. Be careful of creating IDs that rely on content that may not be avaialable when building books independently of the set.
 					</para>
 				</important>
 			</step>
