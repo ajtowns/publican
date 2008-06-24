@@ -83,18 +83,42 @@
   <xsl:attribute name="wrap-option">wrap</xsl:attribute>
   <xsl:attribute name="background-color">
 	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>#333333</xsl:text>
+		<xsl:when test="ancestor::note">
+			<xsl:text>#bfdce8</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::caution">
+			<xsl:text>#d08e13</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::important">
+			<xsl:text>#56585a</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::warning">
+			<xsl:text>#9e292b</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::tip">
+			<xsl:text>#8e9f00</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-			<xsl:text>#e9e3cc</xsl:text>
+			<xsl:text>#dddddd</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
   <xsl:attribute name="color">
 	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>white</xsl:text>
+		<xsl:when test="ancestor::note">
+			<xsl:text>#003d6e</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::caution">
+			<xsl:text>#ffffff</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::important">
+			<xsl:text>#ffffff</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::warning">
+			<xsl:text>#ffffff</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::tip">
+			<xsl:text>#ffffff</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:text>black</xsl:text>
@@ -196,8 +220,8 @@ article toc
 <!-- Only hairlines as frame and cell borders in tables -->
 <xsl:param name="table.frame.border.thickness">0.3pt</xsl:param>
 <xsl:param name="table.cell.border.thickness">0.15pt</xsl:param>
-<xsl:param name="table.cell.border.color">#5c5c4f</xsl:param>
-<xsl:param name="table.frame.border.color">#5c5c4f</xsl:param>
+<xsl:param name="table.cell.border.color">#dc9f2e</xsl:param>
+<xsl:param name="table.frame.border.color">#dc9f2e</xsl:param>
 <xsl:param name="table.cell.border.right.color">white</xsl:param>
 <xsl:param name="table.cell.border.left.color">white</xsl:param>
 <xsl:param name="table.frame.border.right.color">white</xsl:param>
@@ -236,7 +260,7 @@ article toc
 <!-- No intendation of Titles -->
 <xsl:param name="title.margin.left">0pc</xsl:param>
 
-<xsl:param name="title.color">#554931</xsl:param>
+<xsl:param name="title.color">#336699</xsl:param>
 
 <xsl:attribute-set name="formal.title.properties" use-attribute-sets="normal.para.spacing">
 	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
