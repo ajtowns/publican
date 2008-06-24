@@ -55,7 +55,10 @@
   <xsl:attribute name="font-style">italic</xsl:attribute>
   <xsl:attribute name="color">
 	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
+		<xsl:when test="ancestor::note">
+			<xsl:text>#003399</xsl:text>
+		</xsl:when>
+		<xsl:when test="ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
 			<xsl:text>#aee6ff</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
@@ -75,7 +78,7 @@
 <xsl:attribute-set name="monospace.verbatim.properties" use-attribute-sets="verbatim.properties monospace.properties">
 	<xsl:attribute name="text-align">start</xsl:attribute>
 	<xsl:attribute name="wrap-option">wrap</xsl:attribute>
-	<xsl:attribute name="hyphenation-character">&#x25BA;</xsl:attribute>
+	<xsl:attribute name="hyphenation-character">&#x2d;</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:param name="shade.verbatim" select="1"/>
@@ -83,42 +86,18 @@
   <xsl:attribute name="wrap-option">wrap</xsl:attribute>
   <xsl:attribute name="background-color">
 	<xsl:choose>
-		<xsl:when test="ancestor::note">
-			<xsl:text>#bfdce8</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::caution">
-			<xsl:text>#d08e13</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::important">
-			<xsl:text>#56585a</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::warning">
-			<xsl:text>#9e292b</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::tip">
-			<xsl:text>#8e9f00</xsl:text>
+		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
+			<xsl:text>#333333</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-			<xsl:text>#dddddd</xsl:text>
+			<xsl:text>#e9e3cc</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
   <xsl:attribute name="color">
 	<xsl:choose>
-		<xsl:when test="ancestor::note">
-			<xsl:text>#003d6e</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::caution">
-			<xsl:text>#ffffff</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::important">
-			<xsl:text>#ffffff</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::warning">
-			<xsl:text>#ffffff</xsl:text>
-		</xsl:when>
-		<xsl:when test="ancestor::tip">
-			<xsl:text>#ffffff</xsl:text>
+		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
+			<xsl:text>white</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:text>black</xsl:text>
@@ -157,7 +136,16 @@
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 <xsl:attribute-set name="admonition.title.properties">
 	<xsl:attribute name="font-size">13pt</xsl:attribute>
-	<xsl:attribute name="color">white</xsl:attribute>
+	<xsl:attribute name="color">
+	  <xsl:choose>
+		<xsl:when test="local-name(.)='note'">
+			<xsl:text>#003D6E</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>white</xsl:text>
+		</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:attribute>
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
 	<xsl:attribute name="hyphenate">false</xsl:attribute>
 	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
@@ -166,8 +154,38 @@
 <!--xsl:attribute-set name="admonition.properties"></xsl:attribute-set-->
 
 <xsl:attribute-set name="graphical.admonition.properties">
-	<xsl:attribute name="color">white</xsl:attribute>
-	<xsl:attribute name="background-color">#555753</xsl:attribute>
+	<xsl:attribute name="color">
+	  <xsl:choose>
+		<xsl:when test="local-name(.)='note'">
+			<xsl:text>#003D6E</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>white</xsl:text>
+		</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:attribute>
+	<xsl:attribute name="background-color">
+	  <xsl:choose>
+		<xsl:when test="local-name(.)='note'">
+			<xsl:text>#bfdce8</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='caution'">
+			<xsl:text>#d08e13</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='important'">
+			<xsl:text>#56585a</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='warning'">
+			<xsl:text>#9e292b</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='tip'">
+			<xsl:text>#8e9f00</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>#dddddd</xsl:text>
+		</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:attribute>
 	<xsl:attribute name="space-before.optimum">1em</xsl:attribute>
 	<xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
 	<xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>

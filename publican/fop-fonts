@@ -341,6 +341,7 @@ sub genfontmetrics {
 
     foreach my $name ( sort( keys( %{ $fontlist{$dist} } ) ) ) {
         my $path = $fontlist{$dist}{$name}{path};
+	warn("Generating metrics for: $path\n");
         `$ttfcommand -fn $name $path $metric_path/$name.xml`;
     }
 }

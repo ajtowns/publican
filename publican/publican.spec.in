@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t198%{?dist}
+Release:	0.t210%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -24,7 +24,10 @@ Requires:	fop batik
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
+# FOP is required to build the mont metrics.
 BuildRequires:	fop
+# Retards decided to rename font packages and change font paths.
+# No actual real changes.
 %if %{PRERETARDS}
 Requires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
 Requires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
@@ -160,7 +163,9 @@ rm -rf $RPM_BUILD_ROOT
 - Banned inlinegraphic. BZ #448331
 - Added Article and Set Templates
 - Banned xreflabel and endterm. BZ #452051
-- Generate FOP config file and font-metricfiles as build. BX #451913
+- Generate FOP config file and font-metricfiles as build. BZ #451913
+- Changed HTML and PDF common brand to more pleasing colors. BZ #442675 
+- Fixed icorrect PDF colours on Fedora and Common brands. BZ #442988
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
