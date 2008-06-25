@@ -133,7 +133,7 @@ if ( $lang and $lang ne '' ) {
 }
 
 if( $type eq 'Set') {
-	warn("You must edit your new Makefile and set the BOOKS, SET_REPO and SET_REPO_TYPE parameters");
+	warn("You must edit your new Makefile and set the BOOKS, SET_REPO and SET_REPO_TYPE parameters\n");
 }
 
 __END__
@@ -157,7 +157,18 @@ create_book --name=<book_name> [options]
    --brand             Select Brand
    --lang              Source Language
 
+
 =head1 OPTIONS
+   -help               Brief help message
+   -man                Full documentation
+   --name              Name (Required)
+   --version           Version
+   --revision          Revision
+   --product           Product
+   --article           Article not Book
+   --brand             Select Brand
+   --lang              Source Language
+   --type              Type Book|Set|Artcile
 
 =head2 -help
 
@@ -194,6 +205,10 @@ Use the specified brand for branding output.
 =head2 --lang
 
 Use the specified langauge as the source language.
+
+=head2 --type
+
+Type of book. Defaults to Book, can also be Set or Article.
 
 =head1 DESCRIPTION
 
