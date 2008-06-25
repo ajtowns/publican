@@ -42,7 +42,7 @@ Password:
 # yum install publican-<replaceable>brand</replaceable>
 </screen>
 		<para>
-			Replace <replaceable>brand</replaceable> with redhat, fedora, or jboss.
+			Replace <replaceable>brand</replaceable> with redhat, fedora, jboss, ovirt, or gimp.
 		</para>
 	</section>
 	
@@ -115,7 +115,7 @@ Password:
 				<term><filename>--brand <replaceable>brand</replaceable></filename></term>
 				<listitem>
 					<para>
-						replace <replaceable>brand</replaceable> with RedHat, fedora, or JBoss. This requires the appropriate publican package to be installed. For example, to build Red Hat branded books, you must install the publican-redhat package. See <xref linkend="sect-Publican-Using_the_publican_package-Installing_publican" /> for instructions on installing the branded publican packages. If no brand is specified, the default brand is used.
+						replace <replaceable>brand</replaceable> with RedHat, fedora, JBoss, oVirt, or GIMP. This requires the appropriate publican package to be installed. For example, to build Red Hat branded books, you must install the publican-redhat package. See <xref linkend="sect-Publican-Using_the_publican_package-Installing_publican" /> for instructions on installing the branded publican packages. If no brand is specified, the default brand is used.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -195,7 +195,7 @@ create_book --name Test_Book
 					<term><filename>BRAND</filename></term>
 					<listitem>
 						<para>
-							set the brand of the book. Accepted values are <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, and <computeroutput>JBoss</computeroutput>. If no brand is specified, the default brand is used.
+							set the brand of the book. Accepted values are <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> and <computeroutput>GIMP</computeroutput>. If no brand is specified, the default brand is used.
 						</para>
 						<para>
 							Running the <command>create_book --name <replaceable>Book_Name</replaceable> --brand <replaceable>brand</replaceable></command> command correctly configures the <computeroutput>BRAND</computeroutput>.
@@ -385,7 +385,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 <screen><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </screen>
 			<para>
-				This example loads the <filename>Book_Info.xml</filename> file, and the <filename>Chapter1.xml</filename>, <filename>Chapter2.xml</filename>, and <filename>Chapter3.xml</filename> files. Replace the <filename>Chapter<replaceable>X</replaceable>.xml</filename> files with the name of your chapter files.
+				This example loads the <computeroutput>Book_Info.xml</computeroutput>, <computeroutput>Preface.xml</computeroutput>, <computeroutput>Chapter.xml</computeroutput>, and <computeroutput>Appendix.xml</computeroutput> XML files.
 			</para>
 			<para>
 				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is not limited to using <filename>xi:include</filename> directives. Books can be created using a single XML file. The following is an example of a book created using a single XML file:
