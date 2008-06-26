@@ -16,8 +16,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		version='1.0'
 		xmlns="http://www.w3.org/TR/xhtml1/transitional"
-		xmlns:fo="http://www.w3.org/1999/XSL/Format"
-		exclude-result-prefixes="#default">
+		xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<!--		exclude-result-prefixes="#default"> -->
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>

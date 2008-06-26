@@ -11,7 +11,9 @@
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
 <xsl:template match="/"># Red Hat Documentation Specfile
-Name:           <xsl:value-of select="$book-title"/>
+%define	HTMLVIEW 1
+
+Name:           <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 Version:        <xsl:value-of select="/bookinfo/productnumber"/><xsl:value-of select="/setinfo/productnumber"/>
 Release:        0
 Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
@@ -22,11 +24,25 @@ Source:         %{name}-%{version}-%{release}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
+<xsl:if test="$brand != 'publican-common'">
 BuildRequires:	<xsl:value-of select="$brand"/>
+</xsl:if>
 Requires:	perl-Publican-WebSite
 Prefix:		/var/www/html/docs
 
 %description
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
+
+%package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
+Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
+Group:		Documentation
+%if %{HTMLVIEW}
+Requires:	htmlview
+%else
+Requires:	xdg-utils
+%endif
+
+%description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
 
 %prep
@@ -39,19 +55,37 @@ export CLASSPATH=$CLASSPATH:%{_javadir}/ant/ant-trax-1.7.0.jar:%{_javadir}/xmlgr
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/%{prefix}
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{prefix}/.
 
-%preun
+cat > $RPM_BUILD_ROOT%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.desktop &lt;&lt;'EOF'
+[Desktop Entry]
+Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
+Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" />
+Exec=htmlview %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
+Icon=%{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/images/icon.svg
+Categories=Documentation;X-Red-Hat-Base;
+Type=Application
+Encoding=UTF-8
+Terminal=false
+EOF
+
+%preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 %{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); if("<xsl:value-of select="$lang"/>" =~ /-IN/) { @formats = ("html", "html-single"); } my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->del_entry({ language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format"} ); } $ws->regen_all_toc();'
 
-%post
+%post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 %{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); if("<xsl:value-of select="$lang"/>" =~ /-IN/) { @formats = ("html", "html-single"); } my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
 
 %files
 %defattr(-,root,root,-)
 %{prefix}/<xsl:value-of select="$lang"/>
 
-%changelog<xsl:value-of select="$book-log"/>
+%files -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
+%defattr(-,root,root,-)
+%doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
+%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.desktop
+
+%changelog<xsl:value-of select="$log"/>
 
 </xsl:template>
 

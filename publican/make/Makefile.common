@@ -29,9 +29,9 @@ CONFIDENTIAL	?= 0
 BREW_DIST	?= dist-5E-qu-candidate
 WEB_BREW_DIST	?= docs-5E
 TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
-EXTRA_DIRS	= $(shell find $(XML_LANG) -type d | grep -vw CVS | grep -vw '.svn' | grep -vw images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
+EXTRA_DIRS	?= $(shell find $(XML_LANG) -type d | grep -vw CVS | grep -vw '.svn' | grep -vw images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
 PRODUCT		?= Documentation
-FORMATS		= html htmlhelp html-single pdf txt eclipse
+FORMATS		= html htmlhelp html-single html-desktop pdf txt eclipse
 
 ###############################################################################
 ###############################################################################

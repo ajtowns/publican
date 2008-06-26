@@ -22,13 +22,14 @@
 <xsl:include href="xhtml-common.xsl"/>
 <xsl:param name="confidential" select="0"/>
 
-<xsl:param name="generate.legalnotice.link" select="1"/>
+<xsl:param name="generate.legalnotice.link" select="0"/>
 <xsl:param name="generate.revhistory.link" select="0"/>
 
 <xsl:param name="chunk.section.depth" select="4"/>
 <xsl:param name="chunk.first.sections" select="1"/>
 <xsl:param name="chunk.toc" select="''"/>
 <xsl:param name="chunk.append"/>
+<xsl:param name="chunker.output.quiet" select="1"/>
 
 <!--
 From: xsl/docbook/1.72.0/xhtml/chunk-code.xsl

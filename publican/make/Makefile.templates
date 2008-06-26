@@ -32,7 +32,7 @@ DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
 LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 XALAN		= java -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
-TEST_XALAN	?= 0
+TEST_XALAN	?= 1
 
 # List of tags to exclude from aspell check
 ASPELL_EXCLUDES = programlisting,userinput,screen,filename,command,computeroutput,abbrev,accel,orgname
@@ -126,7 +126,7 @@ else
 		po_file=`echo $$$$xml_file | sed -e 's/\.xml/\.po/'`;\
 		/usr/bin/xml2po -e -l ${1} -p ../${1}/$$$$po_file -o ../tmp/${1}/xml_tmp/$$$$xml_file $$$$xml_file;\
 	done;
-	@$(XMLPOMERGE) --langs=${1} --output=tmp/${1}/xml_tmp --sub-dirs="$(EXTRA_DIRS_C)" --lang-dir=${1} $(XML_LANG)/${2}.xml
+	@$(XMLPOMERGE) --langs=${1} --output=tmp/${1}/xml_tmp --sub-dirs="$(EXTRA_DIRS_C)" --lang-dir=${1} $(XML_LANG)/${2}.xml || exit 5;
 endif
 # copy common files
 	@if [ -d $(COMMON_CONTENT)/$(BRAND)/en-US ]; then \
@@ -213,10 +213,10 @@ ifeq "${1}" "txt"
 else
 ifeq "${1}" "pdf"
 	@cd tmp/${2}/xml; \
-		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then \
-			xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; \
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then \
+			xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; \
 		else \
-			xsl_file="$(COMMON_CONFIG)/xsl/${3}"; \
+			xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl"; \
 		fi; \
 		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
 		if [ "$(TEST_XALAN)" == "1" ]; then \
@@ -226,7 +226,7 @@ ifeq "${1}" "pdf"
 		if [ "$$$$fop_ver" = "0.20.5" ]; then \
 			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 		else \
-			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam admon.graphics.extension ".png" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
+			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
 		fi; \
 		fi; \
 		fop -q -c $(COMMON_CONFIG)/fop/fop.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
@@ -234,8 +234,20 @@ ifeq "${1}" "pdf"
 else
 ifeq "${1}" "html-single"
 	@cd tmp/${2}/${1}; \
-		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
-		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP)  --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
+		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam embedtoc $$(EMBEDTOC) --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
+# Copy original images to output dir, then copy any translated images over the top
+	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
+	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
+# copy files
+	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tmp/${2}/${1}/.; fi
+	@if [ -d ${1}/files ]; then cp -rf ${1}/files tmp/${2}${1}/.; fi
+	@find tmp/${2}/${1}/Common_Content -name '*.xml' | xargs rm -rf
+else
+ifeq "${1}" "html-desktop"
+	@cd tmp/${2}/${1}; \
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/html-single.xsl";fi; \
+		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam desktop 1 --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
@@ -245,7 +257,7 @@ ifeq "${1}" "html-single"
 	@find tmp/${2}/${1}/Common_Content -name '*.xml' | xargs rm -rf
 else
 	@cd tmp/${2}/${1}; \
-		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${3} ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${3}"; else xsl_file="$(COMMON_CONFIG)/xsl/${3}";fi; \
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
 		$(CATALOGS) xsltproc  --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
@@ -254,6 +266,7 @@ else
 	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tmp/${2}/${1}/.; fi
 	@if [ -d ${1}/files ]; then cp -rf ${1}/files tmp/${2}${1}/.; fi
 	@find tmp/${2}/${1}/Common_Content -name '*.xml' | xargs rm -rf
+endif
 endif
 endif
 endif
@@ -478,22 +491,22 @@ define	WEB_SRPM_Template
 .PHONY:	web-srpm-${1}
 web-srpm-${1}:: clean tardir-${1}
 	@echo "START: web-srpm-${1} `date`"
-	@mv tmp/tar/$(SPEC_NAME)-${1}-$(VERSION) tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
-	@cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
-	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-	@cp tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz tmp/rpm/SOURCES/.
-	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
+	mv tmp/tar/$(SPEC_NAME)-${1}-$(VERSION) tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
+	cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
+	mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
+	cp tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz tmp/rpm/SOURCES/.
+	rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
 		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
-	@$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}" \
+	$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)" \
 		--stringparam lang "${1}" \
-		--stringparam  prod "$(PRODUCT)" \
-		--stringparam  ver "$(VERSION)" \
-		--stringparam  docname "$(DOCNAME)" \
-		--stringparam book-log "$$(<tmp/changelog.txt)" \
+		--stringparam prod "$(PRODUCT)" \
+		--stringparam ver "$(VERSION)" \
+		--stringparam docname "$(DOCNAME)" \
+		--stringparam log "$$(<tmp/changelog.txt)" \
 		--stringparam brand "publican-$(LC_BRAND)" \
 		-o tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec
+	rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec
 	@echo "END: web-srpm-${1} `date`"
 endef
 
@@ -502,9 +515,9 @@ define	Publish-WEB_Template
 .PHONY:	publish-web-${1}
 publish-web-${1}:: EMBEDTOC = 1
 ifeq "-IN" "$(findstring -IN,${1})"
-publish-web-${1}:: publish-html-${1} publish-html-single-${1}
+publish-web-${1}:: publish-html-${1} publish-html-single-${1} html-desktop-${1}
 else
-publish-web-${1}:: publish-html-${1} publish-html-single-${1} publish-pdf-${1}
+publish-web-${1}:: publish-html-${1} publish-html-single-${1} html-desktop-${1} publish-pdf-${1}
 endif
 endef
 
