@@ -10,24 +10,10 @@
 	<section id="sect-Publican-Using_Sets-">
 		<title>Stand-alone Sets</title>
 		
-		<para>A stand-alone set contains the xml files for each book, all of which are located inside the directory of the set. Note that by default, the <filename>Makefile</filename> generated when creating a set will have the following lines commented and will therefore not require editing.</para>
-
-<screen>
-#BOOKS		= My_Other_Book His_Book Her_Book Their_Book
-#SET_REPO	= http://svn.repo.com/repos/project
-#SET_REPO_TYPE	= SVN
-...
-#pre:: get_books set_books
-#clean:: clean_set_books
-</screen>	
+		<para>A stand-alone set contains the xml files for each book, all of which are located inside the directory of the set.</para>
 		<para>
-			The procedure that follows will guide you through the process of creating a stand-alone set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>, all of which are located under the <filename>books/</filename> directory.
+			The procedure that follows will guide you through the process of creating a stand-alone set named <citetitle>My Set</citetitle> located in a directory called <filename>books/My_Set/</filename>. The set will contain <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> both of which will be manually created inside the <filename>books/My_Set/en-US</filename> directory.
 		</para>
-		<important>
-			<para>
-				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are located locally in the <filename>books/</filename> directory.
-			</para>
-		</important>
 		<procedure id="proc-Publican-Creating_a_Set-Creating_a_Self-Contained_Set">
 			<title>Creating a Stand-alone Set</title>
 			<step>
@@ -40,27 +26,41 @@ create_book --type=Set --name=My_Set --brand=RedHat
 			</step>
 			<step>
 				<para>
-					<command>cd</command> into the <filename>My_Set/</filename> directory and create two directories called <filename>Book_A</filename> and <filename>Book_B</filename>.
+					<command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two directories called <filename>Book_A</filename> and <filename>Book_B</filename>.
 				</para>
 <programlisting>
-cd My_Set
+cd My_Set/en-US
 mkdir Book_A Book_B
 </programlisting>
 			</step>
 			<step>
-				<para>Copy all of the xml files from the <filename>books/Book_A/en-US/</filename> directory to the <filename>books/My_Set/Book_A</filename> directory and similarly for <citetitle>Book_B</citetitle>. Assuming you are in the <filename>books/My_Set/</filename> directory, the commands will be as follows:</para>
-<programlisting>
-cp ../Book_A/en-US/*.xml Book_A
-cp ../Book_B/en-US/*.xml Book_B
-</programlisting>
+				<para>
+					<command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
+				</para>
+<screen>
+&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]&gt;
+	  
+&lt;book&gt;
+	  &lt;xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
+	  &lt;xi:include href="Chapter_1.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
+&lt;/book&gt;
+</screen>
 			</step>
 			<step>
 				<para>
-					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The <filename>My_Set.xml</filename> file should now look like this:
+					Use the same process for <citetitle>Book_B</citetitle>, located in the <filename>books/My_Set/en-US/Book_B</filename> directory, as per the step above.
 				</para>
-				<programlisting>
-					<xi:include parse="text" href="extras/Set_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-				</programlisting>
+			</step>
+			<step>
+				<para>
+					Open the <filename>books/My_Set/en-US/My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
+				</para>
+<programlisting>
+<xi:include parse="text" href="extras/Set_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</programlisting>
 			</step>
 			<step>
 				<para>
@@ -115,7 +115,7 @@ clean:: clean_set_books
 			</step>
 			<step>
 				<para>
-					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The <filename>My_Set.xml</filename> file should now look like this:
+					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
 <programlisting>
 <xi:include parse="text" href="extras/Set_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
