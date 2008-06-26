@@ -5,16 +5,78 @@
 <chapter id="chap-Publican-Using_Sets">
 	<title>Using Sets</title>
 	<para>
-		A set is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a Set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle>, to name just a few. The <command>create_book</command> command creates sets by setting the <parameter>type</parameter> parameter to Set.
+		A set is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a Set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. There are two types of sets, Stand-alone Sets and Distributed Sets.
 	</para>
-	<section id="sect-Publican-Using_Sets-Creating_a_Set">
-		<title>Creating a Set</title>
+	<section id="sect-Publican-Using_Sets-">
+		<title>Stand-alone Sets</title>
+		
+		<para>A stand-alone set contains the xml files for each book, all of which are located inside the directory of the set. Note that by default, the <filename>Makefile</filename> generated when creating a set will have the following lines commented and will therefore not require editing.</para>
+
+<screen>
+#BOOKS		= My_Other_Book His_Book Her_Book Their_Book
+#SET_REPO	= http://svn.repo.com/repos/project
+#SET_REPO_TYPE	= SVN
+...
+#pre:: get_books set_books
+#clean:: clean_set_books
+</screen>	
 		<para>
-			The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle>, <citetitle>Book B</citetitle> and <citetitle>Book C</citetitle>.
+			The procedure that follows will guide you through the process of creating a stand-alone set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>, all of which are located under the <filename>books/</filename> directory.
 		</para>
 		<important>
 			<para>
-				This process assumes that <citetitle>Book A</citetitle>, <citetitle>Book B</citetitle> and <citetitle>Book C</citetitle> already exists and are available in your <package>SVN</package> repository. Currently <package>publican</package> only supports <package>SVN</package>.
+				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are located locally in the <filename>books/</filename> directory.
+			</para>
+		</important>
+		<procedure id="proc-Publican-Creating_a_Set-Creating_a_Self-Contained_Set">
+			<title>Creating a Stand-alone Set</title>
+			<step>
+				<para>
+					Run the following command in a shell in the <filename>books/</filename> directory to create a set named <literal>My_Set</literal> branded in the Red Hat style.
+				</para>
+<programlisting>
+create_book --type=Set --name=My_Set --brand=RedHat
+</programlisting>
+			</step>
+			<step>
+				<para>
+					<command>cd</command> into the <filename>My_Set/</filename> directory and create two directories called <filename>Book_A</filename> and <filename>Book_B</filename>.
+				</para>
+<programlisting>
+cd My_Set
+mkdir Book_A Book_B
+</programlisting>
+			</step>
+			<step>
+				<para>Copy all of the xml files from the <filename>books/Book_A/en-US/</filename> directory to the <filename>books/My_Set/Book_A</filename> directory and similarly for <citetitle>Book_B</citetitle>. Assuming you are in the <filename>books/My_Set/</filename> directory, the commands will be as follows:</para>
+<programlisting>
+cp ../Book_A/en-US/*.xml Book_A
+cp ../Book_B/en-US/*.xml Book_B
+</programlisting>
+			</step>
+			<step>
+				<para>
+					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The <filename>My_Set.xml</filename> file should now look like this:
+				</para>
+				<programlisting>
+					<xi:include parse="text" href="extras/Set_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+				</programlisting>
+			</step>
+			<step>
+				<para>
+					Test your set by running the <command>make test-en-US</command> command.
+				</para>
+			</step>
+		</procedure>
+	</section>
+	<section id="sect-Publican-Using_Sets-Creating_a_Set">
+		<title>Distributed Sets</title>
+		<para>
+			A Distributed Set contains books that are located in <package>SVN</package>. By setting the repository location and titles of the included books in the <filename>Makefile</filename>, each book can be exported to build the entire set. The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>.
+		</para>
+		<important>
+			<para>
+				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are available in your <package>SVN</package> repository. Currently <package>publican</package> only supports <package>SVN</package>.
 			</para>
 		</important>
 		<procedure id="proc-Publican-Creating_a_Set-Creating_a_Set">
@@ -29,18 +91,26 @@ create_book --type=Set --name=My_Set --brand=RedHat
 			</step>
 			<step>
 				<para>
-					Edit the <filename>Makefile</filename> and change the following 2 lines from:
+					Uncomment the following lines in the <filename>Makefile</filename> from:
 				</para>
 <programlisting>
 #BOOKS		= My_Other_Book His_Book Her_Book Their_Book
 #SET_REPO	= http://svn.repo.com/repos/project
+#SET_REPO_TYPE	= SVN
+...
+#pre:: get_books set_books
+#clean:: clean_set_books
 </programlisting>
 				<para>
 					to :
 				</para>
 <programlisting>
-BOOKS 		= Book_A Book_B Book_C
+BOOKS 		= Book_A Book_B
 SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
+SET_REPO_TYPE	= SVN
+...
+pre:: get_books set_books
+clean:: clean_set_books
 </programlisting>
 			</step>
 			<step>
@@ -53,7 +123,7 @@ SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 			</step>
 			<step>
 				<para>
-					Test your book set by running the <command>make test-en-US</command> command.
+					Test your set by running the <command>make test-en-US</command> command.
 				</para>
 				<important>
 					<para>
@@ -62,7 +132,7 @@ SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 				</important>
 			</step>
 		</procedure>
-
+		
 	</section>
 
 </chapter>
