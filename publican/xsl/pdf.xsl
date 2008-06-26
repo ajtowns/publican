@@ -209,6 +209,7 @@ article toc
 
 <xsl:param name="toc.section.depth">3</xsl:param>
 <xsl:param name="section.autolabel" select="1"/>
+<xsl:param name="section.label.includes.component.label" select="1"/>
 
 <xsl:param name="callout.graphics.path">
     <xsl:if test="$img.src.path != ''"><xsl:value-of select="$img.src.path"/></xsl:if><xsl:text>Common_Content/images/</xsl:text>
