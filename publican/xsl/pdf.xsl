@@ -44,7 +44,7 @@
 
 <xsl:param name="hyphenate.verbatim" select="0"/>
 <xsl:param name="hyphenate">false</xsl:param>
-<!--xsl:param name="ulink.hyphenate" select="1"/-->
+<xsl:param name="ulink.hyphenate" select="1"/>
 <xsl:param name="ulink.footnotes" select="1"/>
 <xsl:param name="ulink.show" select="1"/>
 
