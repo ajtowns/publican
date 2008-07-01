@@ -329,9 +329,10 @@ sub print_known_tags {
 sub print_banned_tags {
     print "\n*Banned Tags*\n\n";
     foreach my $key ( sort( keys(%BANNED_TAGS) ) ) {
-	my $tabs = "\t";
-	# Line up output since linegraphic is bigger than 8
-	$tabs .= "\t" if(length($key) < 8);
+        my $tabs = "\t";
+
+        # Line up output since linegraphic is bigger than 8
+        $tabs .= "\t" if ( length($key) < 8 );
         print( "$key:$tabs" . $BANNED_TAGS{$key}{'reason'} . "\n" );
     }
 
@@ -691,7 +692,8 @@ sub my_as_XML($) {
                         if ($STRICT) {
                             die(qq{\n*ERROR: BUILD FAILED! Banned tag found*\n$tag:\t}
                                     . $BANNED_TAGS{$tag}->{'reason'}
-                                    . qq{\nRemove all $tag tags before attempting to build.\n\n} );
+                                    . qq{\nRemove all $tag tags before attempting to build.\n\n}
+                            );
                         }
                         else {
                             warn(
@@ -766,7 +768,10 @@ sub my_as_XML($) {
                             )
                         {
                             my $prev = pop(@xml);
-                            if ( $prev && $prev =~ /\S/ ) {
+
+                            # BZ #453067 but spaces between inline tags should be output
+                            if ( $prev && ( $prev =~ /\S/ || $prev !~ /\n/ ) )
+                            {
                                 push( @xml, $prev );
                             }
                         }
@@ -855,8 +860,9 @@ sub my_as_XML($) {
                     && !( $MAP_OUT{ $parent->{'_tag'} }->{'verbatim'} ) )
                 {
 
-                    # Don't out put empty Block tags
-                    if ( $node !~ /^\s*$/ ) {
+                  # Don't out put empty tags
+                  # BZ #453067 but spaces between inline tags should be output
+                    if ( $node !~ /^\s*$/ || $node !~ /\n/ ) {
 
                         # Truncate leading space
                         $node =~ s/[\n\r\f\t\s ]+/ /g;
