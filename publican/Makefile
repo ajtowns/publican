@@ -79,6 +79,8 @@ dist: clean
 	@tar --atime-preserve -czf $(TAR_NAME).tgz $(TAR_NAME)
 	@echo "End $@"
 
+upload-dist: dist
+	@scp $(TAR_NAME).tgz fedorahosted.org:publican
 
 # This is required to avoid this package depending on itself to build it's docs
 MYPATH = $(shell echo $$PATH)
