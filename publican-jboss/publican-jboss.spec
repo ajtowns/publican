@@ -8,7 +8,7 @@ License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		http://svn.fedorahosted.org/svn/publican/trunk/Files/%{name}-%{version}.tgz
+Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
 Requires:	publican
 BuildRequires:	publican
 URL:		https://fedorahosted.org/publican

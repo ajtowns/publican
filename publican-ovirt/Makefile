@@ -43,6 +43,9 @@ dist: clean
 	@tar czf $(TAR_NAME).tgz $(TAR_NAME)
 	@echo "End $@"
 
+upload-dist: dist
+	@scp $(TAR_NAME).tgz fedorahosted.org:publican
+
 clean:
 	@echo "Start $@"
 	@rm -rf $(NAME)-* *.tgz Common_Content tmp
