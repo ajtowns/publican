@@ -75,7 +75,7 @@ update-pot:
 
 # TODO: Get this in to SVN
 SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/$(NAME)
-SOFTWARE_SOURCE = http://svn.fedorahosted.org/svn
+SOFTWARE_SOURCE = http://svn.fedorahosted.org/svn/publican/trunk/$(NAME)/pot
 
 resync-po:: clean
 	@echo "Start $@"
@@ -89,11 +89,11 @@ resync-po:: clean
 	popd > /dev/null;
 	@echo "End $@"
 
-create_gui:: clean
+create_l10n:: clean
 	@echo "Start $@"
 	mkdir -p tmp/$(VERSION)/pot
 	cp ../publican/make/Makefile.l10n tmp/$(VERSION)/Makefile
-	sed -i -e 's/@PROGNAME@/$(VERSION)/g' tmp/$(VERSION)/Makefile
+	sed -i -e 's/@PROGNAME@/$(NAME)/g' tmp/$(VERSION)/Makefile
 	sed -i -e 's/@BRAND@/$(REAL_BRAND)/g' tmp/$(VERSION)/Makefile
 	sed -i -e 's/@OTHER_LANGS@/$(LANGS)/g' tmp/$(VERSION)/Makefile
 	perl -p -i -e 's|\@SOFTWARE_SOURCE\@|$(SOFTWARE_SOURCE)|g' tmp/$(VERSION)/Makefile
@@ -102,7 +102,8 @@ create_gui:: clean
 	find . -name *.po | sed -e 's/\.\///g' | xargs -i{} cp {} tmp/$(VERSION)/{}
 	make -C tmp/$(VERSION) update-po-all
 	make -C tmp/$(VERSION) clean
-	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)
+	rm tmp/$(VERSION)/pot/messages.mo
+	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
 	@echo "End $@" 
 
 
