@@ -1,0 +1,23 @@
+#Template make file for GUI String projects 
+#Created by Jeff Fearn <jfearn@redhat.com>
+#Copyright Red Hat Inc. 2006
+
+XML_LANG	= en-US
+PROGNAME	= @PROGNAME@
+BRAND		= @BRAND@
+PRODUCT		= Software
+OTHER_LANGS	= @OTHER_LANGS@
+TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
+ 
+COMMON_CONFIG  = /usr/share/publican
+include $(COMMON_CONFIG)/make/Makefile.GUI
+
+SOURCE		= @SOFTWARE_SOURCE@
+
+resync-pot: clean
+	@echo 'Retrieving $(PROGNAME) from SVN'
+	@mkdir -p tmp/$(PROGNAME)
+	@cd tmp/$(PROGNAME) && svn export $(SOURCE)
+	@cp -rf tmp/$(PROGNAME)/pot/*.pot pot/.
+	@echo 'Retrieval complete'
+

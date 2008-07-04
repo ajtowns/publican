@@ -51,14 +51,13 @@ clean:
 
 #######################################################################################
 #
-#	Common Content specific things
+#	Translation specific things
 #
 #######################################################################################
 
 ENT2POT		= entity2pot
 PO2ENTITY	= po2entity
 
-# This is seperate so we enforce only 1 translatable entity file in common content.
 update-pot:
 	@echo "Start $@"
 	@mkdir -p pot
@@ -106,20 +105,12 @@ create_l10n:: clean
 	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
 	@echo "End $@" 
 
+#######################################################################################
+#
+#	Common Content specific things
+#
+#######################################################################################
 
-#resync-po:: clean
-#	@echo "Start $@"
-#	@echo  "	Exporting PO files from $(CVS_ROOT)/$(CVS_REPO)"
-#	@mkdir -p tmp/CVS
-#	@pushd tmp/CVS  > /dev/null; \
-#		cvs -d $(CVS_ROOT) export -r HEAD $(CVS_REPO); \
-#	popd > /dev/null;
-#	@echo "	Copying PO files"
-#	@pushd tmp/CVS/$(CVS_REPO)  > /dev/null; \
-#		find . -name Legal_Notice.po | xargs --no-run-if-empty rm;\
-#		find . -name *.po | sed -e 's/\.\///g' | xargs -i{} cp {} $(PWD)/{}; \
-#	popd > /dev/null;
-#	@echo "End $@"
 
 entities::
 	@echo "Start $@"
@@ -172,6 +163,4 @@ Common_Content:: entities
 	done; \
 	cd $(PWD);
 	@echo "End $@"
-
-
 
