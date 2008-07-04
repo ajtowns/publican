@@ -7,20 +7,21 @@
 	<para>
 		A set is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a Set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. There are two types of sets, Stand-alone Sets and Distributed Sets.
 	</para>
-	<section id="sect-Publican-Using_Sets-">
+	<section id="sect-Publican-Using_Sets-Stand_alone_Sets">
 		<title>Stand-alone Sets</title>
-		
-		<para>A stand-alone set contains the xml files for each book, all of which are located inside the directory of the set.</para>
+		<para>
+			A stand-alone set contains the xml files for each book, all of which are located inside the directory of the set.
+		</para>
 		<para>
 			The procedure that follows will guide you through the process of creating a stand-alone set named <citetitle>My Set</citetitle> located in a directory called <filename>books/My_Set/</filename>. The set will contain <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> both of which will be manually created inside the <filename>books/My_Set/en-US</filename> directory.
 		</para>
-		<procedure id="proc-Publican-Creating_a_Set-Creating_a_Self-Contained_Set">
+		<procedure id="proc-Publican-Stand_alone_Sets-Creating_a_Stand_alone_Set">
 			<title>Creating a Stand-alone Set</title>
 			<step>
 				<para>
 					Run the following command in a shell in the <filename>books/</filename> directory to create a set named <literal>My_Set</literal> branded in the Red Hat style.
 				</para>
-<programlisting>
+				<programlisting>
 create_book --type=Set --name=My_Set --brand=RedHat
 </programlisting>
 			</step>
@@ -28,7 +29,7 @@ create_book --type=Set --name=My_Set --brand=RedHat
 				<para>
 					<command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two directories called <filename>Book_A</filename> and <filename>Book_B</filename>.
 				</para>
-<programlisting>
+				<programlisting>
 cd My_Set/en-US
 mkdir Book_A Book_B
 </programlisting>
@@ -37,8 +38,8 @@ mkdir Book_A Book_B
 				<para>
 					<command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
 				</para>
-<screen>
-&lt;?xml version='1.0'?&gt;
+				<screen>
+&lt;?xml version=&#39;1.0&#39;?&gt;
 &lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]&gt;
@@ -58,8 +59,7 @@ mkdir Book_A Book_B
 				<para>
 					Open the <filename>books/My_Set/en-US/My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
-<programlisting>
-<xi:include parse="text" href="extras/Set_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+				<programlisting><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			</step>
 			<step>
@@ -68,8 +68,10 @@ mkdir Book_A Book_B
 				</para>
 			</step>
 		</procedure>
+
 	</section>
-	<section id="sect-Publican-Using_Sets-Creating_a_Set">
+	
+	<section id="sect-Publican-Using_Sets-Distributed_Sets">
 		<title>Distributed Sets</title>
 		<para>
 			A Distributed Set contains books that are located in <package>SVN</package>. By setting the repository location and titles of the included books in the <filename>Makefile</filename>, each book can be exported to build the entire set. The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>.
@@ -79,13 +81,13 @@ mkdir Book_A Book_B
 				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are available in your <package>SVN</package> repository. Currently <package>publican</package> only supports <package>SVN</package>.
 			</para>
 		</important>
-		<procedure id="proc-Publican-Creating_a_Set-Creating_a_Set">
+		<procedure id="proc-Publican-Distributed_Sets-Creating_a_Set">
 			<title>Creating a Set</title>
 			<step>
 				<para>
 					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style.
 				</para>
-<programlisting>
+				<programlisting>
 create_book --type=Set --name=My_Set --brand=RedHat
 </programlisting>
 			</step>
@@ -93,7 +95,7 @@ create_book --type=Set --name=My_Set --brand=RedHat
 				<para>
 					Uncomment the following lines in the <filename>Makefile</filename> from:
 				</para>
-<programlisting>
+				<programlisting>
 #BOOKS		= My_Other_Book His_Book Her_Book Their_Book
 #SET_REPO	= http://svn.repo.com/repos/project
 #SET_REPO_TYPE	= SVN
@@ -104,7 +106,7 @@ create_book --type=Set --name=My_Set --brand=RedHat
 				<para>
 					to :
 				</para>
-<programlisting>
+				<programlisting>
 BOOKS 		= Book_A Book_B
 SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 SET_REPO_TYPE	= SVN
@@ -117,8 +119,7 @@ clean:: clean_set_books
 				<para>
 					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
-<programlisting>
-<xi:include parse="text" href="extras/Set_Name.xmlt" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+				<programlisting><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			</step>
 			<step>
@@ -132,7 +133,7 @@ clean:: clean_set_books
 				</important>
 			</step>
 		</procedure>
-		
+
 	</section>
 
 </chapter>

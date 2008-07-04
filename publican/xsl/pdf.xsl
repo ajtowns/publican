@@ -11,6 +11,9 @@
 <!DOCTYPE xsl:stylesheet [
 <!ENTITY lowercase "'abcdefghijklmnopqrstuvwxyz'">
 <!ENTITY uppercase "'ABCDEFGHIJKLMNOPQRSTUVWXYZ'">
+<!ENTITY primary   'normalize-space(concat(primary/@sortas, primary[not(@sortas)]))'>
+<!ENTITY secondary 'normalize-space(concat(secondary/@sortas, secondary[not(@sortas)]))'>
+<!ENTITY tertiary  'normalize-space(concat(tertiary/@sortas, tertiary[not(@sortas)]))'>
  ]>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -111,6 +114,16 @@
 	<xsl:attribute name="margin-left">
 		<xsl:value-of select="$title.margin.left"/>
 	</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="hidden.properties">
+  <xsl:attribute name="space-before.minimum">0em</xsl:attribute>
+  <xsl:attribute name="space-before.optimum">0em</xsl:attribute>
+  <xsl:attribute name="space-before.maximum">0em</xsl:attribute>
+  <xsl:attribute name="space-after.minimum">0em</xsl:attribute>
+  <xsl:attribute name="space-after.optimum">0em</xsl:attribute>
+  <xsl:attribute name="space-after.maximum">0em</xsl:attribute>
+  <xsl:attribute name="font-size">0pt</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="verbatim.properties">
@@ -294,6 +307,17 @@ article toc
 	<xsl:attribute name="space-before.maximum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
 </xsl:attribute-set>
 
+<xsl:attribute-set name="figure.title.properties" use-attribute-sets="formal.title.properties">
+	<xsl:attribute name="font-weight">normal</xsl:attribute>
+	<xsl:attribute name="font-size">
+		<xsl:value-of select="$body.font.master"/>
+		<xsl:text>pt</xsl:text>
+	</xsl:attribute>
+	<xsl:attribute name="space-before.optimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.minimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.maximum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:attribute-set name="section.title.level1.properties">
 	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
 	<xsl:attribute name="font-size">
@@ -344,11 +368,23 @@ article toc
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
 	<!-- font size is calculated dynamically by section.heading template -->
 	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
-	<xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
-	<xsl:attribute name="space-before.optimum">1.0em</xsl:attribute>
-	<xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>
+	<xsl:attribute name="space-before.minimum">1.8em</xsl:attribute>
+	<xsl:attribute name="space-before.optimum">2.0em</xsl:attribute>
+	<xsl:attribute name="space-before.maximum">2.2em</xsl:attribute>
+	<xsl:attribute name="space-after.minimum">0.1em</xsl:attribute>
+	<xsl:attribute name="space-after.optimum">0.1em</xsl:attribute>
+	<xsl:attribute name="space-after.maximum">0.1em</xsl:attribute>
 	<xsl:attribute name="text-align">left</xsl:attribute>
 	<xsl:attribute name="start-indent"><xsl:value-of select="$title.margin.left"/></xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="normal.para.spacing">
+	<xsl:attribute name="space-before.minimum">0.1em</xsl:attribute>
+	<xsl:attribute name="space-before.optimum">0.1em</xsl:attribute>
+	<xsl:attribute name="space-before.maximum">0.1em</xsl:attribute>
+	<xsl:attribute name="space-after.optimum">1em</xsl:attribute>
+	<xsl:attribute name="space-after.minimum">0.8em</xsl:attribute>
+	<xsl:attribute name="space-after.maximum">1.2em</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="book.titlepage.recto.style">
@@ -1371,6 +1407,145 @@ Version:1.72
 -->
 <xsl:template match="package">
   <xsl:call-template name="inline.italicseq"/>
+</xsl:template>
+
+<!--
+From: fo/auttoc.xsl
+Reason: Bold chaps
+Version:1.72
+-->
+
+<xsl:template name="toc.line">
+  <xsl:param name="toc-context" select="NOTANODE"/>
+
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <xsl:variable name="label">
+    <xsl:apply-templates select="." mode="label.markup"/>
+  </xsl:variable>
+
+  <fo:block xsl:use-attribute-sets="toc.line.properties"
+            end-indent="{$toc.indent.width}pt"
+            last-line-end-indent="-{$toc.indent.width}pt">
+        <xsl:if test="local-name(.) = 'glossary' or local-name(.) = 'bibliography' or local-name(.) = 'preface' or local-name(.) = 'reference' or local-name(.) = 'chapter' or local-name(.) = 'article' or local-name(.) = 'appendix' or local-name(.) = 'index' ">
+	  <xsl:attribute name="space-before.minimum">6pt</xsl:attribute>
+	  <xsl:attribute name="space-before.optimum">6pt</xsl:attribute>
+	  <xsl:attribute name="space-before.maximum">8pt</xsl:attribute>
+        </xsl:if>
+        <xsl:if test="local-name(.) = 'part' ">
+	  <xsl:attribute name="space-before.minimum">18pt</xsl:attribute>
+	  <xsl:attribute name="space-before.optimum">18pt</xsl:attribute>
+	  <xsl:attribute name="space-before.maximum">24pt</xsl:attribute>
+        </xsl:if>
+    <fo:inline keep-with-next.within-line="always">
+      <fo:basic-link internal-destination="{$id}">
+    <!--xsl:message>
+	<xsl:text>Local Name: </xsl:text>
+        <xsl:value-of select="local-name(.)"/>
+    </xsl:message-->
+        <xsl:if test="local-name(.) = 'glossary' or local-name(.) = 'bibliography' or local-name(.) = 'preface' or local-name(.) = 'chapter' or local-name(.) = 'reference' or local-name(.) = 'part' or local-name(.) = 'article' or local-name(.) = 'appendix' or local-name(.) = 'index' ">
+	  <xsl:attribute name="font-weight">bold</xsl:attribute>
+        </xsl:if>
+        <xsl:if test="$label != ''">
+          <xsl:copy-of select="$label"/>
+          <xsl:value-of select="$autotoc.label.separator"/>
+        </xsl:if>
+        <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+      </fo:basic-link>
+    </fo:inline>
+    <fo:inline keep-together.within-line="always">
+      <xsl:text> </xsl:text>
+      <fo:leader leader-pattern="dots"
+                 leader-pattern-width="3pt"
+                 leader-alignment="reference-area"
+                 keep-with-next.within-line="always"/>
+      <xsl:text> </xsl:text> 
+      <fo:basic-link internal-destination="{$id}">
+        <fo:page-number-citation ref-id="{$id}"/>
+      </fo:basic-link>
+    </fo:inline>
+  </fo:block>
+</xsl:template>
+
+<!--
+From: fo/index.xsl
+Reason: remove white space for indexterm anchors
+Version:1.72
+-->
+<xsl:template match="indexterm" name="indexterm">
+  <!-- Temporal workaround for bug in AXF -->
+  <xsl:variable name="wrapper.name">
+    <xsl:choose>
+      <xsl:when test="$axf.extensions != 0">
+        <xsl:call-template name="inline.or.block"/>
+      </xsl:when>
+      <xsl:otherwise>fo:wrapper</xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="hidden.properties">
+  <xsl:element name="{$wrapper.name}">
+    <xsl:attribute name="id">
+      <xsl:call-template name="object.id"/>
+    </xsl:attribute>
+    <xsl:choose>
+      <xsl:when test="$xep.extensions != 0">
+        <xsl:attribute name="rx:key">
+          <xsl:value-of select="&primary;"/>
+          <xsl:if test="@significance='preferred'"><xsl:value-of select="$significant.flag"/></xsl:if>
+          <xsl:if test="secondary">
+            <xsl:text>, </xsl:text>
+            <xsl:value-of select="&secondary;"/>
+          </xsl:if>
+          <xsl:if test="tertiary">
+            <xsl:text>, </xsl:text>
+            <xsl:value-of select="&tertiary;"/>
+          </xsl:if>
+        </xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:comment>
+          <xsl:call-template name="comment-escape-string">
+            <xsl:with-param name="string">
+              <xsl:value-of select="primary"/>
+              <xsl:if test="secondary">
+                <xsl:text>, </xsl:text>
+                <xsl:value-of select="secondary"/>
+              </xsl:if>
+              <xsl:if test="tertiary">
+                <xsl:text>, </xsl:text>
+                <xsl:value-of select="tertiary"/>
+              </xsl:if>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:comment>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:element>
+  </fo:block>
+</xsl:template>
+
+<xsl:template name="formal.object.heading">
+  <xsl:param name="object" select="."/>
+  <xsl:param name="placement" select="'before'"/>
+
+  <fo:block xsl:use-attribute-sets="figure.title.properties">
+    <xsl:choose>
+      <xsl:when test="$placement = 'before'">
+        <xsl:attribute
+               name="keep-with-next.within-column">always</xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:attribute
+               name="keep-with-previous.within-column">always</xsl:attribute>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates select="$object" mode="object.title.markup">
+      <xsl:with-param name="allow-anchors" select="1"/>
+    </xsl:apply-templates>
+  </fo:block>
 </xsl:template>
 
 </xsl:stylesheet>

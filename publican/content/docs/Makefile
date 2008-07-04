@@ -37,13 +37,13 @@ update-template:
 	@cp ../../Book_Template/en-US/Book.ent en-US/extras/Book_Name.ent
 	@echo "End $@"
 
-publish-dist: html-single-all
+publish-dist: html-desktop-all
 	@echo "Start $@"
 	@rm -rf publish
 	@mkdir -p publish
 	@for lang in $(TRANSLATIONS); do \
 		mkdir -p publish/$$lang; \
-		cp -rf tmp/$$lang/html-single/*  publish/$$lang/.; \
+		cp -rf tmp/$$lang/html-desktop/*  publish/$$lang/.; \
 	done
 	@echo "End $@"
 
