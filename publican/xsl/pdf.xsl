@@ -50,6 +50,8 @@
 <xsl:param name="ulink.hyphenate" select="1"/>
 <xsl:param name="ulink.footnotes" select="1"/>
 <xsl:param name="ulink.show" select="1"/>
+<xsl:param name="table.footnote.number.format" select="'1'"/>
+<xsl:param name="table.footnote.number.symbols" select="''"/>
 
 <xsl:param name="line-height" select="1.5"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
@@ -72,7 +74,7 @@
 </xsl:attribute-set>
 
 <xsl:attribute-set name="monospace.properties">
-	<xsl:attribute name="font-size">9pt</xsl:attribute>
+	<!--xsl:attribute name="font-size">9pt</xsl:attribute-->
 	<xsl:attribute name="font-family">
 		<xsl:value-of select="$monospace.font.family"/>
 	</xsl:attribute>
@@ -124,6 +126,7 @@
   <xsl:attribute name="space-after.optimum">0em</xsl:attribute>
   <xsl:attribute name="space-after.maximum">0em</xsl:attribute>
   <xsl:attribute name="font-size">0pt</xsl:attribute>
+  <xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="verbatim.properties">
@@ -232,14 +235,38 @@ article toc
 <xsl:param name="variablelist.as.blocks">1</xsl:param>
 
 <!-- The horrible list spacing problems, this is much better. -->
-<!--xsl:attribute-set name="list.block.spacing">
-	<xsl:attribute name="space-before.optimum">2em</xsl:attribute>
-	<xsl:attribute name="space-before.minimum">1em</xsl:attribute>
-	<xsl:attribute name="space-before.maximum">3em</xsl:attribute>
-	<xsl:attribute name="space-after.optimum">0.1em</xsl:attribute>
-	<xsl:attribute name="space-after.minimum">0.1em</xsl:attribute>
-	<xsl:attribute name="space-after.maximum">0.1em</xsl:attribute>
-</xsl:attribute-set-->
+<xsl:attribute-set name="list.block.spacing">
+	<xsl:attribute name="space-before.optimum">0.1pt</xsl:attribute>
+	<xsl:attribute name="space-before.minimum">0.1pt</xsl:attribute>
+	<xsl:attribute name="space-before.maximum">0.1pt</xsl:attribute>
+	<xsl:attribute name="space-after.optimum">1em</xsl:attribute>
+	<xsl:attribute name="space-after.minimum">1em</xsl:attribute>
+	<xsl:attribute name="space-after.maximum">1em</xsl:attribute>
+</xsl:attribute-set>
+<xsl:attribute-set name="list.item.spacing">
+  <xsl:attribute name="space-before.optimum">0.1em</xsl:attribute>
+  <xsl:attribute name="space-before.minimum">0.1em</xsl:attribute>
+  <xsl:attribute name="space-before.maximum">0.1em</xsl:attribute>
+	<xsl:attribute name="space-after.optimum">1em</xsl:attribute>
+	<xsl:attribute name="space-after.minimum">1em</xsl:attribute>
+	<xsl:attribute name="space-after.maximum">1em</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="fat.list.item.spacing" use-attribute-sets="list.item.spacing">
+	<xsl:attribute name="space-after.optimum">1em</xsl:attribute>
+	<xsl:attribute name="space-after.minimum">1em</xsl:attribute>
+	<xsl:attribute name="space-after.maximum">1em</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="dash.list.item.spacing" use-attribute-sets="list.item.spacing">
+ <xsl:attribute name="padding-top">5pt</xsl:attribute>
+ <xsl:attribute name="space-before.optimum">0.5em</xsl:attribute>
+  <xsl:attribute name="space-before.minimum">0.5em</xsl:attribute>
+  <xsl:attribute name="space-before.maximum">0.5em</xsl:attribute>
+	<xsl:attribute name="border-top-width">0.5pt</xsl:attribute>
+	<xsl:attribute name="border-top-style">dashed</xsl:attribute>
+	<xsl:attribute name="border-top-color">black</xsl:attribute>
+</xsl:attribute-set>
 
 <!-- Some padding inside tables -->
 <xsl:attribute-set name="table.cell.padding">
@@ -307,7 +334,7 @@ article toc
 	<xsl:attribute name="space-before.maximum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
 </xsl:attribute-set>
 
-<xsl:attribute-set name="figure.title.properties" use-attribute-sets="formal.title.properties">
+<xsl:attribute-set name="below.title.properties" use-attribute-sets="formal.title.properties">
 	<xsl:attribute name="font-weight">normal</xsl:attribute>
 	<xsl:attribute name="font-size">
 		<xsl:value-of select="$body.font.master"/>
@@ -316,6 +343,20 @@ article toc
 	<xsl:attribute name="space-before.optimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
 	<xsl:attribute name="space-before.minimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
 	<xsl:attribute name="space-before.maximum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="above.title.properties" use-attribute-sets="formal.title.properties">
+	<xsl:attribute name="font-weight">normal</xsl:attribute>
+	<xsl:attribute name="font-size">
+		<xsl:value-of select="$body.font.master"/>
+		<xsl:text>pt</xsl:text>
+	</xsl:attribute>
+	<xsl:attribute name="space-before.optimum"><xsl:text>2em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.minimum"><xsl:text>2em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.maximum"><xsl:text>2em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-after.optimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-after.minimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-after.maximum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="section.title.level1.properties">
@@ -444,7 +485,7 @@ article toc
 		<xsl:value-of select="$title.fontset"/>
 	</xsl:attribute>
 	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
-	<xsl:attribute name="font-size">12pt</xsl:attribute>
+	<xsl:attribute name="font-size">24pt</xsl:attribute>
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
@@ -1297,14 +1338,14 @@ Version:1.72
     </xsl:choose>
   </xsl:variable>
 
-  <fo:list-item id="{$entry.id}" xsl:use-attribute-sets="list.item.spacing">
+  <fo:list-item id="{$entry.id}" xsl:use-attribute-sets="dash.list.item.spacing">
     <fo:list-item-label end-indent="label-end()">
       <xsl:choose>
         <xsl:when test="$deflabel = 'none'">
           <fo:block/>
         </xsl:when>
         <xsl:otherwise>
-          <fo:block>
+          <fo:block font-weight="bold">
             <xsl:apply-templates select="." mode="label.markup"/>
             <xsl:if test="$deflabel = 'number' and not(label)">
               <xsl:apply-templates select="." mode="intralabel.punctuation"/>
@@ -1355,14 +1396,14 @@ Version:1.72
     </xsl:choose>
   </xsl:variable>
 
-  <fo:list-item xsl:use-attribute-sets="list.item.spacing">
+  <fo:list-item xsl:use-attribute-sets="fat.list.item.spacing">
     <fo:list-item-label end-indent="label-end()">
       <xsl:choose>
         <xsl:when test="$deflabel = 'none'">
           <fo:block/>
         </xsl:when>
         <xsl:otherwise>
-          <fo:block>
+          <fo:block font-weight="bold">
             <xsl:variable name="answer.label">
               <xsl:apply-templates select="." mode="label.markup"/>
             </xsl:variable>
@@ -1531,21 +1572,50 @@ Version:1.72
   <xsl:param name="object" select="."/>
   <xsl:param name="placement" select="'before'"/>
 
-  <fo:block xsl:use-attribute-sets="figure.title.properties">
     <xsl:choose>
       <xsl:when test="$placement = 'before'">
-        <xsl:attribute
-               name="keep-with-next.within-column">always</xsl:attribute>
+	<fo:block xsl:use-attribute-sets="above.title.properties">
+        	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
+		<xsl:apply-templates select="$object" mode="object.title.markup">
+		      <xsl:with-param name="allow-anchors" select="1"/>
+    		</xsl:apply-templates>
+  	</fo:block>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:attribute
-               name="keep-with-previous.within-column">always</xsl:attribute>
+  	<fo:block xsl:use-attribute-sets="below.title.properties">
+        	<xsl:attribute name="keep-with-previous.within-column">always</xsl:attribute>
+  		<xsl:apply-templates select="$object" mode="object.title.markup">
+  	    		<xsl:with-param name="allow-anchors" select="1"/>
+  	  	</xsl:apply-templates>
+  	</fo:block>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates select="$object" mode="object.title.markup">
-      <xsl:with-param name="allow-anchors" select="1"/>
-    </xsl:apply-templates>
-  </fo:block>
 </xsl:template>
+
+<xsl:template match="segtitle" mode="seglist-table">
+  <fo:table-cell>
+    <fo:block xsl:use-attribute-sets="above.title.properties" font-weight="bold">
+      <xsl:apply-templates/>
+    </fo:block>
+  </fo:table-cell>
+</xsl:template>
+
+<xsl:template match="seglistitem" mode="seglist-table">
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+  <fo:table-row id="{$id}">
+    <xsl:apply-templates mode="seglist-table"/>
+  </fo:table-row>
+</xsl:template>
+
+<xsl:template match="seg" mode="seglist-table">
+  <fo:table-cell xsl:use-attribute-sets="table.cell.padding">
+    <fo:block>
+      <xsl:apply-templates/>
+    </fo:block>
+  </fo:table-cell>
+</xsl:template>
+
 
 </xsl:stylesheet>

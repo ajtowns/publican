@@ -523,7 +523,6 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			The following table lists commonly used <command>make</command> commands:
 		</para>
 		<segmentedlist id="segm-Publican-Building_a_Book-Common_make_Commands">
-			<title>Common make Commands</title>
 			<segtitle>Command</segtitle>
 			<segtitle>Result</segtitle>
 			<seglistitem>
@@ -553,6 +552,126 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<seglistitem>
 				<seg><command>make pdf-en-US</command></seg>
 				<seg>Build the book in PDF format. This may not be supported on all systems.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean</command></seg>
+				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
+				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+			</seglistitem>
+			<seglistitem>
+				<seg><command>make clean_ids</command></seg>
+				<seg>Change all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></seg>
 			</seglistitem>
 			<seglistitem>
 				<seg><command>make clean</command></seg>

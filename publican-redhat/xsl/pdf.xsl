@@ -27,6 +27,27 @@
 <xsl:param name="title.color">#a70000</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 
+<xsl:attribute-set name="admonition.title.properties">
+	<xsl:attribute name="font-size">13pt</xsl:attribute>
+	<xsl:attribute name="color">white</xsl:attribute>
+	<xsl:attribute name="font-weight">bold</xsl:attribute>
+	<xsl:attribute name="hyphenate">false</xsl:attribute>
+	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="xref.properties">
+  <xsl:attribute name="font-style">italic</xsl:attribute>
+  <xsl:attribute name="color">
+	<xsl:choose>
+		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
+			<xsl:text>#aee6ff</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>#0066cc</xsl:text>
+		</xsl:otherwise>
+	</xsl:choose>
+  </xsl:attribute>
+</xsl:attribute-set>
 
 <xsl:attribute-set name="shade.verbatim.style">
   <xsl:attribute name="wrap-option">wrap</xsl:attribute>

@@ -51,64 +51,76 @@ my %fontlist = (
             path  => '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
             style => ['normal'],
             weight => ['normal'],
+            name  => 'LiberationMono',
         },
         'LiberationMono-Bold' => {
             path   => '/usr/share/fonts/liberation/LiberationMono-Bold.ttf',
             style  => ['normal'],
             weight => ['bold'],
+            name  => 'LiberationMono',
         },
         'LiberationMono-Italic' => {
             path   => '/usr/share/fonts/liberation/LiberationMono-Italic.ttf',
             style  => ['italic'],
             weight => ['normal'],
+            name  => 'LiberationMono',
         },
         'LiberationMono-BoldItalic' => {
             path =>
                 '/usr/share/fonts/liberation/LiberationMono-BoldItalic.ttf',
             style  => ['italic'],
             weight => ['bold'],
+            name  => 'LiberationMono',
         },
         'LiberationSans-Regular' => {
             path  => '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
             style => ['normal'],
             weight => ['normal'],
+            name  => 'LiberationSans',
         },
         'LiberationSans-Bold' => {
             path   => '/usr/share/fonts/liberation/LiberationSans-Bold.ttf',
             style  => ['normal'],
             weight => ['bold'],
+            name  => 'LiberationSans',
         },
         'LiberationSans-Italic' => {
             path   => '/usr/share/fonts/liberation/LiberationSans-Italic.ttf',
             style  => ['italic'],
             weight => ['normal'],
+            name  => 'LiberationSans',
         },
         'LiberationSans-BoldItalic' => {
             path =>
                 '/usr/share/fonts/liberation/LiberationSans-BoldItalic.ttf',
             style  => ['italic'],
             weight => ['bold'],
+            name  => 'LiberationSans',
         },
         'LiberationSerif-Regular' => {
             path => '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
             style  => ['normal'],
             weight => ['normal'],
+            name  => 'LiberationSerif',
         },
         'LiberationSerif-Bold' => {
             path   => '/usr/share/fonts/liberation/LiberationSerif-Bold.ttf',
             style  => ['normal'],
             weight => ['bold'],
+            name  => 'LiberationSerif',
         },
         'LiberationSerif-Italic' => {
             path  => '/usr/share/fonts/liberation/LiberationSerif-Italic.ttf',
             style => ['italic'],
             weight => ['normal'],
+            name  => 'LiberationSerif',
         },
         'LiberationSerif-BoldItalic' => {
             path =>
                 '/usr/share/fonts/liberation/LiberationSerif-BoldItalic.ttf',
             style  => ['italic'],
             weight => ['bold'],
+            name  => 'LiberationSerif',
         },
         'LohitBengali' => {
             path   => '/usr/share/fonts/bengali/lohit_bn.ttf',
@@ -197,64 +209,76 @@ my %fontlist = (
             path  => '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
             style => ['normal'],
             weight => ['normal'],
+            name  => 'LiberationMono',
         },
         'LiberationMono-Bold' => {
             path   => '/usr/share/fonts/liberation/LiberationMono-Bold.ttf',
             style  => ['normal'],
             weight => ['bold'],
+            name  => 'LiberationMono',
         },
         'LiberationMono-Italic' => {
             path   => '/usr/share/fonts/liberation/LiberationMono-Italic.ttf',
             style  => ['italic'],
             weight => ['normal'],
+            name  => 'LiberationMono',
         },
         'LiberationMono-BoldItalic' => {
             path =>
                 '/usr/share/fonts/liberation/LiberationMono-BoldItalic.ttf',
             style  => ['italic'],
             weight => ['bold'],
+            name  => 'LiberationMono',
         },
         'LiberationSans-Regular' => {
             path  => '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
             style => ['normal'],
             weight => ['normal'],
+            name  => 'LiberationSans',
         },
         'LiberationSans-Bold' => {
             path   => '/usr/share/fonts/liberation/LiberationSans-Bold.ttf',
             style  => ['normal'],
             weight => ['bold'],
+            name  => 'LiberationSans',
         },
         'LiberationSans-Italic' => {
             path   => '/usr/share/fonts/liberation/LiberationSans-Italic.ttf',
             style  => ['italic'],
             weight => ['normal'],
+            name  => 'LiberationSans',
         },
         'LiberationSans-BoldItalic' => {
             path =>
                 '/usr/share/fonts/liberation/LiberationSans-BoldItalic.ttf',
             style  => ['italic'],
             weight => ['bold'],
+            name  => 'LiberationSans',
         },
         'LiberationSerif-Regular' => {
             path => '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
             style  => ['normal'],
             weight => ['normal'],
+            name  => 'LiberationSerif',
         },
         'LiberationSerif-Bold' => {
             path   => '/usr/share/fonts/liberation/LiberationSerif-Bold.ttf',
             style  => ['normal'],
             weight => ['bold'],
+            name  => 'LiberationSerif',
         },
         'LiberationSerif-Italic' => {
             path  => '/usr/share/fonts/liberation/LiberationSerif-Italic.ttf',
             style => ['italic'],
             weight => ['normal'],
+            name  => 'LiberationSerif',
         },
         'LiberationSerif-BoldItalic' => {
             path =>
                 '/usr/share/fonts/liberation/LiberationSerif-BoldItalic.ttf',
             style  => ['italic'],
             weight => ['bold'],
+            name  => 'LiberationSerif',
         },
         'LohitBengali' => {
             path   => '/usr/share/fonts/lohit-bengali/lohit_bn.ttf',
@@ -422,12 +446,13 @@ TOP
         my $path = $fontlist{$dist}{$name}{path};
         my $url  = qq{$share/$metric_path/$name.xml};
 
+	my $real_name = ($fontlist{$dist}{$name}{name} || $name);
         print {$conf}
             qq{        <font metrics-url="$url" kerning="yes" embed-url="$path">\n};
         foreach my $style ( @{ $fontlist{$dist}{$name}{style} } ) {
             foreach my $weight ( @{ $fontlist{$dist}{$name}{weight} } ) {
                 print {$conf}
-                    qq{            <font-triplet name="$name" style="$style" weight="$weight"/>\n};
+                    qq{            <font-triplet name="$real_name" style="$style" weight="$weight"/>\n};
             }
         }
         print {$conf} qq{        </font>\n};

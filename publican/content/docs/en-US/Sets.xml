@@ -87,40 +87,33 @@ mkdir Book_A Book_B
 				<para>
 					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style.
 				</para>
-				<programlisting>
-create_book --type=Set --name=My_Set --brand=RedHat
-</programlisting>
+<programlisting>$ create_book --type=Set --name=My_Set --brand=RedHat</programlisting>
 			</step>
 			<step>
 				<para>
 					Uncomment the following lines in the <filename>Makefile</filename> from:
 				</para>
-				<programlisting>
-#BOOKS		= My_Other_Book His_Book Her_Book Their_Book
+<programlisting>#BOOKS		= My_Other_Book His_Book Her_Book Their_Book
 #SET_REPO	= http://svn.repo.com/repos/project
 #SET_REPO_TYPE	= SVN
 ...
 #pre:: get_books set_books
-#clean:: clean_set_books
-</programlisting>
+#clean:: clean_set_books</programlisting>
 				<para>
 					to :
 				</para>
-				<programlisting>
-BOOKS 		= Book_A Book_B
+<programlisting>BOOKS 		= Book_A Book_B
 SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 SET_REPO_TYPE	= SVN
 ...
 pre:: get_books set_books
-clean:: clean_set_books
-</programlisting>
+clean:: clean_set_books</programlisting>
 			</step>
 			<step>
 				<para>
 					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
-				<programlisting><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</programlisting>
+<programlisting><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			</step>
 			<step>
 				<para>
