@@ -392,7 +392,7 @@ else
 endif
 	@echo
 	@echo "*Start: Words Of Interest*";
-	@for file in `find $(XML_LANG) -name *.xml`; do \
+	@for file in `find $(XML_LANG) -name "*.xml"`; do \
 		aspell --list --lang=${1} --mode=sgml --add-sgml-skip={$(ASPELL_EXCLUDES)} < $$$$file ; \
 	done | sort -u;
 	@echo "*End: Words Of Interest*";

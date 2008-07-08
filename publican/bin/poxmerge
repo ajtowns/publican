@@ -209,7 +209,7 @@ while ( defined( $file = readdir(DIR) ) ) {
             my $pofile = $lang_dirs[$i] . $file;
             $pofile =~ s/\.xml$/\.po/;
             if ( !$quiet ) {
-                print( STDERR "-n Merging $pofile..." );
+                print( STDERR "\n Merging $pofile..." );
             }
 
             # jfearn: adding $output makes paths works nicer
@@ -241,7 +241,7 @@ foreach my $sub (@subs) {
                 $pofile =~ s/\.xml$/\.po/;
                 my $cmd = "po2xml $dir$sub$file $pofile > $output$sub$file";
                 if ( !$quiet ) {
-                    print( STDERR "-n Merging $pofile..." );
+                    print( STDERR "\n Merging $pofile..." );
                 }
 
                 # jfearn: adding $output makes paths works nicer

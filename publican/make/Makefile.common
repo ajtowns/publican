@@ -267,11 +267,11 @@ publish-report:: report-all
 update_includes:
 	@echo "START: $@ `date`"
 ifdef DEFAULT_LANGS
-	@for file in `find $(XML_LANG)/*.xml | sort`; do \
+	@for file in `ls $(XML_LANG)/*.xml | sort`; do \
 		$(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C) --defaults $(DEFAULT_LANGS); \
 	done
 else
-	@for file in `find $(XML_LANG)/*.xml | sort`; do \
+	@for file in `ls $(XML_LANG)/*.xml | sort`; do \
 		$(XMLCLEAN) -U -u -in $$file -out $$file -lang $(XML_LANG) --trans $(OTHER_LANGS_C); \
 	done
 endif

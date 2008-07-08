@@ -806,8 +806,9 @@ sub my_as_XML($) {
                     if ( $MAP_OUT{$tag}->{'block'} ) {
 
                         # remove empty lines
-                        if ( $xml[$#xml] =~ /^\s*$/ ) {
-                            if ( pop(@xml) ne "\n" ) {
+                        if ( $xml[$#xml] =~ /^\s*$/s) {
+                            pop(@xml);
+                            if ( $xml[$#xml] =~ /^\s*$/s) {
                                 pop(@xml);
                             }
                         }
