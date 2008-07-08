@@ -62,6 +62,7 @@ my $common          = 0;
 my $dtdver          = '4.5';
 my $print_known     = 0;
 my $print_banned    = 0;
+my $MAX_WIDTH       = 444;
 
 $columns = $DEFAULT_WRAP;
 
@@ -751,6 +752,13 @@ sub my_as_XML($) {
                             if ($format) {
                                 $node->attr( 'format', $format );
                             }
+                            if( -f $node->attr('fileref')) {
+                                my $cmd = '/usr/bin/identify -format "%w" ' . $node->attr('fileref');
+                                if(`$cmd` > $MAX_WIDTH) {
+                                    $node->attr( 'scalefit', '1' );
+                                }
+                            }
+
                         }
 
                         push( @xml, $node->starttag_XML( undef, 1 ) );

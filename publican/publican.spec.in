@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t243%{?dist}
+Release:	0.t245%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -19,7 +19,7 @@ Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
 Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl elinks aspell
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template
-Requires:	fop batik xalan-j2
+Requires:	fop batik xalan-j2 ImageMagick
 
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
@@ -170,6 +170,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed spaces being removed between inline tags. BZ #453067
 - Changed TOC layout (bold chapters + spacing). BZ #453885
 - Changed title spacing, unbolded figure/table titles.
+- Fix over size images breaking PDF and HTML layouts
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file
