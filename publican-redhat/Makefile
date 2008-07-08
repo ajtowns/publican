@@ -145,4 +145,12 @@ Common_Content:: entities
 	cd $(PWD);
 	@echo "End $@"
 
+clean_ids:
+	@echo "START: $@ `date`"
+	@cd en-US && \
+	for file in `find . -name "*.xml" | sed -e 's/^\.\///' | sort`; do \
+		echo "	$$file"; \
+		xmlClean -strict 1 -U -in $$file -out $$file -book $(REAL_BRAND) -cleanids ; \
+	done && cd ..;
+	@echo "END: $@ `date`"
 
