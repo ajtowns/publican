@@ -1126,9 +1126,11 @@ Version: 1.72
   <fo:table-row>
     <fo:table-cell>
 	  <fo:block>
+		<xsl:if test="@class">
 	    <xsl:call-template name="gentext">
-	      <xsl:with-param name="key" select="'translator'"/>
+	      <xsl:with-param name="key" select="@class"/>
 	    </xsl:call-template>
+		</xsl:if>
 	  </fo:block>
     </fo:table-cell>
     <fo:table-cell>
