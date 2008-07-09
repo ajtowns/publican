@@ -32,7 +32,10 @@ DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
 LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 XALAN		= java -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
-TEST_XALAN	?= 1
+TEST_XALAN	?= 0
+
+TEST_SAXON = 1
+SAXON = java -cp "/usr/share/java/saxon.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/saxon65.jar:/home/jfearn/Desktop/xslthl/xslthl.jar" -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration -Dxslthl.config="file:///home/jfearn/Build/src/fedora/publican/trunk/publican/xsl_extras/docbook/1.72.0/highlighting/xslthl-config.xml" com.icl.saxon.StyleSheet -x org.apache.xml.resolver.tools.ResolvingXMLReader -y org.apache.xml.resolver.tools.ResolvingXMLReader -r org.apache.xml.resolver.tools.CatalogResolver
 
 # List of tags to exclude from aspell check
 ASPELL_EXCLUDES = programlisting,userinput,screen,filename,command,computeroutput,abbrev,accel,orgname
@@ -220,15 +223,23 @@ ifeq "${1}" "pdf"
 		fi; \
 		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
 		if [ "$(TEST_XALAN)" == "1" ]; then \
+			echo "Running XALAN:"; \
 			echo "$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth $(TOC_SECTION_DEPTH) -param chunk.section.depth $(CHUNK_SECTION_DEPTH) -param confidential ${CONFIDENTIAL} -param l10n.gentext.language $$(GENLANG) -param show.comments $(SHOW_REMARKS) -param use.extensions 1 -param tablecolumns.extensions 1 -param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL)"; \
 			$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth "$(TOC_SECTION_DEPTH)" -param chunk.section.depth "$(CHUNK_SECTION_DEPTH)" -param confidential ${CONFIDENTIAL} -param l10n.gentext.language "$$(GENLANG)" -param show.comments $(SHOW_REMARKS) -param use.extensions 1 -param tablecolumns.extensions 1 -param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL); \
 		else \
-		if [ "$$$$fop_ver" = "0.20.5" ]; then \
-			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
-		else \
-			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml ;\
+			if [ "$(TEST_SAXON)" == "1" ]; then \
+				echo "Running Saxon:"; \
+				$(SAXON) -o $(DOCNAME).fo $(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) use.extensions=1 tablecolumns.extensions=1 generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL); \
+			else \
+				echo "Running xsltproc:"; \
+				if [ "$$$$fop_ver" = "0.20.5" ]; then \
+					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+				else \
+					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+				fi; \
+			fi; \
 		fi; \
-		fi; \
+		echo "Running FOP:"; \
 		fop -q -c $(COMMON_CONFIG)/fop/fop.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else

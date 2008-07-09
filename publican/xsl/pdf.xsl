@@ -19,7 +19,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		version='1.0'
 		xmlns="http://www.w3.org/TR/xhtml1/transitional"
-		xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		xmlns:fo="http://www.w3.org/1999/XSL/Format"
+		xmlns:xslthl="http://xslthl.sf.net"
+                exclude-result-prefixes="xslthl">
 <!--		exclude-result-prefixes="#default"> -->
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
@@ -35,8 +37,8 @@
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:param>
-<xsl:param name="use.extensions" select="0"/>
-<xsl:param name="tablecolumns.extensions" select="0"/>
+<xsl:param name="use.extensions" select="1"/>
+<xsl:param name="tablecolumns.extensions" select="1"/>
 <xsl:param name="fop.extensions" select="0"/>
 <xsl:param name="fop1.extensions" select="1"/>
 <xsl:param name="img.src.path"/>
@@ -61,9 +63,21 @@
 <xsl:param name="ulink.show" select="1"/>
 <xsl:param name="table.footnote.number.format" select="'1'"/>
 <xsl:param name="table.footnote.number.symbols" select="''"/>
+<xsl:param name="highlight.source" select="1"/>
 
 <xsl:param name="line-height" select="1.5"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
+
+<xsl:param name="xslthl.keyword.color">red</xsl:param>
+<xsl:param name="xslthl.string.color">silver</xsl:param>
+<xsl:param name="xslthl.comment.color">blue</xsl:param>
+<xsl:param name="xslthl.tag.color">orange</xsl:param>
+<xsl:param name="xslthl.attribute.color">brown</xsl:param>
+<xsl:param name="xslthl.value.color">purple</xsl:param>
+<xsl:param name="xslthl.html.color">yellow</xsl:param>
+<xsl:param name="xslthl.xslt.color">cyan</xsl:param>
+<xsl:param name="xslthl.section.color">violet</xsl:param>
+<!--xsl:param name="xslthl..color"></xsl:param-->
 
 <xsl:attribute-set name="xref.properties">
   <xsl:attribute name="font-style">italic</xsl:attribute>
@@ -1816,6 +1830,42 @@ Version:1.72
       </xsl:attribute>
     </xsl:if>
   </fo:external-graphic>
+</xsl:template>
+
+<xsl:template match='xslthl:keyword'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.keyword.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:string'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.string.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:comment'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.comment.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:tag'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.tag.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:attribute'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.attribute.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:value'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.value.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:html'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.html.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:xslt'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.xslt.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:section'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.section.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
 </xsl:template>
 
 </xsl:stylesheet>

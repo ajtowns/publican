@@ -13,9 +13,10 @@
 				xmlns:xtext="xalan://com.nwalsh.xalan.Text"
 				xmlns:xlink="http://www.w3.org/1999/xlink"
 				xmlns:stext="http://nwalsh.com/xslt/ext/com.nwalsh.saxon.TextFactory"
+				xmlns:xslthl="http://xslthl.sf.net"
 				version="1.0"
 				exclude-result-prefixes="xlink exsl stext xtext"
-				extension-element-prefixes="stext xtext"
+				extension-element-prefixes="stext xtext xslthl"
 >
 
 <!-- Admonition Graphics -->
@@ -37,6 +38,7 @@
 <xsl:param name="html.cleanup" select="1"/>
 <xsl:param name="html.ext" select="'.html'"/>
 <xsl:output method="xml" indent="yes"/>
+<xsl:param name="highlight.source" select="1"/>
 
 <xsl:param name="qanda.in.toc" select="0"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
@@ -672,5 +674,42 @@ Version: 1.72.0
      </div>
    </div>
 </xsl:template>
+
+<xsl:template match="xslthl:keyword">
+  <span class="hl-keyword"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:string">
+  <span class="hl-string"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:comment">
+  <span class="hl-comment"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:tag">
+  <span class="hl-tag"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:attribute">
+  <span class="hl-attribute"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:value">
+  <span class="hl-value"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:html">
+  <span class="hl-html"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:xslt">
+  <span class="hl-xslt"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:section">
+  <span class="hl-section"><xsl:apply-templates/></span>
+</xsl:template>
+
 
 </xsl:stylesheet>
