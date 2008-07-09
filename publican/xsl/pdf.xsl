@@ -43,10 +43,19 @@
 <xsl:param name="confidential" select="0"/>
 <xsl:param name="qandadiv.autolabel" select="0"/>
 <xsl:param name="keep.relative.image.uris" select="0"/>
-<xsl:param name="hyphenation-character">-</xsl:param>
+<xsl:param name="hyphenation-character">
+	<xsl:choose>
+		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW'">
+			<xsl:text></xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>-</xsl:text>
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:param>
 <xsl:param name="default.image.width" select="'440'"/>
-<xsl:param name="hyphenate.verbatim" select="0"/>
-<xsl:param name="hyphenate">false</xsl:param>
+<xsl:param name="hyphenate.verbatim" select="1"/>
+<xsl:param name="hyphenate">true</xsl:param>
 <xsl:param name="ulink.hyphenate" select="1"/>
 <xsl:param name="ulink.footnotes" select="1"/>
 <xsl:param name="ulink.show" select="1"/>
@@ -83,12 +92,13 @@
 <xsl:attribute-set name="monospace.verbatim.properties" use-attribute-sets="verbatim.properties monospace.properties">
 	<xsl:attribute name="text-align">start</xsl:attribute>
 	<xsl:attribute name="wrap-option">wrap</xsl:attribute>
-	<xsl:attribute name="hyphenation-character">&#x2d;</xsl:attribute>
+	<xsl:attribute name="hyphenation-character">\</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:param name="shade.verbatim" select="1"/>
 <xsl:attribute-set name="shade.verbatim.style">
   <xsl:attribute name="wrap-option">wrap</xsl:attribute>
+        <xsl:attribute name="hyphenation-character">\</xsl:attribute>
   <xsl:attribute name="background-color">
 	<xsl:choose>
 		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
@@ -136,7 +146,7 @@
   <xsl:attribute name="space-after.minimum">0.8em</xsl:attribute>
   <xsl:attribute name="space-after.optimum">1em</xsl:attribute>
   <xsl:attribute name="space-after.maximum">1.2em</xsl:attribute>
-  <xsl:attribute name="hyphenate">false</xsl:attribute>
+  <xsl:attribute name="hyphenate">true</xsl:attribute>
   <xsl:attribute name="wrap-option">wrap</xsl:attribute>
   <xsl:attribute name="white-space-collapse">false</xsl:attribute>
   <xsl:attribute name="white-space-treatment">preserve</xsl:attribute>
@@ -163,7 +173,7 @@
 	  </xsl:choose>
 	</xsl:attribute>
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
-	<xsl:attribute name="hyphenate">false</xsl:attribute>
+	<xsl:attribute name="hyphenate">true</xsl:attribute>
 	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
 </xsl:attribute-set>
 
