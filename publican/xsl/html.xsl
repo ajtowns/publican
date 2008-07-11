@@ -14,13 +14,10 @@
 				exclude-result-prefixes="exsl">
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"/>
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk-common.xsl"/>
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk-code.xsl"/>
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/manifest.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk.xsl"/>
 
 <xsl:include href="defaults.xsl"/>
 <xsl:include href="xhtml-common.xsl"/>
-<xsl:param name="confidential" select="0"/>
 
 <xsl:param name="generate.legalnotice.link" select="0"/>
 <xsl:param name="generate.revhistory.link" select="0"/>
@@ -29,7 +26,7 @@
 <xsl:param name="chunk.first.sections" select="1"/>
 <xsl:param name="chunk.toc" select="''"/>
 <xsl:param name="chunk.append"/>
-<xsl:param name="chunker.output.quiet" select="1"/>
+<xsl:param name="chunker.output.quiet" select="0"/>
 
 <!--
 From: xsl/docbook/1.72.0/xhtml/chunk-code.xsl

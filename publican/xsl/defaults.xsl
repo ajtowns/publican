@@ -37,6 +37,7 @@ Copied from fo/params.xsl
 <xsl:param name="l10n.gentext.default.language" select="'en'"/>
 
 <xsl:param name="show.comments">0</xsl:param>
+<xsl:param name="confidential" select="0"/>
 
 <!-- This sets the filename based on the ID.								-->
 <xsl:param name="use.id.as.filename" select="'1'"/>

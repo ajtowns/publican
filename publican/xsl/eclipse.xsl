@@ -17,7 +17,6 @@
 
 <xsl:include href="defaults.xsl"/>
 <xsl:include href="xhtml-common.xsl"/>
-<xsl:param name="confidential" select="0"/>
 
 <xsl:param name="generate.legalnotice.link" select="1"/>
 <xsl:param name="generate.revhistory.link" select="0"/>

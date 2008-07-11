@@ -35,7 +35,7 @@ XALAN		= java -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/u
 TEST_XALAN	?= 0
 
 TEST_SAXON = 1
-SAXON = java -cp "/usr/share/java/saxon.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/saxon65.jar:/home/jfearn/Desktop/xslthl/xslthl.jar" -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration -Dxslthl.config="file:///home/jfearn/Build/src/fedora/publican/trunk/publican/xsl_extras/docbook/1.72.0/highlighting/xslthl-config.xml" com.icl.saxon.StyleSheet -x org.apache.xml.resolver.tools.ResolvingXMLReader -y org.apache.xml.resolver.tools.ResolvingXMLReader -r org.apache.xml.resolver.tools.CatalogResolver
+SAXON		= java -cp "/usr/share/java/saxon.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/saxon65.jar:/home/jfearn/Desktop/xslthl/xslthl.jar" -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration -Dxslthl.config="file:///home/jfearn/Build/src/fedora/publican/trunk/publican/xsl_extras/docbook/1.72.0/highlighting/xslthl-config.xml" com.icl.saxon.StyleSheet -x org.apache.xml.resolver.tools.ResolvingXMLReader -y org.apache.xml.resolver.tools.ResolvingXMLReader -r org.apache.xml.resolver.tools.CatalogResolver
 
 # List of tags to exclude from aspell check
 ASPELL_EXCLUDES = programlisting,userinput,screen,filename,command,computeroutput,abbrev,accel,orgname
@@ -224,18 +224,35 @@ ifeq "${1}" "pdf"
 		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
 		if [ "$(TEST_XALAN)" == "1" ]; then \
 			echo "Running XALAN:"; \
-			echo "$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth $(TOC_SECTION_DEPTH) -param chunk.section.depth $(CHUNK_SECTION_DEPTH) -param confidential ${CONFIDENTIAL} -param l10n.gentext.language $$(GENLANG) -param show.comments $(SHOW_REMARKS) -param use.extensions 1 -param tablecolumns.extensions 1 -param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL)"; \
-			$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth "$(TOC_SECTION_DEPTH)" -param chunk.section.depth "$(CHUNK_SECTION_DEPTH)" -param confidential ${CONFIDENTIAL} -param l10n.gentext.language "$$(GENLANG)" -param show.comments $(SHOW_REMARKS) -param use.extensions 1 -param tablecolumns.extensions 1 -param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL); \
+			$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth "$(TOC_SECTION_DEPTH)" \
+				-param chunk.section.depth "$(CHUNK_SECTION_DEPTH)" -param confidential ${CONFIDENTIAL} \
+				-param l10n.gentext.language "$$(GENLANG)" -param show.comments $(SHOW_REMARKS) \
+				-param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+				-param use.extensions 1 -param tablecolumns.extensions 1; \
 		else \
 			if [ "$(TEST_SAXON)" == "1" ]; then \
 				echo "Running Saxon:"; \
-				$(SAXON) -o $(DOCNAME).fo $(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) use.extensions=1 tablecolumns.extensions=1 generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL); \
+				$(SAXON) -o $(DOCNAME).fo $(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" \
+					chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} \
+					l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) \
+					generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
+					use.extensions=1 tablecolumns.extensions=1; \
 			else \
 				echo "Running xsltproc:"; \
 				if [ "$$$$fop_ver" = "0.20.5" ]; then \
-					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+						--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} \
+						--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) \
+						--stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+						--stringparam fop.extensions "1" --stringparam fop1.extensions "0" \
+						--xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 				else \
-					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam fop.extensions "0" --stringparam fop1.extensions "1" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
+					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+						--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} \
+						--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) \
+						--stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+						--stringparam fop.extensions "0" --stringparam fop1.extensions "1" \
+						--xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 				fi; \
 			fi; \
 		fi; \
@@ -244,35 +261,81 @@ ifeq "${1}" "pdf"
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else
 ifeq "${1}" "html-single"
-	@cd tmp/${2}/${1}; \
-		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
-		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam embedtoc $$(EMBEDTOC) --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
+	@cd tmp/${2}/${1}; \
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
+		if [ "$(TEST_SAXON)" == "1" ]; then \
+			echo "Running Saxon:"; \
+			$(SAXON) -o index.html ../xml/$(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" \
+				confidential=${CONFIDENTIAL} \
+				profile.lang="$$(GENLANG)" l10n.gentext.language="$$(GENLANG)" \
+				embedtoc=$$(EMBEDTOC) show.comments=$(SHOW_REMARKS) \
+				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
+				use.extensions=1 tablecolumns.extensions=1; \
+		else \
+			echo "Running xsltproc:"; \
+			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+				--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" \
+				--stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" \
+				--stringparam embedtoc $$(EMBEDTOC) --stringparam show.comments $(SHOW_REMARKS) \
+				--stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+				--xinclude -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml; \
+		fi;
 # copy files
 	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tmp/${2}/${1}/.; fi
 	@if [ -d ${1}/files ]; then cp -rf ${1}/files tmp/${2}${1}/.; fi
 	@find tmp/${2}/${1}/Common_Content -name '*.xml' | xargs rm -rf
 else
 ifeq "${1}" "html-desktop"
-	@cd tmp/${2}/${1}; \
-		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/html-single.xsl";fi; \
-		$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam desktop 1 --stringparam show.comments $(SHOW_REMARKS) --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude  -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
+	@cd tmp/${2}/${1}; \
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/html-single.xsl";fi; \
+		if [ "$(TEST_SAXON)" == "1" ]; then \
+			echo "Running Saxon:"; \
+			$(SAXON) -o tmppoofu.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
+				confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
+				l10n.gentext.language="$$(GENLANG)" desktop=1 show.comments=$(SHOW_REMARKS) \
+				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
+				use.extensions=1 tablecolumns.extensions=1; \
+			rm tmppoofu.html; \
+		else \
+			echo "Running xsltproc:"; \
+			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+			--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" \
+			--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam desktop 1 --stringparam show.comments $(SHOW_REMARKS) \
+			--stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+			--xinclude -o index.html $$$$xsl_file ../xml/$(DOCNAME).xml; \
+		fi;
 # copy files
 	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tmp/${2}/${1}/.; fi
 	@if [ -d ${1}/files ]; then cp -rf ${1}/files tmp/${2}${1}/.; fi
 	@find tmp/${2}/${1}/Common_Content -name '*.xml' | xargs rm -rf
 else
-	@cd tmp/${2}/${1}; \
-		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
-		$(CATALOGS) xsltproc  --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" --stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) --stringparam desktop $$(DESKTOP) --stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml
 # Copy original images to output dir, then copy any translated images over the top
 	-@cp -rf tmp/${2}/xml/images  tmp/${2}/${1}/.
 	-@cp -rf tmp/${2}/xml/Common_Content  tmp/${2}/${1}/.
+	@cd tmp/${2}/${1}; \
+		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
+		if [ "$(TEST_SAXON)" == "1" ]; then \
+			echo "Running Saxon: $$$$xsl_file"; \
+			$(SAXON) -o tmppoofu.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
+				chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
+				l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) embedtoc=$$(EMBEDTOC) \
+				chunk.first.sections="$(CHUNK_FIRST)" generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
+				use.extensions=1 tablecolumns.extensions=1; \
+			rm tmppoofu.html; \
+		else \
+			echo "Running xsltproc:"; \
+			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+				--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" \
+				--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) \
+				--stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+				--xinclude $$$$xsl_file ../xml/$(DOCNAME).xml; \
+		fi;
 # copy files
 	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tmp/${2}/${1}/.; fi
 	@if [ -d ${1}/files ]; then cp -rf ${1}/files tmp/${2}${1}/.; fi

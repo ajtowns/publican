@@ -42,7 +42,6 @@
 <xsl:param name="fop.extensions" select="0"/>
 <xsl:param name="fop1.extensions" select="1"/>
 <xsl:param name="img.src.path"/>
-<xsl:param name="confidential" select="0"/>
 <xsl:param name="qandadiv.autolabel" select="0"/>
 <xsl:param name="keep.relative.image.uris" select="0"/>
 <xsl:param name="hyphenation-character">
@@ -65,18 +64,18 @@
 <xsl:param name="table.footnote.number.symbols" select="''"/>
 <xsl:param name="highlight.source" select="1"/>
 
-<xsl:param name="line-height" select="1.5"/>
+<xsl:param name="line-height" select="1.3"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
 
-<xsl:param name="xslthl.keyword.color">red</xsl:param>
-<xsl:param name="xslthl.string.color">silver</xsl:param>
-<xsl:param name="xslthl.comment.color">blue</xsl:param>
-<xsl:param name="xslthl.tag.color">orange</xsl:param>
-<xsl:param name="xslthl.attribute.color">brown</xsl:param>
+<xsl:param name="xslthl.keyword.color">blue</xsl:param>
+<xsl:param name="xslthl.string.color">green</xsl:param>
+<xsl:param name="xslthl.comment.color">#aaaaaa</xsl:param>
+<xsl:param name="xslthl.tag.color">blue</xsl:param>
+<xsl:param name="xslthl.attribute.color">red</xsl:param>
 <xsl:param name="xslthl.value.color">purple</xsl:param>
-<xsl:param name="xslthl.html.color">yellow</xsl:param>
-<xsl:param name="xslthl.xslt.color">cyan</xsl:param>
-<xsl:param name="xslthl.section.color">violet</xsl:param>
+<xsl:param name="xslthl.html.color">blue</xsl:param>
+<xsl:param name="xslthl.xslt.color">green</xsl:param>
+<xsl:param name="xslthl.section.color">green</xsl:param>
 <!--xsl:param name="xslthl..color"></xsl:param-->
 
 <xsl:attribute-set name="xref.properties">
@@ -1500,11 +1499,15 @@ Version:1.72
 	  <xsl:attribute name="space-before.minimum">6pt</xsl:attribute>
 	  <xsl:attribute name="space-before.optimum">6pt</xsl:attribute>
 	  <xsl:attribute name="space-before.maximum">8pt</xsl:attribute>
+	  <xsl:attribute name="font-weight">bold</xsl:attribute>
+	  <xsl:attribute name="text-align">left</xsl:attribute>
         </xsl:if>
         <xsl:if test="local-name(.) = 'part' ">
 	  <xsl:attribute name="space-before.minimum">18pt</xsl:attribute>
 	  <xsl:attribute name="space-before.optimum">18pt</xsl:attribute>
 	  <xsl:attribute name="space-before.maximum">24pt</xsl:attribute>
+	  <xsl:attribute name="font-weight">bold</xsl:attribute>
+	  <xsl:attribute name="text-align">left</xsl:attribute>
         </xsl:if>
     <fo:inline keep-with-next.within-line="always">
       <fo:basic-link internal-destination="{$id}">
@@ -1512,9 +1515,6 @@ Version:1.72
 	<xsl:text>Local Name: </xsl:text>
         <xsl:value-of select="local-name(.)"/>
     </xsl:message-->
-        <xsl:if test="local-name(.) = 'glossary' or local-name(.) = 'bibliography' or local-name(.) = 'preface' or local-name(.) = 'chapter' or local-name(.) = 'reference' or local-name(.) = 'part' or local-name(.) = 'article' or local-name(.) = 'appendix' or local-name(.) = 'index' ">
-	  <xsl:attribute name="font-weight">bold</xsl:attribute>
-        </xsl:if>
         <xsl:if test="$label != ''">
           <xsl:copy-of select="$label"/>
           <xsl:value-of select="$autotoc.label.separator"/>
@@ -1524,12 +1524,23 @@ Version:1.72
     </fo:inline>
     <fo:inline keep-together.within-line="always">
       <xsl:text> </xsl:text>
+      <xsl:choose>
+      <xsl:when test="local-name(.) = 'glossary' or local-name(.) = 'bibliography' or local-name(.) = 'preface' or local-name(.) = 'chapter' or local-name(.) = 'reference' or local-name(.) = 'part' or local-name(.) = 'article' or local-name(.) = 'appendix' or local-name(.) = 'index'">
+      <fo:leader leader-pattern="use-content"
+                 leader-pattern-width="3pt"
+                 leader-alignment="reference-area"
+                 keep-with-next.within-line="always" white-space-collapse='false'>&#xa0;</fo:leader>
+      </xsl:when>
+      <xsl:otherwise>
       <fo:leader leader-pattern="dots"
                  leader-pattern-width="3pt"
                  leader-alignment="reference-area"
                  keep-with-next.within-line="always"/>
+      </xsl:otherwise>
+    </xsl:choose>
       <xsl:text> </xsl:text> 
       <fo:basic-link internal-destination="{$id}">
+	  <xsl:attribute name="text-align">right</xsl:attribute>
         <fo:page-number-citation ref-id="{$id}"/>
       </fo:basic-link>
     </fo:inline>

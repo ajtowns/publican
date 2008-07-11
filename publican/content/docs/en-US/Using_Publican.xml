@@ -163,17 +163,6 @@ Password:
 				</textobject>
 			</mediaobject>
 		</figure>
-               <figure>
-                        <title>test</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="./images/big_image.png" format="PNG" />
-                                </imageobject>
-                                <textobject>
-                                        <phrase>test</phrase>
-                                </textobject>
-                        </mediaobject>
-                </figure>
 		<section id="sect-Publican-Files_in_the_Book_directory-The_Makefile">
 			<title>The <filename>Makefile</filename></title>
 			<para>
@@ -272,7 +261,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The <filename>Book_Info.xml</filename> file is used to set the book ID, title, subtitle, issue and product numbers, and an abstract which appears at the start of the book. The following is an example <filename>Book_Info.xml</filename> file for the Test_Book book, with instructions following afterwards:
 			</para>
-			<programlisting><xi:include href="extras/Book_Info.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+			<programlisting language="docbook"><xi:include href="extras/Book_Info.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			<variablelist>
 				<varlistentry>
@@ -353,8 +342,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				Use the <filename>Author_Group.xml</filename> file to configure author details. This file is not required. The following is an example <filename>Author_Group.xml</filename> file:
 			</para>
-			<screen><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</screen>
+<programlisting language="myxml"><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			<para>
 				The <filename>Author_Group.xml</filename> file does not have to contain all of the above information: include as much or as little as required.
 			</para>
