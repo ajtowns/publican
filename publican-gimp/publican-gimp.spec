@@ -50,6 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Jun 16 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
 - Added Article and Set Templates
+- Added code highlighting to CSS
 
 * Wed Apr 30 2008 Jeff Fearn <jfearn@redhat.com> 0.1-0
 - Initial creation

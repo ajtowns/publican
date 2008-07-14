@@ -50,6 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Jun 16 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
 - Added Article and Set Templates
+- Added code highlighting to CSS
 
 * Thu Jun 2 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.1-1
 - common content css and images update

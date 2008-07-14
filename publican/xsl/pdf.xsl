@@ -67,15 +67,15 @@
 <xsl:param name="line-height" select="1.3"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
 
-<xsl:param name="xslthl.keyword.color">blue</xsl:param>
-<xsl:param name="xslthl.string.color">green</xsl:param>
-<xsl:param name="xslthl.comment.color">#aaaaaa</xsl:param>
-<xsl:param name="xslthl.tag.color">blue</xsl:param>
-<xsl:param name="xslthl.attribute.color">red</xsl:param>
-<xsl:param name="xslthl.value.color">purple</xsl:param>
-<xsl:param name="xslthl.html.color">blue</xsl:param>
-<xsl:param name="xslthl.xslt.color">green</xsl:param>
-<xsl:param name="xslthl.section.color">green</xsl:param>
+<xsl:param name="xslthl.keyword.color">#002F5D</xsl:param>
+<xsl:param name="xslthl.string.color">#00774B</xsl:param>
+<xsl:param name="xslthl.comment.color">#DAD9AD</xsl:param>
+<xsl:param name="xslthl.tag.color">#002F5D</xsl:param>
+<xsl:param name="xslthl.attribute.color">#a70000</xsl:param>
+<xsl:param name="xslthl.value.color">#4E376B</xsl:param>
+<xsl:param name="xslthl.html.color">#002F5D</xsl:param>
+<xsl:param name="xslthl.xslt.color">#00774B</xsl:param>
+<xsl:param name="xslthl.section.color">#00774B</xsl:param>
 <!--xsl:param name="xslthl..color"></xsl:param-->
 
 <xsl:attribute-set name="xref.properties">
@@ -291,6 +291,25 @@ article toc
 	<xsl:attribute name="border-top-color">black</xsl:attribute>
 </xsl:attribute-set>
 
+<xsl:template match="listitem/*[1][local-name()='para' or 
+                                   local-name()='simpara' or 
+                                   local-name()='formalpara']
+                     |glossdef/*[1][local-name()='para' or 
+                                   local-name()='simpara' or 
+                                   local-name()='formalpara']
+                     |step/*[1][local-name()='para' or 
+                                   local-name()='simpara' or 
+                                   local-name()='formalpara']
+                     |callout/*[1][local-name()='para' or 
+                                   local-name()='simpara' or 
+                                   local-name()='formalpara']"
+              priority="2">
+  <fo:block xsl:use-attribute-sets="list.item.spacing">
+    <xsl:call-template name="anchor"/>
+    <xsl:apply-templates/>
+  </fo:block>
+</xsl:template>
+
 <!-- Some padding inside tables -->
 <xsl:attribute-set name="table.cell.padding">
 <xsl:attribute name="padding-left">4pt</xsl:attribute>
@@ -356,6 +375,17 @@ article toc
 	<xsl:attribute name="space-before.minimum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
 	<xsl:attribute name="space-before.maximum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
 </xsl:attribute-set>
+
+<xsl:attribute-set name="table.properties">
+  <xsl:attribute name="space-before.minimum">0.5em</xsl:attribute>
+  <xsl:attribute name="space-before.optimum">1em</xsl:attribute>
+  <xsl:attribute name="space-before.maximum">2em</xsl:attribute>
+  <xsl:attribute name="space-after.minimum">0.5em</xsl:attribute>
+  <xsl:attribute name="space-after.optimum">1em</xsl:attribute>
+  <xsl:attribute name="space-after.maximum">2em</xsl:attribute>
+  <xsl:attribute name="keep-together.within-column">auto</xsl:attribute>
+</xsl:attribute-set>
+
 
 <xsl:attribute-set name="below.title.properties" use-attribute-sets="formal.title.properties">
 	<xsl:attribute name="font-weight">normal</xsl:attribute>
@@ -1877,6 +1907,36 @@ Version:1.72
 
 <xsl:template match='xslthl:section'>
   <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.section.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match="varlistentry" mode="vl.as.blocks">
+  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+
+  <fo:block id="{$id}"  
+      keep-together.within-column="always" 
+      keep-with-next.within-column="always">
+    <xsl:apply-templates select="term"/>
+  </fo:block>
+
+  <fo:block xsl:use-attribute-sets="list.item.spacing" margin-left="0.25in">
+    <xsl:apply-templates select="listitem"/>
+  </fo:block>
+</xsl:template>
+
+<xsl:template match="segmentedlist" mode="seglist-table">
+  <xsl:apply-templates select="title" mode="list.title.mode" />
+  <fo:table>
+    <fo:table-column column-number="1" column-width="34%"/>
+    <fo:table-column column-number="2" column-width="66%"/>
+    <fo:table-header start-indent="0pt" end-indent="0pt">
+      <fo:table-row>
+        <xsl:apply-templates select="segtitle" mode="seglist-table"/>
+      </fo:table-row>
+    </fo:table-header>
+    <fo:table-body start-indent="0pt" end-indent="0pt">
+      <xsl:apply-templates select="seglistitem" mode="seglist-table"/>
+    </fo:table-body>
+  </fo:table>
 </xsl:template>
 
 </xsl:stylesheet>
