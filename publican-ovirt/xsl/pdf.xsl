@@ -24,7 +24,7 @@
 <xsl:import href="../defaults.xsl"/>
 <xsl:import href="../pdf.xsl"/>
 
-<xsl:param name="title.color">#a70000</xsl:param>
+<xsl:param name="title.color">#5f8c00</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 
 
