@@ -57,7 +57,7 @@
 			<xsl:text>#333333</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-			<xsl:text>#e9e3cc</xsl:text>
+			<xsl:text>#eeeeee</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
