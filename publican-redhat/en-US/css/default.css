@@ -24,7 +24,6 @@ body{
 	max-width:55em;
 	padding:0em 2em;
 	color:#333;
-	line-height:150%;
 	}
 
 /* desktop styles */
@@ -43,9 +42,29 @@ body.desktop .book > .toc {
 body.desktop {
 	margin-left:24em;
 }
-.toc dt {
-	line-height:1.2em;
-	margin-bottom:.7em;
+
+.toc .chapter {
+	margin-top:1em;
+}
+
+a {
+	text-decoration:none;
+	border-bottom: 1px dotted ;
+}
+
+div {
+	padding-top:0px !important;
+}
+
+div.section {
+	padding-top:1em !important;
+}
+
+p {
+	padding-top:0px !important;
+	margin-top:0.3em !important;
+	padding-bottom:0px !important;
+	margin-bottom:1em !important;
 }
 
 /*Links*/
@@ -56,14 +75,13 @@ div.longdesc-link{float:right;color:#999;}
 
 /*headings*/
 h1,h2,h3,h4,h5,h6{color:#a70000;
-	line-height:130%;
 	margin-top:0em;
+	margin-bottom:0em;
 	font-family:"liberation sans","Bitstream Vera Sans","Lucida Grande","Trebuchet MS",helvetica,verdana,arial,sans-serif;
 	background-color:transparent;
 	}
 
 h1{background: #800 url(../images/h1-bg.png) top left repeat;
-	line-height:1.2em;
 	color:white;
 	font-size:2em;
 	padding:1.5em;
@@ -113,8 +131,8 @@ a.version:visited, a.version:link{color:#666;}
 a.version:focus, a.version:hover{color:black;}
 .books {display:block;position:relative; clear:both; width:100%;  }
 .books li{display:block; width:200px !important; float:left !important;position:relative; clear: none  !important;}
-.books .html{width:170px;display:block;line-height:1.7em;}
-.books .pdf{position:absolute; left:170px;top:0px;font-size:smaller;line-height:2em;}
+.books .html{width:170px;display:block;}
+.books .pdf{position:absolute; left:170px;top:0px;font-size:smaller;}
 .books .pdf:link, .books .pdf:visited{color:#555;}
 .books .pdf:hover, .books .pdf:focus{color:#000;}
 .books li a{text-decoration:none;}
@@ -148,7 +166,7 @@ a.version:focus, a.version:hover{color:black;}
 	text-align:right;
 	padding:0em !important;
 	border-top: 1px solid #fff !important;
-	line-height:1.25em;}
+	}
 
 
 .revhistory tr td:first-child{
@@ -169,7 +187,6 @@ a.version:focus, a.version:hover{color:black;}
 	background-color:transparent;
 	color:#555;
 	font-size:2em;
-	line-height:2em;
 	padding:0em 0em;
 	padding-top:1em;
 	border-bottom:1px solid #eee;}
@@ -203,7 +220,7 @@ div.othercredit{
 .othercredit{
 	margin:0em;
 	padding:0em;
-	line-height: 1.1em;}
+	}
 
 .releaseinfo{
 	clear: both;}

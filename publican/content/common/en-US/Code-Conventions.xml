@@ -89,8 +89,7 @@
 				<para>
 					A literal listing of all or part of a program:
 				</para>
-<programlisting>
-extern void sem_exit (void);
+<programlisting language="c">extern void sem_exit (void);
 extern struct task_struct *child_reaper;
  
 int getrusage(struct task_struct *, int, struct rusage *);
@@ -107,8 +106,7 @@ static void __unhash_process(struct task_struct *p)
  
         REMOVE_LINKS(p);
         p->pid = 0;
-}
-</programlisting>
+}</programlisting>
 			</listitem>
 		</varlistentry>
 
