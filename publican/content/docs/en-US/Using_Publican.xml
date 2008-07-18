@@ -18,9 +18,8 @@
 					Change to the root user:
 				</para>
 				<para>
-					<screen>$ su -
-Password:
-</screen>
+<screen>$ su -
+Password:</screen>
 				</para>
 			</listitem>
 			<listitem>
@@ -28,16 +27,14 @@ Password:
 					Run the following command to install the publican package:
 				</para>
 				<para>
-					<screen># yum install publican publican-doc
-</screen>
+<screen># yum install publican publican-doc</screen>
 				</para>
 			</listitem>
 		</orderedlist>
 		<para>
 			There are several brand packages available for use with publican. Run the following command as the root user to install packages for building branded books:
 		</para>
-		<screen># yum install publican-<replaceable>brand</replaceable>
-</screen>
+<screen># yum install publican-<replaceable>brand</replaceable></screen>
 		<para>
 			Replace <replaceable>brand</replaceable> with redhat, fedora, jboss, ovirt, or gimp.
 		</para>
@@ -121,26 +118,22 @@ Password:
 			Before running the <command>create_book</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named Test_Book in the <filename>/my/books/</filename> directory, run the following commands:
 		</para>
 		<para>
-			<screen>cd /my/books/
-</screen>
+<screen>cd /my/books/</screen>
 		</para>
 		<para>
-			<screen>create_book --name Test_Book
-</screen>
+<screen>create_book --name Test_Book</screen>
 		</para>
 		<para>
 			To see the results of this command, run the following:
 		</para>
 		<para>
-			<screen>ls
-</screen>
+<screen>ls</screen>
 		</para>
 		<para>
 			The output should be similar to the following:
 		</para>
 		<para>
-			<screen>en-US  Makefile
-</screen>
+<screen>en-US  Makefile</screen>
 		</para>
 	</section>
 	
@@ -152,7 +145,7 @@ Password:
 				Running the <command>create_book --name <replaceable>Book_Name</replaceable></command> command will create a directory structure and the required files, similar to the following:
 			</para>
 		</formalpara>
-		<figure>
+		<figure id="figu-Publican-Files_in_the_Book_directory-directory_structure">
 			<title>directory structure</title>
 			<mediaobject>
 				<imageobject>
@@ -168,8 +161,7 @@ Password:
 			<para>
 				The <filename>Makefile</filename> is used to configure build options, and is located in the root of the book directory. The following is an example <filename>Makefile</filename>, with instructions following afterwards:
 			</para>
-			<screen><xi:include href="extras/Makefile" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</screen>
+<screen><xi:include href="extras/Makefile" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
 			<variablelist>
 				<varlistentry>
 					<term><filename>XML_LANG</filename></term>
@@ -233,7 +225,7 @@ Password:
 				The following is an example <filename>Makefile</filename> that includes translations:
 			</para>
 			<para>
-				<screen>XML_LANG       = en-US
+<screen>XML_LANG       = en-US
 DOCNAME        = Test_Name
 PRODUCT        = Test_Product
 BRAND	       = RedHat
@@ -242,8 +234,7 @@ OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN
 ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 	
 COMMON_CONFIG  = /usr/share/publican
-include $(COMMON_CONFIG)/make/Makefile.common
-</screen>
+include $(COMMON_CONFIG)/make/Makefile.common</screen>
 			</para>
 			<para>
 				Note: <computeroutput>OTHER_LANGS</computeroutput> is no longer commented out.
@@ -261,8 +252,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The <filename>Book_Info.xml</filename> file is used to set the book ID, title, subtitle, issue and product numbers, and an abstract which appears at the start of the book. The following is an example <filename>Book_Info.xml</filename> file for the Test_Book book, with instructions following afterwards:
 			</para>
-			<programlisting language="myxml"><xi:include href="extras/Book_Info.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</programlisting>
+<programlisting language="myxml"><xi:include href="extras/Book_Info.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			<variablelist>
 				<varlistentry>
 					<term><filename>&lt;bookinfo id="<replaceable>book_id</replaceable>"&gt;</filename></term>
@@ -349,8 +339,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				Delete the following line from Book_Info.xml to prevent author information being included in the built versions of a book:
 			</para>
-			<screen>&lt;xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-</screen>
+<screen>&lt;xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;</screen>
 		</section>
 		
 		<section id="sect-Publican-Files_in_the_Book_directory-Chapter.xml">
@@ -358,8 +347,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created after running the <command>create_book</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
 			</para>
-			<screen><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</screen>
+<screen><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
 			<para>
 				This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Please refer to <ulink url="http://docbook.org/tdg/en/html/chapter.html"></ulink> for further information about chapters.
 			</para>
@@ -379,8 +367,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The following is an example <filename><replaceable>Book_Name</replaceable>.xml</filename> file. Note the <filename>DOCTYPE</filename> is set to <filename>book</filename>.
 			</para>
-			<screen><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</screen>
+<screen><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
 			<para>
 				This example loads the <computeroutput>Book_Info.xml</computeroutput>, <computeroutput>Preface.xml</computeroutput>, <computeroutput>Chapter.xml</computeroutput>, and <computeroutput>Appendix.xml</computeroutput> XML files.
 			</para>
@@ -393,7 +380,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			<para>
 				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is not limited to using <filename>xi:include</filename> directives. Books can be created using a single XML file. The following is an example of a book created using a single XML file:
 			</para>
-			<screen>&lt;book&gt;
+<screen>&lt;book&gt;
 
 &lt;chapter&gt;
 &lt;title&gt;Chapter 1&lt;/title&gt;
@@ -421,8 +408,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 	&lt;/para&gt;
 &lt;/chapter&gt;
 
-&lt;/book&gt;
-</screen>
+&lt;/book&gt;</screen>
 			<para>
 				This book contains two chapters. Chapter one contains two sections. Please refer to <ulink url="http://docbook.org/tdg/en/html/section.html"></ulink> for further information about sections, and <ulink url="http://docbook.org/tdg/en/html/book.html"></ulink> for further information about books.
 			</para>
@@ -434,16 +420,14 @@ include $(COMMON_CONFIG)/make/Makefile.common
 				The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is used to define local entities. You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the book will not build:
 			</para>
 			<para>
-				<screen><xi:include href="extras/Book_Name.ent" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</screen>
+<screen><xi:include href="extras/Book_Name.ent" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
 			</para>
 			<para>
 				The <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities are used for copyright information. Use entities to make writing commonly used terms quicker:
 			</para>
 			<para>
-				<screen>&lt;!ENTITY FDP "Fedora Documentation Project"&gt;
-&lt;!ENTITY FDS "Fedora Directory Server"&gt;
-</screen>
+<screen>&lt;!ENTITY FDP "Fedora Documentation Project"&gt;
+&lt;!ENTITY FDS "Fedora Directory Server"&gt;</screen>
 			</para>
 			<para>
 				Two entities are defined: <computeroutput>FDP</computeroutput> and <computeroutput>FDS</computeroutput>. Instead of typing <computeroutput>Fedora Documentation Project</computeroutput> you can use <computeroutput>&amp;FDP&semi;</computeroutput>. The build system adds the required entities to the XML files at build time. In the example above, <computeroutput>&amp;FDP&semi;</computeroutput> would be replaced with Fedora Documentation Project.
@@ -458,13 +442,12 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			Use the <filename>images</filename> subdirectory in the <filename>en-<replaceable>US</replaceable>/</filename> directory to store images. Use <computeroutput>./images/<replaceable>image-name</replaceable></computeroutput> to insert images into a book. The following is an example that inserts the <filename>testimage.png</filename> image:
 		</para>
 		<para>
-			<screen>&lt;mediaobject&gt;
+<screen>&lt;mediaobject&gt;
 	&lt;imageobject&gt;
 		&lt;imagedata fileref="./images/testimage.png" /&gt;
 	&lt;/imageobject&gt;
 	&lt;textobject&gt;&lt;phrase&gt;alternate text goes here&lt;/phrase&gt;&lt;/textobject&gt;
-&lt;/mediaobject&gt;
-</screen>
+&lt;/mediaobject&gt;</screen>
 		</para>
 		<para>
 			<warning>
@@ -492,8 +475,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					Change into the root directory of the book. For example, if the book was named <computeroutput>Test_Book</computeroutput> and was located in the <filename>/books/</filename> directory, run the following command:
 				</para>
 				<para>
-					<screen>cd <replaceable>/books/Test_Book</replaceable>
-</screen>
+<screen>cd <replaceable>/books/Test_Book</replaceable></screen>
 				</para>
 			</listitem>
 			<listitem>
@@ -501,8 +483,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					Run the following command to check for any errors that would stop the book from building:
 				</para>
 				<para>
-					<screen>make test-en-US
-</screen>
+<screen>make test-en-US</screen>
 				</para>
 			</listitem>
 			<listitem>
@@ -510,8 +491,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					Run the following command to build the book:
 				</para>
 				<para>
-					<screen>make <replaceable>format</replaceable>-en-US
-</screen>
+<screen>make <replaceable>format</replaceable>-en-US</screen>
 				</para>
 				<para>
 					Replace <replaceable>format</replaceable> with the desired format, for example, <computeroutput>html</computeroutput>.
@@ -521,7 +501,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		<para>
 			The following table lists commonly used <command>make</command> commands:
 		</para>
-		<segmentedlist id="segm-Publican-Building_a_Book-Common_make_Commands">
+		<segmentedlist>
 			<segtitle>Command</segtitle>
 			<segtitle>Result</segtitle>
 			<seglistitem>

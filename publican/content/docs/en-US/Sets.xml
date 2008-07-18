@@ -21,25 +21,20 @@
 				<para>
 					Run the following command in a shell in the <filename>books/</filename> directory to create a set named <literal>My_Set</literal> branded in the Red Hat style.
 				</para>
-				<programlisting>
-create_book --type=Set --name=My_Set --brand=RedHat
-</programlisting>
+<programlisting>create_book --type=Set --name=My_Set --brand=RedHat</programlisting>
 			</step>
 			<step>
 				<para>
 					<command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two directories called <filename>Book_A</filename> and <filename>Book_B</filename>.
 				</para>
-				<programlisting>
-cd My_Set/en-US
-mkdir Book_A Book_B
-</programlisting>
+<programlisting>cd My_Set/en-US
+mkdir Book_A Book_B</programlisting>
 			</step>
 			<step>
 				<para>
 					<command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
 				</para>
-				<screen>
-&lt;?xml version=&#39;1.0&#39;?&gt;
+<screen>&lt;?xml version=&#39;1.0&#39;?&gt;
 &lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]&gt;
@@ -47,8 +42,7 @@ mkdir Book_A Book_B
 &lt;book&gt;
 	  &lt;xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
 	  &lt;xi:include href="Chapter_1.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
-&lt;/book&gt;
-</screen>
+&lt;/book&gt;</screen>
 			</step>
 			<step>
 				<para>
@@ -59,8 +53,7 @@ mkdir Book_A Book_B
 				<para>
 					Open the <filename>books/My_Set/en-US/My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
-				<programlisting><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-</programlisting>
+<programlisting><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			</step>
 			<step>
 				<para>
@@ -103,8 +96,7 @@ mkdir Book_A Book_B
 					to :
 				</para>
 <programlisting>BOOKS 		= Book_A Book_B
-SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
-SET_REPO_TYPE	= SVN
+SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>SET_REPO_TYPE	= SVN
 ...
 pre:: get_books set_books
 clean:: clean_set_books</programlisting>

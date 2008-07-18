@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	0.t262%{?dist}
+Release:	0.t268%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -95,8 +95,10 @@ cp -rf Set_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Set_Temp
 cp -rf Article_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Article_Template
 
 %if %{EMBED_DOCKBOOK45}
-cp -rf xsl_extras/docbook $RPM_BUILD_ROOT%{_datadir}/publican/xsl/.
+cp -rf xsl_extras/docbook $RPM_BUILD_ROOT%{_datadir}/%{name}/xsl/.
 %endif
+
+cp xsl_extras/docbook/1.72.0/extensions/saxon65.jar $RPM_BUILD_ROOT%{_datadir}/%{name}/xsl/.
 
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop

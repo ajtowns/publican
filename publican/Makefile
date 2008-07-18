@@ -58,10 +58,10 @@ srpm: dist
 	@sed -i -e 's/@PREMOLESTATION@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec
-	@sed -i -e 's/@EMBED45@/1/' $(RPMDIR)/SPECS/$(NAME).spec
+	@sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec
 	@sed -i -e 's/@PREMOLESTATION@/0/' $(RPMDIR)/SPECS/$(NAME).spec
-	@if [ "$(OS_VER)" == "fc9" ]; then \
+	@if [ "$(OS_VER)" != "el5" ]; then \
 		rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec; \
 	else \
 		rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec; \
