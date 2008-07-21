@@ -296,12 +296,11 @@ ifeq "${1}" "html-desktop"
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/html-single.xsl";fi; \
 		if [ "$(TEST_SAXON)" == "1" ]; then \
 			echo "Running Saxon:"; \
-			$(SAXON) -o tmppoofu.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
+			$(SAXON) -o index.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
 				confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" desktop=1 show.comments=$(SHOW_REMARKS) \
 				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
 				use.extensions=1 tablecolumns.extensions=1; \
-			rm tmppoofu.html; \
 		else \
 			echo "Running xsltproc:"; \
 			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \

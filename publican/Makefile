@@ -51,21 +51,19 @@ srpm: dist
 	@mkdir -p $(RPMDIR)
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
-	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@sed -i -e 's/@VENDOR@/redhat/' $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@sed -i -e 's/@EMBED45@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@sed -i -e 's/@HTMLVIEW@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
-	@sed -i -e 's/@PREMOLESTATION@/1/' $(RPMDIR)/SPECS/$(NAME).el5.spec
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
-	@sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec
-	@sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec
-	@sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec
-	@sed -i -e 's/@PREMOLESTATION@/0/' $(RPMDIR)/SPECS/$(NAME).spec
 	@if [ "$(OS_VER)" != "el5" ]; then \
-		rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@PREMOLESTATION@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
 	else \
-		rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).el5.spec; \
+		sed -i -e 's/@VENDOR@/redhat/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@EMBED45@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@HTMLVIEW@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@PREMOLESTATION@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
 	fi
+	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
 	@echo "End $@"
 
 dist: clean

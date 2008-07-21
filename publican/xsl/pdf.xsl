@@ -1475,24 +1475,15 @@ Version:1.72
 <!--
 From: fo/block.xsl
 Reason: formal para needs to be block to appear as a title
+        remove runinhead.default.title.end.punct
 Version:1.72
 -->
 <xsl:template match="formalpara/title|formalpara/info/title">
   <xsl:variable name="titleStr">
       <xsl:apply-templates/>
   </xsl:variable>
-  <xsl:variable name="lastChar">
-    <xsl:if test="$titleStr != ''">
-      <xsl:value-of select="substring($titleStr,string-length($titleStr),1)"/>
-    </xsl:if>
-  </xsl:variable>
-
   <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="section.title.properties section.title.level5.properties">
     <xsl:copy-of select="$titleStr"/>
-    <xsl:if test="$lastChar != ''
-                  and not(contains($runinhead.title.end.punct, $lastChar))">
-      <xsl:value-of select="$runinhead.default.title.end.punct"/>
-    </xsl:if>
   </fo:block>
 </xsl:template>
 
