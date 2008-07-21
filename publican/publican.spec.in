@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	1.t3%{?dist}
+Release:	1.t7%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -179,6 +179,7 @@ rm -rf $RPM_BUILD_ROOT
 - Turned on Hyphenation to split verbatim lines.
 - Added code highlighting to CSS and PDF
 - Remove trailing '.' from formal para title. BZ #455826
+- Restructure CSS for easier maintenance of brands
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.33-0
 - Remove release from package name in html desktop spec file

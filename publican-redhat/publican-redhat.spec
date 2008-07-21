@@ -3,7 +3,7 @@
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
 Version:	0.12
-Release:	0.t78%{?dist}
+Release:	0.t84%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -52,11 +52,12 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Apr 14 2008 Jeff Fearn <jfearn@redhat.com> 0.13-0
 - Fix missing list image in html-single articles
 - QANDA set css fix BZ #442674
-- Removed entities requiring mandadtory override
+- Removed entities requiring mandatory override
 - Override PDF Theme
 - Added package tag BZ #444908
 - Added Article and Set Templates
 - Added code highlighting to CSS
+- Modify CSS to use new easier maintenance system.
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations

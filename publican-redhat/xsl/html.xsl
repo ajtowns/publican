@@ -19,7 +19,5 @@
 <xsl:import href="../defaults.xsl"/>
 <xsl:import href="../html.xsl"/>
 
-<xsl:param name="html.stylesheet" select="'./Common_Content/css/common.css'"/>
-
 </xsl:stylesheet>
 

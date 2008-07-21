@@ -132,6 +132,13 @@ else
 	@$(XMLPOMERGE) --langs=${1} --output=tmp/${1}/xml_tmp --sub-dirs="$(EXTRA_DIRS_C)" --lang-dir=${1} $(XML_LANG)/${2}.xml || exit 5;
 endif
 # copy common files
+	@if [ -d $(COMMON_CONTENT)/common/en-US ]; then \
+		cp -rf $(COMMON_CONTENT)/common/en-US/* tmp/${1}/xml/Common_Content/.; \
+	fi
+	@if [ "${1}" != "$(XML_LANG)" ] && [ -d $(COMMON_CONTENT)/common/${1} ]; then \
+		cp -rf $(COMMON_CONTENT)/common/${1}/* tmp/${1}/xml/Common_Content/.; \
+	fi
+# Override with BRAND common files
 	@if [ -d $(COMMON_CONTENT)/$(BRAND)/en-US ]; then \
 		echo "	copying $(BRAND)/en-US  Common_Content"; \
 		cp -rf $(COMMON_CONTENT)/$(BRAND)/en-US/* tmp/${1}/xml/Common_Content/.; \
