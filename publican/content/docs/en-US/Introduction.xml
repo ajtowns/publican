@@ -5,10 +5,22 @@
 <chapter id="chap-Publican-Introduction">
 	<title>Introduction</title>
 	<para>
-		The publican package helps you build books in DocBook XML. This guide describes how to use publican to create and build books. This is not a DocBook XML tutorial, and concentrates only on using the publican tools.
+		Publican is designed to help you publish content authored in DocBook XML. This guide describes how to use publican to create and build books.
 	</para>
 	<para>
-		Please visit <ulink url="http://docbook.org/tdg/en/html/docbook.html"></ulink> for more information about DocBook XML.
+		This is not a DocBook XML tutorial, and concentrates only on using the publican tools. Please visit <ulink url="http://docbook.org/tdg/en/html/docbook.html">docbook.org</ulink> for more information about DocBook XML.
+	</para>
+	<formalpara>
+		<title>Design</title>
+		<para>
+			Publican is designed to be a publication tool and not just a DocBook processing system. This design places addition requirements upon publican than simply parsing and transforming valid DocBook. Publican not only aims to ensure that your DocBook is valid, it aims to ensure that your DocBook is good for publishing. Good is entirely subjective and as such you may disagree as to the choices made in publican as to what is good. With regard to Branding decisions publican allows you to create your own brand and override many parts of the style to meet your desires. The choices executed in code are not overrideable, if there is sufficient demand to conditionalize or override these choices we will consider requests to add such functionality.
+		</para>
+	</formalpara>
+	<para>
+		One example of publication over-riding processing is the way Entities are handled. In DocBook it is valid to define entities in any xml file. Publican requires you to define Entities in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file (see <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Name.ent" />). Publican rewrites the DTD declaration in every xml file before it builds the document to ensure that the DTD declaration is present, valid, and standardized. This causes all entities declared in all xml files to be lost for the build.
+	</para>
+	<para>
+		In large systems unrestrained definition of Entities can lead to duplication of entity definitions and other practices that lead to maintenance difficulties. Consolidating the Entity definitions to a single, predictable place not only alleviates these maintenance issues, it also helps ensures that automation of the build process is more robust.
 	</para>
 </chapter>
 
