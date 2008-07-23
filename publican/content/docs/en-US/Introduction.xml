@@ -5,22 +5,26 @@
 <chapter id="chap-Publican-Introduction">
 	<title>Introduction</title>
 	<para>
-		Publican is designed to help you publish content authored in DocBook XML. This guide describes how to use publican to create and build books.
-	</para>
-	<para>
-		This is not a DocBook XML tutorial, and concentrates only on using the publican tools. Please visit <ulink url="http://docbook.org/tdg/en/html/docbook.html">docbook.org</ulink> for more information about DocBook XML.
+		Publican is a tool for publishing material authored in DocBook XML. This guide explains how to  to create and build books and articles using publican. It is not a DocBook XML tutorial and concentrates solely on using the publican tools. See <ulink url="http://docbook.org/tdg/en/html/docbook.html">docbook.org</ulink> for information about DocBook XML.
 	</para>
 	<formalpara>
 		<title>Design</title>
 		<para>
-			Publican is designed to be a publication tool and not just a DocBook processing system. This design places addition requirements upon publican than simply parsing and transforming valid DocBook. Publican not only aims to ensure that your DocBook is valid, it aims to ensure that your DocBook is good for publishing. Good is entirely subjective and as such you may disagree as to the choices made in publican as to what is good. With regard to Branding decisions publican allows you to create your own brand and override many parts of the style to meet your desires. The choices executed in code are not overrideable, if there is sufficient demand to conditionalize or override these choices we will consider requests to add such functionality.
+			Publican is a publication system, not just a DocBook processing tool. As well as ensuring your DocBook XML is valid, publican works to ensure your XML is up to publishable standard.
 		</para>
+		<para>
+			The Branding functionality allows you to create your own presentation rules and look, over-riding many parts of the default style to meet your publishing needs. Choices executed in code, however, are not changeable.
+		</para>
+
 	</formalpara>
 	<para>
-		One example of publication over-riding processing is the way Entities are handled. In DocBook it is valid to define entities in any xml file. Publican requires you to define Entities in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file (see <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Name.ent" />). Publican rewrites the DTD declaration in every xml file before it builds the document to ensure that the DTD declaration is present, valid, and standardized. This causes all entities declared in all xml files to be lost for the build.
+		Entities, for example, can be validly defined ion any XML file. However, to ensure the DTD declaration is present, valid and standardized, Publican rewrites the declaration in every XML file before it builds a book or article. Consequently, all entities declared in all XML files are lost. Publican, therefore, requires you define Entities in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file (see <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Name.ent" />).
 	</para>
 	<para>
-		In large systems unrestrained definition of Entities can lead to duplication of entity definitions and other practices that lead to maintenance difficulties. Consolidating the Entity definitions to a single, predictable place not only alleviates these maintenance issues, it also helps ensures that automation of the build process is more robust.
+		As publishing workflows grow, unrestrained Entity definition leads to Entity duplication and other practices that cause maintenance difficulties. Consolidating Entity definitions in a single, predictable place alleviates these maintenance issues and helps the automation of the build process stay robust.
 	</para>
-</chapter>
+	<para>
+		If there is sufficient demand to add conditions or over-ride this and other choices designed to improve and maintain the published standard of material, we will consider requests to add such functionality.
+	</para>
 
+</chapter>
