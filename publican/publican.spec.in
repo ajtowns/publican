@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.33
-Release:	1.t8%{?dist}
+Release:	1.t9%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -19,13 +19,15 @@ Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
 Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl elinks aspell
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template make
-Requires:	fop batik saxon ImageMagick xslthl
+Requires:	fop batik saxon ImageMagick
+#Requires:	xslthl
 
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
 # FOP is required to build the mont metrics.
-BuildRequires:	fop saxon xslthl
+BuildRequires:	fop saxon
+#BuildRequires:	xslthl
 # *&%^*&^ decided to rename font packages and change font paths.
 # No actual real changes.
 %if %{PREMOLESTATION}
