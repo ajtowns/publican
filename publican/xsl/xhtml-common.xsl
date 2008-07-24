@@ -43,6 +43,7 @@
 
 <xsl:param name="qanda.in.toc" select="0"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
+<xsl:param name="othercredit.like.author.enabled">1</xsl:param>
 
 <!-- TOC -->
 <xsl:param name="section.autolabel" select="1"/>
@@ -712,5 +713,8 @@ Version: 1.72.0
   <span class="hl-section"><xsl:apply-templates/></span>
 </xsl:template>
 
+<xsl:template match="othercredit" mode="titlepage.mode">
+    <xsl:call-template name="credits.div"/>
+</xsl:template>
 
 </xsl:stylesheet>

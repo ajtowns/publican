@@ -167,6 +167,11 @@
   <xsl:attribute name="text-align">start</xsl:attribute>
 </xsl:attribute-set>
 
+<xsl:attribute-set name="toc.line.properties">
+  <xsl:attribute name="text-align-last">justify</xsl:attribute>
+  <xsl:attribute name="text-align">start</xsl:attribute>
+</xsl:attribute-set>
+
 <!-- Admonitions -->
 <xsl:param name="admon.graphics" select="1"/>
 <xsl:param name="admon.graphics.path">
