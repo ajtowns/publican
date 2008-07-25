@@ -2,8 +2,8 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	0.12
-Release:	0.t26%{?dist}
+Version:	0.13
+Release:	0%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,7 +55,6 @@ rm -rf $RPM_BUILD_ROOT
 - Override PDF Theme
 - Added package tag BZ #444908
 - Added Article and Set Templates
-- Added code highlighting to CSS
 
 * Mon Apr 7 2008 Jeff Fearn <jfearn@redhat.com> 0.12-0
 - Add Desktop css customisations
