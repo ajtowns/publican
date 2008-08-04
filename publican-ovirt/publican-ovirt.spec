@@ -2,8 +2,8 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	0.1
-Release:	0.t10%{?dist}
+Version:	0.2
+Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -51,6 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Jun 16 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
 - Added Article and Set Templates
 - Added code highlighting to CSS
+- Turned on STRICT mode as required to get on to redhat.com/docs
 
 * Thu Jun 2 2008 Andy Fitzsimon <afitzsim@redhat.com> 0.1-1
 - common content css and images update
