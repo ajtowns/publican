@@ -83,38 +83,55 @@ include $(COMMON_CONFIG)/make/Makefile.templates
 pre::
 	@if [[ "$(PRODUCT)" == "Documentation" ]]; then \
 		echo; \
-		echo "WARNING: PRODUCT is set to the default setting of 'Documentation', are you sure this is correct?"; \
-		echo "	Run 'make help_params' for more information on this setting"; \
+		echo "*WARNING: PRODUCT is set to the default setting of 'Documentation'*"; \
+		echo "Are you sure this is correct?"; \
+		echo "Run 'make help_params' for more information on this setting"; \
 		echo; \
 	fi
 	@if [[ "$(VERSION)" == "" ]]; then \
 		echo; \
-		echo "ERROR: VERSION is compulsory, you must set <issuenum> in your $(DOC_TYPE)_Info.xml file"; \
+		echo "*ERROR: VERSION is compulsory*"; \
+		echo "You must set <issuenum> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
 	@if [[ "$(VERSION)" =~ "[^0-9.]" ]]; then \
 		echo; \
-		echo "ERROR: VERSION can only contain '0-9' and '.'! '$(VERSION)' is not valid, please edit <issuenum> in your $(DOC_TYPE)_Info.xml file"; \
+		echo "*ERROR: VERSION can only contain '0-9' and '.'*"; \
+		echo "'$(VERSION)' is not valid"; \
+		echo "Please edit <issuenum> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
 	@if [[ "$(RELEASE)" == "" ]]; then \
 		echo; \
-		echo "ERROR: RELEASE is compulsory, you must set <productnumber> in your $(DOC_TYPE)_Info.xml file"; \
+		echo "*ERROR: RELEASE is compulsory*"; \
+		echo "You must set <productnumber> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
 	@if [[ "$(RELEASE)" =~ "[^0-9.]" ]]; then \
 		echo; \
-		echo "ERROR: RELEASE can only contain 0-9 and '.'! '$(RELEASE)' is not valid, please edit <productnumber> in your $(DOC_TYPE)_Info.xml file"; \
+		echo "*ERROR: RELEASE can only contain 0-9 and '.'*"; \
+		echo "'$(RELEASE)' is not valid";\
+		echo "Please edit <productnumber> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
 	@if [ ! -d $(COMMON_CONTENT)/$(BRAND) ]; then \
 		echo; \
-		echo "ERROR: Brand $(BRAND) is not installed. Either install $(BRAND) or change to a valid Brand."; \
+		echo "*ERROR: Brand $(BRAND) is not installed*" ; \
+		echo "Either install $(BRAND) or change to a valid Brand."; \
 		echo "Installed Brands:" \
 		echo "`ls $(COMMON_CONTENT)`"; \
 		exit 1; \
 	fi
-
+	@for file in `find en-US -name \*.xml`; do \
+		if [ "$$(grep -l '<\!ENTITY' $$file)" > "0" ]; then \
+			echo; \
+			echo "*WARNING: Entities Declared in XML*"; \
+			echo "Entities declared in XML files are excluded from all output."; \
+			echo "Entities should be declared in $(XML_LANG)/$(DOCNAME).ent"; \
+			echo "Declaration in: $$file"; \
+			echo; \
+		fi; \
+	done
 
 ###############################################################################
 ### Build XML ###
