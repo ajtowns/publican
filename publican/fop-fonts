@@ -43,7 +43,7 @@ my $metric_path = 'fop/font-metrics';
 my %fontlist = (
     '.el5' => {
         'BaekmukBatang' => {
-            path   => '/usr/share/fonts/korean/TrueType/batang.ttf',
+            path   => '/usr/share/fonts/korean/TrueType/batang.ttf2',
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
@@ -518,7 +518,8 @@ sub genfontmetrics {
     foreach my $name ( sort( keys( %{ $fontlist{$dist} } ) ) ) {
         my $path = $fontlist{$dist}{$name}{path};
 	warn("Generating metrics for: $path\n");
-        `$ttfcommand -fn $name $path $metric_path/$name.xml`;
+        my $result = system("$ttfcommand -fn $name $path $metric_path/$name.xml");
+	croak("FAILED to create font metric for $name: $!") if($@ || $result);
     }
 }
 

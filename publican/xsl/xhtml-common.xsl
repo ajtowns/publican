@@ -713,8 +713,4 @@ Version: 1.72.0
   <span class="hl-section"><xsl:apply-templates/></span>
 </xsl:template>
 
-<xsl:template match="othercredit" mode="titlepage.mode">
-    <xsl:call-template name="credits.div"/>
-</xsl:template>
-
 </xsl:stylesheet>

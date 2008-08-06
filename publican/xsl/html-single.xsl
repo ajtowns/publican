@@ -14,6 +14,7 @@
 				exclude-result-prefixes="exsl">
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/titlepage.xsl"/>
 <xsl:include href="defaults.xsl"/>
 <xsl:include href="xhtml-common.xsl"/>
 

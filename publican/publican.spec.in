@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.34
-Release:	0%{?dist}
+Release:	0.t1%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -16,16 +16,16 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
 # need kdesdk for po2xml & xml2pot
-Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl elinks aspell
+Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl elinks aspell
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template make
 Requires:	fop batik saxon ImageMagick
-#Requires:	xslthl
+Requires:	xslthl xerces-j2
 
-BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-style-xsl aspell
+BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
-# FOP is required to build the mont metrics.
+# FOP is required to build the font metrics.
 BuildRequires:	fop saxon
 #BuildRequires:	xslthl
 # *&%^*&^ decided to rename font packages and change font paths.
@@ -141,6 +141,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Mon Aug 4 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
+- Add missing xerces-j2 Requires. BZ #457497
+- Fixed css path for tranlation reports
+- Fixed font path for Fedora, ensured build fails if font metric creation fails. BX #458003
+
 * Fri Apr 11 2008 Jeff Fearn <jfearn@redhat.com> 0.34-0
 - Fix PO file name missing from translation status report
 - Modify xmlClean to output dummy content for empty files (beta)

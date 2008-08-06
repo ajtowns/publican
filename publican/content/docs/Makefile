@@ -19,7 +19,7 @@ COMMON_CONFIG  = /usr/share/publican
 else
 DESKTOP		= 1
 COMMON_CONFIG	= $(PWD)/../..
-CATALOGS	= XML_CATALOG_FILES="$(PWD)/../../xsl_extras/docbook/dtd-4.5/catalog.xml $(PWD)/../../xsl_extras/docbook/1.72.0/catalog.xml"
+CATALOGS	= XML_CATALOG_FILES="$(PWD)/../../xsl_extras/docbook/dtd-4.5/catalog.xml $(PWD)/../../xsl_extras/docbook/1.72.0/catalog.xml;/etc/xml/catalog"
 XMLCLEAN	= $(PWD)/../../bin/xmlClean
 SAXON		?= java -cp "/usr/share/java/saxon.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:$(COMMON_CONFIG)/xsl:$(COMMON_CONFIG)/xsl_extras/docbook/1.72.0/extensions/saxon65.jar" -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration -Dxslthl.config="file:///usr/share/xslthl/xslthl-config.xml" com.icl.saxon.StyleSheet -x org.apache.xml.resolver.tools.ResolvingXMLReader -y org.apache.xml.resolver.tools.ResolvingXMLReader -r org.apache.xml.resolver.tools.CatalogResolver
 endif
