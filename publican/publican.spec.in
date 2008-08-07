@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.34
-Release:	0.t1%{?dist}
+Release:	0.t2%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -143,10 +143,11 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Aug 4 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497
-- Fixed css path for tranlation reports
+- Fixed css path for tranlation reports.
 - Fixed font path for Fedora, ensured build fails if font metric creation fails. BX #458003
 - Set vertical-align:top for TD - BZ #457851
 - Added WARNING for ENTITIES declared in XML files. BZ #456170
+- Added check to ensure PRODUCT has a valid format.
 
 * Fri Apr 11 2008 Jeff Fearn <jfearn@redhat.com> 0.34-0
 - Fix PO file name missing from translation status report

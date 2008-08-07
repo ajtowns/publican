@@ -88,6 +88,13 @@ pre::
 		echo "Run 'make help_params' for more information on this setting"; \
 		echo; \
 	fi
+	@if [[ "$(PRODUCT)" =~ "[^a-zA-Z_]" ]]; then \
+		echo; \
+		echo "*ERROR: PRODUCT can only contain 'a-z', 'A-Z' and '_'*"; \
+		echo "'$(PRODUCT)' is not valid"; \
+		echo "Please edit PRODUCT in your Makefile"; \
+		exit 1; \
+	fi
 	@if [[ "$(VERSION)" == "" ]]; then \
 		echo; \
 		echo "*ERROR: VERSION is compulsory*"; \
