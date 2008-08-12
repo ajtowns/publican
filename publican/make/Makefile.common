@@ -21,17 +21,20 @@
 XML_LANG	?= en-US
 XMLFILE		?= $(XML_LANG)/$(DOCNAME).xml
 DOC_TYPE	?= Book
-VERSION		= $(shell awk '/<issuenum>(.*)<\/issuenum>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*issuenum>//g')
-RELEASE		= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
-XSLTPROC	?= xsltproc
-PWD		= $(shell pwd)
 CONFIDENTIAL	?= 0
 BREW_DIST	?= dist-5E-qu-candidate
 WEB_BREW_DIST	?= docs-5E
-TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
 EXTRA_DIRS	?= $(shell find $(XML_LANG) -type d | grep -vw CVS | grep -vw '.svn' | grep -vw images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
 PRODUCT		?= Documentation
+
+# Hardcoded values
+VERSION		= $(shell awk '/<issuenum>(.*)<\/issuenum>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*issuenum>//g')
+RELEASE		= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
+XSLTPROC	= xsltproc
+PWD		= $(shell pwd)
+TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
 FORMATS		= html htmlhelp html-single html-desktop pdf txt eclipse
+BOOKNAME	= $(shell echo $(DOCNAME) | sed -e 's/_/ /g')
 
 ###############################################################################
 ###############################################################################
@@ -81,6 +84,13 @@ include $(COMMON_CONFIG)/make/Makefile.templates
 # Stub for books that need to pre generate things (Services_Plan)
 # Validate strings used for rpm's match spec file constraints
 pre::
+	@if [[ "$(DOCNAME)" =~ "^a-zA-Z_" ]]; then \
+		echo; \
+		echo "*ERROR: DOCNAME can only contain 'a-z', 'A-Z' and '_'*"; \
+		echo "'$(DOCNAME)' is not valid"; \
+		echo "Please edit DOCNAME in your Makefile"; \
+		exit 1; \
+	fi
 	@if [[ "$(PRODUCT)" == "Documentation" ]]; then \
 		echo; \
 		echo "*WARNING: PRODUCT is set to the default setting of 'Documentation'*"; \
@@ -395,6 +405,18 @@ realclean::
 	done;
 	@rm -rf tmp
 	@echo "End $@ `date`"
+
+###############################################################################
+# Make a pom file for gay maven
+###############################################################################
+
+pom::
+	@echo "Start $@ `date`"
+	@cp $(COMMON_CONFIG)/maven/pom.xml .
+	@sed -i -e 's/DOC_NAME/$(DOCNAME)/' pom.xml
+	@sed -i -e 's/BOOK_NAME/$(BOOKNAME)/' pom.xml
+	@echo "End $@ `date`"
+
 
 ###############################################################################
 # Help the user

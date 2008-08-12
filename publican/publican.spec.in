@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.34
-Release:	0.t2%{?dist}
+Release:	0.t11%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -89,7 +89,7 @@ install -m 755 bin/* $RPM_BUILD_ROOT%{_bindir}
 %{__perl} -p -i -e 's|^#CATALOGS_OVERRIDE$|CATALOGS\t= XML_CATALOG_FILES="%{_datadir}/%{name}/xsl/docbook/dtd-4.5/catalog.xml %{_datadir}/%{name}/xsl/docbook/1.72.0/catalog.xml"|g' make/Makefile.templates
 %endif
 
-for i in fop make xsl Common_Content templates; do
+for i in fop make xsl Common_Content templates maven; do
 	cp -rf $i $RPM_BUILD_ROOT%{_datadir}/%{name}/$i
 done
 cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/%{name}/Templates/common-Book_Template
@@ -144,10 +144,14 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Aug 4 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497
 - Fixed css path for tranlation reports.
-- Fixed font path for Fedora, ensured build fails if font metric creation fails. BX #458003
+- Fixed font path for Fedora, ensured build fails if font metric creation fails. BZ #458003
 - Set vertical-align:top for TD - BZ #457851
 - Added WARNING for ENTITIES declared in XML files. BZ #456170
 - Added check to ensure PRODUCT has a valid format.
+- Only check xml files for revision history. BZ #458740
+- Made VERSION and RELEASE over-rideable. BZ #458421
+- Fixed display of OL nested in UL. BZ #457915
+- Added "make pom" to output a basic maven pom file.
 
 * Fri Apr 11 2008 Jeff Fearn <jfearn@redhat.com> 0.34-0
 - Fix PO file name missing from translation status report

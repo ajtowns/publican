@@ -77,7 +77,7 @@ old_srpm:: clean old_spec
 #######################################################################################
 ############## OLD way (Single SRPM) to do HTML desktop packages ######################
 
-old_spec2:: html-single-all
+old_spec2:: html-desktop-all
 	@echo "START: $@ `date`"
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
 	# Make the change log
@@ -107,7 +107,7 @@ old_srpm2:: clean old_spec2
 	@echo "START: $@ `date`"
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS tmp/tar/$(SPEC_NAME)-$(VERSION)
 	for lang in $(TRANSLATIONS); do \
-		cp -rf tmp/$$lang/html-single tmp/tar/$(SPEC_NAME)-$(VERSION)/$$lang; \
+		cp -rf tmp/$$lang/html-desktop tmp/tar/$(SPEC_NAME)-$(VERSION)/$$lang; \
 	done
 	cd tmp/tar && tar -cz --exclude-from=$(COMMON_CONFIG)/make/tar-excludes -f $(SPEC_NAME)-$(VERSION).tgz $(SPEC_NAME)-$(VERSION);
 	@cp tmp/tar/$(SPEC_NAME)-$(VERSION).tgz tmp/rpm/SOURCES/.

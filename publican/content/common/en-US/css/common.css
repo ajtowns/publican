@@ -101,10 +101,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	color:white;
-	background: #336699 url(../images/h1-bg.png) top left repeat;
 	font-size:2.0em;
+}
+
+h1.title {
+	background: #336699 url(../images/h1-bg.png) top left repeat;
+	color:white;
+	text-align: center;
 	padding:1.5em;
+}
+
+.section h1.title {
+	font-size:1.6em;
+	padding: 0em;
+	color: #336699;
+	text-align:left;
+	background: white;
 }
 
 h2 {
@@ -116,6 +128,7 @@ h2.subtitle {
 	margin-top: 1em;
 	margin-bottom: 1em;
 	font-size: 2.0em;
+	text-align: center;
 }
 
 .preface > div > div > div > h2.title {
@@ -462,6 +475,11 @@ ul {
 ul ul {
 	list-style-image:url(../images/dot2.png);
 	list-style-type: circle;
+}
+
+ol {
+	list-style-image:none;
+	list-style-type: decimal;
 }
 
 dt {

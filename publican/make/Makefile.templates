@@ -512,7 +512,7 @@ define	SPEC_Template
 spec-${1}:: tar-${1}
 	@echo "START: spec-${1} `date`"
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
-	@rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
+	@rev_file=`grep -l '<revhistory' $(XML_LANG)/*.xml | head -n 1 | sed -e 's/$(XML_LANG)\///g'`; \
 		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
 	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
 	--stringparam main-file "$(DOCNAME).xml" \

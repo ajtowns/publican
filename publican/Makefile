@@ -28,7 +28,7 @@ XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
 
-FILES	= bin Book_Template Set_Template Article_Template content fop fop-fonts fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop xsl_extras
+FILES	= bin Book_Template Set_Template Article_Template content fop fop-fonts fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop xsl_extras maven
 
 local: rpm
 	@echo "Start $@"
