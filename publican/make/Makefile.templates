@@ -370,7 +370,7 @@ endef
 ###############################################################################
 define	PO_Update_Template
 .PHONY:	update-po-${1}
-update-po-${1}:: update-pot
+update-po-${1}::
 	@echo "START: update-po-${1} `date`"
 	@if [ ! -d ${1} ]; then mkdir -p ${1}; fi
 ifneq "$(EXTRA_DIRS)" ""
