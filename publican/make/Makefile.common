@@ -140,7 +140,7 @@ pre::
 		exit 1; \
 	fi
 	@for file in `find en-US -name \*.xml`; do \
-		if [ "$$(grep -l '<\!ENTITY' $$file)" > "0" ]; then \
+		if [ "$$(grep -l '<\!ENTITY' $$file)" ]; then \
 			echo; \
 			echo "*WARNING: Entities Declared in XML*"; \
 			echo "Entities declared in XML files are excluded from all output."; \
@@ -213,19 +213,6 @@ $(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Template,${L})))
 $(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Scratch_Template,${L})))
 $(foreach L,$(TRANSLATIONS), $(eval $(call WEB_BREW_Report_Template,${L})))
 web-brew-all:: $(foreach L,$(TRANSLATIONS), web-brew-${L})
-
-###############################################################################
-### PUBLISH TAR ###
-# This tars up everything in the publish directory
-###############################################################################
-
-tar-publish::
-	@echo "START: $@ `date`"
-	@tar -czf $(PRODUCT)-$(VERSION)-$(DOCNAME).tgz publish
-	@mkdir publish/tar
-	@mv $(PRODUCT)-$(VERSION)-$(DOCNAME).tgz publish/tar/.
-	@echo "created $(PRODUCT)-$(VERSION)-$(DOCNAME).tgz"
-	@echo "END: $@ `date`"
 
 ###############################################################################
 # SECTION: PO FILES 
@@ -615,9 +602,6 @@ help::
 	@echo
 	@echo "tardir-<LANG>-<LOC>"
 	@echo "	Creates the directory structure and content for tar-<LANG>-<LOC>."
-	@echo
-	@echo "tar-publish"
-	@echo "	Tar and gzips all the published content. Used with docbot. Make this your last target."
 	@echo
 	@echo "test-<LANG>-<LOC>"
 	@echo "	Validate the XML for the supplied language."
