@@ -1,12 +1,12 @@
-# Language it-IT translations for Publican package.
+# Language it-IT translations for Users_Guide package.
 # Automatically generated, 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Publican 1.0\n"
+"Project-Id-Version: Users_Guide VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-02-29 12:08+0000\n"
-"PO-Revision-Date: 2008-02-29 12:08+0000\n"
+"POT-Creation-Date: 2008-08-20 06:04+0000\n"
+"PO-Revision-Date: 2008-08-20 06:04+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -16,36 +16,50 @@ msgstr ""
 #. Tag: title
 #: FAQ.xml:6
 #, no-c-format
-msgid "<title>FAQ</title>"
+msgid "Frequently Asked Questions"
 msgstr ""
 
 #. Tag: para
 #: FAQ.xml:7
 #, no-c-format
 msgid ""
-"The following is a list of frequently asked questions regarding the publican "
-"toolchain:"
+"The following is a list of frequently asked questions regarding publican:"
 msgstr ""
 
 #. Tag: para
 #: FAQ.xml:13
 #, no-c-format
-msgid "How do I add another language to my book?"
+msgid "How do I add a language to my book?"
 msgstr ""
 
 #. Tag: para
 #: FAQ.xml:18
 #, no-c-format
 msgid ""
-"Append the language to <computeroutput>OTHER_LANGS</computeroutput> in the "
-"<filename>Makefile</filename>. Run the <command>make update-po-"
-"<replaceable>language</replaceable></command> command. For example, "
-"<command>make update-po-ja-JP</command> creates the language directory and "
-"language specific po files."
+"Edit your books <filename>Makefile</filename> and uncomment the "
+"<computeroutput>OTHER_LANGS</computeroutput> entry. Add the required "
+"language code after the &#39;=&#39; sign."
 msgstr ""
 
 #. Tag: para
 #: FAQ.xml:25
+#, no-c-format
+msgid "How do I add another language to my book?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:30
+#, no-c-format
+msgid ""
+"Append the language to <computeroutput>OTHER_LANGS</computeroutput> in the "
+"<filename>Makefile</filename>. Run the <command>make update-po-"
+"<replaceable>language</replaceable></command> command. For example, "
+"<command>make update-po-ja-JP</command> creates the Japanese language "
+"directory and the Japanese po files."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:37
 #, no-c-format
 msgid ""
 "What if I only use the country code? For example, "
@@ -53,37 +67,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:30
+#: FAQ.xml:42
 #, no-c-format
 msgid "Run the <command>make update-po-en</command> command."
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:37
+#: FAQ.xml:49
 #, no-c-format
 msgid "How do I update all po files?"
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:42
+#: FAQ.xml:54
 #, no-c-format
 msgid "Run the <command>make update-po-all</command> command."
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:49
+#: FAQ.xml:61
 #, no-c-format
 msgid "Where can I get a complete list of make targets?"
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:54
+#: FAQ.xml:66
 #, no-c-format
 msgid "Run the <command>make help</command> command."
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:61
+#: FAQ.xml:73
 #, no-c-format
 msgid ""
 "Where can I get a complete list of parameters that can be set in the "
@@ -91,19 +105,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:66
+#: FAQ.xml:78
 #, no-c-format
 msgid "Run the <command>make help_params</command> command."
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:73
+#: FAQ.xml:85
 #, no-c-format
 msgid "Where are the publican common files located?"
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:78
+#: FAQ.xml:90
 #, no-c-format
 msgid ""
 "By default they are in the <filename>/usr/share/publican</filename> "
@@ -111,16 +125,197 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:85
+#: FAQ.xml:97
 #, no-c-format
 msgid ""
 "Can I use the OASIS DocBook DTD for XML completion in editors such as Kate?"
 msgstr ""
 
 #. Tag: para
-#: FAQ.xml:90
+#: FAQ.xml:102
 #, no-c-format
 msgid ""
 "Yes. The OASIS DocBook DTD is included in the publican package, and is "
 "located here: <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename>"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:109
+#, no-c-format
+msgid ""
+"I have extensive code samples for my book, how can I include them without "
+"having to xml escape everything?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:114
+#, no-c-format
+msgid ""
+"The best way to do this is to create a directory named <filename>extras</"
+"filename> in your source language directory and use an <sgmltag>xi:include</"
+"sgmltag> to pull in the code file."
+msgstr ""
+
+#. Tag: title
+#: FAQ.xml:118
+#, no-c-format
+msgid "Including code samples"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:120
+#, no-c-format
+msgid "Create the extras directory"
+msgstr ""
+
+#. Tag: programlisting
+#: FAQ.xml:122
+#, no-c-format
+msgid "<command>mkdir <filename>en-US/extras</filename></command>"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:126
+#, no-c-format
+msgid "Copy the code file to the extras directory"
+msgstr ""
+
+#. Tag: programlisting
+#: FAQ.xml:128
+#, no-c-format
+msgid ""
+"<command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:132
+#, no-c-format
+msgid "<sgmltag>xi:include</sgmltag> the sample file in your xml file"
+msgstr ""
+
+#. Tag: programlisting
+#: FAQ.xml:134
+#, no-c-format
+msgid ""
+"&lt;programlisting&gt;\n"
+"&lt;xi:include parse=\"text\" href=\"extras/foo.c\" xmlns:xi=\"http://www.w3."
+"org/2001/XInclude\" /&gt;\n"
+"&lt;/programlisting&gt;"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:138
+#, no-c-format
+msgid ""
+"You can now edit <filename>en-US/extras/foo.c</filename> in your favorite "
+"editor without having to be concerned about how it will affect the XML."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:148
+#, no-c-format
+msgid "Is it possible to include arbitrary files in tar and RPM files?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:153
+#, no-c-format
+msgid ""
+"Yes. If you make a directory named <filename>files</filename> in your source "
+"language directory it will be included in any tar or SRPM files created by "
+"publican."
+msgstr ""
+
+#. Tag: title
+#: FAQ.xml:157
+#, no-c-format
+msgid "Warning"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:158
+#, no-c-format
+msgid ""
+"The <filename>files</filename> directory will not be available during the "
+"validation process so you can not <sgmltag>xi:include</sgmltag> or otherwise "
+"embed any files in this directory in your XML."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:166
+#, no-c-format
+msgid "Why does publican give me warnings about unknown tags?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:171
+#, no-c-format
+msgid ""
+"This warning informs you that you are using a tag whose output has not been "
+"tested for attractiveness, XHTML 1.0 Strict compliance, or Section 508 "
+"(Accessibility) compliance."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:178
+#, no-c-format
+msgid "How do I find out which tags have been tested in publican?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:183
+#, no-c-format
+msgid "Run <command>xmlClean --known</command>"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:190
+#, no-c-format
+msgid "Why does publican give me an error about banned tags?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:195
+#, no-c-format
+msgid ""
+"This error indicates that the brand you are using has STRICT mode enabled "
+"for <command>xmlClean</command> and that the tag in question has been marked "
+"as undesirable. The error message should contain a reason why the tag was "
+"banned."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:202
+#, no-c-format
+msgid "How do I find out which tags are banned in publican?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:207
+#, no-c-format
+msgid "Run <command>xmlClean --banned</command>"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:214
+#, no-c-format
+msgid "Which brands enable STRICT mode?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:219
+#, no-c-format
+msgid "Currently the Red Hat and JBoss brands enable STRICT mode."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:226
+#, no-c-format
+msgid "Why does Jeff call Isaac Ivan?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:231
+#, no-c-format
+msgid "Because Jeff&#39;s memory is pants!"
 msgstr ""
