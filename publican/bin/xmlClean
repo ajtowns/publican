@@ -171,6 +171,8 @@ my %MAP_OUT = (
     'email'             => { 'newline_after' => 1 },
     'isbn'              => { 'newline_after' => 1 },
     'issuenum'          => { 'newline_after' => 1 },
+    'edition'           => { 'newline_after' => 1 },
+    'productname'       => { 'newline_after' => 1 },
     'productnumber'     => { 'newline_after' => 1 },
     'shortaffil'        => { 'newline_after' => 1 },
     'jobtitle'          => { 'newline_after' => 1 },
@@ -301,7 +303,7 @@ if ((   !GetOptions(
     else {
         croak(
             "Usage: \
-	txmlClean -in <infile>\
+	xmlClean -in <infile>\
 	-out <outfile>\
 	[-lang <lang>]\
 	[-arch <arch>]\

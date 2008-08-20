@@ -12,13 +12,13 @@
      will be reproduced in the output -->
 <xsl:template match="/"># Red Hat Documentation Specfile
 Name:	<xsl:value-of select="$book-title"/>-<xsl:value-of select="$book-lang"/>
-Version:	<xsl:value-of select="/bookinfo/issuenum"/><xsl:value-of select="/setinfo/issuenum"/>
-Release:	<xsl:value-of select="/bookinfo/productnumber"/><xsl:value-of select="/setinfo/productnumber"/>
+Version:        <xsl:value-of select="$rpmver"/>
+Release:        <xsl:value-of select="$rpmrel"/>
 Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
 Group:		Documentation
 License:	Open Publication License
 URL:		http://www.redhat.com/docs
-Source0:	%{name}-%{version}-%{release}.tgz
+Source0:	%{name}-%{version}.tgz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
@@ -31,7 +31,7 @@ Requires: 	htmlview
 %setup -q
 
 %build
-%{__make} DESKTOP=1 html-single-<xsl:value-of select="$book-lang"/>
+%{__make} html-desktop-<xsl:value-of select="$book-lang"/>
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -54,7 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc tmp/<xsl:value-of select="$book-lang"/>/html-single/*
+%doc tmp/<xsl:value-of select="$book-lang"/>/html-desktop/*
 %{_datadir}/applications/%{name}.desktop
 
 %changelog<xsl:value-of select="$book-log"/>

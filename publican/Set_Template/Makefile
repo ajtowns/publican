@@ -1,8 +1,6 @@
 #Makefile for MYBOOK
 
 XML_LANG	= en-US
-DOCNAME		= MYBOOK
-#PRODUCT	= FIX_ME!
 BRAND		= common
 DOC_TYPE	= Set
 

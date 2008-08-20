@@ -25,16 +25,20 @@ CONFIDENTIAL	?= 0
 BREW_DIST	?= dist-5E-qu-candidate
 WEB_BREW_DIST	?= docs-5E
 EXTRA_DIRS	?= $(shell find $(XML_LANG) -type d | grep -vw CVS | grep -vw '.svn' | grep -vw images | sed -e 's/$(XML_LANG)//g'| sed -e 's/^\///g')
-PRODUCT		?= Documentation
 
 # Hardcoded values
-VERSION		= $(shell awk '/<issuenum>(.*)<\/issuenum>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*issuenum>//g')
-RELEASE		= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
+DOCNAME		= $(shell grep -m1 '<title' $(XML_LANG)/$(DOC_TYPE)_Info.xml  | sed -e 's/<[/]*title>//g' | sed -e 's/^\s*//'  | sed -e 's/\s/_/g')
+PRODUCT		= $(shell grep -m1 '<productname' $(XML_LANG)/$(DOC_TYPE)_Info.xml  | sed -e 's/<[/]*productname>//g' | sed -e 's/^\s*//'  | sed -e 's/\s/_/g')
+PROD_VERSION	= $(shell awk '/<productnumber>(.*)<\/productnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*productnumber>//g')
+RPM_VERSION	= $(shell awk '/<edition>(.*)<\/edition>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*edition>//g')
+RPM_RELEASE	= $(shell awk '/<pubsnumber>(.*)<\/pubsnumber>/ { print $$1 }' $(XML_LANG)/$(DOC_TYPE)_Info.xml | sed -e 's/<[/]*pubsnumber>//g')
 XSLTPROC	= xsltproc
 PWD		= $(shell pwd)
 TRANSLATIONS	= $(XML_LANG) $(OTHER_LANGS)
 FORMATS		= html htmlhelp html-single html-desktop pdf txt eclipse
 BOOKNAME	= $(shell echo $(DOCNAME) | sed -e 's/_/ /g')
+
+PRODUCT		?= Documentation
 
 ###############################################################################
 ###############################################################################
@@ -76,7 +80,7 @@ SPEC_XSL	= $(COMMON_CONFIG)/xsl/dt_htmlsingle_spec.xsl
 SUB_SPEC_XSL	= $(COMMON_CONFIG)/xsl/sub_package_htmlsingle.xsl
 endif
 
-TAR_NAME	= $(SPEC_NAME)-$(VERSION)-$(RELEASE)
+TAR_NAME	= $(PRODUCT)-$(DOCNAME)-$(PROD_VERSION)
 
 
 include $(COMMON_CONFIG)/make/Makefile.templates
@@ -105,30 +109,43 @@ pre::
 		echo "Please edit PRODUCT in your Makefile"; \
 		exit 1; \
 	fi
-	@if [[ "$(VERSION)" == "" ]]; then \
+	@if [[ "$(PROD_VERSION)" == "" ]]; then \
 		echo; \
-		echo "*ERROR: VERSION is compulsory*"; \
-		echo "You must set <issuenum> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
-		exit 1; \
-	fi
-	@if [[ "$(VERSION)" =~ "[^0-9.]" ]]; then \
-		echo; \
-		echo "*ERROR: VERSION can only contain '0-9' and '.'*"; \
-		echo "'$(VERSION)' is not valid"; \
-		echo "Please edit <issuenum> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
-		exit 1; \
-	fi
-	@if [[ "$(RELEASE)" == "" ]]; then \
-		echo; \
-		echo "*ERROR: RELEASE is compulsory*"; \
+		echo "*ERROR: PROD_VERSION is compulsory*"; \
 		echo "You must set <productnumber> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
-	@if [[ "$(RELEASE)" =~ "[^0-9.]" ]]; then \
+	@if [[ "$(PROD_VERSION)" =~ "[^0-9.]" ]]; then \
 		echo; \
-		echo "*ERROR: RELEASE can only contain 0-9 and '.'*"; \
-		echo "'$(RELEASE)' is not valid";\
+		echo "*ERROR: PROD_VERSION can only contain '0-9' and '.'*"; \
+		echo "'$(PROD_VERSION)' is not valid"; \
 		echo "Please edit <productnumber> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
+		exit 1; \
+	fi
+	@if [[ "$(RPM_VERSION)" == "" ]]; then \
+		echo; \
+		echo "*ERROR: RPM_VERSION is compulsory*"; \
+		echo "You must set <edition> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
+		exit 1; \
+	fi
+	@if [[ "$(RPM_VERSION)" =~ "[^0-9.]" ]]; then \
+		echo; \
+		echo "*ERROR: RPM_VERSION can only contain 0-9 and '.'*"; \
+		echo "'$(RPM_VERSION)' is not valid";\
+		echo "Please edit <edition> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
+		exit 1; \
+	fi
+	@if [[ "$(RPM_RELEASE)" == "" ]]; then \
+		echo; \
+		echo "*ERROR: RPM_RELEASE is compulsory*"; \
+		echo "You must set <pubsnumber> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
+		exit 1; \
+	fi
+	@if [[ "$(RPM_RELEASE)" =~ "[^0-9]" ]]; then \
+		echo; \
+		echo "*ERROR: RPM_RELEASE can only contain 0-9*"; \
+		echo "'$(RPM_RELEASE)' is not valid";\
+		echo "Please edit <pubsnumber> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
 	@if [ ! -d $(COMMON_CONTENT)/$(BRAND) ]; then \
@@ -149,6 +166,13 @@ pre::
 			echo; \
 		fi; \
 	done
+	@echo "Processing, Product: $(PRODUCT), Version: $(PROD_VERSION), Edition: $(RPM_VERSION), Release: $(RPM_RELEASE)"
+
+###############################################################################
+### Special Place in hell for Jeff ###
+###############################################################################
+$(foreach L,$(OTHER_LANGS),$(eval ${L}_RPM_RELEASE = $(shell grep Project-Id-Version ${L}/$(DOC_TYPE)_Info.po | sed -e 's/^.*: \(.*\)\\n.*$$/\1/' )))
+$(XML_LANG)_RPM_RELEASE = $(RPM_RELEASE)
 
 ###############################################################################
 ### Build XML ###
@@ -274,8 +298,8 @@ publish-report:: report-all
 	@mkdir -p tmp/Reports/Common_Content
 	@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/css tmp/Reports/Common_Content/.
 	-@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/images  tmp/Reports/Common_Content/.
-	@mkdir -p publish/Reports/$(PRODUCT)/$(VERSION)/${DOCNAME}
-	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(VERSION)/$(DOCNAME)/.
+	@mkdir -p publish/Reports/$(PRODUCT)/$(PROD_VERSION)/${DOCNAME}
+	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(PROD_VERSION)/$(DOCNAME)/.
 	@echo "END: publish-report `date`"
 
 
@@ -485,7 +509,11 @@ help_internals::
 	@echo
 	@echo "PWD: present working directory."
 	@echo
-	@echo "RELEASE: release number of this book, fetched from productnumber in Info file."
+	@echo "PROD_VERSION: Version of the PRODUCT, retrieved from productnumber tag in Info file."
+	@echo
+	@echo "RPM_VERSION: Edition number of this book, fetched from edition in Info file."
+	@echo
+	@echo "RPM_RELEASE: release number of this book, fetched from pubsnumber in Info file."
 	@echo
 	@echo "SPEC_NAME: Used to determine names for tar and rpm files. Currently: $(SPEC_NAME)"
 	@echo
@@ -496,8 +524,6 @@ help_internals::
 	@echo "TAR_NAME: Shortcut for the TAR name."
 	@echo
 	@echo "TRANSLATIONS: List of all langages, XML_LANG + OTHER_LANGS. No longer override-able."
-	@echo
-	@echo "VERSION: Version of the book, retrieved from issuenum tag in Info file."
 	@echo
 	@echo "XMLCLEAN: Program to use for pre-processing xml. Currently: $(XMLCLEAN)."
 	@echo

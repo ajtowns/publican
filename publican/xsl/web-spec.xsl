@@ -14,8 +14,8 @@
 %define	HTMLVIEW 1
 
 Name:           <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-Version:        <xsl:value-of select="/bookinfo/productnumber"/><xsl:value-of select="/setinfo/productnumber"/>
-Release:        0
+Version:        <xsl:value-of select="$rpmver"/>
+Release:        <xsl:value-of select="$rpmrel"/>
 Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
 Group:          Documentation
 License:        OPL + Restrictions
@@ -71,10 +71,10 @@ Terminal=false
 EOF
 
 %preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); if("<xsl:value-of select="$lang"/>" =~ /-IN/) { @formats = ("html", "html-single"); } my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->del_entry({ language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format"} ); } $ws->regen_all_toc();'
+%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); if("<xsl:value-of select="$lang"/>" =~ /-IN/) { @formats = ("html", "html-single"); } my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->del_entry({ language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format"} ); } $ws->regen_all_toc();'
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); if("<xsl:value-of select="$lang"/>" =~ /-IN/) { @formats = ("html", "html-single"); } my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$ver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
+%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); if("<xsl:value-of select="$lang"/>" =~ /-IN/) { @formats = ("html", "html-single"); } my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
 
 %files
 %defattr(-,root,root,-)

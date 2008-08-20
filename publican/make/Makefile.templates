@@ -31,6 +31,9 @@ DOC_URL		?= https://fedorahosted.org/publican
 DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
 LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
+
+CLASSPATH	?= /usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar
+
 XALAN		?= java -verbose -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
 TEST_XALAN	?= 0
 
@@ -38,7 +41,7 @@ TEST_SAXON	?= 1
 SAXON		?= java -cp "/usr/share/java/saxon.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/saxon65.jar:/usr/share/java/xslthl.jar" -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration -Dxslthl.config="file:///usr/share/xslthl/xslthl-config.xml" com.icl.saxon.StyleSheet -x org.apache.xml.resolver.tools.ResolvingXMLReader -y org.apache.xml.resolver.tools.ResolvingXMLReader -r org.apache.xml.resolver.tools.CatalogResolver
 
 # List of tags to exclude from aspell check
-ASPELL_EXCLUDES = programlisting,userinput,screen,filename,command,computeroutput,abbrev,accel,orgname
+ASPELL_EXCLUDES = programlisting,userinput,screen,filename,command,computeroutput,abbrev,accel,orgname,surname
 
 # This gets overridden in the spec file for systems that don't
 # ship DocBook 4.5 DTD
@@ -78,8 +81,8 @@ define	PUBLISH_template
 .PHONY:	publish-${1}-${2}
 publish-${1}-${2}:: ${1}-${2}
 	@echo "START: publish-${1}-${2} `date`"
-	@mkdir -p publish/${2}/$(PRODUCT)/$(VERSION)/${1}/$(DOCNAME)
-	@cp -rf tmp/${2}/${1}/* publish/${2}/$(PRODUCT)/$(VERSION)/${1}/$(DOCNAME)/. 
+	@mkdir -p publish/${2}/$(PRODUCT)/$(PROD_VERSION)/${1}/$(DOCNAME)
+	@cp -rf tmp/${2}/${1}/* publish/${2}/$(PRODUCT)/$(PROD_VERSION)/${1}/$(DOCNAME)/. 
 	@echo "END: publish-${1}-${2} `date`"
 endef
 
@@ -264,7 +267,7 @@ ifeq "${1}" "pdf"
 			fi; \
 		fi; \
 		echo "Running FOP:"; \
-		fop -q -c $(COMMON_CONFIG)/fop/fop.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
+		CLASSPATH=$(CLASSPATH) fop -q -c $(COMMON_CONFIG)/fop/fop.xconf -fo $(DOCNAME).fo -pdf $(DOCNAME).pdf;
 	@mv -f tmp/${2}/xml/$(DOCNAME).${1} tmp/${2}/${1}/.
 else
 ifeq "${1}" "html-single"
@@ -382,7 +385,7 @@ endif
 			echo "Creating new po file: ../${1}/$$$$po_file"; \
 			msginit -l ${1} --no-translator -i $$$$pot_file -o ../${1}/$$$$po_file; \
 			sed -i -e 's/PACKAGE/$(DOCNAME)/g' ../${1}/$$$$po_file; \
-			sed -i -e 's/VERSION/$(VERSION)/g' ../${1}/$$$$po_file; \
+			sed -i -e 's/PROD_VERSION/$(PROD_VERSION)/g' ../${1}/$$$$po_file; \
 		else \
 			echo "Merging existing po file: ../${1}/$$$$po_file"; \
 			echo -n "	Before:	";\
@@ -489,12 +492,12 @@ define	TARDIR_Template
 .PHONY:	tardir-${1}
 tardir-${1}:: xml-${1} test-${1}
 	@echo "START: tardir-${1} `date`"
-	@mkdir -p tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)
-	@cp -rf tmp/${1}/xml tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/${1}
-	@rm -rf tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/${1}/Common_Content
-	@cp Makefile tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/.
-	@sed -i -e 's/^XML_LANG.*$$$$/XML_LANG = ${1}/' tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/Makefile
-	@sed -i -e 's/^IGNORED_TRANSLATIONS.*$$$$//' tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)/Makefile
+	@mkdir -p tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)
+	@cp -rf tmp/${1}/xml tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}
+	@rm -rf tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}/Common_Content
+	@cp Makefile tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/.
+	@sed -i -e 's/^XML_LANG.*$$$$/XML_LANG = ${1}/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
+	@sed -i -e 's/^IGNORED_TRANSLATIONS.*$$$$//' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
 	@echo "END: tardir-${1} `date`"
 endef
 
@@ -502,8 +505,8 @@ define	TAR_Template
 .PHONY:	tar-${1}
 tar-${1}:: tardir-${1}
 	@echo "START: tar-${1} `date`"
-	@cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz $(SPEC_NAME)-${1}-$(VERSION)
-	@echo "The archive is in tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz"
+	@cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(TAR_NAME)-${1}-$(RPM_VERSION).tgz $(TAR_NAME)-${1}-$(RPM_VERSION)
+	@echo "The archive is in tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION).tgz"
 	@echo "END: tar-${1} `date`"
 endef
 
@@ -514,11 +517,13 @@ spec-${1}:: tar-${1}
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
 	@rev_file=`grep -l '<revhistory' $(XML_LANG)/*.xml | head -n 1 | sed -e 's/$(XML_LANG)\///g'`; \
 		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
-	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(SPEC_NAME)" \
+	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(TAR_NAME)" \
 	--stringparam main-file "$(DOCNAME).xml" \
 	--stringparam book-lang "${1}" \
+	--stringparam rpmver "$(RPM_VERSION)" \
+	--stringparam rpmrel "$(${1}_RPM_RELEASE)" \
 	--stringparam book-log "$$(<tmp/changelog.txt)" \
-	-o tmp/$(SPEC_NAME)-${1}.spec \
+	-o tmp/$(TAR_NAME)-${1}.spec \
 	$(SPEC_XSL) tmp/${1}/xml/$(DOC_TYPE)_Info.xml
 	@echo "END: spec-${1} `date`"
 endef
@@ -528,8 +533,8 @@ define	SRPM_Template
 srpm-${1}:: clean spec-${1}
 	@echo "START: srpm-${1} `date`"
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-	@cp tmp/tar/$(SPEC_NAME)-${1}-$(VERSION)-$(RELEASE).tgz tmp/rpm/SOURCES/.
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME)-${1}.spec
+	@cp tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION).tgz tmp/rpm/SOURCES/.
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(TAR_NAME)-${1}.spec
 	@echo "END: srpm-${1} `date`"
 endef
 
@@ -537,7 +542,7 @@ define	BREW_Template
 .PHONY:	brew-${1}
 brew-${1}:: srpm-${1}
 	@echo "START: brew-${1} `date`"
-	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(SPEC_NAME)-${1}-$(VERSION).src.rpm
+	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION).src.rpm
 	@echo "END: brew-${1} `date`"
 endef
 
@@ -545,7 +550,7 @@ define	BREW_Scratch_Template
 .PHONY:	brew-scratch-${1}
 brew-scratch-${1}:: srpm-${1}
 	@echo "START: brew-scratch-${1} `date`"
-	@brew build --scratch $(BREW_DIST) tmp/rpm/SRPMS/$(SPEC_NAME)-${1}-$(VERSION).src.rpm
+	@brew build --scratch $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(PROD_VERSION).src.rpm
 	@echo "END: brew-scratch-${1} `date`"
 endef
 
@@ -570,24 +575,26 @@ endef
 define	WEB_SRPM_Template
 .PHONY:	web-srpm-${1}
 web-srpm-${1}:: clean tardir-${1}
-	@echo "START: web-srpm-${1} `date`"
-	mv tmp/tar/$(SPEC_NAME)-${1}-$(VERSION) tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
-	cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)
-	mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
-	cp tmp/tar/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.tgz tmp/rpm/SOURCES/.
-	rev_file=`grep -l revhistory $(XML_LANG)/* | sed -e 's/$(XML_LANG)\///g'`; \
+	@echo "START: web-srpm-${1}: `date`"
+	@mv tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION) tmp/tar/$(TAR_NAME)-web-${1}-$(RPM_VERSION)
+	@cd tmp/tar && tar --create --gzip --exclude-from=$(COMMON_CONFIG)/make/tar-excludes --file $(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).tgz $(TAR_NAME)-web-${1}-$(RPM_VERSION)
+	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
+	@cp tmp/tar/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).tgz tmp/rpm/SOURCES/.
+	@rev_file=`grep -l revhistory $(XML_LANG)/*| head -n 1 | sed -e 's/$(XML_LANG)\///g'`; \
 		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
-	$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(PRODUCT)-$(DOCNAME)-$(VERSION)" \
+	@$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(TAR_NAME)" \
 		--stringparam lang "${1}" \
 		--stringparam prod "$(PRODUCT)" \
-		--stringparam ver "$(VERSION)" \
+		--stringparam prodver "$(PROD_VERSION)" \
+		--stringparam rpmver "$(RPM_VERSION)" \
+		--stringparam rpmrel "$(${1}_RPM_RELEASE)" \
 		--stringparam docname "$(DOCNAME)" \
 		--stringparam log "$$(<tmp/changelog.txt)" \
 		--stringparam brand "publican-$(LC_BRAND)" \
-		-o tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec \
+		-o tmp/$(PRODUCT)-$(DOCNAME)-$(PROD_VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
-	rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}.spec
-	@echo "END: web-srpm-${1} `date`"
+	rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(TAR_NAME)-web-${1}.spec
+	@echo "END: web-srpm-${1}: `date`"
 endef
 
 # BUGBUG No PDF for Indic languages!
@@ -605,7 +612,7 @@ define	WEB_BREW_Template
 .PHONY:	web-brew-${1}
 web-brew-${1}:: web-srpm-${1}
 	@echo "START: web-brew-${1} `date`"
-	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.src.rpm
+	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).src.rpm
 	@echo "END: brew-${1} `date`"
 endef
 
@@ -613,7 +620,7 @@ define	WEB_BREW_Scratch_Template
 .PHONY:	web-brew-scratch-${1}
 web-brew-scratch-${1}:: web-srpm-${1}
 	@echo "START: web-brew-scratch-${1} `date`"
-	@brew build --scratch $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}-$(RELEASE)-0.src.rpm
+	@brew build --scratch $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).src.rpm
 	@echo "END: brew-scratch-${1} `date`"
 endef
 
@@ -622,7 +629,7 @@ define	WEB_BREW_Report_Template
 .PHONY:	web-brew-report-${1}
 web-brew-report-${1}::
 	@echo "START: web-brew-report-${1} `date`"
-	@brew latest-pkg $(WEB_BREW_DIST) $(PRODUCT)-$(DOCNAME)-$(VERSION)-web-${1}
+	@brew latest-pkg $(WEB_BREW_DIST) $(TAR_NAME)-web-${1}
 	@echo "END: brew-report-${1} `date`"
 endef
 

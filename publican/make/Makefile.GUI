@@ -21,7 +21,7 @@
 PWD		= $(shell pwd)
 PRODUCT		?= Red_Hat_Enterprise_Linux
 COMMON_CONTENT	= $(COMMON_CONFIG)/Common_Content
-VERSION		?= HEAD
+PROD_VERSION		?= HEAD
 
 TRANSLATIONS ?= $(XML_LANG)
 
@@ -68,8 +68,8 @@ publish-report:: report-all
 	@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/css tmp/Reports/Common_Content/.
 # copy original common images, then copy translated images over the top
 	-@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/images  tmp/Reports/Common_Content/.
-	@mkdir -p publish/Reports/$(PRODUCT)/$(VERSION)/${DOCNAME}
-	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(VERSION)/${DOCNAME}/.
+	@mkdir -p publish/Reports/$(PRODUCT)/$(PROD_VERSION)/${DOCNAME}
+	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(PROD_VERSION)/${DOCNAME}/.
 	@echo "END: publish-report `date`"
 
 ###############################################################################

@@ -7,8 +7,8 @@ use Pod::Usage;
 use Carp;
 
 my $name     = undef;
-my $version  = '0.1';
-my $revision = '0';
+my $prod_version  = '0.1';
+my $edition = '0';
 my $product  = 'Documentation';
 my $brand    = undef;
 my $man      = 0;
@@ -23,8 +23,8 @@ GetOptions(
     'h|help|?'   => \$help,
     'man'        => \$man,
     'name=s'     => \$name,
-    'version=s'  => \$version,
-    'revision=s' => \$revision,
+    'version=s'  => \$prod_version,
+    'edition=s'  => \$edition,
     'product=s'  => \$product,
     'brand=s'    => \$brand,
     'lang=s'     => \$lang,
@@ -38,9 +38,6 @@ $tmpl_dir = $type . '_Template';
 
 my $bookname = $name;
 $bookname =~ s/_/ /g;
-
-my $productname = $product;
-$productname =~ s/_/ /g;
 
 croak("directory $name exists!") if (-e $name);
 
@@ -74,17 +71,17 @@ if ($@) {
 }
 
 $cmd
-    = qq|sed -i -e 's/<issuenum>.*<\\/issuenum>/<issuenum>$version<\\/issuenum>/g' $name/en-US/| . $type . qq|_Info.xml|;
+    = qq|sed -i -e 's/<productnumber>.*<\\/productnumber>/<productnumber>$prod_version<\\/productnumber>/g' $name/en-US/| . $type . qq|_Info.xml|;
 system($cmd);
 if ($@) {
     croak "can't update version: $!";
 }
 
 $cmd
-    = qq|sed -i -e 's/<productnumber>.*<\\/productnumber>/<productnumber>$revision<\\/productnumber>/g'  $name/en-US/| . $type . qq|_Info.xml|;
+    = qq|sed -i -e 's/<edition>.*<\\/edition>/<edition>$edition<\\/edition>/g'  $name/en-US/| . $type . qq|_Info.xml|;
 system($cmd);
 if ($@) {
-    croak "can't update revision: $!";
+    croak "can't update edition: $!";
 }
 
 $cmd = qq|find $name  -type f \| xargs sed -i -e 's/MYBOOKNAME/$bookname/g'|;
@@ -100,7 +97,7 @@ if ($@) {
 }
 
 
-$cmd = qq|find $name -type f \| xargs sed -i -e 's/MYPRODUCTNAME/$productname/g'|;
+$cmd = qq|find $name -type f \| xargs sed -i -e 's/MYPRODUCTNAME/$product/g'|;
 system($cmd);
 if ($@) {
     croak "can't update MYPRODUCTNAME: $!";
@@ -112,13 +109,6 @@ if ($@) {
     croak "can't update MYPRODUCT: $!";
 }
 	
-$cmd
-    = qq|sed -i -e 's/#PRODUCT	= FIX_ME!/PRODUCT\\t\\t= $product/g' $name/Makefile|;
-system($cmd);
-if ($@) {
-    croak "can't update PRODUCT: $!";
-}
-
 if ( $lang and $lang ne '' ) {
     $cmd = qq|sed -i -e 's/XML_LANG.*\$/XML_LANG\\t= $lang/g' $name/Makefile|;
     system($cmd);
@@ -150,8 +140,8 @@ create_book --name=<book_name> [options]
    -help               Brief help message
    -man                Full documentation
    --name              Name (Required)
-   --version           Version
-   --revision          Revision
+   --version           Product Version
+   --edition           Edition
    --product           Product
    --article           Article not Book
    --brand             Select Brand
@@ -162,8 +152,8 @@ create_book --name=<book_name> [options]
    -help               Brief help message
    -man                Full documentation
    --name              Name (Required)
-   --version           Version
-   --revision          Revision
+   --version           Product Version
+   --edition           Edition
    --product           Product
    --article           Article not Book
    --brand             Select Brand
@@ -184,11 +174,11 @@ Name of Book/Article
 
 =head2 --version
 
-Version of this Book. Defaults to 0.1
+Version of the Product this Book is about. Defaults to 0.1
 
-=head2 --revision
+=head2 --edition
 
-Revison of this Book. Defaults to 0
+Edition of this Book. Defaults to 0
 
 =head2 --product
 

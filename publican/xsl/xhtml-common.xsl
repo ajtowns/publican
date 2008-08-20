@@ -43,7 +43,7 @@
 
 <xsl:param name="qanda.in.toc" select="0"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
-<xsl:param name="othercredit.like.author.enabled">1</xsl:param>
+<xsl:param name="othercredit.like.author.enabled" select="1"/>
 
 <!-- TOC -->
 <xsl:param name="section.autolabel" select="1"/>
@@ -286,6 +286,8 @@ Version: 1.72.0
 	<xsl:if test="$html.base != ''">
 		<base href="{$html.base}"/>
 	</xsl:if>
+
+	<meta xmlns="http://www.w3.org/1999/xhtml" name="generator" content="publican"/>
 
 	<xsl:if test="$generate.meta.abstract != 0">
 		<xsl:variable name="info" select="(articleinfo |bookinfo |prefaceinfo |chapterinfo |appendixinfo |sectioninfo |sect1info |sect2info |sect3info |sect4info |sect5info |referenceinfo |refentryinfo |partinfo |info |docinfo)[1]"/>
