@@ -43,7 +43,8 @@
 
 <xsl:param name="qanda.in.toc" select="0"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
-<xsl:param name="othercredit.like.author.enabled" select="1"/>
+<xsl:param name="othercredit.like.author.enabled" select="0"/>
+<xsl:param name="email.delimiters.enabled">0</xsl:param>
 
 <!-- TOC -->
 <xsl:param name="section.autolabel" select="1"/>
@@ -713,6 +714,166 @@ Version: 1.72.0
 
 <xsl:template match="xslthl:section">
   <span class="hl-section"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="productnumber" mode="book.titlepage.recto.auto.mode">
+<xsl:apply-templates select="." mode="book.titlepage.recto.mode"/>
+</xsl:template>
+
+<xsl:template match="productname" mode="titlepage.mode">
+  <span>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates mode="titlepage.mode"/>
+  </span>
+</xsl:template>
+
+<xsl:template match="productnumber" mode="titlepage.mode">
+  <span>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates mode="titlepage.mode"/>
+  </span>
+</xsl:template>
+
+<xsl:template match="productname" mode="book.titlepage.recto.auto.mode">
+<xsl:apply-templates select="." mode="book.titlepage.recto.mode"/>
+</xsl:template>
+
+<xsl:template match="orgdiv" mode="titlepage.mode">
+  <xsl:if test="preceding-sibling::*[1][self::orgname]">
+    <xsl:text> </xsl:text>
+  </xsl:if>
+  <span>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates mode="titlepage.mode"/>
+  </span>
+</xsl:template>
+
+<xsl:template match="orgname" mode="titlepage.mode">
+  <span>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:apply-templates mode="titlepage.mode"/>
+  </span>
+</xsl:template>
+
+<xsl:template name="book.titlepage.recto">
+  <xsl:choose>
+    <xsl:when test="bookinfo/productname">
+	<div class="producttitle" xsl:use-attribute-sets="book.titlepage.recto.style">
+	  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/productname"/>
+	  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/productnumber"/>
+	</div>
+    </xsl:when>
+  </xsl:choose>
+  <xsl:choose>
+    <xsl:when test="bookinfo/title">
+      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/title"/>
+    </xsl:when>
+    <xsl:when test="info/title">
+      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/title"/>
+    </xsl:when>
+    <xsl:when test="title">
+      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="title"/>
+    </xsl:when>
+  </xsl:choose>
+
+  <xsl:choose>
+    <xsl:when test="bookinfo/subtitle">
+      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/subtitle"/>
+    </xsl:when>
+    <xsl:when test="info/subtitle">
+      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/subtitle"/>
+    </xsl:when>
+    <xsl:when test="subtitle">
+      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="subtitle"/>
+    </xsl:when>
+  </xsl:choose>
+
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/corpauthor"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/corpauthor"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/authorgroup"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/authorgroup"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/author"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/author"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/othercredit"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/othercredit"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/releaseinfo"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/releaseinfo"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/copyright"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/copyright"/>
+  <hr/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/legalnotice"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/legalnotice"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/pubdate"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/pubdate"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/revision"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/revision"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/revhistory"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/revhistory"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/abstract"/>
+  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/abstract"/>
+</xsl:template>
+
+<xsl:template match="legalnotice" mode="titlepage.mode">
+  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+  <xsl:choose>
+    <xsl:when test="$generate.legalnotice.link != 0">
+      <xsl:variable name="filename">
+        <xsl:call-template name="make-relative-filename">
+          <xsl:with-param name="base.dir" select="$base.dir"/>
+	  <xsl:with-param name="base.name">
+            <xsl:apply-templates mode="chunk-filename" select="."/>
+	  </xsl:with-param>
+        </xsl:call-template>
+      </xsl:variable>
+
+      <xsl:variable name="title">
+        <xsl:apply-templates select="." mode="title.markup"/>
+      </xsl:variable>
+
+      <xsl:variable name="href">
+        <xsl:apply-templates mode="chunk-filename" select="."/>
+      </xsl:variable>
+
+      <a href="{$href}">
+        <xsl:copy-of select="$title"/>
+      </a>
+
+      <xsl:call-template name="write.chunk">
+        <xsl:with-param name="filename" select="$filename"/>
+        <xsl:with-param name="quiet" select="$chunk.quietly"/>
+        <xsl:with-param name="content">
+        <xsl:call-template name="user.preroot"/>
+          <html>
+            <head>
+              <xsl:call-template name="system.head.content"/>
+              <xsl:call-template name="head.content"/>
+              <xsl:call-template name="user.head.content"/>
+            </head>
+            <body>
+              <xsl:call-template name="body.attributes"/>
+              <div>
+                <xsl:apply-templates select="." mode="class.attribute"/>
+                <xsl:apply-templates mode="titlepage.mode"/>
+              </div>
+            </body>
+          </html>
+          <xsl:value-of select="$chunk.append"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <div>
+        <xsl:apply-templates select="." mode="class.attribute"/>
+        <a id="{$id}"/>
+	<h1 class="legalnotice">
+    <xsl:call-template name="gentext">
+      <xsl:with-param name="key">legalnotice</xsl:with-param>
+    </xsl:call-template>
+	</h1>
+        <xsl:apply-templates mode="titlepage.mode"/>
+      </div>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

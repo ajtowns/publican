@@ -1,4 +1,4 @@
-body, h1, h2, h3, h4, h5, h6, pre, li {
+body, h1, h2, h3, h4, h5, h6, pre, li, div {
 	line-height: 1.29em;
 }
 
@@ -94,28 +94,44 @@ div.longdesc-link {
 
 /*headings*/
 h1, h2, h3, h4, h5, h6 {
-	color:#336699;
-	margin-top:0em;
-	margin-bottom:0em;
-	background-color:transparent;
+	color: #336699;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	background-color: transparent;
 }
 
 h1 {
 	font-size:2.0em;
 }
 
-h1.title {
+
+.titlepage h1.title {
+	font-size: 3.0em;
+	padding-top: 1em;
+	text-align:center;
+}
+
+.producttitle {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	font-size: 3.0em;
+	font-weight: bold;
 	background: #336699 url(../images/h1-bg.png) top left repeat;
-	color:white;
+	color: white;
 	text-align: center;
-	padding:1.5em;
+	padding: 0.7em;
+}
+
+.titlepage .corpauthor {
+	margin-top: 1em;
+	text-align: center;
 }
 
 .section h1.title {
-	font-size:1.6em;
+	font-size: 1.6em;
 	padding: 0em;
 	color: #336699;
-	text-align:left;
+	text-align: left;
 	background: white;
 }
 
@@ -127,7 +143,7 @@ h2 {
 h2.subtitle {
 	margin-top: 1em;
 	margin-bottom: 1em;
-	font-size: 2.0em;
+	font-size: 1.4em;
 	text-align: center;
 }
 
@@ -173,6 +189,7 @@ hr {
 	border-style:none;
 	border-top: 1px dotted #ccc;
 	width:100%;
+	margin-top: 3em;
 }
 
 sup {
@@ -361,6 +378,7 @@ a.version:focus, a.version:hover {
 /*credits*/
 .authorgroup div {
 	clear:both;
+	text-align: center;
 }
 
 h3.author {
