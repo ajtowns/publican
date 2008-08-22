@@ -27,54 +27,5 @@
 <xsl:param name="title.color">#3c6eb4</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 
-
-<xsl:attribute-set name="shade.verbatim.style">
-  <xsl:attribute name="wrap-option">wrap</xsl:attribute>
-  <xsl:attribute name="background-color">
-	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>#000000</xsl:text>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:text>#bfdce8</xsl:text>
-		</xsl:otherwise>
-	</xsl:choose>
-  </xsl:attribute>
-  <xsl:attribute name="color">
-	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>#ffffff</xsl:text>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:text>#000000</xsl:text>
-		</xsl:otherwise>
-	</xsl:choose>
-  </xsl:attribute>
-	<xsl:attribute name="padding-left">12pt</xsl:attribute>
-	<xsl:attribute name="padding-right">12pt</xsl:attribute>
-	<xsl:attribute name="padding-top">6pt</xsl:attribute>
-	<xsl:attribute name="padding-bottom">6pt</xsl:attribute>
-	<xsl:attribute name="margin-left">
-		<xsl:value-of select="$title.margin.left"/>
-	</xsl:attribute>
-</xsl:attribute-set>
-
-<xsl:attribute-set name="graphical.admonition.properties">
-	<xsl:attribute name="color">#ffffff</xsl:attribute>
-	<xsl:attribute name="background-color">#3c6eb4</xsl:attribute>
-	<xsl:attribute name="space-before.optimum">1em</xsl:attribute>
-	<xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
-	<xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>
-	<xsl:attribute name="space-after.optimum">1em</xsl:attribute>
-	<xsl:attribute name="space-after.minimum">0.8em</xsl:attribute>
-	<xsl:attribute name="space-after.maximum">1em</xsl:attribute>
-	<xsl:attribute name="padding-bottom">12pt</xsl:attribute>
-	<xsl:attribute name="padding-top">12pt</xsl:attribute>
-	<xsl:attribute name="padding-right">12pt</xsl:attribute>
-	<xsl:attribute name="padding-left">12pt</xsl:attribute>
-	<xsl:attribute name="margin-left">
-		<xsl:value-of select="$title.margin.left"/>
-	</xsl:attribute>
-</xsl:attribute-set>
 </xsl:stylesheet>
 

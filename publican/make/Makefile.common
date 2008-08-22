@@ -398,7 +398,8 @@ get_books::
 			if [[ "$(SET_REPO_TYPE)" == "SVN" ]]; then \
 				svn export --quiet $(SET_REPO)/$$dir $$dir; \
 			else \
-				echo "Uknown repo type: $(SET_REPO)"; \
+				echo "Uknown repo type: '$(SET_REPO_TYPE)'"; \
+				echo "You did set SET_REPO_TYPE? run make help_params for more info"; \
 				exit 4; \
 			fi; \
 		else \

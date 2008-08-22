@@ -116,7 +116,19 @@ sub new {
        );
        return;
     },
-    
+
+    'Entity' => sub {
+       return unless $self->{'_store_declarations'};
+       shift;
+       (
+        @stack ? $stack[-1] : $self
+       )->push_content(
+         $self->{'_element_class'}->new('~declaration',
+          'text' => join ' ', 'ENTITY', @_
+         )
+       );
+       return;
+    },
   },
   'NoExpand' => $self->{'NoExpand'});
   

@@ -104,10 +104,13 @@ h1 {
 	font-size:2.0em;
 }
 
-
 .titlepage h1.title {
 	font-size: 3.0em;
 	padding-top: 1em;
+	text-align:left;
+}
+
+.book > .titlepage h1.title {
 	text-align:center;
 }
 
@@ -621,17 +624,16 @@ code {
 }
 
 /*Notifications*/
-div.note, div.tip, div.important, div.caution, div.warning {
+div.note, div.important, div.warning {
 	padding:1em;
 	padding-bottom:20px;
-	border:1px solid #444;
 	margin-top:.5em;
 	margin-bottom:1.5em;
 	background-repeat:no-repeat;
 	background-position:1em 1em;
 }
 
-div.note pre, div.tip pre, div.important pre, div.caution pre, div.warning pre {
+div.note pre, div.important pre, div.warning pre {
 	background-color:#333;
 	color:white;
 }
@@ -639,26 +641,14 @@ div.note pre, div.tip pre, div.important pre, div.caution pre, div.warning pre {
 
 div.note {
 	background-image:url(../images/note.png);
-	background-color:#bfdce8;
-	color:#003d6e;
-}
-
-div.tip  {
 	background-color:#8e9f00;
 	color:white;
-	background-image:url(../images/tip.png);
 }
 
 div.important  {
-	background-color:#56585a;
-	color:white;
-	background-image:url(../images/important.png);
-}
-
-div.caution  {
 	background-color:#d08e13;
 	color:white;
-	background-image:url(../images/caution.png);
+	background-image:url(../images/important.png);
 }
 
 div.warning {
@@ -669,33 +659,17 @@ div.warning {
 
 
 /* Admonition Headings */
-div.note h2, div.tip h2, div.important h2, div.caution h2, div.warning h2 {
+div.note h2, div.important h2, div.warning h2 {
 	height:32px;
 	font-size:1.3em;
 }
 
-div.note h2 {
-	color:#003d6e;
-}
-
-div.tip h2 {
-	color:white;
-}
-
-div.important h2 {
-	color:#fff;
-}
-
-div.caution h2 {
-	color:white;
-}
-
-div.warning h2 {
+div.note h2, div.important h2, div.warning h2 {
 	color:white;
 }
 
 /* Admonition Inlines */
-div.note .replaceable, div.tip .replaceable, div.important .replaceable, div.caution .replaceable, div.warning .replaceable {
+div.note .replaceable, div.important .replaceable,  div.warning .replaceable {
 	color:#e3dcc0;
 }
 
@@ -703,35 +677,35 @@ pre .replaceable, tt .replaceable {
 	color:#444;
 }
 
-div.note .guilabel, div.tip .guilabel, div.important .guilabel, div.caution .guilabel, div.warning .guilabel {
+div.note .guilabel, div.important .guilabel, div.warning .guilabel {
 	color:#e3dcc0;
 }
 
 
 /* Admonition Lists ... really? */
-div.note li, div.tip li, div.caution li, div.warning li, div.important li {
+div.note li, div.warning li, div.important li {
 	padding-left:10px;
 	margin:0em;
 }
 
-div.note ul, div.tip ul, div.caution ul, div.warning ul, div.important ul {
+div.note ul, div.warning ul, div.important ul {
 	padding-left:40px;
 	margin:0em;
 }
 
 /* Admonition links in verbatim ... *really* */
-div.note pre pre a:visited, div.tip pre pre a:visited, div.important pre pre a:visited, 
-div.caution pre pre a:visited, div.warning pre pre a:visited, div.note pre a:link, .tip pre a:link, div.important pre a:link, div.caution pre a:link, div.warning pre a:link {
+div.note pre pre a:visited, div.important pre pre a:visited, 
+ div.warning pre pre a:visited, div.note pre a:link, div.important pre a:link, div.warning pre a:link {
 	color:#0066cc;
 }
 
 /* Admonition links */
-div.note a:visited, div.tip a:visited , div.important a:visited , div.caution a:visited , div.warning a:visited, div.note a:link , div.tip a:link , div.important a:link , div.caution a:link , div.warning a:link {
+div.note a:visited, div.important a:visited, div.warning a:visited, div.note a:link , div.important a:link , div.warning a:link {
 	color:#f7f2d0;
 }
 
 /*notification icons*/
-div.note h2, div.note p, div.tip h2, div.tip p, div.caution h2, div.caution p, div.warning h2, div.warning p, div.important h2, .important p {
+div.note h2, div.note p, div.warning h2, div.warning p, div.important h2, .important p {
 	padding:0em;
 	margin:0em;
 	padding-left:56px;
@@ -1002,14 +976,10 @@ div.section {
 }
 
 div.note .replaceable, 
-div.tip  .replaceable, 
 div.important .replaceable, 
-div.caution  .replaceable, 
 div.warning .replaceable, 
 div.note .keycap, 
-div.tip  .keycap, 
 div.important .keycap, 
-div.caution  .keycap, 
 div.warning .keycap
 {
 	color:white;
