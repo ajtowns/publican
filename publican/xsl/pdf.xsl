@@ -44,6 +44,8 @@
 <xsl:param name="img.src.path"/>
 <xsl:param name="qandadiv.autolabel" select="0"/>
 <xsl:param name="keep.relative.image.uris" select="0"/>
+<xsl:param name="email.delimiters.enabled">0</xsl:param>
+
 <xsl:param name="hyphenation-character">
 	<xsl:choose>
 		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW'">
@@ -1365,9 +1367,11 @@ Version:1.72
     <xsl:call-template name="book.titlepage.before.recto"/>
     <fo:block><xsl:call-template name="book.titlepage.recto"/></fo:block>
     <xsl:call-template name="book.titlepage.separator"/>
-    <fo:block><xsl:call-template name="book.titlepage.verso"/></fo:block>
+    <!--fo:block><xsl:call-template name="book.titlepage.verso"/></fo:block>
     <xsl:call-template name="book.titlepage.separator"/>
+    <fo:block><xsl:call-template name="book.titlepage3.recto"/></fo:block-->
     <fo:block><xsl:call-template name="book.titlepage3.recto"/></fo:block>
+    <fo:block><xsl:call-template name="book.titlepage.verso"/></fo:block>
     <xsl:call-template name="book.titlepage.separator"/>
   </fo:block>
 </xsl:template>
@@ -1934,6 +1938,58 @@ Version:1.72
       <xsl:apply-templates select="seglistitem" mode="seglist-table"/>
     </fo:table-body>
   </fo:table>
+</xsl:template>
+
+
+<xsl:template name="book.verso.title">
+    <xsl:if test="following-sibling::bookinfo/productname | following-sibling::productname">
+      <xsl:apply-templates select="(following-sibling::bookinfo/productname | following-sibling::productname)[1]" mode="book.verso.subtitle.mode"/>
+      <xsl:text> </xsl:text>
+      <xsl:apply-templates select="(following-sibling::bookinfo/productnumber | following-sibling::productnumber)[1]" mode="book.verso.subtitle.mode"/>
+      <xsl:text> </xsl:text>
+    </xsl:if>
+
+    <xsl:apply-templates mode="titlepage.mode"/>
+
+    <xsl:if test="following-sibling::subtitle
+                  |following-sibling::info/subtitle
+                  |following-sibling::bookinfo/subtitle">
+      <!--xsl:text>: </xsl:text-->
+      <fo:block padding-bottom="24pt">
+      <xsl:apply-templates select="(following-sibling::subtitle
+                                   |following-sibling::info/subtitle
+                                   |following-sibling::bookinfo/subtitle)[1]"
+                           mode="book.verso.subtitle.mode"/>
+      </fo:block>
+    </xsl:if>
+</xsl:template>
+
+<xsl:template match="legalnotice" mode="book.titlepage.verso.auto.mode">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.verso.style" padding-top="12pt" padding-bottom="24pt">
+<xsl:apply-templates select="." mode="book.titlepage.verso.mode"/>
+</fo:block>
+</xsl:template>
+
+<xsl:template match="email">
+  <xsl:variable name="addr">
+	<xsl:apply-templates/>
+  </xsl:variable>
+
+  <xsl:call-template name="inline.monoseq">
+    <xsl:with-param name="content">
+      <fo:inline keep-together.within-line="always" hyphenate="false">
+          <fo:basic-link xsl:use-attribute-sets="xref.properties" external-destination="mailto:{$addr}">
+        <xsl:if test="not($email.delimiters.enabled = 0)">
+          <xsl:text>&lt;</xsl:text>
+        </xsl:if>
+        <xsl:value-of select="$addr"/>
+        <xsl:if test="not($email.delimiters.enabled = 0)">
+          <xsl:text>&gt;</xsl:text>
+        </xsl:if>
+          </fo:basic-link>
+      </fo:inline>
+    </xsl:with-param>
+  </xsl:call-template>
 </xsl:template>
 
 </xsl:stylesheet>
