@@ -60,9 +60,6 @@ clean:
 update-pot:
 	@echo "Start $@"
 	@mkdir -p pot
-	@if [ -f en-US/Translatable-Entities.ent ]; then \
-		$(ENT2POT) en-US/Translatable-Entities.ent > pot/Translatable-Entities.pot;\
-	fi
 	@pushd en-US > /dev/null; \
 		for xml_file in `find . -maxdepth 1 -name "*.xml"`; do \
 			pot_file=`echo $$xml_file | sed -e 's/\.xml/\.pot/'`;\
