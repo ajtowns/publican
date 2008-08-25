@@ -633,17 +633,6 @@ sub PrintXML($) {
                         . "\n" );
                 print( OUTDOC q|%BOOK_ENTITIES;| . "\n" );
             }
-            print(    OUTDOC q|<!ENTITY % RH_ENTITIES SYSTEM "| 
-                    . $path
-                    . q|Common_Content/Entities.ent">|
-                    . "\n" );
-            print( OUTDOC q|%RH_ENTITIES;| . "\n" );
-            print(    OUTDOC q|<!ENTITY % RH_TRANS_ENTITIES SYSTEM "| 
-                    . $path
-                    . q|Common_Content/Translatable-Entities.ent">|
-                    . "\n" );
-            print( OUTDOC q|%RH_TRANS_ENTITIES;| . "\n" );
-
         }
 
         print( OUTDOC q|]>| . "\n\n" );
