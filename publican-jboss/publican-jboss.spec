@@ -3,7 +3,7 @@
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
 Version:	0.13
-Release:	0.t3%{?dist}
+Release:	0.t4%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -51,6 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Aug 22 2008 Jeff Fearn <jfearn@redhat.com> 0.14-0
 - Fix styles for publican 0.35 mods
+- Removed common entity files as they break translation
 
 * Mon Apr 14 2008 Jeff Fearn <jfearn@redhat.com> 0.13-0
 - Fix missing list image in html-single articles

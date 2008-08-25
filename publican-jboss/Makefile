@@ -55,15 +55,9 @@ clean:
 #
 #######################################################################################
 
-ENT2POT		= entity2pot
-PO2ENTITY	= po2entity
-
 update-pot:
 	@echo "Start $@"
 	@mkdir -p pot
-	@if [ -f en-US/Translatable-Entities.ent ]; then \
-		$(ENT2POT) en-US/Translatable-Entities.ent > pot/Translatable-Entities.pot;\
-	fi
 	@pushd en-US > /dev/null; \
 		for xml_file in `find . -maxdepth 1 -name "*.xml" | grep -v Legal_Notice`; do \
 			pot_file=`echo $$xml_file | sed -e 's/\.xml/\.pot/'`;\
@@ -111,30 +105,11 @@ create_l10n:: clean
 #
 #######################################################################################
 
-
-entities::
+Common_Content::
 	@echo "Start $@"
-	@mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/en-US
-	@cp $(PWD)/en-US/*.ent $(PWD)/Common_Content/$(REAL_BRAND)/en-US/.
-	@if [ -f en-US/Translatable-Entities.ent ]; then \
-		pushd en-US > /dev/null; \
-		for lang in $(LANGS); do \
-			if [ ! -d $(PWD)/Common_Content/$(REAL_BRAND)/$$lang ]; then \
-				mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/$$lang; \
-			fi; \
-			if [ ! -f ../$$lang/Translatable-Entities.po ]; then \
-				echo "../$$lang/Translatable-Entities.po MISSING Using en-US file"; \
-				cp Translatable-Entities.ent $(PWD)/Common_Content/common/$$lang/.; \
-			else \
-				$(PO2ENTITY) Translatable-Entities.ent ../$$lang/Translatable-Entities.po > $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/Translatable-Entities.ent; \
-			fi; \
-		done; \
-		popd > /dev/null; \
-	fi
-	@echo "End $@"
-
-Common_Content:: entities
-	@echo "Start $@"
+	@for lang in $(LANGS) en-US; do \
+		mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/$$lang; \
+	done
 	@cd en-US; \
 	for xml_file in `find . -maxdepth 1 -name "*.xml"`; do \
 		po_file=`echo $$xml_file | sed -e 's/\.xml/\.po/'`; \

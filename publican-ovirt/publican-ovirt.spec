@@ -3,7 +3,7 @@
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
 Version:	0.2
-Release:	0.t2%{?dist}
+Release:	0.t3%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -50,6 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Aug 22 2008 Jeff Fearn <jfearn@redhat.com> 0.3-0
 - Fix styles for publican 0.35 mods
+- Removed common entity files as they break translation
 
 * Mon Jun 16 2008 Jeff Fearn <jfearn@redhat.com> 0.2-0
 - Added Article and Set Templates

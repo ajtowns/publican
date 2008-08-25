@@ -102,11 +102,9 @@ clean:
 #######################################################################################
 
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
-ENT2POT		= $(PWD)/bin/entity2pot
 
 update-pot:
 	@echo "Start $@"
-	@cd content/common && $(ENT2POT) en-US/Translatable-Entities.ent > pot/Translatable-Entities.pot
 	@cd content/common/en-US && for xml_file in `find . -maxdepth 1 -name "*.xml"`; do \
 		pot_file=`echo $$xml_file | sed -e 's/\.xml/\.pot/'`;\
 		xml2pot $$xml_file | msguniq  > ../pot/$$pot_file;\
@@ -129,26 +127,8 @@ resync-po:: clean
 	popd > /dev/null;
 	@echo "End $@"
 
-entities::
-	@echo "Start $@"
-	@mkdir -p $(PWD)/Common_Content/common/en-US
-	@cp content/common/en-US/Entities.ent Common_Content/common/en-US/.
-	@cp content/common/en-US/Translatable-Entities.ent Common_Content/common/en-US/.
-	@cd content/common/en-US && for lang in $(LANGS); do \
-		if [ ! -d $(PWD)/Common_Content/common/$$lang ]; then \
-			mkdir -p $(PWD)/Common_Content/common/$$lang; \
-		fi; \
-		if [ ! -f ../$$lang/Translatable-Entities.po ]; then \
-			echo "../$$lang/Translatable-Entities.po MISSING Using en-US file"; \
-			cp Translatable-Entities.ent $(PWD)/Common_Content/common/$$lang/.; \
-		else \
-			$(PWD)/bin/po2entity Translatable-Entities.ent ../$$lang/Translatable-Entities.po > $(PWD)/Common_Content/common/$$lang/Translatable-Entities.ent; \
-		fi; \
-	done;
-	@echo "End $@"
-
 Common_Content:: PATH=$(MYPATH):$(PWD)/bin
-Common_Content:: entities
+Common_Content::
 	@echo "Start $@"
 	@cd content/common/en-US; \
 		for xml_file in `find . -maxdepth 1 -name "*.xml"`; do \
