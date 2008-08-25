@@ -115,10 +115,10 @@ my %MAP_OUT = (
     'programlisting'   => { 'block' => 1, 'verbatim'      => 1 },
     'programlistingco' => { 'block' => 1, 'newline_after' => 1 },
     'xref'        => { 'force_empty' => 1, 'keep_empty_attr' => 'linkend' },
-    'caution'     => { 'block'       => 1, 'no_id'           => 1 },
+#    'caution'     => { 'block'       => 1, 'no_id'           => 1 },
     'important'   => { 'block'       => 1, 'no_id'           => 1 },
     'note'        => { 'block'       => 1, 'no_id'           => 1 },
-    'tip'         => { 'block'       => 1, 'no_id'           => 1 },
+#    'tip'         => { 'block'       => 1, 'no_id'           => 1 },
     'warning'     => { 'block'       => 1, 'no_id'           => 1 },
     'figure'      => { 'block'       => 1 },
     'mediaobject' => { 'block'       => 1 },
@@ -255,6 +255,14 @@ my %BANNED_TAGS = (
     'inlinegraphic' => {
         'reason' =>
             'This tag breaks section 508 accessibility standards and makes translation extremely difficult.'
+    },
+    'tip' => {
+        'reason' =>
+            'This tag is unnecessary. Use note or important.'
+    },
+    'caution' => {
+        'reason' =>
+            'This tag is unnecessary. Use important or warning.'
     },
 );
 

@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.34
-Release:	0.t56%{?dist}
+Release:	0.t59%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -20,7 +20,7 @@ Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl 
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template make
 Requires:	fop batik saxon ImageMagick
-Requires:	xslthl xerces-j2
+Requires:	xerces-j2
 
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
@@ -31,10 +31,12 @@ BuildRequires:	fop saxon
 # *&%^*&^ decided to rename font packages and change font paths.
 # No actual real changes.
 %if %{PREMOLESTATION}
+Requires:	xslthl
 Requires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
 Requires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
 Requires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
 Requires:	fonts-tamil fonts-telugu liberation-fonts
+BuildRequires:	xslthl
 BuildRequires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
 BuildRequires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
 BuildRequires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala

@@ -3,7 +3,7 @@
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
 Version:	0.2
-Release:	0.t1%{?dist}
+Release:	0.t2%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
