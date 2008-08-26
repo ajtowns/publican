@@ -608,10 +608,13 @@ pre {
 	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
 	display:block;
 	background-color:#eeeeee;
-	overflow:auto;
 	margin-bottom: 0.3em;
 	padding:.5em 1em;
-	overflow:auto;
+	white-space: pre-wrap; /* css-3 */
+	white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+	white-space: -pre-wrap; /* Opera 4-6 */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
 pre .replaceable, 
@@ -620,7 +623,7 @@ pre .keycap {
 }
 
 code {
-	white-space:nowrap;
+	white-space: nowrap;
 }
 
 /*Notifications*/
