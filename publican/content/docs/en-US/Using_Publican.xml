@@ -228,6 +228,12 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 						<para>
 							The title of the book, for example: &quot;Server Configuration Guide&quot;. The title appears under the product name when the book is built. Replace <replaceable>title</replaceable> with the title of the book. A title is required to build an RPM. When building a book as an RPM the title is used as the part of the RPM name in the RPM spec file.
 						</para>
+						<important>
+							<title>Important</title>
+							<para>
+								This field can only contain the values: 'a-z', 'A-Z' and '_'.
+							</para>
+						</important>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
@@ -244,6 +250,12 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 						<para>
 							The name of the product or product stream, for example: &quot;Red Hat Enterprise Linux&quot; or &quot;JBoss Enterprise Application Platform&quot;. Replace <replaceable>productname</replaceable> with the product name of the book. When building a book as an RPM the productname is used as the part of the RPM name in the RPM spec file.
 						</para>
+						<important>
+							<title>Important</title>
+							<para>
+								This field can only contain the values: 'a-z', 'A-Z' and '_'.
+							</para>
+						</important>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
@@ -255,6 +267,12 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 						<para>
 							Running the <command>create_book --name <replaceable> Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the product number.
 						</para>
+						<important>
+							<title>Important</title>
+							<para>
+								This field can only containn the values: '0-9' and '.'.
+							</para>
+						</important>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
@@ -266,6 +284,12 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 						<para>
 							Running the <command>create_book --name<replaceable> Book_Name</replaceable> --edition <replaceable>x</replaceable>.<replaceable>y</replaceable></command> command correctly configures the edition.
 						</para>
+						<important>
+							<title>Important</title>
+							<para>
+								This field can only containn the values: '0-9' and '.'.
+							</para>
+						</important>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
@@ -274,6 +298,12 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 						<para>
 							The pubsnumber changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the pubsnumber to <filename>1</filename> and building the book using the <command>make srpm-en-US</command> command, would create an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
 						</para>
+						<important>
+							<title>Important</title>
+							<para>
+								This field can only containn the values: '0-9'.
+							</para>
+						</important>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
@@ -343,7 +373,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 		</section>
 		
 		<section id="sect-Publican-Files_in_the_Book_directory-Book_Name.xml">
-			<title><replaceable>Book_Name</replaceable>.xml</title>
+			<title>Book_Name.xml</title>
 			<para>
 				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file contains <filename>xi:include</filename> directives to include the chapters for a book. Chapters are contained in separate XML files, and the <filename><replaceable>Book_Name</replaceable>.xml</filename> file brings them together into a single book.
 			</para>
@@ -398,7 +428,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 		</section>
 		
 		<section id="sect-Publican-Files_in_the_Book_directory-Book_Name.ent">
-			<title><replaceable>Book_Name</replaceable>.ent</title>
+			<title>Book_Name.ent</title>
 			<para>
 				The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is used to define local entities. You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the book will not build:
 			</para>
@@ -415,6 +445,24 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<para>
 				Two entities are defined: <computeroutput>FDP</computeroutput> and <computeroutput>FDS</computeroutput>. Instead of typing <computeroutput>Fedora Documentation Project</computeroutput> you can use <computeroutput>&amp;FDP&semi;</computeroutput>. The build system adds the required entities to the XML files at build time. In the example above, <computeroutput>&amp;FDP&semi;</computeroutput> would be replaced with Fedora Documentation Project.
 			</para>
+		</section>
+		<section id="sect-Publican-Files_in_the_Book_directory-Revision_History.xml">
+			<title>Revision_History.xml</title>
+			<para>
+				Make will search for the first XML file in the $(XML_LANG) directory containing a revhistory tag. Publican will use that file to build the RPM revision history from.
+			</para>
+			<important>
+				<title>Important</title>
+				<para>
+					All dates must be in the correct RPM format, other formats will break the spec file creation.
+				</para>
+				<example>
+					<title>Example of a valid date</title>
+					<para>
+						Mon Aug 4 2008
+					</para>
+				</example>
+			</important>
 		</section>
 
 	</section>
