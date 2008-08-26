@@ -15,19 +15,12 @@
 		<orderedlist>
 			<listitem>
 				<para>
-					Change to the root user:
-				</para>
-				<para>
-<screen>$ su -
-Password:</screen>
+					Change to the root user: <command><prompt>$</prompt> su - </command>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					Run the following command to install the publican package:
-				</para>
-				<para>
-<screen># yum install publican publican-doc</screen>
+					Run the following command to install the publican package: <command><prompt>#</prompt> yum install publican publican-doc</command>
 				</para>
 			</listitem>
 		</orderedlist>
@@ -46,11 +39,11 @@ Password:</screen>
 			Use the <command>create_book</command> command to create a new book. The <command>create_book</command> command creates all the necessary files to create a book.
 		</para>
 		<para>
-			The following is a list of valid options for the <command>create_book</command> command. Append these options to the end of the <command>create_book</command> command. For example, <command>create_book -help</command>, <command>create_book --name New_Book</command>, and so on:
+			The following is a list of valid options for the <command>create_book</command> command. Append these options to the end of the <command>create_book</command> command. For example, <command>create_book --help</command>, <command>create_book --name New_Book</command>, and so on:
 		</para>
 		<variablelist>
 			<varlistentry>
-				<term><filename>-help</filename></term>
+				<term><filename>--help</filename></term>
 				<listitem>
 					<para>
 						print a list of all <command>create_book</command> command options.
@@ -58,10 +51,10 @@ Password:</screen>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><filename>-man</filename></term>
+				<term><filename>--man</filename></term>
 				<listitem>
 					<para>
-						view the publican manual page. The manual page contains the same information returned by the <command>create_book -help</command> command.
+						view the publican manual page. The manual page contains the same information returned by the <command>create_book --help</command> command.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -154,39 +147,17 @@ Password:</screen>
 			</mediaobject>
 		</figure>
 		<section id="sect-Publican-Files_in_the_Book_directory-The_Makefile">
-			<title>The <filename>Makefile</filename></title>
+			<title>The Makefile</title>
 			<para>
 				The <filename>Makefile</filename> is used to configure build options, and is located in the root of the book directory. The following is an example <filename>Makefile</filename>, with instructions following afterwards:
 			</para>
-<screen><xi:include href="extras/Makefile" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></screen>
+<programlisting><xi:include href="extras/Makefile" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			<variablelist>
 				<varlistentry>
 					<term><filename>XML_LANG</filename></term>
 					<listitem>
 						<para>
 							set this to the language of the source xml files, for example, <computeroutput>en-US</computeroutput>.
-						</para>
-					</listitem>
-				</varlistentry>
-				<varlistentry>
-					<term><filename>DOCNAME</filename></term>
-					<listitem>
-						<para>
-							this must be set to the same name as the main book file, <filename><replaceable>Book_Name</replaceable>.xml</filename>, otherwise the book will not build. This variable must not contain any spaces.
-						</para>
-						<para>
-							Running the <command>create_book --name <replaceable>Book_Name</replaceable></command> command correctly configures the <computeroutput>DOCNAME</computeroutput>.
-						</para>
-					</listitem>
-				</varlistentry>
-				<varlistentry>
-					<term><filename>PRODUCT</filename></term>
-					<listitem>
-						<para>
-							the product the book is associated with. This variable must not contain any spaces. Set this to <computeroutput>Fedora</computeroutput> for core Fedora documentation. For other documentation, this will be the product, for example, <computeroutput>Fedora_Directory_Server</computeroutput>.
-						</para>
-						<para>
-							Running the <command>create_book --name <replaceable>Book_Name</replaceable> --product <replaceable>Product_Name</replaceable></command> command correctly configures the <computeroutput>PRODUCT</computeroutput>.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -198,14 +169,6 @@ Password:</screen>
 						</para>
 						<para>
 							Running the <command>create_book --name <replaceable>Book_Name</replaceable> --brand <replaceable>brand</replaceable></command> command correctly configures the <computeroutput>BRAND</computeroutput>.
-						</para>
-					</listitem>
-				</varlistentry>
-				<varlistentry>
-					<term><filename>TRANSLATIONS</filename></term>
-					<listitem>
-						<para>
-							list of language locales to build the book in. Specify additional languages using <filename>OTHER_LANGS</filename>, then add <filename>$(OTHER_LANGS)</filename> to <filename>TRANSLATIONS</filename>.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -222,13 +185,13 @@ Password:</screen>
 				The following is an example <filename>Makefile</filename> that includes translations:
 			</para>
 			<para>
-<screen language="myxml">XML_LANG       = en-US
+<programlisting>XML_LANG       = en-US
 BRAND	       = RedHat
 
 OTHER_LANGS    = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 	
 COMMON_CONFIG  = /usr/share/publican
-include $(COMMON_CONFIG)/make/Makefile.common</screen>
+include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			</para>
 			<note>
 				<title>Note</title>
@@ -263,7 +226,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</screen>
 					<term><filename>&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;</filename></term>
 					<listitem>
 						<para>
-							The name of the product or product stream, for example: &quot;Red Hat Enterprise Linux&quot; or &quot;JBoss Enterprise Application Platform&quot;. Replace <replaceable>title</replaceable> with the title of the book. Remove the <computeroutput>&lt;title&gt;</computeroutput> tags to remove the title.
+							The title of the book, for example: &quot;Server Configuration Guide&quot;. The title appears under the product name when the book is built. Replace <replaceable>title</replaceable> with the title of the book. A title is required to build an RPM. When building a book as an RPM the title is used as the part of the RPM name in the RPM spec file.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -271,29 +234,45 @@ include $(COMMON_CONFIG)/make/Makefile.common</screen>
 					<term><filename>&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;</filename></term>
 					<listitem>
 						<para>
-							The title of the actual book, for example: &quot;Server Configuration Guide&quot;. The subtitle appears under the title when the book is built. Replace <replaceable>subtitle</replaceable> with the subtitle of the book. The subtitle will appear under the title when the book is built. Remove the <computeroutput>&lt;subtitle&gt;</computeroutput> tags to remove the subtitle. A subtitle is required to build an RPM. When building a book as an RPM the subtitle is used as the <computeroutput>Summary</computeroutput> in the RPM spec file.
+							The subtitle is ... The subtitle appears under the title when the book is built. Replace <replaceable>subtitle</replaceable> with a subtitle for the book. A subtitle is required to build an RPM. When building a book as an RPM the subtitle is used as the <computeroutput>Summary</computeroutput> in the RPM spec file.
 						</para>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><filename>&lt;issuenum&gt;<replaceable>issue-number</replaceable>&lt;/issuenum&gt;</filename></term>
+					<term><filename>&lt;productname&gt;<replaceable>productname</replaceable>&lt;/productname&gt;</filename></term>
 					<listitem>
 						<para>
-							The version number of the product to which the book applies, for example &quot;5.1&quot; for Red Hat Enterprise Linux 5.1, 4.3 for JBoss EAP 4.3. If your book does not apply to a product then you can put whatever you like. Replace <replaceable>issue-number</replaceable> with the issue number. The issue number changes the version number (the first two digits) when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the issue number to <filename>1.2</filename> and building the book using the <command>make srpm-en-US</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-1.2-0.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
-						</para>
-						<para>
-							Running the <command>create_book --name <replaceable> Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the issue number.
+							The name of the product or product stream, for example: &quot;Red Hat Enterprise Linux&quot; or &quot;JBoss Enterprise Application Platform&quot;. Replace <replaceable>productname</replaceable> with the product name of the book. When building a book as an RPM the productname is used as the part of the RPM name in the RPM spec file.
 						</para>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><filename>&lt;productnumber&gt;<replaceable>product-number</replaceable>&lt;/productnumber&gt;</filename></term>
+					<term><filename>&lt;productnumber&gt;<replaceable>productnumber</replaceable>&lt;/productnumber&gt;</filename></term>
 					<listitem>
 						<para>
-							This is the edition number of the book. The first edition of the book should be 1.0 (you may like to use 0.x for alpha and beta releases). Subsequent revisions should increment the 1.x to indicate to readers that the book is a revised edition. Replace <replaceable>product-number</replaceable> with the product number. The product number changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the product number to <filename>1</filename> and building the book using the <command>make srpm-en-US</command> command, would create an RPM file named <filename><replaceable>PRODUCT</replaceable>-<replaceable>DOCNAME</replaceable>-0.0-1.src.rpm</filename>. <replaceable>PRODUCT</replaceable> and <replaceable>DOCNAME</replaceable> are configured in the <filename>Makefile</filename>.
+							The version number of the product to which the book applies, for example &quot;5.1&quot; for Red Hat Enterprise Linux 5.1, 4.3 for JBoss EAP 4.3. If your book does not apply to a product then you can put whatever you like. Replace <replaceable>productnumber</replaceable> with the product number.
 						</para>
 						<para>
-							Running the <command>create_book --name<replaceable> Book_Name</replaceable> --revision <replaceable>revision</replaceable></command> command correctly configures the product number.
+							Running the <command>create_book --name <replaceable> Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the product number.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><filename>&lt;edition&gt;<replaceable>edition</replaceable>&lt;/edition&gt;</filename></term>
+					<listitem>
+						<para>
+							This is the edition number of the book. The first edition of the book should be 1.0 (you may like to use 0.y for alpha and beta releases). Subsequent edition should increment the 1.y to indicate to readers that the book is a new edition. Replace <replaceable>edition</replaceable> with the x.y edition number. The edition changes the version number (the first two digits) when building a book with the <command>tar</command> or <command>srpm</command> options. For example, setting the edition to <filename>1.2</filename> and building the book using the <command>make srpm-en-US</command> command, would create an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-1.2-0.src.rpm</filename>.
+						</para>
+						<para>
+							Running the <command>create_book --name<replaceable> Book_Name</replaceable> --edition <replaceable>x</replaceable>.<replaceable>y</replaceable></command> command correctly configures the edition.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><filename>&lt;pubsnumber&gt;<replaceable>pubsnumber</replaceable>&lt;/pubsnumber&gt;</filename></term>
+					<listitem>
+						<para>
+							The pubsnumber changes the release number (the last digit) when building a book with the <filename>tar</filename> or <filename>srpm</filename> options. For example, setting the pubsnumber to <filename>1</filename> and building the book using the <command>make srpm-en-US</command> command, would create an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -541,8 +520,8 @@ include $(COMMON_CONFIG)/make/Makefile.common</screen>
 				<seg>Remove all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running a <command>make</command> command to build a book, such as <command>make html</command>.</seg>
 			</seglistitem>
 			<seglistitem>
-				<seg><command>make tar-<replaceable>format</replaceable>-en-US</command></seg>
-				<seg>Create a tar archive for the specified format. For example, running the <command>make tar-html</command> command creates a tar archive of the book in HTML format. The tar archive is located in the <filename>publish/en-<replaceable>US</replaceable>/<replaceable>Product_Name</replaceable>/<replaceable>book-version</replaceable>/tar/</filename> directory.</seg>
+				<seg><command>make web-srpm-en-US</command></seg>
+				<seg>Create a source RPM to generate web based documnetation RPMs from.</seg>
 			</seglistitem>
 			<seglistitem>
 				<seg><command>make clean_ids</command></seg>
