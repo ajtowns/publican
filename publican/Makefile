@@ -41,10 +41,14 @@ rpm: srpm
 	@echo "End $@"
 
 brew:: srpm
+	@echo "Start $@"
 	brew build docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el5.src.rpm
+	@echo "End $@"
 
 brew-scratch:: srpm
+	@echo "Start $@"
 	brew build --scratch docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el5.src.rpm
+	@echo "End $@"
 
 srpm: dist
 	@echo "Start $@"

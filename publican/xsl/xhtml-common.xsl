@@ -46,6 +46,8 @@
 <xsl:param name="othercredit.like.author.enabled" select="0"/>
 <xsl:param name="email.delimiters.enabled">0</xsl:param>
 
+<xsl:param name="generate.id.attributes" select="1"/>
+
 <!-- TOC -->
 <xsl:param name="section.autolabel" select="1"/>
 <xsl:param name="section.label.includes.component.label" select="1"/>
@@ -638,9 +640,9 @@ Version: 1.72.0
         <xsl:with-param name="node" select=".."/>
         <xsl:with-param name="conditional" select="0"/>
       </xsl:call-template>
-      <xsl:call-template name="anchor">
+      <!--xsl:call-template name="anchor">
         <xsl:with-param name="conditional" select="0"/>
-      </xsl:call-template>
+      </xsl:call-template-->
       <xsl:if test="string-length($label.content) &gt; 0">
         <label>
           <xsl:copy-of select="$label.content"/>
@@ -834,9 +836,7 @@ Version: 1.72.0
         <xsl:apply-templates mode="chunk-filename" select="."/>
       </xsl:variable>
 
-      <a href="{$href}">
-        <xsl:copy-of select="$title"/>
-      </a>
+      <a href="{$href}"><xsl:copy-of select="$title"/></a>
 
       <xsl:call-template name="write.chunk">
         <xsl:with-param name="filename" select="$filename"/>
@@ -862,9 +862,9 @@ Version: 1.72.0
       </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
-      <div>
+      <div id="{$id}">
         <xsl:apply-templates select="." mode="class.attribute"/>
-        <a id="{$id}"/>
+        <!--a id="{$id}"/-->
 	<h1 class="legalnotice">
     <xsl:call-template name="gentext">
       <xsl:with-param name="key">legalnotice</xsl:with-param>
@@ -874,6 +874,64 @@ Version: 1.72.0
       </div>
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+
+<xsl:template name="anchor">
+  <xsl:param name="node" select="."/>
+  <xsl:param name="conditional" select="1"/>
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="object" select="$node"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:if test="$conditional = 0 or $node/@id or $node/@xml:id">
+	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
+    <!--a id="{$id}"/-->
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="title" mode="titlepage.mode">
+  <xsl:variable name="id">
+    <xsl:choose>
+      <!-- if title is in an *info wrapper, get the grandparent -->
+      <xsl:when test="contains(local-name(..), 'info')">
+        <xsl:call-template name="object.id">
+          <xsl:with-param name="object" select="../.."/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="object.id">
+          <xsl:with-param name="object" select=".."/>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+<!-- need id here because some blocks with titles don't have their id's set-->
+  <h1 id="{$id}">
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <!--a id="{$id}"/-->
+    <xsl:choose>
+      <xsl:when test="$show.revisionflag != 0 and @revisionflag">
+	<span class="{@revisionflag}">
+	  <xsl:apply-templates mode="titlepage.mode"/>
+	</span>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates mode="titlepage.mode"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </h1>
+</xsl:template>
+
+<xsl:template match="chapter/title" mode="titlepage.mode" priority="2">
+  <xsl:call-template name="component.title">
+    <xsl:with-param name="node" select="ancestor::chapter[1]"/>
+  </xsl:call-template>
+</xsl:template>
+
+<xsl:template match="section/title                     |section/info/title                     |sectioninfo/title" mode="titlepage.mode" priority="2">
+  <xsl:call-template name="section.title"/>
 </xsl:template>
 
 </xsl:stylesheet>
