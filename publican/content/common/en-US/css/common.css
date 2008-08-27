@@ -595,13 +595,21 @@ pre, code, .guibutton, .keycap, .guilabel {
 
 
 /*terminal/console text*/
-.command, 
 .computeroutput, 
-.filename, 
 .citetitle, 
 .replaceable, 
 .option {
 	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
+}
+
+.replaceable {
+	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
+	font-style: italic;
+}
+
+.command, .filename, .keycap, .classname, .literal {
+	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
+	font-weight:bold;
 }
 
 pre {

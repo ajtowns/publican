@@ -1479,6 +1479,14 @@ Version:1.72
   <xsl:call-template name="inline.italicseq"/>
 </xsl:template>
 
+<xsl:template match="command|filename|keycap|classname|literal">
+  <xsl:call-template name="inline.boldmonoseq"/>
+</xsl:template>
+
+<xsl:template match="replaceable">
+  <xsl:call-template name="inline.italicmonoseq"/>
+</xsl:template>
+
 <!--
 From: fo/auttoc.xsl
 Reason: Bold chaps
