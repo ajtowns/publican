@@ -3,7 +3,7 @@
 Name:		publican-gimp
 Summary:	Common documentation files for %{brand}
 Version:	0.1
-Release:	0.t4%{?dist}
+Release:	0.t6%{?dist}
 License:	GFDL
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
