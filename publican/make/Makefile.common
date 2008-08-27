@@ -246,7 +246,7 @@ web-brew-all:: $(foreach L,$(TRANSLATIONS), web-brew-${L})
 $(foreach L,$(OTHER_LANGS),$(eval $(call PO_Update_Template,${L},$(DOCNAME))))
 
 # Depend on update-po-LANG for all Translations
-update-po-all:: update-pot $(foreach L,$(OTHER_LANGS),update-po-${L})
+update-po-all:: $(foreach L,$(OTHER_LANGS),update-po-${L})
 
 # Ensure pot is up to date
 update-pot::
@@ -459,8 +459,6 @@ help_params::
 	@echo
 	@echo "DESKTOP: Use the desktop CSS. Currently: $(DESKTOP)"
 	@echo
-	@echo "DOCNAME: Name of main Book file. Also used as publishing directory. Currently: $(DOCNAME)"
-	@echo
 	@echo "DOC_TYPE: Defaults to Book, can also be Article or Set. Currently: $(DOC_TYPE)"
 	@echo
 	@echo "DOC_URL: URL for top left link in html. Currently: $(DOC_URL)"
@@ -487,9 +485,7 @@ help_params::
 	@echo
 	@echo "XML_LANG: source language of xml. Currently: $(XML_LANG)"
 	@echo
-	@echo "XALAN_TEST: test xalan for xslt. Currently: $(XML_LANG)"
-	@echo
-	@echo "XALAN: Comman line to use when testing XALAN. It's big"
+	@echo "USE_XALAN: test xalan for xslt. Currently: $(XML_LANG)"
 	@echo
 
 help_internals::
@@ -497,6 +493,8 @@ help_internals::
 	@echo "These variables are used internally by publican and are set automatically."
 	@echo
 	@echo "BRAND_MAKE: Path to a brand specific Makefile. Which is used to override internals. Currently: $(BRAND_MAKE)"
+	@echo
+	@echo "DOCNAME: Name of main Book file. Also used as publishing directory. Currently: $(DOCNAME)"
 	@echo
 	@echo "EMBEDTOC: Embed the Web Site NAV Bar in the HTML. Currently: $(EMBEDTOC)"
 	@echo
@@ -510,11 +508,11 @@ help_internals::
 	@echo
 	@echo "PWD: present working directory."
 	@echo
-	@echo "PROD_VERSION: Version of the PRODUCT, retrieved from productnumber tag in Info file."
+	@echo "PROD_VERSION: Version of the PRODUCT, retrieved from productnumber tag in Info file. Currently: $(PROD_VERSION)"
 	@echo
-	@echo "RPM_VERSION: Edition number of this book, fetched from edition in Info file."
+	@echo "RPM_VERSION: Edition number of this book, fetched from edition in Info file. Currently: $(RPM_VERSION)"
 	@echo
-	@echo "RPM_RELEASE: release number of this book, fetched from pubsnumber in Info file."
+	@echo "RPM_RELEASE: release number of this book, fetched from pubsnumber in Info file. Currently: $(RPM_RELEASE)"
 	@echo
 	@echo "SPEC_NAME: Used to determine names for tar and rpm files. Currently: $(SPEC_NAME)"
 	@echo
@@ -531,6 +529,8 @@ help_internals::
 	@echo "XMLPOMERGE: Program used to merge po and source xml in to translated xml. Currently: $(XMLPOMERGE)."
 	@echo
 	@echo "XSLTPROC: XSLT processor. Currently: $(XSLTPROC)."
+	@echo
+	@echo "XALAN: Comman line to use when testing XALAN. Currently: $(XALAN)."
 	@echo
 
 # TODO: Update this
@@ -585,6 +585,9 @@ help::
 	@echo "help_internals"
 	@echo "	Display information about parameters that can NOT be set in the Books Makefile."
 	@echo
+	@echo "pom"
+	@echo "	Create a pom.xml file for use with maven."
+	@echo
 	@echo "pre"
 	@echo "	Special target to allow scripts to be run before any other targets are built."
 	@echo
@@ -594,14 +597,14 @@ help::
 	@echo
 	@echo "publish-<FORMAT>-all"
 	@echo "	Generate the format for all languages, then copy all publishable output"
-	@echo "	to a directory for publishing. Use with DocBot."
+	@echo "	to a directory for publishing. "
 	@echo "	e.g. publish-html-all, publish-pdf-all"
 	@echo
 	@echo "publish-report"
-	@echo "	Run report-all then copy the output to the publish directory. Used with DocBot"
+	@echo "	Run report-all then copy the output to the publish directory."
 	@echo
 	@echo "publish-web-<LANG>-<LOC>"
-	@echo "	Run web-<LANG>-<LOC>, them move SRPM to publish dir. Used with DocBot."
+	@echo "	Run web-<LANG>-<LOC>, used when building binary rpm."
 	@echo
 	@echo "report-<LANG>-<LOC>"
 	@echo "	Generate the translation status files for <LANG>-<LOC>."
@@ -638,13 +641,13 @@ help::
 	@echo
 	@echo "update_includes: DANGER This updates your source XML"
 	@echo "	DANGER EXPERIMENTAL This could cause you a lot of heart ache and extra work."
-	@echo "	Modify all xi:include tags to exclude langauges that are not 100% translated."
+	@echo "	Modify all xi:include tags to exclude langauges that are not 100%% translated."
 	@echo
 	@echo "update-po-<LANG>-<LOC>"
 	@echo "	Update the PO files for the supplied language."
 	@echo
 	@echo "update-po-all"
-	@echo "	Run update-po-<LANG>-<LOC> for all languages."
+	@echo "	Run update-po-<LANG>-<LOC> for all languages using the current POT files."
 	@echo
 	@echo "update-pot"
 	@echo "	Update the POT files."
