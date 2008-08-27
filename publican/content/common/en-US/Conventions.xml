@@ -16,7 +16,7 @@
 		</para>
 
 		<para>
-		<literal>Mono-spaced Bold</literal>
+		<command>Mono-spaced Bold</command>
 		</para>
 
 		<para>
@@ -50,7 +50,7 @@
 			</para>
 
 			<para>
-				Press <keycombo>Ctrl-Alt-F1</keycombo> to switch to the first virtual terminal. Press <keycombo>Ctrl-Alt-F7</keycombo> to return to your X-Windows session.
+				Press <keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F1</keycap></keycombo> to switch to the first virtual terminal. Press <keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F7</keycap></keycombo> to return to your X-Windows session.
 			</para>
 		</blockquote>
 
@@ -112,7 +112,7 @@
 
 		<blockquote>
 		<para>
-		To connect to a remote machine using ssh, type <userinput>ssh</userinput> <replaceable>username@domain.name</replaceable> at a shell prompt. If the remote machine is <filename>example.com</filename> and your username on that machine is john, you type <userninput>ssh john@example.com</userninput>.
+		To connect to a remote machine using ssh, type <command>ssh</command> <replaceable>username@domain.name</replaceable> at a shell prompt. If the remote machine is <filename>example.com</filename> and your username on that machine is john, you type <command>ssh john@example.com</command>.
 		</para>
 		
 		<para>
@@ -152,7 +152,7 @@
 
 	</section>
 
-	<section title="Pull-quote_Conventions">
+	<section id="Pull-quote_Conventions">
 		<title>Pull-quote Conventions</title>
 		
 		<para>
@@ -160,7 +160,7 @@
 		</para>
 		
 		<para>
-		Output sent to a terminal is set in <computeroutput>Mono-spaced Roman</computeroutput> and highlighted thus:
+		Output sent to a terminal is set in <computeroutput>Mono-spaced Roman</computeroutput> and presented thus:
 		</para>
 
 <screen>
@@ -169,27 +169,31 @@ books_tests  Desktop1  downloads      images  notes  scripts  svgs
 </screen>
 
 		<para>
-		Source-code listings are also set in <computeroutput>Mono-spaced Roman</computeroutput> but are highlighted as follows:
+		Source-code listings are also set in <computeroutput>Mono-spaced Roman</computeroutput> but are presented and highlighted as follows:
 		</para>
 
-<programlisting language="c">extern void sem_exit (void);
-extern struct task_struct *child_reaper;
- 
-int getrusage(struct task_struct *, int, struct rusage *);
- 
-static void __unhash_process(struct task_struct *p)
+<programlisting language="java">
+package org.jboss.book.jca.ex1;
+
+import javax.naming.InitialContext;
+
+public class ExClient
 {
-        nr_threads--;
-        detach_pid(p, PIDTYPE_PID);
-        detach_pid(p, PIDTYPE_TGID);
-        if (thread_group_leader(p)) {
-                detach_pid(p, PIDTYPE_PGID);
-                detach_pid(p, PIDTYPE_SID);
-        }
- 
-        REMOVE_LINKS(p);
-        p->pid = 0;
-}</programlisting>
+   public static void main(String args[]) 
+       throws Exception
+   {
+      InitialContext iniCtx = new InitialContext();
+      Object         ref    = iniCtx.lookup("EchoBean");
+      EchoHome       home   = (EchoHome) ref;
+      Echo           echo   = home.create();
+
+      System.out.println("Created Echo");
+
+      System.out.println("Echo.echo('Hello') = " + echo.echo("Hello"));
+   }
+   
+}
+</programlisting>
 
 		<para>
 		As with the in-line conventions,a specific typeface is used  in PDF and print editions: <computeroutput>12-point Liberation Mono</computeroutput>. Again, as with in-line styles, if the <ulink url="https://fedorahosted.org/liberation-fonts/">Liberation Fonts</ulink> are installed on your system, the same typeface is used in HTML editions: an equivalent mono-spaced roman face will be displayed otherwise. 

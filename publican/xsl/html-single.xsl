@@ -18,7 +18,7 @@
 <xsl:include href="defaults.xsl"/>
 <xsl:include href="xhtml-common.xsl"/>
 
-<xsl:output method="xml" encoding="UTF-8" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
+<xsl:output method="xml" encoding="UTF-8" indent="no" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
 
 <xsl:param name="html.append"/>
 <xsl:param name="desktop" select="0"/>

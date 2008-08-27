@@ -28,16 +28,16 @@
 <xsl:param name="chunker.output.doctype-public" select="'-//W3C//DTD XHTML 1.0 Strict//EN'"/>
 <xsl:param name="chunker.output.doctype-system" select="'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'"/>
 <xsl:param name="chunker.output.encoding" select="'UTF-8'"/>
-<xsl:param name="chunker.output.indent" select="'yes'"/>
+<xsl:param name="chunker.output.indent" select="'no'"/>
 <xsl:param name="html.longdesc.link" select="0"/>
 <xsl:param name="html.longdesc" select="0"/>
 <xsl:param name="html.longdesc.embed" select="1"/>
 
 <xsl:param name="html.stylesheet" select="'./Common_Content/css/default.css'"/>
 <xsl:param name="html.stylesheet.type" select="'text/css'"/>
-<xsl:param name="html.cleanup" select="1"/>
+<xsl:param name="html.cleanup" select="0"/>
 <xsl:param name="html.ext" select="'.html'"/>
-<xsl:output method="xml" indent="yes"/>
+<xsl:output method="xml" indent="no"/>
 <xsl:param name="highlight.source" select="1"/>
 <xsl:param name="tablecolumns.extensions" select="1"/>
 
