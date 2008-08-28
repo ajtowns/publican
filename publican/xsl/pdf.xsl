@@ -1261,10 +1261,6 @@ Version:1.72
     </xsl:when>
   </xsl:choose>
 
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/issuenum"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/issuenum"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="issuenum"/>
-
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/corpauthor"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/corpauthor"/>
 
@@ -1312,6 +1308,7 @@ Version:1.72
     </xsl:when>
   </xsl:choose>
 
+ 
   <xsl:apply-templates mode="book.titlepage.verso.auto.mode" select="bookinfo/authorgroup"/>
   <xsl:apply-templates mode="book.titlepage.verso.auto.mode" select="info/authorgroup"/>
   <xsl:apply-templates mode="book.titlepage.verso.auto.mode" select="bookinfo/author"/>
@@ -1941,6 +1938,7 @@ Version:1.72
                                    |following-sibling::info/subtitle
                                    |following-sibling::bookinfo/subtitle)[1]"
                            mode="book.verso.subtitle.mode"/>
+	<xsl:apply-templates mode="titlepage.mode" select="(following-sibling::bookinfo/edition|following-sibling::edition)[1]"/>
       </fo:block>
     </xsl:if>
 </xsl:template>
@@ -1971,6 +1969,16 @@ Version:1.72
       </fo:inline>
     </xsl:with-param>
   </xsl:call-template>
+</xsl:template>
+
+<xsl:template match="edition" mode="titlepage.mode">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <xsl:call-template name="gentext">
+    <xsl:with-param name="key" select="'Edition'"/>
+  </xsl:call-template>
+  <xsl:call-template name="gentext.space"/>
+  <xsl:apply-templates mode="titlepage.mode"/>
+</fo:block>
 </xsl:template>
 
 </xsl:stylesheet>

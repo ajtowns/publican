@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.34
-Release:	0.t87%{?dist}
+Release:	0.t101%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -20,7 +20,7 @@ Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl 
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template make
 Requires:	fop batik saxon ImageMagick
-Requires:	xerces-j2
+Requires:	xerces-j2 rpm-build
 
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
@@ -154,7 +154,8 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed display of OL nested in UL. BZ #457915
 - Added "make pom" to output a basic maven pom file.
 - Updated doco. BZ #458764
-- Updated Conventions.xml. BZ #456026
+- Updated Conventions.xml. BZ #456026 #459216
+- Made PDF and HTML display product version in similar style. BZ #456486
 
 * Fri Apr 11 2008 Jeff Fearn <jfearn@redhat.com> 0.34-0
 - Fix PO file name missing from translation status report

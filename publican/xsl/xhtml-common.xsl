@@ -762,6 +762,7 @@ Version: 1.72.0
     <xsl:when test="bookinfo/productname">
 	<div class="producttitle" xsl:use-attribute-sets="book.titlepage.recto.style">
 	  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/productname"/>
+	  <xsl:text> </xsl:text>
 	  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/productnumber"/>
 	</div>
     </xsl:when>
@@ -790,6 +791,7 @@ Version: 1.72.0
     </xsl:when>
   </xsl:choose>
 
+  <xsl:apply-templates mode="titlepage.mode" select="bookinfo/edition"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/corpauthor"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/corpauthor"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/authorgroup"/>
@@ -932,6 +934,17 @@ Version: 1.72.0
 
 <xsl:template match="section/title                     |section/info/title                     |sectioninfo/title" mode="titlepage.mode" priority="2">
   <xsl:call-template name="section.title"/>
+</xsl:template>
+
+<xsl:template match="edition" mode="titlepage.mode">
+  <p>
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <xsl:call-template name="gentext">
+      <xsl:with-param name="key" select="'Edition'"/>
+    </xsl:call-template>
+    <xsl:call-template name="gentext.space"/>
+    <xsl:apply-templates mode="titlepage.mode"/>
+  </p>
 </xsl:template>
 
 </xsl:stylesheet>
