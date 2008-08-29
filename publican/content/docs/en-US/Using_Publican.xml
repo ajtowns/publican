@@ -432,10 +432,126 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<para>
 			While entities offer convenience, they should be used with extreme caution. Writing <sgmltag>&amp;FDS&semi;</sgmltag> instead of <application>Fedora Directory Server</application>, for example, saves a writer time but transformed entities do not appear in <filename>.po</filename> files, making complete translations of documents containing entities impossible.
 			</para>
-			<para>
-			Transformed entities do not appear in <filename>.po</filename> files. Consequently, every entity becomes a string of untranslatable English. This is more than just an unwelcome intrusion. For languages that use gender or which change word order based on usage, the mix of translated and untranslated words produces sentences which are awkward, inaccurate and even unreadable.
-			</para>
 			</important>
+			
+			<para>
+			If you define an entity <sgmltag>&lt;!ENTITY LIFT "Liberty Installation and Formatting Tome"&gt;</sgmltag>, you can enter <sgmltag>&amp;LIFT;</sgmltag> in your XML and it will appear as <emphasis>The Secret to Eternal Life</emphasis> every time the book is built to HTML, PDF or Text.
+			</para>
+			
+			<para>
+			Entities are not transformed when XML is converted to PO, however. Which means translators never see <title>Liberty Installation and Formatting Tome</title>. Instead they see <sgmltag>&amp;SOEL;</sgmltag>, which they cannot translate.
+			</para>
+			
+			<para>
+			Consider something as simple as the following, two English sentence fragments being translated into a related language: German.
+			</para>
+			
+			<blockquote>
+				<para>
+				As noted in the <title>Liberty Installation and Formatting Tome</title>, Chapter 3&hellip;
+				</para>
+			</blockquote>
+			
+			<para>
+			A translation of this might be as follows:
+			</para>
+			
+			<blockquote>
+				<para>
+				Wie in dem <title>Wälzer für die Installation und Formatierung von Liberty</title>, Kapitel 3, erwähnt…
+				</para>
+			</blockquote>
+			
+			<para>
+			Because there is no text missing, the title can be translated into elegant German, avoiding the multi-syllabic mega-word syndrome. Also, note the use of &lsquo;in dem&rsquo;, the correct pronoun when referring to a Wälzer (tome).
+			</para>
+			
+			<para>
+			By contrast, if entities are used, the English would be
+			</para>
+			
+			<blockquote>
+				<para>
+				As noted in the <title>&amp;LIFT;</title>, Chapter 3&hellip;
+				</para>
+			</blockquote>
+			
+			The translation of this would probably run thus:
+			
+			<blockquote>
+				<para>
+				Wie in &LIFT;, Kapitel 3, erwähnt&hellip;
+				</para>
+			</blockquote>
+			
+			And the presentation would be thus:
+			
+			<blockquote>
+				<para>
+				Wie in <title>Liberty Installation and Formatting Tome</title>, Kapitel 3, erwähnt&hellip;
+				</para>
+			</blockquote>
+			
+			<para>
+			This, of course, leaves the title in English, including words like Tome and Formatting that are unlikely to be understood. Also, the translator is forced to use the pronoun &lsquo;in&rsquo;, a more general construction that comes close to Denglisch or Angleutsch. Many German speakers consider this approach incorrect and almost all consider it inelegant.
+			</para>
+			
+			<para>
+			Equivalent problems emerge with a fragment such as this:
+			</para>
+			
+			<blockquote>
+				<para>
+				However, a careful reading of the <title>Liberty Installation and Formatting Tome</title> afterword, shows that&hellip;
+				</para>
+			</blockquote>
+			
+			With no text hidden behind an entity, a German translation of this might be:
+			
+			<blockquote>
+				<para>
+				Jedoch ergibt ein sorgfältiges Lesen des Nachworts für den <title>Wälzer für die Installation und Formatierung von Liberty</title>, dass&hellip;
+				</para>
+			</blockquote>
+			
+			<para>
+			If, however, an entity was used:
+			</para>
+			
+			<blockquote>
+				<para>
+				However, a careful reading of the <title>&LIFT;</title> afterword, shows that&hellip;
+				</para>
+			</blockquote>
+			
+			<para>
+			The translation would be subtly but importantly different:
+			</para>
+			
+			<blockquote>
+				<para>
+				Jedoch ergibt ein sorgfältiges Lesen des Nachworts für [das|den|die] <title>&LIFT;</title>, dass&hellip;
+				</para>
+			</blockquote>
+			
+			<para>
+			When presented to a reader, this would appear as follows:
+			</para>
+			
+			<blockquote>
+				<para>
+				Jedoch ergibt ein sorgfältiges Lesen des Nachworts für <title>Liberty Installation and Formatting Tome</title>, dass&hellip;
+				</para>
+			</blockquote>
+			
+			<para>
+			Again, note the missing pronoun, <emphasis>den</emphasis>. This is inelegant but necessary since the translator can otherwise only guess which of pronoun (der, die and das) to use, which would inevitably lead to error.
+			</para>
+			
+			<para>
+			Now multiply such problems by the 22 languages Publican currently supports. Using entities for anything other than the few non-translated strings currently supported is arguably a conscious effort to inhibit translation.
+			</para>
+			
 			</section>
 		<section id="sect-Publican-Files_in_the_Book_directory-Revision_History.xml">
 			<title>Revision_History.xml</title>
