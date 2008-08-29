@@ -106,7 +106,7 @@ pre::
 		echo; \
 		echo "*ERROR: PRODUCT can only contain 'a-z', 'A-Z' and '_'*"; \
 		echo "'$(PRODUCT)' is not valid"; \
-		echo "Please edit PRODUCT in your Makefile"; \
+		echo "Please edit <productname> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
 	@if [[ "$(PROD_VERSION)" == "" ]]; then \

@@ -115,10 +115,8 @@ my %MAP_OUT = (
     'programlisting'   => { 'block' => 1, 'verbatim'      => 1 },
     'programlistingco' => { 'block' => 1, 'newline_after' => 1 },
     'xref'        => { 'force_empty' => 1, 'keep_empty_attr' => 'linkend' },
-#    'caution'     => { 'block'       => 1, 'no_id'           => 1 },
     'important'   => { 'block'       => 1, 'no_id'           => 1 },
     'note'        => { 'block'       => 1, 'no_id'           => 1 },
-#    'tip'         => { 'block'       => 1, 'no_id'           => 1 },
     'warning'     => { 'block'       => 1, 'no_id'           => 1 },
     'figure'      => { 'block'       => 1 },
     'mediaobject' => { 'block'       => 1 },
@@ -155,6 +153,7 @@ my %MAP_OUT = (
     'copyright'         => { 'block'         => 1 },
     'authorgroup'       => { 'block'         => 1 },
     'author'            => { 'block'         => 1 },
+    'editor'            => { 'block'         => 1 },
     'corpauthor'        => { 'block'         => 1 },
     'revision'          => { 'block'         => 1 },
     'revhistory'        => { 'block'         => 1 },
@@ -172,8 +171,11 @@ my %MAP_OUT = (
     'isbn'              => { 'newline_after' => 1 },
     'issuenum'          => { 'newline_after' => 1 },
     'edition'           => { 'newline_after' => 1 },
+    'pubdate'           => { 'newline_after' => 1 },
     'productname'       => { 'newline_after' => 1 },
     'productnumber'     => { 'newline_after' => 1 },
+    'pubsnumber'        => { 'newline_after' => 1 },
+    'contrib'           => { 'newline_after' => 1 },
     'shortaffil'        => { 'newline_after' => 1 },
     'jobtitle'          => { 'newline_after' => 1 },
     'orgname'           => { 'newline_after' => 1 },
@@ -191,6 +193,7 @@ my %MAP_OUT = (
     'application'       => {},
     'package'           => {},
     'guimenu'           => {},
+    'sgmltag'           => {},
     'guilabel'          => {},
     'guibutton'         => {},
     'emphasis'          => {},
@@ -215,28 +218,28 @@ my %MAP_OUT = (
     'arg'          => { 'block'         => 1 },
     'group'        => { 'block'         => 1 },
     'accel'        => {},
-    'blockquote'    => { 'block'         => 1 },
-    'classname'     => {},
-    'code'          => {},
-    'colophon'      => { 'block'         => 1 },
-    'envar'         => {},
-    'example'       => { 'block'         => 1 },
-    'footnote'      => {},
-    'guisubmenu'    => {},
-    'interface'     => {},
-    'keycap'        => {},
-    'keycombo'      => {},
-    'literal'       => {},
-    'literallayout' => { 'verbatim'      => 1 },
+    'blockquote' => { 'block' => 1 },
+    'classname'  => {},
+    'code'       => {},
+    'colophon'   => { 'block' => 1 },
+    'envar'      => {},
+    'example'    => { 'block' => 1 },
+    'footnote'   => {},
+    'guisubmenu' => {},
+    'interface'  => {},
+    'keycap'     => {},
+    'keycombo'   => {},
+    'literal'    => {},
+    'literallayout' => { 'block' => 1, 'verbatim' => 1 },
     'option'        => {},
     'parameter'     => {},
     'prompt'        => {},
     'property'      => {},
-    'see'           => { 'newline_after' => 1, },
-    'seealso'       => { 'newline_after' => 1, },
-    'substeps'      => { 'block'         => 1 },
-    'systemitem'    => {},
-    'wordasword'    => {},
+    'see'        => { 'newline_after' => 1, },
+    'seealso'    => { 'newline_after' => 1, },
+    'substeps'   => { 'block'         => 1 },
+    'systemitem' => {},
+    'wordasword' => {},
 );
 
 my %BANNED_TAGS = (
@@ -256,14 +259,10 @@ my %BANNED_TAGS = (
         'reason' =>
             'This tag breaks section 508 accessibility standards and makes translation extremely difficult.'
     },
-    'tip' => {
-        'reason' =>
-            'This tag is unnecessary. Use note or important.'
-    },
-    'caution' => {
-        'reason' =>
-            'This tag is unnecessary. Use important or warning.'
-    },
+    'tip' =>
+        { 'reason' => 'This tag is unnecessary. Use note or important.' },
+    'caution' =>
+        { 'reason' => 'This tag is unnecessary. Use important or warning.' },
 );
 
 my %BANNED_ATTRS = (
@@ -751,9 +750,10 @@ sub my_as_XML($) {
                             if ($format) {
                                 $node->attr( 'format', $format );
                             }
-                            if( -f $node->attr('fileref')) {
-                                my $cmd = '/usr/bin/identify -format "%w" ' . $node->attr('fileref');
-                                if(`$cmd` > $MAX_WIDTH) {
+                            if ( -f $node->attr('fileref') ) {
+                                my $cmd = '/usr/bin/identify -format "%w" '
+                                    . $node->attr('fileref');
+                                if ( `$cmd` > $MAX_WIDTH ) {
                                     $node->attr( 'scalefit', '1' );
                                 }
                             }
@@ -775,8 +775,11 @@ sub my_as_XML($) {
                             )
                         {
                             my $prev = pop(@xml);
-                            # BZ #453067 but spaces between inline tags should be output
-                            if ( $prev && ( $prev =~ /\S/ || $prev !~ /\n/ ) && !$MAP_OUT{$tag}->{'verbatim'} )
+
+                  # BZ #453067 but spaces between inline tags should be output
+                            if (   $prev
+                                && ( $prev =~ /\S/ || $prev !~ /\n/ )
+                                && !$MAP_OUT{$tag}->{'verbatim'} )
                             {
                                 push( @xml, $prev );
                             }
@@ -804,9 +807,9 @@ sub my_as_XML($) {
                     if ( $MAP_OUT{$tag}->{'block'} ) {
 
                         # remove empty lines
-                        if ( $xml[$#xml] =~ /^\s*$/s) {
+                        if ( $xml[$#xml] =~ /^\s*$/s ) {
                             pop(@xml);
-                            if ( $xml[$#xml] =~ /^\s*$/s) {
+                            if ( $xml[$#xml] =~ /^\s*$/s ) {
                                 pop(@xml);
                             }
                         }
@@ -829,7 +832,8 @@ sub my_as_XML($) {
                         {
                             if ( $MAP_OUT{$tag}->{'block'} ) {
                                 if ( $MAP_OUT{$tag}->{'verbatim'} ) {
-#                                    push( @xml, "\n" );
+
+                      #                                    push( @xml, "\n" );
                                 }
                                 else {
                                     push( @xml, "\n", $indent x $depth );
@@ -909,12 +913,13 @@ sub my_as_XML($) {
                         push( @xml, $node );
                     }
                 }
-                else  {  # Verbatim
+                else {    # Verbatim
                     if ( $node =~ /\n/ ) {
-			my $real_content = 0;
+                        my $real_content = 0;
                         foreach my $line ( split( "\n", $node ) ) {
+
                             # Chop of leading white space in verbatims
-                            next if(!$real_content && $line eq '');
+                            next if ( !$real_content && $line eq '' );
                             $real_content = 1;
                             $self->_xml_escape($line);
                             push( @xml, $line, "\n" );

@@ -1273,6 +1273,8 @@ Version:1.72
     <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/invpartnumber"/>
     <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/invpartnumber"/>
   </fo:block>
+  <xsl:choose>
+    <xsl:when test="bookinfo/pubdate|info/pubdate">
   <fo:block xsl:use-attribute-sets="book.titlepage.recto.style" color="black"> 
     <xsl:call-template name="gentext">
       <xsl:with-param name="key" select="'pubdate'"/>
@@ -1281,6 +1283,8 @@ Version:1.72
     <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/pubdate"/>
     <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/pubdate"/>
   </fo:block>
+    </xsl:when>
+  </xsl:choose>
 </xsl:template>
 
 <xsl:template name="book.titlepage.verso">
