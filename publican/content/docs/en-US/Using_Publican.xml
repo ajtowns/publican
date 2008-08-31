@@ -430,25 +430,25 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<important>
 			<title>Important</title>
 			<para>
-			While entities offer convenience, they should be used with extreme caution. Writing <sgmltag>&amp;FDS&semi;</sgmltag> instead of <application>Fedora Directory Server</application>, for example, saves a writer time but transformed entities do not appear in <filename>.po</filename> files, making complete translations of documents containing entities impossible.
+			Entities offer convenience but they should be used with extreme caution. Writing (for example) <sgmltag>&amp;FDS&semi;</sgmltag> instead of <application>Fedora Directory Server</application> saves the writer time but transformed entities do not appear in <filename>.po</filename> files. Complete translations of documents containing entities are, as a consequence, impossible.
 			</para>
 			</important>
 			
 			<para>
-			If you define an entity <sgmltag>&lt;!ENTITY LIFT "Liberty Installation and Formatting Tome"&gt;</sgmltag>, you can enter <sgmltag>&amp;LIFT;</sgmltag> in your XML and it will appear as <emphasis>The Secret to Eternal Life</emphasis> every time the book is built to HTML, PDF or Text.
+			If you define an entity &mdash; <sgmltag>&lt;!ENTITY LIFT "Liberty Installation and Formatting Tome"&gt;</sgmltag> &mdash; you can enter <sgmltag>&amp;LIFT;</sgmltag> in your XML and it will appear as <emphasis>The Secret to Eternal Life</emphasis> every time the book is built to HTML, PDF or Text.
 			</para>
 			
 			<para>
-			Entities are not transformed when XML is converted to PO, however. Which means translators never see <title>Liberty Installation and Formatting Tome</title>. Instead they see <sgmltag>&amp;SOEL;</sgmltag>, which they cannot translate.
+			Entities are not transformed when XML is converted to PO, however. Which means translators never see <emphasis>Liberty Installation and Formatting Tome</emphasis>. Instead they see <sgmltag>&amp;LIFT;</sgmltag>, which they cannot translate.
 			</para>
 			
 			<para>
-			Consider something as simple as the following, two English sentence fragments being translated into a related language: German.
+			Consider something as simple as the following English sentence fragment being translated into a related language: German.
 			</para>
 			
 			<blockquote>
 				<para>
-				As noted in the <title>Liberty Installation and Formatting Tome</title>, Chapter 3&hellip;
+				As noted in the <emphasis>Liberty Installation and Formatting Tome</emphasis>, Chapter 3&hellip;
 				</para>
 			</blockquote>
 			
@@ -458,12 +458,12 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			
 			<blockquote>
 				<para>
-				Wie in dem <title>Wälzer für die Installation und Formatierung von Liberty</title>, Kapitel 3, erwähnt…
+				Wie in dem <emphasis>W&auml;lzer f&uuml;r die Installation und Formatierung von Liberty</emphasis>, Kapitel 3, erw&auml;hnt&hellip;
 				</para>
 			</blockquote>
 			
 			<para>
-			Because there is no text missing, the title can be translated into elegant German, avoiding the multi-syllabic mega-word syndrome. Also, note the use of &lsquo;in dem&rsquo;, the correct pronoun when referring to a Wälzer (tome).
+			Because there is no text missing, the title can be translated into elegant German, avoiding the multi-syllabic mega-word syndrome. Also, note the use of &lsquo;in dem&rsquo;, the correct pronoun when referring to a W&auml;lzer (tome).
 			</para>
 			
 			<para>
@@ -472,7 +472,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			
 			<blockquote>
 				<para>
-				As noted in the <title>&amp;LIFT;</title>, Chapter 3&hellip;
+				As noted in the <sgmltag>&amp;LIFT;</sgmltag>, Chapter 3&hellip;
 				</para>
 			</blockquote>
 			
@@ -480,7 +480,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			
 			<blockquote>
 				<para>
-				Wie in &LIFT;, Kapitel 3, erwähnt&hellip;
+				Wie in <sgmltag>&amp;LIFT;</sgmltag>, Kapitel 3, erw&auml;hnt&hellip;
 				</para>
 			</blockquote>
 			
@@ -488,7 +488,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			
 			<blockquote>
 				<para>
-				Wie in <title>Liberty Installation and Formatting Tome</title>, Kapitel 3, erwähnt&hellip;
+				Wie in <title>Liberty Installation and Formatting Tome</title>, Kapitel 3, erw&auml;hnt&hellip;
 				</para>
 			</blockquote>
 			
@@ -502,7 +502,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			
 			<blockquote>
 				<para>
-				However, a careful reading of the <title>Liberty Installation and Formatting Tome</title> afterword, shows that&hellip;
+				However, a careful reading of the <emphasis>Liberty Installation and Formatting Tome</emphasis> afterword, shows that&hellip;
 				</para>
 			</blockquote>
 			
@@ -510,27 +510,27 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			
 			<blockquote>
 				<para>
-				Jedoch ergibt ein sorgfältiges Lesen des Nachworts für den <title>Wälzer für die Installation und Formatierung von Liberty</title>, dass&hellip;
+				Jedoch ergibt ein sorgf&auml;ltiges Lesen des Nachworts f&uuml;r den <emphasis>W&auml;lzer f&uuml;r die Installation und Formatierung von Liberty</emphasis>, dass&hellip;
 				</para>
 			</blockquote>
 			
 			<para>
-			If, however, an entity was used:
+			If an entity was used to save the writer time, the translator has to deal with this:
 			</para>
 			
 			<blockquote>
 				<para>
-				However, a careful reading of the <title>&LIFT;</title> afterword, shows that&hellip;
+				However, a careful reading of the <sgmltag>&amp;LIFT;</sgmltag> afterword, shows that&hellip;
 				</para>
 			</blockquote>
 			
 			<para>
-			The translation would be subtly but importantly different:
+			And the translation would be subtly but importantly different:
 			</para>
 			
 			<blockquote>
 				<para>
-				Jedoch ergibt ein sorgfältiges Lesen des Nachworts für [das|den|die] <title>&LIFT;</title>, dass&hellip;
+				Jedoch ergibt ein sorgf&auml;ltiges Lesen des Nachworts f&uuml;r <sgmltag>&amp;LIFT;</sgmltag>, dass&hellip;
 				</para>
 			</blockquote>
 			
@@ -540,16 +540,16 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			
 			<blockquote>
 				<para>
-				Jedoch ergibt ein sorgfältiges Lesen des Nachworts für <title>Liberty Installation and Formatting Tome</title>, dass&hellip;
+				Jedoch ergibt ein sorgf&auml;ltiges Lesen des Nachworts f&uuml;r <emphasis>Liberty Installation and Formatting Tome</emphasis>, dass&hellip;
 				</para>
 			</blockquote>
 			
 			<para>
-			Again, note the missing pronoun, <emphasis>den</emphasis>. This is inelegant but necessary since the translator can otherwise only guess which of pronoun (der, die and das) to use, which would inevitably lead to error.
+			Again, note the missing pronoun, &lsquo;den&rsquo;. This is inelegant but necessary since the translator can otherwise only guess which pronoun (der, die or das) to use, which would inevitably lead to error.
 			</para>
 			
 			<para>
-			Now multiply such problems by the 22 languages Publican currently supports. Using entities for anything other than the few non-translated strings currently supported is arguably a conscious effort to inhibit translation.
+			Now multiply such problems by the 22 languages Publican currently supports. Using entities for anything other than the few non-translated strings currently supported is arguably a conscious effort to inhibit and reduce the quality of translations.
 			</para>
 			
 			</section>
