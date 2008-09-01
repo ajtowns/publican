@@ -143,10 +143,9 @@ create_book --name=<book_name> [options]
    --version           Product Version
    --edition           Edition
    --product           Product
-   --article           Article not Book
    --brand             Select Brand
    --lang              Source Language
-
+   --type              Book|Set|Article
 
 =head1 OPTIONS
    -help               Brief help message
@@ -158,7 +157,7 @@ create_book --name=<book_name> [options]
    --article           Article not Book
    --brand             Select Brand
    --lang              Source Language
-   --type              Type Book|Set|Artcile
+   --type              Book|Set|Artcile
 
 =head2 -help
 
@@ -183,10 +182,6 @@ Edition of this Book. Defaults to 0
 =head2 --product
 
 Product which contains this Book. Defaults to Documentation.
-
-=head2 --article
-
-Create an Article instead of a Book.
 
 =head2 --brand
 

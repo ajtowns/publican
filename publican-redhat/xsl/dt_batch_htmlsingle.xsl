@@ -13,9 +13,9 @@
 <xsl:template match="/"># Red Hat Documentation Specfile
 
 Name:           <xsl:value-of select="$book-title"/>
-Version:        <xsl:value-of select="/bookinfo/issuenum"/><xsl:value-of select="/setinfo/issuenum"/>
-Release:        <xsl:value-of select="/bookinfo/productnumber"/><xsl:value-of select="/setinfo/productnumber"/>
-Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
+Version:        <xsl:value-of select="/bookinfo/productnumber"/>
+Release:        <xsl:value-of select="/bookinfo/pubsnumber"/>
+Summary:        <xsl:value-of select="/bookinfo/subtitle"/>
 Group:          Documentation
 License:        OPL + Restrictions
 URL:            http://www.redhat.com/docs

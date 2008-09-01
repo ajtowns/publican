@@ -9,7 +9,8 @@ ifeq "$(DOCNAME)" "Deployment_Guide"
 SPEC_NAME	= $(DOCNAME)
 DESKTOP		= 1
 endif
-ifeq "$(DOCNAME)" "Virtualization"
+ifeq "$(DOCNAME)" "Virtualization_Guide"
+DOCNAME		= Virtualization
 SPEC_NAME	= $(DOCNAME)
 DESKTOP		= 1
 endif
@@ -65,12 +66,12 @@ old_spec:: xml-all
 
 old_srpm:: clean old_spec
 	@echo "START: $@ `date`"
-	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS tmp/tar/$(SPEC_NAME)-$(VERSION)
+	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS tmp/tar/$(SPEC_NAME)-$(PROD_VERSION)
 	for lang in $(TRANSLATIONS); do \
-		cp -rf tmp/$$lang/xml tmp/tar/$(SPEC_NAME)-$(VERSION)/$$lang; \
+		cp -rf tmp/$$lang/xml tmp/tar/$(SPEC_NAME)-$(PROD_VERSION)/$$lang; \
 	done
-	cd tmp/tar && tar -cz --exclude-from=$(COMMON_CONFIG)/make/tar-excludes -f $(SPEC_NAME)-$(VERSION).tgz $(SPEC_NAME)-$(VERSION);
-	@cp tmp/tar/$(SPEC_NAME)-$(VERSION).tgz tmp/rpm/SOURCES/.
+	cd tmp/tar && tar -cz --exclude-from=$(COMMON_CONFIG)/make/tar-excludes -f $(SPEC_NAME)-$(PROD_VERSION).tgz $(SPEC_NAME)-$(PROD_VERSION);
+	@cp tmp/tar/$(SPEC_NAME)-$(PROD_VERSION).tgz tmp/rpm/SOURCES/.
 	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME).spec
 	@echo "END: $@ `date`"
 
@@ -105,12 +106,12 @@ old_spec2:: html-desktop-all
 
 old_srpm2:: clean old_spec2
 	@echo "START: $@ `date`"
-	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS tmp/tar/$(SPEC_NAME)-$(VERSION)
+	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS tmp/tar/$(SPEC_NAME)-$(PROD_VERSION)
 	for lang in $(TRANSLATIONS); do \
-		cp -rf tmp/$$lang/html-desktop tmp/tar/$(SPEC_NAME)-$(VERSION)/$$lang; \
+		cp -rf tmp/$$lang/html-desktop tmp/tar/$(SPEC_NAME)-$(PROD_VERSION)/$$lang; \
 	done
-	cd tmp/tar && tar -cz --exclude-from=$(COMMON_CONFIG)/make/tar-excludes -f $(SPEC_NAME)-$(VERSION).tgz $(SPEC_NAME)-$(VERSION);
-	@cp tmp/tar/$(SPEC_NAME)-$(VERSION).tgz tmp/rpm/SOURCES/.
+	cd tmp/tar && tar -cz --exclude-from=$(COMMON_CONFIG)/make/tar-excludes -f $(SPEC_NAME)-$(PROD_VERSION).tgz $(SPEC_NAME)-$(PROD_VERSION);
+	@cp tmp/tar/$(SPEC_NAME)-$(PROD_VERSION).tgz tmp/rpm/SOURCES/.
 	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(SPEC_NAME).spec
 	@echo "END: $@ `date`"
 
