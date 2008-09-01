@@ -611,7 +611,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 		<section id="sect-Publican-Files_in_the_Book_directory-Revision_History.xml">
 			<title>Revision_History.xml</title>
 			<para>
-				Make will search for the first XML file in the $(XML_LANG) directory containing a revhistory tag. Publican will use that file to build the RPM revision history from.
+				The <command>make</command> searches for the first XML file in the $(XML_LANG) directory containing a revhistory tag. Publican then uses that file to build the RPM revision history.
 			</para>
 			<important>
 				<title>Important</title>
