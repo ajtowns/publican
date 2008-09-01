@@ -332,6 +332,55 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 
 		</section>
 		
+		<section id="sect-Publican-Files_in_the_Book_directory-RPMs_Editions_Impressions_and_Versions">
+			<title>RPMs, Editions, Impressions and Versions</title>
+
+			<para>
+			As noted above, the default Book_Info.xml used by Publican includes an <term>&lt;edition&gt;</term> tag.
+			</para>
+			
+			<para>
+			If you distribute a book as an RPM package, the data placed within this tag sets 'the first two digits of the version number in the .rpm filename'.
+			</para>
+			
+			<para>
+			So, an edition of '1.0' becomes a version of '1.0'.
+			</para>
+			
+			<para>
+			Book_Info.xml also includes the <term>&lt;pubsnumber&gt;</term> tag. Any data placed within this tag changes the release number of RPM-packaged books.
+			</para>
+			
+			<para>
+			A book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, release 5 (1.0-5).
+			</para>
+			
+			<para>
+			The edition and pubsnumber are not tied to the <term>&lt;version&gt;</term> tag also found in Book_Info.xml. Version denotes the version number of the product being documented or otherwise written about.
+			</para>
+			
+			<para>
+			It is entirely possible to have a 2nd edition of a book pertaining to a particular version of a product.
+			</para>
+			
+			<para>
+			In Bibliography, two copies of a book are the same edition if they are printed using substantially the same type-set master plates or pages. ('Substantially' offers some wiggle room for typo corrections and the like.)
+			</para>
+			
+			<para>
+			Book collectors routinely conflate 'first edition' with 'first print run', while Bibliographers pay attention to the text commonly placed in the front matter of a book, which calls a 2nd print run off the same (or substantially the same) plates a '1st edition, 2nd impression' or '1st edition, 2nd printing'.
+			</para>
+			
+			<para>
+			We recommend following Bibliographic practice in this regard. When using Publican to re-publish a book from 'substantially the same XML', increment the <term>&lt;pubsnumber&gt;</term> tag, not the <term>&lt;edition&gt;</term> tag. It functions as a near-equivalent to the impression or printing number of traditional publishing.
+			</para>
+			
+			<para>
+			As for changing the Edition number, we recommend changing this in the same circumstances traditional publishers change the edition of a work: when it is revised and re-written significantly. What constitutes significant, and how much re-writing is needed to increment an Edition number by a whole number and how much is needed to increment it by one-tenth of a whole number, is a matter of editorial discretion.
+			</para>
+
+		</section>
+		
 		<section id="sect-Publican-Files_in_the_Book_directory-Author_Group.xml">
 			<title>Author_Group.xml</title>
 			<para>
