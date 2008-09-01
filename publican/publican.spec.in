@@ -5,8 +5,8 @@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
-Version:	0.34
-Release:	0.t105%{?dist}
+Version:	0.35
+Release:	0%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -142,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Mon Aug 4 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
+* Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497
 - Fixed css path for tranlation reports.
 - Fixed font path for Fedora, ensured build fails if font metric creation fails. BZ #458003
@@ -156,6 +156,8 @@ rm -rf $RPM_BUILD_ROOT
 - Updated doco. BZ #458764
 - Updated Conventions.xml. BZ #456026 #459216
 - Made PDF and HTML display product version in similar style. BZ #456486
+- Remove ID's from common files. BZ #460770
+- Allowed footnote to keep ID. BZ #460790
 
 * Fri Apr 11 2008 Jeff Fearn <jfearn@redhat.com> 0.34-0
 - Fix PO file name missing from translation status report
