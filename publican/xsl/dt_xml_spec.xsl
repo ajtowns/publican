@@ -14,7 +14,7 @@
 Name:           <xsl:value-of select="$book-title"/>-<xsl:value-of select="$book-lang"/>
 Version:        <xsl:value-of select="$rpmver"/>
 Release:        <xsl:value-of select="$rpmrel"/>
-Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
+Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Group:          Documentation
 License:        OPL + Restrictions
 URL:            http://www.redhat.com/docs
@@ -24,7 +24,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: yelp
 
 %description
-<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
 %prep
 %setup -q
@@ -37,8 +37,8 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications/
 
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
-Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
-Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" />
+Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
 Exec=yelp %{_docdir}/%{name}-%{version}/<xsl:value-of select="$main-file"/>
 Icon=%{_docdir}/%{name}-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;

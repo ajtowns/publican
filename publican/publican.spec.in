@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.36
-Release:	0%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -144,6 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Sep 2 2008 Jeff Fearn <jfearn@redhat.com> 0.36-0
 - Fix Bug in web rpm upgrade script.
+- Fix Article not building rpms.
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497

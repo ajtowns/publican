@@ -12,7 +12,7 @@
 
 <!-- Note: do not indent this file!  Any whitespace here will be reproduced in the output -->
 
-<xsl:template match="/"><xsl:text>Name[</xsl:text><xsl:value-of select="$book-lang"/><xsl:text>]=</xsl:text><xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
+<xsl:template match="/"><xsl:text>Name[</xsl:text><xsl:value-of select="$book-lang"/><xsl:text>]=</xsl:text><xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 </xsl:template>
 
 </xsl:stylesheet>

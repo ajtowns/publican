@@ -16,7 +16,7 @@
 Name:           <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 Version:        <xsl:value-of select="$rpmver"/>
 Release:        <xsl:value-of select="$rpmrel"/>
-Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
+Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Group:          Documentation
 License:        OPL + Restrictions
 URL:            http://www.redhat.com/docs
@@ -31,10 +31,10 @@ Requires:	perl-Publican-WebSite
 Prefix:		/var/www/html/docs
 
 %description
-<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
 %package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
+Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Group:		Documentation
 %if %{HTMLVIEW}
 Requires:	htmlview
@@ -43,7 +43,7 @@ Requires:	xdg-utils
 %endif
 
 %description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
 %prep
 %setup -q
@@ -60,8 +60,8 @@ cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{prefix}/.
 
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.desktop &lt;&lt;'EOF'
 [Desktop Entry]
-Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/>
-Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" />
+Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
 Exec=htmlview %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
 Icon=%{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;

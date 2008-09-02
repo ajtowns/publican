@@ -15,7 +15,7 @@ Group: Documentation
 Requires: %{name}-<xsl:value-of select="$book-lang"/> = <xsl:value-of select="/bookinfo/issuenum" /><xsl:value-of select="/setinfo/issuenum" />-<xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" />
 
 %description -n %{name}-<xsl:value-of select="$trans-lang"/>
-<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" />
+<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
 #%post -n %{name}-<xsl:value-of select="$trans-lang"/> -p /usr/bin/scrollkeeper-update
 
