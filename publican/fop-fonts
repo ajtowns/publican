@@ -47,6 +47,18 @@ my %fontlist = (
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
+        'HGGothicB' => {
+            path   => '/usr/share/fonts/japanese/TrueType/HGJGBBMP.TTC',
+            ttc    => 'HGGothicB',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
+        'HGPGothicB' => {
+            path   => '/usr/share/fonts/japanese/TrueType/HGJGBBMP.TTC',
+            ttc    => 'HGPGothicB',
+            style  => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
         'LiberationMono-Regular' => {
             path  => '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
             style => ['normal'],
@@ -182,11 +194,11 @@ my %fontlist = (
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
-#        'SazanamiMincho' => {
-#            path  => '/usr/share/fonts/japanese/TrueType/sazanami-mincho.ttf',
-#            style => [ 'normal', 'italic' ],
-#            weight => [ 'normal', 'bold' ],
-#        },
+        'SazanamiMincho' => {
+            path  => '/usr/share/fonts/japanese/TrueType/sazanami-mincho.ttf',
+            style => [ 'normal', 'italic' ],
+            weight => [ 'normal', 'bold' ],
+        },
 #        'Uming' => {
 #            path   => '/usr/share/fonts/chinese/TrueType/uming.ttf',
 #            style  => [ 'normal', 'italic' ],
@@ -516,8 +528,13 @@ sub genfontmetrics {
 
     foreach my $name ( sort( keys( %{ $fontlist{$dist} } ) ) ) {
         my $path = $fontlist{$dist}{$name}{path};
-	warn("Generating metrics for: $path\n");
-        my $result = system("$ttfcommand -fn $name $path $metric_path/$name.xml");
+	warn("Generating metrics for: $name\n");
+        my $ttc = "";
+        if($fontlist{$dist}{$name}{ttc}) {
+            $ttc = "-ttcname " . $fontlist{$dist}{$name}{ttc};
+        }
+print( STDERR "$ttfcommand -fn $name $path $metric_path/$name.xml\n");
+        my $result = system("$ttfcommand -fn $name $ttc $path $metric_path/$name.xml");
 	croak("FAILED to create font metric for $name: $!") if($@ || $result);
     }
 }

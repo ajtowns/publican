@@ -218,13 +218,13 @@ my %MAP_OUT = (
     'arg'          => { 'block'         => 1 },
     'group'        => { 'block'         => 1 },
     'accel'        => {},
-    'blockquote' => { 'block' => 1 },
+    'blockquote' => { 'block'   => 1 },
     'classname'  => {},
     'code'       => {},
-    'colophon'   => { 'block' => 1 },
+    'colophon'   => { 'block'   => 1 },
     'envar'      => {},
-    'example'    => { 'block' => 1 },
-    'footnote'   => { 'keep_id'       => 1 },
+    'example'    => { 'block'   => 1 },
+    'footnote'   => { 'keep_id' => 1 },
     'guisubmenu' => {},
     'interface'  => {},
     'keycap'     => {},
@@ -375,8 +375,7 @@ sub PruneXML($) {
             while (
                 my $node = $xml_doc->look_down(
                     sub {
-                        $_[0]->attr('lang')
-                            && $_[0]->attr('lang') !~ ($lang);
+                        $_[0]->attr('lang') && $_[0]->attr('lang') !~ ($lang);
                     }
                 )
                 )
@@ -389,8 +388,7 @@ sub PruneXML($) {
             while (
                 my $node = $xml_doc->look_down(
                     sub {
-                        $_[0]->attr('arch')
-                            && $_[0]->attr('arch') !~ ($arch);
+                        $_[0]->attr('arch') && $_[0]->attr('arch') !~ ($arch);
                     }
                 )
                 )
@@ -410,6 +408,17 @@ sub PruneXML($) {
                 )
                 )
             {
+                $node->delete();
+            }
+        }
+
+        # lets delete all the empty para tags!
+        $xml_doc->pos( $xml_doc->root() );
+        foreach my $node ( $xml_doc->find_by_tag_name('para') ) {
+            if ( $node->as_text !~ /\S/ && $node->content_list <= 1 ) {
+                warn(
+                    qq{\n*WARNING: Removing empty para tag from build environment, this may break your build*\n\n}
+                );
                 $node->delete();
             }
         }

@@ -29,7 +29,7 @@
 <xsl:import href="defaults.xsl"/>
 <xsl:param name="alignment">
 	<xsl:choose>
-		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW'">
+		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW' or $l10n.gentext.language = 'ja-JP' or $l10n.gentext.language = 'ko-KR'">
 			<xsl:text>justify</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
@@ -48,7 +48,7 @@
 
 <xsl:param name="hyphenation-character">
 	<xsl:choose>
-		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW'">
+		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW' or $l10n.gentext.language = 'ja-JP' or $l10n.gentext.language = 'ko-KR'">
 			<xsl:text></xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
@@ -654,7 +654,7 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>SazanamiMincho,</xsl:text>
+				<xsl:text>SazanamiGothic,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
@@ -717,7 +717,7 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>SazanamiMincho,</xsl:text>
+				<xsl:text>SazanamiGothic,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
@@ -780,7 +780,7 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP'">
-				<xsl:text>SazanamiMincho,</xsl:text>
+				<xsl:text>SazanamiGothic,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR'">
 				<xsl:text>BaekmukBatang,</xsl:text>
@@ -1983,6 +1983,81 @@ Version:1.72
   <xsl:call-template name="gentext.space"/>
   <xsl:apply-templates mode="titlepage.mode"/>
 </fo:block>
+</xsl:template>
+
+<xsl:template name="article.titlepage.recto">
+  <xsl:choose>
+    <xsl:when test="articleinfo/productname">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.style" text-align="center" font-size="34pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}">
+	  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="articleinfo/productname"/>
+	  <xsl:text> </xsl:text>
+	  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="articleinfo/productnumber"/>
+</fo:block>
+    </xsl:when>
+  </xsl:choose>
+  <xsl:choose>
+    <xsl:when test="articleinfo/title">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/title"/>
+    </xsl:when>
+    <xsl:when test="artheader/title">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/title"/>
+    </xsl:when>
+    <xsl:when test="info/title">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/title"/>
+    </xsl:when>
+    <xsl:when test="title">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="title"/>
+    </xsl:when>
+  </xsl:choose>
+
+  <xsl:choose>
+    <xsl:when test="articleinfo/subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/subtitle"/>
+    </xsl:when>
+    <xsl:when test="artheader/subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/subtitle"/>
+    </xsl:when>
+    <xsl:when test="info/subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/subtitle"/>
+    </xsl:when>
+    <xsl:when test="subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="subtitle"/>
+    </xsl:when>
+  </xsl:choose>
+
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/corpauthor"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/corpauthor"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/corpauthor"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/authorgroup"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/authorgroup"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/authorgroup"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/author"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/author"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/author"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/othercredit"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/othercredit"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/othercredit"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/releaseinfo"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/releaseinfo"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/releaseinfo"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/copyright"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/copyright"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/copyright"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/legalnotice"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/legalnotice"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/legalnotice"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/pubdate"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/pubdate"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/pubdate"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/revision"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/revision"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/revision"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/revhistory"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/revhistory"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/revhistory"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/abstract"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/abstract"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/abstract"/>
 </xsl:template>
 
 </xsl:stylesheet>

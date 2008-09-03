@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.36
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -142,12 +142,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Sep 3 2008 Joshua Wulf <jwulf@redhat.com> 0.36-1
-- Changed docs reference from --revision to --edition for create_book option
-
-* Tue Sep 2 2008 Jeff Fearn <jfearn@redhat.com> 0.36-0
+* Wed Sep 3 2008 Jeff Fearn <jfearn@redhat.com> 0.36-3
 - Fix Bug in web rpm upgrade script.
 - Fix Article not building rpms.
+- Switch ja-JP  font name in pdf from SazanamiMincho to SazanamiGothic
+- Remove empty para tags to break en-US HTML build so writers stop breaking translations.
+- Changed docs reference from --revision to --edition for create_book option
+- Fixed Article layout not matching Book Layout. BZ #460969
+- Fixed Part not ledded properly in TOC BZ #460976
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497
