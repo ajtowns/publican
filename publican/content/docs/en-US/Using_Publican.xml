@@ -70,15 +70,15 @@
 				<term><filename>--version<replaceable> version</replaceable></filename></term>
 				<listitem>
 					<para>
-						replace <replaceable>version</replaceable> with the version number of the product that the book describes. For example, for Red Hat Enterprise Linux 5.1 you would use 5.1. The default version is 0.1. Using <command>--version <replaceable> version</replaceable></command> updates the <computeroutput>&lt;issuenum&gt;&lt;/issuenum&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file.
+						replace <replaceable>version</replaceable> with the version number of the product that the book describes. For example, for Red Hat Enterprise Linux 5.1 you would use 5.1. The default version is 0.1. Using <command>--version <replaceable> version</replaceable></command> updates the <computeroutput>&lt;issuenum&gt;&lt;/issuenum&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file. For more information see <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Info.xml"/>.
 					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><filename>--revision<replaceable> revision</replaceable></filename></term>
+				<term><filename>--edition<replaceable> edition</replaceable></filename></term>
 				<listitem>
 					<para>
-						replace <replaceable> revision</replaceable> with the revision number of the book. This number indicates to users when a new revision of the book is released. The initial GA release of the book should be revision 1.0. The default value is 0. Using <command>--revision<replaceable> revision</replaceable></command> updates the <computeroutput>&lt;productnumber&gt;&lt;/productnumber&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file.
+						replace <replaceable> edition</replaceable> with the edition number of the book. This number indicates to users when a new edition of the book is released. The initial GA release of the book should be edition 1.0. The default value is 0. Using <command>--edition<replaceable> edition</replaceable></command> updates the <computeroutput>&lt;edition&gt;&lt;/edition&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file. For more information see <xref linkend="sect-Publican-Files_in_the_Book_directory-Book_Info.xml"/>.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -484,7 +484,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			</important>
 			
 			<para>
-			If you define an entity &mdash; <sgmltag>&lt;!ENTITY LIFT "Liberty Installation and Formatting Tome"&gt;</sgmltag> &mdash; you can enter <sgmltag>&amp;LIFT&semi;</sgmltag> in your XML and it will appear as <emphasis>Liberty Installation and Formatting Tome</emphasis> every time the book is built to HTML, PDF or Text.
+			If you define an entity &mdash; <sgmltag>&lt;!ENTITY LIFT "Liberty Installation and Formatting Tome"&gt;</sgmltag> &mdash; you can enter <sgmltag>&amp;LIFT&semi;</sgmltag> in your XML and it will appear as <emphasis>The Secret to Eternal Life</emphasis> every time the book is built to HTML, PDF or Text.
 			</para>
 			
 			<para>
