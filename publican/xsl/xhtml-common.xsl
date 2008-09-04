@@ -46,7 +46,7 @@
 <xsl:param name="othercredit.like.author.enabled" select="0"/>
 <xsl:param name="email.delimiters.enabled">0</xsl:param>
 
-<xsl:param name="generate.id.attributes" select="1"/>
+<xsl:param name="generate.id.attributes" select="0"/>
 
 <!-- TOC -->
 <xsl:param name="section.autolabel" select="1"/>
@@ -344,7 +344,7 @@ Reason:  default class (otherwise) to formalpara
 Version: 1.72.0
 -->
 <xsl:template match="formalpara">
-	<xsl:call-template name="paragraph">
+	<!--xsl:call-template name="paragraph">
 		<xsl:with-param name="class">
 			<xsl:choose>
 				<xsl:when test="@role and $para.propagates.style != 0">
@@ -359,7 +359,8 @@ Version: 1.72.0
 			<xsl:call-template name="anchor"/>
 			<xsl:apply-templates/>
 		</xsl:with-param>
-	</xsl:call-template>
+	</xsl:call-template-->
+	<xsl:apply-templates/>
 </xsl:template>
 
 <!--
@@ -372,6 +373,10 @@ Version: 1.72.0
 			<xsl:apply-templates/>
 	</xsl:variable>
 	<h5 xmlns="http://www.w3.org/1999/xhtml" class="formalpara">
+      <xsl:call-template name="anchor">
+        <xsl:with-param name="node" select=".."/>
+        <xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template>
 		<xsl:copy-of select="$titleStr"/>
 	</h5>
 </xsl:template>

@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.36
-Release:	4%{?dist}
+Release:	4.t8%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -150,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 - Changed docs reference from --revision to --edition for create_book option
 - Fixed Article layout not matching Book Layout. BZ #460969
 - Fixed Part not ledded properly in TOC BZ #460976
+- Fix duplicate IDs in XHTML output.
+- Made background of remark a pretty yellow. BZ #459213
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497
