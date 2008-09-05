@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing Documentation
 Version:	0.36
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -142,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Sep 3 2008 Jeff Fearn <jfearn@redhat.com> 0.36-3
+* Wed Sep 3 2008 Jeff Fearn <jfearn@redhat.com> 0.36-6
 - Fix Bug in web rpm upgrade script.
 - Fix Article not building rpms.
 - Switch ja-JP  font name in pdf from SazanamiMincho to SazanamiGothic
@@ -153,6 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix duplicate IDs in XHTML output.
 - Made background of remark a pretty yellow. BZ #459213
 - Fix Accessibility typo. BZ #460856
+- Fix spurious hyphenation in verbatim.
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497

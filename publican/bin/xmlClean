@@ -762,7 +762,11 @@ sub my_as_XML($) {
                             if ( -f $node->attr('fileref') ) {
                                 my $cmd = '/usr/bin/identify -format "%w" '
                                     . $node->attr('fileref');
-                                if ( `$cmd` > $MAX_WIDTH ) {
+				my $size = `$cmd`;
+				if($@ || !$size) {
+                                    croak("Can't calculate image size of " . $node->attr('fileref') . ": $!");
+                                }
+                                if ( $size > $MAX_WIDTH ) {
                                     $node->attr( 'scalefit', '1' );
                                 }
                             }
