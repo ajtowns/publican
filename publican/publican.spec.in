@@ -4,7 +4,7 @@
 %define PREMOLESTATION @PREMOLESTATION@
 
 Name:		publican	
-Summary:	Common files and scripts for publishing Documentation
+Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.36
 Release:	6%{?dist}
 License:	GPLv2+ and GFDL
@@ -26,7 +26,7 @@ BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
 # FOP is required to build the font metrics.
-BuildRequires:	fop saxon
+BuildRequires:	fop saxon ImageMagick
 #BuildRequires:	xslthl
 # *&%^*&^ decided to rename font packages and change font paths.
 # No actual real changes.
@@ -58,7 +58,9 @@ Obsoletes:	documentation-devel < 0.26-3
 Obsoletes:	perl-SGML-Translate <= 0.37-3
 
 %description
-Common files and scripts for publishing documentation.
+Publican is a DocBook publication system, not just a DocBook processing tool.
+As well as ensuring your DocBook XML is valid, publican works to ensure
+your XML is up to publishable standard.
 
 %package doc
 Group:		Documentation
@@ -70,7 +72,10 @@ Requires:	xdg-utils
 %endif
 
 %description doc
-Documentation for the Publican publishing tool chain.
+Publican is a tool for publishing material authored in DocBook XML.
+This guide explains how to  to create and build books and articles
+using publican. It is not a DocBook XML tutorial and concentrates
+solely on using the publican tools.
 
 %prep
 %setup -q
