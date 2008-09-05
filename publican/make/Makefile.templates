@@ -498,6 +498,11 @@ tardir-${1}:: xml-${1} test-${1}
 	@cp Makefile tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/.
 	@sed -i -e 's/^XML_LANG.*$$$$/XML_LANG = ${1}/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
 	@sed -i -e 's/^IGNORED_TRANSLATIONS.*$$$$//' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
+	@sed -i -e 's/^XML_LANG/T_DOCNAME = $(DOCNAME)\nXML_LANG/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
+	@sed -i -e 's/^XML_LANG/T_PRODUCT = $(PRODUCT)\nXML_LANG/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
+	@sed -i -e 's/^XML_LANG/T_PROD_VERSION = $(PROD_VERSION)\nXML_LANG/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
+	@sed -i -e 's/^XML_LANG/T_RPM_RELEASE = $(RPM_RELEASE)\nXML_LANG/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
+	@sed -i -e 's/^XML_LANG/${1}_RPM_RELEASE = $(${1}_RPM_RELEASE)\nXML_LANG/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
 	@echo "END: tardir-${1} `date`"
 endef
 

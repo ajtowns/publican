@@ -40,6 +40,24 @@ BOOKNAME	= $(shell echo $(DOCNAME) | sed -e 's/_/ /g')
 
 PRODUCT		?= Documentation
 
+#### GAH! Dirty hack to Override values for use in building translated RPMs ###
+### Required because the real variables where used in older versions
+ifdef T_DOCNAME
+DOCNAME = $(T_DOCNAME)
+endif
+
+ifdef T_PRODUCT
+PRODUCT = $(T_PRODUCT)
+endif
+
+ifdef T_PROD_VERSION
+PROD_VERSION = $(T_PROD_VERSION)
+endif
+
+ifdef T_RPM_RELEASE
+RPM_RELEASE = $(T_RPM_RELEASE)
+endif
+
 ###############################################################################
 ###############################################################################
 
@@ -171,8 +189,10 @@ pre::
 ###############################################################################
 ### Special Place in hell for Jeff ###
 ###############################################################################
+ifndef $(XML_LANG)_RPM_RELEASE
 $(foreach L,$(OTHER_LANGS),$(eval ${L}_RPM_RELEASE = $(shell grep Project-Id-Version ${L}/$(DOC_TYPE)_Info.po | sed -e 's/^.*: \(.*\)\\n.*$$/\1/' )))
 $(XML_LANG)_RPM_RELEASE = $(RPM_RELEASE)
+endif
 
 ###############################################################################
 ### Build XML ###
