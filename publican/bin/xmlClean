@@ -625,7 +625,7 @@ sub PrintXML($) {
 
         open( OUTDOC, ">:utf8", "$out_file" )
             || croak("Could not open $out_file for output!\n");
-        print( OUTDOC q|<?xml version='1.0'?>| . "\n" );
+        print( OUTDOC q|<?xml version='1.0' encoding='utf-8' ?>| . "\n" );
         print(    OUTDOC q|<!DOCTYPE | 
                 . $type
                 . qq| PUBLIC "-//OASIS//DTD DocBook XML V$dtdver//EN" "http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd" [|

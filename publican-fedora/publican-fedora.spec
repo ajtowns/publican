@@ -3,7 +3,7 @@
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
 Version:	0.14
-Release:	0%{?dist}
+Release:	0.t1%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -49,7 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
-* Tue Sep 9 2008 Murray McAllister <mmcallis@redhat.com> 0.15-0
+* Tue Sep 9 2008 Jeff Fearn <jfearn@redhat.com> 0.15
+- Removed corpauthor from template. BZ #461222
 - Updated Fedora legal notice. BZ #448022
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.14-0

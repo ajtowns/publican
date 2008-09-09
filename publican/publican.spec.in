@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.36
-Release:	7.t1%{?dist}
+Release:	7.t3%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -161,6 +161,9 @@ rm -rf $RPM_BUILD_ROOT
 - Fix spurious hyphenation in verbatim.
 - Fix broken RPM packages when titles have been translated.
 - Fix display bug in html-single. BZ #461375
+- Added FAQ entry for Java weirdness. BZ #460738
+- Add default encoding to XML files. BZ #461379
+- Removed corpauthor from template. BZ #461222
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497
