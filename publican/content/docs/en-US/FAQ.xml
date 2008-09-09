@@ -223,6 +223,24 @@
 		<qandaentry>
 			<question>
 				<para>
+					I get an error saying Batik is not in the classpath but batik is installed! What is wrong?
+				</para>
+			</question>
+			<answer>
+				<para>
+					We believe this is due to classpath issues caused by having different JRE and JDK versions installed. Sometimes this can be fixed by upgrading your JDK to the same version of your JRE.
+				</para>
+				<para>
+					Sometimes this issue can be revealed by running <command>alternatives --config java</command> and <command>alternatives --config javac</command>, if the versions are different then selecting the same version in both can fix this problem.
+				</para>
+				<para>
+					Some Java installs do not set-up the <command>alternatives</command> environment correctly, no fix has been determined for this situation.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
 					Why does Jeff call Isaac Ivan?
 				</para>
 			</question>
