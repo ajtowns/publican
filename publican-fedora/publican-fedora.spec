@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Tue Sep 9 2008 Murray McAllister <mmcallis@redhat.com> 0.15-0
+- Updated Fedora legal notice. BZ #448022
+
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.14-0
 - Fix styles for publican 0.35 mods
 - Removed common entity files as they break translation
