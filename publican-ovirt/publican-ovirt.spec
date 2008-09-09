@@ -2,8 +2,8 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	0.3
-Release:	0.t1%{?dist}
+Version:	0.4
+Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -50,6 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Sep 9 2008 Jeff Fearn <jfearn@redhat.com> 0.4
 - Removed corpauthor from template. BZ #461222
+- Removed OPL restriction. BZ #460268
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.3-0
 - Fix styles for publican 0.35 mods
