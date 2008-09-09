@@ -2,8 +2,8 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.14
-Release:	1.t1%{?dist}
+Version:	0.15
+Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
