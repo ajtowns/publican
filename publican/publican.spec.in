@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.37
-Release:	0%{?dist}
+Release:	0.t10%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -147,6 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Fri Sep 19 2008 Jeff Fearn <jfearn@redhat.com> 0.38
+- Fix inline tags removing following new line in verbatim tags. BZ #461369
+
 * Wed Sep 3 2008 Jeff Fearn <jfearn@redhat.com> 0.37
 - Fix Bug in web rpm upgrade script.
 - Fix Article not building rpms.

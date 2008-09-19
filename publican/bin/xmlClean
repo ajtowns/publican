@@ -743,7 +743,9 @@ sub my_as_XML($) {
                         push( @xml, "\n", $indent x $depth );
                     }
 
-                    if ( $MAP_OUT{$tag}->{'block'} ) {
+                    if($MAP_OUT{$tag}->{'verbatim'}) {
+                        push( @xml, "\n" );
+                    } elsif ( $MAP_OUT{$tag}->{'block'} ) {
 
                    # Check to make sure the block is starting on it's own line
                    # If not add a new line and indent
@@ -752,7 +754,7 @@ sub my_as_XML($) {
                         }
                         $depth++;
                     }
-
+# TODO Should this should check to see if the tag has text content? Some tags can optionally be empty!
                     if ( $empty_element_map->{$tag} ) {
                         if ( $tag eq 'imagedata' ) {
                             $node->attr('fileref') =~ m/(...)$/;
@@ -780,24 +782,6 @@ sub my_as_XML($) {
                         }
                     }
                     else {
-
-                      # remove previous line if it's empty and we are verbatim
-                        if ($MAP_OUT{$tag}->{'verbatim'}
-                            || (   $node->parent()
-                                && $MAP_OUT{ $node->parent()->{'_tag'} }
-                                ->{'verbatim'} )
-                            )
-                        {
-                            my $prev = pop(@xml);
-
-                  # BZ #453067 but spaces between inline tags should be output
-                            if (   $prev
-                                && ( $prev =~ /\S/ || $prev !~ /\n/ )
-                                && !$MAP_OUT{$tag}->{'verbatim'} )
-                            {
-                                push( @xml, $prev );
-                            }
-                        }
                         push( @xml, $node->starttag_XML(undef) );
                     }
 
@@ -834,7 +818,6 @@ sub my_as_XML($) {
                             $xml[$#xml] =~ s/\s*$//;
                         }
 
-                        $depth--;
                         if (!( $MAP_OUT{$tag}->{'left_justify_child'} )
                             && (!( $node->parent() )
                                 || !(
@@ -847,9 +830,10 @@ sub my_as_XML($) {
                             if ( $MAP_OUT{$tag}->{'block'} ) {
                                 if ( $MAP_OUT{$tag}->{'verbatim'} ) {
 
-                      #                                    push( @xml, "\n" );
+                                    push( @xml, "\n" );
                                 }
                                 else {
+                                    $depth--;
                                     push( @xml, "\n", $indent x $depth );
                                 }
                             }
@@ -928,21 +912,8 @@ sub my_as_XML($) {
                     }
                 }
                 else {    # Verbatim
-                    if ( $node =~ /\n/ ) {
-                        my $real_content = 0;
-                        foreach my $line ( split( "\n", $node ) ) {
-
-                            # Chop of leading white space in verbatims
-                            next if ( !$real_content && $line eq '' );
-                            $real_content = 1;
-                            $self->_xml_escape($line);
-                            push( @xml, $line, "\n" );
-                        }
-                    }
-                    else {
-                        $self->_xml_escape($node);
-                        push( @xml, $node );
-                    }
+                    $self->_xml_escape($node);
+                    push( @xml, $node );
                 }
             }
             1;    # keep traversing

@@ -89,6 +89,8 @@
 <xsl:param name="xslthl.html.color">#002F5D</xsl:param>
 <xsl:param name="xslthl.xslt.color">#00774B</xsl:param>
 <xsl:param name="xslthl.section.color">#00774B</xsl:param>
+<xsl:param name="xslthl.directive.color">#002F5D</xsl:param>
+<xsl:param name="xslthl.doctype.color">#002F5D</xsl:param>
 <!--xsl:param name="xslthl..color"></xsl:param-->
 
 <xsl:attribute-set name="xref.properties">
@@ -1901,6 +1903,14 @@ Version:1.72
 
 <xsl:template match='xslthl:section'>
   <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.section.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:directive'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.directive.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:doctype'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.doctype.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
 </xsl:template>
 
 <xsl:template match="varlistentry" mode="vl.as.blocks">

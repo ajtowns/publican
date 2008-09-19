@@ -723,6 +723,14 @@ Version: 1.72.0
   <span class="hl-section"><xsl:apply-templates/></span>
 </xsl:template>
 
+<xsl:template match="xslthl:directive">
+  <span class="hl-directive"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:doctype">
+  <span class="hl-doctype"><xsl:apply-templates/></span>
+</xsl:template>
+
 <xsl:template match="productnumber" mode="book.titlepage.recto.auto.mode">
 <xsl:apply-templates select="." mode="book.titlepage.recto.mode"/>
 </xsl:template>
