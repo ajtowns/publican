@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-08-27 06:29+0000\n"
+"POT-Creation-Date: 2008-09-29 04:47+0000\n"
 "PO-Revision-Date: 2007-10-23 16:54+1000\n"
 "Last-Translator: Terry Chuang <terry.chuang@redhat.com>\n"
 "Language-Team: Traditional Chinese <zh-TW@li.org>\n"
@@ -23,100 +23,70 @@ msgstr "文件常規"
 #: Conventions.xml:7
 #, no-c-format
 msgid ""
-"This manual uses several type and presentation conventions to highlight "
-"certain words and phrases and specific important pieces of information."
+"This manual uses several conventions to highlight certain words and phrases "
+"and draw attention to specific pieces of information."
+msgstr ""
+
+#. Tag: para
+#: Conventions.xml:11
+#, no-c-format
+msgid ""
+"In PDF and paper editions, this manual uses typefaces drawn from the <ulink "
+"url=\"https://fedorahosted.org/liberation-fonts/\">Liberation Fonts</ulink> "
+"set. The Liberation Fonts set is also used in HTML editions if the set is "
+"installed on your system. If not, alternative but equivalent typefaces are "
+"displayed. Note: Red Hat Enterprise Linux 5 and later includes the "
+"Liberation Fonts set by default."
 msgstr ""
 
 #. Tag: title
-#: Conventions.xml:12
+#: Conventions.xml:16
 #, fuzzy, no-c-format
 msgid "Typographic Conventions"
 msgstr "文件常規"
 
 #. Tag: para
-#: Conventions.xml:14
+#: Conventions.xml:18
 #, no-c-format
 msgid ""
 "Four typographic conventions are used to call attention to specific words "
-"and phrases. These conventions, and the types of phrases they apply to, are "
-"as follows."
+"and phrases. These conventions, and the circumstances they apply to, are as "
+"follows."
 msgstr ""
 
 #. Tag: literal
-#: Conventions.xml:19
+#: Conventions.xml:23
 #, no-c-format
 msgid "Mono-spaced Bold"
 msgstr ""
 
 #. Tag: para
-#: Conventions.xml:22
+#: Conventions.xml:26
 #, no-c-format
 msgid ""
-"This denotes words and phrases that will or could be input on a system, "
-"including shell commands, file names and paths. It is also used to highlight "
-"key caps and key-combinations you can press as shortcuts. For example:"
-msgstr ""
-
-#. Tag: para
-#: Conventions.xml:27
-#, no-c-format
-msgid ""
-"To see the contents of the file <filename>my_next_bestselling_novel</"
-"filename> in your current working directory, enter the <command>cat "
-"my_next_bestselling_novel</command> command at the shell prompt and press "
-"<keycap>Enter</keycap> to execute the command."
-msgstr ""
-
-#. Tag: para
-#: Conventions.xml:31
-#, no-c-format
-msgid ""
-"A useful shortcut for the above command (and many others) is <keycap>Tab</"
-"keycap> completion. Type <command>cat my_</command> and then press the "
-"<keycap>Tab</keycap> key. Assuming there are no other files in the current "
-"directory which begin with 'my_', the rest of the file name will be entered "
-"on the command line for you."
-msgstr ""
-
-#. Tag: para
-#: Conventions.xml:35
-#, no-c-format
-msgid ""
-"(If other file names begin with 'my_', pressing the <keycap>Tab</keycap> key "
-"expands the file name to the point the names differ. Press <keycap>Tab</"
-"keycap> again to see all the files that match. Type enough of the file name "
-"you want to include on the command line to distinguish the file you want "
-"from the others and press <keycap>Tab</keycap> again.)"
-msgstr ""
-
-#. Tag: para
-#: Conventions.xml:40
-#, no-c-format
-msgid ""
-"The above includes a file name, a shell command and two key caps, all "
-"distinctly presented in Mono-spaced Bold and all distinguishable thanks to "
-"context."
-msgstr ""
-
-#. Tag: para
-#: Conventions.xml:43
-#, no-c-format
-msgid ""
-"Key-combinations can be distinguished from key caps by the hyphen connecting "
-"each part of a key-combination. For example:"
+"Used to highlight system input, including shell commands, file names and "
+"paths. Also used to highlight key caps and key-combinations. For example:"
 msgstr ""
 
 #. Tag: section
-#: Conventions.xml:45
+#: Conventions.xml:28
 #, no-c-format
 msgid ""
-"<blockquote> <para> Press <keycap>Enter</keycap> to execute the command. </"
-"para> <para> Press <keycombo><keycap>Ctrl</keycap><keycap>Alt</"
-"keycap><keycap>F1</keycap></keycombo> to switch to the first virtual "
-"terminal. Press <keycombo><keycap>Ctrl</keycap><keycap>Alt</"
+"<blockquote> <para> To see the contents of the file "
+"<filename>my_next_bestselling_novel</filename> in your current working "
+"directory, enter the <command>cat my_next_bestselling_novel</command> "
+"command at the shell prompt and press <keycap>Enter</keycap> to execute the "
+"command. </para> </blockquote> <para> The above includes a file name, a "
+"shell command and a key cap, all presented in Mono-spaced Bold and all "
+"distinguishable thanks to context. </para> <para> Key-combinations can be "
+"distinguished from key caps by the hyphen connecting each part of a key-"
+"combination. For example: </para> <blockquote> <para> Press <keycap>Enter</"
+"keycap> to execute the command. </para> <para> Press <keycombo><keycap>Ctrl</"
+"keycap><keycap>Alt</keycap><keycap>F1</keycap></keycombo> to switch to the "
+"first virtual terminal. Press <keycombo><keycap>Ctrl</keycap><keycap>Alt</"
 "keycap><keycap>F7</keycap></keycombo> to return to your X-Windows session. </"
-"para> </blockquote> <para> The first sentence above highlights a specific "
-"key cap to press. The second highlights two sets of three keys, each set "
+"para> </blockquote> <para> The first sentence highlights the particular key "
+"cap to press. The second highlights two sets of three key caps, each set "
 "pressed simultaneously. </para> <para> If source code is discussed, class "
 "names, methods, functions, variable names and returned values mentioned "
 "within a paragraph will be presented as above, in <literal>Mono-spaced Bold</"
@@ -124,106 +94,75 @@ msgid ""
 "include <classname>filesystem</classname> for file systems, <classname>file</"
 "classname> for files, and <classname>dir</classname> for directories. Each "
 "class has its own associated set of permissions. </para> </blockquote> "
-"<para> In PDF and paper editions, a specific typeface is used: <literal>12-"
-"point Liberation Mono Bold</literal>. This typeface is also used in HTML "
-"editions, if the <ulink url=\"https://fedorahosted.org/liberation-fonts/"
-"\">Liberation Fonts</ulink> are installed on your system: an equivalent mono-"
-"spaced bold face is used otherwise. Note: Red Hat Enterprise Linux 5 and "
-"later include the Liberation Fonts set by default. </para> <para> "
-"<application>Proportional Bold</application> </para> <para> This style "
-"denotes words or phrases you will encounter on a system. This includes "
-"application names; dialogue box text; labelled buttons; check-box and radio "
-"button labels; menu titles and sub-menu titles. For example: </para> "
-"<blockquote> <para> Choose <guimenu>System > Preferences > Mouse</guimenu> "
-"from the main menu bar to launch the <application>Mouse Preferences</"
-"application> utility. In the <guilabel>Buttons</guilabel> tab, click the "
-"<guilabel>Left-handed mouse</guilabel> check box and click <guibutton>Close</"
-"guibutton> to switch the primary mouse button from the left to the right "
-"(making the mouse suitable for use in the left hand). </para> <para> To "
-"insert a special character into a <application>gedit</application> file, "
-"choose <guimenu>Applications > Accessories > Character Map</guimenu> from "
-"the main menu bar. Next, choose <guimenu>Search > Find&hellip;</guimenu> "
-"from the <application>Character Map</application> menu bar, type the name of "
-"the character in the <guilabel>Search</guilabel> field and click "
-"<guibutton>Next</guibutton>. The character you sought will be highlighted in "
-"the <guilabel>Character Table</guilabel>. Double-click this highlighted "
-"character to place it in the <guilabel>Text to copy</guilabel> field and "
-"then click the <guibutton>Copy</guibutton> button. Now switch back to your "
-"document and choose <guimenu>Edit > Paste</guimenu> from the "
-"<application>gedit</application> menu bar. </para> </blockquote> <para> The "
-"above text includes application names; system-wide menu names and items; "
-"application-specific menu names; and buttons and text found within a GUI "
-"interface, all distinctly presented in Proportional Bold and all "
-"distinguishable by context. </para> <para> Note the <guimenu>></guimenu> "
+"<para> <application>Proportional Bold</application> </para> <para> This "
+"denotes words or phrases encountered on a system, including application "
+"names; dialogue box text; labelled buttons; check-box and radio button "
+"labels; menu titles and sub-menu titles. For example: </para> <blockquote> "
+"<para> Choose <guimenu>System > Preferences > Mouse</guimenu> from the main "
+"menu bar to launch <application>Mouse Preferences</application>. In the "
+"<guilabel>Buttons</guilabel> tab, click the <guilabel>Left-handed mouse</"
+"guilabel> check box and click <guibutton>Close</guibutton> to switch the "
+"primary mouse button from the left to the right (making the mouse suitable "
+"for use in the left hand). </para> <para> To insert a special character into "
+"a <application>gedit</application> file, choose <guimenu>Applications > "
+"Accessories > Character Map</guimenu> from the main menu bar. Next, choose "
+"<guimenu>Search > Find&hellip;</guimenu> from the <application>Character "
+"Map</application> menu bar, type the name of the character in the "
+"<guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The "
+"character you sought will be highlighted in the <guilabel>Character Table</"
+"guilabel>. Double-click this highlighted character to place it in the "
+"<guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</"
+"guibutton> button. Now switch back to your document and choose <guimenu>Edit "
+"> Paste</guimenu> from the <application>gedit</application> menu bar. </"
+"para> </blockquote> <para> The above text includes application names; system-"
+"wide menu names and items; application-specific menu names; and buttons and "
+"text found within a GUI interface, all presented in Proportional Bold and "
+"all distinguishable by context. </para> <para> Note the <guimenu>></guimenu> "
 "shorthand used to indicate traversal through a menu and its sub-menus. This "
-"is to avoid the verbose and difficult-to-follow 'Select <guimenuitem>Mouse</"
-"guimenuitem> from the <guimenu>Preferences</guimenu> sub-menu in the "
-"<guimenu>System</guimenu> menu of the main menu bar' approach. </para> "
-"<para> In PDF and paper editions, a specific typeface is used: "
-"<application>12-point Liberation Sans Bold</application>. This typeface is "
-"also used in HTML editions, if the <ulink url=\"https://fedorahosted.org/"
-"liberation-fonts/\">Liberation Fonts</ulink> are installed on your system: "
-"an equivalent proportional bold face is used otherwise. Note: Red Hat "
-"Enterprise Linux 5 and later include the Liberation Fonts set by default. </"
-"para> <para> <replaceable>Mono-spaced Bold Italic</replaceable> </para> "
-"<para> This style denotes replaceable or variable text. It it used to denote "
-"text you do not input literally or displayed text that changes depending on "
-"circumstance. For example: </para> <blockquote> <para> To connect to a "
-"remote machine using ssh, type <command>ssh <replaceable>username</"
-"replaceable>@<replaceable>domain.name</replaceable></command> at a shell "
-"prompt. If the remote machine is <filename>example.com</filename> and your "
-"username on that machine is john, you type <command>ssh john@example.com</"
-"command>. </para> <para> The <command>mount -o remount</command> "
-"<replaceable>file-system</replaceable> command remount the named file "
-"system. For example, to remount the <filename>/home</filename> file system, "
-"the command is <command>mount -o remount /home</command>. </para> <para> To "
-"see the version of a currently installed package, use the <command>rpm -q "
-"<replaceable>package</replaceable></command> command. It will return a "
-"result as follows: <replaceable>package-version-release</replaceable>. </"
-"para> </blockquote> <para> Note the words in bold italics above &mdash; "
-"username, domain.name, file-system, package, version and release. Each word "
-"is a placeholder, either for text you would replace with specific examples "
-"when entering a command or for specific text that would be displayed by the "
-"system. </para> <para> In PDF and paper editions, a specific typeface is "
-"used: <replaceable>12-point Liberation Mono Bold Italic</replaceable>. This "
-"typeface is also used in HTML editions, if the <ulink url=\"https://"
-"fedorahosted.org/liberation-fonts/\">Liberation Fonts</ulink> are installed "
-"on your system: an equivalent proportional bold italic face is used "
-"otherwise. Note: Red Hat Enterprise Linux 5 and later include the Liberation "
-"Fonts set by default. </para> <para> <firstterm>Proportional Italic</"
-"firstterm> </para> <para> Aside from standard usage as a marker for the "
-"formal title of a work (eg a book title), italic is used to denote the first "
-"time a new and important term is used. For example: </para> <blockquote> "
-"<para> When the Apache HTTP Server accepts requests, it dispatches child "
-"processes or threads to handle them. This group of child processes or "
-"threads is known as a <firstterm>server-pool</firstterm>. Under Apache HTTP "
-"Server 2.0, the responsibility for creating and maintaining these server-"
-"pools has been abstracted to a group of modules called <firstterm>Multi-"
-"Processing Modules</firstterm> (<firstterm>MPMs</firstterm>). Unlike other "
-"modules, only one module from the MPM group can be loaded by the Apache HTTP "
-"Server. </para> </blockquote>"
-msgstr ""
-
-#. Tag: para
-#: Conventions.xml:149
-#, no-c-format
-msgid ""
-"In PDF and paper editions, a specific typeface is used: <firstterm>12-point "
-"Liberation Italic</firstterm>. This typeface is also used in HTML editions, "
-"if the <ulink url=\"https://fedorahosted.org/liberation-fonts/\">Liberation "
-"Fonts</ulink> are installed on your system: an equivalent proportional "
-"italic face is used otherwise. Note: Red Hat Enterprise Linux 5 and later "
-"include the Liberation Fonts set by default."
+"is to avoid the difficult-to-follow 'Select <guimenuitem>Mouse</guimenuitem> "
+"from the <guimenu>Preferences</guimenu> sub-menu in the <guimenu>System</"
+"guimenu> menu of the main menu bar' approach. </para> <para> "
+"<command><replaceable>Mono-spaced Bold Italic</replaceable></command> or "
+"<application><replaceable>Proportional Bold Italic</replaceable></"
+"application> </para> <para> Whether Mono-spaced Bold or Proportional Bold, "
+"the addition of Italics indicates replaceable or variable text. Italics "
+"denotes text you do not input literally or displayed text that changes "
+"depending on circumstance. For example: </para> <blockquote> <para> To "
+"connect to a remote machine using ssh, type <command>ssh "
+"<replaceable>username</replaceable>@<replaceable>domain.name</replaceable></"
+"command> at a shell prompt. If the remote machine is <filename>example.com</"
+"filename> and your username on that machine is john, type <command>ssh "
+"john@example.com</command>. </para> <para> The <command>mount -o remount "
+"<replaceable>file-system</replaceable></command> command remounts the named "
+"file system. For example, to remount the <filename>/home</filename> file "
+"system, the command is <command>mount -o remount /home</command>. </para> "
+"<para> To see the version of a currently installed package, use the "
+"<command>rpm -q <replaceable>package</replaceable></command> command. It "
+"will return a result as follows: <command><replaceable>package-version-"
+"release</replaceable></command>. </para> </blockquote> <para> Note the words "
+"in bold italics above &mdash; username, domain.name, file-system, package, "
+"version and release. Each word is a placeholder, either for text you enter "
+"when issuing a command or for text displayed by the system. </para> <para> "
+"Aside from standard usage for presenting the title of a work, italics "
+"denotes the first use of a new and important term. For example: </para> "
+"<blockquote> <para> When the Apache HTTP Server accepts requests, it "
+"dispatches child processes or threads to handle them. This group of child "
+"processes or threads is known as a <firstterm>server-pool</firstterm>. Under "
+"Apache HTTP Server 2.0, the responsibility for creating and maintaining "
+"these server-pools has been abstracted to a group of modules called "
+"<firstterm>Multi-Processing Modules</firstterm> (<firstterm>MPMs</"
+"firstterm>). Unlike other modules, only one module from the MPM group can be "
+"loaded by the Apache HTTP Server. </para> </blockquote>"
 msgstr ""
 
 #. Tag: title
-#: Conventions.xml:156
+#: Conventions.xml:132
 #, fuzzy, no-c-format
 msgid "Pull-quote Conventions"
 msgstr "文件常規"
 
 #. Tag: para
-#: Conventions.xml:158
+#: Conventions.xml:134
 #, no-c-format
 msgid ""
 "Two, commonly multi-line, data types are set off visually from the "
@@ -231,7 +170,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conventions.xml:162
+#: Conventions.xml:138
 #, no-c-format
 msgid ""
 "Output sent to a terminal is set in <computeroutput>Mono-spaced Roman</"
@@ -239,7 +178,7 @@ msgid ""
 msgstr ""
 
 #. Tag: screen
-#: Conventions.xml:166
+#: Conventions.xml:142
 #, no-c-format
 msgid ""
 "books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
@@ -247,7 +186,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conventions.xml:168
+#: Conventions.xml:144
 #, no-c-format
 msgid ""
 "Source-code listings are also set in <computeroutput>Mono-spaced Roman</"
@@ -255,7 +194,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Conventions.xml:172
+#: Conventions.xml:148
 #, no-c-format
 msgid ""
 "package org.jboss.book.jca.ex1;\n"
@@ -280,76 +219,63 @@ msgid ""
 "}"
 msgstr ""
 
-#. Tag: para
-#: Conventions.xml:174
-#, no-c-format
-msgid ""
-"As with the in-line conventions,a specific typeface is used in PDF and print "
-"editions: <computeroutput>12-point Liberation Mono</computeroutput>. Again, "
-"as with in-line styles, if the <ulink url=\"https://fedorahosted.org/"
-"liberation-fonts/\">Liberation Fonts</ulink> are installed on your system, "
-"the same typeface is used in HTML editions: an equivalent mono-spaced roman "
-"face will be displayed otherwise."
-msgstr ""
-
 #. Tag: title
-#: Conventions.xml:180
+#: Conventions.xml:153
 #, no-c-format
 msgid "Notes and Warnings"
 msgstr ""
 
 #. Tag: para
-#: Conventions.xml:182
+#: Conventions.xml:155
 #, no-c-format
 msgid ""
-"Finally, we use three distinct visual styles to highlight certain "
-"information nuggets."
+"Finally, we use three visual styles to draw attention to information that "
+"might otherwise be overlooked."
 msgstr ""
 
 #. Tag: title
-#: Conventions.xml:187
+#: Conventions.xml:160
 #, no-c-format
 msgid "Note"
 msgstr "Note（註解）"
 
 #. Tag: para
-#: Conventions.xml:188
+#: Conventions.xml:161
 #, no-c-format
 msgid ""
-"A note is a useful information tidbit: a tip or shortcut or an alternative "
-"approach to the task at hand. Ignoring a note should have no negative "
-"consequences, but you might miss out on a trick that makes your life easier."
+"A note is a tip or shortcut or alternative approach to the task at hand. "
+"Ignoring a note should have no negative consequences, but you might miss out "
+"on a trick that makes your life easier."
 msgstr ""
 
 #. Tag: title
-#: Conventions.xml:194
+#: Conventions.xml:167
 #, no-c-format
 msgid "Important"
 msgstr "Important（重要）"
 
 #. Tag: para
-#: Conventions.xml:195
+#: Conventions.xml:168
 #, no-c-format
 msgid ""
-"The Important information box highlights details that are easily missed: "
-"such as configuration changes that only apply to the current session, or "
-"services that need restarting before an update will apply. Ignoring "
-"important information won't cause data loss but may cause irritation and "
-"frustration."
+"Important boxes detail things that are easily missed: configuration changes "
+"that only apply to the current session, or services that need restarting "
+"before an update will apply. Ignoring Important boxes won't cause data loss "
+"but may cause irritation and frustration."
 msgstr ""
 
 #. Tag: title
-#: Conventions.xml:202
+#: Conventions.xml:175
 #, no-c-format
 msgid "Warning"
 msgstr "Warning（警告）"
 
 #. Tag: para
-#: Conventions.xml:203
+#: Conventions.xml:176
 #, no-c-format
 msgid ""
-"A Warning highlights vital information that must not be ignored. Ignoring "
-"warnings will most likely cause data loss."
+"A Warning should not be ignored. Ignoring warnings will most likely cause "
+"data loss."
 msgstr ""
 
 #~ msgid ""
