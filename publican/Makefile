@@ -117,7 +117,7 @@ update-pot:
 	@make -C content/docs update-pot
 	@echo "End $@"
 
-SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/$(NAME)/1.0/GUI_Strings
+SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/publican-common/1.0
 
 resync-po:: clean
 	@echo "Start $@"
