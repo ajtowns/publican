@@ -2102,4 +2102,34 @@ Version:1.72
   </xsl:if>
 </xsl:template>
 
+<xsl:template match="orderedlist/listitem">
+  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+
+  <xsl:variable name="item.contents">
+    <fo:list-item-label end-indent="label-end()" xsl:use-attribute-sets="orderedlist.label.properties">
+      <fo:block>
+        <xsl:apply-templates select="." mode="item-number"/>
+      </fo:block>
+    </fo:list-item-label>
+    <fo:list-item-body start-indent="body-start()">
+      <fo:block margin-left="6pt">
+        <xsl:apply-templates/>
+      </fo:block>
+    </fo:list-item-body>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="parent::*/@spacing = 'compact'">
+      <fo:list-item id="{$id}" xsl:use-attribute-sets="compact.list.item.spacing">
+        <xsl:copy-of select="$item.contents"/>
+      </fo:list-item>
+    </xsl:when>
+    <xsl:otherwise>
+      <fo:list-item id="{$id}" xsl:use-attribute-sets="list.item.spacing">
+        <xsl:copy-of select="$item.contents"/>
+      </fo:list-item>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 </xsl:stylesheet>
