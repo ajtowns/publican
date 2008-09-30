@@ -166,6 +166,11 @@ Version: 1.72.0
               <xsl:with-param name="class" select="@role"/>
             </xsl:apply-templates>
           </xsl:if>
+          <xsl:if test="@numeration">
+            <xsl:apply-templates select="." mode="class.attribute">
+              <xsl:with-param name="class" select="@numeration"/>
+            </xsl:apply-templates>
+          </xsl:if>
           <xsl:apply-templates select="listitem | comment()[preceding-sibling::listitem] | processing-instruction()[preceding-sibling::listitem]"/>
 		</ol>
 	</div>
