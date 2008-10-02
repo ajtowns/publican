@@ -3,18 +3,20 @@
 <head>
 	<title><TMPL_VAR name="title"></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="generator" content="publican"/>
 	<link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" />
 </head>
 <body class="reports">
 	<h1><TMPL_VAR name="title"></h1>
+	<p id="powered"><strong>Publican Translation Report</strong></p>
 	<ul class="locale">
 	<TMPL_LOOP NAME="locales">
 		<li>
-			<h3 class="pofile"><a href="<TMPL_VAR name="lang">.html"><TMPL_VAR name="lang"> <TMPL_VAR name="name"></a></h3>
+			<h3 class="pofile"><a href="<TMPL_VAR name="lang">.html"><TMPL_VAR name="name"> (<TMPL_VAR name="lang">)</a></h3>
 			<dl>
 				<dt class="fuzzy">Fuzzy:</dt> <dd class="fuzzy"><TMPL_VAR name="hours_fuzzy"></dd>
 				<dt class="untranslated">Untranslated:</dt> <dd class="untranslated"><TMPL_VAR name="hours_untranslated"></dd>
-				<dt class="remaining">Remaining:</st> <dd class="remaining"><TMPL_VAR name="hours_remaining"></dd>
+				<dt class="remaining">Remaining:</dt> <dd class="remaining"><TMPL_VAR name="hours_remaining"></dd>
 			</dl>
 			<div class="progress">
 				<span class="translated" style="width:<TMPL_VAR name="hours_translated_pct">%"></span>

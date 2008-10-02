@@ -313,7 +313,7 @@ publish-report:: report-all
 	fi
 	@cd pot && po2sgml --report *.pot >& ../tmp/reports/$(XML_LANG).txt
 	@sed -i -e 's/\.pot/\.xml/g' tmp/reports/$(XML_LANG).txt
-	@cd tmp/reports && StSe_Reports
+	@cd tmp/reports && StSe_Reports --book=$(DOCNAME) --src_lang=$(XML_LANG) --product=$(PRODUCT) --version=$(PROD_VERSION)
 # copy original common images, then copy translated images over the top
 	@mkdir -p tmp/Reports/Common_Content
 	@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/css tmp/Reports/Common_Content/.

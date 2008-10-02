@@ -26,15 +26,30 @@ use Locale::Language;
 use HTML::Template;
 use English qw( -no_match_vars );
 use Carp;
-
-my $book
-    = `grep -m1 DOCNAME ../../Makefile | sed -e 's/^.*=\\s*//g' | sed -e 's/_/ /g'`;
-my $system
-    = `grep -m1 SYSTEM ../../Makefile | sed -e 's/^.*=\\s*//g' | sed -e 's/_/ /g'`;
-my $src_lang = `grep -m1 XML_LANG ../../Makefile | sed -e 's/^.*=\\s*//g'`;
-chomp($src_lang);
+use Getopt::Long;
 
 my $GUI = 0;
+my $book = undef;
+my $system = undef;
+my $src_lang = undef;
+my $version = undef;
+
+if ((   !GetOptions(
+            "book=s"      => \$book,
+            "product=s"     => \$system,
+            "version=s"     => \$version,
+            "src_lang=s"  => \$src_lang,
+        )
+    )
+    || ( !( $system && $src_lang ) )
+    )
+{
+
+        croak(
+            "Usage: \
+	"
+        );
+}
 
 if ( !$book ) {
     $book
@@ -43,9 +58,6 @@ if ( !$book ) {
         $GUI = 1;
     }
 }
-
-chomp($book);
-chomp($system);
 
 my $config = {
     INCLUDE_PATH => '/usr/share/publican/templates',    # or list ref
@@ -60,18 +72,17 @@ report();
 sub report {
 
     my @locales;
-    my $title = "$system $book Report: " . `date +"%d %b %y"`;
+    my $title = "$system $version $book: " . `date +"%d %b %y"`;
     chomp $title;
 
     foreach my $file (`ls *.txt | sort`) {
 
         chomp($file);
-        $file =~ /^(.*)-(.*)\.txt/;
-        my $lang     = "$1-$2";
+	$file =~ /^(.*)\.txt/;
+        my $lang = $1;
+	$lang =~ /^([^-]*)/;
+
         my $language = code2language($1);
-        if ( $language eq 'Chinese' ) {
-            $language .= " $lang";
-        }
 
         my $report_type = 'Translation';
         if ( $lang eq $src_lang ) {
