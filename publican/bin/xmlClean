@@ -522,7 +522,7 @@ sub Clean_ID($) {
     }
 }
 
-=head Update_Include
+=head1 Update_Include
 
 Attempt to update all xi:include links to set the lang attribute for Translated languages.
 
@@ -532,7 +532,7 @@ TODO: Make % complete a parameter.
 
 =cut
 
-sub Update_Include($) {
+sub Update_Include {
     my $xml_doc = shift();
 
     if ($xml_doc) {
@@ -731,7 +731,7 @@ sub my_as_XML($) {
                     }
 
                     if ( $SHOW_UNKNOWN && !$MAP_OUT{$tag} ) {
-                        warn(     qq{\n*WARNING: Unknown tag: $tag*\n}
+                        warn(     qq{\n*WARNING: Unvalidated tag: $tag*\n}
                                 . qq{This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.\n\n}
                         );
                     }
@@ -743,9 +743,10 @@ sub my_as_XML($) {
                         push( @xml, "\n", $indent x $depth );
                     }
 
-                    if($MAP_OUT{$tag}->{'verbatim'}) {
+                    if ( $MAP_OUT{$tag}->{'verbatim'} ) {
                         push( @xml, "\n" );
-                    } elsif ( $MAP_OUT{$tag}->{'block'} ) {
+                    }
+                    elsif ( $MAP_OUT{$tag}->{'block'} ) {
 
                    # Check to make sure the block is starting on it's own line
                    # If not add a new line and indent
@@ -754,6 +755,7 @@ sub my_as_XML($) {
                         }
                         $depth++;
                     }
+
 # TODO Should this should check to see if the tag has text content? Some tags can optionally be empty!
                     if ( $empty_element_map->{$tag} ) {
                         if ( $tag eq 'imagedata' ) {
@@ -765,9 +767,11 @@ sub my_as_XML($) {
                             if ( -f $node->attr('fileref') ) {
                                 my $cmd = '/usr/bin/identify -format "%w" '
                                     . $node->attr('fileref');
-				my $size = `$cmd`;
-				if($@ || !$size) {
-                                    croak("Can't calculate image size of " . $node->attr('fileref') . ": $!");
+                                my $size = `$cmd`;
+                                if ( $@ || !$size ) {
+                                    croak(    "Can't calculate image size of "
+                                            . $node->attr('fileref')
+                                            . ": $!" );
                                 }
                                 if ( $size > $MAX_WIDTH ) {
                                     $node->attr( 'scalefit', '1' );
@@ -916,11 +920,54 @@ sub my_as_XML($) {
                     push( @xml, $node );
                 }
             }
-            1;    # keep traversing
+            1;            # keep traversing
         }
     );
 
     return ( join( '', @xml, "\n" ) );
+}
+
+=head1 ValidateTables
+
+Ensure Tables comply to requirements not enforcable in XML validation.
+
+1. tgropy attribute cols must match the number of entrys in every row.
+
+=cut
+
+sub ValidateTables {
+    my $xml_doc = shift();
+
+    if ($xml_doc) {
+        $xml_doc->pos( $xml_doc->root() );
+
+        foreach my $node ( $xml_doc->look_down( "_tag", "tgroup" ) ) {
+
+# TODO this should report the line number
+# until then it try's to determine the Tables title or id
+            my $table = $node->look_up( "_tag",    qr/table|informaltable/ );
+            my $title = $table->look_down( "_tag", "title" );
+            if ($title) {
+                $title = $title->as_text();
+            }
+            else {
+                $title
+                    = ( $table->attr('id') || "Can't identify table" );
+            }
+            my $cols = $node->attr('cols')
+                || die
+                "*ERROR: Fatal Table Error*\nTable '$title' contains invalid data\nAttribute cols is mandatory for tgroup\n";
+
+            foreach my $row ( $node->look_down( "_tag", "row" ) ) {
+                my @entries = $row->look_down( "_tag", "entry" );
+                if ( $cols != @entries ) {
+                    die
+                        "*ERROR: Fatal Table Error*\nTable '$title' contains invalid data\nAttribute cols ($cols) does not match number of entrys ("
+                        . @entries . ")\n";
+                }
+            }
+        }
+    }
 }
 
 =head main loop
@@ -931,6 +978,9 @@ Create XML::TreeBuilder object and perform operations.
 
 my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1" } );
 $xml_doc->parse_file($in_file);
+
+ValidateTables($xml_doc);
+
 if ($update_includes) {
     Update_Include($xml_doc);
 }

@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.37
-Release:	0.t35%{?dist}
+Release:	0.t38%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -153,6 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix PDF Example background color. BZ #463127
 - Fix list item spacing. BZ #462673
 - Fix translation report error on 2 charater langs, CSS, and layout. BZ #465201
+- Added error for tgroup.cols not matching entry count. BZ #462205
 
 * Wed Sep 3 2008 Jeff Fearn <jfearn@redhat.com> 0.37
 - Fix Bug in web rpm upgrade script.
