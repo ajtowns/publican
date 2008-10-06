@@ -8,7 +8,8 @@
 </head>
 <body class="results">
 	<h1><TMPL_VAR name="title"></h1>
-	<p id="powered"><strong>Publican Translation Report</strong></p>
+	<h2><TMPL_VAR name="locale"></h2>
+	<p id="powered"><strong>Publican Translation Report: <TMPL_VAR name="date"></strong></p>
 	<p class="home"><a class="home-link" href="index.html">Overview</a></p>
 	<div id="words">
 		<h2 class="words">Words</h2>
@@ -36,7 +37,11 @@
 	</div>
 	<ul class="locale">
 	<TMPL_LOOP NAME="files">
+		<TMPL_IF NAME="__odd__">
+		<li class="odd">
+		<TMPL_ELSE>
 		<li>
+		</TMPL_IF>
 			<h3 class="pofile"><TMPL_VAR name="file">:</h3>
 			<div class="progress">
 				<span class="translated" style="width:<TMPL_VAR name="translated_pct">%"></span>

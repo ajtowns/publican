@@ -8,10 +8,14 @@
 </head>
 <body class="reports">
 	<h1><TMPL_VAR name="title"></h1>
-	<p id="powered"><strong>Publican Translation Report</strong></p>
+	<p id="powered"><strong>Publican Translation Report: <TMPL_VAR name="date"></strong></p>
 	<ul class="locale">
 	<TMPL_LOOP NAME="locales">
+		<TMPL_IF NAME="__odd__">
+		<li class="odd">
+		<TMPL_ELSE>
 		<li>
+		</TMPL_IF>
 			<h3 class="pofile"><a href="<TMPL_VAR name="lang">.html"><TMPL_VAR name="name"> (<TMPL_VAR name="lang">)</a></h3>
 			<dl>
 				<dt class="fuzzy">Fuzzy:</dt> <dd class="fuzzy"><TMPL_VAR name="hours_fuzzy"></dd>

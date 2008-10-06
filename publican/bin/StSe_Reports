@@ -28,27 +28,27 @@ use English qw( -no_match_vars );
 use Carp;
 use Getopt::Long;
 
-my $GUI = 0;
-my $book = undef;
-my $system = undef;
+my $GUI      = 0;
+my $book     = undef;
+my $system   = undef;
 my $src_lang = undef;
-my $version = undef;
+my $version  = undef;
 
 if ((   !GetOptions(
-            "book=s"      => \$book,
-            "product=s"     => \$system,
-            "version=s"     => \$version,
-            "src_lang=s"  => \$src_lang,
+            "book=s"     => \$book,
+            "product=s"  => \$system,
+            "version=s"  => \$version,
+            "src_lang=s" => \$src_lang,
         )
     )
     || ( !( $system && $src_lang ) )
     )
 {
 
-        croak(
-            "Usage: \
+    croak(
+        "Usage: \
 	"
-        );
+    );
 }
 
 if ( !$book ) {
@@ -72,15 +72,16 @@ report();
 sub report {
 
     my @locales;
-    my $title = "$system $version $book: " . `date +"%d %b %y"`;
-    chomp $title;
+    my $title = "$system $version $book";
+    my $date = `date +"%a %e %b %Y"`;
+    chomp $date;
 
     foreach my $file (`ls *.txt | sort`) {
 
         chomp($file);
-	$file =~ /^(.*)\.txt/;
+        $file =~ /^(.*)\.txt/;
         my $lang = $1;
-	$lang =~ /^([^-]*)/;
+        $lang =~ /^([^-]*)/;
 
         my $language = code2language($1);
 
@@ -211,11 +212,14 @@ sub report {
             };
 
         my $template = HTML::Template->new(
-            filename => 'language.tmpl',
-            path     => ['/usr/share/publican/templates']
+            filename          => 'language.tmpl',
+            path              => ['/usr/share/publican/templates'],
+            loop_context_vars => 1
         ) or croak "Template->error";
 
         $template->param( title                => $title );
+        $template->param( locale               => "$language ($lang)" );
+        $template->param( date                 => $date );
         $template->param( words_translated_pct => $words_translated_pct );
         $template->param( words_fuzzy_pct      => $words_fuzzy_pct );
         $template->param( words_fuzzy          => $words_fuzzy );
@@ -236,10 +240,12 @@ sub report {
 
     my $template = HTML::Template->new(
         filename => 'project.tmpl',
-        path     => ['/usr/share/publican/templates']
+        path     => ['/usr/share/publican/templates'],
+        loop_context_vars => 1
     ) or croak "Template->error";
 
     $template->param( title   => $title );
+    $template->param( date    => $date );
     $template->param( locales => \@locales );
 
     open( OUTFILE, '>', "../Reports/index.html" )
