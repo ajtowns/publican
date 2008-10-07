@@ -82,7 +82,7 @@
 
 <xsl:param name="xslthl.keyword.color">#002F5D</xsl:param>
 <xsl:param name="xslthl.string.color">#00774B</xsl:param>
-<xsl:param name="xslthl.comment.color">#DAD9AD</xsl:param>
+<xsl:param name="xslthl.comment.color">#FFFFFF</xsl:param>
 <xsl:param name="xslthl.tag.color">#002F5D</xsl:param>
 <xsl:param name="xslthl.attribute.color">#a70000</xsl:param>
 <xsl:param name="xslthl.value.color">#4E376B</xsl:param>
