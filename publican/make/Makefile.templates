@@ -335,7 +335,7 @@ else
 				chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) embedtoc=$$(EMBEDTOC) \
 				chunk.first.sections="$(CHUNK_FIRST)" generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
-				use.extensions=1 tablecolumns.extensions=1; \
+				use.extensions=1 tablecolumns.extensions=1 package=$(TAR_NAME)-${2}-$(RPM_VERSION)-$(${2}_RPM_RELEASE); \
 			rm tmppoofu.html; \
 		else \
 			echo "Running xsltproc:"; \
@@ -343,7 +343,7 @@ else
 				--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" \
 				--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) \
 				--stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
-				--xinclude $$$$xsl_file ../xml/$(DOCNAME).xml; \
+				--stringparam package "$(TAR_NAME)-${2}-$(RPM_VERSION)-$(${2}_RPM_RELEASE)" --xinclude $$$$xsl_file ../xml/$(DOCNAME).xml; \
 		fi;
 # copy files
 	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tmp/${2}/${1}/.; fi
