@@ -106,18 +106,30 @@ include $(COMMON_CONFIG)/make/Makefile.templates
 # Stub for books that need to pre generate things (Services_Plan)
 # Validate strings used for rpm's match spec file constraints
 pre::
+	@if [[ "$(DOCNAME)" == "" ]]; then \
+		echo; \
+		echo "*ERROR: DOCNAME is mandator"; \
+		echo "you must set <title> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
+		exit 1; \
+	fi
 	@if [[ "$(DOCNAME)" =~ "^a-zA-Z_" ]]; then \
 		echo; \
 		echo "*ERROR: DOCNAME can only contain 'a-z', 'A-Z' and '_'*"; \
 		echo "'$(DOCNAME)' is not valid"; \
-		echo "Please edit DOCNAME in your Makefile"; \
+		echo "Please edit <title> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
+		exit 1; \
+	fi
+	@if [[ "$(PRODUCT)" == "" ]]; then \
+		echo; \
+		echo "*ERROR: PRODUCT is mandatory*"; \
+		echo "You must set <productname> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
 	@if [[ "$(PRODUCT)" == "Documentation" ]]; then \
 		echo; \
 		echo "*WARNING: PRODUCT is set to the default setting of 'Documentation'*"; \
 		echo "Are you sure this is correct?"; \
-		echo "Run 'make help_params' for more information on this setting"; \
+		echo "Please edit <productname> in $(XML_LANG)/$(DOC_TYPE)_Info.xml if this is incorrect"; \
 		echo; \
 	fi
 	@if [[ "$(PRODUCT)" =~ "[^a-zA-Z_]" ]]; then \
@@ -180,7 +192,7 @@ pre::
 			echo "*WARNING: Entities Declared in XML*"; \
 			echo "Entities declared in XML files are excluded from all output."; \
 			echo "Entities should be declared in $(XML_LANG)/$(DOCNAME).ent"; \
-			echo "Declaration in: $$file"; \
+			echo "Declaration found in: $$file"; \
 			echo; \
 		fi; \
 	done
