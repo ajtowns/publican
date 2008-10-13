@@ -5,7 +5,7 @@ VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD	= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
-OS_VER	= $(shell uname -a | sed -e 's/^.*\.\(...\)[^\.]*\#.*$$/\1/')
+OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
 ifeq "$(OS_VER)" "ELx"
 OS_VER	= "el4"
 endif

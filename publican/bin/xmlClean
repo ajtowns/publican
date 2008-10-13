@@ -976,7 +976,7 @@ sub ValidateTables {
 
             foreach my $row ( $node->look_down( "_tag", "row" ) ) {
                 my @entries = $row->look_down( "_tag", "entry" );
-                if ( $cols != @entries ) {
+                if (  @entries > $cols ) {
                     die
                         "*ERROR: Fatal Table Error*\nTable '$title' contains invalid data\nAttribute cols ($cols) does not match number of entrys ("
                         . @entries . ")\n";
