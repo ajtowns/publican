@@ -1,13 +1,15 @@
-# translation of Conventions.po to
+# translation of Conventions.po to Simplified Chinese
 # Xi HUANG <xhuang@redhat.com>, 2007.
+# Leah Liu <lliu@redhat.com>, 2008.
+# translation of Conventions.po to
 msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-09-29 04:47+0000\n"
-"PO-Revision-Date: 2007-10-23 10:30+1000\n"
-"Last-Translator: Xi HUANG <xhuang@redhat.com>\n"
-"Language-Team:  <en@li.org>\n"
+"PO-Revision-Date: 2008-10-09 10:30+1000\n"
+"Last-Translator: Leah Liu <lliu@redhat.com>\n"
+"Language-Team: Simplified Chinese <zh@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +27,7 @@ msgstr "文档约定"
 msgid ""
 "This manual uses several conventions to highlight certain words and phrases "
 "and draw attention to specific pieces of information."
-msgstr ""
+msgstr "本手册使用几个约定来突出某些用词和短语以及信息的某些片段。"
 
 #. Tag: para
 #: Conventions.xml:11
@@ -37,13 +39,13 @@ msgid ""
 "installed on your system. If not, alternative but equivalent typefaces are "
 "displayed. Note: Red Hat Enterprise Linux 5 and later includes the "
 "Liberation Fonts set by default."
-msgstr ""
+msgstr "在 PDF 版本以及纸版中，本手册使用在 <ulink url=\"https://fedorahosted.org/liberation-fonts/\">Liberation 字体</ulink>套件中选出的字体。如果您在您的系统中安装了 Liberation 字体套件，它还可用于 HTML 版本。如果没有安装，则会显示可替换的类似字体。请注意：红帽企业 Linux 5 以及其后的版本默认包含 Liberation 字体套件。"
 
 #. Tag: title
 #: Conventions.xml:16
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Typographic Conventions"
-msgstr "文档约定"
+msgstr "排版约定"
 
 #. Tag: para
 #: Conventions.xml:18
@@ -52,13 +54,13 @@ msgid ""
 "Four typographic conventions are used to call attention to specific words "
 "and phrases. These conventions, and the circumstances they apply to, are as "
 "follows."
-msgstr ""
+msgstr "我们使用四种排版约定突出特定用词和短语。这些约定及其使用环境如下。"
 
 #. Tag: literal
 #: Conventions.xml:23
 #, no-c-format
 msgid "Mono-spaced Bold"
-msgstr ""
+msgstr "固定粗体"
 
 #. Tag: para
 #: Conventions.xml:26
@@ -66,7 +68,7 @@ msgstr ""
 msgid ""
 "Used to highlight system input, including shell commands, file names and "
 "paths. Also used to highlight key caps and key-combinations. For example:"
-msgstr ""
+msgstr "用来突出系统输入，其中包括 shell 命令、文件名以及路径。还可用来突出按键以及组合键。例如："
 
 #. Tag: section
 #: Conventions.xml:28
@@ -154,12 +156,16 @@ msgid ""
 "firstterm>). Unlike other modules, only one module from the MPM group can be "
 "loaded by the Apache HTTP Server. </para> </blockquote>"
 msgstr ""
+"<blockquote><para> 要看到文件您当前工作目录中文件 <filename>my_next_bestselling_novel</filename> 的内容，请在 shell 提示符后输入 <command>cat my_next_bestselling_novel</command> 命令并按 <keycap>Enter</keycap> 键执行该命令。</para> </blockquote> <para> 以上内容包括一个文件名，一个 shell 命令以及一个按键，它们都以固定粗体形式出现，且全部与上下文有所区别。</para> <para> 组合键可通过使用连字符连接组合键的每个部分来与按键区别。例如：</para> <blockquote> <para> 按 <keycap>Enter</keycap> 执行该命令。</para> <para> 按 <keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F1</keycap></keycombo> 切换到第一个虚拟终端。<keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F7</keycap></keycombo> 返回您的 X-Windows 会话。</para> </blockquote> <para> 第一句突出的是要按的特定按键。第二句突出了两个三按键组合，每个组合都要同时按下。</para> <para> 如果讨论的是源码、等级名称、方法、功能、变量名称以及在段落中提到的返回的数值，那么都会以上述形式出现，即<literal>固定粗体</literal>。例如：</para> <blockquote> <para> 与文件相关的等级包括用于文件系统的 <classname>filesystem</classname>、用于文件的 <classname>file</classname> 以及用于目录的 <classname>dir</classname>。每个等级都有其自身相关的权限。</para> </blockquote> "
+"<para> <application>比例宽度粗体</application> </para> <para> 这是指在系统中遇到的文字或者短语，其中包括应用程序名称、对话框文本、标记的按钮、复选框以及单选按钮标签、菜单标题以及子菜单标题。例如：在主菜单栏中</para> <blockquote> <para> 选择 <guimenu> 系统 > 属性 > 鼠标</guimenu>启动 <application>Mouse Preferences</application>。在 <guilabel>按钮</guilabel> 标签中点击<guilabel>惯用左手鼠标</guilabel> 复选框并点击 <guibutton>关闭</guibutton> 将首选鼠标按键从左切换到右（让鼠标适合左手使用）。</para> <para> 要在 <application>gedit</application> 文件中插入一个特殊字符，请在主菜单栏中选择 <guimenu>应用程序 > 附件 > 字符映射表</guimenu>。下面请在<application>字符映射表</application> 主菜单栏中选择 <guimenu>搜索 > 查找&hellip;</guimenu>，在<guilabel>搜索</guilabel> 字段输入字符名称，并点击 <guibutton>下一个</guibutton>。那么会在 <guilabel>字符表</guilabel>中突出您看到的字符。双击该字符将其放置于 <guilabel>要复制的文本</guilabel>字段并点击 <guibutton>复制</guibutton> 按钮。现在返回您的文档，在 <application>gedit</application> 菜单栏选择 <guimenu>编辑 > 粘贴</guimenu>。</para> </blockquote> <para> 以上文本包括应用程序名称、系统范围菜单名称及项目、特定应用程序菜单名称以及按钮和 GUI 界面中的文本，所有都以比例粗体出现并与上下文区别。</para> <para> 请注意在菜单及其子菜单中用来表示穿越的 <guimenu>></guimenu>。这是为了避免使用比较复杂的方法，比如‘在主菜单的 <guimenu>系统</guimenu> 菜单中的 <guimenu>首选项</guimenu> 菜单中选择<guimenuitem>鼠标</guimenuitem>’。</para> <para> <command><replaceable>固定粗斜体</replaceable></command> 或者 <application><replaceable>比例粗斜体 </replaceable></application> </para> <para> 无论固定粗体或者比例粗体，附加的斜体表明是可替换或者变量文本。斜体表示那些不直接输入的文本或者那些根据环境改变的文本。例如：</para> <blockquote> <para> 要使用 ssh 连接到远程机器，请在 shell 提示符后输入 <command>ssh <replaceable>username</replaceable>@<replaceable>domain.name</replaceable></command>。如果远程机器是 <filename>example.com</filename> 且您在该其机器中的用户名为 john，请输入 <command>ssh "
+"john@example.com</command>。</para> <para> <command>mount -o remount "
+"<replaceable>file-system</replaceable></command> 命令会重新挂载命名的文件系统。例如：要重新挂载 <filename>/home</filename> 文件系统，则命令为 <command>mount -o remount /home</command>。</para> <para> 要查看目前安装的软件包版本，请使用 <command>rpm -q <replaceable>package</replaceable></command> 命令。它会返回以下结果：<command><replaceable>package-version-release</replaceable></command>。</para> </blockquote> <para>请注意以上文字中的粗斜体字 &mdash; username、domain.name、file-system、package、version 和 release。无论您输入文本或者运行一个命令，还是该系统显示的文本，每个字都是一个占位符。</para> <para> 不考虑工作中显示标题的标准用法，斜体表示第一次使用某个新且重要的用语。例如：</para> <blockquote> <para> 当 Apache HTTP 服务器接受请求时，它会分派子进程或者线程对其进行处理。这组子进程或者线程就是 <firstterm>服务器池（server-pool）</firstterm>。在 Apache HTTP 服务器 2.0 中，创建和维护服务器池的任务是由名为 <firstterm>多进程模块（Multi-Processing Modules）</firstterm>（<firstterm>MPMs</firstterm>）的模块负责的。和其它模块不同，Apache HTTP 服务器只能载入 MPM 组中的一个模块。</para> </blockquote>"
 
 #. Tag: title
 #: Conventions.xml:132
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Pull-quote Conventions"
-msgstr "文档约定"
+msgstr "抬升式引用约定"
 
 #. Tag: para
 #: Conventions.xml:134
@@ -167,7 +173,7 @@ msgstr "文档约定"
 msgid ""
 "Two, commonly multi-line, data types are set off visually from the "
 "surrounding text."
-msgstr ""
+msgstr "二，一般是多行，数据输入要明显与周围文本分开。"
 
 #. Tag: para
 #: Conventions.xml:138
@@ -175,7 +181,7 @@ msgstr ""
 msgid ""
 "Output sent to a terminal is set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> and presented thus:"
-msgstr ""
+msgstr "将发送到终端的输入设置为 <computeroutput>Mono-spaced Roman</computeroutput> 并显示为："
 
 #. Tag: screen
 #: Conventions.xml:142
@@ -184,6 +190,8 @@ msgid ""
 "books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
 "books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 msgstr ""
+"books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
+"books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 
 #. Tag: para
 #: Conventions.xml:144
@@ -191,7 +199,7 @@ msgstr ""
 msgid ""
 "Source-code listings are also set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> but are presented and highlighted as follows:"
-msgstr ""
+msgstr "源码列表也设为 <computeroutput>Mono-spaced Roman</computeroutput>，但以下面的形式出现和突出："
 
 #. Tag: programlisting
 #: Conventions.xml:148
@@ -218,12 +226,32 @@ msgid ""
 "   \n"
 "}"
 msgstr ""
+"package org.jboss.book.jca.ex1;\n"
+"\n"
+"import javax.naming.InitialContext;\n"
+"\n"
+"public class ExClient\n"
+"{\n"
+"   public static void main(String args[]) \n"
+"       throws Exception\n"
+"   {\n"
+"      InitialContext iniCtx = new InitialContext();\n"
+"      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
+"      EchoHome       home   = (EchoHome) ref;\n"
+"      Echo           echo   = home.create();\n"
+"\n"
+"      System.out.println(\"Created Echo\");\n"
+"\n"
+"      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
+"   }\n"
+"   \n"
+"}"
 
 #. Tag: title
 #: Conventions.xml:153
 #, no-c-format
 msgid "Notes and Warnings"
-msgstr ""
+msgstr "备注及警告"
 
 #. Tag: para
 #: Conventions.xml:155
@@ -231,13 +259,13 @@ msgstr ""
 msgid ""
 "Finally, we use three visual styles to draw attention to information that "
 "might otherwise be overlooked."
-msgstr ""
+msgstr "最后，我们使用三种视觉形式来突出那些可能被忽视的信息。"
 
 #. Tag: title
 #: Conventions.xml:160
 #, no-c-format
 msgid "Note"
-msgstr "注意"
+msgstr "备注"
 
 #. Tag: para
 #: Conventions.xml:161
@@ -246,7 +274,7 @@ msgid ""
 "A note is a tip or shortcut or alternative approach to the task at hand. "
 "Ignoring a note should have no negative consequences, but you might miss out "
 "on a trick that makes your life easier."
-msgstr ""
+msgstr "备注是对手头任务的提示、捷径或者另外的解决方法。忽略提示不会造成负面后果，但您可能会错过一个更省事的诀窍。"
 
 #. Tag: title
 #: Conventions.xml:167
@@ -262,7 +290,7 @@ msgid ""
 "that only apply to the current session, or services that need restarting "
 "before an update will apply. Ignoring Important boxes won't cause data loss "
 "but may cause irritation and frustration."
-msgstr ""
+msgstr "重要框中的内容是那些容易错过的事情：配置更改只可用于当前会话，或者在应用更新前要重启服务。忽略重要框中的内容不会造成数据丢失但可能会让您抓狂。"
 
 #. Tag: title
 #: Conventions.xml:175
@@ -276,131 +304,5 @@ msgstr "警告"
 msgid ""
 "A Warning should not be ignored. Ignoring warnings will most likely cause "
 "data loss."
-msgstr ""
+msgstr "警告是不应被忽略的。忽略警告信息很可能导致数据丢失。"
 
-#~ msgid ""
-#~ "Certain words in this manual are represented in different fonts, styles, "
-#~ "and weights. This highlighting indicates that the word is part of a "
-#~ "specific category. The categories include the following:"
-#~ msgstr ""
-#~ "本手册里的某些词语以不同的字体、风格和字型显示，这代表其属于特殊的类别。这"
-#~ "些类别包括："
-
-#~ msgid "Courier font"
-#~ msgstr "Courier 字体"
-
-#~ msgid ""
-#~ "Courier font represents <command>commands</command>, <filename>file names "
-#~ "and paths</filename>, and <prompt>prompts</prompt> ."
-#~ msgstr ""
-#~ "Courier 字体代表<command>命令</command>、<filename>文件名和路径</filename>"
-#~ "以及<prompt>提示</prompt>。"
-
-#, fuzzy
-#~ msgid ""
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports"
-#~ msgstr ""
-#~ "下面显示的内容代表输出信息：<screen>\n"
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports\n"
-#~ "</screen>"
-
-#~ msgid "bold Courier font"
-#~ msgstr "Bold Courier 粗体"
-
-#~ msgid ""
-#~ "Bold Courier font represents text that you are to type, such as: "
-#~ "<userinput>service jonas start</userinput>"
-#~ msgstr ""
-#~ "Bold Courier 粗体代表你要输入的文本，如 <userinput>service jonas start</"
-#~ "userinput>"
-
-#~ msgid ""
-#~ "If you have to run a command as root, the root prompt (<literal>#</"
-#~ "literal>) precedes the command:"
-#~ msgstr ""
-#~ "如果你需要以根用户运行命令，根用户提示（<literal>#</literal>）将处于该命令"
-#~ "前面："
-
-#~ msgid "italic Courier font"
-#~ msgstr "Italic Courier 斜体"
-
-#, fuzzy
-#~ msgid ""
-#~ "Italic Courier font represents a variable, such as an installation "
-#~ "directory: <filename> <replaceable>install_dir</replaceable>/bin/</"
-#~ "filename>"
-#~ msgstr ""
-#~ "Italic Courier 斜体代表变量，如安装目录："
-#~ "<filename><replaceable>install_dir</replaceable>/bin/</filename>"
-
-#~ msgid "bold font"
-#~ msgstr "粗体"
-
-#~ msgid ""
-#~ "Bold font represents <application>application programs</application> and "
-#~ "<guilabel>text found on a graphical interface</guilabel>."
-#~ msgstr ""
-#~ "粗体代表<application>应用程序</application>和<guilabel>图形界面上的文本</"
-#~ "guilabel>。"
-
-#~ msgid ""
-#~ "When shown like this: <guibutton> OK </guibutton>, it indicates a button "
-#~ "on a graphical application interface."
-#~ msgstr "如<guibutton> OK </guibutton>这样的显示代表图形界面上的按钮。"
-
-#~ msgid ""
-#~ "Additionally, the manual uses different strategies to draw your attention "
-#~ "to pieces of information. In order of how critical the information is to "
-#~ "you, these items are marked as follows:"
-#~ msgstr ""
-#~ "此外，本手册使用不同的标记来引起你对某些信息的注意。按照其重要程度的次序，"
-#~ "这些信息具有如下标记："
-
-#~ msgid ""
-#~ "A note is typically information that you need to understand the behavior "
-#~ "of the system."
-#~ msgstr "“注意”通常表示你需要了解的系统行为方面的一些信息。"
-
-#~ msgid "A tip is typically an alternative way of performing a task."
-#~ msgstr "“提示”通常是执行某个任务的另外一种方法。"
-
-#~ msgid ""
-#~ "Important information is necessary, but possibly unexpected, such as a "
-#~ "configuration change that will not persist after a reboot."
-#~ msgstr ""
-#~ "“重要”是必需的、但有可能是意外的信息，例如在重启后将丢失的配置修改。"
-
-#~ msgid "Caution"
-#~ msgstr "提醒"
-
-#~ msgid ""
-#~ "A caution indicates an act that would violate your support agreement, "
-#~ "such as recompiling the kernel."
-#~ msgstr "“提醒”表示将违反支持协议的行为，如重新编译内核。"
-
-#~ msgid ""
-#~ "A warning indicates potential data loss, as may happen when tuning "
-#~ "hardware for maximum performance."
-#~ msgstr ""
-#~ "“警告”表示可能发生的数据丢失，例如为获取最大性能而对硬件进行调整时可能导致"
-#~ "的后果。"
-
-#~ msgid "gconftool-2\n"
-#~ msgstr "gconftool-2\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-#~ msgstr ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-
-#~ msgid "Tip"
-#~ msgstr "提示"
-
-#~ msgid "translator-credits"
-#~ msgstr "translator-credits"

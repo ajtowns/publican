@@ -19,9 +19,8 @@
 
 # Default values, only set if not set in book Makefile
 PWD		= $(shell pwd)
-PRODUCT		?= Red_Hat_Enterprise_Linux
 COMMON_CONTENT	= $(COMMON_CONFIG)/Common_Content
-PROD_VERSION		?= HEAD
+DOCNAME		= $(PROGNAME)
 
 TRANSLATIONS ?= $(XML_LANG)
 
@@ -63,13 +62,13 @@ report-all:: $(foreach L,$(OTHER_LANGS), report-${L})
 publish-report:: report-all
 	@echo "START: publish-report `date`"
 	@mkdir -p tmp/Reports
-	@cd tmp/reports && StSe_Reports -GUI
+	@cd tmp/reports && StSe_Reports --book=$(DOCNAME) --src_lang=$(XML_LANG) --product=$(PRODUCT) --version=$(PROD_VERSION)
 	@mkdir -p tmp/Reports/Common_Content
 	@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/css tmp/Reports/Common_Content/.
 # copy original common images, then copy translated images over the top
 	-@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/images  tmp/Reports/Common_Content/.
-	@mkdir -p publish/Reports/$(PRODUCT)/$(PROD_VERSION)/${DOCNAME}
-	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(PROD_VERSION)/${DOCNAME}/.
+	@mkdir -p publish/Reports/$(PRODUCT)/$(PROD_VERSION)/$(DOCNAME)
+	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(PROD_VERSION)/$(DOCNAME)/.
 	@echo "END: publish-report `date`"
 
 ###############################################################################

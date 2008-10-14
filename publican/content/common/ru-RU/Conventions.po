@@ -1,11 +1,11 @@
 # translation of Conventions.po to
-# Yulia Poyarkova <yulia.poyarkova@redhat.com>, 2007.
+# Yulia Poyarkova <yulia.poyarkova@redhat.com>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-09-29 04:47+0000\n"
-"PO-Revision-Date: 2007-11-21 11:40+1100\n"
+"PO-Revision-Date: 2008-10-09 13:36+1100\n"
 "Last-Translator: Yulia Poyarkova <yulia.poyarkova@redhat.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Соглашения документа"
 msgid ""
 "This manual uses several conventions to highlight certain words and phrases "
 "and draw attention to specific pieces of information."
-msgstr ""
+msgstr "В этом руководстве используются различные стили для выделения текста."
 
 #. Tag: para
 #: Conventions.xml:11
@@ -38,12 +38,14 @@ msgid ""
 "displayed. Note: Red Hat Enterprise Linux 5 and later includes the "
 "Liberation Fonts set by default."
 msgstr ""
+"В PDF- и бумажной версиях руководства используются шрифты семейства <ulink "
+"url=\"https://fedorahosted.org/liberation-fonts/\">Liberation</ulink>. Эти же шрифты будут использоваться для отображения HTML-версии, если они установлены в вашей системе. Замечание: Red Hat Enterprise Linux 5 и более поздние версии включают в свой состав комплект Liberation по умолчанию."
 
 #. Tag: title
 #: Conventions.xml:16
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Typographic Conventions"
-msgstr "Соглашения документа"
+msgstr "Типографические соглашения"
 
 #. Tag: para
 #: Conventions.xml:18
@@ -52,13 +54,13 @@ msgid ""
 "Four typographic conventions are used to call attention to specific words "
 "and phrases. These conventions, and the circumstances they apply to, are as "
 "follows."
-msgstr ""
+msgstr "Для выделения текста используются четыре стиля, которые будут перечислены далее."
 
 #. Tag: literal
 #: Conventions.xml:23
 #, no-c-format
 msgid "Mono-spaced Bold"
-msgstr ""
+msgstr "Моноширинный жирный шрифт"
 
 #. Tag: para
 #: Conventions.xml:26
@@ -66,7 +68,7 @@ msgstr ""
 msgid ""
 "Used to highlight system input, including shell commands, file names and "
 "paths. Also used to highlight key caps and key-combinations. For example:"
-msgstr ""
+msgstr "Используется для выделения системного ввода, включая команды оболочки, а также имена файлов, пути и комбинации ключей. Пример:"
 
 #. Tag: section
 #: Conventions.xml:28
@@ -154,12 +156,33 @@ msgid ""
 "firstterm>). Unlike other modules, only one module from the MPM group can be "
 "loaded by the Apache HTTP Server. </para> </blockquote>"
 msgstr ""
+"<blockquote> <para>Чтобы просмотреть содержимое файла <filename>my_next_bestselling_novel</filename> в текущем рабочем каталоге, в строке приглашения оболочки введите <command>cat my_next_bestselling_novel</command> и нажмите <keycap>Enter</keycap> для выполнения этой команды. </para> </blockquote> <para> Приведенный текст содержит имя файла, команду оболочки и имя клавиши, которые выделены моноширинным жирным шрифтом. </para> <para> Для разделения клавиш в составе комбинаций используется дефис. Пример: </para> <blockquote> <para> Нажмите <keycap>Enter</"
+"keycap> для исполнения команды. </para> <para> Нажмите <keycombo><keycap>Ctrl</"
+"keycap><keycap>Alt</keycap><keycap>F1</keycap></keycombo> для перехода в первый виртуальный терминал. Нажмите <keycombo><keycap>Ctrl</keycap><keycap>Alt</"
+"keycap><keycap>F7</keycap></keycombo> , чтобы вернуться в сессию X-Windows. </"
+"para> </blockquote> <para> В первом примере жирным шрифтом выделено название отдельной клавиши, во втором -- комбинаций клавиш. </para> <para> Этим же шрифтом выделяются имена классов, методов, функций, переменных и возвращаемые значения в составе кода. Пример: </para> <blockquote> <para> Классы файлов включают <classname>filesystem</classname> для файловых систем, <classname>file</"
+"classname> для файлов, <classname>dir</classname> для каталогов. Каждому классу соответствует набор разрешений. </para> </blockquote> <para> <application>Пропроциональный жирный шрифт</application> </para> <para>Выделяет системные слова или фразы, что включает имена приложений, текст диалога, элементы графического интерфейса, названия меню. Пример: </para> <blockquote> "
+"<para> В главном меню выберите <guimenu>Система > Параметры > Мышь</guimenu> для запуска утилиты <application>Настройки мыши</application>. На вкладке <guilabel>Кнопки</guilabel> установите флажок <guilabel>Настроить мышь под левую руку</guilabel> и нажмите кнопку <guibutton>Закрыть</guibutton>, чтобы настроить мышь для левши. </para> <para> Чтобы вставить специальный символ в файл <application>gedit</application>, выберите <guimenu>Приложения > Стандартные > Таблица символов</guimenu>. Затем в меню выберите <guimenu>Поиск > Поиск&hellip;</guimenu>, введите имя символа и нажмите кнопку <guibutton>Найти следующее</guibutton>. Найденный символ будет выделен в <guilabel>таблице символов</"
+"guilabel>. Дважды щелкните на этом символе, чтобы вставить его в поле <guilabel>Текст для копирования</guilabel> и нажмите кнопку <guibutton>Копировать</"
+"guibutton>. Теперь вернитесь к вашему документу и в меню выберите <guimenu>Правка "
+"> Вставить</guimenu>. </para> </blockquote> <para> Приведенный выше текст содержит имя приложения, названия меню, кнопок и элементов графического интерфейса. </para> <para> Обратите внимание, что для обозначения переходов между уровнями меню используется символ <guimenu>></guimenu>. </para> <para> "
+"<command><replaceable>Моноширинный жирный курсив</replaceable></command> или <application><replaceable>пропорциональный жирный курсив</replaceable></"
+"application> </para> <para> Оба типа выделения обозначают изменяемый или заменяемый текст. Курсив сообщает о том, что не следует вводить приведенный текст напрямую, а изменить в соответствии с вашими настройками. Пример: </para> <blockquote> <para> Для подключения к удаленной машине с помощью SSH в строке приглашения выполните <command>ssh "
+"<replaceable>имя_пользователя</replaceable>@<replaceable>имя_домена</replaceable></"
+"command>. Скажем, имя удаленной машины -- <filename>example.com</"
+"filename>, а ваше имя пользователя -- john, тогда команда будет выглядеть так: <command>ssh "
+"john@example.com</command>. </para> <para> Команда <command>mount -o remount "
+"<replaceable>файловая_система</replaceable></command> осуществит повторное монтирование заданной файловой системы. Например, для <filename>/home</filename> команда будет выглядеть так: "
+"<command>mount -o remount /home</command>. </para> "
+"<para> Чтобы просмотреть версию установленного пакета, выполните команду <command>rpm -q <replaceable>пакет</replaceable></command>. Результат команды будет представлен в формате <command><replaceable>пакет-версия-"
+"выпуск</replaceable></command>. </para> </blockquote> <para> В приведенных примерах жирным курсивом выделяются имя пользователя, имя домена, файловой системы, пакет, его версия и выпуск. </para> <para> Также курсивом выделяются термины, которые встречаются в тексте документа впервые. Пример: </para> "
+"<blockquote> <para> Когда сервер HTTP Apache принимает запросы, для их обработки выделяются дочерние процессы или потоки. Группа таких процессов (потоков) известна как <firstterm>серверный пул</firstterm>. В Apache 2.0 за создание таких групп отвечают <firstterm>многопроцессорные модули</firstterm>. В отличие от других модулей, только один модуль из группы может быть загружен сервером HTTP Apache. </para> </blockquote>"
 
 #. Tag: title
 #: Conventions.xml:132
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Pull-quote Conventions"
-msgstr "Соглашения документа"
+msgstr "Соглашения по выделению текста"
 
 #. Tag: para
 #: Conventions.xml:134
@@ -167,7 +190,7 @@ msgstr "Соглашения документа"
 msgid ""
 "Two, commonly multi-line, data types are set off visually from the "
 "surrounding text."
-msgstr ""
+msgstr "Данные разных типов, содержащие несколько строк, будут отделены от окружающего текста."
 
 #. Tag: para
 #: Conventions.xml:138
@@ -175,7 +198,7 @@ msgstr ""
 msgid ""
 "Output sent to a terminal is set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> and presented thus:"
-msgstr ""
+msgstr "Текст, отображаемый на экране, будет отображаться <computeroutput>моноширинным шрифтом</computeroutput>:"
 
 #. Tag: screen
 #: Conventions.xml:142
@@ -184,6 +207,8 @@ msgid ""
 "books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
 "books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 msgstr ""
+"books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
+"books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 
 #. Tag: para
 #: Conventions.xml:144
@@ -191,7 +216,7 @@ msgstr ""
 msgid ""
 "Source-code listings are also set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> but are presented and highlighted as follows:"
-msgstr ""
+msgstr "Для отображения содержимого исходного кода используется <computeroutput>моноширинный шрифт</computeroutput>:"
 
 #. Tag: programlisting
 #: Conventions.xml:148
@@ -218,12 +243,32 @@ msgid ""
 "   \n"
 "}"
 msgstr ""
+"package org.jboss.book.jca.ex1;\n"
+"\n"
+"import javax.naming.InitialContext;\n"
+"\n"
+"public class ExClient\n"
+"{\n"
+"   public static void main(String args[]) \n"
+"       throws Exception\n"
+"   {\n"
+"      InitialContext iniCtx = new InitialContext();\n"
+"      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
+"      EchoHome       home   = (EchoHome) ref;\n"
+"      Echo           echo   = home.create();\n"
+"\n"
+"      System.out.println(\"Created Echo\");\n"
+"\n"
+"      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
+"   }\n"
+"   \n"
+"}"
 
 #. Tag: title
 #: Conventions.xml:153
 #, no-c-format
 msgid "Notes and Warnings"
-msgstr ""
+msgstr "Замечания и предупреждения"
 
 #. Tag: para
 #: Conventions.xml:155
@@ -231,7 +276,7 @@ msgstr ""
 msgid ""
 "Finally, we use three visual styles to draw attention to information that "
 "might otherwise be overlooked."
-msgstr ""
+msgstr "Наконец, чтобы привлечь внимание читателя к важной информации, используются три стиля."
 
 #. Tag: title
 #: Conventions.xml:160
@@ -246,7 +291,7 @@ msgid ""
 "A note is a tip or shortcut or alternative approach to the task at hand. "
 "Ignoring a note should have no negative consequences, but you might miss out "
 "on a trick that makes your life easier."
-msgstr ""
+msgstr "Замечание обычно содержит дополнительную информацию. Если вы его проигнорируете, это не критично, но вы можете пропустить совет, который, возможно, поможет сэкономить время при выполнении заданий в дальнейшем."
 
 #. Tag: title
 #: Conventions.xml:167
@@ -262,7 +307,7 @@ msgid ""
 "that only apply to the current session, or services that need restarting "
 "before an update will apply. Ignoring Important boxes won't cause data loss "
 "but may cause irritation and frustration."
-msgstr ""
+msgstr "На информацию, отмеченную как важную, следует обратить особое внимание. Она может включать изменения настроек, которые применимы к текущей сессии, или, например, перечень служб, которые нужно запустить, прежде чем обновления вступят в силу. Ознакомление с важной информацией значительно облегчит вашу работу."
 
 #. Tag: title
 #: Conventions.xml:175
@@ -276,142 +321,5 @@ msgstr "Предупреждение"
 msgid ""
 "A Warning should not be ignored. Ignoring warnings will most likely cause "
 "data loss."
-msgstr ""
+msgstr "Не стоит игнорировать предупреждения, так как они содержат важную информацию, которая позволит избежать потери данных."
 
-#~ msgid ""
-#~ "Certain words in this manual are represented in different fonts, styles, "
-#~ "and weights. This highlighting indicates that the word is part of a "
-#~ "specific category. The categories include the following:"
-#~ msgstr ""
-#~ "Некоторые слова в данном руководстве выделены различными шрифтами, "
-#~ "стилями, толщиной. Это означает, что такое слово принадлежит одной из "
-#~ "следующих категорий:"
-
-#~ msgid "Courier font"
-#~ msgstr "Шрифт Courier"
-
-#~ msgid ""
-#~ "Courier font represents <command>commands</command>, <filename>file names "
-#~ "and paths</filename>, and <prompt>prompts</prompt> ."
-#~ msgstr ""
-#~ "Шрифтом Courier выделяются <command>команды</command>, <filename>имена "
-#~ "файлов</filename> и <prompt>содержимое приглашения командной строки</"
-#~ "prompt>."
-
-#, fuzzy
-#~ msgid ""
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports"
-#~ msgstr ""
-#~ "Пример вывода: <screen>\n"
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports\n"
-#~ "</screen>"
-
-#~ msgid "bold Courier font"
-#~ msgstr "Жирный шрифт Courier"
-
-#~ msgid ""
-#~ "Bold Courier font represents text that you are to type, such as: "
-#~ "<userinput>service jonas start</userinput>"
-#~ msgstr ""
-#~ "Жирным шрифтом Courier выделяется текст, который нужно ввести. Пример: "
-#~ "<userinput>service jonas start</userinput>"
-
-#~ msgid ""
-#~ "If you have to run a command as root, the root prompt (<literal>#</"
-#~ "literal>) precedes the command:"
-#~ msgstr ""
-#~ "Если команда выполняется от лица пользователя root, то перед командой "
-#~ "указывается приглашение root (<literal>#</literal>):"
-
-#~ msgid "italic Courier font"
-#~ msgstr "Наклонный шрифт Courier"
-
-#, fuzzy
-#~ msgid ""
-#~ "Italic Courier font represents a variable, such as an installation "
-#~ "directory: <filename> <replaceable>install_dir</replaceable>/bin/</"
-#~ "filename>"
-#~ msgstr ""
-#~ "Наклонным шрифтом Courier выделяются переменные значения, те, которые "
-#~ "следует заменить собственными. Пример: "
-#~ "<filename><replaceable>каталог_установки</replaceable>/bin/</filename>"
-
-#~ msgid "bold font"
-#~ msgstr "Жирный шрифт"
-
-#~ msgid ""
-#~ "Bold font represents <application>application programs</application> and "
-#~ "<guilabel>text found on a graphical interface</guilabel>."
-#~ msgstr ""
-#~ "Жирным шрифтом выделяются указания <application>прикладных программ</"
-#~ "application> и <guilabel>текст элементов графического интерфейса</"
-#~ "guilabel>."
-
-#~ msgid ""
-#~ "When shown like this: <guibutton> OK </guibutton>, it indicates a button "
-#~ "on a graphical application interface."
-#~ msgstr ""
-#~ "Например, <guibutton> OK </guibutton> обозначает текст кнопки "
-#~ "графического интерфейса."
-
-#~ msgid ""
-#~ "Additionally, the manual uses different strategies to draw your attention "
-#~ "to pieces of information. In order of how critical the information is to "
-#~ "you, these items are marked as follows:"
-#~ msgstr ""
-#~ "Кроме того, руководство может использовать другие методы привлечения "
-#~ "внимания к информации. В зависимости от того, насколько она важна, "
-#~ "используются обозначения:"
-
-#~ msgid ""
-#~ "A note is typically information that you need to understand the behavior "
-#~ "of the system."
-#~ msgstr "Обычно информация, которая поясняет поведение системы."
-
-#~ msgid "A tip is typically an alternative way of performing a task."
-#~ msgstr "Обычно дополнительный вариант выполнения задачи."
-
-#~ msgid ""
-#~ "Important information is necessary, but possibly unexpected, such as a "
-#~ "configuration change that will not persist after a reboot."
-#~ msgstr ""
-#~ "Необходимая информация, иногда неожиданная, как например, изменения "
-#~ "конфигурации, которые не сохраняются после перезагрузки."
-
-#~ msgid "Caution"
-#~ msgstr "Осторожно"
-
-#~ msgid ""
-#~ "A caution indicates an act that would violate your support agreement, "
-#~ "such as recompiling the kernel."
-#~ msgstr ""
-#~ "Означает, что выполняемые действия (например, перекомпиляция ядра) могут "
-#~ "нарушить условия соглашения поддержки. "
-
-#~ msgid ""
-#~ "A warning indicates potential data loss, as may happen when tuning "
-#~ "hardware for maximum performance."
-#~ msgstr ""
-#~ "Предупреждает о возможной потере данных, что может случиться, к примеру, "
-#~ "при индивидуальной настройке оборудования с целью достижения максимальной "
-#~ "производительности."
-
-#~ msgid "gconftool-2\n"
-#~ msgstr "gconftool-2\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-#~ msgstr ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-
-#~ msgid "Tip"
-#~ msgstr "Совет"
-
-#~ msgid "translator-credits"
-#~ msgstr "translator-credits"

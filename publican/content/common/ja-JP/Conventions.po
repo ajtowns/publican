@@ -1,11 +1,11 @@
 # translation of Conventions.po to Japanese
-# Kiyoto Hashida <khashida@redhat.com>, 2007.
+# Kiyoto Hashida <khashida@redhat.com>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-09-29 04:47+0000\n"
-"PO-Revision-Date: 2007-10-24 11:57+1000\n"
+"PO-Revision-Date: 2008-10-10 11:17+1000\n"
 "Last-Translator: Kiyoto Hashida <khashida@redhat.com>\n"
 "Language-Team: Japanese <jp@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,8 @@ msgid ""
 "This manual uses several conventions to highlight certain words and phrases "
 "and draw attention to specific pieces of information."
 msgstr ""
+"このマニュアルは数種の慣習を使用して一部の単語や句を強調し、情報の特定部分に "
+"注意を引くようにしています。"
 
 #. Tag: para
 #: Conventions.xml:11
@@ -38,12 +40,18 @@ msgid ""
 "displayed. Note: Red Hat Enterprise Linux 5 and later includes the "
 "Liberation Fonts set by default."
 msgstr ""
+"PDF と印刷物では、このマニュアルは <ulink "
+"url=\"https://fedorahosted.org/liberation-fonts/\">Liberation フォント</ulink> セットから "
+"採用したタイプフェースを使用しています。Liberation フォントセットは、ご使用のシステムに "
+"インストールされている場合は、HTML 版でも使用されます。インストールされていない場合は、 "
+"代替として同等のタイプフェースが表示されます。注記: Red Hat Enterprise Linux 5 とそれ以降の "
+"バージョンでは、デフォルトで Liberation フォントセットが収納されています。"
 
 #. Tag: title
 #: Conventions.xml:16
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Typographic Conventions"
-msgstr "ドキュメントの慣習"
+msgstr "印字上の慣習"
 
 #. Tag: para
 #: Conventions.xml:18
@@ -53,12 +61,14 @@ msgid ""
 "and phrases. These conventions, and the circumstances they apply to, are as "
 "follows."
 msgstr ""
+"特定の単語と句に注意を引く目的で ４種類の印字慣習が使用されています。これらの慣習と、 "
+"その適用される状況は以下のようになります。"
 
 #. Tag: literal
 #: Conventions.xml:23
 #, no-c-format
 msgid "Mono-spaced Bold"
-msgstr ""
+msgstr "モノスペースボールド"
 
 #. Tag: para
 #: Conventions.xml:26
@@ -67,6 +77,8 @@ msgid ""
 "Used to highlight system input, including shell commands, file names and "
 "paths. Also used to highlight key caps and key-combinations. For example:"
 msgstr ""
+"シェルコマンド、ファイル名、及びパスなどを含むシステム出力を強調する為に "
+"使用されます。またキーキャップとキー組み合わせの強調にも使用されます。例えば:"
 
 #. Tag: section
 #: Conventions.xml:28
@@ -154,12 +166,54 @@ msgid ""
 "firstterm>). Unlike other modules, only one module from the MPM group can be "
 "loaded by the Apache HTTP Server. </para> </blockquote>"
 msgstr ""
+"<blockquote><para>現在作業中のディレクトリ内のファイル <filename>my_next_bestselling_novel</filename> の内容を "
+"見るには、シェルプロンプトで <command>cat my_next_bestselling_novel</command> コマンドを入力してから、 "
+"<keycap>Enter</keycap> を押してそのコマンドを実行します。 </para></blockquote>"
+"<para>上記に該当するものとしては、ファイル名、シェルコマンド、そしてキーキャップなどが "
+"あり、全てモノスペースボールドで表示されてそのコンテキストにより目立ちます。</para><para>キーの組み合わせは、 "
+"そのキー組み合わせの各部分をハイフンで繋ぐことにより、キーキャップと区別されます。例えば:</para>"
+"<blockquote><para><keycombo><keycap>Ctrl</keycap>"
+"<keycap>Alt</keycap><keycap>F1</keycap></keycombo> を押すと、一番目の仮想ターミナルに "
+"切り替わります。<keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap>"
+"<keycap>F7</keycap></keycombo> を押すと、X-Windows セッションに戻ります。</para></blockquote> "
+"<para>最初の文章は特定の押すべきキーキャップを強調しています。そして２つ目の文章は３つのキーキャップの２つの "
+"セットを強調して同時に押すように示しています。</para><para>ソースコードが論議される場合、パラグラフ内で "
+"提示されているクラス名、メソッド、関数、変数名、及び戻り値などが上記のように <literal>モノスペースボールド</literal>"
+" で表示されます。例えば:</para><blockquote><para>ファイル関連のクラスは、ファイルシステム用に "
+"<classname>filesystem</classname> を含み、ディレクトリ用に <classname>dir</classname> を含みます。 "
+"各クラスはそれぞれが関連した権限のセットを持ちます。</para></blockquote><para> "
+"<application>プロポーショナルボールド</application> </para> <para>これはアプリケーション名、ダイアログボックステキスト、 "
+"ラベル付きのボタン、チェックボックスとラジオボタンのラベル、メニュータイトルとサブメニュータイトルなどを含む、システム上で "
+"見るような単語や句を表示します。例えば:</para> <blockquote><para>メインメニューバーから<guimenu>システム > 個人設定 > マウス</guimenu> と選択して行き、<application>マウスの個人設定</application> を選択します。<guilabel>ボタン</guilabel>のタブでは、 <guilabel>左ききのマウス</guilabel> チェックボックスをクリックして、<guibutton>閉じる</guibutton> をクリックすると、 "
+"主要マウスボタンを左側から右側に切り替えます（マウスを左ききの人に適切にします）。</para><para><application>gedit</application> ファイルに特殊な文字を挿入する場合は、メインメニューバーから "
+"<guimenu>アプリケーション > アクセサリ > 文字マップ</guimenu> と選択して行きます。次に<application>文字マップ</application>メニューバーから<guimenu>検索 > Find&hellip;</guimenu> を選択して、<guilabel>検索</guilabel>フィールド内にその文字の名前を入力して <guibutton>次</guibutton>をクリックします。探している文字は <guilabel>文字表</"
+"guilabel>の中で強調表示されます。この強調表示された文字をダブルクリックして <guilabel>コピーするテキスト</guilabel>フィールド内に配置して、それから <guibutton>コピー</guibutton>ボタンをクリックします。ここでドキュメントに戻り、<application>gedit</application>メニューバーから<guimenu>編集 > 貼り付け</guimenu>を選択します。</para></blockquote> <para>上記のテキストには、アプリケーション名、システム全体のメニュー名と項目、アプリケーション特有のメニュー名、GUI インターフェイス内に見えるボタンとテキストなどが含まれます。これら全てはプロポーショナルボールドで表示 "
+"されて、このコンテキストで全てが目立ちます。 </para><para><guimenu>></guimenu> はメニューとそのサブメニューの中で "
+"移動を示す短縮形であることに注意して下さい。これは、「メインメニューバーで<guimenu>システム</guimenu>"
+"内の<guimenu>個人設定</guimenu>サブメニューから<guimenuitem>マウス</guimenuitem>を選択」と言うような "
+"紛らわしい表現を避けるために使用されています。</para><para><command><replaceable>モノスペースボールドイタリック </replaceable></command> 又は、<application><replaceable>プロポーショナルボールドイタリック</replaceable>"
+"</application></para><para>モノスペースボールドでもプロポーショナルボールドでも、イタリックの追加は変更可能な "
+"あるいは、可変のテキストを示します。イタリックは文字どおりに入力しないテキスト、あるいは状況に応じて変化する表示テキストを "
+"示します。例えば: </para> <blockquote> <para>ssh を使用してリモートマシンに接続するには、シェルプロンプトで <command>ssh <replaceable>ユーザー名</replaceable>@<replaceable>ドメイン名</replaceable></command> と "
+"入力します。リモートマシンが <filename>example.com</filename> であり、マシン上のユーザー名が john であれば、<command>ssh "
+"john@example.com</command> と入力します。</para> <para><command>mount -o remount "
+"<replaceable>file-system</replaceable></command> コマンドは 指定したファイルシステムを再マウントします。例えば、 "
+"<filename>/home</filename> ファイルシステムを再マウントするには、コマンドは<command>mount -o remount /home</command> となります。"
+"</para> <para>現在インストールされているパッケージのバージョンを見るには、<command>rpm -q <replaceable>package</replaceable></command> コマンドを使用します。これは以下のような結果を返します: <command><replaceable>package-version-release</replaceable></command>. </para> </blockquote><para>"
+"上記のボールドイタリックの文字に注意して下さい &mdash;  ユーザー名、ドメイン名、ファイルシステム、パッケージ、バージョン及び "
+"リリース。それぞれの単語は代理文字であり、コマンドを発行するときに入力するテキスト用であるか、又はシステムにより表示される "
+"テキスト用です。</para> <para>ある作業のタイトルを提示するための標準的な使用の他に、イタリックは新規の又は重要な "
+"用語の最初の使用を表します。例えば、: </para><blockquote> <para>Apache HTTP サーバーが要求を受理する時、それはチャイルド "
+"プロセス、又はスレッドをディスパッチしてそれらを処理します。チャイルドプロセス又はスレッドのこのグループは <firstterm>サーバープール</firstterm> として知られます。Apache HTTP サーバー 2.0 では、これらのサーバープールの作成と維持の "
+"役目は <firstterm>マルチプロセッシングモジュール</firstterm>(<firstterm>MPM</firstterm>) を呼ばれるモジュールのグループへ "
+"抽出されてきました。他のモジュールとは異なり、MPM グループからのモジュール１つのみが Apache HTTP サーバー によってロード "
+"されます。</para> </blockquote>"
 
 #. Tag: title
 #: Conventions.xml:132
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Pull-quote Conventions"
-msgstr "ドキュメントの慣習"
+msgstr "引用の慣習"
 
 #. Tag: para
 #: Conventions.xml:134
@@ -168,6 +222,8 @@ msgid ""
 "Two, commonly multi-line, data types are set off visually from the "
 "surrounding text."
 msgstr ""
+"２つの一般的な複数行のデータタイプが、周囲の文章から目立つように "
+"セットされています。"
 
 #. Tag: para
 #: Conventions.xml:138
@@ -176,6 +232,8 @@ msgid ""
 "Output sent to a terminal is set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> and presented thus:"
 msgstr ""
+"端末に送信される出力は <computeroutput>Mono-spaced Roman</"
+"computeroutput> でセットしてあり、以下のように表示されます:"
 
 #. Tag: screen
 #: Conventions.xml:142
@@ -184,6 +242,8 @@ msgid ""
 "books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
 "books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 msgstr ""
+"books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
+"books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 
 #. Tag: para
 #: Conventions.xml:144
@@ -192,6 +252,8 @@ msgid ""
 "Source-code listings are also set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> but are presented and highlighted as follows:"
 msgstr ""
+"ソースコードの一覧は <computeroutput>Mono-spaced Roman</"
+"computeroutput> 内でもセットしてありますが、以下のように表示されて強調されます:"
 
 #. Tag: programlisting
 #: Conventions.xml:148
@@ -218,12 +280,32 @@ msgid ""
 "   \n"
 "}"
 msgstr ""
+"package org.jboss.book.jca.ex1;\n"
+"\n"
+"import javax.naming.InitialContext;\n"
+"\n"
+"public class ExClient\n"
+"{\n"
+"   public static void main(String args[]) \n"
+"       throws Exception\n"
+"   {\n"
+"      InitialContext iniCtx = new InitialContext();\n"
+"      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
+"      EchoHome       home   = (EchoHome) ref;\n"
+"      Echo           echo   = home.create();\n"
+"\n"
+"      System.out.println(\"Created Echo\");\n"
+"\n"
+"      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
+"   }\n"
+"   \n"
+"}"
 
 #. Tag: title
 #: Conventions.xml:153
 #, no-c-format
 msgid "Notes and Warnings"
-msgstr ""
+msgstr "注記及び警告"
 
 #. Tag: para
 #: Conventions.xml:155
@@ -232,6 +314,8 @@ msgid ""
 "Finally, we use three visual styles to draw attention to information that "
 "might otherwise be overlooked."
 msgstr ""
+"最後に３種類の視覚スタイルを使用して、見過ごされるかも知れない "
+"情報への注目を引くようにします。"
 
 #. Tag: title
 #: Conventions.xml:160
@@ -247,6 +331,9 @@ msgid ""
 "Ignoring a note should have no negative consequences, but you might miss out "
 "on a trick that makes your life easier."
 msgstr ""
+"注記は、現在のタスクへのヒント、近道、又は代替アプローチです。 "
+"注記を無視しても悪い影響は出ないはずですが、作業が簡単になるような "
+"技を見逃すかも知れません。"
 
 #. Tag: title
 #: Conventions.xml:167
@@ -263,6 +350,9 @@ msgid ""
 "before an update will apply. Ignoring Important boxes won't cause data loss "
 "but may cause irritation and frustration."
 msgstr ""
+"重要ボックスは、簡単に見逃し易い詳細事項を提供します。現在のセッションのみに該当する "
+"設定の変更や、更新を適用する前に再起動が必要なサービスなどがあります。重要ボックスを無視 "
+"してもデータの喪失にはなりませんが、苛立ちや欲求不満の原因になる可能性があります。"
 
 #. Tag: title
 #: Conventions.xml:175
@@ -277,140 +367,6 @@ msgid ""
 "A Warning should not be ignored. Ignoring warnings will most likely cause "
 "data loss."
 msgstr ""
+"警告は無視できません。警告を無視すると多くの場合、データ喪失に "
+"なる可能性があります。"
 
-#~ msgid ""
-#~ "Certain words in this manual are represented in different fonts, styles, "
-#~ "and weights. This highlighting indicates that the word is part of a "
-#~ "specific category. The categories include the following:"
-#~ msgstr ""
-#~ "このドキュメント内の特定の用語は、異なるフォント、異なるスタイル、異なる太"
-#~ "字で表現 されています。このような強調表示は、その用語が特定のカテゴリの一"
-#~ "部であることを示します。 そのカテゴリには以下のような分類があります:"
-
-#~ msgid "Courier font"
-#~ msgstr "Courier フォント"
-
-#~ msgid ""
-#~ "Courier font represents <command>commands</command>, <filename>file names "
-#~ "and paths</filename>, and <prompt>prompts</prompt> ."
-#~ msgstr ""
-#~ "Courier フォントは  <command>コマンド</command>、<filename>ファイル名とパ"
-#~ "ス</filename>、 そして、<prompt>プロンプト</prompt> を表示します。"
-
-#, fuzzy
-#~ msgid ""
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports"
-#~ msgstr ""
-#~ "以下の表示がある場合は、コンピュータ出力を意味します: <screen>\n"
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports\n"
-#~ "</screen>"
-
-#~ msgid "bold Courier font"
-#~ msgstr "太字 Courier フォント"
-
-#~ msgid ""
-#~ "Bold Courier font represents text that you are to type, such as: "
-#~ "<userinput>service jonas start</userinput>"
-#~ msgstr ""
-#~ "太字 Courier フォントは <userinput>service jonas start</userinput> など、"
-#~ "ユーザーが入力すべき テキストを示します。"
-
-#~ msgid ""
-#~ "If you have to run a command as root, the root prompt (<literal>#</"
-#~ "literal>) precedes the command:"
-#~ msgstr ""
-#~ "root としてコマンドを実行する必要がある場合は、root プロンプト "
-#~ "(<literal>#</literal>) が コマンドの前に付きます:"
-
-#~ msgid "italic Courier font"
-#~ msgstr "イタリック Courier フォント"
-
-#, fuzzy
-#~ msgid ""
-#~ "Italic Courier font represents a variable, such as an installation "
-#~ "directory: <filename> <replaceable>install_dir</replaceable>/bin/</"
-#~ "filename>"
-#~ msgstr ""
-#~ "イタリック Courier フォントは、インストールディレクトリ: "
-#~ "<filename><replaceable>install_dir</replaceable>/bin/</filename> など、変"
-#~ "数を示します。"
-
-#~ msgid "bold font"
-#~ msgstr "太字フォント"
-
-#~ msgid ""
-#~ "Bold font represents <application>application programs</application> and "
-#~ "<guilabel>text found on a graphical interface</guilabel>."
-#~ msgstr ""
-#~ "太字フォントは <application>アプリケーションプログラム</application> と "
-#~ "<guilabel>グラフィカル インターフェイス上のテキスト</guilabel> を示しま"
-#~ "す。"
-
-#~ msgid ""
-#~ "When shown like this: <guibutton> OK </guibutton>, it indicates a button "
-#~ "on a graphical application interface."
-#~ msgstr ""
-#~ "このように表示がある場合: <guibutton> OK </guibutton> 、それは、グラフィカ"
-#~ "ル アプリケーションインターフェイスにあるボタンを意味します。"
-
-#~ msgid ""
-#~ "Additionally, the manual uses different strategies to draw your attention "
-#~ "to pieces of information. In order of how critical the information is to "
-#~ "you, these items are marked as follows:"
-#~ msgstr ""
-#~ "更に、ドキュメントは異なる手法を使って、情報の重要な部分にユーザーの注意を"
-#~ "引くようにします。 ユーザーに取って情報がどれほど重要かに応じて以下のよう"
-#~ "なマークが設定されています:"
-
-#~ msgid ""
-#~ "A note is typically information that you need to understand the behavior "
-#~ "of the system."
-#~ msgstr ""
-#~ "注記は、システムの動作についてユーザーが理解すべき標準的な情報です。"
-
-#~ msgid "A tip is typically an alternative way of performing a task."
-#~ msgstr "ヒントは、一般的にタスクを実行する為の別の方法を示すものです。"
-
-#~ msgid ""
-#~ "Important information is necessary, but possibly unexpected, such as a "
-#~ "configuration change that will not persist after a reboot."
-#~ msgstr ""
-#~ "重要の情報は、再起動後に維持されなかった設定の変更など、必要でありながら予"
-#~ "想されにくいことを 案内します。"
-
-#~ msgid "Caution"
-#~ msgstr "注意 "
-
-#~ msgid ""
-#~ "A caution indicates an act that would violate your support agreement, "
-#~ "such as recompiling the kernel."
-#~ msgstr ""
-#~ "注意は、カーネルのリコンパイルなど、ユーザーのサポート同意に違反するような"
-#~ "行為を示します。"
-
-#~ msgid ""
-#~ "A warning indicates potential data loss, as may happen when tuning "
-#~ "hardware for maximum performance."
-#~ msgstr ""
-#~ "警告は、ハードウェアを最大パフォーマンス用にチューンしている場合のように、"
-#~ "発生する可能性のある データロス等の危険状態を示します。"
-
-#~ msgid "gconftool-2\n"
-#~ msgstr "gconftool-2\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-#~ msgstr ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-
-#~ msgid "Tip"
-#~ msgstr "ヒント"
-
-#~ msgid "translator-credits"
-#~ msgstr "kiyoto james hashida, khashida@redhat.com, 2007"

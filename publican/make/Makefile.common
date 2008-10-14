@@ -330,7 +330,7 @@ publish-report:: report-all
 	@mkdir -p tmp/Reports/Common_Content
 	@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/css tmp/Reports/Common_Content/.
 	-@cp -rf $(COMMON_CONTENT)/common/$(XML_LANG)/images  tmp/Reports/Common_Content/.
-	@mkdir -p publish/Reports/$(PRODUCT)/$(PROD_VERSION)/${DOCNAME}
+	@mkdir -p publish/Reports/$(PRODUCT)/$(PROD_VERSION)/$(DOCNAME)
 	@cp -rf tmp/Reports/* publish/Reports/$(PRODUCT)/$(PROD_VERSION)/$(DOCNAME)/.
 	@echo "END: publish-report `date`"
 

@@ -1,13 +1,14 @@
 # translation of Conventions.po to French
 # Decroux Fabien <fdecroux@redhat.com>, 2007.
+# Corina Roe <croe@redhat.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-09-29 04:47+0000\n"
-"PO-Revision-Date: 2007-10-23 13:30+1000\n"
-"Last-Translator: Decroux Fabien <fdecroux@redhat.com>\n"
-"Language-Team: French <fr@li.org>\n"
+"PO-Revision-Date: 2008-10-10 14:59+1000\n"
+"Last-Translator: Corina Roe <croe@redhat.com>\n"
+"Language-Team: French <i18@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +26,7 @@ msgstr "Conventions de documentation"
 msgid ""
 "This manual uses several conventions to highlight certain words and phrases "
 "and draw attention to specific pieces of information."
-msgstr ""
+msgstr "Ce manuel utilise plusieurs conventions pour souligner l'importance de certains mots ou expressions, mais aussi en vue d'attirer l'attention sur certains passages d'informations précis."
 
 #. Tag: para
 #: Conventions.xml:11
@@ -38,12 +39,14 @@ msgid ""
 "displayed. Note: Red Hat Enterprise Linux 5 and later includes the "
 "Liberation Fonts set by default."
 msgstr ""
+"Dans les éditions support papier et PDF, ce manuel utilise des caractères issus de <ulink "
+"url=\"https://fedorahosted.org/liberation-fonts/\">Liberation Fonts</ulink>. La police de caractères Liberation Fonts est également utilisée pour les éditions HTML si elle est installée sur votre système. Sinon, des polices de caractères alternatives équivalentes sont utilisées. Noter: Red Hat Enterprise Linux 5 et versions supérieures comprennent la police Liberation Fonts par défaut."
 
 #. Tag: title
 #: Conventions.xml:16
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Typographic Conventions"
-msgstr "Conventions de documentation"
+msgstr "Conventions typographiques"
 
 #. Tag: para
 #: Conventions.xml:18
@@ -52,13 +55,13 @@ msgid ""
 "Four typographic conventions are used to call attention to specific words "
 "and phrases. These conventions, and the circumstances they apply to, are as "
 "follows."
-msgstr ""
+msgstr "Quatre conventions typographiques sont utilisées pour attirer l'attention sur certains mots et expressions. Ces conventions, et les circonstances auxquelles elles s'appliquent, sont les suivantes."
 
 #. Tag: literal
 #: Conventions.xml:23
 #, no-c-format
 msgid "Mono-spaced Bold"
-msgstr ""
+msgstr "Caractères gras à espacement fixe"
 
 #. Tag: para
 #: Conventions.xml:26
@@ -66,7 +69,7 @@ msgstr ""
 msgid ""
 "Used to highlight system input, including shell commands, file names and "
 "paths. Also used to highlight key caps and key-combinations. For example:"
-msgstr ""
+msgstr "Utilisé pour surligner certaines entrées du systèmes comme les commandes de console, les noms de fichiers et les chemins d'accès. Également utilisé pour surligner les touches et les combinaisons de touches principales. Par exemple:"
 
 #. Tag: section
 #: Conventions.xml:28
@@ -154,12 +157,52 @@ msgid ""
 "firstterm>). Unlike other modules, only one module from the MPM group can be "
 "loaded by the Apache HTTP Server. </para> </blockquote>"
 msgstr ""
+"<blockquote> <para> Pour voir le contenu du fichier <filename>mon_nouvel_ouvrage_littéraire</filename> qui se trouve dans votre répertoire en cours, saisir la commande <command>cat mon_nouvel_ouvrage_littéraire</command> par invitation-console et appuyer sur <keycap>Enter</keycap> (entrer) pour exécuter la commande. </para> </blockquote> <para>. Cela comprendra un nom de fichier, une commande-console et un nom de touche, tous présentés sous forme de caractères gras à espacement fixe et tous bien distincts grâce au contexte.</para> <para> Les combinaisons-clé sont différenciées des noms de touches par le trait d'union qui fait partie de chaque combinaison-clé. Ainsi: </para> <blockquote> <para> appuyer sur <keycap>Enter</"
+"keycap> (entrer) pour exécuter la commande. </para> <para> Appuyer sur <keycombo><keycap>Ctrl</"
+"keycap><keycap>Alt</keycap><keycap>F1</keycap></keycombo> pour passer au premier terminal virtuel. Appuyer sur <keycombo><keycap>Ctrl</keycap><keycap>Alt</"
+"keycap><keycap>F7</keycap></keycombo> pour retourner à votre session X-Windows. </"
+"para> </blockquote> <para> la première phrase surligne la touche précise sur laquelle il faut appuyer. La seconde surligne deux ensemble de trois touches, à presser simultanément séparémment.</para> <para> Si le code source est mentionné, les noms de classe, les méthodes, les fonctions, les noms de variables et les valeurs de retour citées dans un paragraphe seront présentées comme ci-dessus, en <literal>caractères gras à espacement fixe </"
+"literal>. Par exemple: </para> <blockquote> <para> Les classes fichier comprennent le nom de classe <classname>filesystem</classname> pour les noms de fichier, <classname>file</"
+"classname> pour les fichiers, et <classname>dir</classname> pour les répertoires. Chaque classe correspond à un ensemble de permissions associées. </para> </blockquote> "
+"<para> <application>Caractères gras proportionnels</application> </para> <para> Cela surligne des mots ou expressions que l'on rencontre dans le système, comprenant des noms d'application, des fenêtres de dialogue texte, des boutons étiquetés, des cases à cocher et des boutons d'options; enfin, des intitulés de menus et de sous-menus. Ainsi: </para> <blockquote> "
+"<para> Sélectionner <guimenu>System > Preferences > Mouse</guimenu> à partir de la barre de menu principal pour lancer l'appication souris <application>Mouse Preferences</application>. A partir de l'onglet "
+"<guilabel>Buttons</guilabel> (Boutons), cliquer sur la case à cocher <guilabel>Left-handed mouse</"
+"guilabel> (souris main gauche) et cliquer sur <guibutton>Close</guibutton> (Fermeture) pour faire passer le bouton principal de la souris de la gauche vers la droite (ce qui permet l'utilisation de la souris par la main gauche). </para> <para> Pour insérer un caractère spécial dans le fichier <application>gedit</application> choisir <guimenu>Applications > "
+"Accessories > Character Map</guimenu> à partir de la barre du menu principal. Ensuite, sélectionner"
+"<guimenu>Search > Find&hellip;</guimenu> à partir de la barre de menu de l'application <application>Character "
+"Map</application>, taper le nom du caractère dans le champ "
+"<guilabel>Search</guilabel> et cliquer <guibutton>Next</guibutton> (Suite). Le caractère que vous cherchiez sera surligné dans la <guilabel>Character Map (Table de caractères)</"
+"guilabel>. Cliquez deux fois sur ce caractère surligné pour l'insérer dans le champ "
+"<guilabel>Text to copy</guilabel> (texte à copier), puis cliquer sur le bouton <guibutton>Copy</"
+"guibutton> (copier) . Maintenant, revenez à votre document, et sélectionner <guimenu>Edit "
+"> Paste</guimenu> à partir de la barre de menu <application>gedit</application>. </"
+"para> </blockquote> <para> Le texte ci-dessus comprend des noms d'application, des noms de menu et autres s'appliquant à l'ensemble du système, des noms de menu pour applications particulières; et des boutons et textes que l'on trouve dans l'interface GUI, tous présentés sous la forme Gras proportionnelle et identifiables en fonction du contexte. </para> <para> Remarquez <guimenu>></guimenu> "
+"l'écriture raccourcie utilisée pour les traverses de menu et de sous-menus. Cela permet d'éviter l'approche difficile d'abord 'Sélectionner <guimenuitem>Mouse</guimenuitem> "
+"à partir du sous-menu <guimenu>Préférences</guimenu> dans le menu de la barre de menu principale' <guimenu>Système</"
+"guimenu>. </para> <para> "
+"<command><replaceable>Italique gras à espacement fixe </replaceable></command> ou "
+"<application><replaceable>Italique gras proportiionnel</replaceable></"
+"application> </para> <para> Qu'ils soient en caractères gras à espacement fixe ou à caractères gras proportionnels, l'ajout des italiques indique la présence de texte remplaçable ou variable. Les caractères en italique indiquent la présence de texte que vous ne saisissez pas littéralement ou de texte affiché qui change suivant les circonstances. Par exemple: </para> <blockquote> <para> pour connecter à une machine éloignée en utilisant ssh, taper <command>ssh "
+"<replaceable>nom d'utilisateur</replaceable>@<replaceable>domain.name (nom.domaine)</replaceable></"
+"command> par invitation de la console. Si la machine éloignée est <filename>exemple.com</"
+"filename> et que votre nom d'utilisateur pour cette machine est john, tapez <command>ssh "
+"john@example.com</command>. </para> <para> La commande <command>mount -o remount "
+"<replaceable> du système de fichiers</replaceable></command> remonte jusqu'au nom du système de fichiers. Ainsi, pour remonter au <filename>/home</filename> du système de fichier, la commande est <command>mount -o remount /home</command>. </para> "
+"<para> Pour voir la version d'un package actuellement installé, utiliser la commande du package "
+"<command>rpm -q <replaceable></replaceable></command> . Elle vous permettra de retourner le résultat suivant: <command><replaceable>package-version-"
+"release</replaceable></command>. </para> </blockquote> <para> Notez les mots en caractères italique gras au dessus de &mdash; nom d'utilisateur, domain.name, système fichier, package, "
+"version et mise à jour. Chaque mot est un signet, soit pour le texte que vous saisissez suite à l'activation d'une commande, soit pour le texte affiché par le système. </para> <para> "
+"Mis à part l'utilisation habituelle de présentation du titre d'un ouvrage, les caractères italiques indiquent l'utilisation initiale d'un terme nouveau et important. Ainsi: </para> "
+"<blockquote> <para> quand le serveur Apache HTTP enregistre des demandes, il envoie des threads ou des processes enfant pour les traiter. Ce groupe de threads ou processes enfant est connu en tant que <firstterm>serveur-pool</firstterm>. Sous "
+"Apache HTTP Server 2.0, on a donné la responsabilité de créer et de maintenir ces pools-de-serveurs à un groupe de modules intitulé "
+"<firstterm>Multi-Processing Modules</firstterm> (<firstterm>MPMs</"
+"firstterm>). A la différence des autres modules, un seul module du groupe MPM ne peut être chargé par le serveur Apache HTTP . </para> </blockquote>"
 
 #. Tag: title
 #: Conventions.xml:132
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Pull-quote Conventions"
-msgstr "Conventions de documentation"
+msgstr "Conventions pour citations mises en vedette"
 
 #. Tag: para
 #: Conventions.xml:134
@@ -167,7 +210,7 @@ msgstr "Conventions de documentation"
 msgid ""
 "Two, commonly multi-line, data types are set off visually from the "
 "surrounding text."
-msgstr ""
+msgstr "Deux types de données, normalement présentées sur lignes multiples, ressortent visuellement du texte avoisinant."
 
 #. Tag: para
 #: Conventions.xml:138
@@ -176,6 +219,8 @@ msgid ""
 "Output sent to a terminal is set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> and presented thus:"
 msgstr ""
+"Les sorties envoyées vers un terminal sont en caractères <computeroutput>Romains à espacement fixe</"
+"computeroutput> et présentés ainsi:"
 
 #. Tag: screen
 #: Conventions.xml:142
@@ -184,6 +229,8 @@ msgid ""
 "books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
 "books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 msgstr ""
+"books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
+"books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 
 #. Tag: para
 #: Conventions.xml:144
@@ -192,6 +239,8 @@ msgid ""
 "Source-code listings are also set in <computeroutput>Mono-spaced Roman</"
 "computeroutput> but are presented and highlighted as follows:"
 msgstr ""
+"Des listings code-source sont également présentés en espaces <computeroutput>romains à espacemnt fixe</"
+"computeroutput> mais sont présentés et surlignés comme suit:"
 
 #. Tag: programlisting
 #: Conventions.xml:148
@@ -218,12 +267,32 @@ msgid ""
 "   \n"
 "}"
 msgstr ""
+"package org.jboss.book.jca.ex1;\n"
+"\n"
+"import javax.naming.InitialContext;\n"
+"\n"
+"public class ExClient\n"
+"{\n"
+"   public static void main(String args[]) \n"
+"       throws Exception\n"
+"   {\n"
+"      InitialContext iniCtx = new InitialContext();\n"
+"      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
+"      EchoHome       home   = (EchoHome) ref;\n"
+"      Echo           echo   = home.create();\n"
+"\n"
+"      System.out.println(\"Created Echo\");\n"
+"\n"
+"      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
+"   }\n"
+"   \n"
+"}"
 
 #. Tag: title
 #: Conventions.xml:153
 #, no-c-format
 msgid "Notes and Warnings"
-msgstr ""
+msgstr "Notes et avertissements"
 
 #. Tag: para
 #: Conventions.xml:155
@@ -231,7 +300,7 @@ msgstr ""
 msgid ""
 "Finally, we use three visual styles to draw attention to information that "
 "might otherwise be overlooked."
-msgstr ""
+msgstr "Finalement, nous utilisons trois styles visuels pour attirer l'attention sur des informations qui auraient pu être normalement négligées."
 
 #. Tag: title
 #: Conventions.xml:160
@@ -246,7 +315,7 @@ msgid ""
 "A note is a tip or shortcut or alternative approach to the task at hand. "
 "Ignoring a note should have no negative consequences, but you might miss out "
 "on a trick that makes your life easier."
-msgstr ""
+msgstr "Une note est une forme de conseil, un racourci ou une approche alternative par rapport à une tâche à entreprendre. L'ignorer ne devrait pas poser de conséquences négatives, mais vous pourriez passer à côté d'une astuce qui aurait pu vous simplifier la vie."
 
 #. Tag: title
 #: Conventions.xml:167
@@ -262,7 +331,7 @@ msgid ""
 "that only apply to the current session, or services that need restarting "
 "before an update will apply. Ignoring Important boxes won't cause data loss "
 "but may cause irritation and frustration."
-msgstr ""
+msgstr "Des casiers d'informations importantes détaillent des éléments qui pourraient être facilement négligés: des changements de configurations qui s'appliquent uniquement à la session courante, ou des services qui ont besoin d'être redémarrés avant toute mise à jour. Si vous ignorez ces casiers d'information, vous ne perdrez aucunes données mais pourrait être source de frustration et d'irritation."
 
 #. Tag: title
 #: Conventions.xml:175
@@ -276,147 +345,5 @@ msgstr "Avertissement"
 msgid ""
 "A Warning should not be ignored. Ignoring warnings will most likely cause "
 "data loss."
-msgstr ""
+msgstr "Un avertissement ne saurait être ignoré. Ignorer des avertissements risque d'entrainer invariablement une perte de données."
 
-#~ msgid ""
-#~ "Certain words in this manual are represented in different fonts, styles, "
-#~ "and weights. This highlighting indicates that the word is part of a "
-#~ "specific category. The categories include the following:"
-#~ msgstr ""
-#~ "En lisant ce manuel, vous verrez que certains mots sont représentés avec "
-#~ "des polices différentes au niveau du type, du style et de l'utilisation "
-#~ "de caractères gras. Cette présentation indique que le mot appartient à "
-#~ "une certaine catégorie. Voici les différentes catégories&nbsp;:"
-
-#~ msgid "Courier font"
-#~ msgstr "Police Courier"
-
-#~ msgid ""
-#~ "Courier font represents <command>commands</command>, <filename>file names "
-#~ "and paths</filename>, and <prompt>prompts</prompt> ."
-#~ msgstr ""
-#~ "La police Courier représente les <command>commandes</command>, les "
-#~ "<filename>noms de fichiers et chemins d'accès</filename> et les "
-#~ "<prompt>invites</prompt>."
-
-#, fuzzy
-#~ msgid ""
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports"
-#~ msgstr ""
-#~ "Lorsque le texte est affiché comme ci-dessous, il s'agit d'une sortie "
-#~ "d'ordinateur&nbsp;: <screen>\n"
-#~ "Desktop       about.html       logs      paulwesterberg.png\n"
-#~ "Mail          backupfiles      mail      reports\n"
-#~ "</screen>"
-
-#~ msgid "bold Courier font"
-#~ msgstr "Police Courier bold"
-
-#~ msgid ""
-#~ "Bold Courier font represents text that you are to type, such as: "
-#~ "<userinput>service jonas start</userinput>"
-#~ msgstr ""
-#~ "La police Courier bold indique du texte que vous devez saisir, par "
-#~ "exemple&nbsp;: <userinput>service jonas start</userinput>"
-
-#~ msgid ""
-#~ "If you have to run a command as root, the root prompt (<literal>#</"
-#~ "literal>) precedes the command:"
-#~ msgstr ""
-#~ "Si vous devez exécuter une commande en tant que super-utilisateur, "
-#~ "l'invite root (<literal>#</literal>) précède la commande&nbsp;:"
-
-#~ msgid "italic Courier font"
-#~ msgstr "Police Courier italic"
-
-#, fuzzy
-#~ msgid ""
-#~ "Italic Courier font represents a variable, such as an installation "
-#~ "directory: <filename> <replaceable>install_dir</replaceable>/bin/</"
-#~ "filename>"
-#~ msgstr ""
-#~ "La police Courier Italic représente une variable, par exemple un "
-#~ "répertoire d'installation&nbsp;: <filename><replaceable>install_dir</"
-#~ "replaceable>/bin/</filename>"
-
-#~ msgid "bold font"
-#~ msgstr "Police bold"
-
-#~ msgid ""
-#~ "Bold font represents <application>application programs</application> and "
-#~ "<guilabel>text found on a graphical interface</guilabel>."
-#~ msgstr ""
-#~ "La police bold représente des <application>programmes d'application</"
-#~ "application> et le <guilabel>texte d'une interface graphique</guilabel>."
-
-#~ msgid ""
-#~ "When shown like this: <guibutton> OK </guibutton>, it indicates a button "
-#~ "on a graphical application interface."
-#~ msgstr ""
-#~ "Indiqué de la manière suivante&nbsp;: <guibutton> OK </guibutton>, il "
-#~ "s'agit d'un bouton de l'interface graphique d'une application."
-
-#~ msgid ""
-#~ "Additionally, the manual uses different strategies to draw your attention "
-#~ "to pieces of information. In order of how critical the information is to "
-#~ "you, these items are marked as follows:"
-#~ msgstr ""
-#~ "De plus, nous utilisons différentes stratégies pour attirer votre "
-#~ "attention sur certaines informations. Suivant l'importance de "
-#~ "l'information, ces éléments seront présentés de la manière suivante&nbsp;:"
-
-#~ msgid ""
-#~ "A note is typically information that you need to understand the behavior "
-#~ "of the system."
-#~ msgstr ""
-#~ "Une remarque est une information d'ordre général dont vous avez besoin "
-#~ "pour comprendre le comportement d'un système."
-
-#~ msgid "A tip is typically an alternative way of performing a task."
-#~ msgstr ""
-#~ "Une astuce est généralement une autre manière d'effectuer une tâche."
-
-#~ msgid ""
-#~ "Important information is necessary, but possibly unexpected, such as a "
-#~ "configuration change that will not persist after a reboot."
-#~ msgstr ""
-#~ "Les informations importantes sont nécessaires, mais peuvent être "
-#~ "inattendues, telles que la modification d'une configuration qui ne "
-#~ "persiste pas après un redémarrage."
-
-#~ msgid "Caution"
-#~ msgstr "Attention"
-
-#~ msgid ""
-#~ "A caution indicates an act that would violate your support agreement, "
-#~ "such as recompiling the kernel."
-#~ msgstr ""
-#~ "Il s'agit d'une action qui pourrait enfreindre votre contrat de support, "
-#~ "par exemple la recompilation du noyau."
-
-#~ msgid ""
-#~ "A warning indicates potential data loss, as may happen when tuning "
-#~ "hardware for maximum performance."
-#~ msgstr ""
-#~ "Un avertissement indique une éventuelle perte de données, comme cela peut "
-#~ "se produire lorsque vous personnalisez un matériel afin d'optimiser les "
-#~ "performances."
-
-#~ msgid "gconftool-2\n"
-#~ msgstr "gconftool-2\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-#~ msgstr ""
-#~ "\n"
-#~ "# <placeholder-1/>\n"
-#~ "\t\t\t\t"
-
-#~ msgid "Tip"
-#~ msgstr "Astuce"
-
-#~ msgid "translator-credits"
-#~ msgstr "translator-credits"
