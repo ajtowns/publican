@@ -103,6 +103,9 @@ create_l10n:: clean
 #	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
 	@echo "End $@" 
 
+commit_l10n:
+	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
+
 #######################################################################################
 #
 #	Common Content specific things
