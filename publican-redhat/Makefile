@@ -122,7 +122,7 @@ update-pot:
 # TODO: Get this in to SVN
 SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/$(NAME)
 SOFTWARE_SOURCE = http://svn.fedorahosted.org/svn/publican/trunk/$(NAME)/pot
-TRANS_VERSION = 0.12
+TRANS_VERSION = 0.15
 PROD_VERSION = 1.0
 
 resync-po:: clean
@@ -155,4 +155,8 @@ create_l10n:: clean
 	rm tmp/$(VERSION)/pot/messages.mo
 #	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
 	@echo "End $@" 
+
+commit_l10n:
+	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
+
 
