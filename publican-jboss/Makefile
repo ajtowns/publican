@@ -69,13 +69,15 @@ update-pot:
 # TODO: Get this in to SVN
 SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/$(NAME)
 SOFTWARE_SOURCE = http://svn.fedorahosted.org/svn/publican/trunk/$(NAME)/pot
+TRANS_VERSION = 0.12
+PROD_VERSION = 1.0
 
 resync-po:: clean
 	@echo "Start $@"
-	@echo  "	Exporting PO files from $(SOURCE)/$(VERSION)"
+	@echo  "	Exporting PO files from $(SOURCE)/$(TRANS_VERSION)"
 	@mkdir -p tmp/SVN
 	@pushd tmp/SVN  > /dev/null; \
-		svn export $(SOURCE)/$(VERSION) gui_strings; \
+		svn export $(SOURCE)/$(TRANS_VERSION) gui_strings; \
 	popd > /dev/null;
 	@pushd tmp/SVN/gui_strings  > /dev/null; \
 		find . -name *.po | sed -e 's/\.\///g' | xargs -i{} cp {} $(PWD)/{}; \
@@ -87,6 +89,8 @@ create_l10n:: clean
 	mkdir -p tmp/$(VERSION)/pot
 	cp ../publican/make/Makefile.l10n tmp/$(VERSION)/Makefile
 	sed -i -e 's/@PROGNAME@/$(NAME)/g' tmp/$(VERSION)/Makefile
+	sed -i -e 's/@PRODUCT@/$(NAME)/g' tmp/$(VERSION)/Makefile
+	sed -i -e 's/@PROD_VERSION@/$(PROD_VERSION)/g' tmp/$(VERSION)/Makefile
 	sed -i -e 's/@BRAND@/$(REAL_BRAND)/g' tmp/$(VERSION)/Makefile
 	sed -i -e 's/@OTHER_LANGS@/$(LANGS)/g' tmp/$(VERSION)/Makefile
 	perl -p -i -e 's|\@SOFTWARE_SOURCE\@|$(SOFTWARE_SOURCE)|g' tmp/$(VERSION)/Makefile
@@ -96,7 +100,7 @@ create_l10n:: clean
 	make -C tmp/$(VERSION) update-po-all
 	make -C tmp/$(VERSION) clean
 	rm tmp/$(VERSION)/pot/messages.mo
-	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
+#	cd tmp && svn import -m"initial import of $(NAME) $(VERSION)" $(VERSION) $(SOURCE)/$(VERSION)
 	@echo "End $@" 
 
 #######################################################################################
