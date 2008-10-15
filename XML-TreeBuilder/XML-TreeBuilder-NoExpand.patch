@@ -1,0 +1,110 @@
+diff -rubB --exclude=.svn XML-TreeBuilder-3.09/Changes XML-TreeBuilder-patched/Changes
+--- XML-TreeBuilder-3.09/Changes	2004-06-11 14:28:41.000000000 +1000
++++ XML-TreeBuilder-patched/Changes	2008-10-15 12:17:13.000000000 +1000
+@@ -1,5 +1,11 @@
+ # Time-stamp: "2004-06-10 20:28:41 ADT"
+ 
++2007-12-01   Jeff Fearn <jfearn@redhat.com>
++
++   Release 3.10
++
++   Added NoExpand option to allow entities to be left untouched in xml.
++
+ 
+ 2004-06-10   Sean M. Burke <sburke@cpan.org>
+ 
+diff -rubB --exclude=.svn XML-TreeBuilder-3.09/lib/XML/TreeBuilder.pm XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm
+--- XML-TreeBuilder-3.09/lib/XML/TreeBuilder.pm	2004-06-11 13:59:14.000000000 +1000
++++ XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm	2008-10-15 12:38:59.000000000 +1000
+@@ -5,6 +5,7 @@
+ use strict;
+ use XML::Element ();
+ use XML::Parser ();
++use Carp;
+ use vars qw(@ISA $VERSION);
+ 
+ $VERSION = '3.09';
+@@ -12,8 +13,15 @@
+ 
+ #==========================================================================
+ sub new {
+-  my $class = ref($_[0]) || $_[0];
+-  # that's the only parameter it knows
++  my ($this, $arg) = @_;
++  my $class = ref($this) || $this;
++
++  my $NoExpand = defined $arg->{'NoExpand'} ? delete $arg->{'NoExpand'} : 0;
++  my $ErrorContext = defined $arg->{'ErrorContext'} ? delete $arg->{'ErrorContext'} : 0;
++
++  if ( %{$arg} ) {
++    croak "unknown args: " . join( ", ", keys %{$arg} );
++  }
+   
+   my $self = XML::Element->new('NIL');
+   bless $self, $class; # and rebless
+@@ -21,11 +29,19 @@
+   $self->{'_store_comments'}     = 0;
+   $self->{'_store_pis'}          = 0;
+   $self->{'_store_declarations'} = 0;
++  $self->{'NoExpand'}            = $NoExpand;
++  $self->{'ErrorContext'}        = $ErrorContext;
+   
+   my @stack;
+   # Compare the simplicity of this to the sheer nastiness of HTML::TreeBuilder!
+   
+   $self->{'_xml_parser'} = XML::Parser->new( 'Handlers' => {
++    'Default' => sub {
++        if ( ( $self->{'NoExpand'} ) && ( $_[1] =~ /&.*\;/ ) ) {
++            $stack[-1]->push_content( $_[1] );
++        }
++        return;
++    },
+     'Start' => sub {
+       shift;
+       if(@stack) {
+@@ -103,7 +119,22 @@
+        return;
+     },
+     
+-  });
++    'Entity' => sub {
++       return unless $self->{'_store_declarations'};
++       shift;
++       (
++        @stack ? $stack[-1] : $self
++       )->push_content(
++         $self->{'_element_class'}->new('~declaration',
++          'text' => join ' ', 'ENTITY', @_
++         )
++       );
++       return;
++    },
++  },
++  'NoExpand' => $self->{'NoExpand'},
++  'ErrorContext' => $self->{'ErrorContext'}
++  );
+   
+   return $self;
+ }
+Only in XML-TreeBuilder-patched/lib/XML: .TreeBuilder.pm.swp
+diff -rubB --exclude=.svn XML-TreeBuilder-3.09/t/10main.t XML-TreeBuilder-patched/t/10main.t
+--- XML-TreeBuilder-3.09/t/10main.t	2004-06-11 14:22:53.000000000 +1000
++++ XML-TreeBuilder-patched/t/10main.t	2008-10-15 12:17:13.000000000 +1000
+@@ -21,6 +21,7 @@
+ 
+ my $y = XML::Element->new_from_lol(
+  ['Gee',
++   { 'NoExpand' => '0', 'ErrorContext' => '0'},
+    ['~comment', {'text' => ' myorp '}],
+    ['foo', {'Id'=> 'me', 'xml:foo' => 'lal'}, 'Hello World'],
+    ['lor'],
+@@ -29,8 +30,7 @@
+  ]
+ );
+ 
+-
+-ok $x->same_as($y);
++ok($x->same_as($y));
+ 
+ unless( $ENV{'HARNESS_ACTIVE'} ) {
+   $x->dump;

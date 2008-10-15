@@ -5,7 +5,6 @@ package XML::TreeBuilder;
 use strict;
 use XML::Element ();
 use XML::Parser ();
-use Carp;
 use vars qw(@ISA $VERSION);
 
 $VERSION = '3.09';
@@ -13,35 +12,20 @@ $VERSION = '3.09';
 
 #==========================================================================
 sub new {
-  my ($this, $arg) = @_;
-  my $class = ref($this) || $this;
-
-  my $NoExpand = defined $arg->{'NoExpand'} ? delete $arg->{'NoExpand'} : 0;
-  my $ErrorContext = defined $arg->{'ErrorContext'} ? delete $arg->{'ErrorContext'} : 0;
-
-  if ( %{$arg} ) {
-    croak "unknown args: " . join( ", ", keys %{$arg} );
-  }
+  my $class = ref($_[0]) || $_[0];
+  # that's the only parameter it knows
   
   my $self = XML::Element->new('NIL');
   bless $self, $class; # and rebless
-  $self->{'_element_class'}      = 'XML::Element';
+  $self->{'_element_class'} = 'XML::Element';
   $self->{'_store_comments'}     = 0;
   $self->{'_store_pis'}          = 0;
   $self->{'_store_declarations'} = 0;
-  $self->{'NoExpand'}            = $NoExpand;
-  $self->{'ErrorContext'}        = $ErrorContext;
   
   my @stack;
   # Compare the simplicity of this to the sheer nastiness of HTML::TreeBuilder!
   
   $self->{'_xml_parser'} = XML::Parser->new( 'Handlers' => {
-    'Default' => sub {
-        if ( ( $self->{'NoExpand'} ) && ( $_[1] =~ /&.*\;/ ) ) {
-            $stack[-1]->push_content( $_[1] );
-        }
-        return;
-    },
     'Start' => sub {
       shift;
       if(@stack) {
@@ -118,23 +102,8 @@ sub new {
        );
        return;
     },
-
-    'Entity' => sub {
-       return unless $self->{'_store_declarations'};
-       shift;
-       (
-        @stack ? $stack[-1] : $self
-       )->push_content(
-         $self->{'_element_class'}->new('~declaration',
-          'text' => join ' ', 'ENTITY', @_
-         )
-       );
-       return;
-    },
-  },
-  'NoExpand' => $self->{'NoExpand'},
-  'ErrorContext' => $self->{'ErrorContext'}
-  );
+    
+  });
   
   return $self;
 }
