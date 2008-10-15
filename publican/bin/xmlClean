@@ -628,9 +628,10 @@ sub PrintXML($) {
         $xml_doc->pos( $xml_doc->root() );
         my $type = $xml_doc->root->attr("_tag");
         my $text = my_as_XML($xml_doc);
+
         $text =~ s/&#10;//g;
         $text =~ s/&#9;//g;
-        $text =~ s/&#38;([a-zA-Z-]+;)/&$1/g;
+        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
         $text =~ s/&#38;/&amp;/g;
         $text =~ s/&amp;#x200B;/&#x200B;/g;
         $text =~ s/&#x200B; &#x200B;/ /g;
@@ -638,6 +639,7 @@ sub PrintXML($) {
         $text =~ s/&#60;/&lt;/g;
         $text =~ s/&#62;/&gt;/g;
         $text =~ s/&#34;/"/g;
+
         $xml_doc->root()->delete();
 
         open( OUTDOC, ">:utf8", "$out_file" )

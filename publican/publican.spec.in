@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.37
-Release:	0.t46%{?dist}
+Release:	0.t51%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -162,6 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 - Added package meta to XHTML to allow content to be tracked to an RPM.
 - Added catch for missing title and productname.
 - Changed Formal Para Title to follow parent indent. BZ #466309
+- Fix xmlClean not handling entity names with underscores or numbers. BZ #466994
 
 * Wed Sep 3 2008 Jeff Fearn <jfearn@redhat.com> 0.37
 - Fix Bug in web rpm upgrade script.
@@ -182,6 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 - Removed corpauthor from template. BZ #461222
 - Fixed create_book help text. BZ #460736
 - Added menuchoice tag. BZ #459671
+- Removed unused scripts entity2pot and po2entity
 
 * Mon Sep 1 2008 Jeff Fearn <jfearn@redhat.com> 0.35-0
 - Add missing xerces-j2 Requires. BZ #457497
