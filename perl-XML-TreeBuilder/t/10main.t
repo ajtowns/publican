@@ -20,7 +20,8 @@ $x->parse(
 );
 
 my $y = XML::Element->new_from_lol(
- ['Gee', { 'NoExpand' => '0'},
+ ['Gee',
+   { 'NoExpand' => '0', 'ErrorContext' => '0'},
    ['~comment', {'text' => ' myorp '}],
    ['foo', {'Id'=> 'me', 'xml:foo' => 'lal'}, 'Hello World'],
    ['lor'],
