@@ -17,6 +17,7 @@ sub new {
   my $class = ref($this) || $this;
 
   my $NoExpand = defined $arg->{'NoExpand'} ? delete $arg->{'NoExpand'} : 0;
+  my $ = defined $arg->{'ErrorContext'} ? delete $arg->{'ErrorContext'} : 0;
 
   if ( %{$arg} ) {
     croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -29,6 +30,7 @@ sub new {
   $self->{'_store_pis'}          = 0;
   $self->{'_store_declarations'} = 0;
   $self->{'NoExpand'}            = $NoExpand;
+  $self->{'ErrorContext'}        = $ErrorContext;
   
   my @stack;
   # Compare the simplicity of this to the sheer nastiness of HTML::TreeBuilder!
@@ -131,6 +133,7 @@ sub new {
     },
   },
   'NoExpand' => $self->{'NoExpand'});
+  'ErrorContext' => $self->{'ErrorContext'});
   
   return $self;
 }
