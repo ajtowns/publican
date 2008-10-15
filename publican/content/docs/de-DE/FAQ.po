@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Users_Guide VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-08-27 06:34+0000\n"
+"POT-Creation-Date: 2008-10-15 05:51+0000\n"
 "PO-Revision-Date: 2008-08-20 06:04+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: FAQ.xml:15
 #, no-c-format
 msgid ""
-"Edit your books <filename>Makefile</filename> and uncomment the "
+"Edit your book's <filename>Makefile</filename> and uncomment the "
 "<computeroutput>OTHER_LANGS</computeroutput> entry. Add the required "
 "language code after the &#39;=&#39; sign."
 msgstr ""
@@ -106,15 +106,13 @@ msgstr ""
 #. Tag: para
 #: FAQ.xml:82
 #, no-c-format
-msgid "Where are the publican common files located?"
+msgid "Where are the Publican common files located?"
 msgstr ""
 
 #. Tag: para
 #: FAQ.xml:87
 #, no-c-format
-msgid ""
-"By default they are in the <filename>/usr/share/publican</filename> "
-"directory."
+msgid "By default, they are in <filename>/usr/share/publican/</filename>."
 msgstr ""
 
 #. Tag: para
@@ -304,11 +302,46 @@ msgstr ""
 #. Tag: para
 #: FAQ.xml:223
 #, no-c-format
-msgid "Why does Jeff call Isaac Ivan?"
+msgid ""
+"I get an error saying Batik is not in the classpath but batik is installed! "
+"What is wrong?"
 msgstr ""
 
 #. Tag: para
 #: FAQ.xml:228
 #, no-c-format
-msgid "Because Jeff&#39;s memory is pants!"
+msgid ""
+"We believe this is due to classpath issues caused by having different JRE "
+"and JDK versions installed. Sometimes this can be fixed by upgrading your "
+"JDK to the same version of your JRE."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:231
+#, no-c-format
+msgid ""
+"Sometimes this issue can be revealed by running <command>alternatives --"
+"config java</command> and <command>alternatives --config javac</command>, if "
+"the versions are different then selecting the same version in both can fix "
+"this problem."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:234
+#, no-c-format
+msgid ""
+"Some Java installs do not set-up the <command>alternatives</command> "
+"environment correctly, no fix has been determined for this situation."
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:241
+#, no-c-format
+msgid "Why does Jeff call Isaac Ivan?"
+msgstr ""
+
+#. Tag: para
+#: FAQ.xml:246
+#, no-c-format
+msgid "Because Jeff's memory is pants!"
 msgstr ""
