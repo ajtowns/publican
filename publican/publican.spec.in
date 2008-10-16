@@ -23,9 +23,10 @@ Requires:	fop batik saxon ImageMagick
 Requires:	xerces-j2 rpm-build
 Requires:	perl-XML-TreeBuilder >= 3.09-11
 
-BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl aspell
+BuildRequires:	gettext libxslt docbook-dtds docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
+BuildRequires:	perl-XML-TreeBuilder >= 3.09-11
 # FOP is required to build the font metrics.
 BuildRequires:	fop saxon ImageMagick
 #BuildRequires:	xslthl
