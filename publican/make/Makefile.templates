@@ -178,7 +178,7 @@ endif
 		fi; \
 		pushd tmp/${1}/xml_tmp > /dev/null; \
 			echo "cleaning files"; \
-			for file in `find . -name "*.xml" | sort`; do \
+			for file in `find -wholename '*/extras*' -prune -o -name \*.xml -print | sort`; do \
 				file=`echo $$$$file | sed -e 's/^\.\///'`; \
 				echo "	$$$$file"; \
 				$(XMLCLEAN) -U -in $$$$file -out ../xml/$$$$file -book ${2} -lang ${1} $$$$args || exit 4; \
@@ -475,7 +475,7 @@ else
 endif
 	@echo
 	@echo "*Start: Words Of Interest*";
-	@for file in `find $(XML_LANG) -name "*.xml"`; do \
+	@for file in `find $(XML_LANG) -wholename '*/extras/*' -prune -o -name \*.xml -print`; do \
 		aspell --list --lang=${1} --mode=sgml --add-sgml-skip={$(ASPELL_EXCLUDES)} < $$$$file ; \
 	done | sort -u;
 	@echo "*End: Words Of Interest*";
@@ -586,6 +586,7 @@ web-srpm-${1}:: clean tardir-${1}
 	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
 	@cp tmp/tar/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).tgz tmp/rpm/SOURCES/.
 	@rev_file=`grep -l revhistory $(XML_LANG)/*| head -n 1 | sed -e 's/$(XML_LANG)\///g'`; \
+		if [ ! -f "$$$$rev_file" ]; echo "No revhistory found"; exit 5; fi \
 		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
 	@$(CATALOGS) $(XSLTPROC)  --path "$(PWD)" --stringparam book-title "$(TAR_NAME)" \
 		--stringparam lang "${1}" \

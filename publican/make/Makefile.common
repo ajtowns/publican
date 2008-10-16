@@ -186,7 +186,7 @@ pre::
 		echo "`ls $(COMMON_CONTENT)`"; \
 		exit 1; \
 	fi
-	@for file in `find en-US -name \*.xml`; do \
+	@for file in `find en-US -wholename '*/extras/*' -prune -o -name \*.xml -print`; do \
 		if [ "$$(grep -l '<\!ENTITY' $$file)" ]; then \
 			echo; \
 			echo "*WARNING: Entities Declared in XML*"; \
@@ -287,7 +287,7 @@ update-pot::
 ifneq "$(EXTRA_DIRS)" ""
 	@cd pot && mkdir -p $(EXTRA_DIRS)
 endif
-	@cd $(XML_LANG) && for xml_file in `find . -name "*.xml" | sed -e 's/^\.\///g' | sort`; do \
+	@cd $(XML_LANG) && for xml_file in `find . -wholename '*/extras/*' -prune -o -name \*.xml -print | sed -e 's/^\.\///g' | sort`; do \
 		pot_file=`echo $$xml_file | sed -e 's/\.xml/\.pot/'`;\
 		echo "	$$xml_file => $$pot_file";\
 		xml2pot $$xml_file | msguniq  > ../pot/$$pot_file;\
@@ -362,7 +362,7 @@ endif
 clean_ids:
 	@echo "START: $@ `date`"
 	@cd $(XML_LANG) && \
-	for file in `find . -name "*.xml" | sed -e 's/^\.\///' | sort`; do \
+	for file in `find -wholename '*/extras/*' -prune -o -name \*.xml -print | sed -e 's/^\.\///' | sort`; do \
 		echo "	$$file"; \
 		$(XMLCLEAN) -U -in $$file -out $$file -book $(DOCNAME) -cleanids ; \
 	done && cd ..;

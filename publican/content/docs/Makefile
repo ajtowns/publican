@@ -11,6 +11,8 @@ CHUNK_FIRST	= 0
 STANDALONE	?= 0
 PWD		= $(shell pwd)
 
+# STANDALONE is a dirty hack to allow the User_Guide to be built without having publican installed
+# Mainly used when packaging or testing process changes before repackaging
 ifeq "$(STANDALONE)" "0" 
 COMMON_CONFIG  = /usr/share/publican
 else

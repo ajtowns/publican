@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.37
-Release:	0.t55%{?dist}
+Release:	0.t58%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content
@@ -16,11 +16,12 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
 # need kdesdk for po2xml & xml2pot
-Requires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl elinks aspell
+Requires:	gettext libxslt docbook-dtds docbook-style-xsl elinks aspell
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template make
 Requires:	fop batik saxon ImageMagick
 Requires:	xerces-j2 rpm-build
+Requires:	perl-XML-TreeBuilder >= 3.09-11
 
 BuildRequires:	gettext libxslt perl(XML::TreeBuilder) docbook-dtds docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
@@ -161,6 +162,9 @@ rm -rf $RPM_BUILD_ROOT
 - Added catch for missing title and productname.
 - Changed Formal Para Title to follow parent indent. BZ #466309
 - Fix xmlClean not handling entity names with underscores or numbers. BZ #466994
+- Fix clean_ids removing comments. BZ #467145
+- Fix missing revhistory giving useless error. BZ #467147
+- Stopped proecssing xml files in extras directory.
 
 * Wed Sep 3 2008 Jeff Fearn <jfearn@redhat.com> 0.37
 - Fix Bug in web rpm upgrade script.
