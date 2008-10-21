@@ -1,4 +1,4 @@
-%define sunjdk 1
+%define sunjdk %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
 Name:		xslthl
 Summary:	XSLT Syntax Highlighting
