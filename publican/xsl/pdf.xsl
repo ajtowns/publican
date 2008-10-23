@@ -32,6 +32,7 @@
 		xmlns="http://www.w3.org/TR/xhtml1/transitional"
 		xmlns:fo="http://www.w3.org/1999/XSL/Format"
 		xmlns:xslthl="http://xslthl.sf.net"
+		xmlns:rx="http://www.renderx.com/XSL/Extensions"
                 exclude-result-prefixes="xslthl">
 <!--		exclude-result-prefixes="#default"> -->
 
