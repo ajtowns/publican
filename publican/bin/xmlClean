@@ -965,6 +965,11 @@ sub ValidateTables {
 # TODO this should report the line number
 # until then it try's to determine the Tables title or id
             my $table = $node->look_up( "_tag",    qr/table|informaltable/ );
+            if(! $table) {
+                warn(qq{*WARNING: table validation failed*\n} .
+                qq{Could not determine table for tgroup, column numbers can not be validated});
+                next;
+            }
             my $title = $table->look_down( "_tag", "title" );
             if ($title) {
                 $title = $title->as_text();

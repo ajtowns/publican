@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.38
-Release:	0.t2%{?dist}
+Release:	0.t3%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -149,6 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Oct 17 2008 Jeff Fearn <jfearn@redhat.com> 0.39
 - Disable make.graphic.viewport. BZ #467368
 - Add missing XEP namespace. BZ #467256
+- Add catch for ValidateTables where table for tgroup could not be found. BZ #468789
 
 * Thu Oct 16 2008 Jeff Fearn <jfearn@redhat.com> 0.38
 - Fix inline tags removing following new line in verbatim tags. BZ #461369
