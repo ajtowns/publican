@@ -41,6 +41,7 @@
 <xsl:param name="html.ext" select="'.html'"/>
 <xsl:output method="xml" indent="no"/>
 <xsl:param name="highlight.source" select="1"/>
+<xsl:param name="use.extensions" select="1"/>
 <xsl:param name="tablecolumns.extensions" select="1"/>
 
 <xsl:param name="qanda.in.toc" select="0"/>
@@ -475,18 +476,17 @@ Version: 1.72.0
   <xsl:param name="class" select="local-name(.)"/>
   <!-- permit customization of class attributes -->
   <!-- Use element name by default -->
-  <xsl:choose>
-    <xsl:when test="@role">
-      <xsl:attribute name="class">
+  <xsl:attribute name="class">
+    <xsl:value-of select="$class"/>
+    <xsl:if test="@role">
+        <xsl:text> </xsl:text>
         <xsl:value-of select="@role"/>
-      </xsl:attribute>
-	</xsl:when>
-    <xsl:otherwise>
-      <xsl:attribute name="class">
-        <xsl:value-of select="$class"/>
-      </xsl:attribute>
-	</xsl:otherwise>
-  </xsl:choose>
+    </xsl:if>
+    <xsl:if test="@status">
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="@status"/>
+    </xsl:if>
+  </xsl:attribute>
 </xsl:template>
 
 <!--

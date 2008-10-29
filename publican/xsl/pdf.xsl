@@ -124,7 +124,7 @@
 <xsl:param name="shade.verbatim" select="1"/>
 <xsl:attribute-set name="shade.verbatim.style">
   <xsl:attribute name="wrap-option">wrap</xsl:attribute>
-        <xsl:attribute name="hyphenation-character">\</xsl:attribute>
+  <xsl:attribute name="hyphenation-character">\</xsl:attribute>
   <xsl:attribute name="background-color">
 	<xsl:choose>
 		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
@@ -145,8 +145,8 @@
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
-	<xsl:attribute name="padding-left">12pt</xsl:attribute>
-	<xsl:attribute name="padding-right">12pt</xsl:attribute>
+	<!--xsl:attribute name="padding-left">12pt</xsl:attribute>
+	<xsl:attribute name="padding-right">12pt</xsl:attribute-->
 	<xsl:attribute name="padding-top">6pt</xsl:attribute>
 	<xsl:attribute name="padding-bottom">6pt</xsl:attribute>
 	<xsl:attribute name="margin-left">
@@ -199,6 +199,8 @@
 	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
 </xsl:attribute-set>
 
+<!--xsl:param name="draft.watermark.image" select="'Common_Content/images/watermark-draft.png'"/-->
+
 <!--xsl:attribute-set name="admonition.properties"></xsl:attribute-set-->
 
 <xsl:attribute-set name="graphical.admonition.properties">
@@ -227,8 +229,8 @@
 	<xsl:attribute name="space-after.maximum">1em</xsl:attribute>
 	<xsl:attribute name="padding-bottom">12pt</xsl:attribute>
 	<xsl:attribute name="padding-top">12pt</xsl:attribute>
-	<xsl:attribute name="padding-right">12pt</xsl:attribute>
-	<xsl:attribute name="padding-left">12pt</xsl:attribute>
+	<!--xsl:attribute name="padding-right">12pt</xsl:attribute>
+	<xsl:attribute name="padding-left">12pt</xsl:attribute-->
 	<xsl:attribute name="margin-left">
 		<xsl:value-of select="$title.margin.left"/>
 	</xsl:attribute>
