@@ -2034,4 +2034,8 @@ Version:1.72
   </xsl:choose>
 </xsl:template>
 
+<xsl:template match="foreignphrase">
+  <xsl:call-template name="inline.charseq"/>
+</xsl:template>
+
 </xsl:stylesheet>

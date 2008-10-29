@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.38
-Release:	0.t4%{?dist}
+Release:	0.t6%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -151,6 +151,9 @@ rm -rf $RPM_BUILD_ROOT
 - Add missing XEP namespace. BZ #467256
 - Add catch for ValidateTables where table for tgroup could not be found. BZ #468789
 - Fix right margin error on verbatim and admonitions in PDF. BZ #467654
+- Added foreignphrase to list of validated tags.
+- Add foreignphrase to list of tags aspell should ignore.
+- Fixed left align of verbatim items in notes.
 
 * Thu Oct 16 2008 Jeff Fearn <jfearn@redhat.com> 0.38
 - Fix inline tags removing following new line in verbatim tags. BZ #461369

@@ -236,27 +236,29 @@ my %MAP_OUT = (
     'parameter'     => {},
     'prompt'        => {},
     'property'      => {},
-    'see'        => { 'newline_after' => 1, },
-    'seealso'    => { 'newline_after' => 1, },
-    'substeps'   => { 'block'         => 1 },
-    'systemitem' => {},
-    'wordasword' => {},
-    'citerefentry' => {},
+    'see'           => { 'newline_after' => 1, },
+    'seealso'       => { 'newline_after' => 1, },
+    'substeps'      => { 'block'         => 1 },
+    'systemitem'    => {},
+    'wordasword'    => {},
+    'citerefentry'  => {},
     'refentrytitle' => {},
-    'manvolnum' => {},
-#    'uri' => {},
-#    'mousebutton' => {},
-#    'hardware' => {},
-#    'function' => {},
-#    'type'     => {},
-#    'methodname'    => {},
-#    'exceptionname' => {},
-#    'varname'       => {},
-#    'interfacename' => {},
-#    'othername'          => { 'newline_after' => 1 },
-#    'stepalternatives'   => { 'block'   => 1 },
-#    'glosslist'          => { 'block'   => 1 },
-    '~comment'       => {},
+    'manvolnum'     => {},
+
+    #    'uri' => {},
+    #    'mousebutton' => {},
+    #    'hardware' => {},
+    #    'function' => {},
+    #    'type'     => {},
+    #    'methodname'    => {},
+    #    'exceptionname' => {},
+    #    'varname'       => {},
+    #    'interfacename' => {},
+    #    'othername'          => { 'newline_after' => 1 },
+    #    'stepalternatives'   => { 'block'   => 1 },
+    #    'glosslist'          => { 'block'   => 1 },
+    '~comment'      => {},
+    'foreignphrase' => {},
 );
 
 my %BANNED_TAGS = (
@@ -708,9 +710,9 @@ sub my_as_XML($) {
             ( $node, $start ) = @_;
             if ( ref $node ) {     # it's an element
                                    # delete internal attrs
-                $node->attr( 'depth',    undef );
-                $node->attr( 'name',     undef );
-                $node->attr( 'NoExpand', undef );
+                $node->attr( 'depth',        undef );
+                $node->attr( 'name',         undef );
+                $node->attr( 'NoExpand',     undef );
                 $node->attr( 'ErrorContext', undef );
 
                 $tag = $node->{'_tag'};
@@ -962,12 +964,13 @@ sub ValidateTables {
 
         foreach my $node ( $xml_doc->look_down( "_tag", "tgroup" ) ) {
 
-# TODO this should report the line number
-# until then it try's to determine the Tables title or id
-            my $table = $node->look_up( "_tag",    qr/table|informaltable/ );
-            if(! $table) {
-                warn(qq{*WARNING: table validation failed*\n} .
-                qq{Could not determine table for tgroup, column numbers can not be validated});
+            # TODO this should report the line number
+            # until then it try's to determine the Tables title or id
+            my $table = $node->look_up( "_tag", qr/table|informaltable/ );
+            if ( !$table ) {
+                warn(     qq{*WARNING: table validation failed*\n}
+                        . qq{Could not determine table for tgroup, column numbers can not be validated}
+                );
                 next;
             }
             my $title = $table->look_down( "_tag", "title" );
@@ -975,8 +978,7 @@ sub ValidateTables {
                 $title = $title->as_text();
             }
             else {
-                $title
-                    = ( $table->attr('id') || "Can't identify table" );
+                $title = ( $table->attr('id') || "Can't identify table" );
             }
             my $cols = $node->attr('cols')
                 || die
@@ -984,7 +986,7 @@ sub ValidateTables {
 
             foreach my $row ( $node->look_down( "_tag", "row" ) ) {
                 my @entries = $row->look_down( "_tag", "entry" );
-                if (  @entries > $cols ) {
+                if ( @entries > $cols ) {
                     die
                         "*ERROR: Fatal Table Error*\nTable '$title' contains invalid data\nAttribute cols ($cols) does not match number of entrys ("
                         . @entries . ")\n";
@@ -1000,7 +1002,8 @@ Create XML::TreeBuilder object and perform operations.
 
 =cut
 
-my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+my $xml_doc
+    = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
 $xml_doc->store_comments(1);
 $xml_doc->parse_file($in_file);
 
