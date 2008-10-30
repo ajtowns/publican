@@ -11,7 +11,7 @@
 	
 	<para>To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let's say the book <citetitle>How To Use Product Foo</citetitle> has an "upstream", "enterprise", and "beta" version:</para>
 	
-<screen>
+<programlisting language="xml">
 &lt;para condition="upstream">
 This paragraph will only appear in the upstream version of How To Use Product Foo.
 &lt;/para>
@@ -27,7 +27,7 @@ This paragraph will only appear in the beta version of How To Use Product Foo.
 &lt;para condition="beta,enterprise">
 This paragraph will only appear in the beta and enterprise versions of How To Use Product Foo.
 &lt;/para>	
-</screen>	
+</programlisting>	
 	<para>To build a specific version (thereby capturing all content conditionalized for that version), use <command>make</command> parameter <command>CONDITION="<replaceable>version</replaceable>" <replaceable>format</replaceable></command>. Using the same example for the book <citetitle>How To Use Product Foo</citetitle>, you can build the "upstream" version of the book in pdf using:</para>
 	
 <screen>

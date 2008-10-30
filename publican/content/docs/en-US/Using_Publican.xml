@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<chapter status="draft"  id="chap-Publican-Using_the_publican_package">
+<chapter id="chap-Publican-Using_the_publican_package">
 	<title>Using the publican package</title>
 	<para>
 		This chapter describes the process of installing the publican package, creating books, the main configuration files, example book files, and how to build a book.
@@ -221,7 +221,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<para>
 				An example <filename>Book_Info.xml</filename> file, for the Test_Book book, is presented below. Details regarding this file, and what the RPM format requirements are for each tag, follow.
 			</para>
-<programlisting language="myxml">
+<programlisting language="xml">
 <xi:include href="extras/Book_Info.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			<variablelist>
@@ -386,14 +386,14 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<para>
 				<filename>Author_Group.xml</filename> is not required but is the standard place to record author, editor, artist and other credit details. The following is an example <filename>Author_Group.xml</filename> file:
 			</para>
-<programlisting language="myxml"><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
+<programlisting language="xml"><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			<para>
 				<filename>Author_Group.xml</filename> does not have to contain all of the above information: include as much or as little as required.
 			</para>
 			<para>
 				If you do not want or need <filename>Author_Group.xml</filename> included in a book, delete the following line from <filename>Book_Info.xml</filename> before building:
 			</para>
-<programlisting language="myxml">&lt;xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;</programlisting>
+<programlisting language="xml">&lt;xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;</programlisting>
 		</section>
 		
 		<section id="sect-Publican-Files_in_the_Book_directory-Chapter.xml">
@@ -401,7 +401,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<para>
 				The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created after running the <command>create_book</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
 			</para>
-<programlisting language="myxml"><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
+<programlisting language="xml"><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			<para>
 				This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Please refer to <ulink url="http://docbook.org/tdg/en/html/chapter.html"></ulink> for further information about chapters.
 			</para>
@@ -421,7 +421,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<para>
 				The following is an example <filename><replaceable>Book_Name</replaceable>.xml</filename> file. Note the <filename>DOCTYPE</filename> is set to <filename>book</filename>.
 			</para>
-<programlisting language="myxml"><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
+<programlisting language="xml"><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
 			<para>
 				This example loads the <computeroutput>Book_Info.xml</computeroutput>, <computeroutput>Preface.xml</computeroutput>, <computeroutput>Chapter.xml</computeroutput>, and <computeroutput>Appendix.xml</computeroutput> XML files.
 			</para>
@@ -434,7 +434,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			<para>
 				The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is not limited to using <filename>xi:include</filename> directives. Books can be created using a single XML file. The following is an example of a book created using a single XML file:
 			</para>
-<programlisting language="myxml">&lt;book&gt;
+<programlisting language="xml">&lt;book&gt;
 
 &lt;chapter&gt;
 &lt;title&gt;Chapter 1&lt;/title&gt;
@@ -632,12 +632,12 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			Use the <filename>images</filename> subdirectory in the <filename>en-<replaceable>US</replaceable>/</filename> directory to store images. Use <computeroutput>./images/<replaceable>image-name</replaceable></computeroutput> to insert images into a book. The following is an example that inserts the <filename>testimage.png</filename> image:
 		</para>
 		<para>
-<screen>&lt;mediaobject&gt;
+<programlisting language="xml">&lt;mediaobject&gt;
 	&lt;imageobject&gt;
 		&lt;imagedata fileref="./images/testimage.png" /&gt;
 	&lt;/imageobject&gt;
 	&lt;textobject&gt;&lt;phrase&gt;alternate text goes here&lt;/phrase&gt;&lt;/textobject&gt;
-&lt;/mediaobject&gt;</screen>
+&lt;/mediaobject&gt;</programlisting>
 		</para>
 		<para>
 			<warning>
