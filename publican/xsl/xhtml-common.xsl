@@ -1047,5 +1047,57 @@ Version: 1.72.0
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/abstract"/>
 </xsl:template>
 
+<!--
+From: xhtml/block.xsl
+Reason:  make para use a div since using P makes a bunch of nested block tags output invalid XHTML
+Version: 1.72.0
+-->
+
+<xsl:template name="paragraph">
+  <xsl:param name="class" select="''"/>
+  <xsl:param name="content"/>
+
+  <xsl:variable name="p">
+    <div class="para">
+      <xsl:call-template name="dir"/>
+      <xsl:if test="$class != ''">
+        <xsl:apply-templates select="." mode="class.attribute">
+          <xsl:with-param name="class" select="$class"/>
+        </xsl:apply-templates>
+      </xsl:if>
+      <xsl:copy-of select="$content"/>
+    </div>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$html.cleanup != 0">
+      <xsl:call-template name="unwrap.p">
+        <xsl:with-param name="p" select="$p"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:copy-of select="$p"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<!--
+From: xhtml/block.xsl
+Reason:  make para use a div since using P makes a bunch of nested block tags output invalid XHTML
+Version: 1.72.0
+-->
+<xsl:template match="simpara">
+  <!-- see also listitem/simpara in lists.xsl -->
+  <div class="para">
+    <xsl:if test="@role and $para.propagates.style != 0">
+      <xsl:apply-templates select="." mode="class.attribute">
+        <xsl:with-param name="class" select="@role"/>
+      </xsl:apply-templates>
+    </xsl:if>
+
+    <xsl:call-template name="anchor"/>
+    <xsl:apply-templates/>
+  </div>
+</xsl:template>
 
 </xsl:stylesheet>
