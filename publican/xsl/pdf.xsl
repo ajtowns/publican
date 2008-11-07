@@ -319,7 +319,7 @@ article toc
 </xsl:attribute-set>
 
 <xsl:attribute-set name="revremark.table.cell.properties">
-  <xsl:attribute name="padding-bottom">10pt</xsl:attribute>
+  <xsl:attribute name="padding-bottom">20pt</xsl:attribute>
 </xsl:attribute-set>
 
 <!-- Only hairlines as frame and cell borders in tables -->
@@ -2055,6 +2055,28 @@ Version:1.72
     <xsl:text> </xsl:text>
     <xsl:apply-templates select="email"/>
   </xsl:if>
+</xsl:template>
+
+
+<xsl:template match="revhistory">
+  <fo:table table-layout="fixed" xsl:use-attribute-sets="revhistory.table.properties">
+    <xsl:call-template name="anchor"/>
+    <fo:table-column column-number="1" column-width="proportional-column-width(1)"/>
+    <fo:table-column column-number="2" column-width="proportional-column-width(1)"/>
+    <fo:table-column column-number="3" column-width="proportional-column-width(2)"/>
+    <fo:table-body start-indent="0pt" end-indent="0pt">
+      <fo:table-row>
+        <fo:table-cell number-columns-spanned="3" xsl:use-attribute-sets="revhistory.table.cell.properties">
+          <fo:block xsl:use-attribute-sets="revhistory.title.properties">
+            <xsl:call-template name="gentext">
+              <xsl:with-param name="key" select="'RevHistory'"/>
+            </xsl:call-template>
+          </fo:block>
+        </fo:table-cell>
+      </fo:table-row>
+      <xsl:apply-templates/>
+    </fo:table-body>
+  </fo:table>
 </xsl:template>
 
 <xsl:template match="revhistory/revision">
