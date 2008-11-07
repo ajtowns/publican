@@ -314,6 +314,10 @@ article toc
 <xsl:attribute name="padding-bottom">2pt</xsl:attribute>
 </xsl:attribute-set>
 
+<! -- TODO fix me -->
+<xsl:attribute-set name="revhistory.table.properties">
+</xsl:attribute-set>
+
 <!-- Only hairlines as frame and cell borders in tables -->
 <xsl:param name="table.frame.border.thickness">0.3pt</xsl:param>
 <xsl:param name="table.cell.border.thickness">0.15pt</xsl:param>
@@ -2036,6 +2040,17 @@ Version:1.72
 
 <xsl:template match="foreignphrase">
   <xsl:call-template name="inline.charseq"/>
+</xsl:template>
+
+<xsl:template match="revision/author">
+  <!--xsl:apply-templates/-->
+  <xsl:call-template name="person.name">
+    <xsl:with-param name="node" select="."/>
+  </xsl:call-template>
+  <xsl:if test="email">
+    <xsl:text> </xsl:text>
+    <xsl:apply-templates select="email"/>
+  </xsl:if>
 </xsl:template>
 
 </xsl:stylesheet>
