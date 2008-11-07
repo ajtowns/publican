@@ -318,8 +318,8 @@ article toc
 <xsl:attribute-set name="revhistory.table.properties">
 </xsl:attribute-set>
 
-<xsl:attribute-set name="revhistory.table.cell.properties">
-  <xsl:attribute name="padding-bottom">2pt</xsl:attribute>
+<xsl:attribute-set name="revremark.table.cell.properties">
+  <xsl:attribute name="padding-bottom">10pt</xsl:attribute>
 </xsl:attribute-set>
 
 <!-- Only hairlines as frame and cell borders in tables -->
@@ -2054,6 +2054,51 @@ Version:1.72
   <xsl:if test="email">
     <xsl:text> </xsl:text>
     <xsl:apply-templates select="email"/>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="revhistory/revision">
+  <xsl:variable name="revnumber" select="revnumber"/>
+  <xsl:variable name="revdate"   select="date"/>
+  <xsl:variable name="revauthor" select="authorinitials|author"/>
+  <xsl:variable name="revremark" select="revremark|revdescription"/>
+  <fo:table-row>
+    <fo:table-cell xsl:use-attribute-sets="revhistory.table.cell.properties">
+      <fo:block>
+        <xsl:call-template name="anchor"/>
+        <xsl:if test="$revnumber">
+          <xsl:call-template name="gentext">
+            <xsl:with-param name="key" select="'Revision'"/>
+          </xsl:call-template>
+          <xsl:call-template name="gentext.space"/>
+          <xsl:apply-templates select="$revnumber[1]"/>
+        </xsl:if>
+      </fo:block>
+    </fo:table-cell>
+    <fo:table-cell xsl:use-attribute-sets="revhistory.table.cell.properties">
+      <fo:block>
+        <xsl:apply-templates select="$revdate[1]"/>
+      </fo:block>
+    </fo:table-cell>
+    <fo:table-cell xsl:use-attribute-sets="revhistory.table.cell.properties">
+      <fo:block>
+        <xsl:for-each select="$revauthor">
+          <xsl:apply-templates select="."/>
+          <xsl:if test="position() != last()">
+            <xsl:text>, </xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </fo:block>
+    </fo:table-cell>
+  </fo:table-row>
+  <xsl:if test="$revremark">
+    <fo:table-row>
+      <fo:table-cell number-columns-spanned="3" xsl:use-attribute-sets="revhistory.table.cell.properties revremark.table.cell.properties">
+        <fo:block>
+          <xsl:apply-templates select="$revremark[1]"/>
+        </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
   </xsl:if>
 </xsl:template>
 
