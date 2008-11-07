@@ -2062,8 +2062,8 @@ Version:1.72
   <fo:table table-layout="fixed" xsl:use-attribute-sets="revhistory.table.properties">
     <xsl:call-template name="anchor"/>
     <fo:table-column column-number="1" column-width="proportional-column-width(1)"/>
-    <fo:table-column column-number="2" column-width="proportional-column-width(1)"/>
-    <fo:table-column column-number="3" column-width="proportional-column-width(2)"/>
+    <fo:table-column column-number="2" column-width="proportional-column-width(2)"/>
+    <fo:table-column column-number="3" column-width="proportional-column-width(3)"/>
     <fo:table-body start-indent="0pt" end-indent="0pt">
       <xsl:apply-templates/>
     </fo:table-body>
