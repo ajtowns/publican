@@ -315,7 +315,7 @@ article toc
 </xsl:attribute-set>
 
 <!-- TODO fix me -->
-<xsl:attribute-set name="revhistory.table.properties">
+<xsl:attribute-set name="revhistory.table.cell.properties" use-attribute-sets="table.cell.padding">
 </xsl:attribute-set>
 
 <xsl:attribute-set name="revremark.table.cell.properties">
@@ -2065,15 +2065,6 @@ Version:1.72
     <fo:table-column column-number="2" column-width="proportional-column-width(1)"/>
     <fo:table-column column-number="3" column-width="proportional-column-width(2)"/>
     <fo:table-body start-indent="0pt" end-indent="0pt">
-      <fo:table-row>
-        <fo:table-cell number-columns-spanned="3" xsl:use-attribute-sets="revhistory.table.cell.properties">
-          <fo:block xsl:use-attribute-sets="revhistory.title.properties">
-            <xsl:call-template name="gentext">
-              <xsl:with-param name="key" select="'RevHistory'"/>
-            </xsl:call-template>
-          </fo:block>
-        </fo:table-cell>
-      </fo:table-row>
       <xsl:apply-templates/>
     </fo:table-body>
   </fo:table>
