@@ -314,8 +314,12 @@ article toc
 <xsl:attribute name="padding-bottom">2pt</xsl:attribute>
 </xsl:attribute-set>
 
-<! -- TODO fix me -->
+<!-- TODO fix me -->
 <xsl:attribute-set name="revhistory.table.properties">
+</xsl:attribute-set>
+
+<xsl:attribute-set name="revhistory.table.cell.properties">
+  <xsl:attribute name="padding-bottom">2pt</xsl:attribute>
 </xsl:attribute-set>
 
 <!-- Only hairlines as frame and cell borders in tables -->
