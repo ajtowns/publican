@@ -58,10 +58,10 @@ mkdir -p $RPM_BUILD_ROOT/%{prefix}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{prefix}/.
 
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.desktop &lt;&lt;'EOF'
+cat > $RPM_BUILD_ROOT%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop &lt;&lt;'EOF'
 [Desktop Entry]
-Name=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-Comment=<xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
+Name=<xsl:value-of select="/bookinfo/productname" /><xsl:value-of select="/setinfo/productname" /><xsl:value-of select="/articleinfo/productname"/> <xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" /><xsl:value-of select="/articleinfo/productnumber"/>: <xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
+Comment=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Exec=htmlview %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
 Icon=%{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
@@ -85,7 +85,7 @@ fi
 %files -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 %defattr(-,root,root,-)
 %doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
-%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.desktop
+%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 
 %changelog<xsl:value-of select="$log"/>
 

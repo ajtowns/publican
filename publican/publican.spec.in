@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.38
-Release:	0.t6%{?dist}
+Release:	0.t10%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -157,6 +157,8 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed contrib class in CSS. BZ #469595
 - Changed para & simpara to div in HTML. BZ #469286
 - Fix layout of author in Revision History. BZ #469986
+- Added function to list of validated tags. BZ #471144
+- Fixed menu entry text. BZ #470967
 
 * Thu Oct 16 2008 Jeff Fearn <jfearn@redhat.com> 0.38
 - Fix inline tags removing following new line in verbatim tags. BZ #461369
