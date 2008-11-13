@@ -1100,4 +1100,7 @@ Version: 1.72.0
   </div>
 </xsl:template>
 
+<xsl:template match="collab" mode="titlepage.mode">
+</xsl:template>
+
 </xsl:stylesheet>

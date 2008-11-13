@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.38
-Release:	0.t11%{?dist}
+Release:	0.t12%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -163,7 +163,8 @@ rm -rf $RPM_BUILD_ROOT
 - Banned glosslist (untranslatable) BZ #461864
 - Validated uri, mousebutton, hardware tags. BZ #461870
 - Validated othername tag. BZ #464315
- 
+- Removed collab from front page to match PDF output. BZ #469298
+
 * Thu Oct 16 2008 Jeff Fearn <jfearn@redhat.com> 0.38
 - Fix inline tags removing following new line in verbatim tags. BZ #461369
 - Fix Numeration settings for HTML ordered lists. BZ #462601
