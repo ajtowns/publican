@@ -1998,7 +1998,7 @@ Version:1.72
 
 <xsl:template match="comment[&comment.block.parents;]|remark[&comment.block.parents;]">
   <xsl:if test="$show.comments != 0">
-    <fo:block font-style="italic" background-color="#ffff00">
+    <fo:block font-style="italic" background-color="#ff00ff">
       <xsl:call-template name="inline.charseq"/>
     </fo:block>
   </xsl:if>
