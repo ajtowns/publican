@@ -199,7 +199,7 @@
 	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
 </xsl:attribute-set>
 
-<!--xsl:param name="draft.watermark.image" select="'Common_Content/images/watermark-draft.png'"/-->
+<xsl:param name="draft.watermark.image" select="'Common_Content/images/watermark-draft.png'"/>
 
 <!--xsl:attribute-set name="admonition.properties"></xsl:attribute-set-->
 
@@ -2113,6 +2113,72 @@ Version:1.72
       </fo:table-cell>
     </fo:table-row>
   </xsl:if>
+</xsl:template>
+
+<xsl:template name="select.pagemaster">
+  <xsl:param name="element" select="local-name(.)"/>
+  <xsl:param name="pageclass" select="''"/>
+
+  <xsl:variable name="pagemaster">
+    <xsl:choose>
+      <xsl:when test="$pageclass != ''">
+        <xsl:value-of select="$pageclass"/>
+      </xsl:when>
+      <xsl:when test="$pageclass = 'lot'">lot</xsl:when>
+      <xsl:when test="$element = 'dedication'">front</xsl:when>
+      <xsl:when test="$element = 'preface'">front</xsl:when>
+      <xsl:when test="$element = 'appendix'">back</xsl:when>
+      <xsl:when test="$element = 'glossary'">back</xsl:when>
+      <xsl:when test="$element = 'bibliography'">back</xsl:when>
+      <xsl:when test="$element = 'index'">index</xsl:when>
+      <xsl:when test="$element = 'colophon'">back</xsl:when>
+      <xsl:otherwise>body</xsl:otherwise>
+    </xsl:choose>
+
+    <xsl:choose>
+      <xsl:when test="$draft.mode = 'yes'">
+        <xsl:text>-draft</xsl:text>
+      </xsl:when>
+      <xsl:when test="$draft.mode = 'no'">
+        <!-- nop -->
+      </xsl:when>
+      <!--xsl:when test="ancestor-or-self::*[@status][1]/@status = 'draft'"-->
+      <xsl:when test="(ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'">
+        <xsl:text>-draft</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- nop -->
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:call-template name="select.user.pagemaster">
+    <xsl:with-param name="element" select="$element"/>
+    <xsl:with-param name="pageclass" select="$pageclass"/>
+    <xsl:with-param name="default-pagemaster" select="$pagemaster"/>
+  </xsl:call-template>
+</xsl:template>
+
+<xsl:template name="draft.text">
+  <xsl:choose>
+    <xsl:when test="$draft.mode = 'yes'">
+      <xsl:call-template name="gentext">
+        <xsl:with-param name="key" select="'Draft'"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$draft.mode = 'no'">
+      <!-- nop -->
+    </xsl:when>
+    <!--xsl:when test="ancestor-or-self::*[@status][1]/@status = 'draft'"-->
+    <xsl:when test="(ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'">
+      <xsl:call-template name="gentext">
+        <xsl:with-param name="key" select="'Draft'"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <!-- nop -->
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

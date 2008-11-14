@@ -330,7 +330,8 @@ Reason: Add css class for draft mode
 Version: 1.72.0
 -->
 <xsl:template name="body.attributes">
-	<xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and ancestor-or-self::*[@status][1]/@status = 'draft'))">
+	<!--xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and ancestor-or-self::*[@status][1]/@status = 'draft'))"-->
+	<xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and (ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'))">
 		<xsl:attribute name="class">
 			<xsl:value-of select="ancestor-or-self::*[@status][1]/@status"/>
 		</xsl:attribute>
@@ -481,10 +482,6 @@ Version: 1.72.0
     <xsl:if test="@role">
         <xsl:text> </xsl:text>
         <xsl:value-of select="@role"/>
-    </xsl:if>
-    <xsl:if test="@status">
-        <xsl:text> </xsl:text>
-        <xsl:value-of select="@status"/>
     </xsl:if>
   </xsl:attribute>
 </xsl:template>
