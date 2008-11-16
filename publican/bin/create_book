@@ -31,7 +31,9 @@ GetOptions(
 ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage( -verbose => 2 ) if $man;
-pod2usage(1) if ( !$name || $type !~ /[Book|Set|Article]/);
+pod2usage(1) if ( !$name || $type !~ m/^(Book|Set|Article)$/i);
+
+$type = ucfirst($type);
 
 $tmpl_dir = $type . '_Template';
 
