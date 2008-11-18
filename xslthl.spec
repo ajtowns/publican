@@ -15,6 +15,9 @@ Source:		%{name}-%{version}.tar.gz
 # cat xslthl/src/net/sf/xslthl/version.properties (to get major.minor.revision)
 # mv xslthl xslthl-[Maj.min.rev]
 # tar -zcf xslthl-[Maj.min.rev].tar.gz xslthl-[Maj.min.rev]
+#
+#  release=`cat xslthl/src/net/sf/xslthl/version.properties | xargs echo | perl -p -e 's/[^\d]*(\d)/$1./g;s/[^\d.]//g;s/[^\d]*$//'`; mv xslthl xslthl-$release; tar --remove-files -zcf xslthl-$release.tar.gz xslthl-$release
+
 BuildRequires:	ant dos2unix
 
 %if %{sunjdk}
