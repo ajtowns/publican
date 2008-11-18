@@ -22,7 +22,7 @@ BuildRequires:	ant dos2unix
 
 %if %{sunjdk}
 BuildRequires:  java-1.5.0-sun-devel
-Requires:       java-1.5.0-sun
+Requires:	java-1.5.0-sun
 %else
 BuildRequires:	java-devel >= 1:1.6.0
 Requires:	java >= 1:1.6.0
