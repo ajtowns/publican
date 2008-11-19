@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.38
-Release:	0.t13%{?dist}
+Release:	0.t19%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -166,6 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 - Removed collab from front page to match PDF output. BZ #469298
 - Formalised handling of draft mode, root node only. BZ #468305
 - Removed old help text from create_book and make type case insensitive. BZ #471776
+- Fixed footnote numbers collapsing together. BZ #462668
 
 * Thu Oct 16 2008 Jeff Fearn <jfearn@redhat.com> 0.38
 - Fix inline tags removing following new line in verbatim tags. BZ #461369

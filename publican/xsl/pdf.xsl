@@ -1005,9 +1005,10 @@ Version: 1.72
 <xsl:param name="footnote.number.format" select="'1'"/>
 <xsl:param name="footnote.number.symbols" select="''"/>
 <xsl:attribute-set name="footnote.mark.properties">
-	<xsl:attribute name="font-size">75%</xsl:attribute>
+	<xsl:attribute name="font-size">66.66%</xsl:attribute>
 	<xsl:attribute name="font-weight">normal</xsl:attribute>
 	<xsl:attribute name="font-style">normal</xsl:attribute>
+        <xsl:attribute name="margin-left">0.25em</xsl:attribute>
 </xsl:attribute-set>
 <xsl:attribute-set name="footnote.properties">
 	<xsl:attribute name="padding-top">48pt</xsl:attribute>
