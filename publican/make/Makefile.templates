@@ -423,7 +423,7 @@ ifneq "${1}" "$(XML_LANG)"
 		echo "Invalid Report request, no PO files exist for language ${1}."; \
 		exit 0; \
 	fi
-	@po2sgml --total --report ${1}/*.po
+	@po2sgml --total --report `find ${1} -name \*.po`
 	@echo "END: report-total-${1} `date`"
 endif
 endef
@@ -450,7 +450,8 @@ ifneq "${1}" "$(XML_LANG)"
 		exit 0; \
 	fi
 	@mkdir -p tmp/reports
-	@cd ${1} && po2sgml --report *.po >& ../tmp/reports/${1}.txt
+	@po2sgml --report `find ${1} -name \*.po | sort` >& tmp/reports/${1}.txt
+	@sed -i -e 's/^${1}\///g' tmp/reports/${1}.txt
 	@echo "END: report-${1} `date`"
 endif
 endef
