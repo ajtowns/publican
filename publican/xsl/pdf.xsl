@@ -54,7 +54,7 @@
 <xsl:param name="fop.extensions" select="0"/>
 <xsl:param name="fop1.extensions" select="1"/>
 <xsl:param name="img.src.path"/>
-<xsl:param name="qandadiv.autolabel" select="0"/>
+<xsl:param name="qandadiv.autolabel" select="1"/>
 <xsl:param name="keep.relative.image.uris" select="0"/>
 <xsl:param name="email.delimiters.enabled">0</xsl:param>
 
@@ -239,8 +239,18 @@
 
 <xsl:param name="generate.toc">
 set toc
-book toc
+book toc,qandadiv
 article toc
+chapter nop
+qandadiv nop
+qandaset nop
+sect1 nop
+sect2 nop
+sect3 nop
+sect4 nop
+sect5 nop
+section nop
+part nop
 </xsl:param>
 
 <xsl:param name="toc.section.depth">3</xsl:param>
@@ -380,6 +390,20 @@ article toc
 	<xsl:attribute name="space-before.optimum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
 	<xsl:attribute name="space-before.minimum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
 	<xsl:attribute name="space-before.maximum"><xsl:value-of select="concat($body.font.master, 'pt')"/></xsl:attribute>
+</xsl:attribute-set>
+
+
+<xsl:attribute-set name="qanda.title.properties">
+  <xsl:attribute name="font-family">
+    <xsl:value-of select="$title.font.family"/>
+  </xsl:attribute>
+  <xsl:attribute name="font-weight">bold</xsl:attribute>
+  <!-- font size is calculated dynamically by qanda.heading template -->
+  <xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
+  <xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
+  <xsl:attribute name="space-before.optimum">1.0em</xsl:attribute>
+  <xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>
+  <xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="example.properties" use-attribute-sets="formal.object.properties">
@@ -2176,6 +2200,49 @@ Version:1.72
       <!-- nop -->
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+
+<xsl:template match="preface|chapter|appendix|article"
+              mode="toc">
+  <xsl:param name="toc-context" select="."/>
+
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <xsl:variable name="cid">
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="object" select="$toc-context"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:call-template name="toc.line">
+    <xsl:with-param name="toc-context" select="$toc-context"/>
+  </xsl:call-template>
+
+  <xsl:variable name="nodes" select="section|sect1
+                                     |simplesect[$simplesect.in.toc != 0]
+                                     |refentry|appendix|qandaset"/>
+
+  <xsl:variable name="depth.from.context" select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
+
+  <xsl:if test="$toc.section.depth > 0 
+                and $toc.max.depth > $depth.from.context
+                and $nodes">
+    <fo:block id="toc.{$cid}.{$id}">
+      <xsl:attribute name="margin-left">
+        <xsl:call-template name="set.toc.indent"/>
+      </xsl:attribute>
+              
+      <xsl:apply-templates select="$nodes" mode="toc">
+        <xsl:with-param name="toc-context" select="$toc-context"/>
+      </xsl:apply-templates>
+    </fo:block>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="qandaentry" mode="toc">
+  <!--xsl:apply-templates select="question" mode="toc"/-->
 </xsl:template>
 
 </xsl:stylesheet>
