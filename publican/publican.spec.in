@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.38
-Release:	0.t23%{?dist}
+Release:	0.t24%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -170,6 +170,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix translation report for po in nested directories.
 - Changed Formal Para Title to follow parent indent. BZ #466309
 - Validated qandadiv, tweaked layout. BZ #472482
+- Handle xslthl:annotation. BZ #472500
 
 * Thu Oct 16 2008 Jeff Fearn <jfearn@redhat.com> 0.38
 - Fix inline tags removing following new line in verbatim tags. BZ #461369

@@ -82,16 +82,17 @@
 <xsl:param name="segmentedlist.as.table" select="1"/>
 
 <xsl:param name="xslthl.keyword.color">#002F5D</xsl:param>
-<xsl:param name="xslthl.string.color">#00774B</xsl:param>
+<xsl:param name="xslthl.string.color">#5C3566</xsl:param>
 <xsl:param name="xslthl.comment.color">#FF00FF</xsl:param>
-<xsl:param name="xslthl.tag.color">#002F5D</xsl:param>
+<xsl:param name="xslthl.tag.color">#A62C2C</xsl:param>
 <xsl:param name="xslthl.attribute.color">#a70000</xsl:param>
-<xsl:param name="xslthl.value.color">#4E376B</xsl:param>
+<xsl:param name="xslthl.value.color">#5C3566</xsl:param>
 <xsl:param name="xslthl.html.color">#002F5D</xsl:param>
 <xsl:param name="xslthl.xslt.color">#00774B</xsl:param>
 <xsl:param name="xslthl.section.color">#00774B</xsl:param>
-<xsl:param name="xslthl.directive.color">#002F5D</xsl:param>
-<xsl:param name="xslthl.doctype.color">#002F5D</xsl:param>
+<xsl:param name="xslthl.directive.color">#4E9A06</xsl:param>
+<xsl:param name="xslthl.doctype.color">#CE5C00</xsl:param>
+<xsl:param name="xslthl.annotation.color">#CE5C00</xsl:param>
 <!--xsl:param name="xslthl..color"></xsl:param-->
 
 <xsl:attribute-set name="xref.properties">
@@ -1818,6 +1819,10 @@ Version:1.72
 
 <xsl:template match='xslthl:doctype'>
   <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.doctype.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:annotation'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.annotation.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
 </xsl:template>
 
 <xsl:template match="varlistentry" mode="vl.as.blocks">
