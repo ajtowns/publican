@@ -356,7 +356,7 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 			</para>
 			
 			<para>
-			The edition and pubsnumber are not tied to the <parameter>&lt;productnumer&gt;</parameter> tag also found in Book_Info.xml: productnumber denotes the version number of the product being documented or otherwise written about.
+			The edition and pubsnumber are not tied to the <parameter>&lt;productnumber&gt;</parameter> tag also found in Book_Info.xml: productnumber denotes the version number of the product being documented or otherwise written about.
 			</para>
 			
 			<para>
@@ -767,19 +767,14 @@ include $(COMMON_CONFIG)/make/Makefile.common</programlisting>
 
 <procedure>
 <step>
-<para>Add the software's pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in &lt;remark&gt; tags. For example:</para>
-<programlisting lang="xml">
-&lt;subtitle&gt;
-Using and configuring the Red Hat Enterprise Warp Drive Server
-&lt;remark&gt;Version 1.1, Beta 2&lt;/remark&gt;
-&lt;/subtitle&gt;
+<para>Add the software's pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:</para>
+<programlisting language="xml">&lt;subtitle&gt;Using Red Hat Enterprise Warp Drive&lt;remark&gt; Version 1.1, Beta 2&lt;/remark&gt;&lt;/subtitle&gt;
 </programlisting>
 </step>
 
 <step>
-<para>add SHOW_REMARKS to your Makefile and set it to '1':</para>
-<programlisting>
-SHOW_REMARKS = 1
+<para>add <varname>SHOW_REMARKS</varname> to the <filename>Makefile</filename> and set it to '1':</para>
+<programlisting>SHOW_REMARKS = 1
 </programlisting>
 </step>
 </procedure>
@@ -790,7 +785,9 @@ SHOW_REMARKS = 1
 
 <important>
 <title>Important</title>
-It is the writer's responsibility to remove the &lt;remark&gt; tag and its contents and remove or turn off SHOW_REMARKS when documentation is updated for use with the release version of the software.
+<para>
+It is the writer's responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>SHOW_REMARKS</varname> when documentation is updated for use with the release version of the software.
+</para>
 </important>
 </section>
 
@@ -801,18 +798,17 @@ It is the writer's responsibility to remove the &lt;remark&gt; tag and its conte
 
 <procedure>
 <step>
-<para>To add the draft watermark to your documentation add the <computeroutput>status="draft"</computeroutput> attribute to the &lt;article&gt;, &lt;book&gt; or &lt;set&gt; tag in your document's root node. For eaxmple:</para>
-<programlisting lang="xml">
-&lt;book status="draft"&gt;
+<para>To add the draft watermark to your documentation add the <userinput>status="draft"</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document's root node. For example:</para>
+<programlisting language="xml">&lt;book status="draft"&gt;
 </programlisting>
 </step>
 </procedure>
 
-<para>By default, your root node is the &lt;book&gt; tag in your <filename><replaceable>[book_name]</replaceable>.xml</filename> file.</para>
+<para>By default, your root node is the <sgmltag>&lt;book&gt;</sgmltag> tag in your <filename><replaceable>[book_name]</replaceable>.xml</filename> file.</para>
 
-<para>If you are working on an article or set, the root node is the &lt;article&gt; or &lt;set&gt; tag in <filename><replaceable>[book_name]</replaceable>.xml</filename>.</para>
+<para>If you are working on an article or set, the root node is the <sgmltag>&lt;article&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in <filename><replaceable>[book_name]</replaceable>.xml</filename>.</para>
 
-<para>Adding the <computeroutput>status="draft"</computeroutput> attribute causes each page of the document to show the draft watermark. This is by design.</para>
+<para>Adding the <userinput>status="draft"</userinput> attribute causes each page of the document to show the draft watermark. This is by design.</para>
 
 <para>Even if you change only a portion of a work before sending it out for review, marking every page as draft will encourage reviewers to report errors or typos they spot in passing. It will also ensure non-reviewers who encounter the work do not mistake a draft for a finished version.</para>
 </section>
