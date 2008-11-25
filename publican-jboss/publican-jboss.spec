@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	0.15
+Version:	0.16
 Release:	0%{?dist}
 License:	Creative Commons Attribution-NonCommercial-ShareAlike
 Group:		Applications/Text
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Tue Nov 25 2008 Michael Hideo <mhideo@redhat.com> 0.16
+- Removed corpauthor from template. BZ #461076
+
 * Tue Sep 9 2008 Jeff Fearn <jfearn@redhat.com> 0.15
 - Removed corpauthor from template. BZ #461222
 
