@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Dec 1 2008 Michael Hideo <mhideo@redhat.com> 0.17
+- - Removed GPG key from Legal_Notice.xml BZ#473350
+
 * Tue Nov 25 2008 Michael Hideo <mhideo@redhat.com> 0.16
 - Removed corpauthor from template. BZ #461076
 
