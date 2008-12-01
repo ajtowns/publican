@@ -2,8 +2,8 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.15
-Release:	1%{?dist}
+Version:	0.16
+Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -49,8 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
-* Fri Nov 28 2008 Mike Hideo <mhideo@redhat.com> 0.16
+* Mon Dec 1 2008 Mike Hideo <mhideo@redhat.com> 0.16
 - Removed GPG key from Legal_Notice.xml BZ#473350
+- Add override for PROD_URL
 
 * Tue Sep 9 2008 Jeff Fearn <jfearn@redhat.com> 0.15
 - Removed corpauthor from template. BZ #461222

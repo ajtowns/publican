@@ -7,6 +7,9 @@ RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' 
 PWD		= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
 OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
+ifeq  "$(OS_VER)" "el5"
+OS_VER	= el5_2
+endif
 
 TAR_NAME = $(NAME)-$(VERSION)
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
@@ -25,9 +28,7 @@ srpm: dist
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican-$(BRAND).spec $(RPMDIR)/SPECS/.
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
-	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
+	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
 	@echo "End $@"
 
 dist: clean

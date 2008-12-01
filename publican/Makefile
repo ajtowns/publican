@@ -23,6 +23,11 @@ RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' 
 PWD	= $(shell pwd)
 RPMDIR	= $(PWD)/tmp/rpm
 OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
+
+ifeq  "$(OS_VER)" "el5"
+OS_VER	= el5_2
+endif
+
 REAL_RPMDIR	= $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
 XMLCLEAN = $(PWD)/bin/xmlClean
 
@@ -42,12 +47,12 @@ rpm: srpm
 
 brew:: srpm
 	@echo "Start $@"
-	brew build docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el5.src.rpm
+	brew build docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).$(OS_VER).src.rpm
 	@echo "End $@"
 
 brew-scratch:: srpm
 	@echo "Start $@"
-	brew build --scratch docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).el5.src.rpm
+	brew build --scratch docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).$(OS_VER).src.rpm
 	@echo "End $@"
 
 srpm: dist
@@ -56,7 +61,7 @@ srpm: dist
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
-	@if [ "$(OS_VER)" != "el5" ]; then \
+	@if [ "$(OS_VER)" != "el5_2" ]; then \
 		sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec; \
 		sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
 		sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \

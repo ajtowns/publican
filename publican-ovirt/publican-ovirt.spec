@@ -2,8 +2,8 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	0.4
-Release:	2%{?dist}
+Version:	0.5
+Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -48,6 +48,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.5
+- Add override for PROD_URL
+
 * Mon Sep 15 2008 Alan Pevec <apevec@redhat.com> 0.4-2
 - Initial Fedora submission, fix rpmlint errors
 

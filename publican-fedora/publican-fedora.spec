@@ -2,7 +2,7 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	0.15
+Version:	0.16
 Release:	0%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.16
+- Add override for PROD_URL
+
 * Tue Sep 9 2008 Jeff Fearn <jfearn@redhat.com> 0.15
 - Removed corpauthor from template. BZ #461222
 - Updated Fedora legal notice. BZ #448022
