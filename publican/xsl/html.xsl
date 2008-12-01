@@ -98,13 +98,17 @@ Version:
 					<xsl:attribute name="id">
 						<xsl:text>title</xsl:text>
 					</xsl:attribute>
-					<a>
+					<a class="left">
+						<xsl:attribute name="href">
+							<xsl:value-of select="$prod.url"/>
+						</xsl:attribute>
+						<img src="Common_Content/images/image_left.png" alt="Product Site"/>
+					</a>
+					<a class="right">
 						<xsl:attribute name="href">
 							<xsl:value-of select="$doc.url"/>
 						</xsl:attribute>
-						<strong>
-							<xsl:apply-templates select="." mode="object.title.markup"/>
-						</strong>
+						<img src="Common_Content/images/image_right.png" alt="Documentation Site"/>
 					</a>
 				</p>
 			</xsl:if>

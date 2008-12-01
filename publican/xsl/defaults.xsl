@@ -22,7 +22,8 @@ table after
 procedure before 
 </xsl:param>
 
-<xsl:param name="doc.url" select="'http://www.redhat.com/docs'"/>
+<xsl:param name="prod.url" select="'http://www.redhat.com/docs'"/>
+<xsl:param name="doc.url" select="'http://fedorahosted.org/publican'"/>
 
 <xsl:param name="generate.section.toc.level" select="0"/>
 <xsl:param name="qanda.defaultlabel">qanda</xsl:param>

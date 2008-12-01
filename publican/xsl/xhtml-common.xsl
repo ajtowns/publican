@@ -358,7 +358,7 @@ Reason:  default class (otherwise) to formalpara
 Version: 1.72.0
 -->
 <xsl:template match="formalpara">
-	<!--xsl:call-template name="paragraph">
+	<xsl:call-template name="paragraph">
 		<xsl:with-param name="class">
 			<xsl:choose>
 				<xsl:when test="@role and $para.propagates.style != 0">
@@ -373,8 +373,8 @@ Version: 1.72.0
 			<xsl:call-template name="anchor"/>
 			<xsl:apply-templates/>
 		</xsl:with-param>
-	</xsl:call-template-->
-	<xsl:apply-templates/>
+	</xsl:call-template>
+	<!--xsl:apply-templates/-->
 </xsl:template>
 
 <!--

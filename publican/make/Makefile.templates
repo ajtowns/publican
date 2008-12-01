@@ -27,6 +27,7 @@ CHUNK_FIRST	?= 0
 SHOW_REMARKS	?= 0
 EMBEDTOC	?= 0
 BRAND		?= common
+PROD_URL	?= https://fedorahosted.org/publican
 DOC_URL		?= https://fedorahosted.org/publican
 DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
@@ -306,14 +307,14 @@ ifeq "${1}" "html-desktop"
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/html-single.xsl";fi; \
 		if [ "$(USE_SAXON)" == "1" ]; then \
 			echo "Running Saxon:"; \
-			$(SAXON) -o index.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
+			$(SAXON) -o index.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" prod.url="$(PROD_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
 				confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" desktop=1 show.comments=$(SHOW_REMARKS) \
 				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
 				use.extensions=1 tablecolumns.extensions=1; \
 		else \
 			echo "Running xsltproc:"; \
-			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam prod.url "$(PROD_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
 			--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" \
 			--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam desktop 1 --stringparam show.comments $(SHOW_REMARKS) \
 			--stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
@@ -331,7 +332,7 @@ else
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
 		if [ "$(USE_SAXON)" == "1" ]; then \
 			echo "Running Saxon: $$$$xsl_file"; \
-			$(SAXON) -o tmppoofu.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
+			$(SAXON) -o tmppoofu.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" prod.url="$(PROD_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
 				chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) embedtoc=$$(EMBEDTOC) \
 				chunk.first.sections="$(CHUNK_FIRST)" generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
@@ -339,7 +340,7 @@ else
 			rm tmppoofu.html; \
 		else \
 			echo "Running xsltproc:"; \
-			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam prod.url "$(PROD_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
 				--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" \
 				--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) \
 				--stringparam chunk.first.sections "$(CHUNK_FIRST)" --stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
