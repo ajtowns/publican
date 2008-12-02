@@ -339,7 +339,7 @@ Version: 1.72.0
 			<xsl:text>toc_embeded </xsl:text>
 		</xsl:if>
        		<xsl:if test="$desktop != 0">
-		  <xsl:text name="class">desktop </xsl:text>
+		  <xsl:text>desktop </xsl:text>
 		</xsl:if>
 	</xsl:attribute>
 </xsl:template>
