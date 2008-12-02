@@ -1376,7 +1376,7 @@ dt {
 }
 
 dt img {
-	border-style:none;
+	border-style: none;
 	width: 112px;
 }
 
@@ -1385,9 +1385,19 @@ dt object {
 }
 
 dt .inlinemediaobject, dt object {
-	display:inline;
-	float:left;
-	margin-bottom:1em;
-	padding-right:1em;
+	display: inline;
+	float: left;
+	margin-bottom: 1em;
+	padding-right: 1em;
 }
 
+.toc dd {
+	padding-bottom: 0em;
+	margin-bottom: 1em;
+}
+
+div.toc > dl > dt {
+	padding-bottom: 0em;
+	margin-bottom: 0em;
+	margin-top: 1em;
+}
