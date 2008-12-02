@@ -95,6 +95,11 @@
 <xsl:param name="xslthl.annotation.color">#CE5C00</xsl:param>
 <!--xsl:param name="xslthl..color"></xsl:param-->
 
+<xsl:attribute-set name="remark.properties">
+	<xsl:attribute name="font-style">italic</xsl:attribute>
+	<xsl:attribute name="background-color">#ff00ff</xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:attribute-set name="xref.properties">
   <xsl:attribute name="font-style">italic</xsl:attribute>
   <xsl:attribute name="color">
@@ -2019,7 +2024,7 @@ Version:1.72
 
 <xsl:template match="comment[&comment.block.parents;]|remark[&comment.block.parents;]">
   <xsl:if test="$show.comments != 0">
-    <fo:block font-style="italic" background-color="#ff00ff">
+    <fo:block xsl:use-attribute-sets="remark.properties">
       <xsl:call-template name="inline.charseq"/>
     </fo:block>
   </xsl:if>
@@ -2027,7 +2032,7 @@ Version:1.72
 
 <xsl:template match="comment|remark">
   <xsl:if test="$show.comments != 0">
-    <fo:inline font-style="italic" background-color="#ffff00">
+    <fo:inline xsl:use-attribute-sets="remark.properties">
       <xsl:call-template name="inline.charseq"/>
     </fo:inline>
   </xsl:if>

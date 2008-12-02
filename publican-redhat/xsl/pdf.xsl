@@ -27,5 +27,10 @@
 <xsl:param name="title.color">#a70000</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 
+<xsl:attribute-set name="remark.properties">
+	<xsl:attribute name="font-style">italic</xsl:attribute>
+	<xsl:attribute name="background-color">#ffff00</xsl:attribute>
+</xsl:attribute-set>
+
 </xsl:stylesheet>
 

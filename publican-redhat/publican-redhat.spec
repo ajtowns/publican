@@ -2,7 +2,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.16
+Version:	0.17
 Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Tue Dec 2 2008 Jeff Fearn <jfearn@redhat.com> 0.17
+- Fix remark colour
+
 * Mon Dec 1 2008 Mike Hideo <mhideo@redhat.com> 0.16
 - Removed GPG key from Legal_Notice.xml BZ#473350
 - Add override for PROD_URL

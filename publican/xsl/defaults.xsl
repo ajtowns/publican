@@ -44,6 +44,7 @@ Copied from fo/params.xsl
 <xsl:param name="use.id.as.filename" select="'1'"/>
 
 <xsl:param name="embedtoc" select="'0'"/>
+<xsl:param name="desktop" select="0"/>
 
 <xsl:template match="command">
 	<xsl:call-template name="inline.monoseq"/>

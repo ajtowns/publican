@@ -331,11 +331,17 @@ Version: 1.72.0
 -->
 <xsl:template name="body.attributes">
 	<!--xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and ancestor-or-self::*[@status][1]/@status = 'draft'))"-->
-	<xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and (ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'))">
-		<xsl:attribute name="class">
-			<xsl:value-of select="ancestor-or-self::*[@status][1]/@status"/>
-		</xsl:attribute>
-	</xsl:if>
+	<xsl:attribute name="class">
+		<xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and (ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'))">
+			<xsl:value-of select="ancestor-or-self::*[@status][1]/@status"/><xsl:text> </xsl:text>
+		</xsl:if>
+		<xsl:if test="$embedtoc != 0">
+			<xsl:text>toc_embeded </xsl:text>
+		</xsl:if>
+       		<xsl:if test="$desktop != 0">
+		  <xsl:text name="class">desktop </xsl:text>
+		</xsl:if>
+	</xsl:attribute>
 </xsl:template>
 
 <!--

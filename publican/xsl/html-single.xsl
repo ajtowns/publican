@@ -21,7 +21,6 @@
 <xsl:output method="xml" encoding="UTF-8" indent="no" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" omit-xml-declaration="no" />
 
 <xsl:param name="html.append"/>
-<xsl:param name="desktop" select="0"/>
 
 <!--
 From: xhtml/docbook.xsl
@@ -49,17 +48,10 @@ Version:
     </head>
     <body>
       <xsl:call-template name="body.attributes"/>
-      <xsl:if test="$embedtoc != 0">
-	  <xsl:attribute name="class">toc_embeded</xsl:attribute>
-      </xsl:if>
-       <xsl:if test="$desktop != 0">
-	  <xsl:attribute name="class">desktop</xsl:attribute>
-      </xsl:if>
      <xsl:call-template name="user.header.content">
         <xsl:with-param name="node" select="$doc"/>
       </xsl:call-template>
       <xsl:if test="$embedtoc != 0">
-	  <xsl:attribute name="class">toc_embeded</xsl:attribute>
       <div id="tocdiv" class="toc">
         <object><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="data">/docs/<xsl:value-of select="$l10n.gentext.language"/>/toc.html</xsl:attribute><xsl:attribute name="type">text/html</xsl:attribute></object>
       </div>
