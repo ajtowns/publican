@@ -10,6 +10,10 @@ OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
 ifeq "$(OS_VER)" "ELx"
 OS_VER	= "el4"
 endif
+ifeq  "$(OS_VER)" "el5"
+OS_VER	= el5_2
+endif
+
 TAR_NAME = $(NAME)-$(VERSION)
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 
@@ -27,9 +31,7 @@ srpm: dist
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican-$(BRAND).spec $(RPMDIR)/SPECS/.
-	@rpmbuild --define "dist .el4" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
-	@rpmbuild --define "dist .el5" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
-	@rpmbuild --define "dist .fc9" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
+	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
 	@echo "End $@"
 
 dist: clean
@@ -44,7 +46,7 @@ dist: clean
 	@echo "End $@"
 
 upload-dist: dist
-	@scp $(TAR_NAME).tgz fedorahosted.org:publican
+	@scp $(TAR_NAME).tgz publican-$(BRAND).spec fedorahosted.org:publican
 
 clean:
 	@echo "Start $@"
@@ -93,29 +95,11 @@ update-pot:
 #	popd > /dev/null;
 #	@echo "End $@"
 
-entities::
+Common_Content::
 	@echo "Start $@"
-	@mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/en-US
-	@cp $(PWD)/en-US/*.ent $(PWD)/Common_Content/$(REAL_BRAND)/en-US/.
-	@if [ -f en-US/Translatable-Entities.ent ]; then \
-		pushd en-US > /dev/null; \
-		for lang in $(LANGS); do \
-			if [ ! -d $(PWD)/Common_Content/$(REAL_BRAND)/$$lang ]; then \
-				mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/$$lang; \
-			fi; \
-			if [ ! -f ../$$lang/Translatable-Entities.po ]; then \
-				echo "../$$lang/Translatable-Entities.po MISSING Using en-US file"; \
-				cp Translatable-Entities.ent $(PWD)/Common_Content/common/$$lang/.; \
-			else \
-				$(PO2ENTITY) Translatable-Entities.ent ../$$lang/Translatable-Entities.po > $(PWD)/Common_Content/$(REAL_BRAND)/$$lang/Translatable-Entities.ent; \
-			fi; \
-		done; \
-		popd > /dev/null; \
-	fi
-	@echo "End $@"
-
-Common_Content:: entities
-	@echo "Start $@"
+	@for lang in $(LANGS) en-US; do \
+		mkdir -p $(PWD)/Common_Content/$(BRAND)/$$lang; \
+	done
 	@cd en-US; \
 	for xml_file in `find . -maxdepth 1 -name "*.xml"`; do \
 		po_file=`echo $$xml_file | sed -e 's/\.xml/\.po/'`; \
