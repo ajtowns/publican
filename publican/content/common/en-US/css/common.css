@@ -1377,11 +1377,11 @@ dt {
 
 dt img {
 	border-style: none;
-	width: 112px;
+	max-width: 112px;
 }
 
 dt object {
-	width: 112px;
+	max-width: 112px;
 }
 
 dt .inlinemediaobject, dt object {
@@ -1389,6 +1389,13 @@ dt .inlinemediaobject, dt object {
 	float: left;
 	margin-bottom: 1em;
 	padding-right: 1em;
+	width: 112px;
+}
+
+dl:after {
+	display: block;
+	clear: both;
+	content: "";
 }
 
 .toc dd {
