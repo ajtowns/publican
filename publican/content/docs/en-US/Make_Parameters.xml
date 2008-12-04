@@ -1,0 +1,229 @@
+<?xml version='1.0'?>
+
+<appendix>
+	<title>Makefile Parameters</title>
+	<para>
+		Following is a list of the parameters that can be set in the Book's Makefile.
+	</para>
+	<variablelist>
+	<varlistentry>
+		<term>BOOKS</term>
+		<listitem>
+			<para>
+				For Sets this defines the Books it contains. Default: Undefined.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>BRAND</term>
+		<listitem>
+			<para>
+				Brand to style output with. Default: common
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>BREW_DIST</term>
+		<listitem>
+			<para>
+				brew tag for desktop rpms. Default: dist-5E-qu-candidate.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>CATALOGS</term>
+		<listitem>
+			<para>
+				Override the system DTD catalog path (XML_CATALOG_FILES). Default: Undefined.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>CHUNK_FIRST</term>
+		<listitem>
+			<para>
+				Controls chunking of first sections. 0 or 1. Default: 0.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>CHUNK_SECTION_DEPTH</term>
+		<listitem>
+			<para>
+				Override the max section depth to chunk to. Default: 4.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>COMMON_CONFIG</term>
+		<listitem>
+			<para>
+				Path to publican configuration and common files. Default: /usr/share/publican
+			</para>
+		</listitem>
+	</varlistentry>
+	<varlistentry>
+		<term>CONFIDENTIAL</term>
+		<listitem>
+			<para>
+				Is this book confidential? Default: 0
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>DEFAULT_LANGS</term>
+		<listitem>
+			<para>
+				Languages that should be included in xi:include even if the translation isn't 100%. Used in update_includes. Default: Undefined.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>DESKTOP</term>
+		<listitem>
+			<para>
+				Use the desktop CSS. 0 or 1. Default: 0
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>DOC_TYPE</term>
+		<listitem>
+			<para>
+				Defaults to Book, can also be Article or Set. Default: Book
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>DOC_URL</term>
+		<listitem>
+			<para>
+				URL for top right link in html. Default: https://fedorahosted.org/publican
+			</para>
+		</listitem>
+	</varlistentry>
+	<varlistentry>
+		<term>EMBEDTOC</term>
+		<listitem>
+			<para>
+				Embed the web navigation TOC in the html. 0 or 1. Default: 0.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>GENERATE_SECTION_TOC_LEVEL</term>
+		<listitem>
+			<para>
+				Include a TOC at the given section level. 0..5. Default: 0
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>IGNORED_TRANSLATIONS</term>
+		<listitem>
+			<para>
+				When building replace any languages in this list with the source langauge text. This allows you to work on translations without shipping incomplete translations. Default: Undefined.
+			</para>
+		</listitem>
+	</varlistentry>
+	<varlistentry>
+		<term>OTHER_LANGS</term>
+		<listitem>
+			<para>
+				Space seperated list of language locales. Default: Undefined.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>PRODUCT</term>
+		<listitem>
+			<para>
+				Product this book is associated with. Default: Documentation
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>PROD_URL</term>
+		<listitem>
+			<para>
+				URL for top left link in html. Default: https://fedorahosted.org/publican
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>SHOW_REMARKS</term>
+		<listitem>
+			<para>
+				Display contents of remark tags in output? 0 or 1. Default: 0.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>TOC_SECTION_DEPTH</term>
+		<listitem>
+			<para>
+				How many levels of sections should be included in the main TOC? Default: 2.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>WEB_BREW_DIST</term>
+		<listitem>
+			<para>
+				brew tag to use for web rpms. Default: docs-5E.
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>XML_DESKTOP</term>
+		<listitem>
+			<para>
+				Use XML for the desktop package instead of the default html-single. Eats babies. Default: Undefined.
+			</para>
+		</listitem>
+	</varlistentry>
+	<varlistentry>
+		<term>XML_LANG</term>
+		<listitem>
+			<para>
+				Source language of xml. Default: en-US
+			</para>
+		</listitem>
+	</varlistentry>
+
+	<varlistentry>
+		<term>USE_SAXON</term>
+		<listitem>
+			<para>
+				Use saxon for xslt. 0 or 1. Default: 1.
+			</para>
+		</listitem>
+	</varlistentry>
+	<varlistentry>
+		<term>USE_XALAN</term>
+		<listitem>
+			<para>
+				Test xalan for xslt. 0 or 1. Default: 0.
+			</para>
+		</listitem>
+	</varlistentry>
+	</variablelist>
+</appendix>
