@@ -50,6 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.16
+- resave title_logo.png. BZ #474075
+
+* Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.16
 - Add override for PROD_URL
 
 * Tue Sep 9 2008 Jeff Fearn <jfearn@redhat.com> 0.15

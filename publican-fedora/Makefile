@@ -45,7 +45,7 @@ dist: clean
 	@echo "End $@"
 
 upload-dist: dist
-	@scp $(TAR_NAME).tgz fedorahosted.org:publican
+	@scp $(TAR_NAME).tgz publican-$(BRAND).spec fedorahosted.org:publican
 
 clean:
 	@echo "Start $@"
