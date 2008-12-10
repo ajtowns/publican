@@ -93,6 +93,8 @@
 <xsl:param name="xslthl.directive.color">#4E9A06</xsl:param>
 <xsl:param name="xslthl.doctype.color">#CE5C00</xsl:param>
 <xsl:param name="xslthl.annotation.color">#CE5C00</xsl:param>
+<xsl:param name="xslthl.doccomment.color">#CE5C00</xsl:param>
+<xsl:param name="xslthl.number.color">#CE5C00</xsl:param>
 <!--xsl:param name="xslthl..color"></xsl:param-->
 
 <xsl:attribute-set name="remark.properties">
@@ -1852,6 +1854,14 @@ Version:1.72
 
 <xsl:template match='xslthl:annotation'>
   <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.annotation.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:doccomment'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.doccomment.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:number'>
+  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.number.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
 </xsl:template>
 
 <xsl:template match="varlistentry" mode="vl.as.blocks">

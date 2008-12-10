@@ -750,6 +750,14 @@ Version: 1.72.0
   <span class="hl-annotation"><xsl:apply-templates/></span>
 </xsl:template>
 
+<xsl:template match="xslthl:">
+  <span class="hl-doccomment"><xsl:apply-templates/></span>
+</xsl:template>
+
+<xsl:template match="xslthl:">
+  <span class="hl-number"><xsl:apply-templates/></span>
+</xsl:template>
+
 <xsl:template match="productnumber" mode="book.titlepage.recto.auto.mode">
 <xsl:apply-templates select="." mode="book.titlepage.recto.mode"/>
 </xsl:template>
