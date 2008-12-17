@@ -36,7 +36,7 @@ LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 CLASSPATH	?= /usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar
 
 XALAN		?= java -verbose -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
-USE_XALON	?= 0
+USE_XALAN	?= 0
 
 USE_SAXON	?= 1
 SAXON		?= java -cp "/usr/share/java/saxon.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/saxon65.jar:/usr/share/java/xslthl.jar" -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration -Dxslthl.config="file:///usr/share/xslthl/xslthl-config.xml" com.icl.saxon.StyleSheet -x org.apache.xml.resolver.tools.ResolvingXMLReader -y org.apache.xml.resolver.tools.ResolvingXMLReader -r org.apache.xml.resolver.tools.CatalogResolver
@@ -233,7 +233,7 @@ ifeq "${1}" "pdf"
 			xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl"; \
 		fi; \
 		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
-		if [ "$(USE_XALON)" == "1" ]; then \
+		if [ "$(USE_XALAN)" == "1" ]; then \
 			echo "Running XALAN:"; \
 			$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth "$(TOC_SECTION_DEPTH)" \
 				-param chunk.section.depth "$(CHUNK_SECTION_DEPTH)" -param confidential ${CONFIDENTIAL} \

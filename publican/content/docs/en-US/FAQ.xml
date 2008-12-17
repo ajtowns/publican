@@ -1,8 +1,8 @@
-<?xml version='1.0'?>
+<?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<chapter id="chap-Publican-Frequently_Asked_Questions">
+<chapter id="chap-Users_Guide-Frequently_Asked_Questions">
 	<title>Frequently Asked Questions</title>
 	<qandaset>
 		<qandaentry>
@@ -13,7 +13,7 @@
 			</question>
 			<answer>
 				<para>
-					Edit your book's <filename>Makefile</filename> and uncomment the <computeroutput>OTHER_LANGS</computeroutput> entry. Add the required language code after the &#39;=&#39; sign.
+					Edit your book&#39;s <filename>Makefile</filename> and uncomment the <computeroutput>OTHER_LANGS</computeroutput> entry. Add the required language code after the &#39;=&#39; sign.
 				</para>
 			</answer>
 		</qandaentry>
@@ -111,18 +111,20 @@
 				<para>
 					The best way to do this is to create a directory named <filename>extras</filename> in your source language directory and use an <sgmltag>xi:include</sgmltag> to pull in the code file.
 				</para>
-				<procedure id="proc-Publican-Frequently_Asked_Questions-Including_code_samples">
+				<procedure id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
 					<title>Including code samples</title>
 					<step>
 						<para>
 							Create the extras directory 
-<programlisting><command>mkdir <filename>en-US/extras</filename></command></programlisting>
+<programlisting><command>mkdir <filename>en-US/extras</filename></command>
+</programlisting>
 						</para>
 					</step>
 					<step>
 						<para>
 							Copy the code file to the extras directory 
-<programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command></programlisting>
+<programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
+</programlisting>
 						</para>
 					</step>
 					<step>
@@ -130,7 +132,8 @@
 							<sgmltag>xi:include</sgmltag> the sample file in your xml file 
 <programlisting language="xml">&lt;programlisting&gt;
 &lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
-&lt;/programlisting&gt;</programlisting>
+&lt;/programlisting&gt;
+</programlisting>
 						</para>
 					</step>
 					<step>
@@ -246,7 +249,7 @@
 			</question>
 			<answer>
 				<para>
-					Because Jeff's memory is pants!
+					Because Jeff&#39;s memory is pants!
 				</para>
 			</answer>
 		</qandaentry>
