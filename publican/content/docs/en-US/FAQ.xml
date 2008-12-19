@@ -244,6 +244,18 @@
 		<qandaentry>
 			<question>
 				<para>
+					I get an error <computeroutput>Exception in thread "main" java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
+				</para>
+			</question>
+			<answer>
+				<para>
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to FOP. Before running <command>make </command> run <command>echo "FOP_OPTS='-Xms50m -Xmx700m'" > ~/.foprc</command>. This sets the initial heap space to 50MB and allows it to grow to a maximum of 700MB.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
 					Why does Jeff call Isaac Ivan?
 				</para>
 			</question>
