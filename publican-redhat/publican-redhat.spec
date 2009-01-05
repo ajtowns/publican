@@ -51,6 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.18
 - Add LICENSE override for RPMs. BZ #477720
+- Fix layout issue in Legal Notice. BZ #477573
 
 * Tue Dec 2 2008 Jeff Fearn <jfearn@redhat.com> 0.17
 - Fix remark colour

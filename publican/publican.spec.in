@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.39
-Release:	2.t14%{?dist}
+Release:	2.t15%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -154,6 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add LICENSE override for RPMs. BZ #477720
 - Fix empty change log. BZ #477728
 - Fix spec file location. BZ #477704
+- Added newline after country. BZ #477573
 
 * Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.39
 - Disable make.graphic.viewport. BZ #467368
