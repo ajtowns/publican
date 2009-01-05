@@ -522,16 +522,25 @@ define	SPEC_Template
 spec-${1}:: tar-${1}
 	@echo "START: spec-${1} `date`"
 	@rm -f tmp/subpackages.txt tmp/titles.txt tmp/changelog.txt
+	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
 	@rev_file=`grep -l '<revhistory' $(XML_LANG)/*.xml | head -n 1 | sed -e 's/$(XML_LANG)\///g'`; \
+		if [ ! -f "$(XML_LANG)/$$$$rev_file" ]; then \
+			echo; \
+			echo "*ERROR: No revhistory found*"; \
+			echo "You need a correctly formatted Revision History to build RPMS"; \
+			exit 5; \
+		fi; \
 		$(CATALOGS) $(XSLTPROC) $(COMMON_CONFIG)/xsl/changelog.xsl tmp/${1}/xml/$$$$rev_file > tmp/changelog.txt
-	@$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(TAR_NAME)" \
-	--stringparam main-file "$(DOCNAME).xml" \
-	--stringparam book-lang "${1}" \
-	--stringparam rpmver "$(RPM_VERSION)" \
-	--stringparam rpmrel "$(${1}_RPM_RELEASE)" \
-	--stringparam book-log "$$(<tmp/changelog.txt)" \
-	-o tmp/$(TAR_NAME)-${1}.spec \
-	$(SPEC_XSL) tmp/${1}/xml/$(DOC_TYPE)_Info.xml
+	$(CATALOGS) $(XSLTPROC) --path "$(PWD)" --stringparam book-title "$(TAR_NAME)" \
+		--stringparam main-file "$(DOCNAME).xml" \
+		--stringparam book-lang "${1}" \
+		--stringparam rpmver "$(RPM_VERSION)" \
+		--stringparam rpmrel "$(${1}_RPM_RELEASE)" \
+		--stringparam license "$(LICENSE)" \
+		--stringparam url "$(DOC_URL)" \
+		--stringparam log "$$$$(<tmp/changelog.txt)" \
+		-o tmp/rpm/SPECS/$(TAR_NAME)-${1}.spec \
+		$(SPEC_XSL) tmp/${1}/xml/$(DOC_TYPE)_Info.xml
 	@echo "END: spec-${1} `date`"
 endef
 
@@ -539,9 +548,8 @@ define	SRPM_Template
 .PHONY:	srpm-${1}
 srpm-${1}:: clean spec-${1}
 	@echo "START: srpm-${1} `date`"
-	@mkdir -p tmp/rpm/SPECS tmp/rpm/SOURCES tmp/rpm/SRPMS
 	@cp tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION).tgz tmp/rpm/SOURCES/.
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(TAR_NAME)-${1}.spec
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/rpm/SPECS/$(TAR_NAME)-${1}.spec
 	@echo "END: srpm-${1} `date`"
 endef
 
@@ -602,11 +610,13 @@ web-srpm-${1}:: clean tardir-${1}
 		--stringparam rpmver "$(RPM_VERSION)" \
 		--stringparam rpmrel "$(${1}_RPM_RELEASE)" \
 		--stringparam docname "$(DOCNAME)" \
-		--stringparam log "$$(<tmp/changelog.txt)" \
+		--stringparam license "$(LICENSE)" \
 		--stringparam brand "publican-$(LC_BRAND)" \
-		-o tmp/$(PRODUCT)-$(DOCNAME)-$(PROD_VERSION)-web-${1}.spec \
+		--stringparam url "$(DOC_URL)" \
+		--stringparam log "$$$$(<tmp/changelog.txt)" \
+		-o tmp/rpm/SPECS/$(PRODUCT)-$(DOCNAME)-$(PROD_VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
-	rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/$(TAR_NAME)-web-${1}.spec
+	rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/rpm/SPECS/$(TAR_NAME)-web-${1}.spec
 	@echo "END: web-srpm-${1}: `date`"
 endef
 

@@ -2,7 +2,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.17
+Version:	0.18
 Release:	0%{?dist}
 License:	Open Publication License + Restrictions
 Group:		Applications/Text
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.18
+- Add LICENSE override for RPMs. BZ #477720
+
 * Tue Dec 2 2008 Jeff Fearn <jfearn@redhat.com> 0.17
 - Fix remark colour
 

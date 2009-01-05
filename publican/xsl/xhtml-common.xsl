@@ -142,8 +142,8 @@ Version: 1.72.0
 	<xsl:variable name="numeration">
 		<xsl:call-template name="procedure.step.numeration"/>
 	</xsl:variable>
-	<xsl:call-template name="anchor"/>
 	<ol xmlns="http://www.w3.org/1999/xhtml" class="{$numeration}">
+		<xsl:call-template name="anchor"/>
 		<xsl:apply-templates/>
 	</ol>
 </xsl:template>
@@ -376,7 +376,6 @@ Version: 1.72.0
 			</xsl:choose>
 		</xsl:with-param>
 		<xsl:with-param name="content">
-			<xsl:call-template name="anchor"/>
 			<xsl:apply-templates/>
 		</xsl:with-param>
 	</xsl:call-template>
@@ -928,6 +927,17 @@ Version: 1.72.0
   </xsl:variable>
 
   <xsl:if test="$conditional = 0 or $node/@id or $node/@xml:id">
+  <!--xsl:message>
+    <xsl:text>Element </xsl:text>
+    <xsl:value-of select="local-name(.)"/>
+    <xsl:text> id '</xsl:text>
+    <xsl:value-of select="$id"/>
+    <xsl:text>' encountered</xsl:text>
+    <xsl:if test="parent::*">
+      <xsl:text> in </xsl:text>
+      <xsl:value-of select="name(parent::*)"/>
+    </xsl:if>
+  </xsl:message-->
 	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
     <!--a id="{$id}"/-->
   </xsl:if>

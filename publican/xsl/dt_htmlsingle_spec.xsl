@@ -10,19 +10,25 @@
   <xsl:output encoding="UTF-8" indent="no" method="text" omit-xml-declaration="no" standalone="no" version="1.0"/>
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
-<xsl:template match="/"># Red Hat Documentation Specfile
+<xsl:template match="/"># Documentation Specfile
+%define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
+
 Name:	<xsl:value-of select="$book-title"/>-<xsl:value-of select="$book-lang"/>
 Version:        <xsl:value-of select="$rpmver"/>
 Release:        <xsl:value-of select="$rpmrel"/>
 Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Group:		Documentation
-License:	Open Publication License
-URL:		http://www.redhat.com/docs
+License:	<xsl:value-of select="$license"/>
+URL:		<xsl:value-of select="$url"/>
 Source0:	%{name}-%{version}.tgz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
-Requires: 	htmlview
+%if %{HTMLVIEW}
+Requires:	htmlview
+%else
+Requires:	xdg-utils
+%endif
 
 %description
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
@@ -57,7 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc tmp/<xsl:value-of select="$book-lang"/>/html-desktop/*
 %{_datadir}/applications/%{name}.desktop
 
-%changelog<xsl:value-of select="$book-log"/>
+%changelog<xsl:value-of select="$log"/>
 
 </xsl:template>
 

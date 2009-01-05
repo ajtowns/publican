@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.39
-Release:	2.t3%{?dist}
+Release:	2.t14%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -139,19 +139,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/xlf2pot
 %{_bindir}/xmlClean
 
-
 %files doc
 %doc docs/*
 %{_datadir}/applications/%{my_vendor}-%{name}.desktop
 %doc fdl.txt
 
 %changelog
-* Tue Dec 2 2008 Jeff Fearn <jfearn@redhat.com> 0.40
+* Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.40
 - Fix DRAFT mode in web docs.
 - Fix TOC CSS spacing.
 - Fix missing syntax highlighting templates. BZ #474077
 - Added appendix to user guide for Makefile parameters.
 - Fix multiple authors in revhistory. Patch by: Paul W. Frields. BZ #478552
+- Add LICENSE override for RPMs. BZ #477720
+- Fix empty change log. BZ #477728
+- Fix spec file location. BZ #477704
 
 * Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.39
 - Disable make.graphic.viewport. BZ #467368

@@ -10,7 +10,7 @@
   <xsl:output encoding="UTF-8" indent="no" method="text" omit-xml-declaration="no" standalone="no" version="1.0"/>
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
-<xsl:template match="/"># Red Hat Documentation Specfile
+<xsl:template match="/">#Documentation Specfile
 %define	HTMLVIEW 1
 
 Name:           <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
@@ -18,8 +18,8 @@ Version:        <xsl:value-of select="$rpmver"/>
 Release:        <xsl:value-of select="$rpmrel"/>
 Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Group:          Documentation
-License:        OPL + Restrictions
-URL:            http://www.redhat.com/docs
+License:	<xsl:value-of select="$license"/>
+URL:		<xsl:value-of select="$url"/>
 Source:         %{name}-%{version}-%{release}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

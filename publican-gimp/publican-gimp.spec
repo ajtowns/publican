@@ -2,7 +2,7 @@
 
 Name:		publican-gimp
 Summary:	Common documentation files for %{brand}
-Version:	0.3
+Version:	0.4
 Release:	0%{?dist}
 License:	GFDL
 Group:		Development/Libraries
@@ -48,6 +48,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.4
+- Add LICENSE override for RPMs. BZ #477720
+
 * Thu Dec 4 2008 Jeff Fearn <jfearn@redhat.com> 0.3
 - Fix styles for publican 0.35 mods
 - Removed common entity files as they break translation

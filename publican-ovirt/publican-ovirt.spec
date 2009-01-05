@@ -2,7 +2,7 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	0.5
+Version:	0.6
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
@@ -48,6 +48,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.6
+- Add LICENSE override for RPMs. BZ #477720
+
 * Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.5
 - Add override for PROD_URL
 
