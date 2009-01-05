@@ -750,11 +750,11 @@ Version: 1.72.0
   <span class="hl-annotation"><xsl:apply-templates/></span>
 </xsl:template>
 
-<xsl:template match="xslthl:">
+<xsl:template match="xslthl:doccomment">
   <span class="hl-doccomment"><xsl:apply-templates/></span>
 </xsl:template>
 
-<xsl:template match="xslthl:">
+<xsl:template match="xslthl:number">
   <span class="hl-number"><xsl:apply-templates/></span>
 </xsl:template>
 
