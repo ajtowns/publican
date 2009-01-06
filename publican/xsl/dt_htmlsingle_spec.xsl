@@ -14,8 +14,8 @@
 %define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
 Name:	<xsl:value-of select="$book-title"/>-<xsl:value-of select="$book-lang"/>
-Version:        <xsl:value-of select="$rpmver"/>
-Release:        <xsl:value-of select="$rpmrel"/>
+Version:	<xsl:value-of select="$rpmver"/>
+Release:	<xsl:value-of select="$rpmrel"/>%{?dist}
 Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Group:		Documentation
 License:	<xsl:value-of select="$license"/>
@@ -24,6 +24,9 @@ Source0:	%{name}-%{version}.tgz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
+<xsl:if test="$brand != 'publican-common'">
+BuildRequires:	<xsl:value-of select="$brand"/>
+</xsl:if>
 %if %{HTMLVIEW}
 Requires:	htmlview
 %else

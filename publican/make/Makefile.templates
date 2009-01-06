@@ -538,6 +538,7 @@ spec-${1}:: tar-${1}
 		--stringparam rpmrel "$(${1}_RPM_RELEASE)" \
 		--stringparam license "$(LICENSE)" \
 		--stringparam url "$(DOC_URL)" \
+		--stringparam brand "publican-$(LC_BRAND)" \
 		--stringparam log "$$$$(<tmp/changelog.txt)" \
 		-o tmp/rpm/SPECS/$(TAR_NAME)-${1}.spec \
 		$(SPEC_XSL) tmp/${1}/xml/$(DOC_TYPE)_Info.xml

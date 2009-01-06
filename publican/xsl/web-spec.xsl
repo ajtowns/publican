@@ -15,7 +15,7 @@
 
 Name:           <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 Version:        <xsl:value-of select="$rpmver"/>
-Release:        <xsl:value-of select="$rpmrel"/>
+Release:        <xsl:value-of select="$rpmrel"/>%{?dist}
 Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Group:          Documentation
 License:	<xsl:value-of select="$license"/>
