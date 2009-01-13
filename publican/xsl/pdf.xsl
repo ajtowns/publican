@@ -93,14 +93,7 @@
 <xsl:param name="xslthl.directive.color">#4E9A06</xsl:param>
 <xsl:param name="xslthl.doctype.color">#CE5C00</xsl:param>
 <xsl:param name="xslthl.annotation.color">#CE5C00</xsl:param>
-<xsl:param name="xslthl.doccomment.color">#CE5C00</xsl:param>
-<xsl:param name="xslthl.number.color">#CE5C00</xsl:param>
 <!--xsl:param name="xslthl..color"></xsl:param-->
-
-<xsl:attribute-set name="remark.properties">
-	<xsl:attribute name="font-style">italic</xsl:attribute>
-	<xsl:attribute name="background-color">#ff00ff</xsl:attribute>
-</xsl:attribute-set>
 
 <xsl:attribute-set name="xref.properties">
   <xsl:attribute name="font-style">italic</xsl:attribute>
@@ -719,53 +712,56 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP' or l10n.gentext.language = 'ja'">
-				<xsl:text>SazanamiGothic,</xsl:text>
+				<xsl:text>Sazanami Gothic,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR' or $l10n.gentext.language = 'ko'">
-				<xsl:text>BaekmukBatang,</xsl:text>
+				<xsl:text>Baekmuk Batang,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-CN'">
-				<xsl:text>Zysong,</xsl:text>
+				<xsl:text>ZYSong18030,AR PL UMing CN,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'as-IN' or $l10n.gentext.language = 'as'">
-				<xsl:text>LohitBengali,</xsl:text>
+				<xsl:text>Lohit Bengali,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'bn-IN' or $l10n.gentext.language = 'bn'">
-				<xsl:text>LohitBengali,</xsl:text>
+				<xsl:text>Lohit Bengali,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ta-IN' or $l10n.gentext.language = 'ta'">
-				<xsl:text>LohitTamil,</xsl:text>
+				<xsl:text>Lohit Tamil,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'pa-IN' or l10n.gentext.language = 'pa'">
-				<xsl:text>LohitPunjabi,</xsl:text>
+				<xsl:text>Lohit Punjabi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'hi-IN' or $l10n.gentext.language = 'hi'">
-				<xsl:text>Lohit-Hindi,</xsl:text>
+				<xsl:text>Lohit Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'mr-IN' or $l10n.gentext.language = 'mr'">
-				<xsl:text>Lohit-Hindi,</xsl:text>
+				<xsl:text>Lohit Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN' or $l10n.gentext.language = 'gu'">
-				<xsl:text>LohitGujarati,</xsl:text>
+				<xsl:text>Lohit Gujarati,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'zh-TW'">
-				<xsl:text>Uming,</xsl:text>
+				<xsl:text>AR PL ShanHeiSun Uni,AR PL UMing TW,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'kn-IN' or $l10n.gentext.language = 'kn'">
-				<xsl:text>LohitKannada,</xsl:text>
+				<xsl:text>Lohit Kannada,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ml-IN' or $l10n.gentext.language = 'ml-IN'">
-				<xsl:text>LohitMalayalam,</xsl:text>
+				<xsl:text>Lohit Malayalam,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'or-IN' or $l10n.gentext.language = 'or'">
-				<xsl:text>LohitOriya,</xsl:text>
+				<xsl:text>Lohit Oriya,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'te-IN' or $l10n.gentext.language = 'te'">
-				<xsl:text>LohitTelugu,</xsl:text>
+				<xsl:text>Lohit Telugu,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'si-LK' or $l10n.gentext.language = 'si'">
-				<xsl:text>Lklug,</xsl:text>
+				<xsl:text>LKLUG,</xsl:text>
 			</xsl:when>
+			<!--xsl:when test="$l10n.gentext.language = 'ru-RU' or $l10n.gentext.language = 'ru'">
+				<xsl:text>DejaVuLGCSans,</xsl:text>
+			</xsl:when-->
 		</xsl:choose>
 	</xsl:variable>
 
@@ -777,7 +773,7 @@ Version:1.72
 		<xsl:call-template name="pickfont"/>
 	</xsl:variable>
 		
-	<xsl:copy-of select="$font"/><xsl:text>LiberationSans,sans-serif</xsl:text>
+	<xsl:copy-of select="$font"/><xsl:text>Liberation Sans,sans-serif</xsl:text>
 
 </xsl:template>
 
@@ -786,7 +782,7 @@ Version:1.72
 		<xsl:call-template name="pickfont"/>
 	</xsl:variable>
 
-	<xsl:copy-of select="$font"/><xsl:text>LiberationMono,monospace</xsl:text>
+	<xsl:copy-of select="$font"/><xsl:text>Liberation Mono,monospace</xsl:text>
 
 </xsl:template>
 
@@ -1856,14 +1852,6 @@ Version:1.72
   <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.annotation.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
 </xsl:template>
 
-<xsl:template match='xslthl:doccomment'>
-  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.doccomment.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match='xslthl:number'>
-  <fo:inline><xsl:attribute name="color"><xsl:value-of select="$xslthl.number.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
 <xsl:template match="varlistentry" mode="vl.as.blocks">
   <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
 
@@ -2034,7 +2022,7 @@ Version:1.72
 
 <xsl:template match="comment[&comment.block.parents;]|remark[&comment.block.parents;]">
   <xsl:if test="$show.comments != 0">
-    <fo:block xsl:use-attribute-sets="remark.properties">
+    <fo:block font-style="italic" background-color="#ff00ff">
       <xsl:call-template name="inline.charseq"/>
     </fo:block>
   </xsl:if>
@@ -2042,7 +2030,7 @@ Version:1.72
 
 <xsl:template match="comment|remark">
   <xsl:if test="$show.comments != 0">
-    <fo:inline xsl:use-attribute-sets="remark.properties">
+    <fo:inline font-style="italic" background-color="#ffff00">
       <xsl:call-template name="inline.charseq"/>
     </fo:inline>
   </xsl:if>

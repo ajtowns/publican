@@ -346,21 +346,21 @@ my %fontlist = (
             style  => [ 'normal', 'italic' ],
             weight => [ 'normal', 'bold' ],
         },
-        'Zysong' => {
-            path   => '/usr/share/fonts/zh_CN/TrueType/zysong.ttf',
-            style  => [ 'normal', 'italic' ],
-            weight => [ 'normal', 'bold' ],
-        },
+#        'Zysong' => {
+#            path   => '/usr/share/fonts/zh_CN/TrueType/zysong.ttf',
+#            style  => [ 'normal', 'italic' ],
+#            weight => [ 'normal', 'bold' ],
+#        },
 #        'SazanamiMincho' => {
 #            path  => '/usr/share/fonts/sazanami-fonts-mincho/sazanami-mincho.ttf',
 #            style => [ 'normal', 'italic' ],
 #            weight => [ 'normal', 'bold' ],
 #        },
-        'Uming' => {
-            path   => '/usr/share/fonts/cjkunifonts-uming/uming.ttf',
-            style  => [ 'normal', 'italic' ],
-            weight => [ 'normal', 'bold' ],
-        },
+#        'Uming' => {
+#            path   => '/usr/share/fonts/cjkunifonts-uming/uming.ttf',
+#            style  => [ 'normal', 'italic' ],
+#            weight => [ 'normal', 'bold' ],
+#        },
     },
     '.fc8' => {
         'BaekmukBatang' => {
@@ -528,12 +528,12 @@ sub genfontmetrics {
 
     foreach my $name ( sort( keys( %{ $fontlist{$dist} } ) ) ) {
         my $path = $fontlist{$dist}{$name}{path};
-	warn("Generating metrics for: $name\n");
+#	warn("Generating metrics for: $name\n");
         my $ttc = "";
         if($fontlist{$dist}{$name}{ttc}) {
             $ttc = "-ttcname " . $fontlist{$dist}{$name}{ttc};
         }
-print( STDERR "$ttfcommand -fn $name $path $metric_path/$name.xml\n");
+#print( STDERR "$ttfcommand -fn $name $path $metric_path/$name.xml\n");
         my $result = system("$ttfcommand -fn $name $ttc $path $metric_path/$name.xml");
 	croak("FAILED to create font metric for $name: $!") if($@ || $result);
     }

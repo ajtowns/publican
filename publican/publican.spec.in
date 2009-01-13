@@ -27,7 +27,8 @@ BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
 BuildRequires:	perl-XML-TreeBuilder >= 3.09-11
 # FOP is required to build the font metrics.
-BuildRequires:	fop saxon ImageMagick
+#BuildRequires:	fop saxon
+BuildRequires: ImageMagick
 #BuildRequires:	xslthl
 # *&%^*&^ decided to rename font packages and change font paths.
 # No actual real changes.
@@ -83,7 +84,7 @@ solely on using the publican tools.
 
 %build
 %{__make} docs
-./fop-fonts --dist=%{?dist}
+#./fop-fonts --dist=%{?dist}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -149,13 +150,14 @@ rm -rf $RPM_BUILD_ROOT
 - Fix DRAFT mode in web docs.
 - Fix TOC CSS spacing.
 - Fix missing syntax highlighting templates. BZ #474077
-- Added appendix to user guide for Makefile parameters.
+- Added appendix to user guide for Makefile parameters. BZ #476913
 - Fix multiple authors in revhistory. Patch by: Paul W. Frields. BZ #478552
 - Add LICENSE override for RPMs. BZ #477720
 - Fix empty change log. BZ #477728
 - Fix spec file location. BZ #477704
 - Added newline after country. BZ #477573
 - Fix minimum font size breaking TOC. BZ #476884
+- Fix missing font-metric files. BZ #479592
 
 * Mon Dec 1 2008 Jeff Fearn <jfearn@redhat.com> 0.39
 - Disable make.graphic.viewport. BZ #467368

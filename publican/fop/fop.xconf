@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!--
+
+This is an example configuration file for FOP.
+This file contains the same settings as the default values
+and will have no effect if used unchanged.
+
+Relative config url's will be resolved relative to
+the location of this file.
+
+-->
+
+<!-- NOTE: This is the version of the configuration -->
+<fop version="1.0">
+
+  <!-- Base URL for resolving relative URLs -->
+  <base>.</base>
+  
+  <!-- Source resolution in dpi (dots/pixels per inch) for determining the size of pixels in SVG and bitmap images, default: 72dpi -->
+  <source-resolution>72</source-resolution>
+  <!-- Target resolution in dpi (dots/pixels per inch) for specifying the target resolution for generated bitmaps, default: 72dpi -->
+  <target-resolution>72</target-resolution>
+  
+  <!-- Default page-height and page-width, in case
+       value is specified as auto -->
+  <default-page-settings height="240mm" width="120mm"/>
+  
+  <!-- Information for specific renderers -->
+  <!-- Uses renderer mime type for renderers -->
+  <renderers>
+    <renderer mime="application/pdf">
+      <filterList>
+        <!-- provides compression using zlib flate (default is on) -->
+        <value>flate</value>
+  
+        <!-- encodes binary data into printable ascii characters (default off)
+             This provides about a 4:5 expansion of data size -->
+        <!-- <value>ascii-85</value> -->
+  
+        <!-- encodes binary data with hex representation (default off)
+             This filter is not recommended as it doubles the data size -->
+        <!-- <value>ascii-hex</value> -->
+      </filterList>
+
+      <fonts>
+	<auto-detect/>
+        <!--font metrics-url="/usr/share/publican/fop/font-metrics/BaekmukBatang.xml" kerning="yes" embed-url="/usr/share/fonts/baekmuk-ttf-batang/batang.ttf">
+            <font-triplet name="BaekmukBatang" style="normal" weight="normal"/>
+            <font-triplet name="BaekmukBatang" style="normal" weight="bold"/>
+            <font-triplet name="BaekmukBatang" style="italic" weight="normal"/>
+            <font-triplet name="BaekmukBatang" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationMono-Bold.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationMono-Bold.ttf">
+            <font-triplet name="LiberationMono" style="normal" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationMono-BoldItalic.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationMono-BoldItalic.ttf">
+            <font-triplet name="LiberationMono" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationMono-Italic.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationMono-Italic.ttf">
+            <font-triplet name="LiberationMono" style="italic" weight="normal"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationMono-Regular.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationMono-Regular.ttf">
+            <font-triplet name="LiberationMono" style="normal" weight="normal"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSans-Bold.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSans-Bold.ttf">
+            <font-triplet name="LiberationSans" style="normal" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSans-BoldItalic.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSans-BoldItalic.ttf">
+            <font-triplet name="LiberationSans" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSans-Italic.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSans-Italic.ttf">
+            <font-triplet name="LiberationSans" style="italic" weight="normal"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSans-Regular.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSans-Regular.ttf">
+            <font-triplet name="LiberationSans" style="normal" weight="normal"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSerif-Bold.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSerif-Bold.ttf">
+            <font-triplet name="LiberationSerif" style="normal" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSerif-BoldItalic.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSerif-BoldItalic.ttf">
+            <font-triplet name="LiberationSerif" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSerif-Italic.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSerif-Italic.ttf">
+            <font-triplet name="LiberationSerif" style="italic" weight="normal"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LiberationSerif-Regular.xml" kerning="yes" embed-url="/usr/share/fonts/liberation/LiberationSerif-Regular.ttf">
+            <font-triplet name="LiberationSerif" style="normal" weight="normal"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/Lklug.xml" kerning="yes" embed-url="/usr/share/fonts/lklug/lklug.ttf">
+            <font-triplet name="Lklug" style="normal" weight="normal"/>
+            <font-triplet name="Lklug" style="normal" weight="bold"/>
+            <font-triplet name="Lklug" style="italic" weight="normal"/>
+            <font-triplet name="Lklug" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitBengali.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-bengali/lohit_bn.ttf">
+            <font-triplet name="LohitBengali" style="normal" weight="normal"/>
+            <font-triplet name="LohitBengali" style="normal" weight="bold"/>
+            <font-triplet name="LohitBengali" style="italic" weight="normal"/>
+            <font-triplet name="LohitBengali" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitGujarati.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-gujarati/lohit_gu.ttf">
+            <font-triplet name="LohitGujarati" style="normal" weight="normal"/>
+            <font-triplet name="LohitGujarati" style="normal" weight="bold"/>
+            <font-triplet name="LohitGujarati" style="italic" weight="normal"/>
+            <font-triplet name="LohitGujarati" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitHindi.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-hindi/lohit_hi.ttf">
+            <font-triplet name="LohitHindi" style="normal" weight="normal"/>
+            <font-triplet name="LohitHindi" style="normal" weight="bold"/>
+            <font-triplet name="LohitHindi" style="italic" weight="normal"/>
+            <font-triplet name="LohitHindi" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitKannada.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-kannada/lohit_kn.ttf">
+            <font-triplet name="LohitKannada" style="normal" weight="normal"/>
+            <font-triplet name="LohitKannada" style="normal" weight="bold"/>
+            <font-triplet name="LohitKannada" style="italic" weight="normal"/>
+            <font-triplet name="LohitKannada" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitMalayalam.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-malayalam/lohit_ml.ttf">
+            <font-triplet name="LohitMalayalam" style="normal" weight="normal"/>
+            <font-triplet name="LohitMalayalam" style="normal" weight="bold"/>
+            <font-triplet name="LohitMalayalam" style="italic" weight="normal"/>
+            <font-triplet name="LohitMalayalam" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitOriya.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-oriya/lohit_or.ttf">
+            <font-triplet name="LohitOriya" style="normal" weight="normal"/>
+            <font-triplet name="LohitOriya" style="normal" weight="bold"/>
+            <font-triplet name="LohitOriya" style="italic" weight="normal"/>
+            <font-triplet name="LohitOriya" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitPunjabi.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-punjabi/lohit_pa.ttf">
+            <font-triplet name="LohitPunjabi" style="normal" weight="normal"/>
+            <font-triplet name="LohitPunjabi" style="normal" weight="bold"/>
+            <font-triplet name="LohitPunjabi" style="italic" weight="normal"/>
+            <font-triplet name="LohitPunjabi" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitTamil.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-tamil/lohit_ta.ttf">
+            <font-triplet name="LohitTamil" style="normal" weight="normal"/>
+            <font-triplet name="LohitTamil" style="normal" weight="bold"/>
+            <font-triplet name="LohitTamil" style="italic" weight="normal"/>
+            <font-triplet name="LohitTamil" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/LohitTelugu.xml" kerning="yes" embed-url="/usr/share/fonts/lohit-telugu/lohit_te.ttf">
+            <font-triplet name="LohitTelugu" style="normal" weight="normal"/>
+            <font-triplet name="LohitTelugu" style="normal" weight="bold"/>
+            <font-triplet name="LohitTelugu" style="italic" weight="normal"/>
+            <font-triplet name="LohitTelugu" style="italic" weight="bold"/>
+        </font>
+        <font metrics-url="/usr/share/publican/fop/font-metrics/SazanamiGothic.xml" kerning="yes" embed-url="/usr/share/fonts/sazanami-fonts-gothic/sazanami-gothic.ttf">
+            <font-triplet name="SazanamiGothic" style="normal" weight="normal"/>
+            <font-triplet name="SazanamiGothic" style="normal" weight="bold"/>
+            <font-triplet name="SazanamiGothic" style="italic" weight="normal"/>
+            <font-triplet name="SazanamiGothic" style="italic" weight="bold"/>
+        </font-->
+      </fonts>
+
+      <!-- This option lets you specify additional options on an XML handler -->
+      <!--xml-handler namespace="http://www.w3.org/2000/svg">
+        <stroke-text>false</stroke-text>
+      </xml-handler-->
+
+    </renderer>
+
+    <renderer mime="application/postscript">
+      <!-- This option forces the PS renderer to rotate landscape pages -->
+      <!--auto-rotate-landscape>true</auto-rotate-landscape-->
+      
+      <!-- This option lets you specify additional options on an XML handler -->
+      <!--xml-handler namespace="http://www.w3.org/2000/svg">
+        <stroke-text>false</stroke-text>
+      </xml-handler-->
+    </renderer>
+
+    <renderer mime="application/vnd.hp-PCL">
+    </renderer>
+
+    <!-- MIF does not have a renderer
+    <renderer mime="application/vnd.mif">
+    </renderer>
+    -->
+
+    <renderer mime="image/svg+xml">
+      <format type="paginated"/>
+      <link value="true"/>
+      <strokeText value="false"/>
+    </renderer>
+
+    <renderer mime="application/awt">
+    </renderer>
+
+    <renderer mime="image/png">
+      <!--transparent-page-background>true</transparent-page-background-->
+    </renderer>
+
+    <renderer mime="image/tiff">
+      <!--transparent-page-background>true</transparent-page-background-->
+      <!--compression>CCITT T.6</compression-->
+    </renderer>
+
+    <renderer mime="text/xml">
+    </renderer>
+
+    <!-- RTF does not have a renderer
+    <renderer mime="text/rtf">
+    </renderer>
+    -->
+
+    <renderer mime="text/plain">
+      <pageSize columns="80"/>
+    </renderer>
+
+  </renderers>
+
+</fop>
