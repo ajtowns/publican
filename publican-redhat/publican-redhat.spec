@@ -4,7 +4,7 @@ Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
 Version:	0.18
 Release:	0%{?dist}
-License:	Open Publication License + Restrictions
+License:	Open Publication
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -49,7 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
-* Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.18
+* Fri Jan 16 2009 Jeff Fearn <jfearn@redhat.com> 0.18
+- Updated redhat brand license. BZ #478405
 - Add LICENSE override for RPMs. BZ #477720
 - Fix layout issue in Legal Notice. BZ #477573
 

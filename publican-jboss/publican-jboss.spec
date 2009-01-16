@@ -4,7 +4,7 @@ Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
 Version:	0.17
 Release:	0%{?dist}
-License:	Creative Commons Attribution-NonCommercial-ShareAlike
+License:	Open Publication
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -51,6 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.17
 - Add LICENSE override for RPMs. BZ #477720
+- Update jboss brand license. BZ #478416
 
 * Mon Dec 1 2008 Michael Hideo <mhideo@redhat.com> 0.16
 - Removed GPG key from Legal_Notice.xml BZ#473350
