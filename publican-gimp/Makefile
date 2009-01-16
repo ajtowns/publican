@@ -10,9 +10,6 @@ OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
 ifeq "$(OS_VER)" "ELx"
 OS_VER	= "el4"
 endif
-ifeq  "$(OS_VER)" "el5"
-OS_VER	= el5_2
-endif
 
 TAR_NAME = $(NAME)-$(VERSION)
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW

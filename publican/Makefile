@@ -24,10 +24,6 @@ PWD	= $(shell pwd)
 RPMDIR	= $(PWD)/tmp/rpm
 OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
 
-ifeq  "$(OS_VER)" "el5"
-OS_VER	= el5_2
-endif
-
 REAL_RPMDIR	= $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
 XMLCLEAN = $(PWD)/bin/xmlClean
 
@@ -61,7 +57,7 @@ srpm: dist
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
-	@if [ "$(OS_VER)" != "el5_2" ]; then \
+	@if [ "$(OS_VER)" != "el5" ]; then \
 		sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec; \
 		sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
 		sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
