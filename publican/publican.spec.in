@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.40
-Release:	0%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -28,7 +28,7 @@ BuildRequires:	desktop-file-utils
 BuildRequires:	perl-XML-TreeBuilder >= 3.09-11
 # FOP is required to build the font metrics.
 #BuildRequires:	fop saxon
-BuildRequires: ImageMagick
+BuildRequires: ImageMagick saxon
 #BuildRequires:	xslthl
 # *&%^*&^ decided to rename font packages and change font paths.
 # No actual real changes.
