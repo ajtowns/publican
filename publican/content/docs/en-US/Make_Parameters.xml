@@ -5,14 +5,17 @@
 <appendix id="appe-Users_Guide-Makefile_Parameters">
 	<title>Makefile Parameters</title>
 	<para>
-		Following is a list of the parameters that can be set in the Book&#39;s Makefile.
+		Every Book, Article or Book Set has a Makefile in its root directory. Parameters that can be set in a Book's Makefile are:
 	</para>
 	<variablelist>
 		<varlistentry>
 			<term>BOOKS</term>
 			<listitem>
 				<para>
-					For Sets this defines the Books it contains. Default: Undefined.
+					This defines the Books a Set contains. It is only useful for Book Sets.
+				</para>
+				<para>
+					Default value: Undefined.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -20,26 +23,44 @@
 			<term>BRAND</term>
 			<listitem>
 				<para>
-					Brand to style output with. Default: common
-				</para>
+					This parameter tells Publican which Brand to apply to a book's html and pdf output. Its default value is: common.
 			</listitem>
 		</varlistentry>
 		<varlistentry>
 			<term>BREW_DIST</term>
 			<listitem>
 				<para>
-					brew tag for desktop rpms. Default: dist-5E-qu-candidate.
+					BREW_DIST sets the Brew tag for desktop RPMs. Default: dist-5E-qu-candidate.
 				</para>
 			</listitem>
 		</varlistentry>
+<!-- 
 		<varlistentry>
 			<term>CATALOGS</term>
 			<listitem>
 				<para>
-					Override the system DTD catalog path (XML_CATALOG_FILES). Default: Undefined.
+					To override the default DTD catalog path (that is, the XML_CATALOG_FILES environment variable) use this parameter. By default this parameter is Undefined.
 				</para>
 			</listitem>
+## CATALOG notes ##
+CATALOG over rides the path the xslt tools use to find the DTD
+
+If you don't have a local copy of the DTD it fetches it from the web so it can validate the XML, you override that if your local copy isn't in a standard location
+
+On RHEL5 we ship a copy of the DTD because the rhel one is old, so on rhel that gets set to /usr/share/publican ...mutter
+
+But if someone wanted to use an even newer or a custom DTD they could set that to something else
+
+The DTD is set in the XML, when the xslt tools see the DTD they look for a local copy in several standard locations, if the don't find it they download it,
+
+CATALOG is a parameter you can set to tell the xslt tools to look somewhere else for a local copy. More correctly: somewhere non-standard
+
+## Must be checked. ##
+Does
+	CATALOG = /path/to/alternative/dtd
+constitute an additional path, or a replacement path?
 		</varlistentry>
+ -->
 		<varlistentry>
 			<term>CHUNK_FIRST</term>
 			<listitem>
@@ -60,7 +81,7 @@
 			<term>COMMON_CONFIG</term>
 			<listitem>
 				<para>
-					Path to publican configuration and common files. Default: /usr/share/publican
+					Sets the path to Publican's configuration and common files, including Brand files. Default: <filename>/usr/share/publican</filename>.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -68,7 +89,10 @@
 			<term>CONFIDENTIAL</term>
 			<listitem>
 				<para>
-					Is this book confidential? Default: 0
+					The default value &mdash; 0 &mdash; is not confidential. To set a book to confidential, change this to 1.
+				</para>
+				<para>
+					Setting this parameter to 1 places a large <emphasis>Confidential</emphasis> footer on each page.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -76,7 +100,7 @@
 			<term>DEFAULT_LANGS</term>
 			<listitem>
 				<para>
-					Languages that should be included in xi:include even if the translation isn&#39;t 100%. Used in update_includes. Default: Undefined.
+					Languages that should be included in xi:include even if the translation is not complete. Used in update_includes. Default: Undefined.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -84,7 +108,7 @@
 			<term>DESKTOP</term>
 			<listitem>
 				<para>
-					Use the desktop CSS. 0 or 1. Default: 0
+					Use the desktop CSS (1) or not (0). Default: 0
 				</para>
 			</listitem>
 		</varlistentry>
@@ -92,7 +116,7 @@
 			<term>DOC_TYPE</term>
 			<listitem>
 				<para>
-					Defaults to Book, can also be Article or Set. Default: Book
+					Sets the sort of publication being produced: Book, Article or Set. Default value is Book. This paremeter has no relationship to the DOCTYPE declaration in a publication's XML files.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -100,7 +124,7 @@
 			<term>DOC_URL</term>
 			<listitem>
 				<para>
-					URL for top right link in html and the URL entry in the RPM spec file. Default: https://fedorahosted.org/publican
+					Sets the URL used for the link in the right-hand header of every html page. Also sets the URL entry in a publication's RPM spec file. Default: https://fedorahosted.org/publican
 				</para>
 			</listitem>
 		</varlistentry>
@@ -116,7 +140,7 @@
 			<term>GENERATE_SECTION_TOC_LEVEL</term>
 			<listitem>
 				<para>
-					Include a TOC at the given section level. 0..5. Default: 0
+					Include a Table of Contents at the given section level. Valid values: 0 &ndash; 5. Default: 0.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -124,7 +148,7 @@
 			<term>IGNORED_TRANSLATIONS</term>
 			<listitem>
 				<para>
-					When building replace any languages in this list with the source langauge text. This allows you to work on translations without shipping incomplete translations. Default: Undefined.
+					When building, replace any languages in this list with the source langauge text. This allows you to work on translations without shipping incomplete translations. Default: Undefined.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -140,7 +164,7 @@
 			<term>PRODUCT</term>
 			<listitem>
 				<para>
-					Product this book is associated with. Default: Documentation
+					The product this book is associated with. Default: Documentation.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -148,7 +172,7 @@
 			<term>PROD_URL</term>
 			<listitem>
 				<para>
-					URL for top left link in html. Default: https://fedorahosted.org/publican
+					Sets the URL used for the link in the left-hand header of every html page. Default: https://fedorahosted.org/publican
 				</para>
 			</listitem>
 		</varlistentry>
@@ -156,7 +180,7 @@
 			<term>SHOW_REMARKS</term>
 			<listitem>
 				<para>
-					Display contents of remark tags in output? 0 or 1. Default: 0.
+					Display contents of remark tags in output? Two possible values: 0 (off) or 1 (on). Off by default.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -164,7 +188,7 @@
 			<term>TOC_SECTION_DEPTH</term>
 			<listitem>
 				<para>
-					How many levels of sections should be included in the main TOC? Default: 2.
+					How many section levels should be included in the main Table of Contents. Default: 2.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -172,10 +196,11 @@
 			<term>WEB_BREW_DIST</term>
 			<listitem>
 				<para>
-					brew tag to use for web rpms. Default: docs-5E.
+					WEB_BREW_DIST sets the Brew tag for web RPMs. Default: docs-5E.
 				</para>
 			</listitem>
 		</varlistentry>
+<!-- 
 		<varlistentry>
 			<term>XML_DESKTOP</term>
 			<listitem>
@@ -184,11 +209,12 @@
 				</para>
 			</listitem>
 		</varlistentry>
+ -->
 		<varlistentry>
 			<term>XML_LANG</term>
 			<listitem>
 				<para>
-					Source language of xml. Default: en-US
+					Language of a publication's source xml. Default: en-US (US English).
 				</para>
 			</listitem>
 		</varlistentry>
@@ -196,7 +222,7 @@
 			<term>USE_SAXON</term>
 			<listitem>
 				<para>
-					Use saxon for xslt. 0 or 1. Default: 1.
+					Use saxon for xslt. Two possible values: 0 (off) or 1 (on). On by default.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -211,3 +237,12 @@
 	</variablelist>
 </appendix>
 
+<!-- 
+running
+     create_book —name=<book-name> —brand=RedHat
+results in the string
+     BRAND = RedHat
+being added to
+     …/<book-name>/Makefile
+Correct? (That is running the first command is the same as adding the string manually.)
+-->
