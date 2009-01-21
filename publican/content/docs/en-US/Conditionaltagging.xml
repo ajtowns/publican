@@ -57,9 +57,9 @@ CONDITION=($BRAND)
 	<para>
 		Further, if an <command>&lt;xref&gt;</command> points to content that is not going to be included in the build due to conditional tagging, the build will fail. For example, <command>make CONDITION="upstream" pdf-en-US</command> will fail if the book has the tag <command>&lt;xref linkend="betasection"</command> pointing to <command>&lt;section id="betasection" CONDITION="beta"&gt;</command>.
 	</para>
-	<!-- 
+	<!--     
 	<para>At present, conditional tagging is supported on all build formats except for desktop RPMs.</para>
-	 -->
+	     -->
 </section>
 
 

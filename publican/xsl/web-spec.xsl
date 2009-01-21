@@ -20,7 +20,7 @@ Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select=
 Group:          Documentation
 License:	<xsl:value-of select="$license"/>
 URL:		<xsl:value-of select="$url"/>
-Source:         %{name}-%{version}-%{release}.tgz
+Source:         %{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican

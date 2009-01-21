@@ -31,6 +31,8 @@ PROD_URL	?= https://fedorahosted.org/publican
 DOC_URL		?= https://fedorahosted.org/publican
 DESKTOP		?= 0
 XMLCLEAN	?= xmlClean -strict $(STRICT)
+OS_VER		?= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
+
 LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 
 CLASSPATH	?= /usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar
@@ -550,7 +552,7 @@ define	SRPM_Template
 srpm-${1}:: clean spec-${1}
 	@echo "START: srpm-${1} `date`"
 	@cp tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION).tgz tmp/rpm/SOURCES/.
-	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/rpm/SPECS/$(TAR_NAME)-${1}.spec
+	@rpmbuild --define "_topdir $(PWD)/tmp/rpm" --define "dist .$(OS_VER)" -bs tmp/rpm/SPECS/$(TAR_NAME)-${1}.spec
 	@echo "END: srpm-${1} `date`"
 endef
 
@@ -558,7 +560,7 @@ define	BREW_Template
 .PHONY:	brew-${1}
 brew-${1}:: srpm-${1}
 	@echo "START: brew-${1} `date`"
-	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION).src.rpm
+	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
 	@echo "END: brew-${1} `date`"
 endef
 
@@ -566,7 +568,7 @@ define	BREW_Scratch_Template
 .PHONY:	brew-scratch-${1}
 brew-scratch-${1}:: srpm-${1}
 	@echo "START: brew-scratch-${1} `date`"
-	@brew build --scratch $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(PROD_VERSION).src.rpm
+	@brew build --scratch $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
 	@echo "END: brew-scratch-${1} `date`"
 endef
 
@@ -617,7 +619,7 @@ web-srpm-${1}:: clean tardir-${1}
 		--stringparam log "$$$$(<tmp/changelog.txt)" \
 		-o tmp/rpm/SPECS/$(PRODUCT)-$(DOCNAME)-$(PROD_VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
-	rpmbuild --define "_topdir $(PWD)/tmp/rpm" -bs tmp/rpm/SPECS/$(TAR_NAME)-web-${1}.spec
+	rpmbuild --define "_topdir $(PWD)/tmp/rpm" --define "dist .$(OS_VER)" -bs tmp/rpm/SPECS/$(TAR_NAME)-web-${1}.spec
 	@echo "END: web-srpm-${1}: `date`"
 endef
 
@@ -631,7 +633,7 @@ define	WEB_BREW_Template
 .PHONY:	web-brew-${1}
 web-brew-${1}:: web-srpm-${1}
 	@echo "START: web-brew-${1} `date`"
-	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).src.rpm
+	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
 	@echo "END: brew-${1} `date`"
 endef
 
@@ -639,7 +641,7 @@ define	WEB_BREW_Scratch_Template
 .PHONY:	web-brew-scratch-${1}
 web-brew-scratch-${1}:: web-srpm-${1}
 	@echo "START: web-brew-scratch-${1} `date`"
-	@brew build --scratch $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).src.rpm
+	@brew build --scratch $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
 	@echo "END: brew-scratch-${1} `date`"
 endef
 
