@@ -560,7 +560,7 @@ define	BREW_Template
 .PHONY:	brew-${1}
 brew-${1}:: srpm-${1}
 	@echo "START: brew-${1} `date`"
-	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
+	@brew build --nowait $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).$(OS_VER).src.rpm
 	@echo "END: brew-${1} `date`"
 endef
 
@@ -568,7 +568,7 @@ define	BREW_Scratch_Template
 .PHONY:	brew-scratch-${1}
 brew-scratch-${1}:: srpm-${1}
 	@echo "START: brew-scratch-${1} `date`"
-	@brew build --scratch $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
+	@brew build --scratch $(BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).$(OS_VER).src.rpm
 	@echo "END: brew-scratch-${1} `date`"
 endef
 
@@ -633,7 +633,7 @@ define	WEB_BREW_Template
 .PHONY:	web-brew-${1}
 web-brew-${1}:: web-srpm-${1}
 	@echo "START: web-brew-${1} `date`"
-	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
+	@brew build --nowait $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).$(OS_VER).src.rpm
 	@echo "END: brew-${1} `date`"
 endef
 
@@ -641,7 +641,7 @@ define	WEB_BREW_Scratch_Template
 .PHONY:	web-brew-scratch-${1}
 web-brew-scratch-${1}:: web-srpm-${1}
 	@echo "START: web-brew-scratch-${1} `date`"
-	@brew build --scratch $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE)*.src.rpm
+	@brew build --scratch $(WEB_BREW_DIST) tmp/rpm/SRPMS/$(TAR_NAME)-web-${1}-$(RPM_VERSION)-$(${1}_RPM_RELEASE).$(OS_VER).src.rpm
 	@echo "END: brew-scratch-${1} `date`"
 endef
 
