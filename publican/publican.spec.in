@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.41
-Release:	5.t3%{?dist}
+Release:	5.t5%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -144,11 +144,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Thu Jan 29 2009 Jeff Fearn <jfearn@redhat.com> 0.42
+- Support chapterinfo keywordset keyword tags.
+- Add SRC_URL. BZ #482968
+
 * Mon Jan 19 2009 Jeff Fearn <jfearn@redhat.com> 0.41
 - Fix Source tar name.
 - Fix brew srpm path
 - Added OS_VER to allow over ride of OS srpm is created for.
-- Support chapterinfo keywordset keyword tags.
 
 * Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.40
 - Fix DRAFT mode in web docs.

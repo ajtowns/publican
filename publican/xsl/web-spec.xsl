@@ -11,7 +11,7 @@
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
 <xsl:template match="/">#Documentation Specfile
-%define	HTMLVIEW 1
+%define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
 Name:           <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 Version:        <xsl:value-of select="$rpmver"/>
@@ -20,7 +20,7 @@ Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select=
 Group:          Documentation
 License:	<xsl:value-of select="$license"/>
 URL:		<xsl:value-of select="$url"/>
-Source:         %{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
+Source:         <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican

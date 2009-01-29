@@ -540,6 +540,7 @@ spec-${1}:: tar-${1}
 		--stringparam rpmrel "$(${1}_RPM_RELEASE)" \
 		--stringparam license "$(LICENSE)" \
 		--stringparam url "$(DOC_URL)" \
+		--stringparam src_url "$(SRC_URL)" \
 		--stringparam brand "publican-$(LC_BRAND)" \
 		--stringparam log "$$$$(<tmp/changelog.txt)" \
 		-o tmp/rpm/SPECS/$(TAR_NAME)-${1}.spec \
@@ -616,6 +617,7 @@ web-srpm-${1}:: clean tardir-${1}
 		--stringparam license "$(LICENSE)" \
 		--stringparam brand "publican-$(LC_BRAND)" \
 		--stringparam url "$(DOC_URL)" \
+		--stringparam src_url "$(SRC_URL)" \
 		--stringparam log "$$$$(<tmp/changelog.txt)" \
 		-o tmp/rpm/SPECS/$(PRODUCT)-$(DOCNAME)-$(PROD_VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
