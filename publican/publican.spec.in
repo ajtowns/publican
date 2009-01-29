@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.41
-Release:	5.t1%{?dist}
+Release:	5.t3%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -14,7 +14,7 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-# need kdesdk for po2xml & xml2pot
+
 Requires:	gettext libxslt docbook-dtds docbook-style-xsl elinks aspell
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template make
@@ -26,9 +26,7 @@ BuildRequires:	gettext libxslt docbook-dtds docbook-style-xsl aspell
 BuildRequires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 BuildRequires:	desktop-file-utils
 BuildRequires:	perl-XML-TreeBuilder >= 3.09-11
-# FOP is required to build the font metrics.
-#BuildRequires:	fop saxon
-BuildRequires: ImageMagick saxon
+BuildRequires:	fop saxon ImageMagick
 #BuildRequires:	xslthl
 # *&%^*&^ decided to rename font packages and change font paths.
 # No actual real changes.

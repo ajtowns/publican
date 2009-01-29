@@ -46,6 +46,9 @@ Copied from fo/params.xsl
 <xsl:param name="embedtoc" select="'0'"/>
 <xsl:param name="desktop" select="0"/>
 
+<xsl:param name="funcsynopsis.style">ansi</xsl:param>
+<xsl:param name="refentry.pagebreak">0</xsl:param>
+
 <xsl:template match="command">
 	<xsl:call-template name="inline.monoseq"/>
 </xsl:template>

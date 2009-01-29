@@ -1128,4 +1128,48 @@ Version: 1.72.0
 <xsl:template match="collab" mode="titlepage.mode">
 </xsl:template>
 
+<xsl:template match="funcprototype">
+  <xsl:variable name="html-style">
+    <xsl:call-template name="dbhtml-attribute">
+      <xsl:with-param name="pis" select="ancestor::funcsynopsis//processing-instruction('dbhtml')"/>
+      <xsl:with-param name="attribute" select="'funcsynopsis-style'"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:variable name="style">
+    <xsl:choose>
+      <xsl:when test="$html-style != ''">
+        <xsl:value-of select="$html-style"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$funcsynopsis.style"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+<!--
+  <xsl:variable name="tabular-p"
+                select="$funcsynopsis.tabular.threshold &gt; 0
+                        and string-length(.) &gt; $funcsynopsis.tabular.threshold"/>
+-->
+
+  <xsl:variable name="tabular-p" select="false()"/>
+
+  <xsl:choose>
+    <xsl:when test="$style = 'kr' and $tabular-p">
+      <xsl:apply-templates select="." mode="kr-tabular"/>
+    </xsl:when>
+    <xsl:when test="$style = 'kr'">
+      <xsl:apply-templates select="." mode="kr-nontabular"/>
+    </xsl:when>
+    <xsl:when test="$style = 'ansi' and $tabular-p">
+      <xsl:apply-templates select="." mode="ansi-tabular"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:apply-templates select="." mode="ansi-nontabular"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+
 </xsl:stylesheet>
