@@ -13,16 +13,16 @@
 <xsl:template match="/">#Documentation Specfile
 %define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
-Name:           <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-Version:        <xsl:value-of select="$rpmver"/>
-Release:        <xsl:value-of select="$rpmrel"/>%{?dist}
-Summary:        <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-Group:          Documentation
+Name:		<xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
+Version:	<xsl:value-of select="$rpmver"/>
+Release:	<xsl:value-of select="$rpmrel"/>%{?dist}
+Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+Group:		Documentation
 License:	<xsl:value-of select="$license"/>
 URL:		<xsl:value-of select="$url"/>
-Source:         <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
-BuildArch:      noarch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source:		<xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
+BuildArch:	noarch
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
 <xsl:if test="$brand != 'publican-common'">
 BuildRequires:	<xsl:value-of select="$brand"/>
@@ -77,6 +77,9 @@ fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 %{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
