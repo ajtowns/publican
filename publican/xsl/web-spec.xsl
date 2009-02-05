@@ -72,7 +72,7 @@ EOF
 
 %preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 if [ "$1" = "0" ] ; then # last uninstall
-%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->del_entry({ language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format"} ); } $ws->regen_all_toc();'
+%{__perl} -e 'if (eval {require Publican::WebSite}) { my @formats = ("html", "pdf", "html-single"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->del_entry({ language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format"} ); } $ws->regen_all_toc();}';
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>

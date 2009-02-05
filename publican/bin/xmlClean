@@ -126,7 +126,7 @@ my %MAP_OUT = (
     'xi:fallback'   => { 'newline_after' => 1 },
     'glossary'      => { 'block'         => 1 },
     'glossentry'    => { 'block'         => 1, 'id_node' => 'glossterm' },
-    'glossdiv'      => { 'block'         => 1 },
+#    'glossdiv'      => { 'block'         => 1 },
     'glossdef'      => { 'block'         => 1 },
     'glossterm'     => { 'newline_after' => 1 },
     'glosssee'      => { 'newline_after' => 1 },
@@ -264,6 +264,10 @@ my %MAP_OUT = (
 
 my %BANNED_TAGS = (
     'glosslist' => {
+        'reason' =>
+            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+    },
+    'glossdiv' => {
         'reason' =>
             'This tag set imposes English-language order on glossaries, making them useless when translated.'
     },
