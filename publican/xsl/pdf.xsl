@@ -503,7 +503,12 @@ part nop
 	<xsl:attribute name="space-after.optimum">0.1em</xsl:attribute>
 	<xsl:attribute name="space-after.maximum">0.1em</xsl:attribute>
 	<xsl:attribute name="text-align">left</xsl:attribute>
-	<xsl:attribute name="start-indent"><xsl:text>body-start()</xsl:text></xsl:attribute>
+	<xsl:attribute name="start-indent">
+		<xsl:choose>
+			<xsl:when test="ancestor::itemizedlist"><xsl:text>body-start()</xsl:text></xsl:when>
+			<xsl:otherwise><xsl:value-of select="$title.margin.left"/></xsl:otherwise>
+		</xsl:choose>
+	</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="normal.para.spacing">
