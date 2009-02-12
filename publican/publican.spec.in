@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.42
-Release:	0.t1%{?dist}
+Release:	0.t7%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -14,7 +14,6 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-
 Requires:	gettext libxslt docbook-dtds docbook-style-xsl elinks aspell
 Requires:	%{_bindir}/xml2pot %{_bindir}/po2xml
 Requires:	perl-ParseLex perl-HTML-Template make
@@ -146,6 +145,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Feb 09 2009  Jeff Fearn <jfearn@redhat.com> 0.43
 - Fix many warnings about 'body-start() called from outside an fo:list-item' BZ #484628
+- Fix Initial build of new lang failing. BZ #485179
 
 * Thu Jan 29 2009 Jeff Fearn <jfearn@redhat.com> 0.42
 - Support chapterinfo, keywordset & keyword tags.

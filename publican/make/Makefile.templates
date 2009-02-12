@@ -389,6 +389,9 @@ endif
 			msginit -l ${1} --no-translator -i $$$$pot_file -o ../${1}/$$$$po_file; \
 			sed -i -e 's/PACKAGE/$(DOCNAME)/g' ../${1}/$$$$po_file; \
 			sed -i -e 's/PROD_VERSION/$(PROD_VERSION)/g' ../${1}/$$$$po_file; \
+			if [ "$$$$po_file" == "$(DOC_TYPE)_Info.po" ]; then \
+				sed -i -e 's/Project-Id-Version: .*\\/Project-Id-Version: 0\\/' ../${1}/$$$$po_file; \
+			fi\
 		else \
 			echo "Merging existing po file: ../${1}/$$$$po_file"; \
 			echo -n "	Before:	";\

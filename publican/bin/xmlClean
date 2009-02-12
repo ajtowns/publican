@@ -660,6 +660,8 @@ sub PrintXML($) {
                 . $type
                 . qq| PUBLIC "-//OASIS//DTD DocBook XML V$dtdver//EN" "http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd" [|
                 . "\n" );
+#                . qq| PUBLIC "-//OASIS//DTD DocBook XML V$dtdver//EN" "http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd" [|
+#                . qq| SYSTEM "/home/jfearn/Build/src/docbook/trunk/defguide/en/schema/dbebnf.dtd" [|
 
       # Don't output this header for the source xml as it breaks the ANT build
         if ( !$clean_id ) {
