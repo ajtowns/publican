@@ -51,6 +51,7 @@
 
 <xsl:param name="generate.id.attributes" select="0"/>
 <xsl:param name="make.graphic.viewport" select="0"/>
+<xsl:param name="use.embed.for.svg" select="0"/>
 
 <!-- TOC -->
 <xsl:param name="section.autolabel" select="1"/>

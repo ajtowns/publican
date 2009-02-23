@@ -637,7 +637,8 @@ sub PrintXML($) {
         }
 
         $xml_doc->pos( $xml_doc->root() );
-        my $type = $xml_doc->root->attr("_tag");
+	$xml_doc->attr( 'lang', $lang);
+        my $type = $xml_doc->attr("_tag");
         my $text = my_as_XML($xml_doc);
 
         $text =~ s/&#10;//g;

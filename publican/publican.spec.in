@@ -6,7 +6,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.42
-Release:	0.t7%{?dist}
+Release:	0.t10%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -146,6 +146,8 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Feb 09 2009  Jeff Fearn <jfearn@redhat.com> 0.43
 - Fix many warnings about 'body-start() called from outside an fo:list-item' BZ #484628
 - Fix Initial build of new lang failing. BZ #485179
+- Add lang to final doc root node. BZ #486162
+- Add embed for stanky IE. BZ #486501
 
 * Thu Jan 29 2009 Jeff Fearn <jfearn@redhat.com> 0.42
 - Support chapterinfo, keywordset & keyword tags.
