@@ -22,7 +22,7 @@ VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD	= $(shell pwd)
 RPMDIR	= $(PWD)/tmp/rpm
-OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
+OS_VER	?= .$(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
 
 REAL_RPMDIR	= $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \t]*\)$$/\1/')
 XMLCLEAN = $(PWD)/bin/xmlClean
@@ -38,17 +38,17 @@ local: rpm
 
 rpm: srpm
 	@echo "Start $@"
-	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" --rebuild $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).$(OS_VER).src.rpm
+	@rpmbuild --define "dist $(OS_VER)" --define "_topdir $(RPMDIR)" --rebuild $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE)$(OS_VER).src.rpm
 	@echo "End $@"
 
 brew:: srpm
 	@echo "Start $@"
-	brew build docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).$(OS_VER).src.rpm
+	brew build docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE)$(OS_VER).src.rpm
 	@echo "End $@"
 
 brew-scratch:: srpm
 	@echo "Start $@"
-	brew build --scratch docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE).$(OS_VER).src.rpm
+	brew build --scratch docs-5E $(RPMDIR)/SRPMS/$(TAR_NAME)-$(RELEASE)$(OS_VER).src.rpm
 	@echo "End $@"
 
 srpm: dist
@@ -57,18 +57,29 @@ srpm: dist
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican.spec.in $(RPMDIR)/SPECS/$(NAME).spec
-	@if [ "$(OS_VER)" != "el5" ]; then \
-		sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec; \
-		sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
-		sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
-		sed -i -e 's/@PREMOLESTATION@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
-	else \
+	@if [ "$(OS_VER)" = ".el5" ]; then \
 		sed -i -e 's/@VENDOR@/redhat/' $(RPMDIR)/SPECS/$(NAME).spec; \
 		sed -i -e 's/@EMBED45@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
 		sed -i -e 's/@HTMLVIEW@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
 		sed -i -e 's/@PREMOLESTATION@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@FC10@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@FC11@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+	elif [ "$(OS_VER)" = ".fc10" ]; then \
+		sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@PREMOLESTATION@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@FC10@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@FC11@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+	else \
+		sed -i -e 's/@VENDOR@/fedora/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@EMBED45@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@HTMLVIEW@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@PREMOLESTATION@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@FC10@/0/' $(RPMDIR)/SPECS/$(NAME).spec; \
+		sed -i -e 's/@FC11@/1/' $(RPMDIR)/SPECS/$(NAME).spec; \
 	fi
-	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
+	@rpmbuild --define "dist $(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/$(NAME).spec
 	@echo "End $@"
 
 dist: clean

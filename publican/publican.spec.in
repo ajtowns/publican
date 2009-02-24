@@ -2,11 +2,13 @@
 %define	EMBED_DOCKBOOK45 @EMBED45@
 %define	HTMLVIEW @HTMLVIEW@
 %define PREMOLESTATION @PREMOLESTATION@
+%define FC10 @FC10@
+%define FC11 @FC11@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.42
-Release:	0.t13%{?dist}
+Release:	0.t14%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -40,7 +42,8 @@ BuildRequires:	fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
 BuildRequires:	fonts-hindi fonts-japanese fonts-kannada fonts-korean
 BuildRequires:	fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
 BuildRequires:	fonts-tamil fonts-telugu liberation-fonts
-%else
+%endif
+%if %{FC10}
 Requires:	lohit-fonts-bengali cjkunifonts-uming lohit-fonts-gujarati
 Requires:	lohit-fonts-hindi sazanami-fonts-gothic sazanami-fonts-mincho lohit-fonts-kannada
 Requires:	lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
@@ -50,6 +53,19 @@ BuildRequires:	lohit-fonts-bengali cjkunifonts-uming lohit-fonts-gujarati
 BuildRequires:	lohit-fonts-hindi sazanami-fonts-gothic sazanami-fonts-mincho lohit-fonts-kannada
 BuildRequires:	lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
 BuildRequires:	lohit-fonts-tamil lohit-fonts-telugu liberation-fonts baekmuk-ttf-fonts-batang
+%endif
+%if %{FC11}
+Requires:	liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
+Requires:	lohit-fonts-bengali cjkuni-uming-fonts lohit-fonts-gujarati
+Requires:	lohit-fonts-hindi sazanami-gothic-fonts sazanami-mincho-fonts lohit-fonts-kannada
+Requires:	lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
+Requires:	lohit-fonts-tamil lohit-fonts-telugu baekmuk-ttf-batang-fonts
+
+BuildRequires:	liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
+BuildRequires:	lohit-fonts-bengali cjkuni-uming-fonts lohit-fonts-gujarati
+BuildRequires:	lohit-fonts-hindi sazanami-gothic-fonts sazanami-mincho-fonts lohit-fonts-kannada
+BuildRequires:	lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
+BuildRequires:	lohit-fonts-tamil lohit-fonts-telugu baekmuk-ttf-batang-fonts
 %endif
 
 URL:		https://fedorahosted.org/publican
@@ -80,7 +96,7 @@ solely on using the publican tools.
 %setup -q
 
 %build
-%{__make} docs
+%{__make} OS_VER=%{?dist} docs
 #./fop-fonts --dist=%{?dist}
 
 %install
@@ -148,6 +164,18 @@ rm -rf $RPM_BUILD_ROOT
 - Fix Initial build of new lang failing. BZ #485179
 - Add lang to final doc root node. BZ #486162
 - Add embed for stanky IE. BZ #486501
+- Rolled in following from fedora devel spec
+- - Mon Feb  9 2009 Jens Petersen <petersen@redhat.com> - 0.40-4
+- - update the sazanami-fonts subpackage names
+- - list liberation-fonts subpackages explicitly
+- - Fri Feb  6 2009 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.40-3
+- - Fix broken font deps: liberation-fonts -> liberation-fonts-compat
+- - Sat Jan 24 2009 Caolán McNamara <caolanm@redhat.com> - 0.40-2
+- - cjkunifonts-uming -> cjkuni-uming-fonts
+- - Thu Jan 22 2009 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.40-1
+- - Font changes baekmuk-ttf-fonts-batang -> baekmuk-ttf-batang-fonts to
+-   fix broken deps in rawhide
+
 
 * Thu Jan 29 2009 Jeff Fearn <jfearn@redhat.com> 0.42
 - Support chapterinfo, keywordset & keyword tags.
