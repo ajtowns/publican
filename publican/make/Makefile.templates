@@ -37,6 +37,8 @@ LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 
 CLASSPATH	?= /usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar
 
+XSLTHL		= $(shell if [ -a /usr/share/xslthl/xslthl-config.xml ]; then echo "1"; else echo "0"; fi)
+
 XALAN		?= java -verbose -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
 USE_XALAN	?= 0
 
@@ -236,37 +238,35 @@ ifeq "${1}" "pdf"
 		fi; \
 		fop_ver=`fop -v 2>/dev/null | grep FOP | sed -e 's/^[^0..9]*//g'`; \
 		if [ "$(USE_XALAN)" == "1" ]; then \
-			echo "Running XALAN:"; \
+			echo "Running XALAN on $$$$xsl_file"; \
 			$(XALAN) -out $(DOCNAME).fo -xsl $$$$xsl_file -in $(DOCNAME).xml -param toc.section.depth "$(TOC_SECTION_DEPTH)" \
 				-param chunk.section.depth "$(CHUNK_SECTION_DEPTH)" -param confidential ${CONFIDENTIAL} \
 				-param l10n.gentext.language "$$(GENLANG)" -param show.comments $(SHOW_REMARKS) \
 				-param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
 				-param use.extensions 1 -param tablecolumns.extensions 1; \
+		elif [ "$(USE_SAXON)" == "1" ]; then \
+			echo "Running Saxon on $$$$xsl_file"; \
+			$(SAXON) -o $(DOCNAME).fo $(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" \
+				chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} \
+				l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) \
+				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
+				use.extensions=1 tablecolumns.extensions=1 || exit 11; \
 		else \
-			if [ "$(USE_SAXON)" == "1" ]; then \
-				echo "Running Saxon:"; \
-				$(SAXON) -o $(DOCNAME).fo $(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" \
-					chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} \
-					l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) \
-					generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
-					use.extensions=1 tablecolumns.extensions=1; \
+			echo "Running xsltproc on $$$$xsl_file"; \
+			if [ "$$$$fop_ver" = "0.20.5" ]; then \
+				$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+					--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} \
+					--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) \
+					--stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+					--stringparam fop.extensions "1" --stringparam fop1.extensions "0" \
+					--xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 			else \
-				echo "Running xsltproc:"; \
-				if [ "$$$$fop_ver" = "0.20.5" ]; then \
-					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
-						--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} \
-						--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) \
-						--stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
-						--stringparam fop.extensions "1" --stringparam fop1.extensions "0" \
-						--xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
-				else \
-					$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
-						--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} \
-						--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) \
-						--stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
-						--stringparam fop.extensions "0" --stringparam fop1.extensions "1" \
-						--xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
-				fi; \
+				$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
+					--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential ${CONFIDENTIAL} \
+					--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) \
+					--stringparam generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
+					--stringparam fop.extensions "0" --stringparam fop1.extensions "1" \
+					--xinclude -o $(DOCNAME).fo $$$$xsl_file $(DOCNAME).xml; \
 			fi; \
 		fi; \
 		echo "Running FOP:"; \
@@ -280,7 +280,7 @@ ifeq "${1}" "html-single"
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
 		if [ "$(USE_SAXON)" == "1" ]; then \
-			echo "Running Saxon:"; \
+			echo "Running Saxon on $$$$xsl_file"; \
 			$(SAXON) -o index.html ../xml/$(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" \
 				confidential=${CONFIDENTIAL} \
 				profile.lang="$$(GENLANG)" l10n.gentext.language="$$(GENLANG)" \
@@ -288,7 +288,7 @@ ifeq "${1}" "html-single"
 				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
 				use.extensions=1 tablecolumns.extensions=1; \
 		else \
-			echo "Running xsltproc:"; \
+			echo "Running xsltproc on $$$$xsl_file"; \
 			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
 				--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" \
 				--stringparam profile.lang "$$(GENLANG)" --stringparam l10n.gentext.language "$$(GENLANG)" \
@@ -308,14 +308,14 @@ ifeq "${1}" "html-desktop"
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/html-single.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/html-single.xsl";fi; \
 		if [ "$(USE_SAXON)" == "1" ]; then \
-			echo "Running Saxon:"; \
+			echo "Running Saxon on $$$$xsl_file"; \
 			$(SAXON) -o index.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" prod.url="$(PROD_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
 				confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" desktop=1 show.comments=$(SHOW_REMARKS) \
 				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
 				use.extensions=1 tablecolumns.extensions=1; \
 		else \
-			echo "Running xsltproc:"; \
+			echo "Running xsltproc on $$$$xsl_file"; \
 			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam prod.url "$(PROD_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
 			--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" \
 			--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam desktop 1 --stringparam show.comments $(SHOW_REMARKS) \
@@ -333,7 +333,7 @@ else
 	@cd tmp/${2}/${1}; \
 		if [ -f $(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl ]; then xsl_file="$(COMMON_CONFIG)/xsl/$(BRAND)/${1}.xsl"; else xsl_file="$(COMMON_CONFIG)/xsl/${1}.xsl";fi; \
 		if [ "$(USE_SAXON)" == "1" ]; then \
-			echo "Running Saxon: $$$$xsl_file"; \
+			echo "Running Saxon on $$$$xsl_file"; \
 			$(SAXON) -o tmppoofu.html ../xml/$(DOCNAME).xml $$$$xsl_file doc.url="$(DOC_URL)" prod.url="$(PROD_URL)" toc.section.depth="$(TOC_SECTION_DEPTH)" \
 				chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) embedtoc=$$(EMBEDTOC) \
@@ -341,7 +341,7 @@ else
 				use.extensions=1 tablecolumns.extensions=1 package=$(TAR_NAME)-${2}-$(RPM_VERSION)-$(${2}_RPM_RELEASE); \
 			rm tmppoofu.html; \
 		else \
-			echo "Running xsltproc:"; \
+			echo "Running xsltproc on $$$$xsl_file"; \
 			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam prod.url "$(PROD_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
 				--stringparam chunk.section.depth "$(CHUNK_SECTION_DEPTH)" --stringparam confidential "${CONFIDENTIAL}" --stringparam profile.lang "$$(GENLANG)" \
 				--stringparam l10n.gentext.language "$$(GENLANG)" --stringparam show.comments $(SHOW_REMARKS) --stringparam embedtoc $$(EMBEDTOC) \
