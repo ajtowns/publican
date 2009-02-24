@@ -162,7 +162,9 @@ Common_Content::
 					cp $$xml_file $(PWD)/Common_Content/common/$$lang/$$xml_file; \
 				else \
 					echo "		Processing ../$$lang/$$po_file"; \
+					echo "			Running: po2xml $$xml_file ../$$lang/$$po_file > tmp.xml"; \
 					po2xml $$xml_file ../$$lang/$$po_file > tmp.xml; \
+					echo "			Running: $(XMLCLEAN) --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang"; \
 					$(XMLCLEAN) --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang; \
 					rm tmp.xml; \
 				fi; \
