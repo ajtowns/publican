@@ -6,7 +6,8 @@ VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')
 RELEASE = $(shell grep 'Release:' $(SPEC) | sed -e 's/Release:\s*\(.*\)$$/\1/g' | sed -e 's/...dist.//')
 PWD		= $(shell pwd)
 RPMDIR	=  $(PWD)/tmp/rpm
-OS_VER	= $(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
+OS_VER	?= .$(shell uname -r | perl -p -e 's/^[^a-z]*([a-z]+[0-9]+).*$$/\1/')
+VERBOSE	?= 0
 
 TAR_NAME = $(NAME)-$(VERSION)
 LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
@@ -15,8 +16,8 @@ FILES	= pot README Makefile $(LANGS) en-US Book_Template Article_Template Set_Te
 
 local: srpm
 	@echo "Start $@"
-	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bb $(RPMDIR)/SPECS/$(SPEC)
-	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE).$(OS_VER).noarch.rpm
+	@rpmbuild --define "dist $(OS_VER)" --define "_topdir $(RPMDIR)" -bb $(RPMDIR)/SPECS/$(SPEC)
+	@sudo rpm -Uvh $(RPMDIR)/RPMS/noarch/$(TAR_NAME)-$(RELEASE)$(OS_VER).noarch.rpm
 	@echo "End $@"
 
 srpm: dist
@@ -25,7 +26,7 @@ srpm: dist
 	@cd $(RPMDIR) && mkdir -p  SPECS  SRPMS BUILD SOURCES RPMS/noarch
 	@cp $(TAR_NAME).tgz $(RPMDIR)/SOURCES/.
 	@cp publican-$(BRAND).spec $(RPMDIR)/SPECS/.
-	@rpmbuild --define "dist .$(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
+	@rpmbuild --define "dist $(OS_VER)" --define "_topdir $(RPMDIR)" -bs $(RPMDIR)/SPECS/publican-$(BRAND).spec
 	@echo "End $@"
 
 dist: clean
@@ -114,6 +115,10 @@ Common_Content::
 	@echo "Start $@"
 	@for lang in $(LANGS) en-US; do \
 		mkdir -p $(PWD)/Common_Content/$(REAL_BRAND)/$$lang; \
+		foo=`echo "$$lang" | cut -f 1 -d '-'`; \
+		pushd $(PWD)/Common_Content/$(REAL_BRAND) > /dev/null; \
+		ln -s $$lang $$foo; \
+		popd > /dev/null; \
 	done
 	@cd en-US; \
 	for xml_file in `find . -maxdepth 1 -name "*.xml"`; do \

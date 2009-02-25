@@ -2,7 +2,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.18
+Version:	0.19
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.19
+- Add symlinks for langauges without country codes. BZ #487256
+
 * Fri Jan 16 2009 Jeff Fearn <jfearn@redhat.com> 0.18
 - Updated redhat brand license. BZ #478405
 - Add LICENSE override for RPMs. BZ #477720

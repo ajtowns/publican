@@ -28,6 +28,7 @@ REAL_RPMDIR	= $(shell grep topdir ~/.rpmmacros | sed -e 's/^.*topdir[ \t]*\([^ \
 XMLCLEAN = $(PWD)/bin/xmlClean
 
 TAR_NAME = $(NAME)-$(VERSION)
+VERBOSE	?= 0
 
 FILES	= bin Book_Template Set_Template Article_Template content fop fop-fonts fop.txt make Makefile README templates xsl COPYING fdl.txt publican.desktop xsl_extras maven
 
@@ -152,19 +153,26 @@ Common_Content::
 			po_file=`echo $$xml_file | sed -e 's/\.xml/\.po/'`; \
 			if [ ! -d $(PWD)/Common_Content/common/en-US ]; then \
 				mkdir -p $(PWD)/Common_Content/common/en-US; \
+				pushd $(PWD)/Common_Content/common > /dev/null; \
+				ln -s en-US en; \
+				popd > /dev/null; \
 			fi; \
 			for lang in $(LANGS); do \
 				if [ ! -d $(PWD)/Common_Content/common/$$lang ]; then \
 					mkdir -p $(PWD)/Common_Content/common/$$lang; \
+					foo=`echo "$$lang" | cut -f 1 -d '-'`; \
+					pushd $(PWD)/Common_Content/common > /dev/null; \
+					ln -s $$lang $$foo; \
+					popd > /dev/null; \
 				fi; \
 				if [ ! -f ../$$lang/$$po_file ]; then \
 					echo "../$$lang/$$po_file MISSING Using en-US file"; \
 					cp $$xml_file $(PWD)/Common_Content/common/$$lang/$$xml_file; \
 				else \
 					echo "		Processing ../$$lang/$$po_file"; \
-					echo "			Running: po2xml $$xml_file ../$$lang/$$po_file > tmp.xml"; \
+					if [ $(VERBOSE) -ne 0 ]; then echo "			Running: po2xml $$xml_file ../$$lang/$$po_file > tmp.xml";fi; \
 					po2xml $$xml_file ../$$lang/$$po_file > tmp.xml; \
-					echo "			Running: $(XMLCLEAN) --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang"; \
+					if [ $(VERBOSE) -ne 0 ]; then echo "			Running: $(XMLCLEAN) --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang";fi; \
 					$(XMLCLEAN) --common -in tmp.xml -out $(PWD)/Common_Content/common/$$lang/$$xml_file -lang $$lang; \
 					rm tmp.xml; \
 				fi; \

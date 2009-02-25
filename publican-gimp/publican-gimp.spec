@@ -2,7 +2,7 @@
 
 Name:		publican-gimp
 Summary:	Common documentation files for %{brand}
-Version:	0.4
+Version:	0.5
 Release:	0%{?dist}
 License:	GFDL
 Group:		Development/Libraries
@@ -48,6 +48,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.5
+- Add symlinks for langauges without country codes. BZ #487256
+
 * Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.4
 - Add LICENSE override for RPMs. BZ #477720
 
