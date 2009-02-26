@@ -8,7 +8,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.42
-Release:	0.t28%{?dist}
+Release:	0.t31%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -164,6 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add lang to final doc root node. BZ #486162
 - Add embed for stanky IE. BZ #486501
 - Add symlinks for langauges without country codes. BZ #487256
+- Add rudimentary Obsoletes logic. RT #36366
 - Rolled in following from fedora devel spec
 - - Mon Feb  9 2009 Jens Petersen <petersen@redhat.com> - 0.40-4
 - - update the sazanami-fonts subpackage names

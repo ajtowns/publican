@@ -497,6 +497,8 @@ help_params::
 	@echo
 	@echo "DOC_URL: URL for top right link in html. Currently: $(DOC_URL)"
 	@echo
+	@echo "DT_OBSOLETES: A comma seperated list of desk top packages the package should obsolete. Currently: $(DT_OBSOLETES)"
+	@echo
 	@echo "GENERATE_SECTION_TOC_LEVEL: Include a TOC at the given section level. Currently: $(GENERATE_SECTION_TOC_LEVEL)"
 	@echo
 	@echo "IGNORED_TRANSLATIONS: When building replace any languages in this list with the source langauge text"
@@ -516,6 +518,8 @@ help_params::
 	@echo "TOC_SECTION_DEPTH:  How many levels of sections should be included in the main TOC? Currently: $(TOC_SECTION_DEPTH)"
 	@echo
 	@echo "WEB_BREW_DIST: brew tag to use for web rpms. Currently: $(WEB_BREW_DIST)"
+	@echo
+	@echo "WEB_OBSOLETES: A comma seperated list of web site packages the web package should obsolete. Currently: $(WEB_OBSOLETES)"
 	@echo
 	@echo "XML_DESKTOP: Use XML for the desktop package instead of the default html-single. Currently: $(XML_DESKTOP)"
 	@echo

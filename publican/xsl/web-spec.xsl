@@ -24,10 +24,9 @@ Source:		<xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of selec
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
-<xsl:if test="$brand != 'publican-common'">
-BuildRequires:	<xsl:value-of select="$brand"/>
-</xsl:if>
 Requires:	perl-Publican-WebSite
+<xsl:if test="$brand != 'publican-common'">BuildRequires:	<xsl:value-of select="$brand"/></xsl:if>
+<xsl:if test="$web_obsoletes != ''">Obsoletes:	<xsl:value-of select="$web_obsoletes"/></xsl:if>
 Prefix:		/var/www/html/docs
 
 %description
@@ -41,6 +40,7 @@ Requires:	htmlview
 %else
 Requires:	xdg-utils
 %endif
+<xsl:if test="$dt_obsoletes != ''">Obsoletes:	<xsl:value-of select="$dt_obsoletes"/></xsl:if>
 
 %description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />

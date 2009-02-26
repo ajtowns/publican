@@ -622,6 +622,8 @@ web-srpm-${1}:: clean tardir-${1}
 		--stringparam url "$(DOC_URL)" \
 		--stringparam src_url "$(SRC_URL)" \
 		--stringparam log "$$$$(<tmp/changelog.txt)" \
+		--stringparam dt_obsoletes "$(DT_OBSOLETES)" \
+		--stringparam web_obsoletes "$(WEB_OBSOLETES)" \
 		-o tmp/rpm/SPECS/$(PRODUCT)-$(DOCNAME)-$(PROD_VERSION)-web-${1}.spec \
 		$(COMMON_CONFIG)/xsl/web-spec.xsl tmp/${1}/xml/$(DOC_TYPE)_Info.xml
 	rpmbuild --define "_topdir $(PWD)/tmp/rpm" --define "dist .$(OS_VER)" -bs tmp/rpm/SPECS/$(TAR_NAME)-web-${1}.spec
