@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Users_Guide VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-17 03:11+0000\n"
+"POT-Creation-Date: 2009-03-03 05:14+0000\n"
 "PO-Revision-Date: 2008-08-20 06:04+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,41 +13,45 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#. Tag: keyword
+#, no-c-format
+msgid "using"
+msgstr ""
+
+#. Tag: keyword
+#, no-c-format
+msgid "help"
+msgstr ""
+
 #. Tag: title
-#: Using_Publican.xml:6
 #, no-c-format
 msgid "Using the publican package"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:7
 #, no-c-format
 msgid ""
-"This chapter describes the process of installing the publican package, "
+"This chapter describes&mdash;the process of installing the publican package, "
 "creating books, the main configuration files, example book files, and how to "
 "build a book."
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:11
 #, no-c-format
 msgid "Installing publican"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:12
 #, no-c-format
 msgid "To install publican:"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:17
 #, no-c-format
 msgid "Change to the root user: <command><prompt>$</prompt> su - </command>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:22
 #, no-c-format
 msgid ""
 "Run the following command to install the publican package: "
@@ -55,7 +59,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:27
 #, no-c-format
 msgid ""
 "There are several brand packages available for use with publican. Run the "
@@ -64,13 +67,11 @@ msgid ""
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:30
 #, no-c-format
 msgid "# yum install publican-<replaceable>brand</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:31
 #, no-c-format
 msgid ""
 "Replace <replaceable>brand</replaceable> with redhat, fedora, jboss, ovirt, "
@@ -78,13 +79,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:37
 #, no-c-format
 msgid "Creating a Book"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:38
 #, no-c-format
 msgid ""
 "Use the <command>create_book</command> command to create a new book. The "
@@ -93,7 +92,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:41
 #, no-c-format
 msgid ""
 "The following is a list of valid options for the <command>create_book</"
@@ -103,25 +101,21 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:46
 #, no-c-format
 msgid "--help"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:48
 #, no-c-format
 msgid "print a list of all <command>create_book</command> command options."
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:54
 #, no-c-format
 msgid "--man"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:56
 #, no-c-format
 msgid ""
 "view the publican manual page. The manual page contains the same information "
@@ -129,13 +123,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:62
 #, no-c-format
 msgid "--name<replaceable> Book_Name</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:64
 #, no-c-format
 msgid ""
 "replace <replaceable>Book_Name</replaceable> with the name of the book or "
@@ -148,13 +140,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:70
 #, no-c-format
 msgid "--version<replaceable> version</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:72
 #, no-c-format
 msgid ""
 "replace <replaceable>version</replaceable> with the version number of the "
@@ -163,17 +153,15 @@ msgid ""
 "<replaceable> version</replaceable></command> updates the "
 "<computeroutput>&lt;issuenum&gt;&lt;/issuenum&gt;</computeroutput> tags in "
 "the <filename>Book_Info.xml</filename> file. For more information see <xref "
-"linkend=\"sect-Publican-Files_in_the_Book_directory-Book_Info.xml\"/>."
+"linkend=\"sect-Users_Guide-Files_in_the_Book_directory-Book_Info.xml\"/>."
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:78
 #, no-c-format
 msgid "--edition<replaceable> edition</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:80
 #, no-c-format
 msgid ""
 "replace <replaceable> edition</replaceable> with the edition number of the "
@@ -182,18 +170,16 @@ msgid ""
 "default value is 0. Using <command>--edition<replaceable> edition</"
 "replaceable></command> updates the <computeroutput>&lt;edition&gt;&lt;/"
 "edition&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> "
-"file. For more information see <xref linkend=\"sect-Publican-"
+"file. For more information see <xref linkend=\"sect-Users_Guide-"
 "Files_in_the_Book_directory-Book_Info.xml\"/>."
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:86
 #, no-c-format
 msgid "--product<replaceable> Product_Name</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:88
 #, no-c-format
 msgid ""
 "replace <replaceable> Product_Name</replaceable> with the product name. This "
@@ -207,13 +193,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:94
 #, no-c-format
 msgid "--type Article --name<replaceable> Article_Name</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:96
 #, no-c-format
 msgid ""
 "create an article instead of a book. Replace <replaceable> Article_Name</"
@@ -222,25 +206,23 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:102
 #, no-c-format
 msgid "--brand <replaceable>brand</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:104
 #, no-c-format
 msgid ""
 "replace <replaceable>brand</replaceable> with RedHat, fedora, JBoss, oVirt, "
 "or GIMP. This requires the appropriate publican package to be installed. For "
 "example, to build Red Hat branded books, you must install the publican-"
-"redhat package. See <xref linkend=\"sect-Publican-Using_the_publican_package-"
-"Installing_publican\"/> for instructions on installing the branded publican "
-"packages. If no brand is specified, the default brand is used."
+"redhat package. See <xref linkend=\"sect-Users_Guide-"
+"Using_the_publican_package-Installing_publican\"/> for instructions on "
+"installing the branded publican packages. If no brand is specified, the "
+"default brand is used."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:110
 #, no-c-format
 msgid ""
 "Before running the <command>create_book</command> command, use the "
@@ -250,49 +232,41 @@ msgid ""
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:114
 #, no-c-format
 msgid "cd /my/books/"
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:117
 #, no-c-format
 msgid "create_book --name Test_Book"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:119
 #, no-c-format
 msgid "To see the results of this command, run the following:"
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:123
 #, no-c-format
 msgid "<screen>ls</screen>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:125
 #, no-c-format
 msgid "The output should be similar to the following:"
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:129
 #, no-c-format
 msgid "en-US  Makefile"
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:134
 #, no-c-format
 msgid "Files in the Book directory"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:135
 #, no-c-format
 msgid ""
 "Running the <command>create_book --name <replaceable>Book_Name</"
@@ -301,25 +275,21 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:139
 #, no-c-format
 msgid "<title>directory structure</title>"
 msgstr ""
 
 #. Tag: phrase
-#: Using_Publican.xml:145
 #, no-c-format
 msgid "<phrase>directory structure</phrase>"
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:150
 #, no-c-format
 msgid "The Makefile"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:151
 #, no-c-format
 msgid ""
 "The <filename>Makefile</filename> is used to configure build options, and is "
@@ -328,7 +298,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:154
 #, no-c-format
 msgid ""
 "<xi:include href=\"extras/Makefile\" parse=\"text\" xmlns:xi=\"http://www.w3."
@@ -336,13 +305,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:157
 #, no-c-format
 msgid "XML_LANG"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:159
 #, no-c-format
 msgid ""
 "set this to the language of the source xml files, for example, "
@@ -350,13 +317,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:165
 #, no-c-format
 msgid "BRAND"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:167
 #, no-c-format
 msgid ""
 "set the brand of the book. Accepted values are <computeroutput>RedHat</"
@@ -367,7 +332,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:170
 #, no-c-format
 msgid ""
 "Running the <command>create_book --name <replaceable>Book_Name</replaceable> "
@@ -376,13 +340,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:176
 #, no-c-format
 msgid "OTHER_LANGS"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:178
 #, no-c-format
 msgid ""
 "space-separated list of other language locales. Used to specify other "
@@ -390,7 +352,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:184
 #, no-c-format
 msgid ""
 "The following is an example <filename>Makefile</filename> that includes "
@@ -398,7 +359,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:188
 #, no-c-format
 msgid ""
 "XML_LANG       = en-US\n"
@@ -412,20 +372,17 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:191 Using_Publican.xml:197 Using_Publican.xml:401
 #, no-c-format
 msgid "Note"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:192
 #, no-c-format
 msgid ""
 "<computeroutput>OTHER_LANGS</computeroutput> is no longer commented out."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:198
 #, no-c-format
 msgid ""
 "Run the <command>make help_params</command> command in the root directory of "
@@ -434,35 +391,31 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:205
 #, no-c-format
 msgid "Book_Info.xml"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:206
 #, no-c-format
 msgid ""
 "The <filename>Book_Info.xml</filename> file contains the key meta-data "
-"concerning a book: the book's ID; title; subtitle; author and edition "
+"concerning a book: the book&#39;s ID; title; subtitle; author and edition "
 "number. It also contains the name and version of the product the book is "
 "about and an abstract."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:209
 #, no-c-format
 msgid ""
-"Aside from, as you'd expect, constituting much of a book's front matter, "
-"this meta-data is also used when building books as RPMs. Consequently, if "
-"you wish to distribute a book as a .rpm file, several of the tags included "
-"by default in <filename>Book_Info.xml</filename> must have appropriate data "
-"within them, and that data must conform to the requirements of the RPM "
-"format."
+"Aside from, as you&#39;d expect, constituting much of a book&#39;s front "
+"matter, this meta-data is also used when building books as RPMs. "
+"Consequently, if you wish to distribute a book as a .rpm file, several of "
+"the tags included by default in <filename>Book_Info.xml</filename> must have "
+"appropriate data within them, and that data must conform to the requirements "
+"of the RPM format."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:212
 #, no-c-format
 msgid ""
 "Data from seven of the default tags in <filename>Book_Info.xml</filename> is "
@@ -479,7 +432,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:215
 #, no-c-format
 msgid ""
 "An example <filename>Book_Info.xml</filename> file, for the Test_Book book, "
@@ -488,7 +440,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:218
 #, no-c-format
 msgid ""
 "<xi:include href=\"extras/Book_Info.xmlt\" parse=\"text\" xmlns:xi=\"http://"
@@ -496,13 +447,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:221
 #, no-c-format
 msgid "&lt;bookinfo id=\"<replaceable>book_id</replaceable>\"&gt;"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:223
 #, no-c-format
 msgid ""
 "The Book ID is used internally and is not displayed to end users when the "
@@ -514,14 +463,12 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:229
 #, no-c-format
 msgid ""
 "&lt;productname&gt;<replaceable>productname</replaceable>&lt;/productname&gt;"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:231
 #, no-c-format
 msgid ""
 "The name of the product or product stream the book is about (for example: "
@@ -532,15 +479,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:235 Using_Publican.xml:249 Using_Publican.xml:274
-#: Using_Publican.xml:294 Using_Publican.xml:308 Using_Publican.xml:421
-#: Using_Publican.xml:444 Using_Publican.xml:581
 #, no-c-format
 msgid "Important"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:236 Using_Publican.xml:250
 #, no-c-format
 msgid ""
 "Because data in this tag also appears as part of the .rpm filename, this "
@@ -550,16 +493,14 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:243
 #, no-c-format
 msgid "&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:245
 #, no-c-format
 msgid ""
-"Obviously enough, the book's title (for example, <emphasis>Server "
+"Obviously enough, the book&#39;s title (for example, <emphasis>Server "
 "Configuration Guide</emphasis>). The title appears under the product name in "
 "both HTML and PDF editions. A title is required to build an RPM. When "
 "building a book as an RPM the title is used as the part of the file-name of "
@@ -567,16 +508,14 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:257
 #, no-c-format
 msgid "&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:259
 #, no-c-format
 msgid ""
-"Again, plainly enough, the subtitle tag contains a book's subtitle: an "
+"Again, plainly enough, the subtitle tag contains a book&#39;s subtitle: an "
 "alternative, and commonly explanatory title for the book (for example: "
 "<emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for "
 "Production Use</emphasis>). The subtitle appears under the title in both "
@@ -588,7 +527,6 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:265
 #, no-c-format
 msgid ""
 "&lt;productnumber&gt;<replaceable>productnumber</replaceable>&lt;/"
@@ -596,7 +534,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:267
 #, no-c-format
 msgid ""
 "The version number of the product the book covers, for example "
@@ -605,7 +542,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:270
 #, no-c-format
 msgid ""
 "Running the <command>create_book --name <replaceable>Book_Name</replaceable> "
@@ -614,7 +550,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:275
 #, no-c-format
 msgid ""
 "Because data in this tag is used in the RPM spec file, this tag can only "
@@ -623,13 +558,11 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:282
 #, no-c-format
 msgid "&lt;edition&gt;<replaceable>edition</replaceable>&lt;/edition&gt;"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:284
 #, no-c-format
 msgid ""
 "This is the edition number of the book. The first edition of the book should "
@@ -641,7 +574,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:287
 #, no-c-format
 msgid ""
 "For example, setting the edition to <filename>1.2</filename> and building "
@@ -652,7 +584,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:290
 #, no-c-format
 msgid ""
 "Running the <command>create_book --name<replaceable> Book_Name</replaceable> "
@@ -661,7 +592,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:295
 #, no-c-format
 msgid ""
 "Because data in this tag sets the <parameter>Version</parameter> in the RPM "
@@ -670,14 +600,12 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:302
 #, no-c-format
 msgid ""
 "&lt;pubsnumber&gt;<replaceable>pubsnumber</replaceable>&lt;/pubsnumber&gt;"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:304
 #, no-c-format
 msgid ""
 "The pubsnumber changes the release number (the last digit) when building a "
@@ -690,7 +618,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:309
 #, no-c-format
 msgid ""
 "Because data in this tag sets the <parameter>Release</parameter> in the RPM "
@@ -698,7 +625,6 @@ msgid ""
 msgstr ""
 
 #. Tag: filename
-#: Using_Publican.xml:316
 #, no-c-format
 msgid ""
 "&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;"
@@ -706,25 +632,23 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:318
 #, no-c-format
 msgid ""
-"A short overview and summary of the book's subject and purpose, "
+"A short overview and summary of the book&#39;s subject and purpose, "
 "traditionally no more than a paragraph long. The abstract appears before the "
 "table of contents in HTML editions and on the second page of PDF editions. "
 "When a book is built as an RPM, the abstract sets the "
-"<parameter>Description</parameter> field of the RPM's spec file. This makes "
-"the abstract for a package available via the <command>rpm -qi</command>."
+"<parameter>Description</parameter> field of the RPM&#39;s spec file. This "
+"makes the abstract for a package available via the <command>rpm -qi</"
+"command>."
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:328
 #, no-c-format
 msgid "RPMs, Editions, Impressions and Versions"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:330
 #, no-c-format
 msgid ""
 "As noted above, the default Book_Info.xml used by Publican includes an "
@@ -732,21 +656,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:334
 #, no-c-format
 msgid ""
 "If you distribute a book as an RPM package, the data placed within this tag "
-"sets 'the first two digits of the version number in the .rpm filename'."
+"sets &#39;the first two digits of the version number in the .rpm "
+"filename&#39;."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:338
 #, no-c-format
-msgid "So, an edition of '1.0' becomes a version of '1.0'."
+msgid "So, an edition of &#39;1.0&#39; becomes a version of &#39;1.0&#39;."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:342
 #, no-c-format
 msgid ""
 "Book_Info.xml also includes the <parameter>&lt;pubsnumber&gt;</parameter> "
@@ -755,7 +677,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:346
 #, no-c-format
 msgid ""
 "A book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, "
@@ -763,17 +684,15 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:350
 #, no-c-format
 msgid ""
 "The edition and pubsnumber are not tied to the <parameter>&lt;"
-"productnumer&gt;</parameter> tag also found in Book_Info.xml: productnumber "
+"productnumber&gt;</parameter> tag also found in Book_Info.xml: productnumber "
 "denotes the version number of the product being documented or otherwise "
 "written about."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:354
 #, no-c-format
 msgid ""
 "It is entirely possible to have a 2nd edition of a book pertaining to a "
@@ -781,38 +700,35 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:358
 #, no-c-format
 msgid ""
 "In Bibliography, two copies of a book are the same edition if they are "
-"printed using substantially the same type-set master plates or pages. "
-"('Substantially' offers some wiggle room for typo corrections and the like.)"
+"printed using substantially the same type-set master plates or pages. (&#39;"
+"Substantially&#39; offers some wiggle room for typo corrections and the "
+"like.)"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:362
 #, no-c-format
 msgid ""
-"Book collectors routinely conflate 'first edition' with 'first print run', "
-"while Bibliographers pay attention to the text commonly placed in the front "
-"matter of a book, which calls a 2nd print run off the same (or substantially "
-"the same) plates a '1st edition, 2nd impression' or '1st edition, 2nd "
-"printing'."
+"Book collectors routinely conflate &#39;first edition&#39; with &#39;first "
+"print run&#39;, while Bibliographers pay attention to the text commonly "
+"placed in the front matter of a book, which calls a 2nd print run off the "
+"same (or substantially the same) plates a &#39;1st edition, 2nd "
+"impression&#39; or &#39;1st edition, 2nd printing&#39;."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:366
 #, no-c-format
 msgid ""
 "We recommend following Bibliographic practice in this regard. When using "
-"Publican to re-publish a book from 'substantially the same XML', increment "
-"the <parameter>&lt;pubsnumber&gt;</parameter> tag, not the <parameter>&lt;"
-"edition&gt;</parameter> tag. It functions as a near-equivalent to the "
-"impression or printing number of traditional publishing."
+"Publican to re-publish a book from &#39;substantially the same XML&#39;, "
+"increment the <parameter>&lt;pubsnumber&gt;</parameter> tag, not the "
+"<parameter>&lt;edition&gt;</parameter> tag. It functions as a near-"
+"equivalent to the impression or printing number of traditional publishing."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:370
 #, no-c-format
 msgid ""
 "As for changing the Edition number, we recommend changing this in the same "
@@ -824,13 +740,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:377
 #, no-c-format
 msgid "Author_Group.xml"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:378
 #, no-c-format
 msgid ""
 "<filename>Author_Group.xml</filename> is not required but is the standard "
@@ -839,7 +753,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:381
 #, no-c-format
 msgid ""
 "<xi:include href=\"extras/Author_Group.xmlt\" parse=\"text\" xmlns:xi="
@@ -847,7 +760,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:382
 #, no-c-format
 msgid ""
 "<filename>Author_Group.xml</filename> does not have to contain all of the "
@@ -855,7 +767,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:385
 #, no-c-format
 msgid ""
 "If you do not want or need <filename>Author_Group.xml</filename> included in "
@@ -864,7 +775,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:388
 #, no-c-format
 msgid ""
 "&lt;xi:include href=\"Author_Group.xml\" xmlns:xi=\"http://www.w3.org/2001/"
@@ -872,13 +782,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:392
 #, no-c-format
 msgid "Chapter.xml"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:393
 #, no-c-format
 msgid ""
 "The <filename>Chapter.xml</filename> file is a template for creating chapter "
@@ -889,7 +797,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:396
 #, no-c-format
 msgid ""
 "<xi:include href=\"extras/Chapter.xmlt\" parse=\"text\" xmlns:xi=\"http://"
@@ -897,7 +804,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:397
 #, no-c-format
 msgid ""
 "This chapter has two sections, <filename>Section 1 Test</filename> and "
@@ -907,7 +813,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:402
 #, no-c-format
 msgid ""
 "The chapter file should be renamed to reflect the chapter subject. For "
@@ -918,13 +823,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:409
 #, no-c-format
 msgid "Book_Name.xml"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:410
 #, no-c-format
 msgid ""
 "The <filename><replaceable>Book_Name</replaceable>.xml</filename> file "
@@ -935,7 +838,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:413
 #, no-c-format
 msgid ""
 "The following is an example <filename><replaceable>Book_Name</replaceable>."
@@ -944,7 +846,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:416
 #, no-c-format
 msgid ""
 "<xi:include href=\"extras/Book_Name.xmlt\" parse=\"text\" xmlns:xi=\"http://"
@@ -952,7 +853,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:417
 #, no-c-format
 msgid ""
 "This example loads the <computeroutput>Book_Info.xml</computeroutput>, "
@@ -961,7 +861,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:422
 #, no-c-format
 msgid ""
 "The order in which chapters are listed matters. When this example book is "
@@ -970,7 +869,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:426
 #, no-c-format
 msgid ""
 "The <filename><replaceable>Book_Name</replaceable>.xml</filename> file is "
@@ -980,7 +878,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:429
 #, no-c-format
 msgid ""
 "&lt;book&gt;\n"
@@ -1015,7 +912,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:430
 #, no-c-format
 msgid ""
 "This book contains two chapters. Chapter one contains two sections. Please "
@@ -1025,13 +921,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:436
 #, no-c-format
 msgid "Book_Name.ent"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:437
 #, no-c-format
 msgid ""
 "The <filename><replaceable>Book_Name</replaceable>.ent</filename> file is "
@@ -1043,7 +937,6 @@ msgid ""
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:441
 #, no-c-format
 msgid ""
 "<xi:include href=\"extras/Book_Name.ent\" parse=\"text\" xmlns:xi=\"http://"
@@ -1051,7 +944,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:445
 #, no-c-format
 msgid ""
 "Entities offer convenience but they should be used with extreme caution. "
@@ -1063,7 +955,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:450
 #, no-c-format
 msgid ""
 "If you define an entity &mdash; <sgmltag>&lt;!ENTITY LIFT \"Liberty "
@@ -1074,7 +965,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:454
 #, no-c-format
 msgid ""
 "Entities are not transformed when XML is converted to PO, however. Which "
@@ -1084,7 +974,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:458
 #, no-c-format
 msgid ""
 "Consider something as simple as the following English sentence fragment "
@@ -1092,7 +981,6 @@ msgid ""
 msgstr ""
 
 #. Tag: section
-#: Using_Publican.xml:460
 #, no-c-format
 msgid ""
 "<blockquote> <para> As noted in the <emphasis>Liberty Installation and "
@@ -1142,7 +1030,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:566
 #, no-c-format
 msgid ""
 "Again, note the missing pronoun, <foreignphrase>&lsquo;den&rsquo;</"
@@ -1152,7 +1039,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:570
 #, no-c-format
 msgid ""
 "Now multiply such problems by the 22 languages Publican currently supports. "
@@ -1162,13 +1048,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:576
 #, no-c-format
 msgid "Revision_History.xml"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:577
 #, no-c-format
 msgid ""
 "The <command>make</command> searches for the first XML file in the "
@@ -1177,7 +1061,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:582
 #, no-c-format
 msgid ""
 "All dates must be in the correct RPM format, other formats will break the "
@@ -1185,19 +1068,16 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:585
 #, no-c-format
 msgid "Mon Aug 4 2008"
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:594
 #, no-c-format
 msgid "Adding Images"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:595
 #, no-c-format
 msgid ""
 "Use the <filename>images</filename> subdirectory in the <filename>en-"
@@ -1208,7 +1088,6 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Using_Publican.xml:599
 #, no-c-format
 msgid ""
 "&lt;mediaobject&gt;\n"
@@ -1221,13 +1100,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:603
 #, no-c-format
 msgid "Image File Locations"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:604
 #, no-c-format
 msgid ""
 "The build system only uses images in the <filename>en-<replaceable>US</"
@@ -1235,29 +1112,36 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:612
+#, no-c-format
+msgid "Big Test"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Tester"
+msgstr ""
+
+#. Tag: title
 #, no-c-format
 msgid "Building a Book"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:613
 #, no-c-format
 msgid "To build a book:"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:618
 #, no-c-format
 msgid ""
 "Confirm the <computeroutput>YEAR</computeroutput> and "
 "<computeroutput>HOLDER</computeroutput> entities have been configured in the "
 "<filename><replaceable>Book_Name</replaceable>.ent</filename> file, as per "
-"<xref linkend=\"sect-Publican-Files_in_the_Book_directory-Book_Name.ent\"/>."
+"<xref linkend=\"sect-Users_Guide-Files_in_the_Book_directory-Book_Name.ent\"/"
+">."
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:623
 #, no-c-format
 msgid ""
 "Change into the root directory of the book. For example, if the book was "
@@ -1266,13 +1150,11 @@ msgid ""
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:627
 #, no-c-format
 msgid "cd <replaceable>/books/Test_Book</replaceable>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:631
 #, no-c-format
 msgid ""
 "Run the following command to check for any errors that would stop the book "
@@ -1283,25 +1165,21 @@ msgstr ""
 #. Tag: screen
 #. #-#-#-#-#  - (PACKAGE VERSION)  #-#-#-#-#
 #. Tag: command
-#: Using_Publican.xml:635 Using_Publican.xml:665
 #, no-c-format
 msgid "make test-en-US"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:639
 #, no-c-format
 msgid "Run the following command to build the book:"
 msgstr ""
 
 #. Tag: screen
-#: Using_Publican.xml:643
 #, no-c-format
 msgid "make <replaceable>format</replaceable>-en-US"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:645
 #, no-c-format
 msgid ""
 "Replace <replaceable>format</replaceable> with the desired format, for "
@@ -1309,44 +1187,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:650
 #, no-c-format
 msgid ""
 "The following table lists commonly used <command>make</command> commands:"
 msgstr ""
 
 #. Tag: segtitle
-#: Using_Publican.xml:654
 #, no-c-format
 msgid "Command"
 msgstr ""
 
 #. Tag: segtitle
-#: Using_Publican.xml:655
 #, no-c-format
 msgid "Result"
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:657
 #, no-c-format
 msgid "make help"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:658
 #, no-c-format
 msgid "List available <command>make</command> commands for building a book."
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:661
 #, no-c-format
 msgid "make help_params"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:662
 #, no-c-format
 msgid ""
 "List available parameters that can be set in the <filename>Makefile</"
@@ -1354,7 +1225,6 @@ msgid ""
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:666
 #, no-c-format
 msgid ""
 "Check that the book can be built correctly. Run the <command>make test</"
@@ -1363,13 +1233,11 @@ msgid ""
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:669
 #, no-c-format
 msgid "make html-en-US"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:670
 #, no-c-format
 msgid ""
 "Build the book in HTML format. The HTML output will be located in the "
@@ -1378,13 +1246,11 @@ msgid ""
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:673
 #, no-c-format
 msgid "make html-single-en-US"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:674
 #, no-c-format
 msgid ""
 "Build the book HTML format. The output will be a single HTML file located in "
@@ -1393,13 +1259,11 @@ msgid ""
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:677
 #, no-c-format
 msgid "make htmlhelp-en-US"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:678
 #, no-c-format
 msgid ""
 "Build the book in HTML HELP format. HTML HELP is a limited form of HTML, "
@@ -1409,25 +1273,21 @@ msgid ""
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:681
 #, no-c-format
 msgid "make pdf-en-US"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:682
 #, no-c-format
 msgid "Build the book in PDF format. This may not be supported on all systems."
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:685
 #, no-c-format
 msgid "make clean"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:686
 #, no-c-format
 msgid ""
 "Remove all files and folders in the <filename>tmp/</filename> subdirectory. "
@@ -1437,25 +1297,21 @@ msgid ""
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:689
 #, no-c-format
 msgid "make web-srpm-en-US"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:690
 #, no-c-format
 msgid "Create a source RPM to generate web based documentation RPMs from."
 msgstr ""
 
 #. Tag: command
-#: Using_Publican.xml:693
 #, no-c-format
 msgid "make clean_ids"
 msgstr ""
 
 #. Tag: seg
-#: Using_Publican.xml:694
 #, no-c-format
 msgid ""
 "Change all IDs to a standard format. This format is <replaceable>Book_Name-"
@@ -1467,13 +1323,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Using_Publican.xml:698
 #, no-c-format
 msgid "Warning: <command>make clean_ids</command>"
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:699
 #, no-c-format
 msgid ""
 "To make translation easier, <command>make clean_ids</command> uses the first "
@@ -1483,7 +1337,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Using_Publican.xml:702
 #, no-c-format
 msgid ""
 "Failing to have the po files checked out before running <command>make "
@@ -1491,10 +1344,170 @@ msgid ""
 "this means all links in the po files have to be manually updated."
 msgstr ""
 
+#. Tag: title
+#, no-c-format
+msgid "Pre-release software and draft documentation"
+msgstr ""
+
 #. Tag: para
-#: Using_Publican.xml:705
 #, no-c-format
 msgid ""
-"As well, running <command>make clean_ids</command> removes all comments from "
-"the xml source."
+"Completed documentation for pre-release software is not the same thing as "
+"draft documentation."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Drafts are unfinished versions of a book or article, and their unfinished "
+"state is unrelated to the status of the software they document."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"In both circumstances, however, it is important to make the status of the "
+"software, documentation or both clear to users, developers, readers and "
+"reviewers."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Denoting pre-release software"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Documentation for pre-release software, especially pre-release software "
+"being distributed to testers, customers and partners, should carry a clear "
+"mark denoting the beta-status of the software."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To create that mark do the following:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Add the software&#39;s pre-release version number, or equivalent state "
+"information, to the subtitle in your <filename>Book_Info.xml</filename> "
+"file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. "
+"For example:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"&lt;subtitle&gt;Using Red Hat Enterprise Warp Drive&lt;remark&gt; Version "
+"1.1, Beta 2&lt;/remark&gt;&lt;/subtitle&gt;"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"add <varname>SHOW_REMARKS</varname> to the <filename>Makefile</filename> and "
+"set it to &#39;1&#39;:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "SHOW_REMARKS = 1"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"When your book is built with this text and setting, the software&#39;s "
+"status is displayed in clear and unmistakable fashion. PDF builds display "
+"the remark on their cover and title pages. HTML builds (both html and html-"
+"single) display the remark near the beginning of index.html"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Because this approach makes no changes to the information in "
+"<filename>Book_Info.xml</filename> used to generate RPMs, it also ensures "
+"there is no ambiguity in the RPM subsystem&#39;s operation."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"It is the writer&#39;s responsibility to remove the <sgmltag>&lt;remark&gt;</"
+"sgmltag> tag and its contents and remove or turn off <varname>SHOW_REMARKS</"
+"varname> when documentation is updated for use with the release version of "
+"the software."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Denoting draft documentation"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Unfinished documentation made available to others for review should be "
+"labeled clearly as such."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"To add the draft watermark to your documentation add the <userinput>status="
+"\"draft\"</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, "
+"<sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in "
+"your document&#39;s root node. For example:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "&lt;book status=\"draft\"&gt;"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"By default, your root node is the <sgmltag>&lt;book&gt;</sgmltag> tag in "
+"your <filename><replaceable>[book_name]</replaceable>.xml</filename> file."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"If you are working on an article or set, the root node is the <sgmltag>&lt;"
+"article&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in "
+"<filename><replaceable>[book_name]</replaceable>.xml</filename>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Adding the <userinput>status=\"draft\"</userinput> attribute causes each "
+"page of the document to show the draft watermark. This is by design."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"Even if you change only a portion of a work before sending it out for "
+"review, marking every page as draft will encourage reviewers to report "
+"errors or typos they spot in passing. It will also ensure non-reviewers who "
+"encounter the work do not mistake a draft for a finished version."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Denoting draft documentation of pre-release software"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid ""
+"To denote unfinished documentation of pre-release software properly simply "
+"do both previously noted procedures."
 msgstr ""

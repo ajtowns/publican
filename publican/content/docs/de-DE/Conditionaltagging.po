@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Users_Guide VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-17 03:11+0000\n"
+"POT-Creation-Date: 2009-03-03 05:14+0000\n"
 "PO-Revision-Date: 2008-10-16 02:10+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,13 +14,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Tag: title
-#: Conditionaltagging.xml:6
 #, no-c-format
 msgid "Conditional Tagging"
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:8
 #, no-c-format
 msgid ""
 "In some cases you may need to maintain multiple versions of a book; for "
@@ -29,7 +27,6 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:10
 #, no-c-format
 msgid ""
 "Publican makes it easy to manage differences between multiple versions of a "
@@ -40,42 +37,39 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:12
 #, no-c-format
 msgid ""
 "To conditionalize content in a book, use the tag attribute "
-"<command>condition</command>. For example, let's say the book <citetitle>How "
-"To Use Product Foo</citetitle> has an \"upstream\", \"enterprise\", and "
-"\"beta\" version:"
+"<command>condition</command>. For example, let&#39;s say the book "
+"<citetitle>How To Use Product Foo</citetitle> has an \"upstream\", "
+"\"enterprise\", and \"beta\" version:"
 msgstr ""
 
 #. Tag: programlisting
-#: Conditionaltagging.xml:14
 #, no-c-format
 msgid ""
-"&lt;para condition=\"upstream\">\n"
+"&lt;para condition=\"upstream\"&gt;\n"
 "This paragraph will only appear in the upstream version of How To Use "
 "Product Foo.\n"
-"&lt;/para>\n"
+"&lt;/para&gt;\n"
 "        \n"
-"&lt;para condition=\"enterprise\">\n"
+"&lt;para condition=\"enterprise\"&gt;\n"
 "This paragraph will only appear in the enterprise version of How To Use "
 "Product Foo.\n"
-"&lt;/para>        \n"
+"&lt;/para&gt;        \n"
 "        \n"
-"&lt;para condition=\"beta\">\n"
+"&lt;para condition=\"beta\"&gt;\n"
 "This paragraph will only appear in the beta version of How To Use Product "
 "Foo.\n"
-"&lt;/para>\n"
+"&lt;/para&gt;\n"
 "        \n"
-"&lt;para condition=\"beta,enterprise\">\n"
+"&lt;para condition=\"beta,enterprise\"&gt;\n"
 "This paragraph will only appear in the beta and enterprise versions of How "
 "To Use Product Foo.\n"
-"&lt;/para>"
+"&lt;/para&gt;"
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:15
 #, no-c-format
 msgid ""
 "To build a specific version (thereby capturing all content conditionalized "
@@ -87,13 +81,11 @@ msgid ""
 msgstr ""
 
 #. Tag: screen
-#: Conditionaltagging.xml:17
 #, no-c-format
 msgid "make CONDITION=\"upstream\" pdf-en-US"
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:19
 #, no-c-format
 msgid ""
 "This will capture all tags that use <command>condition=\"upstream\"</"
@@ -102,13 +94,11 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Conditionaltagging.xml:22
 #, no-c-format
 msgid "Note"
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:23
 #, no-c-format
 msgid ""
 "You can conditionalize content as per the <command>BRAND</command> setting. "
@@ -116,13 +106,11 @@ msgid ""
 msgstr ""
 
 #. Tag: screen
-#: Conditionaltagging.xml:25
 #, no-c-format
 msgid "CONDITION=($BRAND)"
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:27
 #, no-c-format
 msgid ""
 "In this manner, <command>make CONDITION=\"brand1\" pdf-en-US</command> will "
@@ -131,13 +119,12 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conditionaltagging.xml:30
 #, no-c-format
 msgid ""
-"Further, if an <command>&lt;xref></command> points to content that is not "
+"Further, if an <command>&lt;xref&gt;</command> points to content that is not "
 "going to be included in the build due to conditional tagging, the build will "
 "fail. For example, <command>make CONDITION=\"upstream\" pdf-en-US</command> "
 "will fail if the book has the tag <command>&lt;xref linkend=\"betasection\"</"
 "command> pointing to <command>&lt;section id=\"betasection\" CONDITION=\"beta"
-"\"></command>."
+"\"&gt;</command>."
 msgstr ""
