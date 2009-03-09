@@ -37,12 +37,12 @@ LC_BRAND	= $(shell echo "$(BRAND)" | tr "[:upper:]" "[:lower:]" )
 
 CLASSPATH	?= /usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar
 
-XSLTHL		= $(shell if [ -a /usr/share/xslthl/xslthl-config.xml ]; then echo "1"; else echo "0"; fi)
+XSLTHL		= $(shell if [ -a /usr/share/xslthl/xslthl-config.xml  ]; then echo "1"; else echo "0"; fi)
 
 XALAN		?= java -verbose -cp "/usr/share/java/xalan-j2.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/docbook/1.72.0/extensions/xalan27/dist/xalan27.jar" -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration org.apache.xalan.xslt.Process -entityresolver org.apache.xml.resolver.tools.CatalogResolver -uriresolver org.apache.xml.resolver.tools.CatalogResolver
 USE_XALAN	?= 0
 
-USE_SAXON	?= 1
+USE_SAXON	?= $(XSLTHL)
 SAXON		?= java -cp "/usr/share/java/saxon.jar:/usr/share/java/xerces-j2.jar:/usr/share/java/xml-commons-resolver.jar:/usr/share/publican/xsl:/usr/share/publican/xsl/saxon65.jar:/usr/share/java/xslthl.jar" -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration -Dxslthl.config="file:///usr/share/xslthl/xslthl-config.xml" com.icl.saxon.StyleSheet -x org.apache.xml.resolver.tools.ResolvingXMLReader -y org.apache.xml.resolver.tools.ResolvingXMLReader -r org.apache.xml.resolver.tools.CatalogResolver
 
 # List of tags to exclude from aspell check
@@ -143,7 +143,7 @@ endif
 	@if [ -d $(COMMON_CONTENT)/common/en-US ]; then \
 		cp -rf $(COMMON_CONTENT)/common/en-US/* tmp/${1}/xml/Common_Content/.; \
 	fi
-	@if [ "${1}" != "$(XML_LANG)" ] && [ -d $(COMMON_CONTENT)/common/${1} ]; then \
+	@if [ -d $(COMMON_CONTENT)/common/${1} ]; then \
 		cp -rf $(COMMON_CONTENT)/common/${1}/* tmp/${1}/xml/Common_Content/.; \
 	fi
 # Override with BRAND common files
@@ -243,14 +243,14 @@ ifeq "${1}" "pdf"
 				-param chunk.section.depth "$(CHUNK_SECTION_DEPTH)" -param confidential ${CONFIDENTIAL} \
 				-param l10n.gentext.language "$$(GENLANG)" -param show.comments $(SHOW_REMARKS) \
 				-param generate.section.toc.level $(GENERATE_SECTION_TOC_LEVEL) \
-				-param use.extensions 1 -param tablecolumns.extensions 1; \
+				-param tablecolumns.extension 1; \
 		elif [ "$(USE_SAXON)" == "1" ]; then \
 			echo "Running Saxon on $$$$xsl_file"; \
 			$(SAXON) -o $(DOCNAME).fo $(DOCNAME).xml $$$$xsl_file toc.section.depth="$(TOC_SECTION_DEPTH)" \
 				chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} \
 				l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) \
 				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
-				use.extensions=1 tablecolumns.extensions=1 || exit 11; \
+				tablecolumns.extension=1 highlight.source=$(XSLTHL) || exit 11; \
 		else \
 			echo "Running xsltproc on $$$$xsl_file"; \
 			if [ "$$$$fop_ver" = "0.20.5" ]; then \
@@ -286,7 +286,7 @@ ifeq "${1}" "html-single"
 				profile.lang="$$(GENLANG)" l10n.gentext.language="$$(GENLANG)" \
 				embedtoc=$$(EMBEDTOC) show.comments=$(SHOW_REMARKS) \
 				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
-				use.extensions=1 tablecolumns.extensions=1; \
+				tablecolumns.extension=1 highlight.source=$(XSLTHL); \
 		else \
 			echo "Running xsltproc on $$$$xsl_file"; \
 			$(CATALOGS) xsltproc  --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
@@ -313,7 +313,7 @@ ifeq "${1}" "html-desktop"
 				confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" desktop=1 show.comments=$(SHOW_REMARKS) \
 				generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
-				use.extensions=1 tablecolumns.extensions=1; \
+				tablecolumns.extension=1 highlight.source=$(XSLTHL); \
 		else \
 			echo "Running xsltproc on $$$$xsl_file"; \
 			$(CATALOGS) xsltproc --stringparam doc.url "$(DOC_URL)" --stringparam prod.url "$(PROD_URL)" --stringparam toc.section.depth "$(TOC_SECTION_DEPTH)" \
@@ -338,7 +338,7 @@ else
 				chunk.section.depth="$(CHUNK_SECTION_DEPTH)" confidential=${CONFIDENTIAL} profile.lang="$$(GENLANG)" \
 				l10n.gentext.language="$$(GENLANG)" show.comments=$(SHOW_REMARKS) embedtoc=$$(EMBEDTOC) \
 				chunk.first.sections="$(CHUNK_FIRST)" generate.section.toc.level=$(GENERATE_SECTION_TOC_LEVEL) \
-				use.extensions=1 tablecolumns.extensions=1 package=$(TAR_NAME)-${2}-$(RPM_VERSION)-$(${2}_RPM_RELEASE); \
+				tablecolumns.extension=1 package=$(TAR_NAME)-${2}-$(RPM_VERSION)-$(${2}_RPM_RELEASE) highlight.source=$(XSLTHL); \
 			rm tmppoofu.html; \
 		else \
 			echo "Running xsltproc on $$$$xsl_file"; \

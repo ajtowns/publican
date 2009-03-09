@@ -118,7 +118,15 @@ clean:
 #
 #######################################################################################
 
-LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
+#LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
+
+LANGS = as-IN bn-IN da-DK de-DE el-GR es-ES fr-FR gu-IN \
+	hi-IN hu-HU id-ID it-IT ja-JP kn-IN ko-KR lv-LV \
+	ml-IN mr-IN ms-MY nb-NO nl-NL or-IN pa-IN pl-PL \
+	pt-BR pt-PT ru-RU si-LK sr-LATN sr-RS sv-SE ta-IN \
+	te-IN zh-CN zh-TW
+
+#LANGS = $(shell find content/common -maxdepth 1 -name '*-*' | grep -v 'en-US' | sort | sed -e 's/content\/common\///g')
 
 update-pot:
 	@echo "Start $@"
@@ -132,17 +140,17 @@ update-pot:
 
 SOURCE	= https://svn.devel.redhat.com/repos/ecs/Software/publican-common/1.0
 
-resync-po:: clean
-	@echo "Start $@"
-	@echo  "	Exporting PO files from $(SOURCE)"
-	@mkdir -p tmp/SVN
-	@pushd tmp/SVN  > /dev/null; \
-		svn export $(SOURCE) gui_strings; \
-	popd > /dev/null;
-	@pushd tmp/SVN/gui_strings  > /dev/null; \
-		find . -name *.po | sed -e 's/\.\///g' | xargs -i{} cp {} $(PWD)/content/common/{}; \
-	popd > /dev/null;
-	@echo "End $@"
+#resync-po:: clean
+#	@echo "Start $@"
+#	@echo  "	Exporting PO files from $(SOURCE)"
+#	@mkdir -p tmp/SVN
+#	@pushd tmp/SVN  > /dev/null; \
+#		svn export $(SOURCE) gui_strings; \
+#	popd > /dev/null;
+#	@pushd tmp/SVN/gui_strings  > /dev/null; \
+#		find . -name *.po | sed -e 's/\.\///g' | xargs -i{} cp {} $(PWD)/content/common/{}; \
+#	popd > /dev/null;
+#	@echo "End $@"
 
 Common_Content:: PATH=$(MYPATH):$(PWD)/bin
 Common_Content::

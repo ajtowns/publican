@@ -40,8 +40,7 @@ BOOKNAME	= $(shell echo $(DOCNAME) | sed -e 's/_/ /g')
 
 PRODUCT		?= Documentation
 
-#### GAH! Dirty hack to Override values for use in building translated RPMs ###
-### Required because the real variables where used in older versions
+#### Override values for use in building translated web RPMs ###
 ifdef T_DOCNAME
 DOCNAME = $(T_DOCNAME)
 endif
@@ -113,7 +112,7 @@ pre::
 		echo "you must set <title> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
-	@if [[ "$(DOCNAME)" =~ "[^a-zA-Z_]" ]]; then \
+	@if [[ "$(DOCNAME)" =~ "[^a-zA-Z_\-]" ]]; then \
 		echo; \
 		echo "*ERROR: DOCNAME can only contain 'a-z', 'A-Z' and '_'*"; \
 		echo "'$(DOCNAME)' is not valid"; \
@@ -133,7 +132,7 @@ pre::
 		echo "Please edit <productname> in $(XML_LANG)/$(DOC_TYPE)_Info.xml if this is incorrect"; \
 		echo; \
 	fi
-	@if [[ "$(PRODUCT)" =~ "[^a-zA-Z_]" ]]; then \
+	@if [[ "$(PRODUCT)" =~ "[^a-zA-Z_\-]" ]]; then \
 		echo; \
 		echo "*ERROR: PRODUCT can only contain 'a-z', 'A-Z' and '_'*"; \
 		echo "'$(PRODUCT)' is not valid"; \
