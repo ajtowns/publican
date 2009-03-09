@@ -1,4 +1,4 @@
-BRAND	= GIMP
+BRAND	= gimp
 SPEC	= publican-$(BRAND).spec
 NAME	= publican-$(BRAND)
 VERSION = $(shell grep 'Version:' $(SPEC) | sed -e 's/Version:\s*\(.*\)$$/\1/g')

@@ -1,9 +1,9 @@
-%define brand GIMP
+%define brand gimp
 
 Name:		publican-gimp
 Summary:	Common documentation files for %{brand}
 Version:	0.5
-Release:	0%{?dist}
+Release:	2%{?dist}
 License:	GFDL
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
