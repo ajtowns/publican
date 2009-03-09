@@ -49,8 +49,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
-* Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.18
+* Mon Mar 9 2009  Jeff Fearn <jfearn@redhat.com> 0.18
 - Add symlinks for langauges without country codes. BZ #487256
+- Fri Mar 6 2009 Piotr Drąg <piotrdrag@gmail.com>
+- Translate Fedora Feedback into Polish
+- Wed Mar 4 2009 Miloš Komarčević <kmilos@gmail.com>
+- Translate Fedora Feedback into Serbian
+- Translate Fedora Feedback into Serbian (Latin)
+- Wed Mar 4 2009 Richard van der Luit <zuma@xs4all.nl>
+- Corrections to Fedora Feedback in Dutch
+- Sat Feb 28 2009 Rui Gouveia <rui.gouveia@globaltek.pt>
+- Translate Fedora Feedback into European Portuguese
+- Fri Feb 27 2009 Richard van der Luit <zuma@xs4all.nl>
+- Translate Fedora Feedback into Dutch
 
 * Mon Jan 5 2009 Jeff Fearn <jfearn@redhat.com> 0.17
 - Add LICENSE override for RPMs. BZ #477720

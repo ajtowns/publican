@@ -7,8 +7,8 @@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
-Version:	0.42
-Release:	0.t39%{?dist}
+Version:	0.43
+Release:	0%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -158,7 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.43
+* Mon Mar 9 2009  Jeff Fearn <jfearn@redhat.com> 0.43
 - Fix many warnings about 'body-start() called from outside an fo:list-item' BZ #484628
 - Fix Initial build of new lang failing. BZ #485179
 - Add lang to final doc root node. BZ #486162
@@ -176,6 +176,17 @@ rm -rf $RPM_BUILD_ROOT
 - - Thu Jan 22 2009 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.40-1
 - - Font changes baekmuk-ttf-fonts-batang -> baekmuk-ttf-batang-fonts to
 -   fix broken deps in rawhide
+- Fri Mar 6 2009 Piotr Drąg <piotrdrag@gmail.com>
+- Translate Document Conventions into Polish
+- Thu Mar 5 2009 Piotr Drąg <piotrdrag@gmail.com>
+- Translate common Feedback section into Polish
+- Wed Mar 4 2009 Richard van der Luit <zuma@xs4all.nl>
+- Corrections to Document Conventions in Dutch
+- Mon Mar 2 2009 Richard van der Luit <zuma@xs4all.nl>
+- Translate Document Conventions into Dutch
+- Sat Feb 28 2009 Rui Gouveia <rui.gouveia@globaltek.pt>
+- Translate Document Conventions into European Portuguese
+
 
 
 * Thu Jan 29 2009 Jeff Fearn <jfearn@redhat.com> 0.42
