@@ -112,9 +112,9 @@ pre::
 		echo "you must set <title> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \
 	fi
-	@if [[ "$(DOCNAME)" =~ "[^a-zA-Z_\-]" ]]; then \
+	@if [[ "$(DOCNAME)" =~ "[^a-zA-Z_\-0-9.]" ]]; then \
 		echo; \
-		echo "*ERROR: DOCNAME can only contain 'a-z', 'A-Z' and '_'*"; \
+		echo "*ERROR: DOCNAME can only contain 'a-z', 'A-Z' and '_', '-', '.', and '0-9'*"; \
 		echo "'$(DOCNAME)' is not valid"; \
 		echo "Please edit <title> in $(XML_LANG)/$(DOC_TYPE)_Info.xml"; \
 		exit 1; \

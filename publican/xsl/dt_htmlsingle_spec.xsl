@@ -13,6 +13,14 @@
 <xsl:template match="/"># Documentation Specfile
 %define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
+%define viewer xdg-open
+
+%if %{HTMLVIEW}
+%define viewer htmlview
+%define vendor redhat-
+%define vendoropt --vendor="redhat"
+%endif
+
 Name:	<xsl:value-of select="$book-title"/>-<xsl:value-of select="$book-lang"/>
 Version:	<xsl:value-of select="$rpmver"/>
 Release:	<xsl:value-of select="$rpmrel"/>%{?dist}
@@ -46,11 +54,11 @@ Requires:	xdg-utils
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop &lt;&lt;'EOF'
+cat > %{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/productname" /><xsl:value-of select="/setinfo/productname" /><xsl:value-of select="/articleinfo/productname"/> <xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" /><xsl:value-of select="/articleinfo/productnumber"/>: <xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
 Comment=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-Exec=htmlview %{_docdir}/%{name}-%{version}/index.html
+Exec=%{viewer} %{_docdir}/%{name}-%{version}/index.html
 Icon=%{_docdir}/%{name}-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
 Type=Application
@@ -58,13 +66,15 @@ Encoding=UTF-8
 Terminal=false
 EOF
 
+desktop-file-install  %{?vendoropt} --dir=${RPM_BUILD_ROOT}%{_datadir}/applications %{name}.desktop
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
 %doc tmp/<xsl:value-of select="$book-lang"/>/html-desktop/*
-%{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/%{?vendor}%{name}.desktop
 
 %changelog<xsl:value-of select="$log"/>
 

@@ -7,7 +7,7 @@
 
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
-Version:	0.43
+Version:	0.44
 Release:	0%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
@@ -158,6 +158,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Wed Mar 11 2009  Jeff Fearn <jfearn@redhat.com> 0.44
+- Add 0-9 and '.' to DOCNAME regex. BZ #489626
+
 * Mon Mar 9 2009  Jeff Fearn <jfearn@redhat.com> 0.43
 - Fix many warnings about 'body-start() called from outside an fo:list-item' BZ #484628
 - Fix Initial build of new lang failing. BZ #485179

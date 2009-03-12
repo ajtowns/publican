@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
- 
+
 <!--
 	Copyright 2007 Red Hat, Inc.
 	License: GPL
@@ -13,6 +13,13 @@
 <xsl:template match="/">#Documentation Specfile
 %define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
+%define viewer xdg-open
+
+%if %{HTMLVIEW}
+%define vendor redhat-
+%define vendoropt  --vendor='redhat'
+%endif
+
 Name:		<xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 Version:	<xsl:value-of select="$rpmver"/>
 Release:	<xsl:value-of select="$rpmrel"/>%{?dist}
@@ -24,6 +31,7 @@ Source:		<xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of selec
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	publican
+BuildRequires:	desktop-file-utils
 Requires:	perl-Publican-WebSite
 <xsl:if test="$brand != 'publican-common'">BuildRequires:	<xsl:value-of select="$brand"/></xsl:if>
 <xsl:if test="$web_obsoletes != ''">Obsoletes:	<xsl:value-of select="$web_obsoletes"/></xsl:if>
@@ -58,17 +66,19 @@ mkdir -p $RPM_BUILD_ROOT/%{prefix}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{prefix}/.
 
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop &lt;&lt;'EOF'
+cat > <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/productname" /><xsl:value-of select="/setinfo/productname" /><xsl:value-of select="/articleinfo/productname"/> <xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" /><xsl:value-of select="/articleinfo/productnumber"/>: <xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
 Comment=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-Exec=htmlview %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
+Exec=%{viewer} %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
 Icon=%{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/images/icon.svg
 Categories=Documentation;X-Red-Hat-Base;
 Type=Application
 Encoding=UTF-8
 Terminal=false
 EOF
+
+desktop-file-install %{?vendoropt} --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 
 %preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 if [ "$1" = "0" ] ; then # last uninstall
@@ -88,7 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 %defattr(-,root,root,-)
 %doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
-%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
+%{_datadir}/applications/%{?vendor}<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 
 %changelog<xsl:value-of select="$log"/>
 
