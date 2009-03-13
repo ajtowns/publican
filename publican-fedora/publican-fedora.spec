@@ -3,7 +3,7 @@
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
 Version:	0.18
-Release:	0%{?dist}
+Release:	0.t1%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -49,6 +49,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Fri Mar 13 2009  Jeff Fearn <jfearn@redhat.com> 0.19
+- Fix right to left fo ar-AR. BZ #486162
+- Patches and translations by Muayyad Alsadi <alsadi@ojuba.org> 
+
 * Mon Mar 9 2009  Jeff Fearn <jfearn@redhat.com> 0.18
 - Add symlinks for langauges without country codes. BZ #487256
 - Fri Mar 6 2009 Piotr Drąg <piotrdrag@gmail.com>

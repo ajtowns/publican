@@ -118,9 +118,9 @@ clean:
 #
 #######################################################################################
 
-#LANGS = as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
+#LANGS = ar-AR as-IN bn-IN de-DE es-ES fr-FR gu-IN hi-IN it-IT ja-JP kn-IN ko-KR ml-IN mr-IN or-IN pa-IN pt-BR ru-RU si-LK ta-IN te-IN zh-CN zh-TW
 
-LANGS = as-IN bn-IN da-DK de-DE el-GR es-ES fr-FR gu-IN \
+LANGS = ar-AR as-IN bn-IN da-DK de-DE el-GR es-ES fr-FR gu-IN \
 	hi-IN hu-HU id-ID it-IT ja-JP kn-IN ko-KR lv-LV \
 	ml-IN mr-IN ms-MY nb-NO nl-NL or-IN pa-IN pl-PL \
 	pt-BR pt-PT ru-RU si-LK sr-LATN sr-RS sv-SE ta-IN \
