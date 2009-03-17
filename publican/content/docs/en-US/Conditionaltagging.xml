@@ -48,7 +48,7 @@ make CONDITION="upstream" pdf-en-US
 		</para>
 		
 <screen>
-CONDITION=($BRAND)
+CONDITION=$(BRAND)
 </screen>
 		<para>
 			In this manner, <command>make CONDITION="brand1" pdf-en-US</command> will build the book in PDF <emphasis>and</emphasis> capture all tags that use the <command>condition="brand1"</command> attribute.
