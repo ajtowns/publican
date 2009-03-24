@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-09-29 04:47+0000\n"
-"PO-Revision-Date: 2009-03-20 11:32+1000\n"
+"PO-Revision-Date: 2009-03-24 10:59+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 #: Conventions.xml:5
 #, no-c-format
 msgid "Document Conventions"
-msgstr "文書規約"
+msgstr "表記方法"
 
 #. Tag: para
 #: Conventions.xml:7
@@ -26,7 +26,7 @@ msgstr "文書規約"
 msgid ""
 "This manual uses several conventions to highlight certain words and phrases "
 "and draw attention to specific pieces of information."
-msgstr "本ガイドは特定の単語や語句を強調したり、 記載内容の特定部分に注意を引かせる目的で規約をいくつか使用しています。"
+msgstr "本ガイドは特定の単語や語句を強調したり、 記載内容の特定部分に注意を引かせる目的で次のような表記方法を使用しています。"
 
 #. Tag: para
 #: Conventions.xml:11
@@ -44,7 +44,7 @@ msgstr "PDF版 および印刷版では、 <ulink url=\"https://fedorahosted.org
 #: Conventions.xml:16
 #, no-c-format
 msgid "Typographic Conventions"
-msgstr "印刷上の規約"
+msgstr "印刷における表記方法"
 
 #. Tag: para
 #: Conventions.xml:18
@@ -53,7 +53,7 @@ msgid ""
 "Four typographic conventions are used to call attention to specific words "
 "and phrases. These conventions, and the circumstances they apply to, are as "
 "follows."
-msgstr "特定の単語や語句に注意を引く目的で 4 種類の規約を使用しています。 その規約および適用される状況は以下の通りです。"
+msgstr "特定の単語や語句に注意を引く目的で 4 種類の表記方法を使用しています。 その表記方法および適用される状況は以下の通りです。"
 
 #. Tag: literal
 #: Conventions.xml:23
@@ -67,7 +67,7 @@ msgstr "Mono-spaced Bold"
 msgid ""
 "Used to highlight system input, including shell commands, file names and "
 "paths. Also used to highlight key caps and key-combinations. For example:"
-msgstr "シェルコマンド、 ファイル名、 およびパスなどのシステムからの出力を強調するために使用しています。 またキーやとキーの組み合わせを強調するのにも使用しています。 例えば、"
+msgstr "シェルコマンド、 ファイル名、 パスなどシステムからの出力を強調するために使用しています。 またキー配列やキーの組み合わせを強調するのにも使用しています。 例えば、"
 
 #. Tag: section
 #: Conventions.xml:28
@@ -155,26 +155,22 @@ msgid ""
 "firstterm>). Unlike other modules, only one module from the MPM group can be "
 "loaded by the Apache HTTP Server. </para> </blockquote>"
 msgstr ""
-"<blockquote><para>現在作業中のディレクトリ内のファイル <filename>my_next_bestselling_novel</filename> の内容を表示させるには、 シェルプロンプトで <command>cat my_next_bestselling_novel</command> コマンドを入力してから <keycap>Enter</keycap> を押してそのコマンドを実行します。 </para></blockquote>"
-"<para> 上記にはファイル名、 シェルコマンド、 キーが含まれているのがわかります。 すべて Mono-spaced Bold で表されているため文中内で見分けやすくなっています。</para> <para>1 つのキーとキーの組み合わせを区別するため、 1 つの組み合わせを構成するキー同士をハイフンでつないでいます。 例えば、</para> <blockquote> <para> <keycap>Enter</keycap> を押してコマンドを実行します。 1 番目の仮想ターミナルに切り替えるには、 </para><blockquote><para><keycombo><keycap>Ctrl</keycap>"
+"<blockquote><para>現在作業中のディレクトリ内のファイル <filename>my_next_bestselling_novel</filename> の内容を表示させるには、 シェルプロンプトで <command>cat my_next_bestselling_novel</command> コマンドを入力してから <keycap>Enter</keycap> を押してそのコマンドを実行します。</para> </blockquote>"
+"<para>上記にはファイル名、 シェルコマンド、 キーが含まれているのがわかります。 すべて Mono-spaced Bold で表されているため文中内で見分けやすくなっています。</para> <para>キーが 1 つの場合と複数のキーの組み合わせになる場合を区別するため、 その組み合わせを構成するキー同士をハイフンでつないでいます。 例えば、</para> <blockquote><para><keycap>Enter</keycap> を押してコマンドを実行します。 1 番目の仮想ターミナルに切り替えるには、</para> <blockquote><para><keycombo><keycap>Ctrl</keycap>"
 "<keycap>Alt</keycap><keycap>F1</keycap></keycombo> を押します。 X-Windows セッションに戻るには、 <keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap>"
-"<keycap>F7</keycap></keycombo> を押します。 </para></blockquote> "
-"<para>最初の文では押すべき 1 つのキーを特定して強調しています。 次の文では同時に押すべき ３つのキーの組み合わせセットが 2 セット強調されています。</para> <para>ソースコードの説明では 1 段落内で "
-"提示されるクラス名、 メソッド、 関数、 変数名、 戻り値を上記のように <literal>Mono-spaced Bold</literal> で表示します。 例えば、</para> <blockquote><para>ファイル関連のクラス群は、 ファイルシステムには "
-"<classname>filesystem</classname> 、 ファイルには <classname>file</"
+"<keycap>F7</keycap></keycombo> を押します。</para></blockquote> "
+"<para>最初の文では押すべき 1 つのキーを特定して強調しています。 次の文では同時に押すべき ３つのキーの組み合わせが 2 種類ありそれぞれ強調されています。</para> <para>ソースコードの説明では 1 段落内で提示されるクラス名、 メソッド、 関数、 変数名、 戻り値を上記のように <literal>Mono-spaced Bold</literal> で表示します。 例えば、</para> <blockquote><para>ファイル関連のクラス群はファイルシステムに対しては "
+"<classname>filesystem</classname>、 ファイルには <classname>file</"
 "classname>、 ディレクトリには <classname>dir</classname> をそれぞれ含みます。 各クラスは個別に関連する権限セットを持っています。</para></blockquote> <para>"
 "<application>Proportional Bold</application></para> <para>アプリケーション名、 ダイアログボックスのテキスト、 ボタン名、 チェックボックスとラジオボタンのラベル、 メニュータイトルとサブメニュータイトルなどシステム上で見られる単語や語句を表します。 例えば、</para> <blockquote><para>メインメニューバーから <guimenu>システム > 個人設定 > マウス</guimenu> の順で選択し <application>マウスの個人設定</application> を起動します。 <guilabel>ボタン</guilabel> タブ内の <guilabel>左ききのマウス</guilabel> チェックボックスをクリックしてから <guibutton>閉じる</guibutton> をクリックしマウスの第一ボタンを左から右に切り替えます (マウスを左ききの人が使用するのに適した設定にする)。</para> <para><application>gedit</application> ファイルに特殊な文字を挿入する場合は、 メインメニューバーから "
-"<guimenu>アプリケーション > アクセサリ > 文字マップ</guimenu> の順で選択します。 次に <application>文字マップ</application> メニューバーから <guimenu>検索 > 検索&hellip;</guimenu> と選択して <guilabel>検索</guilabel> フィールド内にその文字名を入力し <guibutton>次</guibutton> をクリックします。 探している文字が <guilabel>文字表</guilabel> 内で強調表示されます。 この強調表示された文字をダブルクリックすると <guilabel>コピーするテキスト</guilabel> フィールド内に置かれるので次に <guibutton>コピー</guibutton> ボタンをクリックします。 ここでドキュメントに戻り <application>gedit</application> メニューバーから <guimenu>編集 > 貼り付け</guimenu> を選択します。</para></blockquote> <para>上記には、 アプリケーション名、 システム全体のメニュー名と項目、 アプリケーション固有のメニュー名、 GUI インターフェイスで見られるボタンやテキストがあります。 すべて Proportional Bold で表示されているため文中内で見分けやすくなっています。 </para> <para><guimenu>></guimenu> はメニューやそのサブメニュー間の"
-"移動や選択順序を示すための省略表現になります。 「メインメニューバーの <guimenu>システム</guimenu> メニュー内にある <guimenu>個人設定</guimenu> サブメニューから <guimenuitem>マウス</guimenuitem> を選択します」と言うような紛らわしい表現を避けるために使用しています。</para> <para><command><replaceable>Mono-spaced Bold Italic</replaceable></command> または <application><replaceable>Proportional Bold Italic</replaceable>"
-"</application></para> <para>Mono-spaced Bold、 Proportional Bold いずれであっても斜体の場合は置換可能なテキストか変化するテキストを示します。 斜体は記載されている通りには入力しないテキスト、 あるいは状況に応じて変化する出力テキストを表します。 例えば、</para> <blockquote> <para>ssh を使用してリモートマシンに接続するには、 シェルプロンプトで <command>ssh <replaceable>username</replaceable>@<replaceable>domain.name</replaceable></command> と入力します。 リモートマシンが <filename>example.com</filename> でそのマシンで使用しているユーザー名が john なら、 <command>ssh john@example.com</command> と入力します。</para> <para><command>mount -o remount <replaceable>file-system</replaceable></command> コマンドは指定したファイルシステムを再マウントします。 例えば、 "
-"<filename>/home</filename> ファイルシステムを再マウントするコマンドは <command>mount -o remount /home</command> になります。</para> <para>現在インストールされているパッケージのバージョンを表示するには、 <command>rpm -q <replaceable>package</replaceable></command> コマンドを使用します。 結果として次を返してきます、 <command><replaceable>package-version-release</replaceable></command>。 </para> </blockquote><para>上記の太字斜体の単語 &mdash; username、 domain.name、 file-system、 package、 version、 release に注目してください。 それぞれがプレースホルダーか、 コマンドを発行するときに入力するテキストまたはシステムにより出力されるテキストになります。</para> <para>ある作業のタイトル表示のような標準的な使用の他、 斜体は新用語として初めて出現する用語や重要な用語も表します。 例えば、</para><blockquote> <para>Apache HTTP サーバーが要求を受け取ると子プロセスまたは子スレッドを発送して処理します。 この子プロセスまたは子スレッドのグループは <firstterm>サーバープール</firstterm> と呼ばれます。 Apache HTTP サーバー 2.0 では、これらのサーバープールの作成および維持の役目は <firstterm>マルチプロセッシングモジュール</firstterm> (<firstterm>MPM</firstterm>) と呼ばれるモジュールのグループに取り込まれていました。 他のモジュールとは異なり、 MPM グループからのモジュール１つのみが Apache HTTP サーバー によってロード "
-"されます。</para> </blockquote>"
+"<guimenu>アプリケーション > アクセサリ > 文字マップ</guimenu> の順で選択します。 次に <application>文字マップ</application> メニューバーから <guimenu>検索 > 検索&hellip;</guimenu> と選択して <guilabel>検索</guilabel> フィールド内にその文字名を入力し <guibutton>次</guibutton> をクリックします。 探している文字が <guilabel>文字表</guilabel> 内で強調表示されます。 この強調表示された文字をダブルクリックすると <guilabel>コピーするテキスト</guilabel> フィールド内に置かれるので次に <guibutton>コピー</guibutton> ボタンをクリックします。 ここでドキュメントに戻り <application>gedit</application> メニューバーから <guimenu>編集 > 貼り付け</guimenu> を選択します。</para></blockquote> <para>上記には、 アプリケーション名、 システム全体のメニュー名と項目、 アプリケーション固有のメニュー名、 GUI インタフェースで見られるボタンやテキストがあります。 すべて Proportional Bold で表示されているため文中内で見分けやすくなっています。</para> <para><guimenu>></guimenu> はメニューやそのサブメニュー間の移動や選択順序を示すための省略表現になります。 「メインメニューバーの <guimenu>システム</guimenu> メニュー内にある <guimenu>個人設定</guimenu> サブメニューから <guimenuitem>マウス</guimenuitem> を選択します」と言うような紛らわしい表現を避けるために使用しています。</para> <para><command><replaceable>Mono-spaced Bold Italic</replaceable></command> または <application><replaceable>Proportional Bold Italic</replaceable></application></para> <para>Mono-spaced Bold、 Proportional Bold いずれであっても斜体の場合は置換可能なテキストか変化するテキストを示します。 斜体は記載されている通りには入力しないテキスト、 あるいは状況に応じて変化する出力テキストを表します。 例えば、</para> <blockquote><para>ssh を使用してリモートマシンに接続するには、 シェルプロンプトで <command>ssh <replaceable>username</replaceable>@<replaceable>domain.name</replaceable></command> と入力します。 リモートマシンが <filename>example.com</filename> であり、 そのマシンで使用しているユーザー名が john なら <command>ssh john@example.com</command> と入力します。</para> <para><command>mount -o remount <replaceable>file-system</replaceable></command> コマンドは指定したファイルシステムを再マウントします。 例えば、 "
+"<filename>/home</filename> ファイルシステムを再マウントするコマンドは <command>mount -o remount /home</command> になります。</para> <para>現在インストールされているパッケージのバージョンを表示するには、 <command>rpm -q <replaceable>package</replaceable></command> コマンドを使用します。 結果として次を返してきます、 <command><replaceable>package-version-release</replaceable></command>。</para></blockquote> <para>上記の太字斜体の単語 &mdash; username、 domain.name、 file-system、 package、 version、 release に注目してください。 いずれもコマンドを発行するときに入力するテキスト用のプレースホルダーかシステムにより出力されるテキスト用のプレースホルダーになっています。</para> <para>タイトル表示のような標準的な使用の他、 斜体は新しい重要な用語が初めて出現する場合にも使用されます。 例えば、</para> <blockquote><para>Apache HTTP サーバーが要求を受け取ると子プロセスまたは子スレッドを発送して処理します。 この子プロセスまたは子スレッドのグループは <firstterm>サーバープール</firstterm> と呼ばれます。 Apache HTTP サーバー 2.0 では、 これらのサーバープールの作成および維持の役目は <firstterm>マルチプロセッシングモジュール</firstterm> (<firstterm>MPM</firstterm>) と呼ばれるモジュールのグループに取り込まれていました。 他のモジュールとは異なり、 MPM グループからのモジュール 1 つのみが Apache HTTP サーバー によってロードされます。</para></blockquote>"
 
 #. Tag: title
 #: Conventions.xml:132
 #, no-c-format
 msgid "Pull-quote Conventions"
-msgstr "引用の規約"
+msgstr "引用における表記方法"
 
 #. Tag: para
 #: Conventions.xml:134
@@ -182,7 +178,7 @@ msgstr "引用の規約"
 msgid ""
 "Two, commonly multi-line, data types are set off visually from the "
 "surrounding text."
-msgstr "前後の文から視覚的に強調する目的で 2 種類のデータタイプがあり、 一般的には複数行になります。"
+msgstr "前後の文から視覚的に強調する目的で 2 種類のデータタイプを使用しています。 一般的には複数行になります。"
 
 #. Tag: para
 #: Conventions.xml:138
@@ -272,7 +268,7 @@ msgstr "注記および警告"
 msgid ""
 "Finally, we use three visual styles to draw attention to information that "
 "might otherwise be overlooked."
-msgstr "最後に情報が見過ごされないよう 3 種類の視覚的なスタイルを使用して注意を引いています。"
+msgstr "情報が見過ごされないよう 3 種類の視覚的なスタイルを使用して注意を引いています。"
 
 #. Tag: title
 #: Conventions.xml:160
@@ -287,7 +283,7 @@ msgid ""
 "A note is a tip or shortcut or alternative approach to the task at hand. "
 "Ignoring a note should have no negative consequences, but you might miss out "
 "on a trick that makes your life easier."
-msgstr "注記は、 説明している部分に対するヒントや近道あるいは代替となる手段などになります。 注記を無視しても影響はありませんが知っておくと便利なコツを見逃すことになるかもしれません。"
+msgstr "注記は説明している部分に対するヒントや近道あるいは代替となる手段などになります。 注記を無視しても影響はありませんが知っておくと便利なコツを見逃すことになるかもしれません。"
 
 #. Tag: title
 #: Conventions.xml:167
