@@ -2253,4 +2253,40 @@ Version:1.72
   <!--xsl:apply-templates select="question" mode="toc"/-->
 </xsl:template>
 
+<xsl:template match="substeps">
+  <fo:list-block xsl:use-attribute-sets="list.block.spacing"
+                 provisional-distance-between-starts="2em"
+                 provisional-label-separation="0.2em">
+    <xsl:apply-templates/>
+  </fo:list-block>
+</xsl:template>
+
+<xsl:template match="procedure/step|substeps/step">
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <fo:list-item xsl:use-attribute-sets="list.item.spacing">
+    <fo:list-item-label end-indent="label-end()">
+      <fo:block id="{$id}">
+        <!-- dwc: fix for one step procedures. Use a bullet if there's no step 2 -->
+        <xsl:choose>
+          <xsl:when test="count(../step) = 1">
+            <xsl:text>&#x2022;</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="." mode="number">
+              <xsl:with-param name="recursive" select="0"/>
+            </xsl:apply-templates>.
+          </xsl:otherwise>
+        </xsl:choose>
+      </fo:block>
+    </fo:list-item-label>
+    <fo:list-item-body start-indent="body-start()">
+      <fo:block keep-together.within-column="always">
+        <xsl:apply-templates/>
+      </fo:block>
+    </fo:list-item-body>
+  </fo:list-item>
+</xsl:template>
 </xsl:stylesheet>
