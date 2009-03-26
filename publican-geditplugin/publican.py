@@ -115,7 +115,7 @@ class ResultsView(gtk.VBox):
         if (model.get_value(iterator, 0) == "1"):
             documents = self.geditwindow.get_documents()
             for each in documents:
-                if each.get_short_name_for_display() == model.get_value(iterator, 1):
+                if each.get_uri_for_display().rpartition('/'+self.DEFAULT_LANG+'/')[2] == model.get_value(iterator, 1):
                     self.geditwindow.set_active_tab(gedit.tab_get_from_document(each))
         
     def tab_closed(self, b, tab):
