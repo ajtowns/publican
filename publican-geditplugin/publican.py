@@ -6,7 +6,8 @@ from xml.dom import minidom
 ui_str = """<ui>
   <menubar name="MenuBar">
     <menu name="Publican" action="PublicanMenuAction">
-        <menuitem name="ExamplePy" action="ExamplePy"/>
+        <menuitem name="OpenDocument" action="OpenDocument"/>
+        <menuitem name="CreateDocument" action="CreateDocument"/>
     </menu>
   </menubar>
 </ui>
@@ -137,7 +138,8 @@ class PluginHelper:
         #insert the menu items
         manager = self.window.get_ui_manager()
         self._action_group = gtk.ActionGroup("ExamplePyPluginActions")
-        self._action_group.add_actions([("ExamplePy", None, _("Open Document"), None, _("Open an Existing Publican Document"), self.on_open_document_activate)])
+        self._action_group.add_actions([("OpenDocument", None, _("Open Document"), None, _("Open an Existing Publican Document"), self.on_open_document_activate)])
+        self._action_group.add_actions([("CreateDocument", None, _("Create New Document"), None, _("Create a new publican document"), self.on_create_document_activate)])
         self._action_group.add_actions([("PublicanMenuAction", None, _("Publican"), None, _("Clear the document"), None)])
         manager.insert_action_group(self._action_group, -1)
         self._ui_id = manager.add_ui_from_string(ui_str)
@@ -153,7 +155,15 @@ class PluginHelper:
     def remove_panel(self):
         panel = self.window.get_side_panel()
         panel.remove_item(self.results_view)
-           
+    
+    def on_create_document_activate(self, action):
+        dialog = gtk.Dialog("My dialog", None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+        label = gtk.Label("Implement Create Book Dialog Here...")
+        box = dialog.vbox
+        box.add(label)
+        box.show_all()
+        dialog.run()
+        dialog.destroy()
     def on_open_document_activate(self, action):
         panel = self.window.get_side_panel()
         
