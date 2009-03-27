@@ -15,6 +15,7 @@ ui_str = """<ui>
   </menubar>
 </ui>
 """
+
 class ResultsView(gtk.VBox):
     def __init__(self, geditwindow, path):
         def fileExists(f):
@@ -39,6 +40,7 @@ class ResultsView(gtk.VBox):
                         mylevel = self.treestore.append(level, ["-1",x.attributes["href"].value, gtk.Window().render_icon(gtk.STOCK_DIALOG_WARNING, gtk.ICON_SIZE_MENU)])
 
         gtk.VBox.__init__(self)
+        self.language_manager = gedit.get_language_manager()
         self.DEFAULT_LANG = 'en-US'
         self.thepath = ""
         self.geditwindow = geditwindow
@@ -105,6 +107,9 @@ class ResultsView(gtk.VBox):
             self.treestore.set_value(iterator, 0, "1")
             self.treestore.set_value(iterator, 2, gtk.Window().render_icon(gtk.STOCK_EDIT, gtk.ICON_SIZE_MENU))
             self.open_files.append(iterator)
+            buffer = self.geditwindow.get_active_view().get_buffer()
+            language = gedit.language_manager_get_language_from_mime_type(self.language_manager, "application/docbook+xml")
+            buffer.set_language(language)
 
     def switch_to_file(self, widget):
         tree_selection = self.treeview.get_selection()
@@ -137,7 +142,8 @@ class PluginHelper:
         self.window = window
         self.plugin = plugin
         self.ui_id = None
-        
+        self.language_manager = gedit.get_language_manager()
+
         #insert the menu items
         manager = self.window.get_ui_manager()
         self._action_group = gtk.ActionGroup("ExamplePyPluginActions")
@@ -184,28 +190,36 @@ class PluginHelper:
         panel.activate_item(self.results_view)
     def xiinclude_tool(self, action):
         doc = self.window.get_active_document()
+        
         if not doc:
             return
         text = doc.get_text(doc.get_selection_bounds()[0], doc.get_selection_bounds()[1], False)
         filepath = doc.get_uri_for_display().rpartition("/")[0]
         dialog = gtk.Dialog("My dialog", None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+        dialog.set_default_response(gtk.RESPONSE_ACCEPT)
         entry = gtk.Entry()
+        entry.set_activates_default(True)
         box = dialog.vbox
         box.add(entry)
         box.show_all()
-        dialog.run()
+        response = dialog.run()
         thefilename = entry.get_text()
+        if response == gtk.RESPONSE_ACCEPT:
+            node = minidom.parseString(text)
+            f = open(filepath+'/'+thefilename,'w')
+            f.write("<?xml version='1.0'?>\n")
+            f.write("<!DOCTYPE "+node.documentElement.tagName+" PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n")
+            f.write("]>\n\n")
+            f.write(text)
+            f.close()
+            self.window.create_tab_from_uri("file://"+filepath+'/'+thefilename, None, 1, False, True)
+            doc.delete_selection(True, True)
+            doc.insert_at_cursor("<xi:include href=\""+thefilename+"\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />")
+        
+            buffer = self.window.get_active_view().get_buffer()
+            language = gedit.language_manager_get_language_from_mime_type(self.language_manager, "application/docbook+xml")
+            buffer.set_language(language)
         dialog.destroy()
-        node = minidom.parseString(text)
-        f = open(filepath+'/'+thefilename,'w')
-        f.write("<?xml version='1.0'?>\n")
-        f.write("<!DOCTYPE "+node.documentElement.tagName+" PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n")
-        f.write("]>\n\n")
-        f.write(text)
-        f.close()
-        self.window.create_tab_from_uri("file://"+filepath+'/'+thefilename, None, 1, False, True)
-        doc.delete_selection(True, True)
-        doc.insert_at_cursor("<xi:include href=\""+thefilename+"\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />")
 
 class PublicanPlugin(gedit.Plugin):
     def __init__(self):
