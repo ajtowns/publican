@@ -8,7 +8,7 @@
 Name:		publican	
 Summary:	Common files and scripts for publishing with DocBook XML
 Version:	0.44
-Release:	0.t3%{?dist}
+Release:	0.t5%{?dist}
 License:	GPLv2+ and GFDL
 # The following directories are licensed under the GFDL:
 #	content, Book_Template, Set_Template, Article_Template
@@ -163,6 +163,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix right to left fo ar-AR. BZ #486162
 - Patches and translations by Muayyad Alsadi <alsadi@ojuba.org> 
 - Added missing doccomment and number to PDF highlight. BZ #491241
+- Fix files dir missing from RPMs. BZ #492034
 
 * Wed Mar 11 2009  Jeff Fearn <jfearn@redhat.com> 0.44
 - Add 0-9 and '.' to DOCNAME regex. BZ #489626

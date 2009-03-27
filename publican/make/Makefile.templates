@@ -501,8 +501,8 @@ tardir-${1}:: xml-${1} test-${1}
 	@echo "START: tardir-${1} `date`"
 	@mkdir -p tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)
 	@cp -rf tmp/${1}/xml tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}
-	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}/.; fi
-	@if [ -d ${1}/files ]; then cp -rf ${1}/files tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}/.; fi
+	@if [ -d $(XML_LANG)/files ]; then cp -rf $(XML_LANG)/files tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}/.; fi
+	@if [ -d ${1}/files ]; then cp -rf ${1}/files tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}/.; fi
 	@rm -rf tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/${1}/Common_Content
 	@cp Makefile tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/.
 	@sed -i -e 's/^XML_LANG.*$$$$/XML_LANG = ${1}/' tmp/tar/$(TAR_NAME)-${1}-$(RPM_VERSION)/Makefile
