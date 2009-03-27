@@ -169,9 +169,32 @@ class PluginHelper:
     
     def on_create_document_activate(self, action):
         dialog = gtk.Dialog("My dialog", None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        label = gtk.Label("Implement Create Book Dialog Here...")
+        dialog.set_default_size(800, 600)
         box = dialog.vbox
-        box.add(label)
+        file_chooser = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, None)
+        box.add(file_chooser)
+        columns = gtk.HBox()
+        box.add(columns)
+        column_labels = gtk.VBox(False)
+        column_entries = gtk.VBox(False)
+        
+        
+
+        name_label = gtk.Label("Name:")
+        name_label.set_justify(gtk.JUSTIFY_RIGHT)
+        column_labels.add(name_label)
+        name_entry = gtk.Entry()
+        column_entries.add(name_entry)
+
+        version_label = gtk.Label("Product Version:")
+        column_labels.add(version_label)
+        version_entry = gtk.Entry()
+        column_entries.add(version_entry)
+        
+        columns.add(column_labels)
+        columns.add(column_entries)
+        
+
         box.show_all()
         dialog.run()
         dialog.destroy()
