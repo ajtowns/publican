@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='utf-8'?>
+<snippets language="docbook">
+  <snippet override="docbook-appwrap">
+    <text><![CDATA[<application>$GEDIT_SELECTED_TEXT</application>]]></text>
+    <description>application</description>
+    <accelerator><![CDATA[<Super>a]]></accelerator>
+  </snippet>
+  <snippet override="docbook-itemizedlist">
+    <text><![CDATA[<itemizedlist>
+	$GEDIT_SELECTED_TEXT$0
+</itemizedlist>]]></text>
+    <tag>it</tag>
+    <description>itemizedlist</description>
+    <accelerator><![CDATA[<Super>i]]></accelerator>
+  </snippet>
+  <snippet override="docbook-listitem">
+    <text><![CDATA[<listitem>
+	<para>
+		$GEDIT_SELECTED_TEXT$1
+	</para>
+</listitem>
+$0]]></text>
+    <tag>li</tag>
+    <description>listitem [indented]</description>
+  </snippet>
+  <snippet override="docbook-keycombo">
+    <text><![CDATA[<keycombo><keycap>$1</keycap><keycap>$2</keycap></keycombo>]]></text>
+    <tag>ke</tag>
+    <description>keycombo</description>
+  </snippet>
+  <snippet override="docbook-app">
+    <text><![CDATA[<application>&app;</application>]]></text>
+    <description>listitem [inline]</description>
+    <accelerator><![CDATA[<Super>l]]></accelerator>
+  </snippet>
+  <snippet override="docbook-enclose">
+    <text><![CDATA[<command>$GEDIT_SELECTED_TEXT</command>]]></text>
+    <description>command</description>
+    <accelerator><![CDATA[<Super>c]]></accelerator>
+  </snippet>
+  <snippet override="docbook-menuchoice">
+    <text><![CDATA[<menuchoice><guimenu>$1</guimenu><guimenuitem>$2</guimenuitem></menuchoice>
+]]></text>
+    <tag>me</tag>
+    <description>menuchoice</description>
+  </snippet>
+  <snippet override="docbook-orderedlist">
+    <text><![CDATA[<orderedlist>
+	$GEDIT_SELECTED_TEXT$1
+</orderedlist>]]></text>
+    <tag>ol</tag>
+    <description>ordered list</description>
+    <accelerator><![CDATA[<Super>o]]></accelerator>
+  </snippet>
+  <snippet override="docbook-closepara">
+    <text><![CDATA[<para>
+	$GEDIT_SELECTED_TEXT${1}
+</para>
+]]></text>
+    <tag>pa</tag>
+    <description>para [indented]</description>
+  </snippet>
+  <snippet override="docbook-openpara">
+    <text><![CDATA[<para>]]></text>
+    <description>para [inline]</description>
+    <accelerator><![CDATA[<Super>p]]></accelerator>
+  </snippet>
+  <snippet override="docbook-sect">
+    <text><![CDATA[<section>
+	<title>$1</title>
+	$GEDIT_SELECTED_TEXT
+</section>]]></text>
+    <tag>se</tag>
+    <description>section</description>
+    <accelerator><![CDATA[<Super>s]]></accelerator>
+  </snippet>
+  <snippet override="docbook-variablelist">
+    <text><![CDATA[<variablelist>
+  <varlistentry>
+	<term>$1</term>
+	<listitem>
+		<para>
+			$2
+		</para>
+	</listitem>
+</varlistentry>
+</variablelist>]]></text>
+    <tag>va</tag>
+    <description>variablelist</description>
+  </snippet>
+  <snippet override="docbook-varlistentry">
+    <text><![CDATA[<varlistentry>
+	<term>${1}</term>
+	<listitem>
+		<para>
+			$2$GEDIT_SELECTED_TEXT
+		</para>
+	</listitem>
+</varlistentry>]]></text>
+    <tag>var</tag>
+    <description>variablelist entry</description>
+  </snippet>
+  <snippet override="docbook-&lt;">
+    <text><![CDATA[<?xml version='1.0'?>
+<!DOCTYPE $1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+
+<$1>
+</$1>]]></text>
+    <tag>xml</tag>
+    <description>XML template</description>
+  </snippet>
+  <snippet override="docbook-yelp">
+    <text><![CDATA[<xi:include href="$1$GEDIT_SELECTED_TEXT" xmlns:xi="http://www.w3.org/2001/XInclude" />]]></text>
+    <tag>xi</tag>
+    <description>xi:include</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[<chapter>
+	<title>
+		$1
+	</title>
+	
+</chapter>]]></text>
+    <tag>ch</tag>
+    <description>chapter</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[<filename>$GEDIT_SELECTED_TEXT</filename>]]></text>
+    <accelerator><![CDATA[<Super>f]]></accelerator>
+    <description>filename</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[<$1>
+	$2
+</$1>
+$0]]></text>
+    <tag>en</tag>
+    <description>enclose</description>
+  </snippet>
+</snippets>
