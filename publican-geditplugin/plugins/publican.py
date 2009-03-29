@@ -2,6 +2,8 @@ import gedit
 import gtk
 
 import os
+import gobject
+
 from xml.dom import minidom
 ui_str = """<ui>
   <menubar name="MenuBar">
@@ -143,7 +145,8 @@ class PluginHelper:
         self.plugin = plugin
         self.ui_id = None
         self.language_manager = gedit.get_language_manager()
-
+        self.results_view = None
+        
         #insert the menu items
         manager = self.window.get_ui_manager()
         self._action_group = gtk.ActionGroup("ExamplePyPluginActions")
@@ -168,49 +171,155 @@ class PluginHelper:
         panel.remove_item(self.results_view)
     
     def on_create_document_activate(self, action):
-        dialog = gtk.Dialog("My dialog", None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        dialog.set_default_size(800, 600)
+        def get_active_text(combobox):
+            model = combobox.get_model()
+            active = combobox.get_active()
+            if active < 0:
+                return None
+            return model[active][0]
+              
+
+    	brands = os.listdir("/usr/share/publican/Common_Content/")
+    	types = ["Book", "Article", "Set"]
+    	langs = ["en-US","as-IN", "bn-IN", "de-DE", "es-ES", "fr-FR", "gu-IN", "hi-IN", "it-IT", "ja-JP", "kn-IN", "ko-KR", "ml-IN", "mr-IN", "or-IN", "pa-IN", "pt-BR", "ru-RU", "si-LK", "ta-IN", "te-IN", "zh-CN", "zh-TW"]
+        dialog = gtk.Dialog("Create Document", None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, None)
+        #dialog.set_default_size(400, 200)
         box = dialog.vbox
-        file_chooser = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, None)
-        box.add(file_chooser)
-        columns = gtk.HBox()
-        box.add(columns)
-        column_labels = gtk.VBox(False)
-        column_entries = gtk.VBox(False)
+        #file_chooser = gtk.FileChooserWidget(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, None)
+        #box.add(file_chooser)
+        #columns = gtk.HBox()
+        #columns.set_size_request(-1, 130)
+        #columns.set_resize_mode(gtk.RESIZE_QUEUE)
+        #box.add(columns)
+        #column_labels = gtk.VBox(False)
+        #column_entries = gtk.VBox(False)
         
+        #(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT)
         
-
+        table = gtk.Table(4,2, False)
+        box.add(table)
+        
+        chooser_label = gtk.Label("Location:")
+        table.attach(chooser_label, 0,1,0,1,gtk.FILL,gtk.FILL,3,3)
+        filechooser = gtk.FileChooserButton("Location", None)
+        filechooser.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+        table.attach(filechooser, 1,2,0,1,gtk.FILL,gtk.FILL,3,3)
+        
         name_label = gtk.Label("Name:")
-        name_label.set_justify(gtk.JUSTIFY_RIGHT)
-        column_labels.add(name_label)
+        table.attach(name_label, 0,1,1,2,gtk.FILL,gtk.FILL,3,3)
         name_entry = gtk.Entry()
-        column_entries.add(name_entry)
+        table.attach(name_entry, 1,2,1,2,gtk.FILL,gtk.FILL,3,3)
+        
+        type_label = gtk.Label("Document Type:")
+        table.attach(type_label, 0,1,2,3,gtk.FILL,gtk.FILL,3,3)
+        types_combo = gtk.combo_box_new_text()
+        for t in types:
+            types_combo.append_text(t)
+        table.attach(types_combo, 1,2,2,3,gtk.FILL,gtk.FILL,3,3)
+        types_combo.set_active(0)
+        
+        brand_label = gtk.Label("Brand:")
+        table.attach(brand_label, 0,1,3,4,gtk.FILL,gtk.FILL,3,3)
+        brand_combo = gtk.combo_box_new_text()
+        for b in brands:
+            brand_combo.append_text(b)
+        table.attach(brand_combo, 1,2,3,4,gtk.FILL,gtk.FILL,3,3)
+        brand_combo.set_active(0)
 
+        
+        
+        expander = gtk.Expander("Other Options")
+        box.pack_start(expander, True, True, 0)
+        expandertable = gtk.Table(4,2, False)
+        expander.add(expandertable)
+               
+        product_label = gtk.Label("Product:")
+        expandertable.attach(product_label, 0,1,0,1,gtk.FILL,gtk.FILL,3,3)
+        product_entry = gtk.Entry()
+        expandertable.attach(product_entry, 1,2,0,1,gtk.FILL,gtk.FILL,3,3)
+        
         version_label = gtk.Label("Product Version:")
-        column_labels.add(version_label)
+        expandertable.attach(version_label, 0,1,1,2,gtk.FILL,gtk.FILL,3,3)
         version_entry = gtk.Entry()
-        column_entries.add(version_entry)
+        expandertable.attach(version_entry, 1,2,1,2,gtk.FILL,gtk.FILL,3,3)
+                
+        edition_label = gtk.Label("Document Edition:")
+        expandertable.attach(edition_label, 0,1,2,3,gtk.FILL,gtk.FILL,3,3)
+        edition_entry = gtk.Entry()
+        expandertable.attach(edition_entry, 1,2,2,3,gtk.FILL,gtk.FILL,3,3)
         
-        columns.add(column_labels)
-        columns.add(column_entries)
+        lang_label = gtk.Label("Source Language:")
+        expandertable.attach(lang_label, 0,1,3,4,gtk.FILL,gtk.FILL,3,3)
+        lang_combo = gtk.combo_box_new_text()
+        for l in langs:
+            lang_combo.append_text(l)
+        expandertable.attach(lang_combo, 1,2,3,4,gtk.FILL,gtk.FILL,3,3)
+        lang_combo.set_active(0)
         
-
+        
+        def clickedcreate(self):
+            if name_entry.get_text() == "":
+                 message = gtk.MessageDialog(dialog, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK, "The Document must have a name.")
+                 message.run()
+                 message.destroy()
+            else:
+                dialog.response(gtk.RESPONSE_ACCEPT)
+                
+        def clickedcancel(self):
+            dialog.response(gtk.RESPONSE_REJECT)
+                
+        buttonbox = dialog.get_action_area()
+        cancelbutton = gtk.Button("Cancel", gtk.STOCK_CANCEL, False)
+        cancelbutton.connect("clicked", clickedcancel)
+        buttonbox.add(cancelbutton)
+        okbutton = gtk.Button("Create", gtk.STOCK_OK, False)
+        okbutton.connect("clicked", clickedcreate)
+        buttonbox.add(okbutton)
         box.show_all()
-        dialog.run()
+        response = dialog.run() 
+        if response == gtk.RESPONSE_ACCEPT:
+            options_string = "--name="+(name_entry.get_text().replace(" ","_"))
+            options_string = options_string+" --type="+get_active_text(types_combo)
+            options_string = options_string+" --brand="+get_active_text(brand_combo)
+            if get_active_text(lang_combo) <> "en-US":
+                options_string = options_string+" --lang="+get_active_text(lang_combo)
+            print "-"+product_entry.get_text()+"-"
+            if product_entry.get_text_length() != 0:
+                options_string = options_string+" --product="+product_entry.get_text().replace(" ","_")
+            if version_entry.get_text_length() != 0:
+                options_string = options_string+" --version="+version_entry.get_text().replace(" ","_")
+            if edition_entry.get_text_length() != 0:
+                options_string = options_string+" --edition="+edition_entry.get_text().replace(" ","_")
+            print options_string
+            os.system("cd "+filechooser.get_current_folder()+"; create_book "+options_string)
+            #open up the book
+            panel = self.window.get_side_panel()
+            if self.results_view <> None:
+                panel.remove_item(self.results_view)
+            self.results_view = ResultsView(self.window, filechooser.get_current_folder()+"/"+(name_entry.get_text().replace(" ","_")))
+            print self.results_view
+            image = gtk.Image()
+            image.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
+            self.ui_id = panel.add_item(self.results_view, "Publican Document View", image)
+            panel.activate_item(self.results_view)
+            #os.system("create_book --name="+name)
+            
         dialog.destroy()
     def on_open_document_activate(self, action):
-        panel = self.window.get_side_panel()
-        
         dialog = gtk.FileChooserDialog("Open..", None, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN, gtk.RESPONSE_OK)) 
         dialog.set_default_response(gtk.RESPONSE_OK)
         response = dialog.run()
         path = dialog.get_filename()
         dialog.destroy()
-        self.results_view = ResultsView(self.window, path)
-        image = gtk.Image()
-        image.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
-        self.ui_id = panel.add_item(self.results_view, "Publican Document View", image)
-        panel.activate_item(self.results_view)
+        if response == gtk.RESPONSE_OK:
+            panel = self.window.get_side_panel()
+            if self.results_view <> None:
+                panel.remove_item(self.results_view)
+            self.results_view = ResultsView(self.window, path)
+            image = gtk.Image()
+            image.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
+            self.ui_id = panel.add_item(self.results_view, "Publican Document View", image)
+            panel.activate_item(self.results_view)
     def xiinclude_tool(self, action):
         doc = self.window.get_active_document()
         
