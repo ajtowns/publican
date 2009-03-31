@@ -27,7 +27,7 @@ class OutputView(gtk.VBox):
     def __init__(self, geditwindow, path, active):
         gtk.VBox.__init__(self)
         if active:
-            targets=["html","html-single","pdf","test"]
+            targets=["html","html-single","pdf","test", "all"]
             langs = ["en-US","as-IN", "bn-IN", "de-DE", "es-ES", "fr-FR", "gu-IN", "hi-IN", "it-IT", "ja-JP", "kn-IN", "ko-KR", "ml-IN", "mr-IN", "or-IN", "pa-IN", "pt-BR", "ru-RU", "si-LK", "ta-IN", "te-IN", "zh-CN", "zh-TW"]
             #self.output_text = gtk.TextBuffer()
             #self.output_area = gtk.TextView(self.output_text)
@@ -69,7 +69,12 @@ class OutputView(gtk.VBox):
                 return None
             return model[active][0]
         self.terminal.feed_child("cd "+path+"\n")
-        self.terminal.feed_child("make "+get_active_text(targets_combo)+"-"+get_active_text(lang_combo)+"\n")
+        if get_active_text(targets_combo) == "all":
+            lang = get_active_text(lang_combo)
+            self.terminal.feed_child("make html-"+lang+" html-single-"+lang+" pdf-"+lang+"\n")
+        else:
+            self.terminal.feed_child("make "+get_active_text(targets_combo)+"-"+get_active_text(lang_combo)+"\n")
+        #self.terminal.feed_child("firefox tmp/en-US/html-single/index.html\n")
  
 class ResultsView(gtk.VBox):
     def __init__(self, geditwindow, path):
