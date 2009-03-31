@@ -1,8 +1,13 @@
 import gedit
 import gtk
-
 import os
 import gobject
+import sys
+import select
+from subprocess import Popen,PIPE
+import time
+import pango
+import vte
 
 from xml.dom import minidom
 ui_str = """<ui>
@@ -17,7 +22,54 @@ ui_str = """<ui>
   </menubar>
 </ui>
 """
+class OutputView(gtk.VBox):
+    
+    def __init__(self, geditwindow, path, active):
+        gtk.VBox.__init__(self)
+        if active:
+            targets=["html","html-single","pdf","test"]
+            langs = ["en-US","as-IN", "bn-IN", "de-DE", "es-ES", "fr-FR", "gu-IN", "hi-IN", "it-IT", "ja-JP", "kn-IN", "ko-KR", "ml-IN", "mr-IN", "or-IN", "pa-IN", "pt-BR", "ru-RU", "si-LK", "ta-IN", "te-IN", "zh-CN", "zh-TW"]
+            #self.output_text = gtk.TextBuffer()
+            #self.output_area = gtk.TextView(self.output_text)
+            #self.output_area.set_editable(False)
+            #self.output_area.modify_font(pango.FontDescription("Monospace 10"))
+            self.terminal = vte.Terminal()
+            self.terminal.fork_command(directory=path)
+            #terminal.connect("show", show_callback)
+            
+            scrolled_window = gtk.ScrolledWindow()        
+            #scrolled_window.add(self.output_area)
+            scrolled_window.add(self.terminal)
+            self.pack_start(scrolled_window)
+            buttonbox = gtk.HButtonBox()
+            buttonbox.set_layout(gtk.BUTTONBOX_END)
+            targets_combo = gtk.combo_box_new_text()
+            for t in targets:
+                targets_combo.append_text(t)
+            targets_combo.set_active(0)
+            buttonbox.pack_start(targets_combo, False, False, 1)
+            
+            lang_combo = gtk.combo_box_new_text()
+            for l in langs:
+                lang_combo.append_text(l)
+            lang_combo.set_active(0)
+            buttonbox.pack_start(lang_combo, False, False, 1)
+            okbutton = gtk.Button("Build", None, False)
+            buttonbox.pack_start(okbutton, False, False, 3)
+            self.pack_start(buttonbox, False, False, 3)
+            self.show_all()
+            okbutton.connect("clicked", self.build, path, targets_combo, lang_combo)
 
+    
+    def build(self, action, path, targets_combo, lang_combo):
+        def get_active_text(combobox):
+            model = combobox.get_model()
+            active = combobox.get_active()
+            if active < 0:
+                return None
+            return model[active][0]
+        self.terminal.feed_child("make "+get_active_text(targets_combo)+"-"+get_active_text(lang_combo)+"\n")
+ 
 class ResultsView(gtk.VBox):
     def __init__(self, geditwindow, path):
         def fileExists(f):
@@ -146,6 +198,7 @@ class PluginHelper:
         self.ui_id = None
         self.language_manager = gedit.get_language_manager()
         self.results_view = None
+        self.output_view = None
         
         #insert the menu items
         manager = self.window.get_ui_manager()
@@ -157,6 +210,13 @@ class PluginHelper:
         self._action_group.add_actions([("xiincludetool", None, _("xi:include"), "<control><shift>x", _("Clear the document"), self.xiinclude_tool)])
         manager.insert_action_group(self._action_group, -1)
         self._ui_id = manager.add_ui_from_string(ui_str)
+        
+        panel = self.window.get_bottom_panel()
+        self.output_view = OutputView(self.window, None, False)
+        image2 = gtk.Image()
+        image2.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
+        self.ui_id = panel.add_item(self.output_view, "View", image2)
+        panel.activate_item(self.output_view)
 
     def deactivate(self):        
         self.remove_panel()
@@ -169,6 +229,27 @@ class PluginHelper:
     def remove_panel(self):
         panel = self.window.get_side_panel()
         panel.remove_item(self.results_view)
+
+    def load_document(self, path):
+        panel = self.window.get_side_panel()
+        
+        if self.results_view <> None:
+            panel.remove_item(self.results_view)
+        self.results_view = ResultsView(self.window, path)
+        image = gtk.Image()
+        image.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
+        self.ui_id = panel.add_item(self.results_view, "Publican Document View", image)
+        panel.activate_item(self.results_view)
+
+        panel = self.window.get_bottom_panel()
+        old_output_view = self.output_view
+        self.output_view = OutputView(self.window, path, True)
+        image2 = gtk.Image()
+        image2.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
+        self.ui_id = panel.add_item(self.output_view, "View", image2)
+        if old_output_view <> None:
+            panel.remove_item(old_output_view)
+        panel.activate_item(self.output_view)
     
     def on_create_document_activate(self, action):
         def get_active_text(combobox):
@@ -293,15 +374,16 @@ class PluginHelper:
             print options_string
             os.system("cd "+filechooser.get_current_folder()+"; create_book "+options_string)
             #open up the book
-            panel = self.window.get_side_panel()
-            if self.results_view <> None:
-                panel.remove_item(self.results_view)
-            self.results_view = ResultsView(self.window, filechooser.get_current_folder()+"/"+(name_entry.get_text().replace(" ","_")))
-            print self.results_view
-            image = gtk.Image()
-            image.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
-            self.ui_id = panel.add_item(self.results_view, "Publican Document View", image)
-            panel.activate_item(self.results_view)
+            self.load_document(filechooser.get_current_folder()+"/"+(name_entry.get_text().replace(" ","_")))
+            #panel = self.window.get_side_panel()
+            #if self.results_view <> None:
+            #    panel.remove_item(self.results_view)
+            #self.results_view = ResultsView(self.window, filechooser.get_current_folder()+"/"+(name_entry.get_text().replace(" ","_")))
+            #print self.results_view
+            #image = gtk.Image()
+            #image.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
+            #self.ui_id = panel.add_item(self.results_view, "Publican Document View", image)
+            #panel.activate_item(self.results_view)
             #os.system("create_book --name="+name)
             
         dialog.destroy()
@@ -312,14 +394,7 @@ class PluginHelper:
         path = dialog.get_filename()
         dialog.destroy()
         if response == gtk.RESPONSE_OK:
-            panel = self.window.get_side_panel()
-            if self.results_view <> None:
-                panel.remove_item(self.results_view)
-            self.results_view = ResultsView(self.window, path)
-            image = gtk.Image()
-            image.set_from_stock(gtk.STOCK_DND_MULTIPLE, gtk.ICON_SIZE_BUTTON)
-            self.ui_id = panel.add_item(self.results_view, "Publican Document View", image)
-            panel.activate_item(self.results_view)
+            self.load_document(path)
     def xiinclude_tool(self, action):
         doc = self.window.get_active_document()
         
