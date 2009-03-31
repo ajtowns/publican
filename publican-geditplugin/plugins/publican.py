@@ -68,6 +68,7 @@ class OutputView(gtk.VBox):
             if active < 0:
                 return None
             return model[active][0]
+        self.terminal.feed_child("cd "+path+"\n")
         self.terminal.feed_child("make "+get_active_text(targets_combo)+"-"+get_active_text(lang_combo)+"\n")
  
 class ResultsView(gtk.VBox):
