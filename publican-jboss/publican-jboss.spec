@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	0.18
+Version:	0.19
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Mon Jun 1 2009 Ryan Lerch <rlerch@redhat.com> 0.19
+- Updated the jBoss Logo files to the new version.
+
 * Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.18
 - Add symlinks for langauges without country codes. BZ #487256
 
