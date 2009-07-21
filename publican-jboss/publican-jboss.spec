@@ -9,8 +9,8 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	Publican >= 0.99
-BuildRequires:	Publican >= 0.99
+Requires:	publican >= 1.0
+BuildRequires:	publican >= 1.0
 URL:		https://publican.fedorahosted.org
 Obsoletes:	documentation-devel-%{brand}
 

@@ -2,15 +2,15 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	0.18
-Release:	0.t2%{?dist}
+Version:	0.20
+Release:	0%{?dist}
 License:	Open Publication 
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	publican >= 0.99
-BuildRequires:	publican >= 0.99
+Requires:	publican >= 1.0
+BuildRequires:	publican >= 1.0
 URL:		https://publican.fedorahosted.org/
 Obsoletes:	documentation-devel-Fedora
 
