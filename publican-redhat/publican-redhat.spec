@@ -2,15 +2,15 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.19
+Version:	0.20
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-Requires:	publican
-BuildRequires:	publican
+Requires:	publican >= 1.0
+BuildRequires:	publican >= 1.0
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel-%{brand}
 
@@ -22,19 +22,12 @@ for %{brand} with publican.
 %setup -q 
 
 %build
-%{__make} Common_Content
+publican build --formats=xml --langs=all --publish
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Templates
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/make
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}
-cp -rf Common_Content $RPM_BUILD_ROOT%{_datadir}/publican/
-cp -rf Book_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Book_Template
-cp -rf Set_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Set_Template
-cp -rf Article_Template $RPM_BUILD_ROOT%{_datadir}/publican/Templates/%{brand}-Article_Template
-install -m 755 make/Makefile.%{brand} $RPM_BUILD_ROOT%{_datadir}/publican/make/.
-install -m 755 xsl/*.xsl $RPM_BUILD_ROOT%{_datadir}/publican/xsl/%{brand}/.
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
+publican installbrand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -44,11 +37,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc README
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
-%{_datadir}/publican/Templates/%{brand}-*_Template
-%{_datadir}/publican/make/Makefile.%{brand}
-%{_datadir}/publican/xsl/%{brand}
 
 %changelog
+* Tue Jul 21 2009 Jeff Fearn <jfearn@redhat.com> 0.20
+- port to publican 1.0.
+
 * Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.19
 - Add symlinks for langauges without country codes. BZ #487256
 
