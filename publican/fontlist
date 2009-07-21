@@ -1,8 +1,0 @@
-#!/bin/bash
-
-for font in batang.ttf lohit_bn.ttf lohit_ta.ttf lohit_pa.ttf lohit_hi.ttf lohit_gu.ttf lohit_ml.ttf lohit_kn.ttf lohit_or.ttf lohit_te.ttf sazanami-gothic.ttf lklug.ttf zysong.ttf sazanami-mincho.ttf uming.ttf; do
-	path=`locate -l1 $font`;
-	rpm -qf --queryformat=%{NAME} $path;
-	echo "	: $path";
-done
-
