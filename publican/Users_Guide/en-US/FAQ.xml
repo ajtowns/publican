@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+
+<chapter id="chap-Users_Guide-Frequently_Asked_Questions">
+	<title>Frequently Asked Questions</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>
+					How do I add a language to my book?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Edit your book&#39;s <filename>Makefile</filename> and uncomment the <computeroutput>OTHER_LANGS</computeroutput> entry. Add the required language code after the &#39;=&#39; sign.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I add another language to my book?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Append the language to <computeroutput>OTHER_LANGS</computeroutput> in the <filename>Makefile</filename>. Run the <command>make update-po-<replaceable>language</replaceable></command> command. For example, <command>make update-po-ja-JP</command> creates the Japanese language directory and the Japanese po files.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					What if I only use the country code? For example, <computeroutput>OTHER_LANGS = en de fr</computeroutput>?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make update-po-en</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I update all po files?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make update-po-all</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Where can I get a complete list of make targets?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make help</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Where can I get a complete list of parameters that can be set in the <filename>Makefile</filename>?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run the <command>make help_params</command> command.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Where are the Publican common files located?
+				</para>
+			</question>
+			<answer>
+				<para>
+					By default, they are in <filename>/usr/share/publican/</filename>.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Can I use the OASIS DocBook DTD for XML completion in editors such as Kate?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Yes. The OASIS DocBook DTD is included in the publican package, and is located here: <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename>
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					I have extensive code samples for my book, how can I include them without having to xml escape everything?
+				</para>
+			</question>
+			<answer>
+				<para>
+					The best way to do this is to create a directory named <filename>extras</filename> in your source language directory and use an <sgmltag>xi:include</sgmltag> to pull in the code file.
+				</para>
+				<procedure id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
+					<title>Including code samples</title>
+					<step>
+						<para>
+							Create the extras directory 
+<programlisting><command>mkdir <filename>en-US/extras</filename></command>
+</programlisting>
+						</para>
+					</step>
+					<step>
+						<para>
+							Copy the code file to the extras directory 
+<programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
+</programlisting>
+						</para>
+					</step>
+					<step>
+						<para>
+							<sgmltag>xi:include</sgmltag> the sample file in your xml file 
+<programlisting language="XML">&lt;programlisting&gt;
+&lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
+&lt;/programlisting&gt;
+</programlisting>
+						</para>
+					</step>
+					<step>
+						<para>
+							You can now edit <filename>en-US/extras/foo.c</filename> in your favorite editor without having to be concerned about how it will affect the XML.
+						</para>
+					</step>
+				</procedure>
+
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Is it possible to include arbitrary files in tar and RPM files?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Yes. If you make a directory named <filename>files</filename> in your source language directory it will be included in any tar or SRPM files created by publican.
+				</para>
+				<important>
+					<title>Important</title>
+					<para>
+						The <filename>files</filename> directory will not be available during the validation process so you can not <sgmltag>xi:include</sgmltag> or otherwise embed any files in this directory in your XML.
+					</para>
+				</important>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Why does publican give me warnings about unknown tags?
+				</para>
+			</question>
+			<answer>
+				<para>
+					This warning informs you that you are using a tag whose output has not been tested for attractiveness, XHTML 1.0 Strict compliance, or Section 508 (Accessibility) compliance.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I find out which tags have been tested in publican?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run <command>xmlClean --known</command>
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Why does publican give me an error about banned tags?
+				</para>
+			</question>
+			<answer>
+				<para>
+					This error indicates that the brand you are using has STRICT mode enabled for <command>xmlClean</command> and that the tag in question has been marked as undesirable. The error message should contain a reason why the tag was banned.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					How do I find out which tags are banned in publican?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Run <command>xmlClean --banned</command>
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Which brands enable STRICT mode?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Currently the Red Hat and JBoss brands enable STRICT mode.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					I get an error saying Batik is not in the classpath but batik is installed! What is wrong?
+				</para>
+			</question>
+			<answer>
+				<para>
+					We believe this is due to classpath issues caused by having different JRE and JDK versions installed. Sometimes this can be fixed by upgrading your JDK to the same version of your JRE.
+				</para>
+				<para>
+					Sometimes this issue can be revealed by running <command>alternatives --config java</command> and <command>alternatives --config javac</command>, if the versions are different then selecting the same version in both can fix this problem.
+				</para>
+				<para>
+					Some Java installs do not set-up the <command>alternatives</command> environment correctly, no fix has been determined for this situation.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					I get an error <computeroutput>Exception in thread "main" java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
+				</para>
+			</question>
+			<answer>
+				<para>
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to FOP. Before running <command>make </command> run <command>echo "FOP_OPTS=&#39;-Xms50m -Xmx700m&#39;" &gt; ~/.foprc</command>. This sets the initial heap space to 50MB and allows it to grow to a maximum of 700MB.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Why does Jeff call Isaac Ivan?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Because Jeff&#39;s memory is pants!
+				</para>
+			</answer>
+		</qandaentry>
+	</qandaset>
+</chapter>
+

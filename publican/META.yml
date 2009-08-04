@@ -1,0 +1,108 @@
+---
+name: Publican
+version: 0.99
+author:
+  - 'Jeff Fearn <jfearn@redhat.com>'
+abstract: a DocBook XML publishing tool.
+license: perl
+resources:
+  license: http://dev.perl.org/licenses/
+requires:
+  Archive::Tar: 0
+  Carp: 0
+  Config::Simple: 0
+  Cwd: 0
+  Data::Dumper: 0
+  DateTime: 0
+  DateTime::Format::DateParse: 0
+  Encode: 0
+  File::Copy::Recursive: 0.38
+  File::Find: 0
+  File::Find::Rule: 0
+  File::Path: 0
+  File::Spec: 0
+  File::pushd: 0
+  Getopt::Long: 0
+  HTML::FormatText: 0
+  HTML::TreeBuilder: 0
+  I18N::LangTags::List: 0
+  Image::Magick: 0
+  Image::Size: 0
+  Locale::Maketext::Gettext: 0
+  Locale::PO: 0
+  Makefile::Parser: 0
+  Syntax::Highlight::Engine::Kate: 0
+  Term::ANSIColor: 0
+  Text::Wrap: 0
+  XML::LibXML: 0
+  XML::LibXSLT: 0
+  XML::TreeBuilder: 3.09
+  version: 0
+build_requires:
+  Archive::Tar: 0
+  Carp: 0
+  Config::Simple: 0
+  Cwd: 0
+  Data::Dumper: 0
+  DateTime: 0
+  DateTime::Format::DateParse: 0
+  Devel::Cover: 0
+  Encode: 0
+  File::Copy::Recursive: 0.38
+  File::Find: 0
+  File::Find::Rule: 0
+  File::Path: 0
+  File::Spec: 0
+  File::pushd: 0
+  Getopt::Long: 0
+  HTML::FormatText: 0
+  HTML::TreeBuilder: 0
+  I18N::LangTags::List: 0
+  Image::Magick: 0
+  Image::Size: 0
+  Locale::Maketext::Gettext: 0
+  Locale::PO: 0
+  Makefile::Parser: 0
+  Module::Build: 0
+  Syntax::Highlight::Engine::Kate: 0
+  Term::ANSIColor: 0
+  Test::Exception: 0
+  Test::More: 0
+  Test::Perl::Critic: 0
+  Test::Pod::Coverage: 0
+  Text::Wrap: 0
+  XML::LibXML: 0
+  XML::LibXSLT: 0
+  XML::TreeBuilder: 3.09
+  version: 0
+provides:
+  Publican:
+    file: lib/Publican.pm
+    version: 0.60
+  Publican::Builder:
+    file: lib/Publican/Builder.pm
+    version: 0.1
+  Publican::CreateBook:
+    file: lib/Publican/CreateBook.pm
+    version: 0.1
+  Publican::CreateBrand:
+    file: lib/Publican/CreateBrand.pm
+    version: 0.1
+  Publican::Localise:
+    file: lib/Publican/Localise.pm
+  Publican::Localise::C:
+    file: lib/Publican/Localise.pm
+  Publican::Localise::en:
+    file: lib/Publican/Localise.pm
+  Publican::Translate:
+    file: lib/Publican/Translate.pm
+    version: 0.1
+  Publican::TreeView:
+    file: lib/Publican/TreeView.pm
+  Publican::XmlClean:
+    file: lib/Publican/XmlClean.pm
+    version: 0.1
+generated_by: Module::Build version 0.2808
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2

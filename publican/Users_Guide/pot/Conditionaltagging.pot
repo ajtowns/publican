@@ -1,0 +1,64 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2009-08-03T00:24:46\n"
+"PO-Revision-Date: 2009-08-03T00:24:46\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Conditional Tagging"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In some cases you may need to maintain multiple versions of a book; for example, a HOWTO guide for product FOO can have an upstream version and an enterprise version, with very subtle differences between them."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Publican makes it easy to manage differences between multiple versions of a book by allowing you to simply use one source for all versions. <firstterm>Conditional tagging</firstterm> allows you to make sure that version-specific content only appears in the correct version; i.e. &#34;conditionalizing content&#34;."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let&#39;s say the book <citetitle>How To Use Product Foo</citetitle> has an &#34;upstream&#34;, &#34;enterprise&#34;, and &#34;beta&#34; version:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To build a specific version (thereby capturing all content conditionalized for that version), use <command>make</command> parameter <command>CONDITION=&#34;<replaceable>version</replaceable>&#34; <replaceable>format</replaceable></command>. Using the same example for the book <citetitle>How To Use Product Foo</citetitle>, you can build the &#34;upstream&#34; version of the book in pdf using:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This will capture all tags that use <command>condition=&#34;upstream&#34;</command> and build <citetitle>How To Use Product Foo</citetitle> in PDF format."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Note"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You can conditionalize content as per the <command>BRAND</command> setting. To do so, add the following line to <filename>Makefile</filename>:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "In this manner, <command>make CONDITION=&#34;brand1&#34; pdf-en-US</command> will build the book in PDF <emphasis>and</emphasis> capture all tags that use the <command>condition=&#34;brand1&#34;</command> attribute."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Further, if an <command>&#60;xref&#62;</command> points to content that is not going to be included in the build due to conditional tagging, the build will fail. For example, <command>make CONDITION=&#34;upstream&#34; pdf-en-US</command> will fail if the book has the tag <command>&#60;xref linkend=&#34;betasection&#34;</command> pointing to <command>&#60;section id=&#34;betasection&#34; CONDITION=&#34;beta&#34;&#62;</command>."
+msgstr ""
+

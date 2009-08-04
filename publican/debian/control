@@ -1,0 +1,16 @@
+Source: publican
+Section: perl
+Priority: optional
+Build-Depends: debhelper (>= 5), libmodule-build-perl
+Build-Depends-Indep: perl (>= 5.6.10-12)
+Maintainer: jfearn <jfearn@redhat.com>
+Standards-Version: 3.8.0
+Homepage: http://publican.fedorahosted.org
+
+Package: publican
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}, fop, libclass-trigger-perl, libclone-perl, libconfig-simple-perl, libdatetime-perl, libfile-copy-recursive-perl, libfile-find-rule-perl, libfile-slurp-perl, libhtml-format-perl, libhtml-tree-perl, libimage-size-perl, liblocale-maketext-gettext-perl, liblocale-po-perl, libmakefile-dom-perl, libmakefile-parser-perl, libparams-util-perl, libxml-libxml-perl, libxml-libxslt-perl, libxml-treebuilder-perl, perlmagick, docbook-xml, docbook-xsl, gettext, libbatik-java
+Description: Publican is a DocBook publication system, not just a DocBook processing tool.
+ As well as ensuring your DocBook XML is valid, publican works to ensure
+ your XML is up to publishable standard.
+

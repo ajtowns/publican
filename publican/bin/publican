@@ -1,0 +1,576 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+use Carp;
+use version;
+use Getopt::Long;
+use Pod::Usage;
+use Publican;
+use Publican::CreateBook;
+use Publican::CreateBrand;
+use Publican::Builder;
+use Publican::XmlClean;
+use Publican::TreeView;
+use File::Path;
+use File::Copy::Recursive qw(dircopy rcopy);
+use Archive::Tar;
+use Term::ANSIColor qw(:constants);
+
+my $VERSION = version->new('0.99');
+
+=head1 NAME
+
+publican - a DocBook XML publishing tool.
+
+=head1 VERSION
+
+This document describes publican version 1.0
+
+=head1 SYNOPSIS
+
+publican <global options>
+
+publican <action> <options>
+
+Global Options
+
+    --help 	Display help message
+    --man		Display Full man page
+    --help_actions	Display a list of valid actions
+
+Run: 'publican <action> --help' for details on action usage
+
+Valid actions are:
+
+    build         Transform XML to other formats (pdf, html, html-single)
+    clean         Remove all temporary files and directories
+    clean_ids     Run clean ids for source XML
+    cleanset      Remove local copies remote set books
+    create        Create a new Book|Set|Article|brand
+    create_brand  Create a new Brand
+    help_config   Display help text for the configuration file
+    installbrand  Install a brand to the supplied location
+    old2new       Create a publican.cfg file for an old Book|Article|Set Makefile
+    package       Package a language for shipping
+    printtree     Print a tree of the xi:includes
+    update_po     Update the PO files
+    update_pot    Update the POT files
+
+=head1 DESCRIPTION
+
+Publican is a DocBook publication system, not just a DocBook processing tool. As well as ensuring your DocBook XML is valid, publican works to ensure your XML is up to publishable standard.
+
+=head1 INTERFACE 
+
+=cut
+
+### Code goes here
+my $man          = 0;
+my $help         = 0;
+my $action       = "";
+my $help_actions = 0;
+
+#Getopt::Long::Configure("debug");
+
+# Global options
+my %opts = (
+    'help'         => \$help,
+    'man'          => \$man,
+    'help_actions' => \$help_actions,
+);
+
+#Action options
+my %options = (
+    'help'             => maketext('Display help message'),
+    'man'              => maketext('Display Full man page'),
+    'config=s'         => maketext('Use a non standard config file'),
+    'binary'           => maketext('Build binary RPM when running package'),
+    'brew'             => maketext('Push SRPM to brew'),
+    'scratch'          => maketext('Use scratch instead of tag build.'),
+    'common_config=s'  => maketext('Override path to Common_Config directory'),
+    'common_content=s' => maketext('Override path to Common_Content directory'),
+    'formats=s'        => maketext(
+        'Comma separated list of formats. html,pdf,htm-single,html-desktop,text'),
+    'langs=s' =>
+        maketext('Comma separated list of languages. e.g. en-US,de-DE,all'),
+    'embedtoc' => maketext('Embed the web site TOC object in the generated HTML'),
+    'name=s'   => maketext('The name of the Book|Article|Set|Brand'),
+    'version=s' => maketext('The version of the product'),
+    'edition=s' => maketext('The edition of the Book|Article|Set'),
+    'product=s' => maketext('The name of the product'),
+    'brand=s'   => maketext('The brand to use'),
+    'lang=s'    => maketext('The language the XML will be written in'),
+    'type=s'    => maketext('The type (Book|Article|Set)'),
+    'publish'   => maketext('Setup built content for publishing'),
+    'desktop'   => maketext('Create desktop instead of web package'),
+    'short_sighted' =>
+        maketext('Create package without using version in package name'),
+    'path=s' => maketext('/path/to/install/to'),
+);
+
+# Options all actions use
+my @utility_opts = (
+    'help',            'help_actions',
+    'man',             'config',
+    'common_config=s', 'common_content=s'
+);
+
+# Actions
+my %actions = (
+    'build' => {
+        'brief' =>
+            maketext('Transform XML to other formats (pdf, html, html-single)'),
+        'options' => [ 'formats', 'langs', 'publish', 'embedtoc' ],
+    },
+    'clean' => {
+        'brief'   => maketext('Remove all temporary files and directories'),
+        'options' => [],
+    },
+
+    'cleanset' => {
+        'brief'   => maketext('Remove local copies remote set books'),
+        'options' => [],
+    },
+
+    'clean_ids' => {
+        'brief'   => maketext('Run clean ids for source XML'),
+        'options' => [],
+    },
+    'old2new' => {
+        'brief' => maketext(
+            'Create a publican.cfg file for an old Book|Article|Set Makefile'),
+        'options' => [],
+    },
+    'printtree' => {
+        'brief'   => maketext('Print a tree of the xi:includes'),
+        'options' => [],
+    },
+    'create' => {
+        'brief' => maketext('Create a new Book|Set|Article'),
+        'options' =>
+            [ 'name', 'version', 'edition', 'product', 'brand', 'lang', 'type' ],
+    },
+    'create_brand' => {
+        'brief'   => maketext('Create a new Brand'),
+        'options' => [ 'name', 'lang' ],
+    },
+    'package' => {
+        'brief' => maketext('Package a language for shipping'),
+        'options' =>
+            [ 'lang', 'desktop', 'brew', 'scratch', 'short_sighted', 'binary' ],
+    },
+    'update_pot' => {
+        'brief'   => maketext('Update the POT files'),
+        'options' => [],
+    },
+    'update_po' => {
+        'brief'   => maketext('Update the PO files'),
+        'options' => ['langs'],
+    },
+    'installbrand' => {
+        'brief'   => maketext('Install a brand to the supplied location'),
+        'options' => ['path'],
+    },
+    'help_config' => {
+        'brief'   => maketext('Display help text for the configuration file'),
+        'options' => [],
+    },
+);
+
+# Grab to limit options to the valid ones for this action
+# TODO should we croak on more than one action? Handle more than one?
+$action = ( $ARGV[0] || "" );
+
+# Getopt: standard + the options for the supplied action
+my @optns = @utility_opts;
+
+if ( defined $actions{$action} ) {
+    foreach my $opt ( @{ $actions{$action}->{options} } ) {
+        if ( $options{$opt} ) {
+            push( @optns, $opt );
+        }
+
+        # match options that take a String
+        # this will need to be exapnded if other types are used
+        elsif ( $options{"$opt=s"} ) {
+            push( @optns, "$opt=s" );
+        }
+        else {
+
+            # This should never happen
+            croak(
+                maketext(
+                    "Invalid option '[_1]' in \$actions{\$action}->{options}",
+                    $opt
+                )
+            );
+        }
+    }
+}
+
+GetOptions( \%opts, @optns, )
+    or pod2usage( -msg => "\n", -verbose => 1, -exit => 1 );
+
+# Getopt will remove the options leaving only the action
+$action = ( $ARGV[0] || "" );
+
+# Undocumented way of getting help for all actions
+if ( $help and ( $action eq "all" ) ) {
+    foreach my $cmd ( sort( keys(%actions) ) ) {
+        _help_action($cmd);
+        print("\n");
+    }
+    exit(0);
+}
+
+sub _help_actions {
+    print( "\n", maketext("Valid actions are:"), "\n\n" );
+    foreach my $cmd ( sort( keys(%actions) ) ) {
+        printf( "    %-12s  %s\n", $cmd, $actions{$cmd}->{brief} );
+    }
+    print("\n\n");
+    print(
+        maketext( "Run: '[_1] <action> --help' for details on action usage", $0 ),
+        "\n\n"
+    );
+
+    return;
+}
+
+# catch no action set
+if ( $action eq "" ) {
+    pod2usage( -msg => "\n", -verbose => 1, -exit => 0 ) if $help;
+    pod2usage( -verbose => 2, -exit => 0 ) if $man;
+
+    if ($help_actions) {
+        _help_actions();
+        exit(0);
+    }
+
+    pod2usage(
+        -msg     => "\n" . maketext("Action required!") . "\n",
+        -verbose => 1,
+        -exit    => 1
+    );
+
+    exit(1);
+}
+
+# Catch bogus action
+if ( not defined( $actions{$action} ) ) {
+    print( maketext( "'[_1]' is an unknown action!", $action ), "\n\n" );
+    _help_actions();
+
+    exit(1);
+
+}
+
+sub _help_action {
+    my $cmd = shift || croak maketext( "[_1] is a required argument", 'cmd' );
+
+    print( "$cmd\n    " . $actions{$cmd}->{brief} );
+    print( "\n\n\t", maketext("Options:"),   "\n" );
+    print( "\t\t",   maketext("No options"), "\n" )
+        unless ( @{ $actions{$cmd}->{options} } );
+    foreach my $option ( @{ $actions{$cmd}->{options} } ) {
+        debug_msg("TODO: does printf work for right to left languages?\n");
+        if ( $options{$option} ) {
+            printf( "        --%-20s    %s\n", $option, $options{$option} );
+        }
+        else {
+            printf(
+                "        --%-20s    %s\n",
+                "$option=<" . uc($option) . ">",
+                $options{"$option=s"}
+            );
+        }
+    }
+    print("\n");
+
+    return;
+}
+
+# $action must  be set to get here
+if ($help) {
+    _help_action($action);
+    exit(0);
+}
+
+#######################################################################
+#
+# Start processing actions
+#
+#######################################################################
+
+#pod2usage(1) if ( !$name || $type !~ /[Book|Set|Article]/);
+if ( $action eq 'create' ) {
+    my $creator = Publican::CreateBook->new(
+        {   name    => $opts{name},
+            version => $opts{version},
+            edition => $opts{edition},
+            product => $opts{product},
+            brand   => $opts{brand},
+            lang    => $opts{lang},
+            type    => $opts{type}
+        }
+    );
+    $creator->create();
+
+    exit(0);
+}
+
+if ( $action eq 'create_brand' ) {
+    my $creator = Publican::CreateBrand->new(
+        {   name => $opts{name},
+            lang => $opts{lang},
+        }
+    );
+    $creator->create();
+
+    exit(0);
+}
+
+if ( $action eq 'old2new' ) {
+    old2new();
+    exit(0);
+}
+
+my %args = ( 'configfile' => $opts{config} );
+
+my $publican = Publican->new(
+    {   'configfile'   => $opts{config},
+        common_config  => $opts{common_config},
+        common_content => $opts{common_content}
+    }
+);
+
+if ( $action eq 'installbrand' ) {
+    my $brand = $publican->param('brand') || croak("Can't find brand name");
+
+    croak( maketext( "[_1] is a required argument", 'path' ) )
+        unless ( $opts{path} );
+    croak( maketext("you need to publish the brand first") )
+        unless ( -d "publish" );
+    croak( maketext("destination must exist") ) unless ( -d $opts{path} );
+
+    rcopy( "publish/*",    "$opts{path}/." );
+    rcopy( "publican.cfg", "$opts{path}/$brand/." );
+    rcopy( "defaults.cfg", "$opts{path}/$brand/." )
+        if ( -f "defaults.cfg" );
+    rcopy( "overrides.cfg", "$opts{path}/$brand/." )
+        if ( -f "overrides.cfg" );
+
+    exit(0);
+}
+
+if ( $action eq 'help_config' ) {
+    $publican->help_config();
+
+    exit(0);
+}
+
+if ( $action eq 'printtree' ) {
+    my $treeview = Publican::TreeView->new();
+    $treeview->print_tree();
+}
+
+if ( $action eq 'clean' ) {
+    rmtree("tmp");
+    rmtree("publish");
+    my $books = $publican->param('books') || "";
+    foreach my $book ( split( " ", $books ) ) {
+        rmtree("$book/tmp");
+        rmtree("$book/publish");
+    }
+}
+
+if ( $action eq 'cleanset' ) {
+    my $books = $publican->param('books') || "";
+    foreach my $book ( split( " ", $books ) ) {
+        rmtree("$book");
+    }
+}
+
+if ( $action eq 'clean_ids' ) {
+    my $builder = Publican::Builder->new();
+    $builder->clean_ids();
+}
+
+if ( $action eq 'update_pot' ) {
+    my $translater = Publican::Translate->new();
+    $translater->update_pot();
+}
+
+if ( $action eq 'update_po' ) {
+    my $translater = Publican::Translate->new();
+    if ( $opts{langs} eq 'all' ) {
+        $translater->update_po_all();
+    }
+    else {
+        $translater->update_po( { langs => $opts{langs} } );
+    }
+}
+
+if ( $action eq 'build' ) {
+    my $builder = Publican::Builder->new();
+    $builder->build(
+        {   formats  => $opts{formats},
+            langs    => $opts{langs},
+            publish  => $opts{publish},
+            embedtoc => $opts{embedtoc},
+        }
+    );
+}
+
+if ( $action eq 'package' ) {
+    my $builder = Publican::Builder->new();
+    if ( $publican->param('type') eq 'brand' ) {
+        $builder->package_brand( { binary => $opts{binary} } );
+    }
+    else {
+        $builder->package(
+            {   lang          => $opts{lang},
+                desktop       => $opts{desktop},
+                short_sighted => $opts{short_sighted},
+                binary        => $opts{binary}
+            }
+        );
+    }
+
+    if ( $opts{brew} ) {
+        my $tmp_dir = $publican->param('tmp_dir');
+        my $product = $publican->param('product');
+        my $version = $publican->param('version');
+        my $docname = $publican->param('docname');
+        my $edition = $publican->param('edition');
+        my $release = $publican->param('release');
+        my $dist    = $publican->param('web_brew_dist');
+        my $os_ver  = $publican->param('os_ver');
+
+        my $srpm
+            = "$product-$docname-$version-web-$opts{lang}-$edition-$release$os_ver.src.rpm";
+
+        if ( $opts{desktop} ) {
+            $dist = $publican->param('brew_dist');
+            $srpm
+                = "$product-$docname-$version-$opts{lang}-$edition-$release$os_ver.src.rpm";
+        }
+
+        if ( -f "$tmp_dir/rpm/$srpm" ) {
+            system( "brew", "build", ( $opts{scratch} ? "--scratch" : undef ),
+                "$dist", "$tmp_dir/rpm/$srpm" );
+        }
+        else {
+            logger(
+                maketext( "Can't locate srpm [_1], did you run --package?",
+                    "$tmp_dir/rpm/$srpm" )
+                    . "\n",
+                RED
+            );
+        }
+    }
+}
+
+exit(0);
+
+__END__
+
+
+=head1 CONFIGURATION AND ENVIRONMENT
+
+Publican requires access to GetText msgmerge for merging updated POT files with PO files.
+
+Publican requires access to Apache FOP for creating PDF files.
+
+
+=head1 DEPENDENCIES
+
+Archive::Tar
+Carp
+Config::Simple
+Cwd
+DateTime
+DateTime::Format::DateParse
+Encode
+File::Copy::Recursive
+File::Find
+File::Find::Rule
+File::Path
+File::pushd
+File::Spec
+Getopt::Long
+HTML::FormatText
+HTML::TreeBuilder
+I18N::LangTags::List
+Image::Magick
+Image::Size
+Locale::PO
+Makefile::Parser
+Module::Build
+Pod::Usage
+Publican
+Publican::Builder
+Publican::CreateBook
+Publican::CreateBrand
+Publican::Localise
+Publican::Translate
+Publican::TreeView
+Publican::XmlClean
+Syntax::Highlight::Engine::Kate
+Term::ANSIColor
+Test::More
+Text::Wrap
+XML::LibXML
+XML::LibXSLT
+XML::TreeBuilder
+
+
+=head1 INCOMPATIBILITIES
+
+None reported.
+
+
+=head1 BUGS AND LIMITATIONS
+
+No bugs have been reported.
+
+Please report any bugs or feature requests to
+C<publican-list@redhat.com>, or through the web interface at
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican>.
+
+=head1 AUTHOR
+
+Jeff Fearn  C<< <jfearn@redhat.com> >>
+
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright (c) 2009, Red Hat C<< <jfearn@redhat.com> >>. All rights reserved.
+
+This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself. See L<perlartistic>.
+
+
+=head1 DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
