@@ -175,7 +175,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1%{?dist}
+* Wed Aug 05 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.BETA2
+- Add base langauge summary & descriptions to translated spec file. BZ #515573
+- Fix translated package build failure.
+- Change tabs to spaces in generated spec files.
+
+* Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
 
 * Wed Mar 25 2009 Jeff Fearn <jfearn@redhat.com> 0.45

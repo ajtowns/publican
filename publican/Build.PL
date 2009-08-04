@@ -32,7 +32,7 @@ my $class = Module::Build->subclass(
         my $self = shift;
         $self->ACTION_srpm;
         my $os_ver = $self->args('os_ver');
-	my $srpm = `find $dir -name '*.src.rpm'`;
+        my $srpm = `find $dir -name '*.src.rpm'`;
         chomp($srpm);
         if($os_ver) {
           $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
@@ -50,7 +50,7 @@ my $class = Module::Build->subclass(
       sub ACTION_local {
         my $self = shift;
         $self->ACTION_rpm;
-	my $rpm = `find $dir/noarch -name '*.rpm'`;
+        my $rpm = `find $dir/noarch -name '*.rpm'`;
         chomp($rpm);
         $rpm =~ s/\n/ /g;
         $self->do_system("sudo yum localinstall --nogpg $rpm");
@@ -113,6 +113,7 @@ my $builder = $class->new(
         'I18N::LangTags::List'            => 0,
         'Image::Magick'                   => 0,
         'Image::Size'                     => 0,
+        'Locale::Language'                => 0,
         'Locale::PO'                      => 0,
         'Makefile::Parser'                => 0,
         'Syntax::Highlight::Engine::Kate' => 0,
@@ -145,6 +146,7 @@ my $builder = $class->new(
         'I18N::LangTags::List'            => 0,
         'Image::Magick'                   => 0,
         'Image::Size'                     => 0,
+        'Locale::Language'                => 0,
         'Locale::PO'                      => 0,
         'Makefile::Parser'                => 0,
         'Syntax::Highlight::Engine::Kate' => 0,

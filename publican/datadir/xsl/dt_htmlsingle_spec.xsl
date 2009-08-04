@@ -1,9 +1,9 @@
 <?xml version='1.0'?>
  
 <!--
-	Copyright 2007 Red Hat, Inc.
-	License: GPL
-	Author: Jeff Fearn <jfearn@redhat.com>
+    Copyright 2007 Red Hat, Inc.
+    License: GPL
+    Author: Jeff Fearn <jfearn@redhat.com>
 -->
 <!-- Transform bookinfo.xml into a SPEC File -->
 <xsl:stylesheet version="1.0" xml:space="preserve" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -21,29 +21,38 @@
 %define vendoropt --vendor="redhat"
 %endif
 
-Name:		<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-Version:	<xsl:value-of select="$rpmver"/>
-Release:	<xsl:value-of select="$rpmrel"/>%{?dist}
-Summary:	<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-Group:		Documentation
-License:	<xsl:value-of select="$license"/>
-URL:		<xsl:value-of select="$url"/>
-Source:		<xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
-BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	publican
-BuildRequires:	desktop-file-utils
+Name:         <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
+Version:      <xsl:value-of select="$rpmver"/>
+Release:      <xsl:value-of select="$rpmrel"/>%{?dist}
+<xsl:if test="$translation = '1'">
+Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
+Summary(<xsl:value-of select="$lang"/>):    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+</xsl:if>
+<xsl:if test="$translation != '1'">
+Summary:       <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+</xsl:if>
+Group:         Documentation
+License:       <xsl:value-of select="$license"/>
+URL:           <xsl:value-of select="$url"/>
+Source:        <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
+BuildArch:     noarch
+BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: publican
+BuildRequires: desktop-file-utils
 
 <xsl:if test="$brand != 'publican-common'">
-BuildRequires:	<xsl:value-of select="$brand"/>
+BuildRequires:    <xsl:value-of select="$brand"/>
 </xsl:if>
 %if %{HTMLVIEW}
-Requires:	htmlview
+Requires:    htmlview
 %else
-Requires:	xdg-utils
+Requires:    xdg-utils
 %endif
 
 %description
+<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
+
+%description -l <xsl:value-of select="$lang"/></xsl:if>
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
 %prep

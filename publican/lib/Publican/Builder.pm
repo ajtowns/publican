@@ -23,6 +23,7 @@ use HTML::TreeBuilder;
 use HTML::FormatText;
 use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
+use Locale::Language;
 
 use version;
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
@@ -1038,6 +1039,7 @@ sub package {
     my $edition    = $self->{publican}->param('edition');
     my $configfile = $self->{publican}->param('configfile');
     my $release    = $self->{publican}->param('release');
+    my $xml_lang   = $self->{publican}->param('xml_lang');
 
     my $name_start = "$product-$docname-$version";
     $name_start = "$product-$docname" if ($short_sighted);
@@ -1053,7 +1055,9 @@ sub package {
     rmtree("$tmp_dir/tar/$tardir/$lang/Common_Content");
     mkpath("$tmp_dir/rpm");
 
+    $self->{publican}->{config}->param('xml_lang', $lang);
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
+    $self->{publican}->{config}->param('xml_lang', $xml_lang);
 
     my $dir = pushd("$tmp_dir/tar");
     my @files = dir_list( $tardir, '*' );
@@ -1072,6 +1076,8 @@ sub package {
     my $web_obsoletes = $self->{publican}->param('web_obsoletes') || "";
     my $type          = $self->{publican}->param('type');
     my $os_ver        = $self->{publican}->param('os_ver');
+    my $translation   = ($lang ne $xml_lang);
+    my $language      = code2language(substr($lang,0,2));
 
     my $log = $self->change_log();
 
@@ -1090,6 +1096,8 @@ sub package {
         'log'         => $log,
         dt_obsoletes  => $dt_obsoletes,
         web_obsoletes => $web_obsoletes,
+        translation   => $translation,
+        language      => $language,
     );
 
     logger( "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
