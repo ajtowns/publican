@@ -47,6 +47,8 @@ BuildRequires:  perl(HTML::TreeBuilder)
 BuildRequires:  perl(I18N::LangTags::List)
 BuildRequires:  perl(Image::Magick)
 BuildRequires:  perl(Image::Size)
+BuildRequires:  perl(Locale::Maketext::Gettext)
+BuildRequires:  perl(Locale::Language)
 BuildRequires:  perl(Locale::PO)
 BuildRequires:  perl(Makefile::Parser)
 BuildRequires:  perl(Syntax::Highlight::Engine::Kate)
@@ -61,6 +63,7 @@ BuildRequires:  batik
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(Locale::Maketext::Gettext)
 Requires:       fop >= 0.90
 Requires:       batik
 
@@ -179,6 +182,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add base langauge summary & descriptions to translated spec file. BZ #515573
 - Fix translated package build failure.
 - Change tabs to spaces in generated spec files.
+- Fix Locale::Maketext::Gettext dep being missed on RHEL.
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
