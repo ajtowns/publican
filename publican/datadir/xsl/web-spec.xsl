@@ -52,7 +52,7 @@ Prefix:        /var/www/html/docs
 
 %package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'">
-Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
+Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 Summary(<xsl:value-of select="$lang"/>):    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 </xsl:if>
 <xsl:if test="$translation != '1'">
@@ -67,7 +67,7 @@ Requires:    xdg-utils
 <xsl:if test="$dt_obsoletes != ''">Obsoletes:    <xsl:value-of select="$dt_obsoletes"/></xsl:if>
 
 %description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
+<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
 %description -l <xsl:value-of select="$lang"/></xsl:if>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
