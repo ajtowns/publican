@@ -183,6 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix translated package build failure.
 - Change tabs to spaces in generated spec files.
 - Fix Locale::Maketext::Gettext dep being missed on RHEL.
+- Fix common paths on Windows
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.

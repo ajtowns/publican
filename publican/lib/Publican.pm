@@ -483,6 +483,26 @@ sub new {
         $self = bless {}, $class;
         $SINGLETON = $self;
 
+        if ( $^O eq 'MSWin32' ) {
+            eval { require Win32::TieRegistry; };
+            croak(
+                maketext(
+                    "Failed to load Win32::TieRegistry module. Error: [_1]", $@
+                )
+            ) if ($@);
+    
+            my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
+                { Delimiter => "\\" } );
+            if($key and $key->GetValue("")) {
+                if(!$common_config) {
+                    $common_config = '"' .$key->GetValue("") .'"';
+                    $common_config =~ s/\\/\//g;
+                }    
+
+logger("key: $common_config\n");
+                $common_content = "$common_config/Common_Content" if(!$common_content);
+            }    
+        }
 #        my $localise = Publican::Localise->get_handle()
 #            || croak("Could not create a Publican::Localise object");
 #        $localise->encoding("UTF-8");
