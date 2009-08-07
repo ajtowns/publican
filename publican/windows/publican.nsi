@@ -65,7 +65,7 @@ Section "Main" SecMain
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
   ; Hide first run IO error
-  Exec '"$INSTDIR\publican.exe"'
+  nsExec::Exec "$INSTDIR\publican.exe"
 SectionEnd
 
 SectionGroup "DocBook" SecDocBook

@@ -186,7 +186,7 @@ sub build {
             rcopy( "xsl", "$path/." );
         }
     }
-
+debug_msg("end of build\n");
     return;
 }
 
@@ -731,6 +731,14 @@ sub transform {
         finddepth( \&del_unwanted_xml,
             "$tmp_dir/$lang/$format/Common_Content" );
     }
+
+    $xslt = undef;
+    $source = undef;
+    $style_doc = undef;
+    $stylesheet = undef;
+    $parser = undef;
+# TODO BUGBUG freeing $results goes BOOM on windows
+    #$results = undef;
 
     return;
 }
