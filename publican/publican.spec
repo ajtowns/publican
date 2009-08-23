@@ -60,12 +60,14 @@ BuildRequires:  perl(XML::LibXSLT)
 BuildRequires:  perl(XML::TreeBuilder) >= 3.09-11
 BuildRequires:  fop >= 0.90
 BuildRequires:  batik
+BuildRequires:  docbook-style-xsl >= 1.75.1
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires:       perl(Locale::Maketext::Gettext)
 Requires:       fop >= 0.90
 Requires:       batik
+Requires:       docbook-style-xsl >= 1.75.1
 
 # Pull in the fonts for all languages, else you can't build translated PDF in brew/koji
 %if %{RHEL5}
@@ -184,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 - Change tabs to spaces in generated spec files.
 - Fix Locale::Maketext::Gettext dep being missed on RHEL.
 - Fix common paths on Windows
+- Added docbook-style-xsl dep for version 1.75.1+
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
