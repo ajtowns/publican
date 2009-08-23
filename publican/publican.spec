@@ -187,6 +187,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix Locale::Maketext::Gettext dep being missed on RHEL.
 - Fix common paths on Windows
 - Added docbook-style-xsl dep for version 1.75.1+
+- POD fix from Mikhail Gusarov <dottedmag@dottedmag.net>
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.

@@ -12,7 +12,7 @@ use Term::ANSIColor qw(:constants);
 
 =head1 NAME
 
-Publican::TreeView
+Publican::TreeView - Dumper for XInclude project structure.
 
 
 =head1 VERSION

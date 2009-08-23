@@ -20,7 +20,7 @@ $MAX_COUNT = 29;
 
 =head1 NAME
 
-Publican::CreateBrand
+Publican::CreateBrand - A module for generating new brand boilerplate.
 
 =head1 VERSION
 

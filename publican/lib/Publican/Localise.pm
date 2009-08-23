@@ -4,6 +4,10 @@ use warnings;
 package Publican::Localise;
 use base qw(Locale::Maketext::Gettext);
 
+=head1 NAME
+
+Publican::Localise - Publican localisation utilities.
+
 #...any methods you might want all your languages to share...
 
 # And, assuming you want the base class to be an _AUTO lexicon,

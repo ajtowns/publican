@@ -19,7 +19,7 @@ $VERSION = version->new('0.1');
 
 =head1 NAME
 
-Publican::CreateBook
+Publican::CreateBook - A module for generating documentation boilerplate
 
 =head1 VERSION
 
