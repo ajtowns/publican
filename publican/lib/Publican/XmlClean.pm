@@ -441,16 +441,16 @@ sub prune_xml {
         }
 
         # lets delete all the empty para tags!
+# TODO Is this still required?
         $xml_doc->pos( $xml_doc->root() );
         foreach my $node ( $xml_doc->find_by_tag_name('para') ) {
             if ( $node->as_text !~ /\S/ && $node->content_list <= 1 ) {
                 logger(
                     "\n"
                         . maketext(
-                        "*WARNING: Removing empty para tag from build environment, this may break your build*",
-                        RED
+                        "*WARNING: Removing empty para tag from build environment, this may break your build*"
                         )
-                        . "\n\n"
+                        . "\n\n", RED
                 );
                 $node->delete();
             }

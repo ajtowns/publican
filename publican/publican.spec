@@ -188,6 +188,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix common paths on Windows
 - Added docbook-style-xsl dep for version 1.75.1+
 - POD fix from Mikhail Gusarov <dottedmag@dottedmag.net>
+- Added processing file message to update_pot. BZ #518354
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
