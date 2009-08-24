@@ -108,13 +108,13 @@ my %MAP_OUT = (
     'xi:include'  => { 'newline_after' => 1 },
     'xi:fallback' => { 'newline_after' => 1 },
 
-   #    'glossary'          => { 'block'         => 1 },
-   #    'glossentry'        => { 'block'         => 1, 'id_node' => 'glossterm' },
-   #    'glossdiv'          => { 'block'         => 1 },
-   #    'glossdef'          => { 'block'         => 1 },
-   #    'glossterm'         => { 'newline_after' => 1 },
-   #    'glosssee'          => { 'newline_after' => 1 },
-   #    'glossseealso'      => { 'newline_after' => 1 },
+#    'glossary'          => { 'block'         => 1 },
+#    'glossentry'        => { 'block'         => 1, 'id_node' => 'glossterm' },
+#    'glossdiv'          => { 'block'         => 1 },
+#    'glossdef'          => { 'block'         => 1 },
+#    'glossterm'         => { 'newline_after' => 1 },
+#    'glosssee'          => { 'newline_after' => 1 },
+#    'glossseealso'      => { 'newline_after' => 1 },
     'table'         => { 'block'         => 1 },
     'informaltable' => { 'block'         => 1 },
     'thead'         => { 'block'         => 1 },
@@ -130,7 +130,8 @@ my %MAP_OUT = (
     'tertiary'      => { 'newline_after' => 1 },
     'bookinfo'      => { 'block'         => 1 },
     'articleinfo'   => { 'block'         => 1 },
-    'abstract' => { 'block' => 1, 'left_justify_child' => 1, 'line_wrap' => 79 },
+    'abstract' =>
+        { 'block' => 1, 'left_justify_child' => 1, 'line_wrap' => 79 },
     'inlinemediaobject' => { 'block'         => 1 },
     'publisher'         => { 'block'         => 1 },
     'copyright'         => { 'block'         => 1 },
@@ -259,7 +260,8 @@ my %BANNED_TAGS = (
     },
     'entrytbl' => {
         'reason' => maketext(
-            'Nested tables break pdf generation - re-think your data structure.'),
+            'Nested tables break pdf generation - re-think your data structure.'
+        ),
     },
     'link' => {
         'reason' => maketext(
@@ -277,7 +279,8 @@ my %BANNED_TAGS = (
         ),
     },
     'tip' => {
-        'reason' => maketext('This tag is unnecessary. Use note or important.'),
+        'reason' =>
+            maketext('This tag is unnecessary. Use note or important.'),
     },
     'caution' => {
         'reason' =>
@@ -317,13 +320,17 @@ sub new {
     $config->param( 'clean_id', ( delete( $args->{clean_id} ) ) || 0 );
     $config->param( 'show_unknown', delete( $args->{show_unknown} ) )
         if ( $args->{show_unknown} );
-    $config->param( 'donotset_lang', ( delete( $args->{donotset_lang} ) ) || 0 );
+    $config->param( 'donotset_lang',
+        ( delete( $args->{donotset_lang} ) ) || 0 );
 
     #$config->param('', ( delete( $args->{} ) ||  0));
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $self = bless {}, $class;
@@ -441,7 +448,7 @@ sub prune_xml {
         }
 
         # lets delete all the empty para tags!
-# TODO Is this still required?
+        # TODO Is this still required?
         $xml_doc->pos( $xml_doc->root() );
         foreach my $node ( $xml_doc->find_by_tag_name('para') ) {
             if ( $node->as_text !~ /\S/ && $node->content_list <= 1 ) {
@@ -450,7 +457,8 @@ sub prune_xml {
                         . maketext(
                         "*WARNING: Removing empty para tag from build environment, this may break your build*"
                         )
-                        . "\n\n", RED
+                        . "\n\n",
+                    RED
                 );
                 $node->delete();
             }
@@ -550,7 +558,10 @@ sub print_xml {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $lvl     = 0;
@@ -592,7 +603,8 @@ sub print_xml {
 
         my $OUTDOC;
         open( $OUTDOC, ">:utf8", "$out_file" )
-            || croak( maketext( "Could not open [_1] for output!", $out_file ) );
+            || croak(
+            maketext( "Could not open [_1] for output!", $out_file ) );
 
         my $ent_file = undef;
 
@@ -667,16 +679,21 @@ sub my_as_XML {
                 if ($start) {      # on the way in
                     if ( $BANNED_TAGS{$tag} ) {
                         logger(
-                            maketext( "*WARNING: Questionable tag found: [_1]",
+                            maketext(
+                                "*WARNING: Questionable tag found: [_1]",
                                 $tag )
                                 . "\n",
                             RED
                         );
                         logger( "\t" . $BANNED_TAGS{$tag}->{'reason'} . "\n",
                             RED );
-                        logger(   "\t"
-                                . maketext( "Consider not using this tag", RED )
-                                . "\n\n" );
+                        logger(
+                            "\t"
+                                . maketext(
+                                "Consider not using this tag", RED
+                                )
+                                . "\n\n"
+                        );
                         if ($STRICT) {
                             croak(
                                 maketext(
@@ -699,8 +716,10 @@ sub my_as_XML {
                                 RED
                             );
                             logger(
-                                "\t" . $BANNED_ATTRS{$attr}->{'reason'} . "\n",
-                                RED );
+                                "\t"
+                                    . $BANNED_ATTRS{$attr}->{'reason'} . "\n",
+                                RED
+                            );
                             logger(
                                 "\t"
                                     . maketext(
@@ -744,8 +763,8 @@ sub my_as_XML {
                     }
                     elsif ( $MAP_OUT{$tag}->{'block'} ) {
 
-                       # Check to make sure the block is starting on it's own line
-                       # If not add a new line and indent
+                   # Check to make sure the block is starting on it's own line
+                   # If not add a new line and indent
                         if ( $xml[$#xml] && $xml[$#xml] =~ /\S/ ) {
                             push( @xml, "\n", $indent x $depth );
                         }
@@ -873,8 +892,8 @@ sub my_as_XML {
                     && !( $MAP_OUT{ $parent->{'_tag'} }->{'verbatim'} ) )
                 {
 
-                    # Don't out put empty tags
-                    # BZ #453067 but spaces between inline tags should be output
+                  # Don't out put empty tags
+                  # BZ #453067 but spaces between inline tags should be output
                     if ( $node !~ /^\s*$/ || $node !~ /\n/ ) {
 
                         # Truncate leading space
@@ -882,7 +901,7 @@ sub my_as_XML {
 
                         if ( $MAP_OUT{ $parent->{'_tag'} }->{'block'} ) {
 
-                         # for the first child, remove leading space and indent it
+                     # for the first child, remove leading space and indent it
                             if ( $_[4] == 0 ) {
                                 $node =~ s/^ //g;
                             }
@@ -998,7 +1017,10 @@ sub process_file {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     logger( "\t" . maketext( "Processing file [_1]", $file ) . "\n" );
@@ -1006,8 +1028,8 @@ sub process_file {
     my $clean_id        = $self->{config}->param('clean_id');
     my $update_includes = $self->{config}->param('update_includes');
 
-    my $xml_doc
-        = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
 
     $xml_doc->parse_file($file)
         || croak( maketext( "Can't open file '[_1]' [_2]", $file, $@ ) );

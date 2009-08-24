@@ -82,7 +82,7 @@ sub update_pot {
     my @xml_files = dir_list( $xml_lang, '*.xml' );
     foreach my $xml_file ( sort(@xml_files) ) {
         next if ( $xml_file =~ m|$xml_lang/extras/| );
-        logger( "\t" . maketext( "Processing file [_1]", $xml_file ) . "\n");
+        logger( "\t" . maketext( "Processing file [_1]", $xml_file ) . "\n" );
         my $pot_file = $xml_file;
         $pot_file =~ s/\.xml/\.pot/;
         $pot_file =~ s/^$xml_lang/pot/;
@@ -122,7 +122,10 @@ sub po2xml {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
     my $dtdver = $self->{publican}->param('dtdver');
 
@@ -188,7 +191,10 @@ sub update_po {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $docname  = $self->{publican}->param('docname');
@@ -202,7 +208,8 @@ sub update_po {
         next if ( $lang eq $xml_lang );
 
         unless ( Publican::valid_lang($lang) ) {
-            logger( maketext( "WARNING: Skipping invalid langauge: [_1]", $lang )
+            logger(
+                maketext( "WARNING: Skipping invalid langauge: [_1]", $lang )
                     . "\n" );
             next;
         }
@@ -285,7 +292,10 @@ sub get_msgs {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $trans_tree = XML::TreeBuilder->new();
@@ -303,7 +313,7 @@ sub get_msgs {
 
         my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/ );
 
-        # No Nesting so push all of this nodes content on to the output trans_tree
+    # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
             $trans_node->push_content( $child->content_list() );
         }
@@ -325,7 +335,8 @@ sub get_msgs {
                     $trans_tree->push_content($trans_node);
                     $trans_node = XML::Element->new( $nested->tag() );
                     $trans_tree->push_content(
-                        $self->get_msgs( { doc => $nested } )->content_list() );
+                        $self->get_msgs( { doc => $nested } )->content_list()
+                    );
                 }
                 else {
                     $trans_node->push_content($nested);
@@ -356,7 +367,10 @@ sub merge_msgs {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
     foreach my $child ( $out_doc->look_down( '_tag', qr/$TRANSTAGS/ ) ) {
 
@@ -366,7 +380,7 @@ sub merge_msgs {
         }
         my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/ );
 
-        # No Nesting so push all of this nodes content on to the output trans_tree
+    # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
             $self->translate( { node => $child, msgids => $msgids } );
         }
@@ -406,13 +420,17 @@ Replace strings with translated strings.
 
 sub translate {
     my ( $self, $args ) = @_;
-    my $node = delete( $args->{node} ) || croak("node is a mandatory argument");
+    my $node = delete( $args->{node} )
+        || croak("node is a mandatory argument");
     my $msgids = delete( $args->{msgids} )
         || croak("msgids is a mandatory argument");
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $msgid = $node->as_XML();
@@ -453,14 +471,20 @@ sub print_msgs {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $fh;
 
     open( $fh, ">:utf8", $pot_file )
         or croak(
-        maketext( "Failed to open output file [_1]. Error: [_2]", $pot_file, $@ )
+        maketext(
+            "Failed to open output file [_1]. Error: [_2]",
+            $pot_file, $@
+        )
         );
 
     print( $fh $self->header() );
@@ -550,10 +574,10 @@ Format a stirng for use in a PO file.
 sub po_format {
     my $string = shift;
     my $name   = shift;
-    $string =~ s/^<$name>\s*//s;     # remove start tag to reduce polution
-    $string =~ s/\s*<\/$name>$//s;   # remove close tag to reduce polution
-    $string =~ s/\\/\\\\/g;          # \ seen as control sequence by msg* programs
-    $string =~ s/\"/\\"/g;           # " seen as special char by msg* programs
+    $string =~ s/^<$name>\s*//s;      # remove start tag to reduce polution
+    $string =~ s/\s*<\/$name>$//s;    # remove close tag to reduce polution
+    $string =~ s/\\/\\\\/g;    # \ seen as control sequence by msg* programs
+    $string =~ s/\"/\\"/g;     # " seen as special char by msg* programs
     return $string;
 }
 
@@ -566,10 +590,11 @@ Remove PO formatting from a string.
 sub po_unformat {
     my $string = shift;
 
-    $string =~ s/^\"//msg;  # strip sol quotes added by msguniq etc
-    $string =~ s/\"$//msg;  # strip sol quotes added by msguniq etc
-    $string =~ s/\n//msg;   # strip eol quotes added by msguniq etc
-    $string =~ s/^\s*//msg; # strip the leading spaces left from the msgid "" line
+    $string =~ s/^\"//msg;    # strip sol quotes added by msguniq etc
+    $string =~ s/\"$//msg;    # strip sol quotes added by msguniq etc
+    $string =~ s/\n//msg;     # strip eol quotes added by msguniq etc
+    $string
+        =~ s/^\s*//msg; # strip the leading spaces left from the msgid "" line
     $string =~ s/\\"/\"/msg;    # unescape quotes added by po_format
     $string =~ s/\\\\/\\/g;     # unescape backslash added by po_format
     return $string;
