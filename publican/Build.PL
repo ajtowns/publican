@@ -173,7 +173,6 @@ my $builder = $class->new(
     install_path => { 'datadir' => '/usr/share/Publican' },
     data_files   => {
         'datadir/fop/fop.xconf'       => 'datadir/fop/fop.xconf',
-        'datadir/fop/hyphenation.dtd' => 'datadir/fop/hyphenation.dtd',
         'datadir/xsl/dt_htmlsingle_spec.xsl' =>
             'datadir/xsl/dt_htmlsingle_spec.xsl',
         'datadir/xsl/xhtml-common.xsl' => 'datadir/xsl/xhtml-common.xsl',
