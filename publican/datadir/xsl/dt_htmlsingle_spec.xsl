@@ -1,9 +1,9 @@
 <?xml version='1.0'?>
  
 <!--
-    Copyright 2007 Red Hat, Inc.
-    License: GPL
-    Author: Jeff Fearn <jfearn@redhat.com>
+	Copyright (c) 2007-2009 Red Hat, Inc.
+	License: GPLv2+ or Artistic
+	Author: Jeff Fearn <jfearn@redhat.com>
 -->
 <!-- Transform bookinfo.xml into a SPEC File -->
 <xsl:stylesheet version="1.0" xml:space="preserve" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">

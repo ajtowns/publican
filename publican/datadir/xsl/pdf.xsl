@@ -1,8 +1,8 @@
 <?xml version='1.0'?>
  
 <!--
-	Copyright 2007 Red Hat, Inc.
-	License: GPL
+	Copyright (c) 2007-2009 Red Hat, Inc.
+	License: GPLv2+ or Artistic
 	Author: Jeff Fearn <jfearn@redhat.com>
 	Author: Tammy Fox <tfox@redhat.com>
 	Author: Andy Fitzsimon <afitzsim@redhat.com>

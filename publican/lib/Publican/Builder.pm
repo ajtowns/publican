@@ -644,6 +644,9 @@ sub transform {
     elsif ( ( $format =~ /^pdf/ ) and ( -f $xsl_file ) ) {
         $dir = pushd("$tmp_dir/$lang/xml");
     }
+    elsif ( $format eq 'epub' ) {
+        $dir = pushd("$tmp_dir/$lang/$format");
+    }
     else {
         croak( maketext( "Unkown format: [_1]", $format ) );
     }
@@ -1541,7 +1544,7 @@ Jeff Fearn  C<< <jfearn@redhat.com> >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2009, Jeff Fearn C<< <jfearn@redhat.com> >>. All rights reserved.
+Copyright (c) 2009 Red Hat, Inc.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

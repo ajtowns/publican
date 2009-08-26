@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           Publican
 Version:        0.99
-Release:        0.BETA1%{?dist}.t3
+Release:        0.BETA1%{?dist}.t14
 Summary:        Common files and scripts for publishing with DocBook XML
 License:        GPLv2+ or Artistic
 Group:          Applications/Publishing
@@ -189,6 +189,8 @@ rm -rf $RPM_BUILD_ROOT
 - Added docbook-style-xsl dep for version 1.75.1+
 - POD fix from Mikhail Gusarov <dottedmag@dottedmag.net>
 - Added processing file message to update_pot. BZ #518354
+- add EPUB stub
+- Clean up Copyright in numerous files.
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
