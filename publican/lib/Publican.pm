@@ -307,8 +307,15 @@ Handles general configuration of all sub modules.
 
 =cut
 
-# Private method for loading a config file
-my $load_config = sub {
+# Module implementation here
+
+=head2 _load_config
+
+Private method for loading a config file
+
+=cut
+
+sub _load_config {
     my ( $self, $args ) = @_;
 
     my $configfile = ( delete( $args->{configfile} )
@@ -440,8 +447,6 @@ my $load_config = sub {
     return;
 };
 
-# Module implementation here
-
 =head2  new
 
 Create a Publican object.
@@ -514,7 +519,7 @@ logger("key: $common_config\n");
 #        $localise->reload_text();
 #        $self->{localise} = $localise;
 
-        $self->$load_config(
+        $self->_load_config(
             {   configfile     => $configfile,
                 common_config  => $common_config,
                 common_content => $common_content

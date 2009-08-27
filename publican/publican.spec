@@ -55,8 +55,8 @@ BuildRequires:  perl(Syntax::Highlight::Engine::Kate)
 BuildRequires:  perl(Term::ANSIColor)
 BuildRequires:  perl(Text::Wrap)
 BuildRequires:  perl(version)
-BuildRequires:  perl(XML::LibXML)
-BuildRequires:  perl(XML::LibXSLT)
+BuildRequires:  perl(XML::LibXML)  >=  1.67
+BuildRequires:  perl(XML::LibXSLT) >=  1.67
 BuildRequires:  perl(XML::TreeBuilder) >= 3.09-11
 BuildRequires:  fop >= 0.90
 BuildRequires:  batik
@@ -192,6 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 - add EPUB stub
 - Clean up Copyright in numerous files.
 - Add security callback for exslt:document.
+- Update XML::LibXML & XML::LibXSLT minimum versions to 1.67
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
