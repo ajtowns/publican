@@ -659,6 +659,10 @@ sub transform {
         \&adjustColumnWidths );
     XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
 
+    my $security = XML::LibXSLT::Security->new();
+    $security->register_callback(create_dir => sub { 1; });
+    $xslt->security_callbacks($security);
+
     $parser->expand_xinclude(1);
     $parser->expand_entities(1);
     my $source    = $parser->parse_file("../xml/$docname.xml");

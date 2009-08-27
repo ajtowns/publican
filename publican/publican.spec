@@ -191,6 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 - Added processing file message to update_pot. BZ #518354
 - add EPUB stub
 - Clean up Copyright in numerous files.
+- Add security callback for exslt:document.
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
