@@ -220,7 +220,7 @@ sub setup_xml {
 
         croak(
             maketext(
-                "Invalid Build request: language directory [_1] does not exist.",
+                "Invalid build request: language directory [_1] does not exist.",
                 $lang
             )
         ) if ( !-d $lang );
@@ -247,7 +247,7 @@ sub setup_xml {
             my @po_files = dir_list( $lang, '*.po' );
             croak(
                 maketext(
-                    "Invalid Build request: no PO files exist for language [_1]",
+                    "Invalid build request: no PO files exist for language [_1]",
                     $lang
                 )
             ) unless (@po_files);
@@ -648,7 +648,7 @@ sub transform {
         $dir = pushd("$tmp_dir/$lang/$format");
     }
     else {
-        croak( maketext( "Unkown format: [_1]", $format ) );
+        croak( maketext( "Unknown format: [_1]", $format ) );
     }
 
     logger(
@@ -1046,7 +1046,7 @@ sub build_rpm {
     }
 
     debug_msg(
-        maketext( "Building rpm's from [_1] using [_2] in [_3]",
+        maketext( "Building rpms from [_1] using [_2] in [_3]",
             $spec, $rpmbuild, $dir )
             . "\n"
     );
@@ -1110,7 +1110,7 @@ sub package {
 
     croak(
         maketext(
-            "Short sighted packages can only be used to make desktop rpms. Add --desktop to your argument list."
+            "Short-sighted packages can only be used to make desktop rpms. Add --desktop to your argument list."
         )
     ) if ( $short_sighted and not $desktop );
 
@@ -1274,7 +1274,7 @@ sub get_books {
     unless ($scm) {
         logger(
             maketext(
-                "Config parameter 'scm' not found, treating Set as stand alone."
+                "Config parameter 'scm' not found; treating set as standalone."
                 )
                 . "\n",
             RED
@@ -1282,19 +1282,19 @@ sub get_books {
         return;
     }
 
-    croak( maketext( "Unknown Set SCM: [_1]", $scm ) )
+    croak( maketext( "Unknown set SCM: [_1]", $scm ) )
         unless ( $scm =~ /^(svn|svn)$/ );
 
     my $books = $self->{publican}->param('books')
         || croak(
         maketext(
-            "books is a required configuartion parameter for a remote set")
+            "'books' is a required configuration parameter for a remote set")
             . "\n"
         );
     my $repo = $self->{publican}->param('repo')
         || croak(
         maketext(
-            "repo is a required configuartion parameter for a remote set")
+            "'repo' is a required configuration parameter for a remote set")
             . "\n"
         );
 
@@ -1340,12 +1340,12 @@ sub build_set_books {
     my $books = $self->{publican}->param('books')
         || croak(
         maketext(
-            "books is a required configuartion parameter for a remote set")
+            "'books' is a required configuration parameter for a remote set")
         );
     my $tmp_dir = $self->{publican}->param('tmp_dir');
 
     foreach my $book ( split( " ", $books ) ) {
-        logger( maketext( "Start Building [_1]", $book ) . "\n" );
+        logger( maketext( "Start building [_1]", $book ) . "\n" );
         my $dir = pushd($book);
 
         if ( system("publican --build --formats=xml --langs=$langs") != 0 ) {
@@ -1365,7 +1365,7 @@ sub build_set_books {
         foreach my $lang ( split( /,/, $langs ) ) {
             dircopy( "$book/$tmp_dir/$lang/xml", "$tmp_dir/$lang/xml/$book" );
         }
-        logger( maketext( "End Building [_1]", $book ) . "\n" );
+        logger( maketext( "Finish building [_1]", $book ) . "\n" );
     }
 
     return;

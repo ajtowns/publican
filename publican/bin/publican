@@ -83,26 +83,26 @@ my %opts = (
 #Action options
 my %options = (
     'help'             => maketext('Display help message'),
-    'man'              => maketext('Display Full man page'),
-    'config=s'         => maketext('Use a non standard config file'),
-    'binary'           => maketext('Build binary RPM when running package'),
+    'man'              => maketext('Display full man page'),
+    'config=s'         => maketext('Use a nonstandard config file'),
+    'binary'           => maketext('Build binary rpm when running package'),
     'brew'             => maketext('Push SRPM to brew'),
-    'scratch'          => maketext('Use scratch instead of tag build.'),
+    'scratch'          => maketext('Use scratch instead of tag build'),
     'common_config=s'  => maketext('Override path to Common_Config directory'),
     'common_content=s' => maketext('Override path to Common_Content directory'),
     'formats=s'        => maketext(
-        'Comma separated list of formats. html,pdf,htm-single,html-desktop,text'),
+        'Comma-separated list of formats, for example: html,pdf,htm-single,html-desktop,text'),
     'langs=s' =>
-        maketext('Comma separated list of languages. e.g. en-US,de-DE,all'),
+        maketext('Comma-separated list of languages, for example: en-US,de-DE,all'),
     'embedtoc' => maketext('Embed the web site TOC object in the generated HTML'),
-    'name=s'   => maketext('The name of the Book|Article|Set|Brand'),
+    'name=s'   => maketext('The name of the book, article, set, or brand'),
     'version=s' => maketext('The version of the product'),
-    'edition=s' => maketext('The edition of the Book|Article|Set'),
+    'edition=s' => maketext('The edition of the book, article, or set'),
     'product=s' => maketext('The name of the product'),
     'brand=s'   => maketext('The brand to use'),
     'lang=s'    => maketext('The language the XML will be written in'),
-    'type=s'    => maketext('The type (Book|Article|Set)'),
-    'publish'   => maketext('Setup built content for publishing'),
+    'type=s'    => maketext('The type (book, article, or set)'),
+    'publish'   => maketext('Set up built content for publishing'),
     'desktop'   => maketext('Create desktop instead of web package'),
     'short_sighted' =>
         maketext('Create package without using version in package name'),
@@ -129,7 +129,7 @@ my %actions = (
     },
 
     'cleanset' => {
-        'brief'   => maketext('Remove local copies remote set books'),
+        'brief'   => maketext('Remove local copies of remote set books'),
         'options' => [],
     },
 
@@ -139,7 +139,7 @@ my %actions = (
     },
     'old2new' => {
         'brief' => maketext(
-            'Create a publican.cfg file for an old Book|Article|Set Makefile'),
+            'Create a publican.cfg file from the Makefile of an old book, set, or article'),
         'options' => [],
     },
     'printtree' => {
@@ -147,12 +147,12 @@ my %actions = (
         'options' => [],
     },
     'create' => {
-        'brief' => maketext('Create a new Book|Set|Article'),
+        'brief' => maketext('Create a new book, set, or article'),
         'options' =>
             [ 'name', 'version', 'edition', 'product', 'brand', 'lang', 'type' ],
     },
     'create_brand' => {
-        'brief'   => maketext('Create a new Brand'),
+        'brief'   => maketext('Create a new brand'),
         'options' => [ 'name', 'lang' ],
     },
     'package' => {

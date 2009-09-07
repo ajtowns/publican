@@ -76,11 +76,11 @@ my %PARAMS = (
     },
     books => {
         descr =>
-            maketext('A space seperated list of books used in this Remote Set.'),
+            maketext('A space-separated list of books used in this remote set.'),
 
     },
     brand => {
-        descr   => maketext('The Brand to use when building this package.'),
+        descr   => maketext('The brand to use when building this package.'),
         default => 'common',
 
     },
@@ -96,13 +96,13 @@ my %PARAMS = (
     },
     chunk_first => {
         descr => maketext(
-            'For HTML should first section be on same page as its parent?'),
+            'For HTML, should the first section be on the same page as its parent?'),
         default => 0,
 
     },
     chunk_section_depth => {
         descr => maketext(
-            'For HTML what is the deepest level of nesting a section whould be split on to its own page?'
+            'For HTML, what is the deepest level of nesting at which a section should be split on to its own page?'
         ),
         default => 4,
 
@@ -129,7 +129,7 @@ my %PARAMS = (
 
     },
     confidential => {
-        descr   => maketext('Is the content confidential.'),
+        descr   => maketext('Is the content confidential?'),
         default => 0,
 
     },
@@ -152,13 +152,13 @@ my %PARAMS = (
     },
     doc_url => {
         descr => maketext(
-            'Url to the documentation team for this package. Used for top right URL on HTML.'
+            'URL for the documentation team for this package. Used for top right URL on HTML.'
         ),
         default => 'https://fedorahosted.org/publican',
 
     },
     dtdver => {
-        descr => maketext('Version of the DocBook DTD this project is based on.'),
+        descr => maketext('Version of the DocBook DTD on which this project is based.'),
         default => '4.5',
 
     },
@@ -190,7 +190,7 @@ my %PARAMS = (
 
     },
     os_ver => {
-        descr   => maketext('The OS to build packages for.'),
+        descr   => maketext('The OS for which to to build packages.'),
         default => '.el5',
 
     },
@@ -210,7 +210,7 @@ my %PARAMS = (
             'Release of this package. For xml_lang fetched from title tag in xml_lang/TYPE_Info.xml. For translations it is fetched from Project-Id-Version in lang/TYPE_Info.po'
         ),
     },
-    repo => { descr => maketext('Repository to fetch remote Set Books from.'), },
+    repo => { descr => maketext('Repository from which to fetch remote set books.'), },
     scm  => {
         descr => maketext(
             'Type of repository Remote Set Books are stored in. Supported types: SVN.'
@@ -251,7 +251,7 @@ my %PARAMS = (
     },
     type => {
         descr => maketext(
-            'Type of content this package contains. Supported: Set/Book/Article/brand'
+            'Type of content this package contains. Supported: set, book, article, brand'
         ),
         default => 'Book',
 
@@ -267,7 +267,7 @@ my %PARAMS = (
     },
     web_obsoletes => { descr => maketext('Packages to obsolete in web RPM.'), },
     xml_lang      => {
-        descr   => maketext('Language XML is authored in.'),
+        descr   => maketext('Language in which XML is authored.'),
         default => 'en-US',
     },
 

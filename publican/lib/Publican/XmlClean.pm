@@ -260,17 +260,17 @@ my %BANNED_TAGS = (
     },
     'entrytbl' => {
         'reason' => maketext(
-            'Nested tables break pdf generation - re-think your data structure.'
+            'Nested tables break pdf generation -- reconsider your data structure.'
         ),
     },
     'link' => {
         'reason' => maketext(
-            'Undesirable tag, use xref for internal links or ulink for external links.'
+            'Undesirable tag -- use xref for internal links or ulink for external links.'
         ),
     },
     'olink' => {
         'reason' => maketext(
-            'Undesirable tag, use xref for internal links or ulink for external links.'
+            'Undesirable tag -- use xref for internal links or ulink for external links.'
         ),
     },
     'inlinegraphic' => {
@@ -365,7 +365,7 @@ Print a list of tags that are not supported.
 
 sub print_banned_tags {
     my $self = shift();
-    print "\n" . maketext("Banned Tags:") . "\n\n";
+    print "\n" . maketext("Banned tags:") . "\n\n";
     foreach my $key ( sort( keys(%BANNED_TAGS) ) ) {
         my $tabs = "\t";
 
@@ -374,7 +374,7 @@ sub print_banned_tags {
         print( "$key:$tabs" . $BANNED_TAGS{$key}{'reason'} . "\n" );
     }
 
-    print "\n\n" . maketext("Banned Attributes:") . "\n\n";
+    print "\n\n" . maketext("Banned attributes:") . "\n\n";
     foreach my $attr ( sort( keys(%BANNED_ATTRS) ) ) {
         print( "$attr:\t" . $BANNED_ATTRS{$attr}{'reason'} . "\n" );
     }
@@ -968,7 +968,7 @@ sub validate_tables {
             if ( !$table ) {
                 logger(
                     maketext(
-                        "WARNING: table validation failed. Could not determine table for tgroup, column numbers can not be validated"
+                        "WARNING: table validation failed. Could not determine table for tgroup, column numbers cannot be validated"
                     )
                 );
                 next;
@@ -990,7 +990,7 @@ sub validate_tables {
                 my @entries = $row->look_down( "_tag", "entry" );
                 if ( @entries > $cols ) {
                     croak maketext(
-                        "*ERROR: Fatal Table Error* Table ([_1]) contains invalid data\nAttribute cols ([_2]) does not match number of entrys ([_3])",
+                        "*ERROR: Fatal Table Error* Table ([_1]) contains invalid data\nAttribute cols ([_2]) does not match number of entry elements ([_3])",
                         $title, $cols, @entries )
                         . "\n";
                 }

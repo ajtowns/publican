@@ -80,7 +80,7 @@ sub new {
     }
 
     if ( $config->param('type') !~ m/^(Book|Set|Article)$/i ) {
-        croak( maketext("type must be Book|Set|Article") );
+        croak( maketext("type must be book, set, or article") );
     }
 
     my $self = bless {}, $class;
