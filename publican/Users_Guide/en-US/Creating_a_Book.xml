@@ -1,0 +1,108 @@
+<?xml version='1.0'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+
+	<section id="sect-Users_Guide-Using_the_publican_package-Creating_a_Book">
+		<title>Creating a Book</title>
+		<para>
+			Use the <command>create_book</command> command to create a new book. The <command>create_book</command> command creates all the necessary files to create a book.
+		</para>
+		<para>
+			The following is a list of valid options for the <command>create_book</command> command. Append these options to the end of the <command>create_book</command> command. For example, <command>create_book --help</command>, <command>create_book --name New_Book</command>, and so on:
+		</para>
+		<variablelist>
+			<varlistentry>
+				<term><filename>--help</filename></term>
+				<listitem>
+					<para>
+						print a list of all <command>create_book</command> command options.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><filename>--man</filename></term>
+				<listitem>
+					<para>
+						view the publican manual page. The manual page contains the same information returned by the <command>create_book --help</command> command.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><filename>--name<replaceable> Book_Name</replaceable></filename></term>
+				<listitem>
+					<para>
+						replace <replaceable>Book_Name</replaceable> with the name of the book or article. This variable must not contain any spaces. For example, running the <command>create_book --name Test_Book</command> command creates a book named Test_Book, and all the necessary files to build the book. This updates the <filename>Makefile</filename> with the correct <computeroutput>DOCNAME</computeroutput>, and the <filename><replaceable>Book_Name</replaceable>.ent</filename> file with the correct <computeroutput>BOOKID</computeroutput>.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><filename>--version<replaceable> version</replaceable></filename></term>
+				<listitem>
+					<para>
+						replace <replaceable>version</replaceable> with the version number of the product that the book describes. For example, for Red Hat Enterprise Linux 5.1 you would use 5.1. The default version is 0.1. Using <command>--version <replaceable> version</replaceable></command> updates the <computeroutput>&lt;issuenum&gt;&lt;/issuenum&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file. For more information see <xref linkend="sect-Users_Guide-Files_in_the_Book_directory-Book_Info.xml" />.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><filename>--edition<replaceable> edition</replaceable></filename></term>
+				<listitem>
+					<para>
+						replace <replaceable> edition</replaceable> with the edition number of the book. This number indicates to users when a new edition of the book is released. The initial GA release of the book should be edition 1.0. The default value is 0. Using <command>--edition<replaceable> edition</replaceable></command> updates the <computeroutput>&lt;edition&gt;&lt;/edition&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file. For more information see <xref linkend="sect-Users_Guide-Files_in_the_Book_directory-Book_Info.xml" />.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><filename>--product<replaceable> Product_Name</replaceable></filename></term>
+				<listitem>
+					<para>
+						replace <replaceable> Product_Name</replaceable> with the product name. This variable must not contain any spaces. Set this to <computeroutput>Fedora</computeroutput> for core Fedora documentation, and the name of the product for other products, for example, <computeroutput>Fedora_Directory_Server</computeroutput>. The <command>--product<replaceable> Product_Name</replaceable></command> option updates the <filename>Makefile</filename> and the <filename><replaceable>Book_Name</replaceable>.ent</filename> file with the correct product name.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><filename>--type Article --name<replaceable> Article_Name</replaceable></filename></term>
+				<listitem>
+					<para>
+						create an article instead of a book. Replace <replaceable> Article_Name</replaceable> with the article name. This variable must not contain any spaces.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><filename>--brand <replaceable>brand</replaceable></filename></term>
+				<listitem>
+					<para>
+						replace <replaceable>brand</replaceable> with RedHat, fedora, JBoss, oVirt, or GIMP. This requires the appropriate publican package to be installed. For example, to build Red Hat branded books, you must install the publican-redhat package. See <xref linkend="sect-Users_Guide-Using_the_publican_package-Installing_publican" /> for instructions on installing the branded publican packages. If no brand is specified, the default brand is used.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+		<para>
+			Before running the <command>create_book</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named Test_Book in the <filename>/my/books/</filename> directory, run the following commands:
+		</para>
+		<para>
+			
+<screen>cd /my/books/
+</screen>
+		</para>
+		<para>
+			
+<screen>create_book --name Test_Book
+</screen>
+		</para>
+		<para>
+			To see the results of this command, run the following:
+		</para>
+		<para>
+			
+<screen>ls
+</screen>
+		</para>
+		<para>
+			The output should be similar to the following:
+		</para>
+		<para>
+			
+<screen>en-US  Makefile
+</screen>
+		</para>
+	</section>
