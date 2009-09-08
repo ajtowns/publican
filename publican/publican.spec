@@ -193,6 +193,8 @@ rm -rf $RPM_BUILD_ROOT
 - Clean up Copyright in numerous files.
 - Add security callback for exslt:document.
 - Update XML::LibXML & XML::LibXSLT minimum versions to 1.67
+- Fix rounded corners in HTML. BZ #509768
+- Fix nested images breakin in PDF. BZ #491782
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
