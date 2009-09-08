@@ -58,7 +58,7 @@
 <xsl:param name="fop1.extensions" select="1"/>
 <xsl:param name="img.src.path"/>
 <xsl:param name="qandadiv.autolabel" select="1"/>
-<xsl:param name="keep.relative.image.uris" select="0"/>
+<xsl:param name="keep.relative.image.uris" select="1"/>
 <xsl:param name="email.delimiters.enabled">0</xsl:param>
 
 <xsl:param name="hyphenation-character">
