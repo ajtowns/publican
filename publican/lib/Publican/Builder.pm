@@ -130,7 +130,7 @@ sub build {
         { langs => $langs, exlude_common => ( $type eq 'brand' ) } );
 
     foreach my $lang ( sort( split( /,/, $langs ) ) ) {
-        logger( maketext( "Begining work on [_1]", $lang ) . "\n" );
+        logger( maketext( "Beginning work on [_1]", $lang ) . "\n" );
 
         # hmmm can't validate brand XML as it's incomplete
         if (    ( $type ne 'brand' )

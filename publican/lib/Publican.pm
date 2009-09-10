@@ -102,7 +102,7 @@ my %PARAMS = (
     },
     chunk_section_depth => {
         descr => maketext(
-            'For HTML, what is the deepest level of nesting at which a section should be split on to its own page?'
+            'For HTML, what is the deepest level of nesting at which a section should be split onto its own page?'
         ),
         default => 4,
 
