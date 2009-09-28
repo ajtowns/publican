@@ -30,7 +30,7 @@ my $class = Module::Build->subclass(
       }
       sub ACTION_rpm {
         my $self = shift;
-        $self->ACTION_srpm;
+        $self->ACTION_srpm || die;
         my $os_ver = $self->args('os_ver');
         my $srpm = `find $dir -name '*.src.rpm'`;
         chomp($srpm);
@@ -49,7 +49,7 @@ my $class = Module::Build->subclass(
       }
       sub ACTION_local {
         my $self = shift;
-        $self->ACTION_rpm;
+        $self->ACTION_rpm || die;
         my $rpm = `find $dir/noarch -name '*.rpm'`;
         chomp($rpm);
         $rpm =~ s/\n/ /g;

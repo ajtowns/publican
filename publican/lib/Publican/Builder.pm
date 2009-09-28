@@ -1388,6 +1388,8 @@ sub new_tree {
     $empty_element_map->{'index'}     = 1;
     $empty_element_map->{'imagedata'} = 1;
     $empty_element_map->{'area'}      = 1;
+#    $empty_element_map->{'ulink'}     = 1;
+
 
     return ($xml_doc);
 }

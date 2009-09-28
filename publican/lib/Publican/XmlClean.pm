@@ -771,9 +771,6 @@ sub my_as_XML {
                         $depth++;
                     }
 
-# TODO This should check to see if the tag has text or node content. Some tags can optionally be empty.
-# TODO e.g. xi:include has optional xi:fallback
-                    if ( $empty_element_map->{$tag} ) {
                         if ( $tag eq 'imagedata' ) {
                             $node->attr('fileref') =~ m/(...)$/;
                             my $format = uc($1);
@@ -799,6 +796,9 @@ sub my_as_XML {
 
                         }
 
+# TODO This should check to see if the tag has text or node content. Some tags can optionally be empty.
+# TODO e.g. xi:include has optional xi:fallback
+                    if ( $empty_element_map->{$tag} and !@{$node->{'_content'}) {
                         push( @xml, $node->starttag_XML( undef, 1 ) );
                         if ( $MAP_OUT{$tag}->{'newline_after'} ) {
                             push( @xml, "\n", $indent x $depth );
@@ -863,7 +863,7 @@ sub my_as_XML {
                         }
                     }
 
-                    unless ( $empty_element_map->{$tag} ) {
+                    unless ( $empty_element_map->{$tag} and !@{$node->{'_content'} ) {
                         push( @xml, $node->endtag_XML() );
                     }    # otherwise it will have been an <... /> tag.
 
