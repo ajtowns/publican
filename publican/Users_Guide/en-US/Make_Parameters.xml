@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
-
 <appendix id="appe-Users_Guide-Makefile_Parameters">
 	<title>Makefile Parameters</title>
 	<para>
@@ -35,33 +34,6 @@
 				</para>
 			</listitem>
 		</varlistentry>
-		<!--     
-		<varlistentry>
-			<term>CATALOGS</term>
-			<listitem>
-				<para>
-					To override the default DTD catalog path (that is, the XML_CATALOG_FILES environment variable) use this parameter. By default this parameter is Undefined.
-				</para>
-			</listitem>
-## CATALOG notes ##
-CATALOG over rides the path the xslt tools use to find the DTD
-
-If you don't have a local copy of the DTD it fetches it from the web so it can validate the XML, you override that if your local copy isn't in a standard location
-
-On RHEL5 we ship a copy of the DTD because the rhel one is old, so on rhel that gets set to /usr/share/publican ...mutter
-
-But if someone wanted to use an even newer or a custom DTD they could set that to something else
-
-The DTD is set in the XML, when the xslt tools see the DTD they look for a local copy in several standard locations, if the don't find it they download it,
-
-CATALOG is a parameter you can set to tell the xslt tools to look somewhere else for a local copy. More correctly: somewhere non-standard
-
-## Must be checked. ##
-Does
-	CATALOG = /path/to/alternative/dtd
-constitute an additional path, or a replacement path?
-		</varlistentry>
-     -->
 		<varlistentry>
 			<term>CHUNK_FIRST</term>
 			<listitem>
@@ -90,7 +62,7 @@ constitute an additional path, or a replacement path?
 			<term>CONFIDENTIAL</term>
 			<listitem>
 				<para>
-					The default value &mdash; 0 &mdash; is not confidential. To set a book to confidential, change this to 1.
+					The default value 0 is not confidential. To set a book to confidential, change this to 1.
 				</para>
 				<para>
 					Setting this parameter to 1 places a large <emphasis>Confidential</emphasis> footer on each page.
@@ -149,7 +121,7 @@ constitute an additional path, or a replacement path?
 			<term>GENERATE_SECTION_TOC_LEVEL</term>
 			<listitem>
 				<para>
-					Include a Table of Contents at the given section level. Valid values: 0 &ndash; 5. Default: 0.
+					Include a Table of Contents at the given section level. Valid values: 0 5. Default: 0.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -213,20 +185,10 @@ constitute an additional path, or a replacement path?
 			<term>WEB_OBSOLETES</term>
 			<listitem>
 				<para>
-					 A comma separated list of web site packages the web package should obsolete. Default: Undefined.
+					A comma separated list of web site packages the web package should obsolete. Default: Undefined.
 				</para>
 			</listitem>
 		</varlistentry>
-		<!--     
-		<varlistentry>
-			<term>XML_DESKTOP</term>
-			<listitem>
-				<para>
-					Use XML for the desktop package instead of the default html-single. Eats babies. Default: Undefined.
-				</para>
-			</listitem>
-		</varlistentry>
-     -->
 		<varlistentry>
 			<term>XML_LANG</term>
 			<listitem>
@@ -252,14 +214,5 @@ constitute an additional path, or a replacement path?
 			</listitem>
 		</varlistentry>
 	</variablelist>
-	<!--     
-running
-     create_book —name=<book-name> —brand=RedHat
-results in the string
-     BRAND = RedHat
-being added to
-     …/<book-name>/Makefile
-Correct? (That is running the first command is the same as adding the string manually.)
-    -->
 </appendix>
 
