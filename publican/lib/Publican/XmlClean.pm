@@ -649,7 +649,8 @@ sub my_as_XML {
     $empty_element_map->{'index'} = 1;
 
     # TODO enable this when the bug below is fixed, it is cosmetic.
-    # TODO   $empty_element_map->{'xi:include'} = 1;
+##    $empty_element_map->{'xi:include'} = 1;
+##    $empty_element_map->{'ulink'} = 1;
     $empty_element_map->{'imagedata'} = 1;
     $empty_element_map->{'area'}      = 1;
 
@@ -671,8 +672,6 @@ sub my_as_XML {
                                    # delete internal attrs
                 $node->attr( 'depth',        undef );
                 $node->attr( 'name',         undef );
-                $node->attr( 'NoExpand',     undef );
-                $node->attr( 'ErrorContext', undef );
 
                 $tag = $node->{'_tag'};
 
@@ -798,7 +797,7 @@ sub my_as_XML {
 
 # TODO This should check to see if the tag has text or node content. Some tags can optionally be empty.
 # TODO e.g. xi:include has optional xi:fallback
-                    if ( $empty_element_map->{$tag} and !@{$node->{'_content'}) {
+                    if ( $empty_element_map->{$tag} ) {
                         push( @xml, $node->starttag_XML( undef, 1 ) );
                         if ( $MAP_OUT{$tag}->{'newline_after'} ) {
                             push( @xml, "\n", $indent x $depth );
@@ -863,7 +862,7 @@ sub my_as_XML {
                         }
                     }
 
-                    unless ( $empty_element_map->{$tag} and !@{$node->{'_content'} ) {
+                    unless ( $empty_element_map->{$tag} ) {
                         push( @xml, $node->endtag_XML() );
                     }    # otherwise it will have been an <... /> tag.
 

@@ -142,18 +142,6 @@ sub po2xml {
     $self->merge_msgs( { out_doc => $out_doc, msgids => $msgids } );
 
     $out_doc->pos( $out_doc->root() );
-
-    $out_doc->traverse(
-        sub {
-            my ( $node, $start ) = @_;
-            if ( ref $node ) {    # it's an element
-                $node->attr( 'NoExpand',     undef );
-                $node->attr( 'ErrorContext', undef );
-            }
-        }
-    );
-
-    $out_doc->pos( $out_doc->root() );
     my $type = $out_doc->attr("_tag");
     my $text = $out_doc->as_XML();
     $text =~ s/&#10;//g;

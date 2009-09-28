@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           Publican
 Version:        0.99
-Release:        0.BETA1%{?dist}.t15
+Release:        0.BETA1%{?dist}.t16
 Summary:        Common files and scripts for publishing with DocBook XML
 License:        GPLv2+ or Artistic
 Group:          Applications/Publishing
@@ -57,7 +57,7 @@ BuildRequires:  perl(Text::Wrap)
 BuildRequires:  perl(version)
 BuildRequires:  perl(XML::LibXML)  >=  1.67
 BuildRequires:  perl(XML::LibXSLT) >=  1.67
-BuildRequires:  perl(XML::TreeBuilder) >= 3.09-11
+BuildRequires:  perl(XML::TreeBuilder) >= 3.09-15
 BuildRequires:  fop >= 0.90
 BuildRequires:  batik
 BuildRequires:  docbook-style-xsl >= 1.75.1
