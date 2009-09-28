@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
+
 <chapter id="chap-Users_Guide-Using_the_publican_package">
 	<chapterinfo>
 		<keywordset>
@@ -9,8 +10,9 @@
 		</keywordset>
 	</chapterinfo>
 	<title>Using the publican package</title>
+
 	<para>
-		This chapter describesthe process of installing the publican package, creating books, the main configuration files, example book files, and how to build a book.
+		This chapter describes&mdash;the process of installing the publican package, creating books, the main configuration files, example book files, and how to build a book.
 	</para>
 	<section id="sect-Users_Guide-Using_the_publican_package-Installing_publican">
 		<title>Installing publican</title>
@@ -41,6 +43,7 @@
 	</section>
 	
 	<xi:include href="Creating_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	
 	<section id="sect-Users_Guide-Using_the_publican_package-Files_in_the_Book_directory">
 		<title>Files in the Book directory</title>
 		<para>
@@ -62,6 +65,9 @@
 			<para>
 				The <filename>Makefile</filename> is used to configure build options, and is located in the root of the book directory. The following is an example <filename>Makefile</filename>, with instructions following afterwards:
 			</para>
+			
+<!--programlisting><xi:include href="extras/Makefile" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</programlisting-->
 			<variablelist>
 				<varlistentry>
 					<term><filename>XML_LANG</filename></term>
@@ -135,7 +141,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			
 <programlisting language="XML">
-<xi:include href="Book_Info.xml" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+<xi:include href="Book_Info.xml" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			<variablelist>
 				<varlistentry>
@@ -155,7 +161,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 						<important>
 							<title>Important</title>
 							<para>
-								Because data in this tag also appears as part of the .rpm filename, this field can only contain upper- and lower-case un-accented letters and the underscore and space characters (ie az, AZ and _ and ).
+								Because data in this tag also appears as part of the .rpm filename, this field can only contain upper- and lower-case un-accented letters and the underscore and space characters (ie &lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo; and &lsquo;_&rsquo; and &lsquo; &rsquo;).
 							</para>
 						</important>
 					</listitem>
@@ -169,7 +175,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 						<important>
 							<title>Important</title>
 							<para>
-								Because data in this tag also appears as part of the .rpm filename, this field can only contain upper- and lower-case un-accented letters and the underscore and space characters (ie az, AZ and _ and ).
+								Because data in this tag also appears as part of the .rpm filename, this field can only contain upper- and lower-case un-accented letters and the underscore and space characters (ie &lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo; and &lsquo;_&rsquo; and &lsquo; &rsquo;).
 							</para>
 						</important>
 					</listitem>
@@ -186,7 +192,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 					<term><filename>&lt;productnumber&gt;<replaceable>productnumber</replaceable>&lt;/productnumber&gt;</filename></term>
 					<listitem>
 						<para>
-							The version number of the product the book covers, for example 5.2 for Red Hat Enterprise Linux 5.2 and 4.3 for JBoss EAP 4.3.
+							The version number of the product the book covers, for example &lsquo;5.2&rsquo; for Red Hat Enterprise Linux 5.2 and &lsquo;4.3&rsquo; for JBoss EAP 4.3.
 						</para>
 						<para>
 							Running the <command>create_book --name <replaceable>Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the product number.
@@ -194,7 +200,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 						<important>
 							<title>Important</title>
 							<para>
-								Because data in this tag is used in the RPM spec file, this tag can only contain numbers and the full stop or period (ie 09 and .).
+								Because data in this tag is used in the RPM spec file, this tag can only contain numbers and the full stop or period (ie &lsquo;0&ndash;9&rsquo; and &lsquo;.&rsquo;).
 							</para>
 						</important>
 					</listitem>
@@ -214,7 +220,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 						<important>
 							<title>Important</title>
 							<para>
-								Because data in this tag sets the <parameter>Version</parameter> in the RPM spec file, this tag can only contain numbers and the full stop or period (ie 09 and .).
+								Because data in this tag sets the <parameter>Version</parameter> in the RPM spec file, this tag can only contain numbers and the full stop or period (ie &lsquo;0&ndash;9&rsquo; and &lsquo;.&rsquo;).
 							</para>
 						</important>
 					</listitem>
@@ -228,7 +234,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 						<important>
 							<title>Important</title>
 							<para>
-								Because data in this tag sets the <parameter>Release</parameter> in the RPM spec file, this tag can only contain numbers (ie 09).
+								Because data in this tag sets the <parameter>Release</parameter> in the RPM spec file, this tag can only contain numbers (ie &lsquo;0&ndash;9&rsquo;).
 							</para>
 						</important>
 					</listitem>
@@ -287,7 +293,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 				<filename>Author_Group.xml</filename> is not required but is the standard place to record author, editor, artist and other credit details. The following is an example <filename>Author_Group.xml</filename> file:
 			</para>
 			
-<programlisting language="XML"><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+<programlisting language="XML"><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			<para>
 				<filename>Author_Group.xml</filename> does not have to contain all of the above information: include as much or as little as required.
@@ -306,10 +312,10 @@ include $(COMMON_CONFIG)/make/Makefile.common
 				The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created after running the <command>create_book</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
 			</para>
 			
-<programlisting language="XML"><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+<programlisting language="XML"><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			<para>
-				This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Please refer to <ulink url="http://docbook.org/tdg/en/html/chapter.html" /> for further information about chapters.
+				This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Please refer to <ulink url="http://docbook.org/tdg/en/html/chapter.html"></ulink> for further information about chapters.
 			</para>
 			<note>
 				<title>Note</title>
@@ -328,7 +334,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 				The following is an example <filename><replaceable>Book_Name</replaceable>.xml</filename> file. Note the <filename>DOCTYPE</filename> is set to <filename>book</filename>.
 			</para>
 			
-<programlisting language="XML"><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+<programlisting language="XML"><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
 			<para>
 				This example loads the <computeroutput>Book_Info.xml</computeroutput>, <computeroutput>Preface.xml</computeroutput>, <computeroutput>Chapter.xml</computeroutput>, and <computeroutput>Appendix.xml</computeroutput> XML files.
@@ -374,7 +380,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 &lt;/book&gt;
 </programlisting>
 			<para>
-				This book contains two chapters. Chapter one contains two sections. Please refer to <ulink url="http://docbook.org/tdg/en/html/section.html" /> for further information about sections, and <ulink url="http://docbook.org/tdg/en/html/book.html" /> for further information about books.
+				This book contains two chapters. Chapter one contains two sections. Please refer to <ulink url="http://docbook.org/tdg/en/html/section.html"></ulink> for further information about sections, and <ulink url="http://docbook.org/tdg/en/html/book.html"></ulink> for further information about books.
 			</para>
 		</section>
 		
@@ -385,27 +391,27 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<para>
 				
-<screen><xi:include href="extras/Book_Name.ent" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+<screen><xi:include href="extras/Book_Name.ent" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </screen>
 			</para>
 			<important>
 				<title>Important</title>
 				<para>
-					Entities offer convenience but they should be used with extreme caution. Writing (for example) <sgmltag>&amp;FDS</sgmltag> instead of <application>Fedora Directory Server</application> saves the writer time but transformed entities do not appear in <filename>.po</filename> files. Complete translations of documents containing entities are, as a consequence, impossible.
+					Entities offer convenience but they should be used with extreme caution. Writing (for example) <sgmltag>&amp;FDS&semi;</sgmltag> instead of <application>Fedora Directory Server</application> saves the writer time but transformed entities do not appear in <filename>.po</filename> files. Complete translations of documents containing entities are, as a consequence, impossible.
 				</para>
 			</important>
 			<para>
-				If you define an entity <sgmltag>&lt;!ENTITY LIFT "Liberty Installation and Formatting Tome"&gt;</sgmltag> you can enter <sgmltag>&amp;LIFT</sgmltag> in your XML and it will appear as <emphasis>The Secret to Eternal Life</emphasis> every time the book is built to HTML, PDF or Text.
+				If you define an entity &mdash; <sgmltag>&lt;!ENTITY LIFT "Liberty Installation and Formatting Tome"&gt;</sgmltag> &mdash; you can enter <sgmltag>&amp;LIFT&semi;</sgmltag> in your XML and it will appear as <emphasis>The Secret to Eternal Life</emphasis> every time the book is built to HTML, PDF or Text.
 			</para>
 			<para>
-				Entities are not transformed when XML is converted to PO, however. Which means translators never see <emphasis>Liberty Installation and Formatting Tome</emphasis>. Instead they see <sgmltag>&amp;LIFT</sgmltag>, which they cannot translate.
+				Entities are not transformed when XML is converted to PO, however. Which means translators never see <emphasis>Liberty Installation and Formatting Tome</emphasis>. Instead they see <sgmltag>&amp;LIFT&semi;</sgmltag>, which they cannot translate.
 			</para>
 			<para>
 				Consider something as simple as the following English sentence fragment being translated into a related language: German.
 			</para>
 			<blockquote>
 				<para>
-					As noted in the <emphasis>Liberty Installation and Formatting Tome</emphasis>, Chapter 3
+					As noted in the <emphasis>Liberty Installation and Formatting Tome</emphasis>, Chapter 3&hellip;
 				</para>
 			</blockquote>
 			<para>
@@ -413,18 +419,18 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<blockquote>
 				<para>
-					<foreignphrase>Wie in dem <emphasis>Wlzer fr die Installation und Formatierung von Liberty</emphasis>, Kapitel 3, erwhnt</foreignphrase>
+					<foreignphrase>Wie in dem <emphasis>W&auml;lzer f&uuml;r die Installation und Formatierung von Liberty</emphasis>, Kapitel 3, erw&auml;hnt&hellip;</foreignphrase>
 				</para>
 			</blockquote>
 			<para>
-				Because there is no text missing, the title can be translated into elegant German, avoiding the multi-syllabic mega-word syndrome. Also, note the use of <foreignphrase>in dem</foreignphrase>, the correct pronoun when referring to a <foreignphrase>Wlzer</foreignphrase> (tome).
+				Because there is no text missing, the title can be translated into elegant German, avoiding the multi-syllabic mega-word syndrome. Also, note the use of <foreignphrase>&lsquo;in dem&rsquo;</foreignphrase>, the correct pronoun when referring to a <foreignphrase>W&auml;lzer</foreignphrase> (tome).
 			</para>
 			<para>
 				By contrast, if entities are used, the English would be
 			</para>
 			<blockquote>
 				<para>
-					As noted in the <sgmltag>&amp;LIFT</sgmltag>, Chapter 3
+					As noted in the <sgmltag>&amp;LIFT&semi;</sgmltag>, Chapter 3&hellip;
 				</para>
 			</blockquote>
 			<para>
@@ -432,7 +438,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<blockquote>
 				<para>
-					<foreignphrase>Wie in <sgmltag>&amp;LIFT</sgmltag>, Kapitel 3, erwhnt</foreignphrase>
+					<foreignphrase>Wie in <sgmltag>&amp;LIFT&semi;</sgmltag>, Kapitel 3, erw&auml;hnt&hellip;</foreignphrase>
 				</para>
 			</blockquote>
 			<para>
@@ -440,18 +446,18 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<blockquote>
 				<para>
-					<foreignphrase>Wie in <emphasis>Liberty Installation and Formatting Tome</emphasis>, Kapitel 3, erwhnt</foreignphrase>
+					<foreignphrase>Wie in <emphasis>Liberty Installation and Formatting Tome</emphasis>, Kapitel 3, erw&auml;hnt&hellip;</foreignphrase>
 				</para>
 			</blockquote>
 			<para>
-				This, of course, leaves the title in English, including words like Tome and Formatting that are unlikely to be understood. Also, the translator is forced to use the pronoun in, a more general construction that comes close to <foreignphrase>Denglisch or Angleutsch</foreignphrase>. Many German speakers consider this approach incorrect and almost all consider it inelegant.
+				This, of course, leaves the title in English, including words like Tome and Formatting that are unlikely to be understood. Also, the translator is forced to use the pronoun &lsquo;in&rsquo;, a more general construction that comes close to <foreignphrase>Denglisch or Angleutsch</foreignphrase>. Many German speakers consider this approach incorrect and almost all consider it inelegant.
 			</para>
 			<para>
 				Equivalent problems emerge with a fragment such as this:
 			</para>
 			<blockquote>
 				<para>
-					However, a careful reading of the <emphasis>Liberty Installation and Formatting Tome</emphasis> afterword, shows that
+					However, a careful reading of the <emphasis>Liberty Installation and Formatting Tome</emphasis> afterword, shows that&hellip;
 				</para>
 			</blockquote>
 			<para>
@@ -459,7 +465,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<blockquote>
 				<para>
-					<foreignphrase>Jedoch ergibt ein sorgfltiges Lesen des Nachworts fr den <emphasis>Wlzer fr die Installation und Formatierung von Liberty</emphasis>, dass</foreignphrase>
+					<foreignphrase>Jedoch ergibt ein sorgf&auml;ltiges Lesen des Nachworts f&uuml;r den <emphasis>W&auml;lzer f&uuml;r die Installation und Formatierung von Liberty</emphasis>, dass&hellip;</foreignphrase>
 				</para>
 			</blockquote>
 			<para>
@@ -467,7 +473,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<blockquote>
 				<para>
-					However, a careful reading of the <sgmltag>&amp;LIFT</sgmltag> afterword, shows that
+					However, a careful reading of the <sgmltag>&amp;LIFT&semi;</sgmltag> afterword, shows that&hellip;
 				</para>
 			</blockquote>
 			<para>
@@ -475,7 +481,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<blockquote>
 				<para>
-					<foreignphrase>Jedoch ergibt ein sorgfltiges Lesen des Nachworts fr <sgmltag>&amp;LIFT</sgmltag>, dass</foreignphrase>
+					<foreignphrase>Jedoch ergibt ein sorgf&auml;ltiges Lesen des Nachworts f&uuml;r <sgmltag>&amp;LIFT&semi;</sgmltag>, dass&hellip;</foreignphrase>
 				</para>
 			</blockquote>
 			<para>
@@ -483,11 +489,11 @@ include $(COMMON_CONFIG)/make/Makefile.common
 			</para>
 			<blockquote>
 				<para>
-					<foreignphrase>Jedoch ergibt ein sorgfltiges Lesen des Nachworts fr <emphasis>Liberty Installation and Formatting Tome</emphasis>, dass</foreignphrase>
+					<foreignphrase>Jedoch ergibt ein sorgf&auml;ltiges Lesen des Nachworts f&uuml;r <emphasis>Liberty Installation and Formatting Tome</emphasis>, dass&hellip;</foreignphrase>
 				</para>
 			</blockquote>
 			<para>
-				Again, note the missing pronoun, <foreignphrase>den</foreignphrase>. This is inelegant but necessary since the translator can otherwise only guess which pronoun <foreignphrase>(der, die or das)</foreignphrase> to use, which would inevitably lead to error.
+				Again, note the missing pronoun, <foreignphrase>&lsquo;den&rsquo;</foreignphrase>. This is inelegant but necessary since the translator can otherwise only guess which pronoun <foreignphrase>(der, die or das)</foreignphrase> to use, which would inevitably lead to error.
 			</para>
 			<para>
 				Now multiply such problems by the 22 languages Publican currently supports. Using entities for anything other than the few non-translated strings currently supported is arguably a conscious effort to inhibit and reduce the quality of translations.
@@ -517,7 +523,6 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		<para>
 			Use the <filename>images</filename> subdirectory in the <filename>en-<replaceable>US</replaceable>/</filename> directory to store images. Use <computeroutput>./images/<replaceable>image-name</replaceable></computeroutput> to insert images into a book. The following is an example that inserts the <filename>testimage.png</filename> image:
 		</para>
-		
 <programlisting language="XML">&lt;mediaobject&gt;
 	&lt;imageobject&gt;
 		&lt;imagedata fileref="./images/testimage.png" /&gt;
@@ -528,7 +533,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		<warning>
 			<title>Image File Locations</title>
 			<para>
-				The build system only uses images in the <filename>en-<replaceable>US</replaceable>/images</filename> subdirectory. Other directories do not work.
+					The build system only uses images in the <filename>en-<replaceable>US</replaceable>/images</filename> subdirectory. Other directories do not work.
 			</para>
 		</warning>
 		<section id="sect-Users_Guide-Adding_Images-Big_Test">
@@ -643,7 +648,7 @@ include $(COMMON_CONFIG)/make/Makefile.common
 		</warning>
 	</section>
 	
-	<xi:include href="Conditionaltagging.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="Conditionaltagging.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 	<section id="sect-Users_Guide-Using_the_publican_package-Pre_release_software_and_draft_documentation">
 		<title>Pre-release software and draft documentation</title>
 		<para>

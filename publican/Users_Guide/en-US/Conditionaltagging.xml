@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
+
 <section id="sect-Users_Guide-Conditional_Tagging">
 	<title>Conditional Tagging</title>
 	<para>
@@ -56,6 +57,9 @@ CONDITION=($BRAND)
 	<para>
 		Further, if an <command>&lt;xref&gt;</command> points to content that is not going to be included in the build due to conditional tagging, the build will fail. For example, <command>make CONDITION="upstream" pdf-en-US</command> will fail if the book has the tag <command>&lt;xref linkend="betasection"</command> pointing to <command>&lt;section id="betasection" CONDITION="beta"&gt;</command>.
 	</para>
+	<!--     
+	<para>At present, conditional tagging is supported on all build formats except for desktop RPMs.</para>
+	     -->
 </section>
 
 
