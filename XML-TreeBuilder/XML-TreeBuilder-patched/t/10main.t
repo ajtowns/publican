@@ -55,7 +55,6 @@ $x->parse(
 
 $y = XML::Element->new_from_lol(
  ['Gee',
-   { 'NoExpand' => "1", 'ErrorContext' => "2" },
    ['~comment', {'text' => ' myorp '}],
    ['foo', {'Id'=> 'me', 'xml:foo' => 'lal'}, 'Hello World'],
    ['lor'],

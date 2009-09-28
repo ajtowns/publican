@@ -48,6 +48,8 @@ sub new {
             },
             'Start' => sub {
                 shift;
+                $self->attr('NoExpand', undef);
+                $self->attr('ErrorContext', undef);
                 if (@stack) {
                     push @stack, $self->{'_element_class'}->new(@_);
                     $stack[-2]->push_content( $stack[-1] );

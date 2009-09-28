@@ -37,8 +37,6 @@ unless( $ENV{'HARNESS_ACTIVE'} ) {
   $y->dump;
 }
 
-
-
 #print "\n", $x->as_Lisp_form, "\n";
 #print "\n", $x->as_XML, "\n\n";
 #print "\n", $y->as_XML, "\n\n";

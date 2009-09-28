@@ -1,7 +1,7 @@
 Summary:	Parser that builds a tree of XML::Element objects
 Name:		perl-XML-TreeBuilder
 Version:	3.09
-Release:	12%{?dist}
+Release:	15%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/XML-TreeBuilder/
@@ -50,8 +50,17 @@ find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 %{perl_vendorlib}/XML/
 
 %changelog
-* Mon Mar 16 2009 Jeff Fearn <jfearn@redhat.com> - 3.09-12
+* Mon Sep 28 2009  Jeff Fearn <jfearn@redhat.com> - 3.09-15
+- Always remove NoExpand and ErrorContext from output
+
+* Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.09-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+* Mon Mar 16 2009 Jeff Fearn <jfearn@redhat.com> - 3.09-13
 - Remove NoExpand and ErrorContext from output if they aren't set.
+
+* Thu Feb 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.09-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
 * Wed Oct 15 2008 Jeff Fearn <jfearn@redhat.com> - 3.09-11
 - Add ErrorContext pass through
