@@ -1025,6 +1025,7 @@ sub process_file {
 
     my $xml_doc = XML::TreeBuilder->new(
         { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    $xml_doc->store_comments(1);
 
     $xml_doc->parse_file($file)
         || croak( maketext( "Can't open file '[_1]' [_2]", $file, $@ ) );

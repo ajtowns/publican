@@ -1391,6 +1391,7 @@ sub new_tree {
     $empty_element_map->{'ulink'}     = 1;
     $empty_element_map->{'xi:include'}     = 1;
 
+    $xml_doc->store_comments(1);
 
     return ($xml_doc);
 }

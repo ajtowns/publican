@@ -209,6 +209,7 @@ sub update_po {
             my $po_file = $pot_file;
             chop($po_file);
             $po_file =~ s/^pot/$lang/;
+            logger( "\t", maketext( "Processing file [_1] => [_2]", $pot_file, $po_file ), "\n" );
 
             # handle nested directories
             $pot_file =~ m|^(.*)/[^/]+$|;
