@@ -207,9 +207,16 @@ sub update_po {
 
         foreach my $pot_file ( sort(@pot_files) ) {
             my $po_file = $pot_file;
+
+            # remove the t from .pot
             chop($po_file);
             $po_file =~ s/^pot/$lang/;
-            logger( "\t", maketext( "Processing file [_1] => [_2]", $pot_file, $po_file ), "\n" );
+            logger(
+                "\t"
+                    . maketext( "Processing file [_1] => [_2]",
+                    $pot_file, $po_file )
+                    . "\n"
+            );
 
             # handle nested directories
             $pot_file =~ m|^(.*)/[^/]+$|;
@@ -234,7 +241,7 @@ sub update_po {
                 }
             }
 
-            #            system("msgfmt -c -f --statistics $po_file");
+##            system("msgfmt -c -f --statistics $po_file");
             my $xml_file = $pot_file;
             $xml_file =~ s/^pot/$xml_lang/;
             $xml_file =~ s/pot$/xml/;
@@ -482,6 +489,8 @@ sub print_msgs {
 
     foreach my $child ( $msg_list->content_list() ) {
         my $msg_id = $child->as_XML();
+
+        #        my $msg_id = $child->as_text();
         $msg_id = po_format( $self->normalise($msg_id), $child->tag() );
         next unless $msg_id;
         $msg_id = qq|"$msg_id"|;
@@ -551,6 +560,21 @@ sub normalise {
     $norm =~ s/^\s*//g;    # space at start of line
     $norm =~ s/\s*$//g;    # space at end of line
     $norm =~ s/\s+/ /g;    # colapse spacing
+
+    # Escaped entities :(
+## TODO dupe code from XmlClean
+    $norm =~ s/&#10;//g;
+    $norm =~ s/&#9;//g;
+    $norm =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
+    $norm =~ s/&#38;/&amp;/g;
+    $norm =~ s/&amp;#x200B;/&#x200B;/g;
+    $norm =~ s/&#x200B; &#x200B;/ /g;
+    $norm =~ s/&#x200B; / /g;
+    $norm =~ s/&#60;/&lt;/g;
+    $norm =~ s/&#62;/&gt;/g;
+    $norm =~ s/&#34;/"/g;
+    $norm =~ s/&#39;/'/g;
+
     return $norm;
 }
 

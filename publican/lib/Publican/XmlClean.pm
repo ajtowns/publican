@@ -446,23 +446,6 @@ sub prune_xml {
                 $node->delete();
             }
         }
-
-        # lets delete all the empty para tags!
-        # TODO Is this still required?
-        $xml_doc->pos( $xml_doc->root() );
-        foreach my $node ( $xml_doc->find_by_tag_name('para') ) {
-            if ( $node->as_text !~ /\S/ && $node->content_list <= 1 ) {
-                logger(
-                    "\n"
-                        . maketext(
-                        "*WARNING: Removing empty para tag from build environment, this may break your build*"
-                        )
-                        . "\n\n",
-                    RED
-                );
-                $node->delete();
-            }
-        }
     }
 
     return;
@@ -599,6 +582,7 @@ sub print_xml {
         $text =~ s/&#60;/&lt;/g;
         $text =~ s/&#62;/&gt;/g;
         $text =~ s/&#34;/"/g;
+        $text =~ s/&#39;/'/g;
         $xml_doc->root()->delete();
 
         my $OUTDOC;
@@ -645,12 +629,12 @@ sub my_as_XML {
     my $lang         = $self->{config}->param('lang');
 
     # This flags tags that use  /> instead of end tags IF they are empty.
-    $empty_element_map->{'xref'}  = 1;
-    $empty_element_map->{'index'} = 1;
+    $empty_element_map->{'xref'}       = 1;
+    $empty_element_map->{'index'}      = 1;
     $empty_element_map->{'xi:include'} = 1;
-    $empty_element_map->{'ulink'} = 1;
-    $empty_element_map->{'imagedata'} = 1;
-    $empty_element_map->{'area'}      = 1;
+    $empty_element_map->{'ulink'}      = 1;
+    $empty_element_map->{'imagedata'}  = 1;
+    $empty_element_map->{'area'}       = 1;
 
     my $depth  = 0;
     my $indent = "\t";
@@ -668,8 +652,8 @@ sub my_as_XML {
             ( $node, $start ) = @_;
             if ( ref $node ) {     # it's an element
                                    # delete internal attrs
-                $node->attr( 'depth',        undef );
-                $node->attr( 'name',         undef );
+                $node->attr( 'depth', undef );
+                $node->attr( 'name',  undef );
 
                 $tag = $node->{'_tag'};
 
@@ -768,32 +752,34 @@ sub my_as_XML {
                         $depth++;
                     }
 
-                        if ( $tag eq 'imagedata' ) {
-                            $node->attr('fileref') =~ m/(...)$/;
-                            my $format = uc($1);
-                            if ($format) {
-                                $node->attr( 'format', $format );
+                    if ( $tag eq 'imagedata' ) {
+                        $node->attr('fileref') =~ m/(...)$/;
+                        my $format = uc($1);
+                        if ($format) {
+                            $node->attr( 'format', $format );
+                        }
+                        if ( -f $node->attr('fileref') ) {
+                            my ( $width, $height )
+                                = imgsize( $node->attr('fileref') );
+                            if ( $@ || !$width ) {
+                                logger(
+                                    maketext(
+                                        "Can't calculate image size, image may render badly. Image File: [_1]. Error Message: [_2]",
+                                        $node->attr('fileref'),
+                                        $@
+                                    )
+                                );
                             }
-                            if ( -f $node->attr('fileref') ) {
-                                my ( $width, $height )
-                                    = imgsize( $node->attr('fileref') );
-                                if ( $@ || !$width ) {
-                                    logger(
-                                        maketext(
-                                            "Can't calculate image size, image may render badly. Image File: [_1]. Error Message: [_2]",
-                                            $node->attr('fileref'),
-                                            $@
-                                        )
-                                    );
-                                }
-                                if ( $width > $MAX_WIDTH ) {
-                                    $node->attr( 'scalefit', '1' );
-                                }
+                            if ( $width > $MAX_WIDTH ) {
+                                $node->attr( 'scalefit', '1' );
                             }
-
                         }
 
-                    if ( $empty_element_map->{$tag} and !@{$node->content_array_ref()} ) {
+                    }
+
+                    if ( $empty_element_map->{$tag}
+                        and !@{ $node->content_array_ref() } )
+                    {
                         push( @xml, $node->starttag_XML( undef, 1 ) );
                         if ( $MAP_OUT{$tag}->{'newline_after'} ) {
                             push( @xml, "\n", $indent x $depth );
@@ -858,7 +844,9 @@ sub my_as_XML {
                         }
                     }
 
-                    unless ( $empty_element_map->{$tag} and !@{$node->content_array_ref()} ) {
+                    unless ( $empty_element_map->{$tag}
+                        and !@{ $node->content_array_ref() } )
+                    {
                         push( @xml, $node->endtag_XML() );
                     }    # otherwise it will have been an <... /> tag.
 

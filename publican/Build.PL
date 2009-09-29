@@ -76,6 +76,10 @@ my $class = Module::Build->subclass(
         rcopy( "publish/*", "$path/.");
         $dir = undef;
       }
+      sub ACTION_update_pot {
+        my $self = shift;
+        $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
+      }
   }
 );
 
@@ -168,6 +172,7 @@ my $builder = $class->new(
         'Users_Guide/tmp',
         'datadir/Common_Content/common/tmp',
         'datadir/Common_Content/common/publish',
+        'MANIFEST.bak',
     ],
     script_files => ['bin/publican'],
     install_path => { 'datadir' => '/usr/share/Publican' },
