@@ -18,7 +18,7 @@ sub new {
     my ( $this, $arg ) = @_;
     my $class = ref($this) || $this;
 
-    my $NoExpand = ( delete $arg->{'NoExpand'} || undef );
+    my $NoExpand     = ( delete $arg->{'NoExpand'}     || undef );
     my $ErrorContext = ( delete $arg->{'ErrorContext'} || undef );
 
     if ( %{$arg} ) {
@@ -48,8 +48,6 @@ sub new {
             },
             'Start' => sub {
                 shift;
-                $self->attr('NoExpand', undef);
-                $self->attr('ErrorContext', undef);
                 if (@stack) {
                     push @stack, $self->{'_element_class'}->new(@_);
                     $stack[-2]->push_content( $stack[-1] );
@@ -79,6 +77,18 @@ sub new {
                     ->push_content( $self->{'_element_class'}
                         ->new( '~pi', 'text' => "$_[1] $_[2]" ) );
                 return;
+            },
+
+            'Final' => sub {
+                $self->root()->traverse(
+                    sub {
+                        my ( $node, $start ) = @_;
+                        if ( ref $node ) {    # it's an element
+                            $node->attr( 'NoExpand',     undef );
+                            $node->attr( 'ErrorContext', undef );
+                        }
+                    }
+                );
             },
 
             # And now, declarations:

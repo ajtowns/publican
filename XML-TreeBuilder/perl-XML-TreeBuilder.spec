@@ -1,7 +1,7 @@
 Summary:	Parser that builds a tree of XML::Element objects
 Name:		perl-XML-TreeBuilder
 Version:	3.09
-Release:	15%{?dist}
+Release:	16%{?dist}
 License:	GPL+ or Artistic
 Group:		Development/Libraries
 URL:		http://search.cpan.org/dist/XML-TreeBuilder/
@@ -50,6 +50,9 @@ find $RPM_BUILD_ROOT -name .packlist -exec %{__rm} {} \;
 %{perl_vendorlib}/XML/
 
 %changelog
+* Tue Sep 29 2009  Jeff Fearn <jfearn@redhat.com> - 3.09-16
+- Stupid man! Don't eat entities :(
+
 * Mon Sep 28 2009  Jeff Fearn <jfearn@redhat.com> - 3.09-15
 - Always remove NoExpand and ErrorContext from output
 

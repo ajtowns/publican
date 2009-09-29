@@ -15,7 +15,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/Changes XML-Tre
  
 diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBuilder.pm XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm
 --- XML-TreeBuilder-3.09/lib/XML/TreeBuilder.pm	2004-06-11 13:59:14.000000000 +1000
-+++ XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm	2009-09-28 13:51:25.000000000 +1000
++++ XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm	2009-09-29 09:21:18.000000000 +1000
 @@ -5,6 +7,7 @@
  use strict;
  use XML::Element ();
@@ -33,7 +33,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
 +    my ( $this, $arg ) = @_;
 +    my $class = ref($this) || $this;
 +
-+    my $NoExpand = ( delete $arg->{'NoExpand'} || undef );
++    my $NoExpand     = ( delete $arg->{'NoExpand'}     || undef );
 +    my $ErrorContext = ( delete $arg->{'ErrorContext'} || undef );
 +
 +    if ( %{$arg} ) {
@@ -42,7 +42,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
    
    my $self = XML::Element->new('NIL');
    bless $self, $class; # and rebless
-@@ -21,44 +31,53 @@
+@@ -21,57 +31,76 @@
    $self->{'_store_comments'}     = 0;
    $self->{'_store_pis'}          = 0;
    $self->{'_store_declarations'} = 0;
@@ -65,8 +65,6 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
      'Start' => sub {
        shift;
 -      if(@stack) {
-+                $self->attr('NoExpand', undef);
-+                $self->attr('ErrorContext', undef);
 +                if (@stack) {
           push @stack, $self->{'_element_class'}->new(@_);
           $stack[-2]->push_content( $stack[-1] );
@@ -111,7 +109,20 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
         return;
      },
      
-@@ -67,11 +86,11 @@
++            'Final' => sub {
++                $self->root()->traverse(
++                    sub {
++                        my ( $node, $start ) = @_;
++                        if ( ref $node ) {    # it's an element
++                            $node->attr( 'NoExpand',     undef );
++                            $node->attr( 'ErrorContext', undef );
++                        }
++                    }
++                );
++            },
++
+     # And now, declarations:
+     
      'Attlist' => sub {
         return unless $self->{'_store_declarations'};
         shift;
@@ -128,7 +139,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
           )
         );
         return;
-@@ -80,11 +99,11 @@
+@@ -80,11 +109,11 @@
      'Element' => sub {
         return unless $self->{'_store_declarations'};
         shift;
@@ -145,7 +156,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
           )
         );
         return;
-@@ -93,17 +112,32 @@
+@@ -93,17 +122,32 @@
      'Doctype' => sub {
         return unless $self->{'_store_declarations'};
         shift;
@@ -184,7 +195,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
    
    return $self;
  }
-@@ -110,15 +145,15 @@
+@@ -110,15 +155,15 @@
  #==========================================================================
  sub _elem # universal accessor...
  {
@@ -205,8 +216,8 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
  #==========================================================================
  
 diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/10main.t XML-TreeBuilder-patched/t/10main.t
---- XML-TreeBuilder-3.09/t/10main.t	2004-06-11 14:22:53.000000000 +1000
-+++ XML-TreeBuilder-patched/t/10main.t	2009-09-28 13:59:55.000000000 +1000
+--- XML-TreeBuilder-3.09/t/10main.t	2009-09-28 14:00:50.000000000 +1000
++++ XML-TreeBuilder-patched/t/10main.t	2009-09-28 14:00:54.000000000 +1000
 @@ -2,7 +2,7 @@
  # Time-stamp: "2004-06-10 20:22:53 ADT" 
  
@@ -226,7 +237,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/10main.t XML-
  
  unless( $ENV{'HARNESS_ACTIVE'} ) {
    $x->dump;
-@@ -45,6 +44,27 @@
+@@ -43,6 +44,27 @@
  $x->delete;
  $y->delete;
  
