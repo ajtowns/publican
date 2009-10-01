@@ -195,6 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 - Update XML::LibXML & XML::LibXSLT minimum versions to 1.67
 - Fix rounded corners in HTML. BZ #509768
 - Fix nested images breakin in PDF. BZ #491782
+- Remove border from HTML table for simplelist. BZ #502126
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
