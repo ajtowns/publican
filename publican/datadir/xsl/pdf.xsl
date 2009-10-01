@@ -155,13 +155,17 @@
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
-	<!--xsl:attribute name="padding-left">12pt</xsl:attribute>
-	<xsl:attribute name="padding-right">12pt</xsl:attribute-->
-	<xsl:attribute name="padding-top">6pt</xsl:attribute>
-	<xsl:attribute name="padding-bottom">6pt</xsl:attribute>
-	<xsl:attribute name="margin-left">
-		<xsl:value-of select="$title.margin.left"/>
-	</xsl:attribute>
+  <!--xsl:attribute name="padding-left">12pt</xsl:attribute>
+  <xsl:attribute name="padding-right">12pt</xsl:attribute-->
+  <xsl:attribute name="padding-top">6pt</xsl:attribute>
+  <xsl:attribute name="padding-bottom">6pt</xsl:attribute>
+  <xsl:attribute name="margin-left">
+    <xsl:value-of select="$title.margin.left"/>
+  </xsl:attribute>
+  <xsl:attribute name="font-size">
+    <xsl:value-of select="$body.font.master * 0.8"/>
+    <xsl:text>pt</xsl:text>
+  </xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="hidden.properties">
