@@ -652,7 +652,9 @@ Version:1.72
 -->
 <xsl:template match="title" mode="chapter.titlepage.recto.auto.mode">
 <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="chapter.titlepage.recto.style">
-<xsl:value-of select="."/>
+<xsl:apply-templates>
+  <xsl:with-param name="allow-anchors" select="1"/>
+</xsl:apply-templates>
 </fo:block>
 </xsl:template>
 

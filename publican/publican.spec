@@ -196,6 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix rounded corners in HTML. BZ #509768
 - Fix nested images breakin in PDF. BZ #491782
 - Remove border from HTML table for simplelist. BZ #502126
+- Fix remarks not being highlighted in PDF. BZ #509307
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
