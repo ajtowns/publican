@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           Publican
 Version:        0.99
-Release:        0.BETA1%{?dist}.t38
+Release:        0.BETA1%{?dist}.t57
 Summary:        Common files and scripts for publishing with DocBook XML
 License:        GPLv2+ or Artistic
 Group:          Applications/Publishing
@@ -198,6 +198,8 @@ rm -rf $RPM_BUILD_ROOT
 - Remove border from HTML table for simplelist. BZ #502126
 - Fix remarks not being highlighted in PDF. BZ #509307
 - Resize shade.verbatim font size. BZ #497462
+- Change step page size limitation to para size limitation. BZ#492984
+- Add warning message for missing images. BZ #495821
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.

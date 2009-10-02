@@ -2344,7 +2344,7 @@ Version:1.72
       </fo:block>
     </fo:list-item-label>
     <fo:list-item-body start-indent="body-start()">
-      <fo:block keep-together.within-column="always">
+      <fo:block>
         <xsl:apply-templates/>
       </fo:block>
     </fo:list-item-body>
@@ -2422,6 +2422,18 @@ Version:1.72
   <xsl:apply-templates select="thead"/>
   <xsl:apply-templates select="tfoot"/>
   <xsl:apply-templates select="tbody"/>
+</xsl:template>
+
+<xsl:template match="para">
+  <fo:block xsl:use-attribute-sets="normal.para.spacing">
+    <xsl:if test="descendant::figure">
+      <xsl:attribute name="keep-together.within-column">
+        <xsl:text>always</xsl:text>
+      </xsl:attribute>
+    </xsl:if>
+    <xsl:call-template name="anchor"/>
+    <xsl:apply-templates/>
+  </fo:block>
 </xsl:template>
 
 </xsl:stylesheet>

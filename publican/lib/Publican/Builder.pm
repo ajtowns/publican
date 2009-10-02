@@ -293,13 +293,18 @@ sub setup_xml {
 
         my @xml_files = dir_list( "$tmp_dir/$lang/xml_tmp", '*.xml' );
 
-        foreach my $xml_file ( sort(@xml_files) ) {
-            my $out_file = $xml_file;
-            $out_file =~ s/xml_tmp/xml/;
-
-            $cleaner->process_file(
-                { file => $xml_file, out_file => $out_file } );
+        # copy css for brand and defaule images for non-brand
+        if ( $type eq 'brand' ) {
+            dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
+                if ( -d "$lang/css" );
         }
+        else {
+            dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
+                if ( -d "$xml_lang/images" );
+        }
+
+        dircopy( "$lang/images", "$tmp_dir/$lang/xml/images" )
+            if ( -d "$lang/images" );
 
         unless ($exlude_common) {
             mkpath("$tmp_dir/$lang/xml/Common_Content");
@@ -343,11 +348,11 @@ sub setup_xml {
             dircopy( "$lang/extras", "$tmp_dir/$lang/xml/extras" )
                 if ( -d "$lang/extras" );
 
-            @xml_files
+            my @com_xml_files
                 = dir_list( "$tmp_dir/$lang/xml/Common_Content", '*.xml' );
 
             $cleaner->{config}->param( 'common', 1 );
-            foreach my $xml_file ( sort(@xml_files) ) {
+            foreach my $xml_file ( sort(@com_xml_files) ) {
                 my $out_file = $xml_file;
                 chmod( 0664, $out_file );
                 $cleaner->process_file(
@@ -355,18 +360,13 @@ sub setup_xml {
             }
         }
 
-        # copy css for brand and defaule images for non-brand
-        if ( $type eq 'brand' ) {
-            dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
-                if ( -d "$lang/css" );
-        }
-        else {
-            dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
-                if ( -d "$xml_lang/images" );
-        }
+        foreach my $xml_file ( sort(@xml_files) ) {
+            my $out_file = $xml_file;
+            $out_file =~ s/xml_tmp/xml/;
 
-        dircopy( "$lang/images", "$tmp_dir/$lang/xml/images" )
-            if ( -d "$lang/images" );
+            $cleaner->process_file(
+                { file => $xml_file, out_file => $out_file } );
+        }
 
         finddepth( \&del_unwanted_dirs, 'tmp' );
     }

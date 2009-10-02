@@ -571,7 +571,8 @@ sub print_xml {
             $xml_doc->attr( 'lang', $lang );
         }
         my $type = $xml_doc->attr("_tag");
-        my $text = $self->my_as_XML($xml_doc);
+        $file =~ m|^(.*/xml/)|;
+        my $text = $self->my_as_XML({xml_doc => $xml_doc, path => $1});
         $text =~ s/&#10;//g;
         $text =~ s/&#9;//g;
         $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
@@ -616,7 +617,12 @@ Traverse tree and output xml as text. Overrides traverse ... evil stuff.
 =cut
 
 sub my_as_XML {
-    my ( $self, $xml_doc ) = @_;
+    my ( $self, $args ) = @_;
+
+    my $xml_doc = delete( $args->{xml_doc} )
+        || croak( maketext("'xml_doc' is a mandatory argument") );
+    my $path = delete( $args->{path} )
+        || croak( maketext("'path' is a mandatory argument") );
 
     # based on as_HTML
     my $tree              = $xml_doc->root();
@@ -758,21 +764,26 @@ sub my_as_XML {
                         if ($format) {
                             $node->attr( 'format', $format );
                         }
-                        if ( -f $node->attr('fileref') ) {
+
+			my $img_file = "$path" . $node->attr('fileref');
+                        if ( -f $img_file ) {
                             my ( $width, $height )
-                                = imgsize( $node->attr('fileref') );
+                                = imgsize( $img_file );
                             if ( $@ || !$width ) {
                                 logger(
                                     maketext(
                                         "Can't calculate image size, image may render badly. Image File: [_1]. Error Message: [_2]",
-                                        $node->attr('fileref'),
+                                        $img_file,
                                         $@
-                                    )
+                                    ) . "\n"
                                 );
                             }
-                            if ( $width > $MAX_WIDTH ) {
+                            elsif ( $width > $MAX_WIDTH ) {
                                 $node->attr( 'scalefit', '1' );
                             }
+                        }
+			else {
+                            logger("\t" . maketext("WARNING: Image missing: [_1]", $img_file) . "\n", RED);
                         }
 
                     }

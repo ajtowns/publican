@@ -53,7 +53,7 @@ my $class = Module::Build->subclass(
         my $rpm = `find $dir/noarch -name '*.rpm'`;
         chomp($rpm);
         $rpm =~ s/\n/ /g;
-        $self->do_system("sudo yum localinstall --nogpg $rpm");
+        $self->do_system("sudo yum -y localinstall --nogpg $rpm");
       }
       sub  process_common_files {
         my $self = shift;
