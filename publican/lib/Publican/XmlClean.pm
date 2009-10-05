@@ -779,7 +779,7 @@ sub my_as_XML {
                                 );
                             }
                             elsif ( $width > $MAX_WIDTH ) {
-                                $node->attr( 'scalefit', '1' );
+                                $node->attr( 'width', $MAX_WIDTH );
                             }
                         }
 			else {

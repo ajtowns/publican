@@ -305,7 +305,10 @@ Version: 1.72.0
 		<base href="{$html.base}"/>
 	</xsl:if>
 
-	<meta xmlns="http://www.w3.org/1999/xhtml" name="generator" content="publican"/>
+	<meta xmlns="http://www.w3.org/1999/xhtml" name="generator">
+		<xsl:text>publican </xsl:text><xsl:value-of select="$publican.version"/>
+	</meta>
+
 	<meta xmlns="http://www.w3.org/1999/xhtml" name="package">
 		<xsl:attribute name="content">
 			<xsl:copy-of select="$package"/>

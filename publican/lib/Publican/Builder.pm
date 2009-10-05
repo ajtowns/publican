@@ -605,7 +605,8 @@ sub transform {
         'show.comments'              => $show_remarks,
         'generate.section.toc.level' => $generate_section_toc_level,
         'use.extensions'             => 1,
-        'tablecolumns.extensions'    => 1
+        'tablecolumns.extensions'    => 1,
+        'publican.version'           => "'$Publican::VERSION'",
     );
 
     mkdir "$tmp_dir/$lang/$format";

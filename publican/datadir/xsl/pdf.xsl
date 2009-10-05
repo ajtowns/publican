@@ -71,7 +71,7 @@
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:param>
-<xsl:param name="default.image.width" select="'440'"/>
+<!--xsl:param name="default.image.width" select="'440'"/-->
 <xsl:param name="hyphenate.verbatim" select="0"/>
 <xsl:param name="hyphenate">true</xsl:param>
 <!--xsl:param name="ulink.hyphenate" select="''"/-->
@@ -2426,7 +2426,7 @@ Version:1.72
 
 <xsl:template match="para">
   <fo:block xsl:use-attribute-sets="normal.para.spacing">
-    <xsl:if test="descendant::figure">
+    <xsl:if test="descendant-or-self::figure">
       <xsl:attribute name="keep-together.within-column">
         <xsl:text>always</xsl:text>
       </xsl:attribute>

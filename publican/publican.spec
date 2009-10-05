@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           Publican
 Version:        0.99
-Release:        0.BETA1%{?dist}.t57
+Release:        0.BETA1%{?dist}.t64
 Summary:        Common files and scripts for publishing with DocBook XML
 License:        GPLv2+ or Artistic
 Group:          Applications/Publishing
@@ -200,6 +200,7 @@ rm -rf $RPM_BUILD_ROOT
 - Resize shade.verbatim font size. BZ #497462
 - Change step page size limitation to para size limitation. BZ#492984
 - Add warning message for missing images. BZ #495821
+- Fix fuzzy images. BZ #479794
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
