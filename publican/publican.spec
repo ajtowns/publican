@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           Publican
 Version:        0.99
-Release:        0.BETA1%{?dist}.t65
+Release:        0.BETA1%{?dist}.t71
 Summary:        Common files and scripts for publishing with DocBook XML
 License:        GPLv2+ or Artistic
 Group:          Applications/Publishing
@@ -68,6 +68,9 @@ Requires:       perl(Locale::Maketext::Gettext)
 Requires:       fop >= 0.90
 Requires:       batik
 Requires:       docbook-style-xsl >= 1.75.1
+Requires:       perl(XML::LibXML)  >=  1.67
+Requires:       perl(XML::LibXSLT) >=  1.67
+Requires:       perl(XML::TreeBuilder) >= 3.09-15
 
 # Pull in the fonts for all languages, else you can't build translated PDF in brew/koji
 %if %{RHEL5}

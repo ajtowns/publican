@@ -38,6 +38,7 @@ Global Options
     --help 	Display help message
     --man		Display Full man page
     --help_actions	Display a list of valid actions
+    --version	Display the version of Publican
 
 Run: 'publican <action> --help' for details on action usage
 
@@ -70,6 +71,7 @@ my $man          = 0;
 my $help         = 0;
 my $action       = "";
 my $help_actions = 0;
+my $version      = 0;
 
 #Getopt::Long::Configure("debug");
 
@@ -77,25 +79,30 @@ my $help_actions = 0;
 my %opts = (
     'help'         => \$help,
     'man'          => \$man,
+    'v'            => \$version,
     'help_actions' => \$help_actions,
 );
 
 #Action options
 my %options = (
-    'help'             => maketext('Display help message'),
-    'man'              => maketext('Display full man page'),
-    'config=s'         => maketext('Use a nonstandard config file'),
-    'binary'           => maketext('Build binary rpm when running package'),
-    'brew'             => maketext('Push SRPM to brew'),
-    'scratch'          => maketext('Use scratch instead of tag build'),
-    'common_config=s'  => maketext('Override path to Common_Config directory'),
-    'common_content=s' => maketext('Override path to Common_Content directory'),
-    'formats=s'        => maketext(
-        'Comma-separated list of formats, for example: html,pdf,htm-single,html-desktop,text'),
-    'langs=s' =>
-        maketext('Comma-separated list of languages, for example: en-US,de-DE,all'),
-    'embedtoc' => maketext('Embed the web site TOC object in the generated HTML'),
-    'name=s'   => maketext('The name of the book, article, set, or brand'),
+    'help'            => maketext('Display help message'),
+    'man'             => maketext('Display full man page'),
+    'v'               => maketext('Display the version of Publican'),
+    'config=s'        => maketext('Use a nonstandard config file'),
+    'binary'          => maketext('Build binary rpm when running package'),
+    'brew'            => maketext('Push SRPM to brew'),
+    'scratch'         => maketext('Use scratch instead of tag build'),
+    'common_config=s' => maketext('Override path to Common_Config directory'),
+    'common_content=s' =>
+        maketext('Override path to Common_Content directory'),
+    'formats=s' => maketext(
+        'Comma-separated list of formats, for example: html,pdf,htm-single,html-desktop,text'
+    ),
+    'langs=s' => maketext(
+        'Comma-separated list of languages, for example: en-US,de-DE,all'),
+    'embedtoc' =>
+        maketext('Embed the web site TOC object in the generated HTML'),
+    'name=s'    => maketext('The name of the book, article, set, or brand'),
     'version=s' => maketext('The version of the product'),
     'edition=s' => maketext('The edition of the book, article, or set'),
     'product=s' => maketext('The name of the product'),
@@ -113,14 +120,15 @@ my %options = (
 my @utility_opts = (
     'help',            'help_actions',
     'man',             'config',
-    'common_config=s', 'common_content=s'
+    'common_config=s', 'common_content=s',
+    'v',
 );
 
 # Actions
 my %actions = (
     'build' => {
-        'brief' =>
-            maketext('Transform XML to other formats (pdf, html, html-single)'),
+        'brief' => maketext(
+            'Transform XML to other formats (pdf, html, html-single)'),
         'options' => [ 'formats', 'langs', 'publish', 'embedtoc' ],
     },
     'clean' => {
@@ -139,7 +147,8 @@ my %actions = (
     },
     'old2new' => {
         'brief' => maketext(
-            'Create a publican.cfg file from the Makefile of an old book, set, or article'),
+            'Create a publican.cfg file from the Makefile of an old book, set, or article'
+        ),
         'options' => [],
     },
     'printtree' => {
@@ -147,18 +156,22 @@ my %actions = (
         'options' => [],
     },
     'create' => {
-        'brief' => maketext('Create a new book, set, or article'),
-        'options' =>
-            [ 'name', 'version', 'edition', 'product', 'brand', 'lang', 'type' ],
+        'brief'   => maketext('Create a new book, set, or article'),
+        'options' => [
+            'name',  'version', 'edition', 'product',
+            'brand', 'lang',    'type'
+        ],
     },
     'create_brand' => {
         'brief'   => maketext('Create a new brand'),
         'options' => [ 'name', 'lang' ],
     },
     'package' => {
-        'brief' => maketext('Package a language for shipping'),
-        'options' =>
-            [ 'lang', 'desktop', 'brew', 'scratch', 'short_sighted', 'binary' ],
+        'brief'   => maketext('Package a language for shipping'),
+        'options' => [
+            'lang',          'desktop', 'brew', 'scratch',
+            'short_sighted', 'binary'
+        ],
     },
     'update_pot' => {
         'brief'   => maketext('Update the POT files'),
@@ -215,6 +228,11 @@ GetOptions( \%opts, @optns, )
 # Getopt will remove the options leaving only the action
 $action = ( $ARGV[0] || "" );
 
+if ($version) {
+    print("version=$VERSION\n");
+    exit(0) if ( $action eq "" );
+}
+
 # Undocumented way of getting help for all actions
 if ( $help and ( $action eq "all" ) ) {
     foreach my $cmd ( sort( keys(%actions) ) ) {
@@ -231,7 +249,9 @@ sub _help_actions {
     }
     print("\n\n");
     print(
-        maketext( "Run: '[_1] <action> --help' for details on action usage", $0 ),
+        maketext(
+            "Run: '[_1] <action> --help' for details on action usage", $0
+        ),
         "\n\n"
     );
 

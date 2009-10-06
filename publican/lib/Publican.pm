@@ -38,7 +38,7 @@ my %PARAM_OLD = (
     COMMON_CONTENT             => '',
     CONDITION                  => 'condition',
     CONFIDENTIAL               => 'confidential',
-    DEFAULT_LANGS              => 'def_langs',
+    DEFAULT_LANGS              => '',
     DOCNAME                    => 'docname',
     DOC_TYPE                   => 'type',
     DOC_URL                    => 'doc_url',
@@ -136,12 +136,6 @@ my %PARAMS = (
     debug => {
         descr   => maketext('Print out extra messages?'),
         default => 1,
-
-    },
-    def_langs => {
-        descr => maketext(
-            'Languages that should be included in transformations even if the translation is not 100%.'
-        ),
 
     },
     docname => {

@@ -18,13 +18,18 @@ use vars qw( $VERSION $MAX_COUNT );
 $VERSION   = version->new('0.1');
 $MAX_COUNT = 29;
 
+my $INIT_VERSION  = '0.1';
+
+## TODO Change this after beta
+my $PUBLICAN_NAME = 'Publican';
+
 =head1 NAME
 
 Publican::CreateBrand - A module for generating new brand boilerplate.
 
 =head1 VERSION
 
-This document describes Publican::CreateBrand version $VERSION
+This document describes Publican::CreateBrand version 0.1 
 
 
 =head1 SYNOPSIS
@@ -65,8 +70,15 @@ sub new {
     $config->param( 'xml_lang',
         delete( $args->{lang} )
             || croak( maketext("lang is a required parameter") ) );
+
+    if ( %{$args} ) {
+        croak(
+            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+    }
+
+
     $config->param( 'type',    'brand' );
-    $config->param( 'version', '1.0' );
+    $config->param( 'version', $INIT_VERSION );
     $config->param( 'release', '0' );
 
     my $self = bless {}, $class;
@@ -92,9 +104,11 @@ sub create {
 
     croak( maketext( "Invalid language supplied: [_1]", $lang ) . "\n" )
         unless ( Publican::valid_lang($lang) );
+
     croak(
         maketext( "Can't create brand, dirctory 'publican-[_1]' exists!", $name )
     ) if ( -d "publican-$name" );
+
     mkpath("publican-$name")
         || croak( maketext( "Can't create directory: [_1]", $@ ) );
     my $dir = pushd("publican-$name");
@@ -303,15 +317,15 @@ sub conf_files {
 
 Name:		publican-$lcbrand
 Summary:	Common documentation files for %{brand}
-Version:	0.1
+Version:	$INIT_VERSION
 Release:	0%{?dist}
 License:	SETUP: Set This
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://www.SETUP.set.me.example.com/source/%{name}-%{version}.tgz
-Requires:	Publican >= 1.0
-BuildRequires:	Publican >= 1.0
+Requires:	$PUBLICAN_NAME >= %(eval "`publican -v`"; echo \$version)
+BuildRequires:	$PUBLICAN_NAME >= 0.99
 URL:		https://www.SETUP.set.me.example.com
 
 %description
@@ -326,8 +340,8 @@ publican build --formats=xml --langs=all --publish
 
 %install
 rm -rf \$RPM_BUILD_ROOT
-mkdir -p -m755 \$RPM_BUILD_ROOT%{_datadir}/Publican/Common_Content
-publican installbrand --path=\$RPM_BUILD_ROOT%{_datadir}/Publican/Common_Content
+mkdir -p -m755 \$RPM_BUILD_ROOT%{_datadir}/$PUBLICAN_NAME/Common_Content
+publican installbrand --path=\$RPM_BUILD_ROOT%{_datadir}/$PUBLICAN_NAME/Common_Content
 
 %clean
 rm -rf \$RPM_BUILD_ROOT
@@ -336,7 +350,7 @@ rm -rf \$RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README
 %doc COPYING
-%{_datadir}/Publican/Common_Content/%{brand}
+%{_datadir}/$PUBLICAN_NAME/Common_Content/%{brand}
 
 %changelog
 * $date  SETUP:YourName <SETUP:your.email\@example.com> 0.1
@@ -344,6 +358,18 @@ rm -rf \$RPM_BUILD_ROOT
 
 SPEC
 
+    close($OUT);
+
+    open( $OUT, ">:utf8", 'README' )
+        || croak( maketext( "Could not open file README for output!" ) );
+
+    print($OUT "SETUP This file should be a short description of your project");
+    close($OUT);
+
+    open( $OUT, ">:utf8", 'COPYING' )
+        || croak( maketext( "Could not open file COPYING for output!" ) );
+
+    print($OUT "SETUP This file should contain your COPYRIGHT License");
     close($OUT);
 
     return;
