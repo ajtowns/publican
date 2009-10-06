@@ -572,7 +572,7 @@ sub print_xml {
         }
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
-        my $text = $self->my_as_XML({xml_doc => $xml_doc, path => $1});
+        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => $1 } );
         $text =~ s/&#10;//g;
         $text =~ s/&#9;//g;
         $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
@@ -727,7 +727,7 @@ sub my_as_XML {
                         }
                     }
 
-                    if ( $show_unknown && !$MAP_OUT{$tag} ) {
+                    if ( ( $show_unknown || $STRICT ) && !$MAP_OUT{$tag} ) {
                         logger(
                             maketext(
                                 "*WARNING: Unvalidated tag: '[_1]'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.",
@@ -765,25 +765,31 @@ sub my_as_XML {
                             $node->attr( 'format', $format );
                         }
 
-			my $img_file = "$path" . $node->attr('fileref');
+                        my $img_file = "$path" . $node->attr('fileref');
                         if ( -f $img_file ) {
-                            my ( $width, $height )
-                                = imgsize( $img_file );
+                            my ( $width, $height ) = imgsize($img_file);
                             if ( $@ || !$width ) {
                                 logger(
                                     maketext(
                                         "Can't calculate image size, image may render badly. Image File: [_1]. Error Message: [_2]",
-                                        $img_file,
-                                        $@
-                                    ) . "\n"
+                                        $img_file, $@
+                                        )
+                                        . "\n"
                                 );
                             }
                             elsif ( $width > $MAX_WIDTH ) {
                                 $node->attr( 'width', $MAX_WIDTH );
                             }
                         }
-			else {
-                            logger("\t" . maketext("WARNING: Image missing: [_1]", $img_file) . "\n", RED);
+                        else {
+                            logger(
+                                "\t"
+                                    . maketext(
+                                    "WARNING: Image missing: [_1]",
+                                    $img_file )
+                                    . "\n",
+                                RED
+                            );
                         }
 
                     }
