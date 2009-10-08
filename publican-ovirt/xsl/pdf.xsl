@@ -21,8 +21,7 @@
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
-<xsl:import href="../defaults.xsl"/>
-<xsl:import href="../pdf.xsl"/>
+<xsl:import href="../../../xsl/pdf.xsl"/>
 
 <xsl:param name="title.color">#5f8c00</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>

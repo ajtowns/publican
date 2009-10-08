@@ -9,8 +9,8 @@ Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-Requires:	publican >= 1.0
-BuildRequires:	publican >= 1.0
+Requires:	publican >= %(eval "`publican -v`"; echo $version)
+BuildRequires:	publican >= 0.99
 URL:		https://fedorahosted.org/publican
 
 %description

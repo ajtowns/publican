@@ -1,16 +1,17 @@
 %define brand RedHat
+%define pub_name Publican
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
 Version:	0.20
-Release:	0%{?dist}
+Release:	0%{?dist}.t1
 License:	Open Publication
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-Requires:	publican >= 1.0
-BuildRequires:	publican >= 1.0
+Source:		https://fedorahosted.org/releases/p/u/publican/publican-redhat-%{version}.tgz
+Requires:	publican >= %(eval "`publican -v`"; echo $version)
+BuildRequires:	publican >= 0.99
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel-%{brand}
 
@@ -19,7 +20,7 @@ This package provides common files and templates needed to build documentation
 for %{brand} with publican.
 
 %prep
-%setup -q 
+%setup -q
 
 %build
 publican build --formats=xml --langs=all --publish
