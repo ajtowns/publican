@@ -513,6 +513,7 @@ sub transform {
     my $tmp_dir           = $self->{publican}->param('tmp_dir');
     my $docname           = $self->{publican}->param('docname');
     my $common_config     = $self->{publican}->param('common_config');
+    my $common_content    = $self->{publican}->param('common_content');
     my $brand             = $self->{publican}->param('brand');
     my $toc_section_depth = $self->{publican}->param('toc_section_depth');
     my $confidential      = $self->{publican}->param('confidential');
@@ -592,10 +593,14 @@ sub transform {
     }
 
     my $tmp_config = $common_config;
+    # required for Windows
     $tmp_config =~ s/"//g;
+
     my $xsl_file = "$tmp_config/xsl/$format.xsl";
+    $tmp_config = $common_content;
+    $tmp_config =~ s/"//g;
     $xsl_file = "$tmp_config/$brand/xsl/$format.xsl"
-        if ( -e "$tmp_config/$brand/xsl/$format.xsl" );
+        if ( -f "$tmp_config/$brand/xsl/$format.xsl" );
 
     my %xslt_opts = (
         'toc.section.depth'          => $toc_section_depth,
@@ -1349,7 +1354,19 @@ sub build_set_books {
         logger( maketext( "Start building [_1]", $book ) . "\n" );
         my $dir = pushd($book);
 
-        if ( system("publican --build --formats=xml --langs=$langs") != 0 ) {
+        logger( maketext( "Running clean_ids to prevent inter-book ID clashes." ) . "\n" );
+
+        if ( system("publican clean_ids") != 0 ) {
+            croak(
+                maketext(
+                    "Fatal error: Book failed to run clean_ids! Book: [_1]. Error Number: [_2]",
+                    $book,
+                    $?
+                )
+            );
+        }
+
+        if ( system("publican build --formats=xml --langs=$langs") != 0 ) {
 
             # build failed
             croak(

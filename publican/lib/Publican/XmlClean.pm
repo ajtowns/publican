@@ -258,6 +258,36 @@ my %BANNED_TAGS = (
             'This tag set imposes English-language order on glossaries, making them useless when translated.'
         ),
     },
+    'glossary' => {
+        'reason' => maketext(
+            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+        ),
+    },
+    'glossentry' => {
+        'reason' => maketext(
+            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+        ),
+    },
+    'glossdef' => {
+        'reason' => maketext(
+            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+        ),
+    },
+    'glossterm' => {
+        'reason' => maketext(
+            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+        ),
+    },
+    'glosssee' => {
+        'reason' => maketext(
+            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+        ),
+    },
+    'glossseealso' => {
+        'reason' => maketext(
+            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+        ),
+    },
     'entrytbl' => {
         'reason' => maketext(
             'Nested tables break pdf generation -- reconsider your data structure.'
@@ -572,7 +602,7 @@ sub print_xml {
         }
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
-        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => $1 } );
+        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ($1 || './') } );
         $text =~ s/&#10;//g;
         $text =~ s/&#9;//g;
         $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
@@ -1049,7 +1079,7 @@ sub process_file {
     if ($clean_id) {
         foreach my $key ( keys(%UPDATED_IDS) ) {
             debug_msg(
-                "\nTODO: process_file: need to switch from back-ticks to perl. Maybe use PO2XML::load_po as a base fo direct PO manipulation?\n\n"
+                "\nTODO: process_file: need to switch from back-ticks to perl. Maybe use PO2XML::load_po as a base fo direct PO manipulation? Maybe do this per language instead of a dirty big find.\n\n"
             );
             my $cmd
                 = q{for file in `grep -lR "} 

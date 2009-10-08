@@ -39,7 +39,7 @@ my %PARAM_OLD = (
     CONDITION                  => 'condition',
     CONFIDENTIAL               => 'confidential',
     DEFAULT_LANGS              => '',
-    DOCNAME                    => 'docname',
+    DOCNAME                    => '',
     DOC_TYPE                   => 'type',
     DOC_URL                    => 'doc_url',
     DTD_VER                    => 'dtdver',
@@ -48,7 +48,7 @@ my %PARAM_OLD = (
     IGNORED_TRANSLATIONS       => 'ignored_translations',
     LICENSE                    => 'license',
     OS_VER                     => 'os_ver',
-    PRODUCT                    => 'product',
+    PRODUCT                    => '',
     PROD_URL                   => 'prod_url',
     PROD_VERSION               => '',
     PROGNAME                   => '',                             # l10n
@@ -58,6 +58,7 @@ my %PARAM_OLD = (
     SOURCE                     => '',                             # l10n
     SRC_URL                    => 'src_url',
     STRICT                     => 'strict',
+    TRANSLATIONS               => '',
     TOC_SECTION_DEPTH          => 'toc_section_depth',
     WEB_BREW_DIST              => 'web_brew_dist',
     WEB_OBSOLETES              => 'web_obsoletes',
@@ -810,11 +811,11 @@ sub old2new {
 
     foreach my $var (@vars) {
         if ( !defined $PARAM_OLD{$var} ) {
-            carp("Key: $var, is not handled yet!");
+            logger(maketext("[_1] is not handled yet.", $var) . "\n");
             next;
         }
         if ( $PARAM_OLD{$var} eq '' ) {
-            carp("Key: $var, is not used yet!");
+            logger(maketext("[_1] is not used anymore.", $var) . "\n");
             next;
         }
 
