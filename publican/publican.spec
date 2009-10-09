@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           Publican
 Version:        0.99
-Release:        0.BETA1%{?dist}.t85
+Release:        0.BETA1%{?dist}.t86
 Summary:        Common files and scripts for publishing with DocBook XML
 License:        GPLv2+ or Artistic
 Group:          Applications/Publishing

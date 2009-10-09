@@ -306,7 +306,9 @@ Version: 1.72.0
 	</xsl:if>
 
 	<meta xmlns="http://www.w3.org/1999/xhtml" name="generator">
-		<xsl:text>publican </xsl:text><xsl:value-of select="$publican.version"/>
+		<xsl:attribute name="content">
+			<xsl:text>publican </xsl:text><xsl:value-of select="$publican.version"/>
+		</xsl:attribute>
 	</meta>
 
 	<meta xmlns="http://www.w3.org/1999/xhtml" name="package">
