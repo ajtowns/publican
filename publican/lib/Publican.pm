@@ -88,7 +88,7 @@ my %PARAMS = (
     brew_dist => {
         descr => maketext(
             'The brew dist to use for building the standalone desktop rpm.'),
-        default => 'dist-5E-qu-candidate',
+        default => 'docs-5E',
 
     },
     catalogs => {

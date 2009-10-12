@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           Publican
 Version:        0.99
-Release:        0.BETA1%{?dist}.t86
+Release:        0.BETA1%{?dist}.t89
 Summary:        Common files and scripts for publishing with DocBook XML
 License:        GPLv2+ or Artistic
 Group:          Applications/Publishing
@@ -787,3 +787,4 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
+

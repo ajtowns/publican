@@ -14,6 +14,7 @@ use Publican::XmlClean;
 use Publican::TreeView;
 use File::Path;
 use File::Copy::Recursive qw(dircopy rcopy);
+use File::Find::Rule;
 use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 
@@ -459,32 +460,21 @@ if ( $action eq 'package' ) {
     }
 
     if ( $opts{brew} ) {
-        my $tmp_dir = $publican->param('tmp_dir');
-        my $product = $publican->param('product');
-        my $version = $publican->param('version');
-        my $docname = $publican->param('docname');
-        my $edition = $publican->param('edition');
-        my $release = $publican->param('release');
-        my $dist    = $publican->param('web_brew_dist');
-        my $os_ver  = $publican->param('os_ver');
 
-        my $srpm
-            = "$product-$docname-$version-web-$opts{lang}-$edition-$release$os_ver.src.rpm";
+        my @filelist = File::Find::Rule->file->name('*.src.rpm')->in($publican->param('tmp_dir')); 
 
-        if ( $opts{desktop} ) {
-            $dist = $publican->param('brew_dist');
-            $srpm
-                = "$product-$docname-$version-$opts{lang}-$edition-$release$os_ver.src.rpm";
-        }
+        my $srpm = $filelist[0];
 
-        if ( -f "$tmp_dir/rpm/$srpm" ) {
+        my $dist = $publican->param('brew_dist');
+
+        if ( -f "$srpm" ) {
             system( "brew", "build", ( $opts{scratch} ? "--scratch" : undef ),
-                "$dist", "$tmp_dir/rpm/$srpm" );
+                "$dist", "$srpm" );
         }
         else {
             logger(
                 maketext( "Can't locate srpm [_1], did you run --package?",
-                    "$tmp_dir/rpm/$srpm" )
+                    "$srpm" )
                     . "\n",
                 RED
             );
