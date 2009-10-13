@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+
+
+<chapter id="sect-Publican_Commands">
+	<title>Publican Commands</title>
+	<para>
+		<application>Publican</application> is a command-line tool. To use <application>Publican</application> on a computer with a Linux operating system, you must either start a terminal emulator program (such as <application>GNOME Terminal</application> or <application>Konsole</application>) or switch to a virtual console. To use <application>Publican</application> on a computer with a Windows operating system, run the <command>cmd</command> command from the <guimenu>Start menu</guimenu> to open a command prompt.
+	</para>
+	<para>
+		<application>Publican</application> commands take one of the following two formats:
+		<itemizedlist>
+			<listitem><para><command>publican <replaceable>global_option</replaceable></command>, where the <replaceable>global_option</replaceable> is one that displays help for <application>Publican</application> in one of a number of formats.</para></listitem>
+			<listitem><para><command>publican <replaceable>action</replaceable> <replaceable>options</replaceable></command> The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new book or building a html document from a book's XML files. The <replaceable>options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.</para></listitem>
+		</itemizedlist>
+	</para>
+	<section id="sect-Publican_Commands-Global_Options">
+		<title>Global Options</title>
+		<para>The global options for <application>Publican</application> are:
+		<variablelist>
+			<varlistentry>
+				<term>
+					<option>--help</option>
+				</term>
+				<listitem><para>This option displays a help message, a condensed version of the contents of this chapter.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>--man</option>
+				</term>
+				<listitem><para>This option displays the man page for <application>Publican</application>, which includes the same information as the <option>--help</option> option supplies, in addition to information about licensing and dependencies.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>--help_actions</option>
+				</term>
+				<listitem><para>This option displays a list of valid <application>Publican</application> <firstterm>actions</firstterm>.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-v</option>
+				</term>
+				<listitem><para>This option displays the version number of your <application>Publican</application> installation.</para></listitem>
+			</varlistentry>
+		</variablelist>
+		</para>
+	</section>
+	<section id="sect-Publican_Commands-Actions">
+		<title>Actions</title>
+		<para><application>Publican</application> can perform the following actions:
+		<variablelist>
+			<varlistentry>
+				<term>build</term>
+				<listitem><para>transforms XML to other formats (for example: pdf, html, or html-single). Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Building_a_Book"/> for more details and a description of the available options.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>clean</term>
+				<listitem><para>removes all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running the <command>publican build</command> command to build a book, such as <command>publican build --formats=html --langs=en-US</command>.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>clean_ids</term>
+				<listitem><para>changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput></para>
+				<warning>
+					<title>Warning: <command>make clean_ids</command></title>
+					<para>
+						To make translation easier, <command>make clean_ids</command> uses the first four characters of the tag as a prefix for the ID. Consequently, you must check out the latest versions of the xml source and translations before running this command.
+					</para>
+					<para>
+						Failing to have the po files checked out before running <command>make clean_ids</command> causes the XML and po files to slip out of sync. And this means all links in the po files have to be manually updated.
+					</para>
+				</warning>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>cleanset</term>
+				<listitem><para>removes local copies of remote books in a distributed set. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/> for details of using distributed sets.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>create</term>
+				<listitem><para>creates a new book, article, or set. Refer to <xref linkend="chap-Users_Guide-Using_the_publican_package-Creating_a_Book"/> for details of creating a book or article, and to <xref linkend="chap-Users_Guide-Using_Sets"/> for details of using sets.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>create_brand</term>
+				<listitem><para>creates a new brand. Refer to <xref linkend="sect-Users_Guide-Branding-Creating_a_Brand"/> for details of creating a brand.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>help_config</term>
+				<listitem><para>displays help text for the configuration file contained in each book or brand, <filename>publican.cfg</filename>. Refer to <xref linkend="sect-Users_Guide-Files_in_the_Book_directory-publican_cfg"/> for more detail. </para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>installbrand</term>
+				<listitem><para>configures a brand for installation. This option is of no use to end users of <application>Publican</application>, but supports the development of different types of installation packages.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>old2new</term>
+				<listitem><para>creates a <filename>publican.cfg</filename> file based on the <filename>Makefile</filename> of a book, article, or set originally created with a developmental version of <application>Publican</application> (versions up to and including <application>Publican 0.45</application>). Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Building_a_Book_Created_with_Publican_0"/> for more detail.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>package</term>
+				<listitem><para>packages a book, article, set, or brandfor shipping as an RPM package. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/> and <xref linkend="sect-Users_Guide-Branding-Packaging_a_brand"/> for more detail.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>printtree</term>
+				<listitem><para>prints a tree of the XML files included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>update_po</term>
+				<listitem><para>updates the <firstterm>portable object</firstterm> (PO) files. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Preparing_a_Book_for_Translation"/> for more detail.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>update_pot</term>
+				<listitem><para>updates the <firstterm>portable object template</firstterm> (POT) files. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Preparing_a_Book_for_Translation"/> for more detail.</para></listitem>
+			</varlistentry>
+		</variablelist>
+		</para>
+	</section>
+</chapter>

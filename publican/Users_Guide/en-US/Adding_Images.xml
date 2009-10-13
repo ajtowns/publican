@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+
+
+<section id="sect-Users_Guide-Using_the_publican_package-Adding_Images">
+	<title>Adding Images</title>
+	<para>
+		Store images in the <filename>images</filename> subdirectory in the directory that holds your XML files. Use <computeroutput>./images/<replaceable>image-name</replaceable></computeroutput> to insert images into a book. The following is an example that inserts the <filename>testimage.png</filename> image:	
+	</para>
+<programlisting language="XML">&lt;mediaobject&gt;
+&lt;imageobject&gt;
+	&lt;imagedata fileref="./images/testimage.png" /&gt;
+&lt;/imageobject&gt;
+&lt;textobject&gt;&lt;phrase&gt;alternate text goes here&lt;/phrase&gt;&lt;/textobject&gt;
+&lt;/mediaobject&gt;
+</programlisting>
+	<para>
+		If your book contains images that need to be localized — for example, screenshots of a user interface in a language other than the original language of your book — place these images in the <filename>images</filename> subdirectories for each language directory. Make sure that the image file in the translated language has the same name as the image file in the original language. When you build the book in the translated language, <application>Publican</application> uses the file from the <filename>images</filename> subdirectory of the translated language instead of the file from the <filename>images</filename> subdirectory of the original language. 
+	</para>
+	<warning>
+		<title>Image File Locations</title>
+		<para>
+			<application>Publican</application> only uses images in the <filename>images</filename> subdirectory of your XML directory and corresponding images in the <filename>images</filename> subdirectories of your translated languages. Images stored in other directories directories do not work.
+		</para>
+	</warning>
+	<warning>
+		<title>PNG files in PDF documents</title>
+		<para>
+			<application>Publican</application> depends on an external application, <application>FOP</application>, to render documents as PDF files. At present, some versions of <application>FOP</application> contain a bug that alters the colors in certain images in PNG format. Specifically, 32-bit PNG images are rendered correctly, while 24-bit PNG images are not.
+		</para>
+		<para>
+			If you notice that <application>Publican</application> produces a PDF file that contains images with incorrect colors, convert the original PNG files to 32-bit PNG format by adding an <firstterm>alpha channel</firstterm> to the image and rebuild the book. If your chosen image manipulation software does not include an option specifically labeled <literal>Add alpha channel</literal>, the option might be labeled <literal>Add transparency</literal> instead. 
+		</para>
+	</warning>
+
+</section>

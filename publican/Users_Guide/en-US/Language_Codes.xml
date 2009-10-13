@@ -1,0 +1,68 @@
+<?xml version='1.0'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+
+<appendix id="appe-Language_Codes">
+	<title>Language Codes</title>
+	<important>
+		<title>Region subtags</title>
+		<para>
+			The only part of the XML language tag that is mandatory in <application>Publican</application> is the <firstterm>language subtag</firstterm>. However, <application>Publican</application> is designed with the assumption that you will routinely include the <firstterm>region subtag</firstterm> when you identify languages. In many languages, spelling and vocabulary vary significantly from region to region. If you do not specify which regional variety of a language in which your document is authored or into which it is translated, you might obtain unexpected results when you build the document in <application>Publican</application>.
+		</para>
+	</important>
+	<para>
+		<application>Publican</application> is an XML publication tool and therefore is designed to use the language codes — or <firstterm>tags</firstterm> — that the World Wide Web Consortium (W3C) designated in the XML specification.<footnote><para><ulink url="http://www.w3.org/TR/REC-xml/#sec-lang-tag">http://www.w3.org/TR/REC-xml/#sec-lang-tag</ulink></para></footnote> These codes are fully defined in the Internet Engineering Task Force (IETF) document <citetitle>BCP&nbsp;47: Tags for Identifying Languages</citetitle>.<footnote><para><ulink url="http://tools.ietf.org/html/bcp47">http://tools.ietf.org/html/bcp47</ulink></para></footnote> 
+	</para>
+	<para>
+		Language tags are built from a number of <firstterm>subtags</firstterm>, separated from one another by hyphens. In order of appearance, the subtags are: <firstterm>language subtag</firstterm>, <firstterm>script subtag</firstterm>, <firstterm>region subtag</firstterm>, and <firstterm>variant subtag</firstterm>. BCP&nbsp;47 also allows for considerable customization of language tags for special purposes through the use of <firstterm>extension subtags</firstterm>. Extension subtags aside, a subtag is valid if it appears in the registry of subtags maintained by the Internet Assigned Numbers Authority (IANA).<footnote><para><ulink url="http://www.iana.org/assignments/language-subtag-registry">http://www.iana.org/assignments/language-subtag-registry</ulink></para></footnote> <application>Publican</application> recognizes a wide variety of valid language tags, but is designed around the assumption that language tags for documents will most usually take the form <replaceable>language subtag</replaceable>-<replaceable>region subtag</replaceable>.
+	</para>
+	<para>
+		<application>Publican</application> includes support for the following languages:
+	</para>
+	<itemizedlist>
+	<listitem><para>ar-SA  — Arabic</para></listitem>                           
+	<listitem><para>as-IN  — Assamese</para></listitem>                             
+	<listitem><para>bn-IN  — Bengali, as used in India</para></listitem>                             
+	<listitem><para>bs-BA  — Bosnian</para></listitem>                             
+	<listitem><para>ca-ES  — Catalan</para></listitem>                             
+	<listitem><para>cs-CZ  — Czech</para></listitem>                             
+	<listitem><para>da-DK  — Danish</para></listitem>                             
+	<listitem><para>de-DE  — German</para></listitem>                             
+	<listitem><para>es-ES  — Spanish</para></listitem>                             
+	<listitem><para>fa-IR  — Persian</para></listitem>                             
+	<listitem><para>fi-FI  — Finnish</para></listitem>                             
+	<listitem><para>fr-FR  — French</para></listitem>                             
+	<listitem><para>gu-IN  — Gujarati</para></listitem>                             
+	<listitem><para>he-IL  — Hebrew</para></listitem>                             
+	<listitem><para>hi-IN  — Hindi</para></listitem>                             
+	<listitem><para>hr-HR  — Croatian</para></listitem>                             
+	<listitem><para>hu-HU  — Hungarian</para></listitem>
+	<listitem><para>is-IS  — Icelandic</para></listitem>
+	<listitem><para>it-IT  — Italian</para></listitem>
+	<listitem><para>ja-JP  — Japanese</para></listitem>
+	<listitem><para>kn-IN  — Kannada</para></listitem>
+	<listitem><para>ko-KR  — Korean</para></listitem>
+	<listitem><para>lv-LV  — Latvian</para></listitem>
+	<listitem><para>ml-IN  — Malayalam</para></listitem>
+	<listitem><para>mr-IN  — Marathi</para></listitem>
+	<listitem><para>nb-NO  — Norwegian (Bokmål)</para></listitem>
+	<listitem><para>nl-NL  — Dutch</para></listitem>
+	<listitem><para>or-IN  — Oriya</para></listitem>
+	<listitem><para>pa-IN  — Punjabi</para></listitem>
+	<listitem><para>pl-PL  — Polish</para></listitem>
+	<listitem><para>pt-BR  — Portuguese (Brazil)</para></listitem>
+	<listitem><para>pt-PT  — Portuguese (Portugal)</para></listitem>
+	<listitem><para>ru-RU  — Russian</para></listitem>
+	<listitem><para>si-LK  — Sinhalese</para></listitem>
+	<listitem><para>sk-SK  — Slovak</para></listitem>
+	<listitem><para>sr-Latn-RS  — Serbian (Latin script)</para></listitem>
+	<listitem><para>sr-RS  — Serbian (implicitly Cyrillic script)</para></listitem>
+	<listitem><para>sv-SE  — Swedish</para></listitem>
+	<listitem><para>ta-IN  — Tamil</para></listitem>
+	<listitem><para>te-IN  — Telugu</para></listitem>
+	<listitem><para>th-TH  — Thai</para></listitem>
+	<listitem><para>uk-UA  — Ukrainian</para></listitem>
+	<listitem><para>zh-CN  — Chinese (People's Republic of China)</para></listitem>
+	<listitem><para>zh-TW  — Chinese (Republic of China)</para></listitem>
+	</itemizedlist>
+</appendix>

@@ -13,31 +13,19 @@
 			</question>
 			<answer>
 				<para>
-					Edit your book&#39;s <filename>Makefile</filename> and uncomment the <computeroutput>OTHER_LANGS</computeroutput> entry. Add the required language code after the &#39;=&#39; sign.
+					Run <command>publican update_po --langs=<replaceable>language</replaceable></command>, where <replaceable>language</replaceable> is the code for the new language that you want to add. You can add more than one language at a time, with the language codes separated by commas. For example, <command>publican update_po --langs=ja-JP</command> creates the Japanese language directory and Japanese PO files, and <command>publican update_po --langs=ja-JP,ko-KR</command> creates directories and PO files for both Japanese and Korean.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					How do I add another language to my book?
+					What if I do not want to use the country code? For example, can I run <command>publican update_po --langs=es,de,fr</command>?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Append the language to <computeroutput>OTHER_LANGS</computeroutput> in the <filename>Makefile</filename>. Run the <command>make update-po-<replaceable>language</replaceable></command> command. For example, <command>make update-po-ja-JP</command> creates the Japanese language directory and the Japanese po files.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
-					What if I only use the country code? For example, <computeroutput>OTHER_LANGS = en de fr</computeroutput>?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Run the <command>make update-po-en</command> command.
+					Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People's Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings.
 				</para>
 			</answer>
 		</qandaentry>
@@ -49,62 +37,62 @@
 			</question>
 			<answer>
 				<para>
-					Run the <command>make update-po-all</command> command.
+					Run the <command>publican update_po --langs=all</command> command.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Where can I get a complete list of make targets?
+					Where can I get a complete list of <application>Publican</application>'s build options?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Run the <command>make help</command> command.
+					Run the <command>publican build --help</command> command.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Where can I get a complete list of parameters that can be set in the <filename>Makefile</filename>?
+					Where can I get a complete list of parameters that can be set in the <filename>publican.cfg</filename>?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Run the <command>make help_params</command> command.
+					Run the <command>publican help_config</command> command in a directory that holds any <application>Publican</application> document.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Where are the Publican common files located?
+					Where are the <application>Publican</application> common files located?
 				</para>
 			</question>
 			<answer>
 				<para>
-					By default, they are in <filename>/usr/share/publican/</filename>.
+					By default, they are in <filename>/usr/share/publican/</filename> on Linux operating systems and in <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/publican/Common_Content</filename>.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Can I use the OASIS DocBook DTD for XML completion in editors such as Kate?
+					Can I use the OASIS DocBook DTD for XML completion in text editors such as <application>Kate</application>?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Yes. The OASIS DocBook DTD is included in the publican package, and is located here: <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename>
+					Yes. The OASIS DocBook DTD is included in the <package>publican</package> package, and by default is located in <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename>  on Linux operating systems.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					I have extensive code samples for my book, how can I include them without having to xml escape everything?
+					I have extensive code samples for my book, how can I include them without having to XML escape everything?
 				</para>
 			</question>
 			<answer>
@@ -148,12 +136,12 @@
 		<qandaentry>
 			<question>
 				<para>
-					Is it possible to include arbitrary files in tar and RPM files?
+					Is it possible to include arbitrary files in tarballs and RPM packages?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Yes. If you make a directory named <filename>files</filename> in your source language directory it will be included in any tar or SRPM files created by publican.
+					Yes. If you make a directory named <filename>files</filename> in your source language directory it will be included in any tarballs or SRPM packages that <application>Publican</application> creates.
 				</para>
 				<important>
 					<title>Important</title>
@@ -166,7 +154,7 @@
 		<qandaentry>
 			<question>
 				<para>
-					Why does publican give me warnings about unknown tags?
+					Why does <application>Publican</application> give me warnings about unknown tags?
 				</para>
 			</question>
 			<answer>
@@ -178,55 +166,19 @@
 		<qandaentry>
 			<question>
 				<para>
-					How do I find out which tags have been tested in publican?
+					Which brands enable strict mode?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Run <command>xmlClean --known</command>
+					Currently the Red Hat and JBoss brands enable strict mode.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Why does publican give me an error about banned tags?
-				</para>
-			</question>
-			<answer>
-				<para>
-					This error indicates that the brand you are using has STRICT mode enabled for <command>xmlClean</command> and that the tag in question has been marked as undesirable. The error message should contain a reason why the tag was banned.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
-					How do I find out which tags are banned in publican?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Run <command>xmlClean --banned</command>
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
-					Which brands enable STRICT mode?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Currently the Red Hat and JBoss brands enable STRICT mode.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
-					I get an error saying Batik is not in the classpath but batik is installed! What is wrong?
+					I get an error saying <application>Batik</application> is not in the classpath but <application>Batik</application> is installed! What is wrong?
 				</para>
 			</question>
 			<answer>
@@ -249,14 +201,50 @@
 			</question>
 			<answer>
 				<para>
-					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to FOP. Before running <command>make </command> run <command>echo "FOP_OPTS=&#39;-Xms50m -Xmx700m&#39;" &gt; ~/.foprc</command>. This sets the initial heap space to 50MB and allows it to grow to a maximum of 700MB.
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo "FOP_OPTS=&#39;-Xms50m -Xmx700m&#39;" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Why does Jeff call Isaac Ivan?
+					Previous versions of <application>Publican</application> used to remove empty <sgmltag>&lt;para&gt;</sgmltag> tags. Does <application>Publican</application> still do this?
+				</para>
+			</question>
+			<answer>
+				<para>
+					<application>Publican</application> previously removed empty <sgmltag>&lt;para&gt;</sgmltag> tags while it transformed XML because empty <sgmltag>&lt;para&gt;</sgmltag> tags broke an earlier translation toolchain used within Red Hat. Empty <sgmltag>&lt;para&gt;</sgmltag> tags are valid DocBook XML, and <application>Publican</application> no longer removes them.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Why don't <sgmltag>&lt;segmentedlist&gt;</sgmltag>s work when I build PDFs?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Check the number of columns in your <sgmltag>&lt;segmentedlist&gt;</sgmltag>s. When <sgmltag>&lt;segmentedlist&gt;</sgmltag>s are formatted as tables, <application>FOP</application> limits the number of columns to two, and <application>Publican</application> formats <sgmltag>&lt;segmentedlist&gt;</sgmltag>s as tables.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					What happened to the colors in my images in this PDF?
+				</para>
+			</question>
+			<answer>
+				<para>
+					This is the result of a bug in <application>FOP</application> that distorts colors in 24-bit PNG images. Convert your images to 32-bit PNG images to work around the problem.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					Why does Jeff call Isaac &lsquo;Ivan&rsquo;?
 				</para>
 			</question>
 			<answer>

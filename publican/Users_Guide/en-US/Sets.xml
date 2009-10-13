@@ -10,7 +10,7 @@
 	<section id="sect-Users_Guide-Using_Sets-Stand_alone_Sets">
 		<title>Stand-alone Sets</title>
 		<para>
-			A stand-alone set contains the xml files for each book, all of which are located inside the directory of the set.
+			A stand-alone set contains the XML files for each book, all of which are located inside the directory of the set.
 		</para>
 		<para>
 			The procedure that follows will guide you through the process of creating a stand-alone set named <citetitle>My Set</citetitle> located in a directory called <filename>books/My_Set/</filename>. The set will contain <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> both of which will be manually created inside the <filename>books/My_Set/en-US</filename> directory.
@@ -19,10 +19,10 @@
 			<title>Creating a Stand-alone Set</title>
 			<step>
 				<para>
-					Run the following command in a shell in the <filename>books/</filename> directory to create a set named <literal>My_Set</literal> branded in the Red Hat style.
+					Run the following command in a shell in the <filename>books/</filename> directory to create a set named <literal>My_Set</literal> branded in the Red Hat style and in which the XML will be written in American English.
 				</para>
 				
-<programlisting>create_book --type=Set --name=My_Set --brand=RedHat
+<programlisting>publican create --type=Set --name=My_Set --brand=RedHat --lang=en-US
 </programlisting>
 			</step>
 			<step>
@@ -65,7 +65,7 @@ mkdir Book_A Book_B
 			</step>
 			<step>
 				<para>
-					Test your set by running the <command>make test-en-US</command> command.
+					Test your set by running the <command>publican build --formats=test langs=en-US</command> command.
 				</para>
 			</step>
 		</procedure>
@@ -75,49 +75,36 @@ mkdir Book_A Book_B
 	<section id="sect-Users_Guide-Using_Sets-Distributed_Sets">
 		<title>Distributed Sets</title>
 		<para>
-			A Distributed Set contains books that are located in <package>SVN</package>. By setting the repository location and titles of the included books in the <filename>Makefile</filename>, each book can be exported to build the entire set. The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>.
+			A <firstterm>distributed set</firstterm> contains books that are located in a version-controlled repository. Although several version control systems exist, this version of <application>Publican</application> supports only one:  <application>Subversion</application> (<application>SVN</application>). By setting the repository location and titles of the included books in the <filename>publican.cfg</filename> file, each book can be exported to build the entire set. The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>.
 		</para>
 		<important>
 			<para>
-				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are available in your <package>SVN</package> repository. Currently <package>publican</package> only supports <package>SVN</package>.
+				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are available in your <application>SVN</application> repository. Currently <application>Publican</application> only supports <application>SVN</application>.
 			</para>
 		</important>
 		<procedure id="proc-Users_Guide-Distributed_Sets-Creating_a_Set">
 			<title>Creating a Set</title>
 			<step>
 				<para>
-					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style.
+					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style and in which the XML will be written in American English.
 				</para>
 				
-<programlisting>$ create_book --type=Set --name=My_Set --brand=RedHat
+<programlisting>$ publican create --type=Set --name=My_Set --brand=RedHat  --lang=en-US
 </programlisting>
 			</step>
 			<step>
 				<para>
-					Uncomment the following lines in the <filename>Makefile</filename> from:
+					Add the following lines to the <filename>publican.cfg</filename> file:
 				</para>
-				
-<programlisting>#BOOKS		= My_Other_Book His_Book Her_Book Their_Book
-#SET_REPO	= http://svn.repo.com/repos/project
-#SET_REPO_TYPE	= SVN
-...
-#pre:: get_books set_books
-#clean:: clean_set_books
-</programlisting>
-				<para>
-					to :
-				</para>
-				
-<programlisting>BOOKS 		= Book_A Book_B
-SET_REPO	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>SET_REPO_TYPE	= SVN
-...
-pre:: get_books set_books
-clean:: clean_set_books
+			
+<programlisting>books 		= Book_A Book_B
+repo	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
+scm	= SVN
 </programlisting>
 			</step>
 			<step>
 				<para>
-					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
+					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary XML file from the book. The primary XML file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
 				
 <programlisting language="XML"><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
@@ -125,11 +112,11 @@ clean:: clean_set_books
 			</step>
 			<step>
 				<para>
-					Test your set by running the <command>make test-en-US</command> command.
+					Test your set by running the <command>publican build --formats=test --langs=en-US</command> command.
 				</para>
 				<important>
 					<para>
-						When building a set, the <command>make clean_ids</command> command will be run over each book because of the constraint that ID&#39;s must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
+						When building a set, the <command>publican clean_ids</command> command will be run over each book because of the constraint that ID&#39;s must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
 					</para>
 				</important>
 			</step>
