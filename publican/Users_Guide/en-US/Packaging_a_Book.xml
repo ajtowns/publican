@@ -86,15 +86,15 @@
 				<term><option>--short_sighted</option></term>
 				<listitem>
 					<para>
-						specifies that <application>Publican</application> should build the package without including the version number of the software (<parameter>&lt;productnumber&gt;</parameter> in the <filename>Book_Info.xml</filename> file) in the package name. 
+						specifies that <application>Publican</application> should build the package without including the version number of the software (<parameter>version</parameter> in the <filename>publican.cfg</filename> file) in the package name. 
 					</para>
 					<warning>
 						<title>Omitting the software version number</title>
 						<para>
-							Much software documentation is version-specific. At best, the procedures documented in the documentation for one version of a product might not help you to configure an installation of a different version of the product. At worst, the procedures documented in the manual for one version might be misleading or even harmful when applied to a different version.
+							Much software documentation is version-specific. At best, the procedures documented in the documentation for one version of a product might not help you to install, configure, or use a different version of the product. At worst, the procedures described in the manual for one version might be misleading or even harmful when applied to a different version.
 						</para>
 						<para>
-							If you distribute documentation as RPM packages without version numbers in the package name, the <application>RPM Package Manager</application> on users' computers will automatically replace any existing documentation with the documentation for the latest version. Be certain that this outcome is the outcome that you want.
+							If you distribute documentation as RPM packages without version numbers in the package name, the <application>RPM Package Manager</application> on users' computers will automatically replace any existing documentation with the documentation for the latest version; users will not have access to documentation for more than one version of the software at a time. Be certain that this outcome is the outcome that you want.
 						</para>
 					</warning>
 				</listitem>
