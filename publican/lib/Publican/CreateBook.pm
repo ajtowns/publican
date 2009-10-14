@@ -371,7 +371,12 @@ sub create {
         $xml_doc->root()->delete();
     }
 
-    #    $name.ent
+    # remove these from the default configuration file
+    # so that by default only the XML requires changing.
+    $self->{config}->param('docname', undef);
+    $self->{config}->param('version', undef);
+    $self->{config}->param('edition', undef);
+    $self->{config}->param('product', undef);
 
     $self->{config}->write("$name/publican.cfg");
 
