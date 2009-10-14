@@ -41,15 +41,10 @@ publican build --formats=pdf --langs=en-US
 	<para>
 		<application>Publican</application> will capture all tags that use <command>condition="upstream"</command> attribute and build <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
 	</para>
-	<important>
-		<title>xrefs and conditional tagging</title>
-		<para>
-			If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to conditional tagging, the build will fail. For example, with <command>condition=upstream</command> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="betasection"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="betasection" CONDITION="beta"&gt;</sgmltag>.
-		</para>
-	</important>
-	<!--     
-	<para>At present, conditional tagging is supported on all build formats except for desktop RPMs.</para>
-	     -->
+	
+	<xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	<xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	
 	<section id="sect-Users_Guide-Conditional_Tagging-Conditional_tagging_and_translation">
 	<title>Conditional tagging and translation</title>
 	<warning>

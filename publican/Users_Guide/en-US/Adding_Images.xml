@@ -16,6 +16,9 @@
 &lt;/mediaobject&gt;
 </programlisting>
 	<para>
+		Ensure that you supply a <sgmltag>&lt;textobject&gt;</sgmltag> so that your content remains accessible to people with visual impairments. In certain jurisdictions, you might have a legal responsibility to provide this accessibility — for example, if you or your organization must comply with Section 508 of the United States <citetitle>Rehabilitation Act of 1973</citetitle>.<footnote><para>Refer to <ulink url="http://www.section508.gov/">http://www.section508.gov/</ulink></para></footnote>
+	</para>
+	<para>
 		If your book contains images that need to be localized — for example, screenshots of a user interface in a language other than the original language of your book — place these images in the <filename>images</filename> subdirectories for each language directory. Make sure that the image file in the translated language has the same name as the image file in the original language. When you build the book in the translated language, <application>Publican</application> uses the file from the <filename>images</filename> subdirectory of the translated language instead of the file from the <filename>images</filename> subdirectory of the original language. 
 	</para>
 	<warning>

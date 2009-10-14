@@ -19,19 +19,19 @@
 				An SRPM package contains the source code used to generate software rather than the software itself. To use an SRPM package, a computer must <firstterm>compile</firstterm> the source code into software — or in this case, into documents. SRPM packages of <application>Publican</application> documents contain XML files rather than finished documents. To install documentation from the SRPM package to a computer, the computer must have <application>Publican</application> installed on it. When you try to install the SRPM package on a computer that does not have <application>Publican</application> installed, the <application>RPM Package Manager</application> looks for <application>Publican</application> in the software repositories that are available to it. The <application>RPM Package Manager</application> installs <application>Publican</application> first, so that it can build and install the document contained in the SRPM package. If the <application>RPM Package Manager</application> cannot find and install <application>Publican</application>, installation of the SRPM package will fail.
 			</para>
 			<para>
-				Conversely, binary RPM packages contain software — or in this case, documents — that is ready to copy to a location in the computer's file system and use immediately. The contents of the binary RPM package do not need to be compiled by the computer onto which they are installed, and therefore, the computer does not need to have <application>Publican</application> installed. 
+				Conversely, binary RPM packages contain software — or in this case, a document — that is ready to copy to a location in the computer's file system and use immediately. The contents of the binary RPM package do not need to be compiled by the computer onto which they are installed, and therefore, the computer does not need to have <application>Publican</application> installed. 
 			</para>
 		</section>
 		<section id="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book-Types_of_RPM_packages-Desktop_and_web">
 			<title>Desktop packages and web packages</title>
 			<para>
-				<application>Publican</application> can package documents for reading on a computer workstation (a <firstterm>desktop RPM package</firstterm>) or to install on a web server and publish on the world-wide web (a <firstterm>web RPM package</firstterm>). The desktop RPM package of a <application>Publican</application> document and the web RPM package of the same document differ mainly in the location in a computer's file system to which they are installed, and in the formats in which the documentation is presented.
+				<application>Publican</application> can package documents for reading on a computer workstation (a <firstterm>desktop RPM package</firstterm>) or to install on a web server and publish on the world-wide web (a <firstterm>web RPM package</firstterm>). The desktop RPM package of a <application>Publican</application> document and the web RPM package of the same document differ in that the desktop RPM package installs documentation only for local use on a computer, while the web RPM installs documentation for local use, but also to be served to the World Wide Web. 
 			</para>
 			<para>
 				Desktop RPM packages of <application>Publican</application> documents contain the documentation in single-page HTML format. Documents distributed in these packages are installed in a subdirectory of <filename>/usr/share/doc/</filename>, the location specified by the <citetitle>Filesystem Hierarchy Standard</citetitle> (<citetitle>FHS</citetitle>) for &lsquo;Miscellaneous documentation&rsquo;.<footnote><para>Refer to <ulink url="http://www.pathname.com/fhs/pub/fhs-2.3.html#USRSHAREARCHITECTUREINDEPENDENTDATA">http://www.pathname.com/fhs/pub/fhs-2.3.html#USRSHAREARCHITECTUREINDEPENDENTDATA</ulink></para></footnote> The desktop RPM package also contains a <firstterm>desktop file</firstterm>, to be placed in <filename>/usr/share/applications/</filename>. This file enables <firstterm>desktop environments</firstterm> such as GNOME and KDE to add the installed document to their menus for ease of reference by users.
 			</para>
 			<para>
-				Web RPM packages of <application>Publican</application> documents contain the documentation in single-page HTML, multi-page HTML, and PDF formats. They are installed in a subdirectory of <filename>/var/www/html/</filename>, a common <firstterm>document root</firstterm> for web servers. 
+				Web RPM packages of <application>Publican</application> documents contain the documentation in single-page HTML, multi-page HTML, and PDF formats. They are installed in a subdirectory of <filename>/var/www/html/</filename>, a common <firstterm>document root</firstterm> for web servers. Note that the web SRPM package generates both a web binary RPM package and desktop binary RPM package.
 			</para>
 		</section>
 	</section>
@@ -53,7 +53,7 @@
 					<note>
 						<title>Incomplete translations</title>
 						<para>
-							If translation in a particular language is not complete by the scheduled release date, consider marking the language with the <parameter>ignored_translations</parameter> parameter in the document's <filename>publican.cfg</filename> file. The package will be named appropriately for the language, but will contain documentation in the original language of the XML rather than a partial translation. When translation is complete, remove the <parameter>ignored_translations</parameter> parameter, increase the <literal>pubsnumber</literal> in the <filename>Book_Info.xml</filename> file, and generate the package again. When you distribute the revised package, it becomes available to replace the original untranslated package. 
+							If translation in a particular language is not complete by the scheduled release date, consider marking the language with the <parameter>ignored_translations</parameter> parameter in the document's <filename>publican.cfg</filename> file. The package will be named appropriately for the language, but will contain documentation in the original language of the XML rather than a partial translation. When translation is complete, remove the <parameter>ignored_translations</parameter> parameter, increase the release number in the <literal>Project-Id-Version</literal> field in the <filename>Book_Info.po</filename> file for that language, and generate the package again. When you distribute the revised package, it becomes available to replace the original untranslated package. 
 						</para>
 					</note>
 				</listitem>
@@ -78,7 +78,7 @@
 				<term><option>--scratch</option></term>
 				<listitem>
 					<para>
-						when used together with the <option>--brew</option> option, specifies that a SRPM package should be built as a <firstterm>scratch build</firstterm> when sent to <application>Brew</application>. Scratch builds are used to verify that a SRPM package is structured correctly, without generating a binary RPM package.
+						when used together with the <option>--brew</option> and <option>--desktop</option> option, specifies that a SRPM package should be built as a <firstterm>scratch build</firstterm> when sent to <application>Brew</application>. Scratch builds are used to verify that a SRPM package is structured correctly, without updating the package database to use the resulting package.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -146,7 +146,7 @@
 					<term><command>publican package --binary --lang=cs-CZ</command></term>
 					<listitem>
 						<para>
-							produces a web binary RPM package named <package>Foomaster-Configuration_Guide-9-web-cs-CZ-2-6.el5.noarch.rpm</package> that contains documentation in Czech, built for the Red Hat Enterprise Linux 5 operating system.
+							produces both a web binary RPM package named <package>Foomaster-Configuration_Guide-9-web-cs-CZ-2-6.el5.noarch.rpm</package> and a desktop binary RPM package named <package>Foomaster-Configuration_Guide-9-cs-CZ-2-6.el5.noarch.rpm</package> that contain documentation in Czech, built for the Red Hat Enterprise Linux 5 operating system.
 						</para>
 					</listitem>
 				</varlistentry>

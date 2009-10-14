@@ -80,18 +80,6 @@
 		<qandaentry>
 			<question>
 				<para>
-					Can I use the OASIS DocBook DTD for XML completion in text editors such as <application>Kate</application>?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Yes. The OASIS DocBook DTD is included in the <package>publican</package> package, and by default is located in <filename>/usr/share/publican/xsl/docbook.dtd.xml</filename>  on Linux operating systems.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
 					I have extensive code samples for my book, how can I include them without having to XML escape everything?
 				</para>
 			</question>
@@ -225,7 +213,7 @@
 			</question>
 			<answer>
 				<para>
-					Check the number of columns in your <sgmltag>&lt;segmentedlist&gt;</sgmltag>s. When <sgmltag>&lt;segmentedlist&gt;</sgmltag>s are formatted as tables, <application>FOP</application> limits the number of columns to two, and <application>Publican</application> formats <sgmltag>&lt;segmentedlist&gt;</sgmltag>s as tables.
+					Check the number of columns in your <sgmltag>&lt;segmentedlist&gt;</sgmltag>s. When <sgmltag>&lt;segmentedlist&gt;</sgmltag>s are formatted as tables, the DocBook XSL limits the number of columns to two, and <application>Publican</application> formats <sgmltag>&lt;segmentedlist&gt;</sgmltag>s as tables.
 				</para>
 			</answer>
 		</qandaentry>

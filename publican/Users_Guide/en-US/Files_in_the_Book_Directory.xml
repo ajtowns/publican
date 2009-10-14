@@ -115,100 +115,171 @@
 		</variablelist>
 
 		
-<variablelist><title>Advanced parameters</title>			
-<varlistentry><term><parameter>arch</parameter></term>                                                                                               
-<listitem><para>filters output by computer <firstterm>architecture</firstterm>. For example, if you set <literal>arch: x86_64</literal> in the <filename>publican.cfg</filename> file, <application>Publican</application> will only include XML elements tagged with the equivalent attribute, such as <computeroutput>&lt;para arch="x86_64"&gt;</computeroutput>.</para>
-<warning><title>Use with caution</title><para>As with conditional tagging more generally, <literal>arch</literal> can cause great difficulties when translating documents. Refer to <xref linkend="sect-Users_Guide-Conditional_Tagging"/> for more information.</para></warning></listitem></varlistentry>                                                                              
+		<variablelist><title>Advanced parameters</title>			
+			<varlistentry>
+				<term><parameter>arch</parameter></term>                                                                                               
+				<listitem>
+					<para>
+						filters output by computer <firstterm>architecture</firstterm>. For example, if you set <literal>arch: x86_64</literal> in the <filename>publican.cfg</filename> file, <application>Publican</application> will only include XML elements tagged with the equivalent attribute, such as <sgmltag>&lt;para arch="x86_64"&gt;</sgmltag>.
+					</para>
+					<warning>
+						<title>Use with caution</title>
+						<para>
+							As with conditional tagging more generally, <literal>arch</literal> can cause great difficulties when translating documents. Refer to <xref linkend="sect-Users_Guide-Conditional_Tagging"/> for more information.
+						</para>
+					</warning>
+					<important>
+						<title>arch set for root nodes</title>
+						<para>
+							If the root node of an XML file is excluded by the <parameter>arch</parameter> attribute, your document will not build, because empty files are not valid XML. For example, if <filename>Installation_and_configuration-PPC.xml</filename> contains a single chapter:
+						</para>
+<programlisting>
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]&gt;
+&lt;chapter id="chap-Installation_and_configuration_on_PowerPC" arch="PowerPC"&gt;
+&lt;title&gt;Installation and configuration on PowerPC&lt;/title&gt;
 
-<varlistentry><term><parameter>books</parameter></term>
-<listitem><para>specifies a space-separated list of books used in a remote set. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/> for more information on distributed sets.</para></listitem></varlistentry>                            
+[text of chapter]
 
-<varlistentry><term><parameter>brew_dist</parameter></term>
-<listitem><para>specifies the build target to use for building the desktop RPM package in <application>Brew</application>, Red Hat's internal build system. This parameter defaults to <literal>docs-5E</literal>. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book-The_publican_package_command"/>  and <xref linkend="sect-Users_Guide-Branding-Packaging_a_brand"/> for more information on building RPM packages. </para></listitem></varlistentry>                             
+&lt;/chapter&gt;
+</programlisting>
+						<para>
+							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition=x86</command> set in the <filename>publican.cfg</filename> file.
+						</para>
+						<para>
+							To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>.
+						</para>
+					</important>
+					<important>
+						<title>arch and conditional tagging</title>
+						<para>
+							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
+						</para>
+					</important>
+				</listitem>
+			</varlistentry>                                                                              
 
-<varlistentry><term><parameter>catalogs</parameter></term>
-<listitem><para>sets the path to the DocBook catalog files. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/xsl</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/DocBook_DTD</filename> — most usually <filename>C:/Program Files/publican/DocBook_DTD</filename>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>books</parameter></term>
+			<listitem><para>specifies a space-separated list of books used in a remote set. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/> for more information on distributed sets.</para></listitem></varlistentry>                            
 
-<varlistentry><term><parameter>chunk_first</parameter></term>
-<listitem><para>controls whether the first section should appear on the same page as its parent when rendered in HTML. To make the first section appear on the same page as its parent, set this parameter to <literal>chunk_first: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and the first section starts a new HTML page.</para></listitem></varlistentry>                                                  
+			<varlistentry><term><parameter>brew_dist</parameter></term>
+			<listitem><para>specifies the build target to use for building the desktop RPM package in <application>Brew</application>, Red Hat's internal build system. This parameter defaults to <literal>docs-5E</literal>. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book-The_publican_package_command"/>  and <xref linkend="sect-Users_Guide-Branding-Packaging_a_brand"/> for more information on building RPM packages. </para></listitem></varlistentry>                             
 
-<varlistentry><term><parameter>chunk_section_depth</parameter></term>
-<listitem><para>controls the point at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. By default, this value is set to <literal>4</literal>.</para></listitem></varlistentry>                                                                                
+			<varlistentry><term><parameter>catalogs</parameter></term>
+			<listitem><para>sets the path to the DocBook catalog files. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/xsl</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/DocBook_DTD</filename> — most usually <filename>C:/Program Files/publican/DocBook_DTD</filename>.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>classpath</parameter></term>
-<listitem><para>sets the path to the jar files for <application>FOP</application>. <application>Publican</application> relies on Apache <application>FOP</application> — a Java application — to render documents as PDF files. The default path for <application>FOP</application>'s jar files on a computer with a Linux operating system is: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename></para></listitem></varlistentry>                           
+			<varlistentry><term><parameter>chunk_first</parameter></term>
+			<listitem><para>controls whether the first section should appear on the same page as its parent when rendered in HTML. To make the first section appear on the same page as its parent, set this parameter to <literal>chunk_first: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and the first section starts a new HTML page.</para></listitem></varlistentry>                                                  
 
-<varlistentry><term><parameter>common_config</parameter></term>
-<listitem><para>sets the path to the <application>Publican</application> installation. The default location on a computer with a Linux operating system is <filename>/usr/share/publican</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — most usually <filename>C:/Program Files/publican</filename>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>chunk_section_depth</parameter></term>
+			<listitem><para>controls the point at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. By default, this value is set to <literal>4</literal>.</para></listitem></varlistentry>                                                                                
 
-<varlistentry><term><parameter>common_content</parameter></term>
-<listitem><para>sets the path to the <application>Publican</application>'s <firstterm>Common Content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/Publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>classpath</parameter></term>
+			<listitem><para>sets the path to the jar files for <application>FOP</application>. <application>Publican</application> relies on Apache <application>FOP</application> — a Java application — to render documents as PDF files. The default path for <application>FOP</application>'s jar files on a computer with a Linux operating system is: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename></para></listitem></varlistentry>                           
 
-<varlistentry><term><parameter>condition</parameter></term>
-<listitem><para>specifies conditions on which to prune XML before transformation. Refer to <xref linkend="sect-Users_Guide-Conditional_Tagging"/> for more information.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>common_config</parameter></term>
+			<listitem><para>sets the path to the <application>Publican</application> installation. The default location on a computer with a Linux operating system is <filename>/usr/share/publican</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — most usually <filename>C:/Program Files/publican</filename>.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>confidential</parameter></term>
-<listitem><para>marks a document as confidential. When this parameter is set to <literal>confidential: 1</literal>, <application>Publican</application> adds a prominent footer marked <literal>Confidential</literal> to each page. The default value is <literal>0</literal> (no footer).</para></listitem></varlistentry>                 
+			<varlistentry><term><parameter>common_content</parameter></term>
+			<listitem><para>sets the path to the <application>Publican</application>'s <firstterm>Common Content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/Publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>debug</parameter></term>
-<listitem><para>controls whether <application>Publican</application> should display debugging messages as it works. When set to its default of <literal>debug: 1</literal>, <application>Publican</application> prints out debugging messages. Change this value to <literal>debug: 0</literal> to suppress them.</para></listitem></varlistentry>              
+			<varlistentry>
+				<term><parameter>condition</parameter></term>
+				<listitem>
+					<para>
+						specifies conditions on which to prune XML before transformation. Refer to <xref linkend="sect-Users_Guide-Conditional_Tagging"/> for more information.
+					</para>
+					<xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+					<xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+				</listitem>
+			</varlistentry>
 
-<varlistentry><term><parameter>doc_url</parameter></term>
-<listitem><para>provides a URL for the documentation team for this package. In multi-page HTML output, <application>Publican</application> links to this URL at the top right of each page, through the <filename>image_right.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal> </para></listitem></varlistentry>                                   
+			<varlistentry><term><parameter>confidential</parameter></term>
+			<listitem><para>marks a document as confidential. When this parameter is set to <literal>confidential: 1</literal>, <application>Publican</application> adds a prominent footer marked <literal>Confidential</literal> to each page. The default value is <literal>0</literal> (no footer).</para></listitem></varlistentry>                 
 
-<varlistentry><term><parameter>dt_obsoletes</parameter></term>
-<listitem><para>specifies the desktop packages that this package obsoletes. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
+			<varlistentry>
+			<term><parameter>debug</parameter></term>
+				<listitem>
+					<para>
+						controls whether <application>Publican</application> should display debugging messages as it works. When set to its default of <literal>0</literal>, <application>Publican</application> does not display debugging messages. Change this value to <literal>1</literal> to view these messages.
+					</para>
+				</listitem>
+			</varlistentry>              
 
-<varlistentry><term><parameter>dtdver</parameter></term>
-<listitem><para>specifies the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. <application>Publican</application> defaults to version 4.5. The specification for DocBook XML DTD version 4.5 is available from <ulink url="http://www.docbook.org/specs/docbook-4.5-spec.html"/>.</para></listitem></varlistentry>                                        
+			<varlistentry><term><parameter>doc_url</parameter></term>
+			<listitem><para>provides a URL for the documentation team for this package. In multi-page HTML output, <application>Publican</application> links to this URL at the top right of each page, through the <filename>image_right.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal> </para></listitem></varlistentry>                                   
 
-<varlistentry><term><parameter>generate_section_toc_level</parameter></term>
-<listitem><para>controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value were set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.</para></listitem></varlistentry>                                                
+			<varlistentry><term><parameter>dt_obsoletes</parameter></term>
+			<listitem><para>specifies the desktop packages that this package obsoletes. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>ignored_translations</parameter></term>
-<listitem><para>specifies translations to ignore. If you build or package a book in a language specified by this parameter, <application>Publican</application> ignores any translations that exist, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Preparing_a_Book_for_Translation"/>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>dtdver</parameter></term>
+				<listitem>
+					<para>
+						specifies the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. <application>Publican</application> defaults to version 4.5. The specification for DocBook XML DTD version 4.5 is available from <ulink url="http://www.docbook.org/specs/docbook-4.5-spec.html"/>.
+					</para>
+					<important>
+						<title>A different DTD might slow your build</title>
+						<para>
+							When you install <application>Publican</application>, you also install a local copy of the DocBook XML DTD version 4.5 and accompanying <firstterm>Extensible Stylesheet Language</firstterm> (XSL). If you set a version of the DTD for which there is no local support, <application>Publican</application> must download the appropriate DTD and XSL from an online source every time that it builds the document. Building your document is delayed while this download takes place. The combined size of the required files is around 70&nbsp;MB.
+						</para>
+					</important>
+				</listitem>
+			</varlistentry>                                        
 
-<varlistentry><term><parameter>license</parameter></term>
-<listitem><para>specifies the license this package uses. By default, <application>Publican</application> selects the GNU Free Documentation License (GFDL). Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>             
+			<varlistentry><term><parameter>generate_section_toc_level</parameter></term>
+			<listitem><para>controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value were set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.</para></listitem></varlistentry>                                                
 
-<varlistentry><term><parameter>os_ver</parameter></term>
-<listitem><para>specifies the operating system for which to build packages. <application>Publican</application> appends the value that you provide here to the RPM packages that it builds. For example, the default value is <literal>.el5</literal>, which signifies Red Hat Enterprise Linux 5 and operating systems derived from it. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/> and <xref linkend="sect-Users_Guide-Branding-Packaging_a_brand"/>.</para></listitem></varlistentry>                
+			<varlistentry><term><parameter>ignored_translations</parameter></term>
+			<listitem><para>specifies translations to ignore. If you build or package a book in a language specified by this parameter, <application>Publican</application> ignores any translations that exist, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Preparing_a_Book_for_Translation"/>.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>prod_url</parameter></term>
-<listitem><para>provides a URL for the product to which this document applies. In multi-page HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal></para></listitem></varlistentry>        
+			<varlistentry><term><parameter>license</parameter></term>
+			<listitem><para>specifies the license this package uses. By default, <application>Publican</application> selects the GNU Free Documentation License (GFDL). Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>             
 
-<varlistentry><term><parameter>release</parameter></term>
-<listitem><para>specifies the release number of this package. This parameter defaults to the value of <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> file.</para></listitem></varlistentry>                                                           
+			<varlistentry><term><parameter>os_ver</parameter></term>
+			<listitem><para>specifies the operating system for which to build packages. <application>Publican</application> appends the value that you provide here to the RPM packages that it builds. For example, the default value is <literal>.el5</literal>, which signifies Red Hat Enterprise Linux 5 and operating systems derived from it. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/> and <xref linkend="sect-Users_Guide-Branding-Packaging_a_brand"/>.</para></listitem></varlistentry>                
 
-<varlistentry><term><parameter>repo</parameter></term>
-<listitem><para>specifies the repository from which to fetch remote books that form part of a distributed set. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>prod_url</parameter></term>
+			<listitem><para>provides a URL for the product to which this document applies. In multi-page HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal></para></listitem></varlistentry>        
 
-<varlistentry><term><parameter>scm</parameter></term>
-<listitem><para>specifies the version control (or <firstterm>source code management</firstterm>) system used in the repository in that stores the remote books in a distributed set. At present, <application>Publican</application> can use only SVN, and this is the default setting. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/></para></listitem></varlistentry>
+			<varlistentry><term><parameter>release</parameter></term>
+			<listitem><para>specifies the release number of this package. This parameter defaults to the value of <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> file.</para></listitem></varlistentry>                                                           
 
-<varlistentry><term><parameter>show_remarks</parameter></term>
-<listitem><para>controls whether to display remarks in transformed output. By default, this value is set to <literal>0</literal>, which causes <application>Publican</application> to hide remarks. Set this value to <literal>1</literal> to display remarks.</para></listitem></varlistentry>                           
+			<varlistentry><term><parameter>repo</parameter></term>
+			<listitem><para>specifies the repository from which to fetch remote books that form part of a distributed set. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/>.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>show_unknown</parameter></term>
-<listitem><para>controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output.</para></listitem></varlistentry>                             
+			<varlistentry><term><parameter>scm</parameter></term>
+			<listitem><para>specifies the version control (or <firstterm>source code management</firstterm>) system used in the repository in that stores the remote books in a distributed set. At present, <application>Publican</application> can use only SVN, and this is the default setting. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/></para></listitem></varlistentry>
 
-<varlistentry><term><parameter>src_url</parameter></term>
-<listitem><para>specifies the URL at which to find to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>show_remarks</parameter></term>
+			<listitem><para>controls whether to display remarks in transformed output. By default, this value is set to <literal>0</literal>, which causes <application>Publican</application> to hide remarks. Set this value to <literal>1</literal> to display remarks.</para></listitem></varlistentry>                           
 
-<varlistentry><term><parameter>strict</parameter></term>
-<listitem><para>sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal> </para></listitem></varlistentry>
+			<varlistentry>
+				<term><parameter>show_unknown</parameter></term>
+				<listitem>
+					<para>
+						controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output. <application>Publican</application> ignores this parameter in <firstterm>strict mode</firstterm>.
+					</para>
+				</listitem>
+			</varlistentry>                             
 
-<varlistentry><term><parameter>tmp_dir</parameter></term>
-<listitem><para>specifies the directory for <application>Publican</application> output. By default, this is set to <literal>tmp</literal>, which creates a directory named <filename>tmp</filename> inside the directory that holds your article or book.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>src_url</parameter></term>
+			<listitem><para>specifies the URL at which to find to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>toc_section_depth</parameter></term>
-<listitem><para>controls the depth of sections that <application>Publican</application> includes in the main table of contents. By default, this value is set to <literal>2</literal>. With the default setting, sections 1.1 and 1.1.1 will appear in the main table of contents, but section 1.1.1.1 will not. (Note that the first digit in these examples represents a chapter, not a section).</para></listitem></varlistentry>
+			<varlistentry><term><parameter>strict</parameter></term>
+			<listitem><para>sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal> </para></listitem></varlistentry>
 
-<varlistentry><term><parameter>web_brew_dist</parameter></term>
-<listitem><para>specifies the <application>brew</application> build target to use for building the web RPM packages. <application>Brew</application> is the internal build system used by Red Hat. By default, this value is set to <literal>docs-5E</literal>, representing documentation packages for Red Hat Enterprise Linux 5. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>tmp_dir</parameter></term>
+			<listitem><para>specifies the directory for <application>Publican</application> output. By default, this is set to <literal>tmp</literal>, which creates a directory named <filename>tmp</filename> inside the directory that holds your article or book.</para></listitem></varlistentry>
 
-<varlistentry><term><parameter>web_obsoletes</parameter></term>
-<listitem><para>specifies packages that the web RPM obsoletes. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
+			<varlistentry><term><parameter>toc_section_depth</parameter></term>
+			<listitem><para>controls the depth of sections that <application>Publican</application> includes in the main table of contents. By default, this value is set to <literal>2</literal>. With the default setting, sections 1.1 and 1.1.1 will appear in the main table of contents, but section 1.1.1.1 will not. (Note that the first digit in these examples represents a chapter, not a section).</para></listitem></varlistentry>
+
+			<varlistentry><term><parameter>web_brew_dist</parameter></term>
+			<listitem><para>specifies the <application>brew</application> build target to use for building the web RPM packages. <application>Brew</application> is the internal build system used by Red Hat. By default, this value is set to <literal>docs-5E</literal>, representing documentation packages for Red Hat Enterprise Linux 5. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
+
+			<varlistentry><term><parameter>web_obsoletes</parameter></term>
+			<listitem><para>specifies packages that the web RPM obsoletes. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
 
 		</variablelist>
 		
@@ -230,6 +301,9 @@
 				This description of the <filename>Book_Info.xml</filename> applies to <filename>Article_Info.xml</filename> and <filename>Set_Info.xml</filename> files too. However, for the sake of simplicity, the file is referred to as <filename>Book_Info.xml</filename> throughout this section.
 			</para>
 		</note>
+		
+		<xi:include href="Applicable_to_RPM_only.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+		
 		<para>
 			The <filename>Book_Info.xml</filename> file contains the key metadata concerning a book: the book&#39;s ID; title; subtitle; author and edition number. It also contains the name and version of the product that is documented, and an abstract.
 		</para>
@@ -383,7 +457,7 @@
 		<important>
 			<title>Articles and chapters</title>
 			<para>
-				DocBook articles may not contain chapters. Use sections to organise the content within articles.
+				DocBook articles cannot contain chapters. If you use the <option>--type=article</option> option with <command>publican create</command>, <application>Publican</application> does not create a <filename>Chapter.xml</filename> file. Use sections to organize content within articles. 
 			</para>
 		</important>
 		<para>
@@ -483,15 +557,6 @@
 		<para>
 			The <command>publican package</command> command searches for the first XML file in the document's XML directory containing a <literal>&lt;revhistory&gt;</literal> tag. <application>Publican</application> then uses that file to build the RPM revision history.
 		</para>
-		<important>
-			<title>Date format</title>
-			<para>
-				All dates must be in the correct RPM format, for example: <literal>Mon Aug 4 &YEAR;</literal>. 
-			</para>
-			<para>
-				Other formats will break creation of the RPM spec file. 
-			</para>
-		</important>
 	</section>
 
 </section>
