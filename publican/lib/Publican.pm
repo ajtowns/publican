@@ -143,7 +143,7 @@ my %PARAMS = (
         descr => maketext(
             'Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml'
         ),
-
+        constraint => '[^a-zA-Z_\-0-9.]',
     },
     doc_url => {
         descr => maketext(
@@ -165,6 +165,7 @@ my %PARAMS = (
         descr => maketext(
             'Edition of this package. Fetched from edition tag in xml_lang/TYPE_Info.xml'
         ),
+        constraint => '[^0-9.]',
 
     },
     generate_section_toc_level => {
@@ -193,6 +194,7 @@ my %PARAMS = (
         descr => maketext(
             'Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml'
         ),
+        constraint => '[^a-zA-Z_\-]',
 
     },
     prod_url => {
@@ -204,6 +206,7 @@ my %PARAMS = (
         descr => maketext(
             'Release of this package. For xml_lang fetched from title tag in xml_lang/TYPE_Info.xml. For translations it is fetched from Project-Id-Version in lang/TYPE_Info.po'
         ),
+        constraint => '[^0-9.]',
     },
     repo => { descr => maketext('Repository from which to fetch remote set books.'), },
     scm  => {
@@ -255,6 +258,7 @@ my %PARAMS = (
         descr => maketext(
             'Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml'
         ),
+        constraint => '[^0-9.]',
     },
     web_brew_dist => {
         descr   => maketext('The brew dist to use for building the web rpm.'),
@@ -442,6 +446,29 @@ sub _load_config {
     return;
 };
 
+=head2 _validate_config
+
+Private method for validating configuration
+
+=cut
+
+sub _validate_config {
+    my ( $self, $args ) = @_;
+
+    foreach my $key ( keys(%PARAMS) ) {
+        if ( defined $PARAMS{$key}->{constraint} ) {
+            my $value = $self->{config}->param($key);
+            my $constraint = $PARAMS{$key}->{constraint};
+            if($value && $value =~ /$constraint/) {
+                croak(
+                maketext( "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])", $key, $value, $constraint) );
+            }
+        }
+    }
+
+    return;
+}
+
 =head2  new
 
 Create a Publican object.
@@ -522,6 +549,8 @@ logger("key: $common_config\n");
         );
 
         debug_msg( maketext("config loaded") . "\n" );
+
+        $self->_validate_config();
     }
 
     return $self;
@@ -778,7 +807,7 @@ Get localalised strings
 
 sub maketext {
     my $string = shift();
-    my @params = shift();
+    my @params = @_;
 
     if ($LOCALISE) {
         return ( $LOCALISE->maketext( $string, @params ) );
