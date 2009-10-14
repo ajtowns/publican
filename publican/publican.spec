@@ -96,16 +96,24 @@ BuildRequires:  lohit-fonts-tamil lohit-fonts-telugu liberation-fonts baekmuk-tt
 %endif
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
-Requires:       lohit-fonts-bengali cjkuni-uming-fonts lohit-fonts-gujarati
-Requires:       lohit-fonts-hindi sazanami-gothic-fonts sazanami-mincho-fonts lohit-fonts-kannada
-Requires:       lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
-Requires:       lohit-fonts-tamil lohit-fonts-telugu baekmuk-ttf-batang-fonts
+Requires:       cjkuni-uming-fonts  sazanami-gothic-fonts sazanami-mincho-fonts
+Requires:       lklug-fonts baekmuk-ttf-batang-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
-BuildRequires:  lohit-fonts-bengali cjkuni-uming-fonts lohit-fonts-gujarati
-BuildRequires:  lohit-fonts-hindi sazanami-gothic-fonts sazanami-mincho-fonts lohit-fonts-kannada
-BuildRequires:  lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
-BuildRequires:  lohit-fonts-tamil lohit-fonts-telugu baekmuk-ttf-batang-fonts
+BuildRequires:  cjkuni-uming-fonts sazanami-gothic-fonts sazanami-mincho-fonts
+BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
+# Indic font names have changed AGAIN (F12)
+# and AGAIN they fail to set Provides
+# but they don't work for PDFs anyway
+# So we aren't going to use them
+#Requires:       lohit-fonts-bengali lohit-fonts-gujarati
+#Requires:       lohit-fonts-hindi lohit-fonts-kannada
+#Requires:       lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi
+#Requires:       lohit-fonts-tamil lohit-fonts-telugu
+#BuildRequires:  lohit-fonts-bengali lohit-fonts-gujarati
+#BuildRequires:  lohit-fonts-hindi lohit-fonts-kannada
+#BuildRequires:  lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi
+#BuildRequires:  lohit-fonts-tamil lohit-fonts-telugu
 %endif
 
 # TODO After BETA enable this
