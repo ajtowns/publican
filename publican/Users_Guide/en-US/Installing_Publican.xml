@@ -7,6 +7,12 @@
 		<section id="chap-Users_Guide-Installing_publican-Linux">
 			<title>Installing Publican on Linux operating systems</title>
 			<section id="chap-Users_Guide-Installing_publican-Fedora">
+			<note>
+				<title>Availability in repositories</title>
+				<para>
+					The procedures documented in this section assume that <application>Publican</application> and its various dependencies are available in repositories to which your system has access.
+				</para>
+			</note>
 				<title>Installing Publican on Fedora</title>
 				<procedure>
 					<step>
@@ -51,11 +57,6 @@
 				<procedure>
 					<step>
 						<para>
-							Download the installation files for Red Hat Enterprise Linux 5 from <ulink url="http://jfearn.fedorapeople.org/beta/rhel5-beta.tgz"></ulink>
-						</para>
-					</step>
-					<step>
-						<para>
 							Open a terminal.
 						</para>
 					</step>
@@ -67,10 +68,7 @@
 					<step>
 						<para>
 							Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package: </para>
-<screen><command><prompt>$</prompt> tar zxf rhel5-beta.tgz</command>
-<command><prompt>$</prompt> cd rhel-beta</command>
-<command><prompt>$</prompt> sudo yum --nogpg localinstall *.rpm</command>
-<command><prompt>$</prompt> sudo yum install rpm -q perl-Locale-Maketext-Gettext</command></screen>
+<screen><command><prompt>$</prompt> yum install publican publican-doc</command></screen>
 					</step>
 				</procedure>
 				<para>
@@ -84,30 +82,16 @@
 			</section>
 			<section id="chap-Users_Guide-Installing_publican-deb">
 				<title>Installing Publican on Ubuntu</title>
-				<important>
-					<title>Beta software</title>
-					<para>
-						<application>Publican</application> is not yet part of the Ubuntu distribution. 
-					</para>
-					<para>
-						The instructions presented here show you how to download and install a beta version for evaluation. 
-					</para>
-				</important>
 				<procedure>
 					<step>
-						<para>Download the installation files for Ubuntu from <ulink url="http://jfearn.fedorapeople.org/beta/ubuntu-beta.tgz"></ulink></para>
-					</step>
-					<step>
-						<para>Open a terminal.</para>
+						<para>
+							Open a terminal.
+						</para>
 					</step>
 					<step>
 						<para>
-							Run the following commands: 
-						</para>
-<screen><command><prompt>$</prompt> tar zxf ubuntu-beta.tgz</command>
-<command><prompt>$</prompt> cd ubuntu-beta</command>
-<command><prompt>$</prompt> sudo dpkg --install --force-depends *.deb</command>
-<command><prompt>$</prompt> sudo apt-get install -f</command></screen>
+							Run the following command to install the <package>publican</package> package: </para>
+<screen><command><prompt>$</prompt>sudo apt-get install publican</command></screen>
 					</step>
 				</procedure>
 			</section>

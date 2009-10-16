@@ -55,23 +55,9 @@
 		
 <programlisting><xi:include href="extras/publican.cfg" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </programlisting>
-		<variablelist><title>Basic parameters</title>
-			<varlistentry>
-				<term><parameter>docname</parameter></term>
-				<listitem>
-					<para>
-						specifies the document name, as set by the <option>--name</option> option for <command>publican create</command>.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><parameter>version</parameter></term>
-				<listitem>
-					<para>
-						specifies the product version, as set by the <option>--version</option> option for <command>publican create</command>.
-					</para>
-				</listitem>
-			</varlistentry>
+		<variablelist><title>Default parameters</title>
+			
+			
 			<varlistentry>
 				<term><parameter>xml_lang</parameter></term>
 				<listitem>
@@ -80,14 +66,7 @@
 					</para>
 				</listitem>
 			</varlistentry>
-			<varlistentry>
-				<term><parameter>edition</parameter></term>
-				<listitem>
-					<para>
-						specifies the edition number for this documentation, as set by the <option>--edition</option> option for <command>publican create</command>.
-					</para>
-				</listitem>
-			</varlistentry>
+			
 			<varlistentry>
 				<term><parameter>type</parameter></term>
 				<listitem>
@@ -104,17 +83,8 @@
 					</para>
 				</listitem>
 			</varlistentry>
-			<varlistentry>
-				<term><parameter>product</parameter></term>
-				<listitem>
-					<para>
-						specifies the product to which this documentation applies, as set by the <option>--product</option> option for <command>publican create</command>.
-					</para>
-				</listitem>
-			</varlistentry>
 		</variablelist>
 
-		
 		<variablelist><title>Advanced parameters</title>			
 			<varlistentry>
 				<term><parameter>arch</parameter></term>                                                                                               
@@ -210,6 +180,15 @@
 			<varlistentry><term><parameter>doc_url</parameter></term>
 			<listitem><para>provides a URL for the documentation team for this package. In multi-page HTML output, <application>Publican</application> links to this URL at the top right of each page, through the <filename>image_right.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal> </para></listitem></varlistentry>                                   
 
+			<varlistentry>
+				<term><parameter>docname</parameter></term>
+				<listitem>
+					<para>
+						specifies the document name. If set, this value overrides the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
+					</para>
+				</listitem>
+			</varlistentry>
+
 			<varlistentry><term><parameter>dt_obsoletes</parameter></term>
 			<listitem><para>specifies the desktop packages that this package obsoletes. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
 
@@ -225,7 +204,16 @@
 						</para>
 					</important>
 				</listitem>
-			</varlistentry>                                        
+			</varlistentry>
+			
+			<varlistentry>
+				<term><parameter>edition</parameter></term>
+				<listitem>
+					<para>
+						specifies the edition number for this document. If set, this value overrides the content of the <sgmltag>&lt;edition&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
+					</para>
+				</listitem>
+			</varlistentry>
 
 			<varlistentry><term><parameter>generate_section_toc_level</parameter></term>
 			<listitem><para>controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value were set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.</para></listitem></varlistentry>                                                
@@ -240,10 +228,25 @@
 			<listitem><para>specifies the operating system for which to build packages. <application>Publican</application> appends the value that you provide here to the RPM packages that it builds. For example, the default value is <literal>.el5</literal>, which signifies Red Hat Enterprise Linux 5 and operating systems derived from it. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/> and <xref linkend="sect-Users_Guide-Branding-Packaging_a_brand"/>.</para></listitem></varlistentry>                
 
 			<varlistentry><term><parameter>prod_url</parameter></term>
-			<listitem><para>provides a URL for the product to which this document applies. In multi-page HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal></para></listitem></varlistentry>        
+			<listitem><para>provides a URL for the product to which this document applies. In multi-page HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal></para></listitem></varlistentry>
+			
+			<varlistentry>
+				<term><parameter>product</parameter></term>
+				<listitem>
+					<para>
+						specifies the product to which this documentation applies. If set, this value overrides the content of the <sgmltag>&lt;productname&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
+					</para>
+				</listitem>
+			</varlistentry>
 
-			<varlistentry><term><parameter>release</parameter></term>
-			<listitem><para>specifies the release number of this package. This parameter defaults to the value of <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> file.</para></listitem></varlistentry>                                                           
+			<varlistentry>
+				<term><parameter>release</parameter></term>
+				<listitem>
+					<para>
+						specifies the release number of this package. If set, this value overrides the value of <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;).
+					</para>
+				</listitem>
+			</varlistentry>                                                           
 
 			<varlistentry><term><parameter>repo</parameter></term>
 			<listitem><para>specifies the repository from which to fetch remote books that form part of a distributed set. Refer to <xref linkend="sect-Users_Guide-Using_Sets-Distributed_Sets"/>.</para></listitem></varlistentry>
@@ -274,6 +277,15 @@
 
 			<varlistentry><term><parameter>toc_section_depth</parameter></term>
 			<listitem><para>controls the depth of sections that <application>Publican</application> includes in the main table of contents. By default, this value is set to <literal>2</literal>. With the default setting, sections 1.1 and 1.1.1 will appear in the main table of contents, but section 1.1.1.1 will not. (Note that the first digit in these examples represents a chapter, not a section).</para></listitem></varlistentry>
+			
+			<varlistentry>
+				<term><parameter>version</parameter></term>
+				<listitem>
+					<para>
+						specifies the version number of that product to which this document applies. If set, this value overrides the content of the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
+					</para>
+				</listitem>
+			</varlistentry>
 
 			<varlistentry><term><parameter>web_brew_dist</parameter></term>
 			<listitem><para>specifies the <application>brew</application> build target to use for building the web RPM packages. <application>Brew</application> is the internal build system used by Red Hat. By default, this value is set to <literal>docs-5E</literal>, representing documentation packages for Red Hat Enterprise Linux 5. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/>.</para></listitem></varlistentry>
@@ -333,7 +345,10 @@
 				<term><sgmltag>&lt;productname&gt;<replaceable>productname</replaceable>&lt;/productname&gt;</sgmltag></term>
 				<listitem>
 					<para>
-						The name of the product or product stream to which the book, article, or set applies, for example: <literal>Red Hat Enterprise Linux</literal> or <literal>JBoss Enterprise Application Platform</literal>. When building a book as an RPM package, data in the &lt;productname&gt; tag is used as part of the filename of the resultant RPM package.
+						The name of the product or product stream to which the book, article, or set applies, for example: <literal>Red Hat Enterprise Linux</literal> or <literal>JBoss Enterprise Application Platform</literal>. When building a book as an RPM package, data in the &lt;productname&gt; tag is used as part of the file name of the package.
+					</para>
+					<para>
+						Override this tag with the <parameter>product</parameter> variable in the <filename>publican.cfg</filename> file if the name of your product contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
 					</para>
 					<xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 				</listitem>
@@ -342,7 +357,10 @@
 				<term><sgmltag>&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;</sgmltag></term>
 				<listitem>
 					<para>
-						Obviously enough, the book&#39;s title (for example, <emphasis>Server Configuration Guide</emphasis>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package.
+						Obviously enough, the title of the document (for example, <emphasis>Server Configuration Guide</emphasis>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package.
+					</para>
+					<para>
+						Override this tag with the <parameter>docname</parameter> variable in the <filename>publican.cfg</filename> file if the title of your document contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
 					</para>
 					<xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 				</listitem>
@@ -364,6 +382,9 @@
 					<para>
 						Running the <command>publican create --name <replaceable>Book_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the product number.
 					</para>
+					<para>
+						Override this tag with the <parameter>version</parameter> variable in the <filename>publican.cfg</filename> file if the product version is anything other than a number.
+					</para>
 					<xi:include href="Permitted_numbers.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 				</listitem>
 			</varlistentry>
@@ -371,13 +392,16 @@
 				<term><sgmltag>&lt;edition&gt;<replaceable>edition</replaceable>&lt;/edition&gt;</sgmltag></term>
 				<listitem>
 					<para>
-						This is the edition number of the book. The first edition of the book should be 1.0 (you may like to use 0.y for pre-release versions of a book). Subsequent editions should increment the 1.y to indicate to readers that the book is a new edition. The edition changes the version number in the file name when building a book with the <command>publican package</command> command.
+						This is the edition number of the book. The first edition of the book should be 1.0 (unless you use 0.<replaceable>x</replaceable> for pre-release versions of a book). Subsequent editions should increment the 1.<replaceable>x</replaceable> to indicate to readers that the book is a new edition. The edition changes the version number in the file name when building a book with the <command>publican package</command> command.
 					</para>
 					<para>
 						For example, setting the edition to <filename>1.2</filename> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-1.2-0.src.rpm</filename>.
 					</para>
 					<para>
 						Running the <command>publican create --name<replaceable> Book_Name</replaceable> --edition <replaceable>x</replaceable>.<replaceable>y</replaceable></command> command correctly configures the edition.
+					</para>
+					<para>
+						Override this tag with the <parameter>edition</parameter> variable in the <filename>publican.cfg</filename> file if the edition of your document is identified by anything other than a number.
 					</para>
 					<xi:include href="Permitted_numbers.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 				</listitem>
@@ -387,6 +411,9 @@
 				<listitem>
 					<para>
 						The pubsnumber changes the release number (the last digit) when building a book with the <command>publican package</command> command. For example, setting the pubsnumber to <filename>1</filename> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
+					</para>
+					<para>
+						Override this tag with the <parameter>release</parameter> variable in the <filename>publican.cfg</filename> file if the release number of your document contains anything other than whole numbers.
 					</para>
 					<xi:include href="Permitted_integers.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 				</listitem>
@@ -458,6 +485,9 @@
 			<title>Articles and chapters</title>
 			<para>
 				DocBook articles cannot contain chapters. If you use the <option>--type=article</option> option with <command>publican create</command>, <application>Publican</application> does not create a <filename>Chapter.xml</filename> file. Use sections to organize content within articles. 
+			</para>
+			<para>
+				Refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner available at <ulink url="http://www.docbook.org/tdg/en/html/docbook.html"></ulink> for details of the different ways that sets, books, articles, parts, chapters, and sections interact. In particular, note that articles can be stand-alone documents, or can be incorporated into books.
 			</para>
 		</important>
 		<para>
