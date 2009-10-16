@@ -13,7 +13,7 @@
 	<important>
 		<title>Other language codes</title>
 		<para>
-			The system of codes used to identify languages in the XML standard is not the only system of languages codes in use in the world today. However, because <application>Publican</application> strives to comply with the XML standard, these are the only codes that <application>Publican</application> supports. In particular, note that the codes used in the GNU tools (identified by their use of underscores and the <literal>@</literal> symbol to separate elements — for example, <literal>en_GB<literal> or <literal>sr_RS@latin<literal>) do not comply with the XML standard and therefore do not work with <application>Publican</application>.
+			The system of codes used to identify languages in the XML standard is not the only system of languages codes in use in the world today. However, because <application>Publican</application> strives to comply with the XML standard, these are the only codes that <application>Publican</application> supports. In particular, note that the codes used in the GNU tools (identified by their use of underscores and the <literal>@</literal> symbol to separate elements — for example, <literal>en_GB</literal> or <literal>sr_RS@latin</literal>) do not comply with the XML standard and therefore do not work with <application>Publican</application>.
 		</para>
 	</important>
 	<para>
@@ -29,51 +29,53 @@
 		BCP&nbsp;47 also allows for considerable customization of language tags for special purposes through the use of <firstterm>extension subtags</firstterm> and <firstterm>private-use subtags</firstterm>. Extension subtags allow for finer-tuning of existing subtags, but must be registered with the IETF (none are currently registered). Private-use subtags are introduced by <literal>x-</literal> and do not need to be registered. Private-use subtags aside, a subtag is valid if it appears in the registry of subtags maintained by the IETF through the Internet Assigned Numbers Authority (IANA).<footnote><para><ulink url="http://www.iana.org/assignments/language-subtag-registry">http://www.iana.org/assignments/language-subtag-registry</ulink></para></footnote> Although <application>Publican</application> will accept any language tag that is valid under the rules presented in BCP&nbsp;47, it is designed around the assumption that language tags for documents will most usually take the form <literal><replaceable>language</replaceable>-<replaceable>region</replaceable></literal>. A brief description of subtags follows:
 	</para>
 	<variablelist>
-		<term>language subtag</term>
-		<listitem>
-			<para>
-				The language subtag comprises two or more lower-case letters and is the only mandatory part of the language tag. For most widely spoken languages, the language subtag is a two-letter code identical with the language codes specified in ISO&nbsp;639-1, <footnote><para><ulink url="http://www.infoterm.info/standardization/iso_639_1_2002.php">http://www.infoterm.info/standardization/iso_639_1_2002.php</ulink></para></footnote> for example, <literal>zh</literal> (Chinese), <literal>hi</literal> (Hindi), <literal>es</literal> (Spanish), and <literal>en</literal> (English). Where no two-letter code exists in ISO&nbsp;639-1, the language subtag is usually a three-letter code identical with the codes specified in ISO&nbsp;639-2,<footnote><para><ulink url="http://www.loc.gov/standards/iso639-2/">http://www.loc.gov/standards/iso639-2/</ulink></para></footnote> for example, <literal>bal</literal> (Balochi), <literal>apk</literal> (Kiowa Apache), and <literal>tpi</literal> (Tok Pisin). Finally, a small number of language subtags appear in the IANA registry that have no ISO&nbsp;639-1 or ISO&nbsp;639-2 equivalent, such as <literal>qya</literal> (Quenya), <literal>tlh</literal> (Klingon), and <literal>i-enochian</literal> (Enochian). This last example also illustrates a small number of language subtags <firstterm>grandfathered</firstterm> into the registry that do not match the two-letter or three-letter pattern of codes derived from the ISO&nbsp;639 standards.
-			</para>
-			<note>
-				<title>Extended language subtags</title>
+		<varlistentry>
+			<term>language subtag</term>
+			<listitem>
 				<para>
-					<citetitle>RFC&nbsp;5646: Tags for Identifying Languages</citetitle><footnote><para><ulink url="http://tools.ietf.org/html/rfc5646">http://tools.ietf.org/html/rfc5646</ulink></para></footnote> issued in September 2009 allows for <firstterm>extended language subtags</firstterm> to follow the language subtag. Extended language subtags are three-letter codes that represent languages that share a close relationship with a language already represented by a language subtag. For example, <literal>yue</literal> represents Cantonese, but this subtag must always be used with the language subtag associated with it (Chinese), thus: <literal>zh-yue</literal>. The IETF does not yet recognize RFC&nbsp;5646 as "Best Common Practice", nor are these subtags part of the XML standard yet. 
+					The language subtag comprises two or more lower-case letters and is the only mandatory part of the language tag. For most widely spoken languages, the language subtag is a two-letter code identical with the language codes specified in ISO&nbsp;639-1, <footnote><para><ulink url="http://www.infoterm.info/standardization/iso_639_1_2002.php">http://www.infoterm.info/standardization/iso_639_1_2002.php</ulink></para></footnote> for example, <literal>zh</literal> (Chinese), <literal>hi</literal> (Hindi), <literal>es</literal> (Spanish), and <literal>en</literal> (English). Where no two-letter code exists in ISO&nbsp;639-1, the language subtag is usually a three-letter code identical with the codes specified in ISO&nbsp;639-2,<footnote><para><ulink url="http://www.loc.gov/standards/iso639-2/">http://www.loc.gov/standards/iso639-2/</ulink></para></footnote> for example, <literal>bal</literal> (Balochi), <literal>apk</literal> (Kiowa Apache), and <literal>tpi</literal> (Tok Pisin). Finally, a small number of language subtags appear in the IANA registry that have no ISO&nbsp;639-1 or ISO&nbsp;639-2 equivalent, such as <literal>qya</literal> (Quenya), <literal>tlh</literal> (Klingon), and <literal>i-enochian</literal> (Enochian). This last example also illustrates a small number of language subtags <firstterm>grandfathered</firstterm> into the registry that do not match the two-letter or three-letter pattern of codes derived from the ISO&nbsp;639 standards.
 				</para>
-			</note>
-		</listitem>
-	</variablelist>
-	<variablelist>
-		<term>script subtag</term>
-		<listitem>
-			<para>
-				The script subtag comprises four letters — the first one in upper case, the other three in lower case — and defines a writing system. These codes are identical with the four-letter codes specified in ISO&nbsp;15924.<footnote><para><ulink url="http://www.unicode.org/iso15924/">http://www.unicode.org/iso15924/</ulink></para></footnote> The script subtag is used to identify languages that are commonly written with more than one writing system; the subtag is omitted when it adds no distinguishing value to the language tag overall. For example, <literal>sr-Latn</literal> represents Serbian written with the Latin alphabet and <literal>sr-Cyrl</literal> represents Serbian written with the Cyrillic alphabet; <literal>az-Arab</literal> represents Azerbaijani written in Arabic script and <literal>az-Cyrl</literal> represents Azerbaijani written with the Cyrillic alphabet. Conversely, French should not be represented as <literal>fr-Latn</literal>, because French is not commonly written in any script other than the Latin alphabet anywhere in the world.
-			</para>
-		</listitem>
-	</variablelist>
-	<variablelist>
-		<term>region subtag</term>
-		<listitem>
-			<para>
-				The region subtag comprises either two upper-case letters (for regions that conform to national boundaries) or three digits (for other areas, such as trans-national regions). The two-letter subtags are identical with those from ISO&nbsp;3166-1<footnote><para><ulink url="http://www.iso.org/iso/country_codes.htm">http://www.iso.org/iso/country_codes.htm</ulink></para></footnote>, for example, <literal>AT</literal> (Austria), <literal>TZ</literal> (Tanzania), and <literal>VE</literal> (Venezuela). The three-digit region subtags are based on those in UN&nbsp;M.49, <footnote><para><ulink url="http://unstats.un.org/unsd/methods/m49/m49.htm">http://unstats.un.org/unsd/methods/m49/m49.htm</ulink></para></footnote> for example, <literal>015</literal> (Northern Africa), <literal>061</literal> (Polynesia), and <literal>419</literal> (Latin America and the Caribbean).
-			</para>
-		</listitem>
-	</variablelist>
-	<variablelist>
-		<term>variant subtag</term>
-		<listitem>
-			<para>
-				Variant subtags identify well-defined, recognizable variants of a language or script and can include upper-case letters, lower-case letters, and numerals. Variant subtags that start with a letter must be at least five characters long, and those that start with a numeral must be at least four characters long. Most variant subtags can only be used in combination with specific subtags or combinations of subtags. Variant subtags do not harmonize with any other standard; they are each the result of a separate registration with the IETF by an interested person or group. 
-			</para>
-			<para>
-				Under the present standard, dialects of several languages are designated with variant subtags, for example, <literal>nedis</literal> denotes Nadiza (also known as Natisone), a dialect of Slovenian. This tag must be used in conjunction with the language subtag for Slovenian, thus: <literal>sl-nedis</literal>. In September 2009, the IETF issued a Request for Comments (RFC) that (amongst other things) proposes that dialects be represented by language extension subtags attached to language subtags.<footnote><para><ulink url="http://tools.ietf.org/html/rfc5646">http://tools.ietf.org/html/rfc5646</ulink></para></footnote>
-			</para>
-			<para>
-				Most variant subtags mark a particular orthography, most usually as a result of an official spelling reform or a significant work documenting the language. Examples (with their required language subtags) include: <literal>fr-1606nicot</literal> (French as documented by Jean Nicot in 1606), <literal>de-1901</literal> (German spelling codified by the 2nd Orthographic Conference in 1901) and <literal>be-1959acad</literal> (Belarusian as codified by the Orthography Commission in 1959).
-			</para>
-			<para>
-				Finally, some variant subtags denote a particular variant of a system of writing or transliteration. For example, <literal>zh-Latn-wadegile</literal> is Chinese written in the Latin alphabet, according to the transliteration system developed by Thomas Wade and Herbert Giles; <literal>ja-Latn-hepburn</literal> is Japanese written in the Latin alphabet using the translation system of James Curtis Hepburn.
-			</para>
-		</listitem>
+				<note>
+					<title>Extended language subtags</title>
+					<para>
+						<citetitle>RFC&nbsp;5646: Tags for Identifying Languages</citetitle><footnote><para><ulink url="http://tools.ietf.org/html/rfc5646">http://tools.ietf.org/html/rfc5646</ulink></para></footnote> issued in September 2009 allows for <firstterm>extended language subtags</firstterm> to follow the language subtag. Extended language subtags are three-letter codes that represent languages that share a close relationship with a language already represented by a language subtag. For example, <literal>yue</literal> represents Cantonese, but this subtag must always be used with the language subtag associated with it (Chinese), thus: <literal>zh-yue</literal>. The IETF does not yet recognize RFC&nbsp;5646 as "Best Common Practice", nor are these subtags part of the XML standard yet. 
+					</para>
+				</note>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>script subtag</term>
+			<listitem>
+				<para>
+					The script subtag comprises four letters — the first one in upper case, the other three in lower case — and defines a writing system. These codes are identical with the four-letter codes specified in ISO&nbsp;15924.<footnote><para><ulink url="http://www.unicode.org/iso15924/">http://www.unicode.org/iso15924/</ulink></para></footnote> The script subtag is used to identify languages that are commonly written with more than one writing system; the subtag is omitted when it adds no distinguishing value to the language tag overall. For example, <literal>sr-Latn</literal> represents Serbian written with the Latin alphabet and <literal>sr-Cyrl</literal> represents Serbian written with the Cyrillic alphabet; <literal>az-Arab</literal> represents Azerbaijani written in Arabic script and <literal>az-Cyrl</literal> represents Azerbaijani written with the Cyrillic alphabet. Conversely, French should not be represented as <literal>fr-Latn</literal>, because French is not commonly written in any script other than the Latin alphabet anywhere in the world.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>region subtag</term>
+			<listitem>
+				<para>
+					The region subtag comprises either two upper-case letters (for regions that conform to national boundaries) or three digits (for other areas, such as trans-national regions). The two-letter subtags are identical with those from ISO&nbsp;3166-1<footnote><para><ulink url="http://www.iso.org/iso/country_codes.htm">http://www.iso.org/iso/country_codes.htm</ulink></para></footnote>, for example, <literal>AT</literal> (Austria), <literal>TZ</literal> (Tanzania), and <literal>VE</literal> (Venezuela). The three-digit region subtags are based on those in UN&nbsp;M.49, <footnote><para><ulink url="http://unstats.un.org/unsd/methods/m49/m49.htm">http://unstats.un.org/unsd/methods/m49/m49.htm</ulink></para></footnote> for example, <literal>015</literal> (Northern Africa), <literal>061</literal> (Polynesia), and <literal>419</literal> (Latin America and the Caribbean).
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>variant subtag</term>
+			<listitem>
+				<para>
+					Variant subtags identify well-defined, recognizable variants of a language or script and can include upper-case letters, lower-case letters, and numerals. Variant subtags that start with a letter must be at least five characters long, and those that start with a numeral must be at least four characters long. Most variant subtags can only be used in combination with specific subtags or combinations of subtags. Variant subtags do not harmonize with any other standard; they are each the result of a separate registration with the IETF by an interested person or group. 
+				</para>
+				<para>
+					Under the present standard, dialects of several languages are designated with variant subtags, for example, <literal>nedis</literal> denotes Nadiza (also known as Natisone), a dialect of Slovenian. This tag must be used in conjunction with the language subtag for Slovenian, thus: <literal>sl-nedis</literal>. In September 2009, the IETF issued a Request for Comments (RFC) that (amongst other things) proposes that dialects be represented by language extension subtags attached to language subtags.<footnote><para><ulink url="http://tools.ietf.org/html/rfc5646">http://tools.ietf.org/html/rfc5646</ulink></para></footnote>
+				</para>
+				<para>
+					Most variant subtags mark a particular orthography, most usually as a result of an official spelling reform or a significant work documenting the language. Examples (with their required language subtags) include: <literal>fr-1606nicot</literal> (French as documented by Jean Nicot in 1606), <literal>de-1901</literal> (German spelling codified by the 2nd Orthographic Conference in 1901) and <literal>be-1959acad</literal> (Belarusian as codified by the Orthography Commission in 1959).
+				</para>
+				<para>
+					Finally, some variant subtags denote a particular variant of a system of writing or transliteration. For example, <literal>zh-Latn-wadegile</literal> is Chinese written in the Latin alphabet, according to the transliteration system developed by Thomas Wade and Herbert Giles; <literal>ja-Latn-hepburn</literal> is Japanese written in the Latin alphabet using the translation system of James Curtis Hepburn.
+				</para>
+			</listitem>
+		</varlistentry>
 	</variablelist>
 	<para>
 		<application>Publican</application> includes support for the following languages:
