@@ -154,7 +154,7 @@
 					<para>
 						For example, if you have the following:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &lt;chapter id="ch03" xreflabel="Chapter Three"&gt;
 	&lt;title&gt;The Secret to Eternal Life&lt;/title&gt;
 	&lt;para&gt;The secret to eternal life is&hellip;&lt;/para&gt;
@@ -167,7 +167,7 @@
 				<para>
 					when your XML is built to HTML, the <sgmltag>&lt;xref&gt;</sgmltag> tag becomes an HTML anchor tag as follows:
 				</para>
-<programlisting>
+<programlisting language="XML">
 &hellip;see &lt;a href="#ch03"&gt;Chapter Three&lt;/a&gt; for details.
 </programlisting>
 					<para>
@@ -179,7 +179,7 @@
 					<para>
 						The following XML:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &lt;chapter id="ch03" xreflabel="The Secret to Eternal Life"&gt;
 	&lt;title&gt;The Secret to Eternal Life&lt;/title&gt;
 	&lt;para&gt;The secret to eternal life is&hellip;&lt;/para&gt;
@@ -192,13 +192,13 @@
 					<para>
 						Will result in an HTML anchor tag as follows:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &hellip;see &lt;a href="#ch03"&gt;The Secret to Eternal Life&lt;/a&gt; for details.
 </programlisting>
 					<para>
 						This isn&#39;t as informative as the text presented to a reader if you do not use an <sgmltag>&lt;xreflabel&gt;</sgmltag> attribute. The following:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &lt;chapter id="ch03"&gt;
 	&lt;title&gt;The Secret to Eternal Life&lt;/title&gt;
 	&lt;para&gt;The secret to eternal life is&hellip;&lt;/para&gt;
@@ -206,18 +206,18 @@
 
 [more deathless prose here]		
 
-&hellip;see &gt;xref linkend="ch03"&gt; for details.
+&hellip;see &lt;xref linkend="ch03"&gt; for details.
 </programlisting>
 					<para>
 						transforms the <sgmltag>&lt;xref&gt;</sgmltag> element as follows when built to HTML:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &hellip;see &lt;a href="#ch03"&gt;Chapter 3: The Secret to Eternal Life&lt;/a&gt; for details.
 </programlisting>
 					<para>
 						More important, however, are the translation problems <sgmltag>&lt;xreflabel&gt;</sgmltag>s causes. Attribute values are not seen by translators. Consequently, they are not translated. Consider the second example above again:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &lt;chapter id="ch03" xreflabel="The Secret to Eternal Life"&gt;
 	&lt;title&gt;The Secret to Eternal Life&lt;/title&gt;
 	&lt;para&gt;The secret to eternal life is&hellip;&lt;/para&gt;
@@ -230,19 +230,19 @@
 					<para>
 						In English, the <sgmltag>&lt;xref&gt;</sgmltag> is still transformed into an anchor tag as follows:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &hellip;see &lt;a href="#ch03"&gt;The Secret to Eternal Life&lt;/a&gt; for details.
 </programlisting>
 					<para>
 						Someone reading the German version, however, will have this as their underlying HTML:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &hellip;Sehen Sie &lt;a href="#ch03"&gt;The Secret to Eternal Life&lt;/a&gt; für Details.
 </programlisting>
 					<para>
 						If the <sgmltag>&lt;xreflabel&gt;</sgmltag> attribute is not used, the title and chapter indicator, both properly translated, appear to the reader. That is, the following:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &lt;chapter id="ch03"&gt;
 	&lt;title&gt;The Secret to Eternal Life&lt;/title&gt;
 	&lt;para&gt;The secret to eternal life is&hellip;&lt;/para&gt;
@@ -255,7 +255,7 @@
 					<para>
 						will, after translation, present this to a German-speaking reader:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &hellip;Sehen Sie &lt;a href="#ch03"&gt;Kapitel 3: Das Geheimnis des ewigen Lebens&lt;/a&gt; für Details.
 </programlisting>
 					<para>
@@ -279,7 +279,7 @@
 					<para>
 						For example, if you have the following:
 					</para>
-<programlisting>
+<programlisting language="XML">
 &lt;chapter id="The_Secret"&gt;
 	&lt;title&gt;The Secret to Eternal Life&lt;/title&gt;
 	&lt;titleabbrev id="final"&gt;the final chapter&lt;/titleabbrev&gt;
