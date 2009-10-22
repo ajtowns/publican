@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE important PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
 <important>
 	<title>Root nodes and conditional tagging</title>
 	<para>
 		If the root node of an XML file is excluded with a conditional, your document will not build, because empty files are not valid XML. For example, if <filename>Installation_and_configuration_on_Fedora.xml</filename> contains a single chapter:
-	</para> 
+	</para>
+	
 <programlisting>
 &lt;?xml version='1.0' encoding='utf-8' ?&gt;
 &lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
@@ -23,5 +24,6 @@
 	</para>
 	<para>
 		To exclude this chapter, add a condition to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration_on_Fedora.xml</filename>.
-	</para> 
+	</para>
 </important>
+

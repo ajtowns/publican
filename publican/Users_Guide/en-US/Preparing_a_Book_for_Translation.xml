@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<section id="sect-Users_Guide-Using_the_publican_package-Preparing_a_Book_for_Translation">
-	<title>Preparing a book for translation</title>
+<section id="sect-Users_Guide-Preparing_a_document_for_translation">
+	<title>Preparing a document for translation</title>
 	<para>
 		Support for localization of documents was a key consideration in the design of <application>Publican</application>. The general translation workflow for documents developed in <application>Publican</application> is as follows:
 	</para>
@@ -20,6 +20,7 @@
 			<para>
 				Generate <firstterm>portable object template</firstterm> (POT) files from the XML files:
 			</para>
+			
 <screen>$ <command>publican update_pot</command>
 </screen>
 			<para>
@@ -36,22 +37,25 @@
 			<para>
 				Generate <firstterm>portable object</firstterm> (PO) files from the POT files to begin translation into a particular language:
 			</para>
+			
 <screen>$ <command>publican update_po --langs=<replaceable>language_code</replaceable></command>
 </screen>
 			<para>
-				where <replaceable>language_code</replaceable> is the code for the target language. Refer to <xref linkend="appe-Language_Codes"/> for more information about language codes. You can provide multiple language codes, separated by commas, to generate PO files for more than one language at a time. For example:
+				where <replaceable>language_code</replaceable> is the code for the target language. Refer to <xref linkend="appe-Users_Guide-Language_codes" /> for more information about language codes. You can provide multiple language codes, separated by commas, to generate PO files for more than one language at a time. For example:
 			</para>
+			
 <screen>$ <command>publican update_po --langs=hi-IN,pt-BR,ru-RU,zh-CN</command>
 </screen>
 			<para>
 				If this is the first time that PO files have been created for a particular language, <application>Publican</application> creates a new subdirectory, named with the language code that you specified with the <option>--langs=</option> option. This subdirectory holds a PO file for each POT file in <filename>pot</filename> subdirectory. If <application>Publican</application> has created PO files for this language previously, <application>Publican</application> updates the existing PO files to reflect any changes in the POT files since the PO files were last updated. You can update existing PO files in every subdirectory with the <option>--langs=all</option> option:
 			</para>
+			
 <screen>$ <command>publican update_po --langs=all</command>
 </screen>
 			<important>
 				<title>Remove unused POT files</title>
 				<para>
-					<application>Publican</application> generates a PO file for every POT file in the <filename>pot</filename> directory, whether the POT file is based on a corresponding XML file is used in the document or not, or whether a corresponding XML file even exists. If you transform POT files for unused or deleted XML files into PO files, you waste the time and effort of volunteer translators, and waste money if you are paying for translations. 
+					<application>Publican</application> generates a PO file for every POT file in the <filename>pot</filename> directory, whether the POT file is based on a corresponding XML file is used in the document or not, or whether a corresponding XML file even exists. If you transform POT files for unused or deleted XML files into PO files, you waste the time and effort of volunteer translators, and waste money if you are paying for translations.
 				</para>
 				<para>
 					When you generate PO files, <application>Publican</application> presents you with a warning for any POT files that do not have corresponding XML files, but will generate the PO file nevertheless. However, <application>Publican</application> will not warn you if a POT file exists for an XML file that is not used in the document.
@@ -67,16 +71,21 @@
 			<para>
 				Build the document in the target language, for example:
 			</para>
+			
 <screen>$ <command>publican build --formats=html,html-single,pdf --langs=is-IS,nb-NO</command>
 </screen>
 			<para>
 				or package it in the target language, for example:
 			</para>
+			
 <screen>$ <command>publican package --lang=is-IS</command>
 </screen>
 			<para>
-				You can build the document in all languages for which you have translations with the <option>--langs=all</option> option, but note that you must package each language individually. Refer to <xref linkend="sect-Users_Guide-Using_the_publican_package-Building_a_Book"/> for more information on building a document, and <xref linkend="sect-Users_Guide-Using_the_publican_package-Packaging_a_Book"/> on packaging a document.
+				You can build the document in all languages for which you have translations with the <option>--langs=all</option> option, but note that you must package each language individually. Refer to <xref linkend="sect-Users_Guide-Building_a_document" /> for more information on building a document, and <xref linkend="sect-Users_Guide-Packaging_a_book" /> on packaging a document.
 			</para>
 		</step>
 	</procedure>
+
 </section>
+
+

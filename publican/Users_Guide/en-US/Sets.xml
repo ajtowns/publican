@@ -2,21 +2,21 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<chapter id="chap-Users_Guide-Using_Sets">
-	<title>Using Sets</title>
+<chapter id="chap-Users_Guide-Using_sets">
+	<title>Using sets</title>
 	<para>
 		A set is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a Set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. There are two types of sets, Stand-alone Sets and Distributed Sets.
 	</para>
-	<section id="sect-Users_Guide-Using_Sets-Stand_alone_Sets">
-		<title>Stand-alone Sets</title>
+	<section id="sect-Users_Guide-Using_sets-Stand_alone_sets">
+		<title>Stand-alone sets</title>
 		<para>
 			A stand-alone set contains the XML files for each book, all of which are located inside the directory of the set.
 		</para>
 		<para>
 			The procedure that follows will guide you through the process of creating a stand-alone set named <citetitle>My Set</citetitle> located in a directory called <filename>books/My_Set/</filename>. The set will contain <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> both of which will be manually created inside the <filename>books/My_Set/en-US</filename> directory.
 		</para>
-		<procedure id="proc-Users_Guide-Stand_alone_Sets-Creating_a_Stand_alone_Set">
-			<title>Creating a Stand-alone Set</title>
+		<procedure id="proc-Users_Guide-Stand_alone_sets-Creating_a_stand_alone_set">
+			<title>Creating a stand-alone set</title>
 			<step>
 				<para>
 					Run the following command in a shell in the <filename>books/</filename> directory to create a set named <literal>My_Set</literal> branded in the Red Hat style and in which the XML will be written in American English.
@@ -39,7 +39,7 @@ mkdir Book_A Book_B
 					<command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
 				</para>
 				
-<programlisting language="XML">&lt;?xml version=&#39;1.0&#39;?&gt;
+<programlisting language="XML">&lt;?xml version='1.0'?&gt;
 &lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]&gt;
@@ -72,18 +72,18 @@ mkdir Book_A Book_B
 
 	</section>
 	
-	<section id="sect-Users_Guide-Using_Sets-Distributed_Sets">
-		<title>Distributed Sets</title>
+	<section id="sect-Users_Guide-Using_sets-Distributed_sets">
+		<title>Distributed sets</title>
 		<para>
-			A <firstterm>distributed set</firstterm> contains books that are located in a version-controlled repository. Although several version control systems exist, this version of <application>Publican</application> supports only one:  <application>Subversion</application> (<application>SVN</application>). By setting the repository location and titles of the included books in the <filename>publican.cfg</filename> file, each book can be exported to build the entire set. The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>.
+			A <firstterm>distributed set</firstterm> contains books that are located in a version-controlled repository. Although several version control systems exist, this version of <application>Publican</application> supports only one: <application>Subversion</application> (<application>SVN</application>). By setting the repository location and titles of the included books in the <filename>publican.cfg</filename> file, each book can be exported to build the entire set. The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>.
 		</para>
 		<important>
 			<para>
 				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are available in your <application>SVN</application> repository. Currently <application>Publican</application> only supports <application>SVN</application>.
 			</para>
 		</important>
-		<procedure id="proc-Users_Guide-Distributed_Sets-Creating_a_Set">
-			<title>Creating a Set</title>
+		<procedure id="proc-Users_Guide-Distributed_sets-Creating_a_set">
+			<title>Creating a set</title>
 			<step>
 				<para>
 					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style and in which the XML will be written in American English.
@@ -96,7 +96,7 @@ mkdir Book_A Book_B
 				<para>
 					Add the following lines to the <filename>publican.cfg</filename> file:
 				</para>
-			
+				
 <programlisting>books 		= Book_A Book_B
 repo	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 scm	= SVN
@@ -116,7 +116,7 @@ scm	= SVN
 				</para>
 				<important>
 					<para>
-						When building a set, the <command>publican clean_ids</command> command will be run over each book because of the constraint that ID&#39;s must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
+						When building a set, the <command>publican clean_ids</command> command will be run over each book because of the constraint that ID's must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
 					</para>
 				</important>
 			</step>

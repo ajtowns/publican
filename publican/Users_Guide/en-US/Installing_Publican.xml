@@ -2,141 +2,182 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-	<chapter id="chap-Users_Guide-Installing_publican">
-		<title>Installing Publican</title>
-		<section id="chap-Users_Guide-Installing_publican-Linux">
-			<title>Installing Publican on Linux operating systems</title>
-			<note>
-				<title>Availability in repositories</title>
-				<para>
-					The procedures documented in this section assume that <application>Publican</application> and its various dependencies are available in repositories to which your system has access.
-				</para>
-			</note>
-			<section id="chap-Users_Guide-Installing_publican-Fedora">
-				<title>Installing Publican on Fedora</title>
-				<procedure>
-					<step>
-						<para>
-							Open a terminal.
-						</para>
-					</step>
-					<step>
-						<para>
-							Change to the root user: <command><prompt>$</prompt> su - </command>
-						</para>
-					</step>
-					<step>
-						<para>
-							Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package: </para>
-<screen><command><prompt>$</prompt> yum install publican publican-doc</command></screen>
-					</step>
-				</procedure>
-				<para>
-					Several brand packages are available for use with <application>Publican</application>. Run the following command as the root user to install packages for building branded books:
-				</para>
-		
-<screen><command><prompt>$</prompt> yum install publican-<replaceable>brand</replaceable></command></screen>
-				<para>
-					Replace <replaceable>brand</replaceable> with, for example, <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, or <literal>gimp</literal>. Refer to <xref linkend="chap-Users_Guide-Branding"/> for more information on branding.
-				</para>
-			</section>
-			<section id="chap-Users_Guide-Installing_publican-RHEL">
-				<title>Installing Publican on Red Hat Enterprise Linux 5</title>
-				<important>
-					<title>Unsupported software</title>
+<chapter id="chap-Users_Guide-Installing_Publican">
+	<title>Installing Publican</title>
+	<section id="sect-Users_Guide-Installing_Publican-Installing_Publican_on_Linux_operating_systems">
+		<title>Installing Publican on Linux operating systems</title>
+		<note>
+			<title>Availability in repositories</title>
+			<para>
+				The procedures documented in this section assume that <application>Publican</application> and its various dependencies are available in repositories to which your system has access.
+			</para>
+		</note>
+		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Fedora">
+			<title>Installing Publican on Fedora</title>
+			<procedure>
+				<step>
 					<para>
-						 <application>Publican</application> is not part of the Red Hat Enterprise Linux distribution. Therefore, Red Hat does not offer support for  <application>Publican</application>.
+						Open a terminal.
 					</para>
-				</important>
-				<important>
-					<title>Dependencies</title>
+				</step>
+				<step>
 					<para>
-						Installing <application>Publican</application> on Red Hat Enterprise Linux 5 requires a number of dependencies that are presently available only in yum repositories that are internal to Red Hat. 
+						Change to the root user: <command><prompt>$</prompt> su - </command>
 					</para>
-				</important>
-				<procedure>
-					<step>
-						<para>
-							Open a terminal.
-						</para>
-					</step>
-					<step>
-						<para>
-							Change to the root user: <command><prompt>$</prompt> su - </command>
-						</para>
-					</step>
-					<step>
-						<para>
-							Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package: </para>
-<screen><command><prompt>$</prompt> yum install publican publican-doc</command></screen>
-					</step>
-				</procedure>
-				<para>
-					Several brand packages are available for use with <application>Publican</application>. Run the following command as the root user to install packages for building branded books:
-				</para>
-		
-<screen><command><prompt>$</prompt> yum install publican-<replaceable>brand</replaceable></command></screen>
-				<para>
-					Replace <replaceable>brand</replaceable> with, for example, <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, or <literal>gimp</literal>. Refer to <xref linkend="chap-Users_Guide-Branding"/> for more information on branding.
-				</para>
-			</section>
-			<section id="chap-Users_Guide-Installing_publican-deb">
-				<title>Installing Publican on Ubuntu</title>
-				<procedure>
-					<step>
-						<para>
-							Open a terminal.
-						</para>
-					</step>
-					<step>
-						<para>
-							Run the following command to install the <package>publican</package> package: </para>
-<screen><command><prompt>$</prompt>sudo apt-get install publican</command></screen>
-					</step>
-				</procedure>
-			</section>
+				</step>
+				<step>
+					<para>
+						Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package:
+					</para>
+					
+<screen><command><prompt>$</prompt> yum install publican publican-doc</command>
+</screen>
+				</step>
+			</procedure>
+			
+			<para>
+				Several brand packages are available for use with <application>Publican</application>. Run the following command as the root user to install packages for building branded books:
+			</para>
+			
+<screen><command><prompt>$</prompt> yum install publican-<replaceable>brand</replaceable></command>
+</screen>
+			<para>
+				Replace <replaceable>brand</replaceable> with, for example, <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, or <literal>gimp</literal>. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information on branding.
+			</para>
 		</section>
-		<section id="chap-Users_Guide-Installing_publican-Windows">
-			<title>Installing Publican on Windows operating systems</title>
+		
+		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Red_Hat_Enterprise_Linux_5">
+			<title>Installing Publican on Red Hat Enterprise Linux 5</title>
 			<important>
-				<title>Beta software</title>
+				<title>Unsupported software</title>
 				<para>
-					<application>Publican</application> for Windows operating systems is still under development. 
+					<application>Publican</application> is not part of the Red Hat Enterprise Linux distribution. Therefore, Red Hat does not offer support for <application>Publican</application>.
 				</para>
+			</important>
+			<important>
+				<title>Dependencies</title>
 				<para>
-					The instructions presented here show you how to download and install a beta version for evaluation. 
+					Installing <application>Publican</application> on Red Hat Enterprise Linux 5 requires a number of dependencies that are presently available only in yum repositories that are internal to Red Hat.
 				</para>
 			</important>
 			<procedure>
 				<step>
-					<para>Download the <filename>Publican-Beta-Installer.exe</filename> installer from <ulink url="http://jfearn.fedorapeople.org/beta/Publican-Beta-Installer.exe"></ulink>.</para>
-				</step>
-				<step>
-					<para>Browse to the folder to which you downloaded <filename>Publican-Beta-Installer.exe</filename>.</para>
-				</step>
-				<step>
-					<para>Double-click the <filename>Publican-Beta-Installer.exe</filename> file.</para>
-				</step>
-				<step>
-					<para>Read the terms of the license agreement. If you agree to the terms, click <guibutton>I Agree</guibutton>, otherwise, click <guibutton>Cancel</guibutton>.</para>
-				</step>
-				<step>
-					<para>The installer offers to install three components: <application>Publican</application> itself (labeled <literal>Main</literal> in the installer window) and the DocBook <firstterm>Data Type Definition</firstterm> (DTD) and DocBook <firstterm>Extensible Stylesheet Language</firstterm> (XSL) stylesheets. These latter two components are grouped under the common heading <literal>DocBook</literal> in the installer window. <application>Publican</application> uses the DTD and the XSL stylesheets to render XML documents in other presentation formats (such as HTML and PDF). If you do not install these components, <application>Publican</application> must download this data from the Internet every time it processes a document, which creates lengthy delays. </para>
 					<para>
-					All three components are selected by default. Click the checkboxes to deselect any components that you do <emphasis>not</emphasis> require and click <guibutton>Next</guibutton> to continue.
+						Open a terminal.
 					</para>
 				</step>
 				<step>
-					<para>By default, the installer software creates a folder named <filename>Publican</filename> within the <filename><replaceable>%ProgramFiles%</replaceable></filename> folder of your computer — typically <filename>C:\Program Files\Publican</filename>. You can manually edit the path displayed in the <guilabel>Destination Folder</guilabel> box to select a different folder. </para>
+					<para>
+						Change to the root user: <command><prompt>$</prompt> su - </command>
+					</para>
 				</step>
 				<step>
-					<para>When you are satisfied with the destination folder, click <guibutton>Install</guibutton>.</para>
-					<para>The installer displays a progress bar as it installs <application>Publican</application>. To see more detailed information about the progress of the installation, click <guibutton>Show details</guibutton>.</para>
-				</step>
-				<step>
-					<para>When the process finishes, the installer notifies you with the message <computeroutput>Completed</computeroutput>.</para>
-					<para>Click <guibutton>Close</guibutton> to close the installer.</para>
+					<para>
+						Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package:
+					</para>
+					
+<screen><command><prompt>$</prompt> yum install publican publican-doc</command>
+</screen>
 				</step>
 			</procedure>
+			
+			<para>
+				Several brand packages are available for use with <application>Publican</application>. Run the following command as the root user to install packages for building branded books:
+			</para>
+			
+<screen><command><prompt>$</prompt> yum install publican-<replaceable>brand</replaceable></command>
+</screen>
+			<para>
+				Replace <replaceable>brand</replaceable> with, for example, <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, or <literal>gimp</literal>. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information on branding.
+			</para>
 		</section>
-	</chapter>
+		
+		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Ubuntu">
+			<title>Installing Publican on Ubuntu</title>
+			<procedure>
+				<step>
+					<para>
+						Open a terminal.
+					</para>
+				</step>
+				<step>
+					<para>
+						Run the following command to install the <package>publican</package> package:
+					</para>
+					
+<screen><command><prompt>$</prompt>sudo apt-get install publican</command>
+</screen>
+				</step>
+			</procedure>
+
+		</section>
+
+	</section>
+	
+	<section id="sect-Users_Guide-Installing_Publican-Installing_Publican_on_Windows_operating_systems">
+		<title>Installing Publican on Windows operating systems</title>
+		<important>
+			<title>Beta software</title>
+			<para>
+				<application>Publican</application> for Windows operating systems is still under development.
+			</para>
+			<para>
+				The instructions presented here show you how to download and install a beta version for evaluation.
+			</para>
+		</important>
+		<procedure>
+			<step>
+				<para>
+					Download the <filename>Publican-Beta-Installer.exe</filename> installer from <ulink url="http://jfearn.fedorapeople.org/beta/Publican-Beta-Installer.exe"></ulink>.
+				</para>
+			</step>
+			<step>
+				<para>
+					Browse to the folder to which you downloaded <filename>Publican-Beta-Installer.exe</filename>.
+				</para>
+			</step>
+			<step>
+				<para>
+					Double-click the <filename>Publican-Beta-Installer.exe</filename> file.
+				</para>
+			</step>
+			<step>
+				<para>
+					Read the terms of the license agreement. If you agree to the terms, click <guibutton>I Agree</guibutton>, otherwise, click <guibutton>Cancel</guibutton>.
+				</para>
+			</step>
+			<step>
+				<para>
+					The installer offers to install three components: <application>Publican</application> itself (labeled <literal>Main</literal> in the installer window) and the DocBook <firstterm>Data Type Definition</firstterm> (DTD) and DocBook <firstterm>Extensible Stylesheet Language</firstterm> (XSL) stylesheets. These latter two components are grouped under the common heading <literal>DocBook</literal> in the installer window. <application>Publican</application> uses the DTD and the XSL stylesheets to render XML documents in other presentation formats (such as HTML and PDF). If you do not install these components, <application>Publican</application> must download this data from the Internet every time it processes a document, which creates lengthy delays.
+				</para>
+				<para>
+					All three components are selected by default. Click the checkboxes to deselect any components that you do <emphasis>not</emphasis> require and click <guibutton>Next</guibutton> to continue.
+				</para>
+			</step>
+			<step>
+				<para>
+					By default, the installer software creates a folder named <filename>Publican</filename> within the <filename><replaceable>%ProgramFiles%</replaceable></filename> folder of your computer — typically <filename>C:\Program Files\Publican</filename>. You can manually edit the path displayed in the <guilabel>Destination Folder</guilabel> box to select a different folder.
+				</para>
+			</step>
+			<step>
+				<para>
+					When you are satisfied with the destination folder, click <guibutton>Install</guibutton>.
+				</para>
+				<para>
+					The installer displays a progress bar as it installs <application>Publican</application>. To see more detailed information about the progress of the installation, click <guibutton>Show details</guibutton>.
+				</para>
+			</step>
+			<step>
+				<para>
+					When the process finishes, the installer notifies you with the message <computeroutput>Completed</computeroutput>.
+				</para>
+				<para>
+					Click <guibutton>Close</guibutton> to close the installer.
+				</para>
+			</step>
+		</procedure>
+
+	</section>
+
+</chapter>
+

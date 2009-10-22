@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<section id="sect-Users_Guide-Branding-Installing_a_Brand">
+<section id="sect-Users_Guide-Installing_a_brand">
 	<title>Installing a brand</title>
 	<para>
-		 <application>Publican</application> brands for Fedora, Genome, and oVirt documents are available as RPM packages in Fedora. Similarly, Red Hat internally distributes RPM packages containing <application>Publican</application> brands for GIMP, JBoss, and Red Hat documents. Providing that you have access to the relevant repositories, you can install these brands on a computer that runs Red Hat Enterprise Linux or Fedora — or an operating system derived from either — with the command <command>yum install publican-<replaceable>brand</replaceable></command> or with a graphical package manager such as <application>PackageKit</application>. 
+		<application>Publican</application> brands for Fedora, Genome, and oVirt documents are available as RPM packages in Fedora. Similarly, Red Hat internally distributes RPM packages containing <application>Publican</application> brands for GIMP, JBoss, and Red Hat documents. Providing that you have access to the relevant repositories, you can install these brands on a computer that runs Red Hat Enterprise Linux or Fedora — or an operating system derived from either — with the command <command>yum install publican-<replaceable>brand</replaceable></command> or with a graphical package manager such as <application>PackageKit</application>.
 	</para>
 	<para>
 		If you use <application>Publican</application> on an operating system that does not use RPM packages, your documentation project might provide its brand in another format. Whatever format the brand is supplied in, you must place the brand files in a subdirectory of the <application>Publican</application> Common Content directory. By default, this directory is located at <filename>/usr/share/publican/Common_Content</filename> on Linux operating systems and at <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/publican/Common_Content</filename>
@@ -13,7 +13,7 @@
 	<para>
 		Each currently available brand is distributed under a brand-specific license as follows:
 	</para>
-	<table id="tabl-Users_Guide-Branding-Current_Brands_and_their_packages">
+	<table id="tabl-Users_Guide-Installing_a_brand-Current_Brands_and_their_packages">
 		<title>Current Brands and their packages</title>
 		<tgroup cols="4">
 			<colspec colnum="1" colwidth="1*"></colspec>
@@ -138,6 +138,6 @@
 			</tbody>
 		</tgroup>
 	</table>
-
 </section>
+
 

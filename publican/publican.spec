@@ -16,7 +16,8 @@ Name:           Publican
 Version:        0.99
 Release:        0.BETA1%{?dist}.t92
 Summary:        Common files and scripts for publishing with DocBook XML
-License:        GPLv2+ or Artistic
+# For a breakdown of the licensing, refer to LICENSE
+License:        (GPLv2+ or Artistic) and CC0
 Group:          Applications/Publishing
 URL:            https://publican.fedorahosted.org
 Source0:        https://fedorahosted.org/releases/publican/%{name}-%{version}.tar.gz

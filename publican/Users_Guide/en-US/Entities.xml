@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
 <section id="sect-Users_Guide-Entities_and_translation">
@@ -36,11 +36,12 @@
 		</para>
 	</blockquote>
 	<para>
-		Because there is no text missing, the title can be translated into elegant German. Also, note the use of <foreignphrase>&lsquo;dem&rsquo;</foreignphrase>, the correct form of the definite article (&#39;the&#39;) when referring to a <foreignphrase>Wälzer</foreignphrase> (&#39;tome&#39;) in this grammatical context.
+		Because there is no text missing, the title can be translated into elegant German. Also, note the use of <foreignphrase>&lsquo;dem&rsquo;</foreignphrase>, the correct form of the definite article ('the') when referring to a <foreignphrase>Wälzer</foreignphrase> ('tome') in this grammatical context.
 	</para>
 	<para>
 		By contrast, if entities are used, the entry in the PO file says:
 	</para>
+	
 <programlisting>
 #. Tag: para
 #, no-c-format
@@ -50,6 +51,7 @@ msgstr ""
 	<para>
 		The translation of this would probably run thus:
 	</para>
+	
 <programlisting>
 #. Tag: para
 #, no-c-format
@@ -65,7 +67,7 @@ msgstr "Wie in &lt;citetitle&gt;&amp;LIFT&semi;&lt;/citetitle&gt;, Kapitel 3, er
 		</para>
 	</blockquote>
 	<para>
-		This, of course, leaves the title in English, including words like &#39;Tome&#39; and &#39;Formatting&#39; that readers are unlikely to understand. Also, the translator is forced to omit the definite article &lsquo;dem&rsquo;, a more general construction that comes close to a hybrid of English and German that German speakers call <foreignphrase>Denglisch</foreignphrase> or <foreignphrase>Angleutsch</foreignphrase>. Many German speakers consider this approach incorrect and almost all consider it inelegant.
+		This, of course, leaves the title in English, including words like 'Tome' and 'Formatting' that readers are unlikely to understand. Also, the translator is forced to omit the definite article &lsquo;dem&rsquo;, a more general construction that comes close to a hybrid of English and German that German speakers call <foreignphrase>Denglisch</foreignphrase> or <foreignphrase>Angleutsch</foreignphrase>. Many German speakers consider this approach incorrect and almost all consider it inelegant.
 	</para>
 	<para>
 		Equivalent problems emerge with a fragment such as this:
@@ -86,6 +88,7 @@ msgstr "Wie in &lt;citetitle&gt;&amp;LIFT&semi;&lt;/citetitle&gt;, Kapitel 3, er
 	<para>
 		If an entity was used to save the writer time, the translator has to deal with this:
 	</para>
+	
 <programlisting>
 #. Tag: para
 #, no-c-format
@@ -95,6 +98,7 @@ msgstr ""
 	<para>
 		And the translation would be subtly but importantly different:
 	</para>
+	
 <programlisting>
 #. Tag: para
 #, no-c-format
@@ -110,66 +114,117 @@ msgstr "Jedoch ergibt ein sorgfältiges Lesen des Nachworts für &lt;citetitle&g
 		</para>
 	</blockquote>
 	<para>
-		Again, note the missing definite article (<foreignphrase>den</foreignphrase> in this grammatical context). This is inelegant but necessary since the translator can otherwise only guess which form of the definite article (<foreignphrase>den</foreignphrase>,  <foreignphrase>die</foreignphrase> or <foreignphrase>das</foreignphrase>) to use, which would inevitably lead to error.
+		Again, note the missing definite article (<foreignphrase>den</foreignphrase> in this grammatical context). This is inelegant but necessary since the translator can otherwise only guess which form of the definite article (<foreignphrase>den</foreignphrase>, <foreignphrase>die</foreignphrase> or <foreignphrase>das</foreignphrase>) to use, which would inevitably lead to error.
 	</para>
 	<para>
 		Finally, consider that although a particular word never changes its form in English, this is not necessarily true of other languages, even when the word is a <firstterm>proper noun</firstterm> such as the name of a product. In many languages, nouns change (<firstterm>inflect</firstterm>) their form according to their role in a sentence (their grammatical <firstterm>case</firstterm>). An XML entity set to represent an English noun or noun phrase therefore makes correct translation impossible in such languages.
 	</para>
 	<para>
-		For example, if you write a document that could apply to more than one product, you might be tempted to set an entity such as <sgmltag>&amp;PRODUCT&semi;</sgmltag>. The advantage of this approach is that by simply changing this value in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file, you could easily adjust the book to document (for example) Red Hat Enterprise Linux, Fedora, or CentOS. However, while the proper noun <firstterm>Fedora</firstterm> never varies in English, it has six different forms in Czech, depending on one of seven ways that you can use it in a sentence:
+		For example, if you write a document that could apply to more than one product, you might be tempted to set an entity such as <sgmltag>&amp;PRODUCT&semi;</sgmltag>. The advantage of this approach is that by simply changing this value in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file, you could easily adjust the book to document (for example) Red Hat Enterprise Linux, Fedora, or CentOS. However, while the proper noun <firstterm>Fedora</firstterm> never varies in English, it has six different forms in Czech, depending on one of seven ways that you can use it in a sentence:
 	</para>
-	<table frame='all'><title>&#39;Fedora&#39; in Czech</title>
-		<tgroup cols='3' align='left' colsep='1' rowsep='1'>
-			<colspec colname='c1'/>
-			<colspec colname='c2'/>
-			<colspec colname='c3'/>
+	<table frame="all" id="tabl-Users_Guide-Entities_and_translation-Fedora_in_Czech">
+		<title>'Fedora' in Czech</title>
+		<tgroup align="left" cols="3" colsep="1" rowsep="1">
+			<colspec colname="c1"></colspec>
+			<colspec colname="c2"></colspec>
+			<colspec colname="c3"></colspec>
 			<thead>
 				<row>
-					<entry>Case</entry>
-					<entry>Usage</entry>
-					<entry>Form</entry>
+					<entry>
+						Case
+					</entry>
+					<entry>
+						Usage
+					</entry>
+					<entry>
+						Form
+					</entry>
 				</row>
 			</thead>
 			<tbody>
 				<row>
-					<entry>Nominative</entry>
-					<entry>the subject of a sentence</entry>
-					<entry><foreignphrase>Fedora</foreignphrase></entry>
+					<entry>
+						Nominative
+					</entry>
+					<entry>
+						the subject of a sentence
+					</entry>
+					<entry>
+						<foreignphrase>Fedora</foreignphrase>
+					</entry>
 				</row>
 				<row>
-					<entry>Genitive</entry>
-					<entry>indicates possession</entry>
-					<entry><foreignphrase>Fedory</foreignphrase></entry>
+					<entry>
+						Genitive
+					</entry>
+					<entry>
+						indicates possession
+					</entry>
+					<entry>
+						<foreignphrase>Fedory</foreignphrase>
+					</entry>
 				</row>
 				<row>
-					<entry>Accusative</entry>
-					<entry>the direct object of a sentence</entry>
-					<entry><foreignphrase>Fedoru</foreignphrase></entry>
+					<entry>
+						Accusative
+					</entry>
+					<entry>
+						the direct object of a sentence
+					</entry>
+					<entry>
+						<foreignphrase>Fedoru</foreignphrase>
+					</entry>
 				</row>
 				<row>
-					<entry>Dative</entry>
-					<entry>the indirect object of a sentence</entry>
-					<entry><foreignphrase>Fedoře</foreignphrase></entry>
+					<entry>
+						Dative
+					</entry>
+					<entry>
+						the indirect object of a sentence
+					</entry>
+					<entry>
+						<foreignphrase>Fedoře</foreignphrase>
+					</entry>
 				</row>
 				<row>
-					<entry>Vocative</entry>
-					<entry>the subject of direct address</entry>
-					<entry><foreignphrase>Fedoro</foreignphrase></entry>
+					<entry>
+						Vocative
+					</entry>
+					<entry>
+						the subject of direct address
+					</entry>
+					<entry>
+						<foreignphrase>Fedoro</foreignphrase>
+					</entry>
 				</row>
 				<row>
-					<entry>Locative</entry>
-					<entry>relates to a location</entry>
-					<entry><foreignphrase>Fedoře</foreignphrase></entry>
+					<entry>
+						Locative
+					</entry>
+					<entry>
+						relates to a location
+					</entry>
+					<entry>
+						<foreignphrase>Fedoře</foreignphrase>
+					</entry>
 				</row>
 				<row>
-					<entry>Instrumental</entry>
-					<entry>relates to a method</entry>
-					<entry><foreignphrase>Fedorou</foreignphrase></entry>
+					<entry>
+						Instrumental
+					</entry>
+					<entry>
+						relates to a method
+					</entry>
+					<entry>
+						<foreignphrase>Fedorou</foreignphrase>
+					</entry>
 				</row>
 			</tbody>
 		</tgroup>
 	</table>
-	<para>For example:</para>
+	<para>
+		For example:
+	</para>
 	<itemizedlist>
 		<listitem>
 			<para>
@@ -208,12 +263,14 @@ msgstr "Jedoch ergibt ein sorgfältiges Lesen des Nachworts für &lt;citetitle&g
 		</listitem>
 	</itemizedlist>
 	<para>
-		A sentence that begins <foreignphrase>S Fedora získáváte nejnovější&hellip;</foreignphrase> remains comprehensible to Czech readers, but the result is not grammatically correct. The same effect can be simulated in English, because although English nouns lost their case endings during the Middle Ages, English pronouns are still inflected. The sentence, &#39;Me see she&#39; is completely comprehensible to English speakers, but is not what they expect to read, because the form of the pronouns <literal>me</literal> and <literal>she</literal> is not correct. <literal>Me</literal> is the accusative form of the pronoun, but because it is the subject of the sentence, the pronoun should take the nominative form, <literal>I</literal>. Similarly, <literal>she</literal> is nominative case, but as the direct object of the sentence the pronoun should take its accusative form, <literal>her</literal>.
+		A sentence that begins <foreignphrase>S Fedora získáváte nejnovější&hellip;</foreignphrase> remains comprehensible to Czech readers, but the result is not grammatically correct. The same effect can be simulated in English, because although English nouns lost their case endings during the Middle Ages, English pronouns are still inflected. The sentence, 'Me see she' is completely comprehensible to English speakers, but is not what they expect to read, because the form of the pronouns <literal>me</literal> and <literal>she</literal> is not correct. <literal>Me</literal> is the accusative form of the pronoun, but because it is the subject of the sentence, the pronoun should take the nominative form, <literal>I</literal>. Similarly, <literal>she</literal> is nominative case, but as the direct object of the sentence the pronoun should take its accusative form, <literal>her</literal>.
 	</para>
 	<para>
-		Nouns in most Slavic languages like Russian, Ukrainian, Czech, Polish, Serbian, and Croatian have seven different cases. Nouns in Finno&ndash;Ugaric languages such as Finnish, Hungarian, and Estonian have between fifteen and seventeen cases. Other languages alter nouns for other reasons. For example, Scandinavian languages inflect nouns to indicate <firstterm>definiteness</firstterm> — whether the noun refers to &#39;<emphasis>a</emphasis> thing&#39; or &#39;<emphasis>the</emphasis> thing&#39; — and some dialects of those languages inflect nouns both for definiteness <emphasis>and</emphasis> for grammatical case.
-	</para> 
+		Nouns in most Slavic languages like Russian, Ukrainian, Czech, Polish, Serbian, and Croatian have seven different cases. Nouns in Finno&ndash;Ugaric languages such as Finnish, Hungarian, and Estonian have between fifteen and seventeen cases. Other languages alter nouns for other reasons. For example, Scandinavian languages inflect nouns to indicate <firstterm>definiteness</firstterm> — whether the noun refers to '<emphasis>a</emphasis> thing' or '<emphasis>the</emphasis> thing' — and some dialects of those languages inflect nouns both for definiteness <emphasis>and</emphasis> for grammatical case.
+	</para>
 	<para>
-		Now multiply such problems by the 43 languages that <application>Publican</application> currently supports. Other than the few non-translated strings that <application>Publican</application> specifies by default in the <filename><replaceable>Book_Name</replaceable>.ent</filename> file, entities might prove useful for version numbers of products. Beyond that, the use of entities is tantamount to a conscious effort to inhibit and reduce the quality of translations. Furthermore, readers of your document in a language that inflects nouns (whether for case, definiteness, or other reasons) will not know that the bad grammar is the result of XML entities that you set — they will probably assume that the translator is incompetent.
+		Now multiply such problems by the 43 languages that <application>Publican</application> currently supports. Other than the few non-translated strings that <application>Publican</application> specifies by default in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file, entities might prove useful for version numbers of products. Beyond that, the use of entities is tantamount to a conscious effort to inhibit and reduce the quality of translations. Furthermore, readers of your document in a language that inflects nouns (whether for case, definiteness, or other reasons) will not know that the bad grammar is the result of XML entities that you set — they will probably assume that the translator is incompetent.
 	</para>
 </section>
+
+

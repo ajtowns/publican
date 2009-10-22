@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-<section id="sect-Users_Guide-Using_the_publican_package-Pre_release_software_and_draft_documentation">
+<section id="sect-Users_Guide-Pre_release_software_and_draft_documentation">
 	<title>Pre-release software and draft documentation</title>
 	<para>
 		Completed documentation for pre-release software is not the same thing as draft documentation.
@@ -24,7 +24,7 @@
 		<procedure>
 			<step>
 				<para>
-					Add the software&#39;s pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:
+					Add the software's pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:
 				</para>
 				
 <programlisting language="XML">&lt;subtitle&gt;Using Red Hat Enterprise Warp Drive&lt;remark&gt; Version 1.1, Beta 2&lt;/remark&gt;&lt;/subtitle&gt;
@@ -32,7 +32,7 @@
 			</step>
 			<step>
 				<para>
-					add <varname>show_remarks</varname> to the <filename>publican.cfg</filename> file and set it to &#39;1&#39;:
+					add <varname>show_remarks</varname> to the <filename>publican.cfg</filename> file and set it to '1':
 				</para>
 				
 <programlisting>show_remarks: 1
@@ -41,15 +41,15 @@
 		</procedure>
 		
 		<para>
-			When you build your book with this text and setting, the software&#39;s status is displayed in clear and unmistakable fashion. PDF builds display the remark on their cover and title pages. HTML builds (both html and html-single) display the remark near the beginning of <filename>index.html</filename>.
+			When you build your book with this text and setting, the software's status is displayed in clear and unmistakable fashion. PDF builds display the remark on their cover and title pages. HTML builds (both html and html-single) display the remark near the beginning of <filename>index.html</filename>.
 		</para>
 		<para>
-			Because this approach makes no changes to the information in <filename>Book_Info.xml</filename> used to generate RPMs, it also ensures there is no ambiguity in the RPM subsystem&#39;s operation.
+			Because this approach makes no changes to the information in <filename>Book_Info.xml</filename> used to generate RPMs, it also ensures there is no ambiguity in the RPM subsystem's operation.
 		</para>
 		<important>
 			<title>Important</title>
 			<para>
-				It is the writer&#39;s responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>show_remarks</varname> when documentation is updated for use with the release version of the software.
+				It is the writer's responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>show_remarks</varname> when documentation is updated for use with the release version of the software.
 			</para>
 		</important>
 	</section>
@@ -62,7 +62,7 @@
 		<procedure>
 			<step>
 				<para>
-					To add the draft watermark to your documentation add the <userinput>status="draft"</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document&#39;s root node. For example:
+					To add the draft watermark to your documentation add the <userinput>status="draft"</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document's root node. For example:
 				</para>
 				
 <programlisting language="XML">&lt;book status="draft"&gt;
@@ -71,10 +71,10 @@
 		</procedure>
 		
 		<para>
-			By default, your root node is the <sgmltag>&lt;book&gt;</sgmltag> tag in your <filename><replaceable>Book_Name</replaceable>.xml</filename> file.
+			By default, your root node is the <sgmltag>&lt;book&gt;</sgmltag> tag in your <filename><replaceable>Doc_Name</replaceable>.xml</filename> file.
 		</para>
 		<para>
-			If you are working on an article or set, the root node is the <sgmltag>&lt;article&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in <filename><replaceable>Book_Name</replaceable>.xml</filename>.
+			If you are working on an article or set, the root node is the <sgmltag>&lt;article&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in <filename><replaceable>Doc_Name</replaceable>.xml</filename>.
 		</para>
 		<para>
 			Adding the <userinput>status="draft"</userinput> attribute causes each page of the document to show the draft watermark. This is by design.
@@ -90,5 +90,7 @@
 			To denote unfinished documentation of pre-release software properly, do both previously noted procedures.
 		</para>
 	</section>
-	
+
 </section>
+
+

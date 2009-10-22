@@ -1,13 +1,5 @@
 <?xml version='1.0'?>
  
-<!--
-	Copyright (c) 2007-2009 Red Hat, Inc.
-	License: GPLv2+ or Artistic
-	Author: Jeff Fearn <jfearn@redhat.com>
-	Author: Tammy Fox <tfox@redhat.com>
-	Author: Andy Fitzsimon <afitzsim@redhat.com>
--->
-
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:exsl="http://exslt.org/common"
 		xmlns:perl="urn:perl"

@@ -189,7 +189,7 @@
 			</question>
 			<answer>
 				<para>
-					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo "FOP_OPTS=&#39;-Xms50m -Xmx700m&#39;" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo "FOP_OPTS='-Xms50m -Xmx700m'" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
 				</para>
 			</answer>
 		</qandaentry>
@@ -201,7 +201,19 @@
 			</question>
 			<answer>
 				<para>
-					<application>Publican</application> previously removed empty <sgmltag>&lt;para&gt;</sgmltag> tags while it transformed XML because empty <sgmltag>&lt;para&gt;</sgmltag> tags broke an earlier translation toolchain used within Red Hat. Empty <sgmltag>&lt;para&gt;</sgmltag> tags are valid DocBook XML, and <application>Publican</application> no longer removes them.
+					No. <application>Publican</application> previously removed empty <sgmltag>&lt;para&gt;</sgmltag> tags while it transformed XML because empty <sgmltag>&lt;para&gt;</sgmltag> tags broke an earlier translation toolchain used within Red Hat. Empty <sgmltag>&lt;para&gt;</sgmltag> tags are valid DocBook XML, and <application>Publican</application> no longer removes them.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					What happened to the spell check?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document's XML. Due to negative feedback from users, this feature was dropped.
 				</para>
 			</answer>
 		</qandaentry>
@@ -237,7 +249,7 @@
 			</question>
 			<answer>
 				<para>
-					Because Jeff&#39;s memory is pants!
+					Because Jeff's memory is pants!
 				</para>
 			</answer>
 		</qandaentry>

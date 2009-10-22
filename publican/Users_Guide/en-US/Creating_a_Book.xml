@@ -1,122 +1,119 @@
-<?xml version='1.0'?>
-<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
 
-	<chapter id="chap-Users_Guide-Using_the_publican_package-Creating_a_Book">
-		<title>Creating a document</title>
-		<para>
-			This chapter describes creating books and articles: the main configuration files, example document files, and how to build a document. 
-		</para>
-		<para>
-			Use the <command>publican create</command> command to create a new document. The <command>publican create</command> command creates all the necessary files that constitute a document.
-		</para>
-		<para>
-			The following is a list of valid options for the <command>publican create</command> command. Append these options to the end of the <command>publican create</command> command. For example, <command>publican create --help</command>, <command>publican create --name New_Book</command>, and so on:
-		</para>
-		<variablelist>
-			<varlistentry>
-				<term><option>--help</option></term>
-				<listitem>
-					<para>
-						print a list of all <command>publican create</command> command options.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>--name<replaceable> Book_Name</replaceable></option></term>
-				<listitem>
-					<para>
-						replace <replaceable>Book_Name</replaceable> with the name of the book or article. This variable must not contain any spaces. For example, running the <command>create_book --name Test_Book</command> command creates a book named Test_Book, and all the necessary files to build the book. This updates the <filename>publican.cfg</filename> with the correct <computeroutput>docname</computeroutput>, and the <filename><replaceable>Book_Name</replaceable>.ent</filename> file with the correct <computeroutput>BOOKID</computeroutput>.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>--lang<replaceable> Language_Code</replaceable></option></term>
-				<listitem>
-					<para>
-						replace <replaceable>Language_Code</replaceable> with the language code of the language that the book or article will be authored in. If you do not specify a language, <application>Publican</application> defaults to en-US — US English. Refer to <xref linkend="appe-Language_Codes"/> for more detail on language codes.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>--version<replaceable> version</replaceable></option></term>
-				<listitem>
-					<para>
-						replace <replaceable>version</replaceable> with the version number of the product that the book describes. For example, for Red Hat Enterprise Linux 5.1 you would use 5.1. The default version is 0.1. Using <command>--version <replaceable> version</replaceable></command> updates the <computeroutput>&lt;pubsnumber&gt;&lt;/pubsnumber&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file. For more information see <xref linkend="sect-Users_Guide-Files_in_the_Book_directory-Book_Info.xml" />.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>--edition<replaceable> edition</replaceable></option></term>
-				<listitem>
-					<para>
-						replace <replaceable> edition</replaceable> with the edition number of the book. This number indicates to users when a new edition of the book is released. The initial <firstterm>general availability</firstterm> (GA) release of the book should be edition 1.0. The default value is 0. Using <command>--edition<replaceable> edition</replaceable></command> updates the <computeroutput>&lt;edition&gt;&lt;/edition&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> file. For more information see <xref linkend="sect-Users_Guide-Files_in_the_Book_directory-Book_Info.xml" />.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>--product<replaceable> Product_Name</replaceable></option></term>
-				<listitem>
-					<para>
-						replace <replaceable> Product_Name</replaceable> with the product name. This variable must not contain any spaces. For example, set this to <computeroutput>Fedora</computeroutput> for core Fedora documentation, and the name of the product for other products, for example, <computeroutput>Fedora_Directory_Server</computeroutput>. The <command>--product<replaceable> Product_Name</replaceable></command> option updates the <filename>Makefile</filename> and the <filename><replaceable>Book_Name</replaceable>.ent</filename> file with the correct product name.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>--type Article --name<replaceable> Article_Name</replaceable></option></term>
-				<listitem>
-					<para>
-						create an article instead of a book. Replace <replaceable> Article_Name</replaceable> with the article name. This variable must not contain any spaces.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>--brand <replaceable>brand</replaceable></option></term>
-				<listitem>
-					<para>
-						replace <replaceable>brand</replaceable> with RedHat, fedora, JBoss, oVirt, or GIMP. This requires the appropriate publican package to be installed. For example, to build Red Hat branded books, you must install the publican-redhat package. See <xref linkend="chap-Users_Guide-Branding" /> for instructions on installing the branded publican packages. If no brand is specified, the default brand is used. Refer to <xref linkend="chap-Users_Guide-Branding"/> for more information.
-					</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
-		<para>
-			Before running the <command>publican create</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named Test_Book in the <filename>my_books/</filename> directory, run the following commands:
-		</para>
-		<para>
-			
+<chapter id="chap-Users_Guide-Creating_a_document">
+	<title>Creating a document</title>
+	<para>
+		This chapter describes creating books and articles: the main configuration files, example document files, and how to build a document.
+	</para>
+	<para>
+		Use the <command>publican create</command> command to create a new document, including all the necessary files for the document.
+	</para>
+	<para>
+		The following is a list of valid options for the <command>publican create</command> command. Append these options to the end of the <command>publican create</command> command. For example, <command>publican create --help</command>, <command>publican create --name New_Book</command>, and so on:
+	</para>
+	<variablelist>
+		<varlistentry>
+			<term><option>--help</option></term>
+			<listitem>
+				<para>
+					print a list of all <command>publican create</command> command options.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--name<replaceable> Doc_Name</replaceable></option></term>
+			<listitem>
+				<para>
+					replace <replaceable>Doc_Name</replaceable> with the name of the book or article. This variable must not contain any spaces. For example, running the <command>create_book --name Test_Book</command> command creates a book named Test_Book with all the necessary files to build the book, and places the correct <parameter>BOOKID</parameter> in the <filename>Test_Book.ent</filename> file.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--lang<replaceable> Language_Code</replaceable></option></term>
+			<listitem>
+				<para>
+					replace <replaceable>Language_Code</replaceable> with the language code of the language in which the book or article will be authored. If you do not specify a language, <application>Publican</application> defaults to en-US (US English). Refer to <xref linkend="appe-Users_Guide-Language_codes" /> for more detail on language codes.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--version<replaceable> version</replaceable></option></term>
+			<listitem>
+				<para>
+					replace <replaceable>version</replaceable> with the version number of the product that the book describes. For example, for Red Hat Enterprise Linux 5.1 you would use 5.1. The default version is 0.1. Using <command>--version <replaceable> version</replaceable></command> updates the <computeroutput>&lt;pubsnumber&gt;&lt;/pubsnumber&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml" />.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--edition<replaceable> edition</replaceable></option></term>
+			<listitem>
+				<para>
+					replace <replaceable> edition</replaceable> with the edition number of the book. This number indicates to users when a new edition of the book is released. The initial <firstterm>general availability</firstterm> (GA) release of the book should be edition 1.0. The default value is 0. Using <command>--edition<replaceable> edition</replaceable></command> updates the <computeroutput>&lt;edition&gt;&lt;/edition&gt;</computeroutput> tags in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml" />.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--product<replaceable> Product_Name</replaceable></option></term>
+			<listitem>
+				<para>
+					replace <replaceable> Product_Name</replaceable> with the product name. This variable must not contain any spaces. For example, set this to <computeroutput>Fedora</computeroutput> for core Fedora documentation, and the name of the product for other products, for example, <computeroutput>Fedora_Directory_Server</computeroutput>. The <command>--product<replaceable> Product_Name</replaceable></command> option provides the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file with the correct product name.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--type Article --name<replaceable> Article_Name</replaceable></option></term>
+			<listitem>
+				<para>
+					create an article instead of a book. Replace <replaceable> Article_Name</replaceable> with the article name. This variable must not contain any spaces.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--brand <replaceable>brand</replaceable></option></term>
+			<listitem>
+				<para>
+					replace <replaceable>brand</replaceable> with RedHat, fedora, JBoss, oVirt, or GIMP. This requires the appropriate publican package to be installed. For example, to build Red Hat branded books, you must install the publican-redhat package. See <xref linkend="chap-Users_Guide-Branding" /> for instructions on installing the branded publican packages. If no brand is specified, the default brand is used. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
+				</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	<para>
+		Before running the <command>publican create</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named Test_Book in the <filename>my_books/</filename> directory, run the following commands:
+	</para>
+	<para>
+		
 <screen>cd my_books/
 </screen>
-		</para>
-		<para>
-			
+	</para>
+	<para>
+		
 <screen>publican create --name Test_Book
 </screen>
-		</para>
-		<para>
-			To see the results of this command on a computer with a Linux operating system, run the following:
-		</para>
-		<para>
-			
+	</para>
+	<para>
+		To see the results of this command on a computer with a Linux operating system, run the following:
+	</para>
+	<para>
+		
 <screen>ls
 </screen>
-		</para>
-		<para>
-			The output should be similar to the following:
-		</para>
-		<para>
-			
+	</para>
+	<para>
+		The output should be similar to the following:
+	</para>
+	<para>
+		
 <screen>en-US  publican.cfg
 </screen>
-		</para>
+	</para>
+	<xi:include href="Files_in_the_Book_Directory.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	<xi:include href="Adding_Images.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	<xi:include href="Preparing_a_Book_for_Translation.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	<xi:include href="Building_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	<xi:include href="Packaging_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	<xi:include href="Conditionaltagging.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+	<xi:include href="Draft.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</chapter>
 
-		
-		<xi:include href="Files_in_the_Book_Directory.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-		<xi:include href="Adding_Images.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-		<xi:include href="Preparing_a_Book_for_Translation.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-		<xi:include href="Building_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-		<xi:include href="Packaging_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-		<xi:include href="Conditionaltagging.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-		<xi:include href="Draft.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-		
-		
-	</chapter>
