@@ -62,4 +62,7 @@ Windows
     pp @pp-opts ..\bin\publican -vv 1>2> pp.log
     compile publican.nsi in NSIS
 
+TODO
+wget http://www.iana.org/assignments/language-subtag-registry
 
+$ grep -A 1 -B 0 -P '^Type: (language|redundant)' language-subtag-registry | grep -P '^(Subtag|Tag)' | perl -p -e 's/^(Subtag|Tag):\s*//gi' | wc -l

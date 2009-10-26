@@ -12,15 +12,15 @@
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
 
 # TODO after beta revert to lower case name
-Name:           Publican
-Version:        0.99
-Release:        0.BETA1%{?dist}.t92
+Name:           publican
+Version:        1.0
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
 Group:          Applications/Publishing
 URL:            https://publican.fedorahosted.org
-Source0:        https://fedorahosted.org/releases/publican/%{name}-%{version}.tar.gz
+Source0:        https://fedorahosted.org/releases/publican/Publican-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -117,8 +117,7 @@ BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 #BuildRequires:  lohit-fonts-tamil lohit-fonts-telugu
 %endif
 
-# TODO After BETA enable this
-#Obsoletes:        Publican < 1.0
+Obsoletes:        Publican < 1.0
 
 %description
 Publican is a DocBook publication system, not just a DocBook processing tool.
@@ -133,8 +132,7 @@ Requires:       htmlview
 %else
 Requires:       xdg-utils
 %endif
-# TODO After BETA enable this
-#Obsoletes:        Publican-doc < 1.0
+Obsoletes:        Publican-doc < 1.0
 
 %description doc
 Publican is a tool for publishing material authored in DocBook XML.
@@ -143,7 +141,7 @@ using publican. It is not a DocBook XML tutorial and concentrates
 solely on using the publican tools.
 
 %prep
-%setup -q
+%setup -q -n Publican-%{version}
 
 %build
 %{__perl} Build.PL installdirs=vendor
@@ -183,7 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 %{_mandir}/man1/*
 %{_bindir}/publican
-%{_datadir}/Publican
+%{_datadir}/publican
 
 %files doc
 %defattr(-,root,root,-)
@@ -192,7 +190,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Aug 05 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.BETA2
+* Mon Oct 26 2009  Jeff Fearn <jfearn@redhat.com> 1.0-0
 - Add base langauge summary & descriptions to translated spec file. BZ #515573
 - Fix translated package build failure.
 - Change tabs to spaces in generated spec files.
@@ -213,6 +211,7 @@ rm -rf $RPM_BUILD_ROOT
 - Change step page size limitation to para size limitation. BZ#492984
 - Add warning message for missing images. BZ #495821
 - Fix fuzzy images. BZ #479794
+- swap from paths from Publican to publican and obsolete beta packages.
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.

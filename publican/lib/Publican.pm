@@ -136,7 +136,7 @@ my %PARAMS = (
     },
     debug => {
         descr   => maketext('Print out extra messages?'),
-        default => 1,
+        default => 0,
 
     },
     docname => {

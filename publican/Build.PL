@@ -175,7 +175,7 @@ my $builder = $class->new(
         'MANIFEST.bak',
     ],
     script_files => ['bin/publican'],
-    install_path => { 'datadir' => '/usr/share/Publican' },
+    install_path => { 'datadir' => '/usr/share/publican' },
     data_files   => {
         'datadir/fop/fop.xconf'       => 'datadir/fop/fop.xconf',
         'datadir/xsl/dt_htmlsingle_spec.xsl' =>
