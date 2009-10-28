@@ -62,6 +62,7 @@ BuildRequires:  perl(XML::TreeBuilder) >= 3.09-15
 BuildRequires:  fop >= 0.90
 BuildRequires:  batik
 BuildRequires:  docbook-style-xsl >= 1.75.1
+BuildRequires:  desktop-file-utils
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
