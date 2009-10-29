@@ -667,6 +667,7 @@ sub transform {
 
     my $security = XML::LibXSLT::Security->new();
     $security->register_callback(create_dir => sub { 1; });
+#    $security->register_callback(read_net => sub { 0; });
     $xslt->security_callbacks($security);
 
     $parser->expand_xinclude(1);

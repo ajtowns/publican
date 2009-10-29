@@ -116,12 +116,12 @@ my %PARAMS = (
     },
     common_config => {
         descr   => maketext('Path to publican content.'),
-        default => '/usr/share/Publican',
+        default => '/usr/share/publican',
 
     },
     common_content => {
         descr   => maketext('Path to publican common content.'),
-        default => '/usr/share/Publican/Common_Content',
+        default => '/usr/share/publican/Common_Content',
 
     },
     condition => {

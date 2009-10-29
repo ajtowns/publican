@@ -13,7 +13,7 @@
 
 # TODO after beta revert to lower case name
 Name:           publican
-Version:        1.0
+Version:        0.999
 Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE

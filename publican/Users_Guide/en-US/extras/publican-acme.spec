@@ -9,8 +9,8 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://www.SETUP.set.me.example.com/source/%{name}-%{version}.tgz
-Requires:	Publican >= 1.0
-BuildRequires:	Publican >= 1.0
+Requires:	publican >= 1.0
+BuildRequires:	publican >= 1.0
 URL:		https://www.SETUP.set.me.example.com
 
 %description
@@ -25,8 +25,8 @@ publican build --formats=xml --langs=all --publish
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/Publican/Common_Content
-publican installbrand --path=$RPM_BUILD_ROOT%{_datadir}/Publican/Common_Content
+mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
+publican installbrand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -35,7 +35,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README
 %doc COPYING
-%{_datadir}/Publican/Common_Content/%{brand}
+%{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
 * Tue Sep 22 2009  SETUP:YourName <SETUP:your.email@example.com> 0.1
