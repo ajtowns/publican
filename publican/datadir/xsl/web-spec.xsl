@@ -5,7 +5,7 @@
   <xsl:output encoding="UTF-8" indent="no" method="text" omit-xml-declaration="no" standalone="no" version="1.0"/>
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
-<xsl:template match="/">#Documentation Specfile
+<xsl:template match="/">#Publican Document Specfile
 %define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
 %define viewer xdg-open
@@ -19,13 +19,9 @@
 Name:          <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 Version:       <xsl:value-of select="$rpmver"/>
 Release:       <xsl:value-of select="$rpmrel"/>%{?dist}
-<xsl:if test="$translation = '1'">
-Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
-Summary(<xsl:value-of select="$lang"/>):       <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-</xsl:if>
-<xsl:if test="$translation != '1'">
-Summary:       <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-</xsl:if>
+<xsl:if test="$translation = '1'">Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
+Summary(<xsl:value-of select="$lang"/>):       <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/></xsl:if>
+<xsl:if test="$translation != '1'">Summary:       <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/></xsl:if>
 Group:         Documentation
 License:       <xsl:value-of select="$license"/>
 URL:           <xsl:value-of select="$url"/>
@@ -39,11 +35,9 @@ Requires:      perl-Publican-WebSite
 <xsl:if test="$web_obsoletes != ''">Obsoletes:    <xsl:value-of select="$web_obsoletes"/></xsl:if>
 Prefix:        /var/www/html/docs
 
-%description
-<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
+%description<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
 
-%description -l <xsl:value-of select="$lang"/></xsl:if>
-<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
+%description -l <xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
 %package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'">
@@ -61,11 +55,9 @@ Requires:    xdg-utils
 %endif
 <xsl:if test="$dt_obsoletes != ''">Obsoletes:    <xsl:value-of select="$dt_obsoletes"/></xsl:if>
 
-%description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
+%description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/><xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
-%description -l <xsl:value-of select="$lang"/></xsl:if>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
+%description -l <xsl:value-of select="$lang"/>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
 %prep
 %setup -q

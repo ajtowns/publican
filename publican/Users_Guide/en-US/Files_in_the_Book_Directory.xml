@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]>
-
 <section id="sect-Users_Guide-Files_in_the_book_directory">
 	<title>Files in the book directory</title>
 	<para>
@@ -74,7 +73,7 @@
 			The <filename>publican.cfg</filename> file configures build options, and is located in the root of the book directory. The following is an example <filename>publican.cfg</filename>, with a description of <filename>publican.cfg</filename> parameters following afterwards:
 		</para>
 		
-<programlisting><xi:include href="extras/publican.cfg" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<programlisting><xi:include href="extras/publican.cfg" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </programlisting>
 		<variablelist id="vari-Users_Guide-The_publican.cfg_file-Default_parameters">
 			<title>Default parameters</title>
@@ -219,8 +218,8 @@
 					<para>
 						specifies conditions on which to prune XML before transformation. Refer to <xref linkend="sect-Users_Guide-Conditional_tagging" /> for more information.
 					</para>
-					<xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-					<xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+					<xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+					<xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -267,7 +266,7 @@
 				<term><parameter>dtdver</parameter></term>
 				<listitem>
 					<para>
-						specifies the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. <application>Publican</application> defaults to version 4.5. The specification for DocBook XML DTD version 4.5 is available from <ulink url="http://www.docbook.org/specs/docbook-4.5-spec.html"></ulink>.
+						specifies the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. <application>Publican</application> defaults to version 4.5. The specification for DocBook XML DTD version 4.5 is available from <ulink url="http://www.docbook.org/specs/docbook-4.5-spec.html" />.
 					</para>
 					<important>
 						<title>A different DTD might slow your build</title>
@@ -446,7 +445,7 @@
 				This description of the <filename>Book_Info.xml</filename> applies to <filename>Article_Info.xml</filename> and <filename>Set_Info.xml</filename> files too. However, for the sake of simplicity, the file is referred to as <filename>Book_Info.xml</filename> throughout this section.
 			</para>
 		</note>
-		<xi:include href="Applicable_to_RPM_only.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+		<xi:include href="Applicable_to_RPM_only.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		<para>
 			The <filename>Book_Info.xml</filename> file contains the key metadata concerning a book: the book's ID; title; subtitle; author and edition number. It also contains the name and version of the product that is documented, and an abstract.
 		</para>
@@ -461,7 +460,7 @@
 		</para>
 		
 <programlisting language="XML">
-<xi:include href="Book_Info.xml" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Book_Info.xml" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </programlisting>
 		<variablelist>
 			<varlistentry>
@@ -483,7 +482,7 @@
 					<para>
 						Override this tag with the <parameter>product</parameter> variable in the <filename>publican.cfg</filename> file if the name of your product contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
 					</para>
-					<xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+					<xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -495,7 +494,7 @@
 					<para>
 						Override this tag with the <parameter>docname</parameter> variable in the <filename>publican.cfg</filename> file if the title of your document contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
 					</para>
-					<xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+					<xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -518,7 +517,7 @@
 					<para>
 						Override this tag with the <parameter>version</parameter> variable in the <filename>publican.cfg</filename> file if the product version is anything other than a number.
 					</para>
-					<xi:include href="Permitted_numbers.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+					<xi:include href="Permitted_numbers.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -536,7 +535,7 @@
 					<para>
 						Override this tag with the <parameter>edition</parameter> variable in the <filename>publican.cfg</filename> file if the edition of your document is identified by anything other than a number.
 					</para>
-					<xi:include href="Permitted_numbers.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+					<xi:include href="Permitted_numbers.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -548,7 +547,7 @@
 					<para>
 						Override this tag with the <parameter>release</parameter> variable in the <filename>publican.cfg</filename> file if the release number of your document contains anything other than whole numbers.
 					</para>
-					<xi:include href="Permitted_integers.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+					<xi:include href="Permitted_integers.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -605,7 +604,7 @@
 			<filename>Author_Group.xml</filename> is not required but is the standard place to record author, editor, artist and other credit details. The following is an example <filename>Author_Group.xml</filename> file:
 		</para>
 		
-<programlisting language="XML"><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<programlisting language="XML"><xi:include href="extras/Author_Group.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </programlisting>
 		<para>
 			<filename>Author_Group.xml</filename> does not have to contain all of the above information: include as much or as little as required.
@@ -620,17 +619,17 @@
 				DocBook articles cannot contain chapters. If you use the <option>--type=article</option> option with <command>publican create</command>, <application>Publican</application> does not create a <filename>Chapter.xml</filename> file. Use sections to organize content within articles.
 			</para>
 			<para>
-				Refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner available at <ulink url="http://www.docbook.org/tdg/en/html/docbook.html"></ulink> for details of the different ways that sets, books, articles, parts, chapters, and sections interact. In particular, note that articles can be stand-alone documents, or can be incorporated into books.
+				Refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner available at <ulink url="http://www.docbook.org/tdg/en/html/docbook.html" /> for details of the different ways that sets, books, articles, parts, chapters, and sections interact. In particular, note that articles can be stand-alone documents, or can be incorporated into books.
 			</para>
 		</important>
 		<para>
 			The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created by the <command>publican create</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
 		</para>
 		
-<programlisting language="XML"><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<programlisting language="XML"><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </programlisting>
 		<para>
-			This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Refer to <ulink url="http://docbook.org/tdg/en/html/chapter.html"></ulink> for further information about chapters.
+			This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Refer to <ulink url="http://docbook.org/tdg/en/html/chapter.html" /> for further information about chapters.
 		</para>
 		<note>
 			<title>Note</title>
@@ -649,7 +648,7 @@
 			The following is an example <filename><replaceable>Doc_Name</replaceable>.xml</filename> file that describes a DocBook book — note the <parameter>DOCTYPE</parameter> is set to <literal>book</literal>.
 		</para>
 		
-<programlisting language="XML"><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<programlisting language="XML"><xi:include href="extras/Book_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </programlisting>
 		<para>
 			This example loads the <filename>Book_Info.xml</filename>, <filename>Preface.xml</filename>, <filename>Chapter.xml</filename>, and <filename>Appendix.xml</filename> XML files.
@@ -695,7 +694,7 @@
 &lt;/book&gt;
 </programlisting>
 		<para>
-			This book contains two chapters. Chapter one contains two sections. Refer to <ulink url="http://docbook.org/tdg/en/html/section.html"></ulink> for further information about sections, and <ulink url="http://docbook.org/tdg/en/html/book.html"></ulink> for further information about books.
+			This book contains two chapters. Chapter one contains two sections. Refer to <ulink url="http://docbook.org/tdg/en/html/section.html" /> for further information about sections, and <ulink url="http://docbook.org/tdg/en/html/book.html" /> for further information about books.
 		</para>
 	</section>
 	
@@ -709,10 +708,10 @@
 		</para>
 		<para>
 			
-<screen><xi:include href="extras/Book_Name.ent" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<screen><xi:include href="extras/Book_Name.ent" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </screen>
 		</para>
-		<xi:include href="Entities.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+		<xi:include href="Entities.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	</section>
 	
 	<section id="sect-Users_Guide-Files_in_the_book_directory-Revision_History.xml">

@@ -131,7 +131,7 @@ my %MAP_OUT = (
     'bookinfo'      => { 'block'         => 1 },
     'articleinfo'   => { 'block'         => 1 },
     'abstract' =>
-        { 'block' => 1, 'left_justify_child' => 1, 'line_wrap' => 79 },
+        { 'block' => 1, 'line_wrap' => 79 },
     'inlinemediaobject' => { 'block'         => 1 },
     'publisher'         => { 'block'         => 1 },
     'copyright'         => { 'block'         => 1 },
@@ -836,21 +836,14 @@ sub my_as_XML {
                         push( @xml, $node->starttag_XML(undef) );
                     }
 
-                    if (!( $MAP_OUT{$tag}->{'left_justify_child'} )
-                        && (!( $node->parent() )
-                            || !(
-                                $MAP_OUT{ $node->parent()->{'_tag'} }
-                                ->{'left_justify_child'}
-                            )
-                        )
-                        )
-                    {
                         if ( $MAP_OUT{$tag}->{'block'} ) {
-                            if ( not $MAP_OUT{$tag}->{'verbatim'} ) {
+		            if($node->parent() && $MAP_OUT{$node->parent()->{'_tag'}}->{'line_wrap'}) {
+                                push( @xml, "\n" );
+                            }
+                            elsif ( not $MAP_OUT{$tag}->{'verbatim'} ) {
                                 push( @xml, "\n", $indent x $depth );
                             }
                         }
-                    }
                 }
                 else {    # on the way out
                     if ( $MAP_OUT{$tag}->{'block'} ) {
@@ -869,18 +862,12 @@ sub my_as_XML {
                             $xml[$#xml] =~ s/\s*$//;
                         }
 
-                        if (!( $MAP_OUT{$tag}->{'left_justify_child'} )
-                            && (!( $node->parent() )
-                                || !(
-                                    $MAP_OUT{ $node->parent()->{'_tag'} }
-                                    ->{'left_justify_child'}
-                                )
-                            )
-                            )
-                        {
                             if ( $MAP_OUT{$tag}->{'block'} ) {
-                                if ( $MAP_OUT{$tag}->{'verbatim'} ) {
-
+                                if ($MAP_OUT{$tag}->{'verbatim'} ) {
+                                    push( @xml, "\n" );
+                                }
+				elsif($node->parent() && $MAP_OUT{$node->parent()->{'_tag'}}->{'line_wrap'}) {
+                                    $depth--;
                                     push( @xml, "\n" );
                                 }
                                 else {
@@ -888,7 +875,6 @@ sub my_as_XML {
                                     push( @xml, "\n", $indent x $depth );
                                 }
                             }
-                        }
                     }
 
                     unless ( $empty_element_map->{$tag}
@@ -897,13 +883,7 @@ sub my_as_XML {
                         push( @xml, $node->endtag_XML() );
                     }    # otherwise it will have been an <... /> tag.
 
-                    if ((   !( $node->parent() ) || !(
-                                $MAP_OUT{ $node->parent()->{'_tag'} }
-                                ->{'left_justify_child'}
-                            )
-                        )
-                        )
-                    {
+
                         if ( $MAP_OUT{$tag}->{'newline_after'} ) {
                             push( @xml, "\n", $indent x $depth );
                         }
@@ -911,7 +891,6 @@ sub my_as_XML {
                         if ( ( $MAP_OUT{$tag}->{'block'} ) ) {
                             push( @xml, "\n", $indent x $depth );
                         }
-                    }
                 }
             }
             else {    # it's just text
@@ -941,14 +920,8 @@ sub my_as_XML {
 
 # If my grantparent wants me left aligned do so
 # This used for abstract as white space & long lines cause problems with RPM Spec file
-                        if ((   $MAP_OUT{ $parent->{'_tag'} }
-                                ->{'left_justify_child'}
-                            )
-                            || (   $parent->parent()
-                                && $MAP_OUT{ $parent->parent()->{'_tag'} }
-                                ->{'left_justify_child'} )
-                            )
-                        {
+			if($parent->parent() && $MAP_OUT{$parent->parent()->{'_tag'}}->{'line_wrap'}) {
+                            $node =~ s/^ //g;
                             $columns = 68;
                             $node    = wrap( "", "", $node );
                             $columns = $DEFAULT_WRAP;
