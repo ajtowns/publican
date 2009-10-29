@@ -273,11 +273,11 @@ my %BANNED_TAGS = (
             'This tag set imposes English-language order on glossaries, making them useless when translated.'
         ),
     },
-    'glossterm' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
+#    'glossterm' => {
+#        'reason' => maketext(
+#            'This tag set imposes English-language order on glossaries, making them useless when translated.'
+#        ),
+#    },
     'glosssee' => {
         'reason' => maketext(
             'This tag set imposes English-language order on glossaries, making them useless when translated.'
@@ -659,7 +659,7 @@ sub my_as_XML {
     my @xml               = ();
     my $empty_element_map = $tree->_empty_element_map;
 
-    my $STRICT       = $self->{publican}->param('strict');
+    my $STRICT       = 0; # $self->{publican}->param('strict');
     my $show_unknown = $self->{config}->param('show_unknown');
     my $clean_id     = $self->{config}->param('clean_id');
     my $lang         = $self->{config}->param('lang');
@@ -714,7 +714,7 @@ sub my_as_XML {
                         if ($STRICT) {
                             croak(
                                 maketext(
-                                    "Questionable tags not permitted in STRICT mode. Remove all '[_1]' tags before attempting to build.",
+                                    "Questionable tags are not permitted in STRICT mode. Remove all '[_1]' tags before attempting to build.",
                                     $tag
                                     )
                                     . "\n\n"
@@ -748,7 +748,7 @@ sub my_as_XML {
                             if ($STRICT) {
                                 croak(
                                     maketext(
-                                        "Questionable attributes not permitted in STRICT mode. Remove all '[_1]' attributes before attempting to build.",
+                                        "Questionable attributes are not permitted in STRICT mode. Remove all '[_1]' attributes before attempting to build.",
                                         $attr
                                         )
                                         . "\n\n"

@@ -12,8 +12,6 @@
 
 %if %{HTMLVIEW}
 %define viewer htmlview
-%define vendor redhat-
-%define vendoropt --vendor="redhat"
 %endif
 
 Name:          <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
@@ -35,7 +33,8 @@ Requires:      perl-Publican-WebSite
 <xsl:if test="$web_obsoletes != ''">Obsoletes:    <xsl:value-of select="$web_obsoletes"/></xsl:if>
 Prefix:        /var/www/html/docs
 
-%description<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
+%description
+<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
 
 %description -l <xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
@@ -55,7 +54,8 @@ Requires:    xdg-utils
 %endif
 <xsl:if test="$dt_obsoletes != ''">Obsoletes:    <xsl:value-of select="$dt_obsoletes"/></xsl:if>
 
-%description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/><xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
+%description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
+<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
 %description -l <xsl:value-of select="$lang"/>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
 
@@ -85,7 +85,7 @@ Terminal=false
 EOF
 
 %if %{HTMLVIEW}
-desktop-file-install  %{?vendoropt} --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
+desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %else
 desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %endif
@@ -110,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
 %if %{HTMLVIEW}
-%{_datadir}/applications/%{?vendor}<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
+%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %else
 %{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %endif
