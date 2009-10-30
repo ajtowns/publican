@@ -412,6 +412,10 @@ part nop
 
 <xsl:attribute-set name="example.properties" use-attribute-sets="formal.object.properties">
 	<xsl:attribute name="background-color">#eeeeee</xsl:attribute>
+<!--
+     BZ 531685 program listing in example renders badly because example is constrained to a single page
+-->
+	<xsl:attribute name="keep-together.within-column"></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="table.properties">

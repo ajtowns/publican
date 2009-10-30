@@ -213,6 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add warning message for missing images. BZ #495821
 - Fix fuzzy images. BZ #479794
 - swap from paths from Publican to publican and obsolete beta packages.
+- Fix large example PDF issue. BZ #531685
 
 * Sat Jul 18 2009  Jeff Fearn <jfearn@redhat.com> 0.99-0.ALPHA1
 - Rebase to Perl rewrite.
