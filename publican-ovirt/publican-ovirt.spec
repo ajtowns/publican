@@ -9,8 +9,8 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-Requires:	publican >= %(eval "`publican -v`"; echo $version)
-BuildRequires:	publican >= 0.99
+Requires:	publican >= 1.0
+BuildRequires:	publican >= 1.0
 URL:		https://fedorahosted.org/publican
 
 %description
@@ -38,7 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Tue Jul 21 2009 Jeff Fearn <jfearn@redhat.com> 0.8
+* Fri Oct 30 2009 Jeff Fearn <jfearn@redhat.com> 1.0
 - port to publican 1.0.
 
 * Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.7

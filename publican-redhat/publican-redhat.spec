@@ -3,15 +3,15 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	0.20
+Version:	1.0
 Release:	0%{?dist}.t1
 License:	Open Publication
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/publican-redhat-%{version}.tgz
-Requires:	publican >= %(eval "`publican -v`"; echo $version)
-BuildRequires:	publican >= 0.99
+BuildRequires:	publican >= 1.0
+Requires:	publican >= 1.0 
 URL:		https://fedorahosted.org/publican
 Obsoletes:	documentation-devel-%{brand}
 
@@ -40,7 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Tue Jul 21 2009 Jeff Fearn <jfearn@redhat.com> 0.20
+* Fri Oct 30 2009 Jeff Fearn <jfearn@redhat.com> 1.0
 - port to publican 1.0.
 
 * Wed Feb 25 2009  Jeff Fearn <jfearn@redhat.com> 0.19

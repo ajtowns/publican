@@ -20,8 +20,8 @@ $MAX_COUNT = 29;
 
 my $INIT_VERSION  = '0.1';
 
-## TODO Change this after beta
-my $PUBLICAN_NAME = 'Publican';
+## NOTE Change this for betas
+my $PUBLICAN_NAME = 'publican';
 
 =head1 NAME
 
@@ -324,8 +324,8 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://www.SETUP.set.me.example.com/source/%{name}-%{version}.tgz
-Requires:	$PUBLICAN_NAME >= %(eval "`publican -v`"; echo \$version)
-BuildRequires:	$PUBLICAN_NAME >= 0.99
+Requires:	$PUBLICAN_NAME >= 1.0
+BuildRequires:	$PUBLICAN_NAME >= 1.0
 URL:		https://www.SETUP.set.me.example.com
 
 %description
