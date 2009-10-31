@@ -70,7 +70,7 @@
 	<section id="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file">
 		<title>The publican.cfg file</title>
 		<para>
-			The <filename>publican.cfg</filename> file configures build options, and is located in the root of the book directory. The following is an example <filename>publican.cfg</filename>, with a description of <filename>publican.cfg</filename> parameters following afterwards:
+			The <filename>publican.cfg</filename> file configures build options, and is located in the root of the book directory. The following is an example <filename>publican.cfg</filename> file, with a description of <filename>publican.cfg</filename> parameters following afterwards:
 		</para>
 		
 <programlisting><xi:include href="extras/publican.cfg" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -97,7 +97,7 @@
 				<term><parameter>brand</parameter></term>
 				<listitem>
 					<para>
-						sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <command>publican create</command>. If no brand is specified, the default brand is used. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
+						sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <command>publican create</command>. If you do not specify a brand, <application>Publican</application> uses its default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -113,7 +113,7 @@
 					<warning>
 						<title>Use with caution</title>
 						<para>
-							As with conditional tagging more generally, <literal>arch</literal> can cause great difficulties when translating documents. Refer to <xref linkend="sect-Users_Guide-Conditional_tagging" /> for more information.
+							As with conditional tagging more generally, <literal>arch</literal> can cause great difficulties when translating documents. Refer to <xref linkend="sect-Users_Guide-Conditional_tagging-Conditional_tagging_and_translation" /> for an explanation of the issues.
 						</para>
 					</warning>
 					<important>
@@ -141,7 +141,7 @@
 						</para>
 					</important>
 					<important>
-						<title>arch and conditional tagging</title>
+						<title>xrefs and the arch attribute</title>
 						<para>
 							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
 						</para>
@@ -208,7 +208,7 @@
 				<term><parameter>common_content</parameter></term>
 				<listitem>
 					<para>
-						sets the path to the <application>Publican</application>'s <firstterm>Common Content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>.
+						sets the path to the <application>Publican</application> <firstterm>Common Content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -226,7 +226,7 @@
 				<term><parameter>confidential</parameter></term>
 				<listitem>
 					<para>
-						marks a document as confidential. When this parameter is set to <literal>confidential: 1</literal>, <application>Publican</application> adds a prominent footer marked <literal>Confidential</literal> to each page. The default value is <literal>0</literal> (no footer).
+						marks a document as confidential. When this parameter is set to <literal>1</literal>, <application>Publican</application> adds a prominent footer marked <literal>Confidential</literal> to each page. The default value is <literal>0</literal> (no footer).
 					</para>
 				</listitem>
 			</varlistentry>
@@ -288,7 +288,7 @@
 				<term><parameter>generate_section_toc_level</parameter></term>
 				<listitem>
 					<para>
-						controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value were set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.
+						controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value is set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -296,7 +296,7 @@
 				<term><parameter>ignored_translations</parameter></term>
 				<listitem>
 					<para>
-						specifies translations to ignore. If you build or package a book in a language specified by this parameter, <application>Publican</application> ignores any translations that exist, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend="sect-Users_Guide-Preparing_a_document_for_translation" />.
+						specifies translations to ignore. If you build or package a book in a language specified by this parameter, <application>Publican</application> ignores any translations that exist for this language, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend="sect-Users_Guide-Preparing_a_document_for_translation" />.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -320,7 +320,7 @@
 				<term><parameter>prod_url</parameter></term>
 				<listitem>
 					<para>
-						provides a URL for the product to which this document applies. In multi-page HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>
+						provides a URL for the product to which this document applies. In multi-page HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -352,7 +352,7 @@
 				<term><parameter>scm</parameter></term>
 				<listitem>
 					<para>
-						specifies the version control (or <firstterm>source code management</firstterm>) system used in the repository in that stores the remote books in a distributed set. At present, <application>Publican</application> can use only SVN, and this is the default setting. Refer to <xref linkend="sect-Users_Guide-Using_sets-Distributed_sets" />
+						specifies the version control (or <firstterm>source code management</firstterm>) system used in the repository in that stores the remote books in a distributed set. At present, <application>Publican</application> can use only <application>Subversion</application> (SVN), and therefore uses <literal>SVN</literal> as its default setting. Refer to <xref linkend="sect-Users_Guide-Using_sets-Distributed_sets" />.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -376,7 +376,7 @@
 				<term><parameter>src_url</parameter></term>
 				<listitem>
 					<para>
-						specifies the URL at which to find to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+						specifies the URL at which to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -384,7 +384,7 @@
 				<term><parameter>strict</parameter></term>
 				<listitem>
 					<para>
-						<emphasis role="strikethrough">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is no loger enforced.
+						<emphasis role="strikethrough">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is no longer enforced.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -442,7 +442,7 @@
 		<note>
 			<title><filename>Article_Info.xml</filename> and <filename>Set_Info.xml</filename></title>
 			<para>
-				This description of the <filename>Book_Info.xml</filename> applies to <filename>Article_Info.xml</filename> and <filename>Set_Info.xml</filename> files too. However, for the sake of simplicity, the file is referred to as <filename>Book_Info.xml</filename> throughout this section.
+				This description of the <filename>Book_Info.xml</filename> file applies to <filename>Article_Info.xml</filename> and <filename>Set_Info.xml</filename> files too. However, for the sake of simplicity, the file is referred to as <filename>Book_Info.xml</filename> throughout this section.
 			</para>
 		</note>
 		<xi:include href="Applicable_to_RPM_only.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -450,13 +450,13 @@
 			The <filename>Book_Info.xml</filename> file contains the key metadata concerning a book: the book's ID; title; subtitle; author and edition number. It also contains the name and version of the product that is documented, and an abstract.
 		</para>
 		<para>
-			Aside from constituting much of a book's front matter, this metadata is also used when building books as RPM packages. Consequently, if you distribute a book as an RPM package, several of the tags included by default in <filename>Book_Info.xml</filename> must have appropriate data within them, and that data must conform to the requirements of the RPM format.
+			Aside from constituting much of a book's front matter, this metadata is also used when building books as RPM packages. Usually, if you distribute a book as an RPM package, several of the tags included by default in <filename>Book_Info.xml</filename> must have appropriate data within them, and that data must conform to the requirements of the RPM format. You can override the data in these tags by using equivalent fields in the <filename>publican.cfg</filename> file, as discussed in this section.
 		</para>
 		<para>
-			Data from seven of the default tags in <filename>Book_Info.xml</filename> is required to build books as RPMs. Most immediately, the file name of a book built as an RPM is constructed as follows: <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable>.src.rpm</filename>. Everything but <replaceable>language</replaceable> above is pulled from <filename>Book_Info.xml</filename> — you specify <replaceable>language</replaceable> when you build the book. As well, the <replaceable>subtitle</replaceable> and <replaceable>abstract</replaceable> are used in the RPM spec file, to provide the <literal>Summary:</literal> field in the header and the <literal>%description</literal> field, respectively.
+			Unless overridden in the <filename>publican.cfg</filename> file, data from seven of the default tags in <filename>Book_Info.xml</filename> is required to build books as RPMs. Most immediately, the file name of a book built as an RPM package is constructed as follows: <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable>.src.rpm</filename>. Everything but <replaceable>language</replaceable> above is pulled from <filename>Book_Info.xml</filename> — you specify <replaceable>language</replaceable> when you build the book. As well, the <sgmltag>&lt;subtitle&gt;</sgmltag> and <sgmltag>&lt;abstract&gt;</sgmltag> are used in the RPM spec file, to provide the <parameter>Summary:</parameter> field in the header and the <parameter>%description</parameter> field, respectively.
 		</para>
 		<para>
-			An example <filename>Book_Info.xml</filename> file, for the Test_Book book, is presented below. Details regarding this file, and what the RPM format requirements are for each tag, follow.
+			An example <filename>Book_Info.xml</filename> file, for the <literal>Test_Book</literal> book, is presented below. Details regarding this file, and what the RPM format requirements are for each tag, follow.
 		</para>
 		
 <programlisting language="XML">
@@ -501,7 +501,7 @@
 				<term><sgmltag>&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;</sgmltag></term>
 				<listitem>
 					<para>
-						Again, plainly enough, the subtitle tag contains a book's subtitle: an alternative, and commonly explanatory title for the book (for example: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). The subtitle appears under the title in both HTML and PDF editions. A subtitle is also required to make a book available as an RPM package. When building a book as an RPM package, the subtitle is used as the <computeroutput>Summary</computeroutput> in the RPM spec file. The <command>rpm -qi</command> returns the contents of several spec file fields, including the <computeroutput>Summary</computeroutput> field.
+						Again, plainly enough, the subtitle tag contains a book's subtitle: an alternative, and commonly explanatory title for the book (for example: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). The subtitle appears under the title in both HTML and PDF editions. A subtitle is also required to make a book available as an RPM package. When building a book as an RPM package, the subtitle is used as the <parameter>Summary</parameter> in the RPM spec file. The <command>rpm -qi</command> returns the contents of several spec file fields, including the <computeroutput>Summary</computeroutput> field.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -701,7 +701,7 @@
 	<section id="sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent">
 		<title>Doc_Name.ent</title>
 		<para>
-			The <filename><replaceable>Doc_Name</replaceable>.ent</filename> file is used to define local entities. The <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities are used for copyright information. You must define <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities, otherwise the document will not build:
+			The <filename><replaceable>Doc_Name</replaceable>.ent</filename> file is used to define local entities. The <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities are used for copyright information. By default, <application>Publican</application> sets <parameter>YEAR</parameter> to the current year, and inserts a message into <parameter>HOLDER</parameter> to remind you to specify the copyright holder for the document. If the <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities are missing altogether, the document will not build.
 		</para>
 		<para>
 			Other entities might be required by the <firstterm>brand</firstterm> applied to your document. For example, the <application>Publican</application> brand for Fedora documents uses the entity <computeroutput>BOOKID</computeroutput> to specify how readers should refer to a document when they submit feedback about it.

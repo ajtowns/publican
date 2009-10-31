@@ -4,7 +4,7 @@
 <chapter id="chap-Users_Guide-Using_sets">
 	<title>Using sets</title>
 	<para>
-		A set is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a Set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. There are two types of sets, Stand-alone Sets and Distributed Sets.
+		A <firstterm>set</firstterm> is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. There are two types of sets, <firstterm>stand-alone sets</firstterm> and <firstterm>distributed sets</firstterm>.
 	</para>
 	<section id="sect-Users_Guide-Using_sets-Stand_alone_sets">
 		<title>Stand-alone sets</title>
@@ -115,7 +115,7 @@ scm	= SVN
 				</para>
 				<important>
 					<para>
-						When building a set, the <command>publican clean_ids</command> command will be run over each book because of the constraint that ID's must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
+						When building a set, the <command>publican clean_ids</command> command will be run over each book because of the constraint that IDs must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
 					</para>
 				</important>
 			</step>

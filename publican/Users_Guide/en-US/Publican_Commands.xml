@@ -13,7 +13,7 @@
 				<term><command>publican <replaceable>global_option</replaceable></command></term>
 				<listitem>
 					<para>
-						The <replaceable>global_option</replaceable> is one of several options that displays basic information about <application>Publican</application> or help for <application>Publican</application> in one of a number of formats.
+						The <replaceable>global_option</replaceable> is any of several options that display basic information about <application>Publican</application> or help for <application>Publican</application> in one of a number of formats.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -77,7 +77,7 @@
 					<term>build</term>
 					<listitem>
 						<para>
-							transforms XML to other formats (for example: pdf, html, or html-single). Refer to <xref linkend="sect-Users_Guide-Building_a_document" /> for more details and a description of the available options.
+							transforms XML to other formats (for example: PDF, single-page HTML, or multiple-page HTML). Refer to <xref linkend="sect-Users_Guide-Building_a_document" /> for more details and a description of the available options.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -93,7 +93,7 @@
 					<term>clean_ids</term>
 					<listitem>
 						<para>
-							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <computeroutput>First Section</computeroutput> in a book named <computeroutput>Test_Book</computeroutput> will have the following ID after running <command>make clean_ids</command>: <computeroutput>&lt;section id="Test_Book-First_Section"&gt;</computeroutput>
+							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after running <command>make clean_ids</command>: <sgmltag>&lt;section id="Test_Book-First_Section"&gt;</sgmltag>
 						</para>
 						<warning>
 							<title>Warning: <command>make clean_ids</command></title>
@@ -142,7 +142,7 @@
 					<term>installbrand</term>
 					<listitem>
 						<para>
-							configures a brand for installation. This option is of no use to end users of <application>Publican</application>, but supports the development of different types of installation packages.
+							configures a brand for installation. This action is of no use to end users of <application>Publican</application>, but supports the development of different types of installation packages.
 						</para>
 					</listitem>
 				</varlistentry>

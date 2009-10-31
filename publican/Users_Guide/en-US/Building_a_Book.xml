@@ -6,46 +6,46 @@
 	<para>
 		To build a document:
 	</para>
-	<orderedlist>
-		<listitem>
+	<procedure>
+		<step>
 			<para>
-				Confirm the <computeroutput>YEAR</computeroutput> and <computeroutput>HOLDER</computeroutput> entities have been configured in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file, as described in <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent" />.
+				Confirm the <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities have been configured in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file, as described in <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent" />.
 			</para>
-		</listitem>
-		<listitem>
+		</step>
+		<step>
 			<para>
-				Change into the root directory of the document. For example, if the document was named <computeroutput>Test_Book</computeroutput> and was located in the <filename>books/</filename> directory, run the following command:
+				Change into the root directory of the document. For example, if the document was named <literal>Test_Book</literal> and was located in the <filename>books/</filename> directory, run the following command:
 			</para>
 			<para>
 				
-<screen>cd books/Test_Book
+<screen><command>cd books/Test_Book</command>
 </screen>
 			</para>
-		</listitem>
-		<listitem>
+		</step>
+		<step>
 			<para>
 				Run a test for any errors that would stop the book from building in your chosen language, for example:
 			</para>
 			<para>
 				
-<screen>publican build --formats=test --langs=en-US
+<screen><command>publican build --formats=test --langs=en-US</command>
 </screen>
 			</para>
-		</listitem>
-		<listitem>
+		</step>
+		<step>
 			<para>
 				Run the following command to build the book:
 			</para>
 			<para>
 				
-<screen>publican build --formats=<replaceable>formats</replaceable> --langs=<replaceable>languages</replaceable>
+<screen><command>publican build --formats=<replaceable>formats</replaceable> --langs=<replaceable>languages</replaceable></command>
 </screen>
 			</para>
 			<para>
 				Replace <replaceable>formats</replaceable> with a comma-separated list of the formats that you want to build, for example, <literal>--formats=html,html-single,pdf</literal>. Replace <replaceable>langs</replaceable> with a comma-separated list of the languages that you want to build, for example, <literal>--langs=en-US,sv-SE,uk-UA,ko-KR</literal>.
 			</para>
-		</listitem>
-	</orderedlist>
+		</step>
+	</procedure>
 	<para>
 		The following examples demonstrate commonly used <command>publican build</command> commands:
 	</para>
