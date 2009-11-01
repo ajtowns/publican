@@ -2,7 +2,7 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	0.8
+Version:	1.0
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
