@@ -841,7 +841,7 @@ sub adjustColumnWidths {
     my $table_width = $width->string_value();
 
     debug_msg(
-        "TODO: adjustColumnWidths function is not fully implimented!\n");
+        "TODO: adjustColumnWidths function is not fully implemented!\n");
 
     # XML::LibXML::Document
     my $doc       = $content->get_node(1);
