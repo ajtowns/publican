@@ -85,7 +85,7 @@ Terminal=false
 EOF
 
 %if %{HTMLVIEW}
-desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
+desktop-file-install --vendor=redhat --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %else
 desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %endif
@@ -110,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
 %if %{HTMLVIEW}
-%{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
+%{_datadir}/applications/redhat-<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %else
 %{_datadir}/applications/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %endif

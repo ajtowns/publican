@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           publican
 Version:        1.0
-Release:        0%{?dist}
+Release:        0%{?dist}.t4
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -191,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Mon Nov 2 2009 Jeff Fearn <jfearn@redhat.com> 1.1-0
+- Fix brew failure. BZ #532383
+
 * Mon Oct 26 2009  Jeff Fearn <jfearn@redhat.com> 1.0-0
 - Add base langauge summary & descriptions to translated spec file. BZ #515573
 - Fix translated package build failure.

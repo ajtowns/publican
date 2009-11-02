@@ -461,15 +461,17 @@ if ( $action eq 'package' ) {
 
     if ( $opts{brew} ) {
 
-        my @filelist = File::Find::Rule->file->name('*.src.rpm')->in($publican->param('tmp_dir')); 
+        my @filelist = File::Find::Rule->file->name('*.src.rpm')
+            ->in( $publican->param('tmp_dir') );
 
         my $srpm = $filelist[0];
 
-        my $dist = $publican->param('brew_dist');
+        my @brew_args = ( "brew", "build" );
+        push( @brew_args, "--scratch" ) if ( $opts{scratch} );
+        push( @brew_args, $publican->param('brew_dist') );
 
         if ( -f "$srpm" ) {
-            system( "brew", "build", ( $opts{scratch} ? "--scratch" : undef ),
-                "$dist", "$srpm" );
+            system( @brew_args, "$srpm" );
         }
         else {
             logger(
