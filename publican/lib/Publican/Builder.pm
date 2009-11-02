@@ -118,7 +118,7 @@ sub build {
     my $type    = $self->{publican}->param('type');
     my $brand   = $self->{publican}->param('brand');
 
-    if ( $type eq 'Set' ) {
+    if ( $type eq 'Set' && $self->{publican}->{config}->param('scm') ) {
         $self->get_books();
         $self->build_set_books( { langs => $langs } );
     }
@@ -168,7 +168,7 @@ sub build {
                         = "publish/$lang/$product/$version/$format/$docname";
 
                     if ( $format eq 'html-desktop' ) {
-                        $path = "publish/$lang";
+                        $path = "publish/desktop/$lang";
                     }
                     mkpath($path);
                     rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
@@ -186,7 +186,7 @@ sub build {
             rcopy( "xsl", "$path/." );
         }
     }
-debug_msg("end of build\n");
+    debug_msg("end of build\n");
     return;
 }
 
@@ -360,14 +360,32 @@ sub setup_xml {
             }
         }
 
-        foreach my $xml_file ( sort(@xml_files) ) {
-            my $out_file = $xml_file;
-            $out_file =~ s/xml_tmp/xml/;
+        if (    $type eq 'Set'
+            and !defined( $self->{publican}->{config}->param('scm') )
+            and defined( $self->{publican}->{config}->param('books') ) )
+        {
+            foreach my $xml_file ( sort(@xml_files) ) {
+                my $out_file = $xml_file;
+                $out_file =~ s/xml_tmp/xml/;
+                rcopy( $xml_file, $out_file );
+            }
+            my @ent_files = dir_list( $lang, '*.ent' );
+            foreach my $ent_file ( sort(@ent_files) ) {
+                my $out_file = $ent_file;
+                $out_file =~ s/$lang/$tmp_dir\/$lang\/xml/;
+                rcopy( $ent_file, $out_file );
+            }
 
-            $cleaner->process_file(
-                { file => $xml_file, out_file => $out_file } );
         }
+        else {
+            foreach my $xml_file ( sort(@xml_files) ) {
+                my $out_file = $xml_file;
+                $out_file =~ s/xml_tmp/xml/;
 
+                $cleaner->process_file(
+                    { file => $xml_file, out_file => $out_file } );
+            }
+        }
         finddepth( \&del_unwanted_dirs, 'tmp' );
     }
 
@@ -593,6 +611,7 @@ sub transform {
     }
 
     my $tmp_config = $common_config;
+
     # required for Windows
     $tmp_config =~ s/"//g;
 
@@ -666,8 +685,9 @@ sub transform {
     XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
 
     my $security = XML::LibXSLT::Security->new();
-    $security->register_callback(create_dir => sub { 1; });
-#    $security->register_callback(read_net => sub { 0; });
+    $security->register_callback( create_dir => sub { 1; } );
+
+    #    $security->register_callback(read_net => sub { 0; });
     $xslt->security_callbacks($security);
 
     $parser->expand_xinclude(1);
@@ -746,12 +766,13 @@ sub transform {
             "$tmp_dir/$lang/$format/Common_Content" );
     }
 
-    $xslt = undef;
-    $source = undef;
-    $style_doc = undef;
+    $xslt       = undef;
+    $source     = undef;
+    $style_doc  = undef;
     $stylesheet = undef;
-    $parser = undef;
-# TODO BUGBUG freeing $results goes BOOM on windows
+    $parser     = undef;
+
+    # TODO BUGBUG freeing $results goes BOOM on windows
     #$results = undef;
 
     return;
@@ -1129,6 +1150,7 @@ sub package {
     my $configfile = $self->{publican}->param('configfile');
     my $release    = $self->{publican}->param('release');
     my $xml_lang   = $self->{publican}->param('xml_lang');
+    my $type       = $self->{publican}->param('type');
 
     my $name_start = "$product-$docname-$version";
     $name_start = "$product-$docname" if ($short_sighted);
@@ -1136,6 +1158,12 @@ sub package {
     my $tardir = "$name_start-web-$lang-$edition";
     $tardir = "$name_start-$lang-$edition" if ($desktop);
     $tardir = "$name_start-$lang-$edition" if ($short_sighted);
+
+    # distributed sets need to be collected before packaging
+    if ( $type eq 'Set' ) {
+        $self->get_books();
+        $self->build_set_books( { langs => $lang } );
+    }
 
     $self->setup_xml( { langs => $lang } );
 
@@ -1145,8 +1173,24 @@ sub package {
     mkpath("$tmp_dir/rpm");
 
     $self->{publican}->{config}->param( 'xml_lang', $lang );
+
+    # Need to remove scm from packaged set to avoid fetching from repo
+    my $tmp_scm = undef;
+
+    #    my $tmp_books = undef;
+
+    if ( $type eq 'Set' && $self->{publican}->{config}->param('scm') ) {
+        $tmp_scm = $self->{publican}->{config}->param('scm');
+        $self->{publican}->{config}->delete('scm');
+
+        #	$tmp_books =  $self->{publican}->{config}->param('books');
+        #        $self->{publican}->{config}->delete('books');
+    }
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
     $self->{publican}->{config}->param( 'xml_lang', $xml_lang );
+    $self->{publican}->{config}->param( 'scm', $tmp_scm ) if ($tmp_scm);
+
+  #    $self->{publican}->{config}->param('books',$tmp_books) if ($tmp_books);
 
     my $dir = pushd("$tmp_dir/tar");
     my @files = dir_list( $tardir, '*' );
@@ -1163,7 +1207,6 @@ sub package {
     my $src_url       = $self->{publican}->param('src_url');
     my $dt_obsoletes  = $self->{publican}->param('dt_obsoletes') || "";
     my $web_obsoletes = $self->{publican}->param('web_obsoletes') || "";
-    my $type          = $self->{publican}->param('type');
     my $os_ver        = $self->{publican}->param('os_ver');
     my $translation   = ( $lang ne $xml_lang );
     my $language      = code2language( substr( $lang, 0, 2 ) );
@@ -1355,7 +1398,9 @@ sub build_set_books {
         logger( maketext( "Start building [_1]", $book ) . "\n" );
         my $dir = pushd($book);
 
-        logger( maketext( "Running clean_ids to prevent inter-book ID clashes." ) . "\n" );
+        logger(
+            maketext("Running clean_ids to prevent inter-book ID clashes.")
+                . "\n" );
 
         if ( system("publican clean_ids") != 0 ) {
             croak(
@@ -1403,12 +1448,12 @@ sub new_tree {
     my $xml_doc = XML::TreeBuilder->new(
         { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     my $empty_element_map = $xml_doc->_empty_element_map;
-    $empty_element_map->{'xref'}      = 1;
-    $empty_element_map->{'index'}     = 1;
-    $empty_element_map->{'imagedata'} = 1;
-    $empty_element_map->{'area'}      = 1;
-    $empty_element_map->{'ulink'}     = 1;
-    $empty_element_map->{'xi:include'}     = 1;
+    $empty_element_map->{'xref'}       = 1;
+    $empty_element_map->{'index'}      = 1;
+    $empty_element_map->{'imagedata'}  = 1;
+    $empty_element_map->{'area'}       = 1;
+    $empty_element_map->{'ulink'}      = 1;
+    $empty_element_map->{'xi:include'} = 1;
 
     $xml_doc->store_comments(1);
 
