@@ -18,7 +18,7 @@ use File::Find::Rule;
 use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 
-my $VERSION = version->new('1.1');
+my $VERSION = version->new('1.2');
 
 =head1 NAME
 
@@ -114,7 +114,9 @@ my %options = (
     'desktop'   => maketext('Create desktop instead of web package'),
     'short_sighted' =>
         maketext('Create package without using version in package name'),
-    'path=s' => maketext('/path/to/install/to'),
+    'path=s'          => maketext('/path/to/install/to'),
+    'distributed_set' => maketext(
+        'This flag tells publican the data being processed is a distributed set. Note: do not use on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.'),
 );
 
 # Options all actions use
@@ -130,7 +132,7 @@ my %actions = (
     'build' => {
         'brief' => maketext(
             'Transform XML to other formats (pdf, html, html-single)'),
-        'options' => [ 'formats', 'langs', 'publish', 'embedtoc' ],
+        'options' => [ 'formats', 'langs', 'publish', 'embedtoc', 'distributed_set' ],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
@@ -440,6 +442,7 @@ if ( $action eq 'build' ) {
             langs    => $opts{langs},
             publish  => $opts{publish},
             embedtoc => $opts{embedtoc},
+            distributed_set => $opts{distributed_set},
         }
     );
 }
@@ -464,7 +467,7 @@ if ( $action eq 'package' ) {
         my @filelist = File::Find::Rule->file->name('*.src.rpm')
             ->in( $publican->param('tmp_dir') );
 
-        my $srpm = $filelist[0];
+        my $srpm = pop(@filelist);
 
         my @brew_args = ( "brew", "build" );
         push( @brew_args, "--scratch" ) if ( $opts{scratch} );

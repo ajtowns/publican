@@ -115,23 +115,22 @@ my %MAP_OUT = (
 #    'glossterm'         => { 'newline_after' => 1 },
 #    'glosssee'          => { 'newline_after' => 1 },
 #    'glossseealso'      => { 'newline_after' => 1 },
-    'table'         => { 'block'         => 1 },
-    'informaltable' => { 'block'         => 1 },
-    'thead'         => { 'block'         => 1 },
-    'tgroup'        => { 'block'         => 1 },
-    'tbody'         => { 'block'         => 1 },
-    'tr'            => { 'block'         => 1 },
-    'td'            => { 'block'         => 1 },
-    'row'           => { 'block'         => 1 },
-    'entry'         => { 'block'         => 1 },
-    'indexterm'     => { 'block'         => 1 },
-    'primary'       => { 'newline_after' => 1 },
-    'secondary'     => { 'newline_after' => 1 },
-    'tertiary'      => { 'newline_after' => 1 },
-    'bookinfo'      => { 'block'         => 1 },
-    'articleinfo'   => { 'block'         => 1 },
-    'abstract' =>
-        { 'block' => 1, 'line_wrap' => 79 },
+    'table'             => { 'block'         => 1 },
+    'informaltable'     => { 'block'         => 1 },
+    'thead'             => { 'block'         => 1 },
+    'tgroup'            => { 'block'         => 1 },
+    'tbody'             => { 'block'         => 1 },
+    'tr'                => { 'block'         => 1 },
+    'td'                => { 'block'         => 1 },
+    'row'               => { 'block'         => 1 },
+    'entry'             => { 'block'         => 1 },
+    'indexterm'         => { 'block'         => 1 },
+    'primary'           => { 'newline_after' => 1 },
+    'secondary'         => { 'newline_after' => 1 },
+    'tertiary'          => { 'newline_after' => 1 },
+    'bookinfo'          => { 'block'         => 1 },
+    'articleinfo'       => { 'block'         => 1 },
+    'abstract'          => { 'block'         => 1, 'line_wrap' => 79 },
     'inlinemediaobject' => { 'block'         => 1 },
     'publisher'         => { 'block'         => 1 },
     'copyright'         => { 'block'         => 1 },
@@ -164,57 +163,57 @@ my %MAP_OUT = (
     'jobtitle'          => { 'newline_after' => 1 },
     'orgname'           => { 'newline_after' => 1 },
     'orgdiv'            => { 'newline_after' => 1 },
-    'citetitle'         => {},
-    'country'           => { 'newline_after' => 1 },
-    'trademark'         => {},
-    'ulink'             => {},
-    'firstterm'         => {},
-    'menuchoice'        => {},
-    'acronym'           => {},
-    'abbrev'            => {},
-    'command'           => {},
-    'filename'          => {},
-    'index'             => {},
-    'application'       => {},
-    'package'           => {},
-    'guimenu'           => {},
-    'sgmltag'           => {},
-    'guilabel'          => {},
-    'guibutton'         => {},
-    'emphasis'          => {},
-    'phrase'            => {},
-    'replaceable'       => {},
-    'computeroutput'    => {},
-    'guimenuitem'       => {},
-    'textobject'        => { 'block'         => 1 },
-    'varlistentry'      => { 'block'         => 1 },
-    'term'              => { 'newline_after' => 1 },
-    'colspec'           => { 'newline_after' => 1 },
-    'areaspec'          => { 'block'         => 1 },
-    'areaset'      => { 'block'         => 1, 'keep_id'       => 1 },
-    'area'         => { 'newline_after' => 1, 'keep_id'       => 1 },
-    'calloutlist'  => { 'block'         => 1 },
-    'callout'      => { 'block'         => 1 },
-    'procedure'    => { 'block'         => 1, 'newline_after' => 1 },
-    'step'         => { 'block'         => 1 },
-    'appendix'     => { 'block'         => 1 },
-    'appendixinfo' => { 'block'         => 1 },
-    'cmdsynopsis'  => { 'block'         => 1 },
-    'arg'          => { 'block'         => 1 },
-    'group'        => { 'block'         => 1 },
-    'accel'        => {},
-    'blockquote' => { 'block'   => 1 },
-    'classname'  => {},
-    'code'       => {},
-    'colophon'   => { 'block'   => 1 },
-    'envar'      => {},
-    'example'    => { 'block'   => 1 },
-    'footnote'   => { 'keep_id' => 1 },
-    'guisubmenu' => {},
-    'interface'  => {},
-    'keycap'     => {},
-    'keycombo'   => {},
-    'literal'    => {},
+    'citetitle'      => {},
+    'country'        => { 'newline_after' => 1 },
+    'trademark'      => {},
+    'ulink'          => {},
+    'firstterm'      => {},
+    'menuchoice'     => {},
+    'acronym'        => {},
+    'abbrev'         => {},
+    'command'        => {},
+    'filename'       => {},
+    'index'          => {},
+    'application'    => {},
+    'package'        => {},
+    'guimenu'        => {},
+    'sgmltag'        => {},
+    'guilabel'       => {},
+    'guibutton'      => {},
+    'emphasis'       => {},
+    'phrase'         => {},
+    'replaceable'    => {},
+    'computeroutput' => {},
+    'guimenuitem'    => {},
+    'textobject'     => { 'block' => 1 },
+    'varlistentry'   => { 'block' => 1 },
+    'term'           => { 'newline_after' => 1 },
+    'colspec'        => { 'newline_after' => 1 },
+    'areaspec'       => { 'block' => 1 },
+    'areaset'        => { 'block' => 1, 'keep_id' => 1 },
+    'area'           => { 'newline_after' => 1, 'keep_id' => 1 },
+    'calloutlist'  => { 'block' => 1 },
+    'callout'      => { 'block' => 1 },
+    'procedure'    => { 'block' => 1, 'newline_after' => 1 },
+    'step'         => { 'block' => 1 },
+    'appendix'     => { 'block' => 1 },
+    'appendixinfo' => { 'block' => 1 },
+    'cmdsynopsis'  => { 'block' => 1 },
+    'arg'          => { 'block' => 1 },
+    'group'        => { 'block' => 1 },
+    'accel'         => {},
+    'blockquote'    => { 'block' => 1 },
+    'classname'     => {},
+    'code'          => {},
+    'colophon'      => { 'block' => 1 },
+    'envar'         => {},
+    'example'       => { 'block' => 1 },
+    'footnote'      => { 'keep_id' => 1 },
+    'guisubmenu'    => {},
+    'interface'     => {},
+    'keycap'        => {},
+    'keycombo'      => {},
+    'literal'       => {},
     'literallayout' => { 'block' => 1, 'verbatim' => 1 },
     'option'        => {},
     'parameter'     => {},
@@ -273,6 +272,7 @@ my %BANNED_TAGS = (
             'This tag set imposes English-language order on glossaries, making them useless when translated.'
         ),
     },
+
 #    'glossterm' => {
 #        'reason' => maketext(
 #            'This tag set imposes English-language order on glossaries, making them useless when translated.'
@@ -352,8 +352,8 @@ sub new {
         if ( $args->{show_unknown} );
     $config->param( 'donotset_lang',
         ( delete( $args->{donotset_lang} ) ) || 0 );
-
-    #$config->param('', ( delete( $args->{} ) ||  0));
+    $config->param( 'distributed_set',
+        ( delete( $args->{distributed_set} ) ) || 0 );
 
     if ( %{$args} ) {
         croak(
@@ -602,7 +602,8 @@ sub print_xml {
         }
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
-        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ($1 || './') } );
+        my $text = $self->my_as_XML(
+            { xml_doc => $xml_doc, path => ( $1 || './' ) } );
         $text =~ s/&#10;//g;
         $text =~ s/&#9;//g;
         $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
@@ -659,7 +660,7 @@ sub my_as_XML {
     my @xml               = ();
     my $empty_element_map = $tree->_empty_element_map;
 
-    my $STRICT       = 0; # $self->{publican}->param('strict');
+    my $STRICT = 0;    # $self->{publican}->param('strict');
     my $show_unknown = $self->{config}->param('show_unknown');
     my $clean_id     = $self->{config}->param('clean_id');
     my $lang         = $self->{config}->param('lang');
@@ -796,6 +797,7 @@ sub my_as_XML {
                         }
 
                         my $img_file = "$path" . $node->attr('fileref');
+			$img_file = $self->{publican}->param('xml_lang') . "/" . $img_file if($clean_id);
                         if ( -f $img_file ) {
                             my ( $width, $height ) = imgsize($img_file);
                             if ( $@ || !$width ) {
@@ -811,7 +813,7 @@ sub my_as_XML {
                                 $node->attr( 'width', $MAX_WIDTH );
                             }
                         }
-                        else {
+                        elsif($img_file !~ /Common_Content/) {
                             logger(
                                 "\t"
                                     . maketext(
@@ -822,6 +824,17 @@ sub my_as_XML {
                             );
                         }
 
+                  # when building distrubuted sets, we need to prepend the
+                  # books name to the image path to prevent image name clashes
+                        my $preptxt
+                            = 'images/' . $self->{publican}->param('docname');
+
+                        if (   $self->{config}->param('distributed_set')
+                            && $node->attr('fileref') !~ /^$preptxt/ )
+                        {
+                            $node->attr( 'fileref',
+                                "$preptxt/" . $node->attr('fileref') );
+                        }
                     }
 
                     if ( $empty_element_map->{$tag}
@@ -836,14 +849,17 @@ sub my_as_XML {
                         push( @xml, $node->starttag_XML(undef) );
                     }
 
-                        if ( $MAP_OUT{$tag}->{'block'} ) {
-		            if($node->parent() && $MAP_OUT{$node->parent()->{'_tag'}}->{'line_wrap'}) {
-                                push( @xml, "\n" );
-                            }
-                            elsif ( not $MAP_OUT{$tag}->{'verbatim'} ) {
-                                push( @xml, "\n", $indent x $depth );
-                            }
+                    if ( $MAP_OUT{$tag}->{'block'} ) {
+                        if (   $node->parent()
+                            && $MAP_OUT{ $node->parent()->{'_tag'} }
+                            ->{'line_wrap'} )
+                        {
+                            push( @xml, "\n" );
                         }
+                        elsif ( not $MAP_OUT{$tag}->{'verbatim'} ) {
+                            push( @xml, "\n", $indent x $depth );
+                        }
+                    }
                 }
                 else {    # on the way out
                     if ( $MAP_OUT{$tag}->{'block'} ) {
@@ -862,19 +878,22 @@ sub my_as_XML {
                             $xml[$#xml] =~ s/\s*$//;
                         }
 
-                            if ( $MAP_OUT{$tag}->{'block'} ) {
-                                if ($MAP_OUT{$tag}->{'verbatim'} ) {
-                                    push( @xml, "\n" );
-                                }
-				elsif($node->parent() && $MAP_OUT{$node->parent()->{'_tag'}}->{'line_wrap'}) {
-                                    $depth--;
-                                    push( @xml, "\n" );
-                                }
-                                else {
-                                    $depth--;
-                                    push( @xml, "\n", $indent x $depth );
-                                }
+                        if ( $MAP_OUT{$tag}->{'block'} ) {
+                            if ( $MAP_OUT{$tag}->{'verbatim'} ) {
+                                push( @xml, "\n" );
                             }
+                            elsif ($node->parent()
+                                && $MAP_OUT{ $node->parent()->{'_tag'} }
+                                ->{'line_wrap'} )
+                            {
+                                $depth--;
+                                push( @xml, "\n" );
+                            }
+                            else {
+                                $depth--;
+                                push( @xml, "\n", $indent x $depth );
+                            }
+                        }
                     }
 
                     unless ( $empty_element_map->{$tag}
@@ -883,17 +902,16 @@ sub my_as_XML {
                         push( @xml, $node->endtag_XML() );
                     }    # otherwise it will have been an <... /> tag.
 
+                    if ( $MAP_OUT{$tag}->{'newline_after'} ) {
+                        push( @xml, "\n", $indent x $depth );
+                    }
 
-                        if ( $MAP_OUT{$tag}->{'newline_after'} ) {
-                            push( @xml, "\n", $indent x $depth );
-                        }
-
-                        if ( ( $MAP_OUT{$tag}->{'block'} ) ) {
-                            push( @xml, "\n", $indent x $depth );
-                        }
+                    if ( ( $MAP_OUT{$tag}->{'block'} ) ) {
+                        push( @xml, "\n", $indent x $depth );
+                    }
                 }
             }
-            else {    # it's just text
+            else {       # it's just text
                 my $parent = $_[3];
 
                 # Remove extra space from non-verbatim tags
@@ -920,7 +938,10 @@ sub my_as_XML {
 
 # If my grantparent wants me left aligned do so
 # This used for abstract as white space & long lines cause problems with RPM Spec file
-			if($parent->parent() && $MAP_OUT{$parent->parent()->{'_tag'}}->{'line_wrap'}) {
+                        if (   $parent->parent()
+                            && $MAP_OUT{ $parent->parent()->{'_tag'} }
+                            ->{'line_wrap'} )
+                        {
                             $node =~ s/^ //g;
                             $columns = 68;
                             $node    = wrap( "", "", $node );

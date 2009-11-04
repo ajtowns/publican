@@ -13,7 +13,7 @@
 
 # TODO after beta revert to lower case name
 Name:           publican
-Version:        1.1
+Version:        1.2
 Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
@@ -191,6 +191,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
+- Fix images missing from distributed set output. BZ #532837
+- Correct image path when running clean_ids.
+- Fix typo in format description. BZ #532379
+
 * Mon Nov 2 2009 Jeff Fearn <jfearn@redhat.com> 1.1-0
 - Fix brew failure. BZ #532383
 - Fix distributed sets no packaging properly.

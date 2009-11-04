@@ -59,21 +59,13 @@ Manipulate XML and convert to other formats.
 
 =head2  new
 
-Create a new Publican::XmlClean object.
+Create a new Publican::XmlBuilder object.
 
 =cut
 
 sub new {
     my ( $this, $args ) = @_;
     my $class = ref($this) || $this;
-
-    #    my $config = new Config::Simple();
-
-    #    $config->param( 'STRICT', ( delete( $args->{STRICT} ) || 0 ) );
-
-    #    if ( %{$args} ) {
-    #        croak "unknown args: " . join( ", ", keys %{$args} );
-    #    }
 
     my $self = bless {}, $class;
 
@@ -102,6 +94,7 @@ sub build {
         || croak( maketext("formats is a mandatory argument") );
     my $publish  = delete( $args->{publish} )  || undef;
     my $embedtoc = delete( $args->{embedtoc} ) || undef;
+    my $distributed_set = delete( $args->{distributed_set} ) || 0;
 
     if ( %{$args} ) {
         croak(
@@ -127,7 +120,7 @@ sub build {
         $langs = get_all_langs();
     }
     $self->setup_xml(
-        { langs => $langs, exlude_common => ( $type eq 'brand' ) } );
+        { langs => $langs, exlude_common => ( $type eq 'brand' ), distributed_set => $distributed_set } );
 
     foreach my $lang ( sort( split( /,/, $langs ) ) ) {
         logger( maketext( "Beginning work on [_1]", $lang ) . "\n" );
@@ -206,6 +199,7 @@ sub setup_xml {
     my $exlude_common = delete( $args->{'exlude_common'} ) || undef;
     my $langs = delete( $args->{langs} )
         || croak( maketext("langs is a mandatory argument") );
+    my $distributed_set = delete( $args->{distributed_set} ) || 0;
 
     if ( %{$args} ) {
         croak(
@@ -289,7 +283,7 @@ sub setup_xml {
 
         # clean XML
         my $cleaner = Publican::XmlClean->new(
-            { lang => $lang, donotset_lang => $exlude_common } );
+            { lang => $lang, donotset_lang => $exlude_common, distributed_set => $distributed_set } );
 
         my @xml_files = dir_list( "$tmp_dir/$lang/xml_tmp", '*.xml' );
 
@@ -787,16 +781,15 @@ Updates all existing PO files with the new xref links.
 =cut
 
 sub clean_ids {
-    my ($self) = shift();
+    my ( $self, $args ) = @_;
 
-    #    my ( $self, $args ) = @_;
-
-    #    if ( %{$args} ) {
-    #       croak "unknown args: " . join( ", ", keys %{$args} );
-    #    }
+#    if ( %{$args} ) {
+#        croak "unknown args: " . join( ", ", keys %{$args} );
+#    }
 
     my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
-    my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
+    my $cleaner = Publican::XmlClean->new(
+        { clean_id => 1 } );
 
     foreach my $xml_file ( sort(@xml_files) ) {
         $cleaner->process_file(
@@ -1282,6 +1275,7 @@ sub change_log {
     my $xml_doc = XML::TreeBuilder->new();
     $xml_doc->parse_file("$xml_lang/Revision_History.xml");
 
+## TODO catch as_trimmed_text failing
     foreach my $node ( $xml_doc->root()->look_down( "_tag", "revision" ) ) {
         my $in_date = $node->look_down( '_tag', 'date' )->as_trimmed_text();
         my $date
@@ -1289,12 +1283,11 @@ sub change_log {
             ->strftime("%a %b %e %Y")
             || croak( maketext( "Invalid date: [_1]", $in_date ) );
         my $firstname
-            = $node->look_down( '_tag', 'firstname' )->as_trimmed_text(),
-            my $surname
-            = $node->look_down( '_tag', 'surname' )->as_trimmed_text(),
-            my $email
-            = $node->look_down( '_tag', 'email' )->as_trimmed_text(),
-            my $revnumber
+            = $node->look_down( '_tag', 'firstname' )->as_trimmed_text();
+        my $surname
+            = $node->look_down( '_tag', 'surname' )->as_trimmed_text();
+        my $email = $node->look_down( '_tag', 'email' )->as_trimmed_text();
+        my $revnumber
             = $node->look_down( '_tag', 'revnumber' )->as_trimmed_text();
 
         $log .= sprintf( "* %s %s %s <%s> %s\n",
@@ -1412,7 +1405,7 @@ sub build_set_books {
             );
         }
 
-        if ( system("publican build --formats=xml --langs=$langs") != 0 ) {
+        if ( system("publican build --formats=xml --langs=$langs --distributed_set") != 0 ) {
 
             # build failed
             croak(
@@ -1427,6 +1420,10 @@ sub build_set_books {
         $dir = undef;
 
         foreach my $lang ( split( /,/, $langs ) ) {
+            dirmove(
+                "$book/$tmp_dir/$lang/xml/images",
+                "$tmp_dir/$lang/xml/images/$book/images"
+            );
             dircopy( "$book/$tmp_dir/$lang/xml", "$tmp_dir/$lang/xml/$book" );
         }
         logger( maketext( "Finish building [_1]", $book ) . "\n" );
