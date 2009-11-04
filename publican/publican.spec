@@ -195,6 +195,8 @@ rm -rf $RPM_BUILD_ROOT
 - Fix images missing from distributed set output. BZ #532837
 - Correct image path when running clean_ids.
 - Fix typo in format description. BZ #532379
+- Add comment to clean.
+- force package to run clean to avoid stale content.
 
 * Mon Nov 2 2009 Jeff Fearn <jfearn@redhat.com> 1.1-0
 - Fix brew failure. BZ #532383

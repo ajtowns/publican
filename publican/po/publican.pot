@@ -27,8 +27,8 @@ msgstr ""
 
 #. ('cmd')
 #. ('path')
-#: bin/publican:293
-#: bin/publican:374
+#: bin/publican:295
+#: bin/publican:376
 msgid "%1 is a required argument"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgid "%1 is not used anymore."
 msgstr ""
 
 #. ($action)
-#: bin/publican:285
+#: bin/publican:287
 msgid "'%1' is an unknown action!"
 msgstr ""
 
@@ -101,7 +101,7 @@ msgstr ""
 msgid "A space-separated list of books used in this remote set."
 msgstr ""
 
-#: bin/publican:275
+#: bin/publican:277
 msgid "Action required!"
 msgstr ""
 
@@ -168,7 +168,7 @@ msgid "Can't locate required file: %1"
 msgstr ""
 
 #. ("$srpm")
-#: bin/publican:481
+#: bin/publican:495
 msgid "Can't locate srpm %1, did you run --package?"
 msgstr ""
 
@@ -229,6 +229,10 @@ msgstr ""
 msgid "Can't write to overrides.cfg: %1"
 msgstr ""
 
+#: bin/publican:414
+msgid "Clean: Removing temporary and publish content."
+msgstr ""
+
 #: bin/publican:100
 msgid "Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,text"
 msgstr ""
@@ -286,15 +290,15 @@ msgstr ""
 msgid "Could not open file README for output!"
 msgstr ""
 
-#: bin/publican:162
+#: bin/publican:164
 msgid "Create a new book, set, or article"
 msgstr ""
 
-#: bin/publican:169
+#: bin/publican:171
 msgid "Create a new brand"
 msgstr ""
 
-#: bin/publican:153
+#: bin/publican:155
 msgid "Create a publican.cfg file from the Makefile of an old book, set, or article"
 msgstr ""
 
@@ -327,7 +331,7 @@ msgstr ""
 msgid "Display help message"
 msgstr ""
 
-#: bin/publican:192
+#: bin/publican:194
 msgid "Display help text for the configuration file"
 msgstr ""
 
@@ -426,7 +430,7 @@ msgstr ""
 msgid "Generate table of contents down to the given section depth."
 msgstr ""
 
-#: bin/publican:188
+#: bin/publican:190
 msgid "Install a brand to the supplied location"
 msgstr ""
 
@@ -456,7 +460,7 @@ msgid "Invalid language supplied: %1"
 msgstr ""
 
 #. ($opt)
-#: bin/publican:220
+#: bin/publican:222
 msgid "Invalid option '%1' in $actions{$action}->{options}"
 msgstr ""
 
@@ -488,11 +492,11 @@ msgstr ""
 msgid "Nested tables break pdf generation -- reconsider your data structure."
 msgstr ""
 
-#: bin/publican:297
+#: bin/publican:299
 msgid "No options"
 msgstr ""
 
-#: bin/publican:296
+#: bin/publican:298
 msgid "Options:"
 msgstr ""
 
@@ -509,7 +513,7 @@ msgstr ""
 msgid "PO file '%1' not found! Using base XML!"
 msgstr ""
 
-#: bin/publican:173
+#: bin/publican:175
 msgid "Package a language for shipping"
 msgstr ""
 
@@ -537,7 +541,7 @@ msgstr ""
 msgid "Path to publican content."
 msgstr ""
 
-#: bin/publican:158
+#: bin/publican:160
 msgid "Print a tree of the xi:includes"
 msgstr ""
 
@@ -584,11 +588,11 @@ msgstr ""
 msgid "Release of this package. For xml_lang fetched from title tag in xml_lang/TYPE_Info.xml. For translations it is fetched from Project-Id-Version in lang/TYPE_Info.po"
 msgstr ""
 
-#: bin/publican:138
+#: bin/publican:140
 msgid "Remove all temporary files and directories"
 msgstr ""
 
-#: bin/publican:143
+#: bin/publican:145
 msgid "Remove local copies of remote set books"
 msgstr ""
 
@@ -605,13 +609,17 @@ msgstr ""
 msgid "Required PO file missing. Could not locate %1."
 msgstr ""
 
-#: bin/publican:148
+#: bin/publican:150
 msgid "Run clean ids for source XML"
 msgstr ""
 
 #. ($0)
-#: bin/publican:256
+#: bin/publican:258
 msgid "Run: '%1 <action> --help' for details on action usage"
+msgstr ""
+
+#: bin/publican:407
+msgid "Running clean process to ensure stale content is not bundled in packages."
 msgstr ""
 
 #: lib/Publican/Builder.pm:1395
@@ -716,7 +724,7 @@ msgstr ""
 msgid "This tag set imposes English-language order on glossaries, making them useless when translated."
 msgstr ""
 
-#: bin/publican:134
+#: bin/publican:135
 msgid "Transform XML to other formats (pdf, html, html-single)"
 msgstr ""
 
@@ -765,11 +773,11 @@ msgstr ""
 msgid "Unknown width format will be ignored: %1"
 msgstr ""
 
-#: bin/publican:184
+#: bin/publican:186
 msgid "Update the PO files"
 msgstr ""
 
-#: bin/publican:180
+#: bin/publican:182
 msgid "Update the POT files"
 msgstr ""
 
@@ -791,7 +799,7 @@ msgstr ""
 msgid "Using XML::LibXSLT on %1"
 msgstr ""
 
-#: bin/publican:249
+#: bin/publican:251
 msgid "Valid actions are:"
 msgstr ""
 
@@ -845,7 +853,7 @@ msgstr ""
 msgid "couldn't unlink xml file '%1', error: %2"
 msgstr ""
 
-#: bin/publican:378
+#: bin/publican:380
 msgid "destination must exist"
 msgstr ""
 
@@ -1007,6 +1015,6 @@ msgstr ""
 msgid "y is a mandatory argument"
 msgstr ""
 
-#: bin/publican:376
+#: bin/publican:378
 msgid "you need to publish the brand first"
 msgstr ""

@@ -118,18 +118,6 @@ sub create {
 
     mkpath("$name/$lang/images");
 
-    my $h = XML::Element->new_from_lol(
-        [   'html',
-            [ 'head', [ 'title', 'I like stuff!' ], ],
-            [   'body',
-                { 'lang', 'en-JP', _implicit => 1 },
-                'stuff',
-                [ 'p', 'um, p < 4!', { 'class' => 'par123' } ],
-                [ 'div', { foo => 'bar' }, '123' ],
-            ]
-        ]
-    );
-
     my %files = (
         'Author_Group' => {
             types => 'Book Set Article',

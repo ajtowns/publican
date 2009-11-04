@@ -116,7 +116,8 @@ my %options = (
         maketext('Create package without using version in package name'),
     'path=s'          => maketext('/path/to/install/to'),
     'distributed_set' => maketext(
-        'This flag tells publican the data being processed is a distributed set. Note: do not use on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.'),
+        'This flag tells publican the data being processed is a distributed set. Note: do not use on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.'
+    ),
 );
 
 # Options all actions use
@@ -132,7 +133,8 @@ my %actions = (
     'build' => {
         'brief' => maketext(
             'Transform XML to other formats (pdf, html, html-single)'),
-        'options' => [ 'formats', 'langs', 'publish', 'embedtoc', 'distributed_set' ],
+        'options' =>
+            [ 'formats', 'langs', 'publish', 'embedtoc', 'distributed_set' ],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
@@ -398,7 +400,19 @@ if ( $action eq 'printtree' ) {
     $treeview->print_tree();
 }
 
-if ( $action eq 'clean' ) {
+if ( $action eq 'clean' || $action eq 'package' ) {
+    if ( $action eq 'package' ) {
+        logger(
+            maketext(
+                "Running clean process to ensure stale content is not bundled in packages."
+                )
+                . "\n",
+            RED
+        );
+    }
+    logger(
+        maketext( "Clean: Removing temporary and publish content." ) . "\n",
+    );
     rmtree("tmp");
     rmtree("publish");
     my $books = $publican->param('books') || "";
@@ -438,10 +452,10 @@ if ( $action eq 'update_po' ) {
 if ( $action eq 'build' ) {
     my $builder = Publican::Builder->new();
     $builder->build(
-        {   formats  => $opts{formats},
-            langs    => $opts{langs},
-            publish  => $opts{publish},
-            embedtoc => $opts{embedtoc},
+        {   formats         => $opts{formats},
+            langs           => $opts{langs},
+            publish         => $opts{publish},
+            embedtoc        => $opts{embedtoc},
             distributed_set => $opts{distributed_set},
         }
     );
