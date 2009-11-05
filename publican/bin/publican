@@ -39,7 +39,7 @@ Global Options
     --help 	Display help message
     --man		Display Full man page
     --help_actions	Display a list of valid actions
-    --version	Display the version of Publican
+    --version|-v	Display the version of Publican
 
 Run: 'publican <action> --help' for details on action usage
 
@@ -81,6 +81,7 @@ my %opts = (
     'help'         => \$help,
     'man'          => \$man,
     'v'            => \$version,
+    'version'      => \$version,
     'help_actions' => \$help_actions,
 );
 
@@ -125,7 +126,7 @@ my @utility_opts = (
     'help',            'help_actions',
     'man',             'config',
     'common_config=s', 'common_content=s',
-    'version|v',
+    'version', 'v',
 );
 
 # Actions

@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           publican
 Version:        1.2
-Release:        0%{?dist}.t7
+Release:        0%{?dist}.t9
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -192,7 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
-- Fixed --version BZ #
+- Fixed --version BZ #533081
 - Fixed empty params in new book cfg file. BZ #
 - Fixed clean_ids taking too long.
 
