@@ -751,7 +751,7 @@ sub get_all_langs {
     debug_msg("valid_lang matches on a load of crap\n");
     foreach my $dir (@dirs) {
         if ( -d $dir ) {
-            next if ( $dir =~ /^(\.|\.\.|pot|tmp|xsl)$/ );
+            next if ( $dir =~ /^(\.|\.\.|pot|tmp|xsl|\..*|CVS|publish)$/ );
 
             if ( valid_lang($dir) ) {
                 push( @langs, $dir );

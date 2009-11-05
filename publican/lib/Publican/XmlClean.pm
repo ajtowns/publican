@@ -797,7 +797,10 @@ sub my_as_XML {
                         }
 
                         my $img_file = "$path" . $node->attr('fileref');
-			$img_file = $self->{publican}->param('xml_lang') . "/" . $img_file if($clean_id);
+                        $img_file
+                            = $self->{publican}->param('xml_lang') . "/"
+                            . $img_file
+                            if ($clean_id);
                         if ( -f $img_file ) {
                             my ( $width, $height ) = imgsize($img_file);
                             if ( $@ || !$width ) {
@@ -813,7 +816,7 @@ sub my_as_XML {
                                 $node->attr( 'width', $MAX_WIDTH );
                             }
                         }
-                        elsif($img_file !~ /Common_Content/) {
+                        elsif ( $img_file !~ /Common_Content/ ) {
                             logger(
                                 "\t"
                                     . maketext(
@@ -1051,6 +1054,7 @@ sub process_file {
 
     my $clean_id        = $self->{config}->param('clean_id');
     my $update_includes = $self->{config}->param('update_includes');
+    my $xml_lang        = $self->{publican}->param('xml_lang');
 
     my $xml_doc = XML::TreeBuilder->new(
         { 'NoExpand' => "1", 'ErrorContext' => "2" } );
@@ -1071,53 +1075,136 @@ sub process_file {
     $self->print_xml( { xml_doc => $xml_doc, out_file => $out_file } );
 
     if ($clean_id) {
-        foreach my $key ( keys(%UPDATED_IDS) ) {
-            debug_msg(
-                "\nTODO: process_file: need to switch from back-ticks to perl. Maybe use PO2XML::load_po as a base fo direct PO manipulation? Maybe do this per language instead of a dirty big find.\n\n"
-            );
-            my $cmd
-                = q{for file in `grep -lR "} 
-                . $key
-                . q{" *`; do sed -i -e 's/linkend="}
-                . $key
-                . '"/linkend="'
-                . $UPDATED_IDS{$key}
-                . q|"/g' $file; done|;
-            `$cmd`;
+        debug_msg(
+            "\nTODO: process_file: need to switch from back-ticks to perl. Maybe use PO2XML::load_po as a base fo direct PO manipulation?\n\n"
+        );
 
-            # Update po files - all of string on one line
-            $cmd
-                = q{for file in `grep -lR "} 
-                . $key
-                . q{" ../*`; do sed -i -e 's/=\\\\"}
-                . $key
-                . '\\\\"/=\\\\"'
-                . $UPDATED_IDS{$key}
-                . q|\\\\"/g' $file; done|;
-            `$cmd`;
+        # Update links in xml
+        foreach my $xml_file ( dir_list( $xml_lang, '*.xml' ) ) {
+            foreach my $key ( keys(%UPDATED_IDS) ) {
 
-            # Update po files - tail of string line wrapped
-            $cmd
-                = q{for file in `grep -lR "} 
-                . $key
-                . q{" ../*`; do sed -i -e 's/=\\\\"}
-                . $key
-                . '"/=\\\\"'
-                . $UPDATED_IDS{$key}
-                . q|"/g' $file; done|;
-            `$cmd`;
+                # xml usage
+                my $count = `grep -c 'linkend="$key"' $xml_file`;
+                chomp($count);
+                if ($count) {
+                    logger(
+                        maketext( "\t\tUpdating link '[_1]' in XML file [_2]",
+                            $key, $xml_file )
+                            . "\n"
+                    );
+                    my $cmd
+                        = q{sed -i -e 's/linkend="} 
+                        . $key
+                        . '"/linkend="'
+                        . $UPDATED_IDS{$key}
+                        . q|"/g' |
+                        . $xml_file;
+                    `$cmd`;
+                }
+            }
+        }
 
-            # Update po files - string line wrapped after '='
-            $cmd
-                = q{for file in `grep -lR "} 
-                . $key
-                . q{" ../*`; do sed -i -e 's/\\\\"}
-                . $key
-                . '\\\\"/\\\\"'
-                . $UPDATED_IDS{$key}
-                . q|\\\\"/g' $file; done|;
-            `$cmd`;
+        # update links in PO files
+        foreach my $dir ( split( /,/, get_all_langs() ) ) {
+            next if ( $dir eq $xml_lang );
+            foreach my $po_file ( dir_list( $dir, '*.po' ) ) {
+                foreach my $key ( keys(%UPDATED_IDS) ) {
+                    my $count = `grep -c '"$key"' $po_file`;
+                    chomp($count);
+                    if ($count) {
+                        logger(
+                            maketext(
+                                "\t\tUpdating link '[_1]' in PO file [_2]",
+                                $key, $po_file )
+                                . "\n"
+                        );
+## TODO could probably do this in a single command with option groups on the slashes
+## since the slashes are missing if the line is wrapped at the start or the end of the ID
 
+                        # all of string on one line
+                        my $cmd
+                            = q{sed -i -e 's/=\\\\"} 
+                            . $key
+                            . '\\\\"/=\\\\"'
+                            . $UPDATED_IDS{$key}
+                            . q|\\\\"/g' |
+                            . $po_file;
+                        `$cmd`;
+
+                        # tail of string line wrapped
+                        $cmd
+                            = q{sed -i -e 's/=\\\\"} 
+                            . $key
+                            . '"/=\\\\"'
+                            . $UPDATED_IDS{$key}
+                            . q|"/g' |
+                            . $po_file;
+                        `$cmd`;
+
+                        # string line wrapped after '='
+                        $cmd
+                            = q{sed -i -e 's/\\\\"} 
+                            . $key
+                            . '\\\\"/\\\\"'
+                            . $UPDATED_IDS{$key}
+                            . q|\\\\"/g' |
+                            . $po_file;
+                        `$cmd`;
+                    }
+                }
+            }
+        }
+
+        # this is painfully slow on distributed sets
+        if (0) {
+            foreach my $key ( keys(%UPDATED_IDS) ) {
+                debug_msg(
+                    "\nTODO: process_file: need to switch from back-ticks to perl. Maybe use PO2XML::load_po as a base fo direct PO manipulation? Maybe do this per language instead of a dirty big find.\n\n"
+                );
+                my $cmd
+                    = q{for file in `grep -lR "} 
+                    . $key
+                    . q{" *`; do sed -i -e 's/linkend="}
+                    . $key
+                    . '"/linkend="'
+                    . $UPDATED_IDS{$key}
+                    . q|"/g' $file; done|;
+                `$cmd`;
+
+                # Update po files - all of string on one line
+                $cmd
+                    = q{for file in `grep -lR "} 
+                    . $key
+                    . q{" ../*`; do sed -i -e 's/=\\\\"}
+                    . $key
+                    . '\\\\"/=\\\\"'
+                    . $UPDATED_IDS{$key}
+                    . q|\\\\"/g' $file; done|;
+                `$cmd`;
+
+                # Update po files - tail of string line wrapped
+                $cmd
+                    = q{for file in `grep -lR "} 
+                    . $key
+                    . q{" ../*`; do sed -i -e 's/=\\\\"}
+                    . $key
+                    . '"/=\\\\"'
+                    . $UPDATED_IDS{$key}
+                    . q|"/g' $file; done|;
+                `$cmd`;
+
+                # Update po files - string line wrapped after '='
+                $cmd
+                    = q{for file in `grep -lR "} 
+                    . $key
+                    . q{" ../*`; do sed -i -e 's/\\\\"}
+                    . $key
+                    . '\\\\"/\\\\"'
+                    . $UPDATED_IDS{$key}
+                    . q|\\\\"/g' $file; done|;
+                `$cmd`;
+
+            }
         }
     }
 

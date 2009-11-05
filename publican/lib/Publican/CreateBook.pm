@@ -361,10 +361,10 @@ sub create {
 
     # remove these from the default configuration file
     # so that by default only the XML requires changing.
-    $self->{config}->param('docname', undef);
-    $self->{config}->param('version', undef);
-    $self->{config}->param('edition', undef);
-    $self->{config}->param('product', undef);
+    $self->{config}->delete('docname');
+    $self->{config}->delete('version');
+    $self->{config}->delete('edition');
+    $self->{config}->delete('product');
 
     $self->{config}->write("$name/publican.cfg");
 
@@ -396,11 +396,11 @@ All subs with named parameters will return this error when unexpected anmed argu
 
 =item C<< %s is a required argument >>
 
-Any sub with a mandadtory parameter will return this error if the parameter is undef.
+Any sub with a mandatory parameter will return this error if the parameter is undef.
 
 =item C<< directory %s exists >>
 
-When creating a book a directory is created named publilcan-<book_name>. If a directory with that name is in the current directory the creation will fail.
+When creating a book a directory is created named publican-<book_name>. If a directory with that name is in the current directory the creation will fail.
 
 =back
 
