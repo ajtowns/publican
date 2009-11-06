@@ -39,7 +39,7 @@ Global Options
     --help 	Display help message
     --man		Display Full man page
     --help_actions	Display a list of valid actions
-    --version|-v	Display the version of Publican
+    -v		Display the version of Publican
 
 Run: 'publican <action> --help' for details on action usage
 
@@ -72,7 +72,7 @@ my $man          = 0;
 my $help         = 0;
 my $action       = "";
 my $help_actions = 0;
-my $version      = 0;
+my $show_version = 0;
 
 #Getopt::Long::Configure("debug");
 
@@ -80,8 +80,7 @@ my $version      = 0;
 my %opts = (
     'help'         => \$help,
     'man'          => \$man,
-    'v'            => \$version,
-    'version'      => \$version,
+    'v'            => \$show_version,
     'help_actions' => \$help_actions,
 );
 
@@ -126,7 +125,7 @@ my @utility_opts = (
     'help',            'help_actions',
     'man',             'config',
     'common_config=s', 'common_content=s',
-    'version', 'v',
+    'v',
 );
 
 # Actions
@@ -234,7 +233,7 @@ GetOptions( \%opts, @optns, )
 # Getopt will remove the options leaving only the action
 $action = ( $ARGV[0] || "" );
 
-if ($version) {
+if ($show_version) {
     print("version=$VERSION\n");
     exit(0) if ( $action eq "" );
 }
