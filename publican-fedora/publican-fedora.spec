@@ -3,8 +3,8 @@
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
 Version:	1.0
-Release:	0%{?dist}
-License:	Open Publication 
+Release:	1%{?dist}
+License:	CC-BY-SA 3.0
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Nov 9 2009 Rüdiger Landmann <rlandmann@redhat.com> 1.1
+- update license to CC-BY-SA
+
 * Fri Oct 30 2009 Jeff Fearn <jfearn@redhat.com> 1.0
 - port to publican 1.0.
 
