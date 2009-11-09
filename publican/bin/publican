@@ -93,6 +93,7 @@ my %options = (
     'binary'          => maketext('Build binary rpm when running package'),
     'brew'            => maketext('Push SRPM to brew'),
     'scratch'         => maketext('Use scratch instead of tag build'),
+    'nowait'          => maketext('Do not wait for brew to finish building'),
     'common_config=s' => maketext('Override path to Common_Config directory'),
     'common_content=s' =>
         maketext('Override path to Common_Content directory'),
@@ -175,7 +176,7 @@ my %actions = (
         'brief'   => maketext('Package a language for shipping'),
         'options' => [
             'lang',          'desktop', 'brew', 'scratch',
-            'short_sighted', 'binary'
+            'short_sighted', 'binary', 'nowait'
         ],
     },
     'update_pot' => {
@@ -485,6 +486,7 @@ if ( $action eq 'package' ) {
 
         my @brew_args = ( "brew", "build" );
         push( @brew_args, "--scratch" ) if ( $opts{scratch} );
+        push( @brew_args, "--nowait" ) if ( $opts{nowait} );
         push( @brew_args, $publican->param('brew_dist') );
 
         if ( -f "$srpm" ) {

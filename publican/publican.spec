@@ -195,6 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed --version BZ #533081
 - Fixed empty params in new book cfg file. BZ #533322
 - Fixed clean_ids taking too long.
+- Added nowait option for brew.
 
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
 - Fix images missing from distributed set output. BZ #532837
