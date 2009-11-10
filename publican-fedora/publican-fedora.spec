@@ -40,7 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Nov 9 2009 Rüdiger Landmann <rlandmann@redhat.com> 1.1
-- update license to CC-BY-SA
+- update license to CC-BY-SA (BZ#533741)
 
 * Fri Oct 30 2009 Jeff Fearn <jfearn@redhat.com> 1.0
 - port to publican 1.0.
