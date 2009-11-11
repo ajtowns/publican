@@ -20,6 +20,7 @@ procedure before
 
 <xsl:param name="generate.section.toc.level" select="0"/>
 <xsl:param name="qanda.defaultlabel">qanda</xsl:param>
+<xsl:param name="glossary.sort" select="1"/>
 
 <xsl:template name="user.preroot">
   <!-- Pre-root output, can be used to output comments and PIs. -->
