@@ -45,7 +45,7 @@ Run: 'publican <action> --help' for details on action usage
 
 Valid actions are:
 
-    build         Transform XML to other formats (pdf, html, html-single)
+    build         Transform XML to other formats (pdf, html, html-single, etc)
     clean         Remove all temporary files and directories
     clean_ids     Run clean ids for source XML
     cleanset      Remove local copies remote set books
@@ -98,7 +98,7 @@ my %options = (
     'common_content=s' =>
         maketext('Override path to Common_Content directory'),
     'formats=s' => maketext(
-        'Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,text'
+        'Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub'
     ),
     'langs=s' => maketext(
         'Comma-separated list of languages, for example: en-US,de-DE,all'),
@@ -133,7 +133,7 @@ my @utility_opts = (
 my %actions = (
     'build' => {
         'brief' => maketext(
-            'Transform XML to other formats (pdf, html, html-single)'),
+            'Transform XML to other formats (pdf, html, html-single, etc)'),
         'options' =>
             [ 'formats', 'langs', 'publish', 'embedtoc', 'distributed_set' ],
     },
