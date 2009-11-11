@@ -1154,58 +1154,6 @@ sub process_file {
                 }
             }
         }
-
-        # this is painfully slow on distributed sets
-        if (0) {
-            foreach my $key ( keys(%UPDATED_IDS) ) {
-                debug_msg(
-                    "\nTODO: process_file: need to switch from back-ticks to perl. Maybe use PO2XML::load_po as a base fo direct PO manipulation? Maybe do this per language instead of a dirty big find.\n\n"
-                );
-                my $cmd
-                    = q{for file in `grep -lR "} 
-                    . $key
-                    . q{" *`; do sed -i -e 's/linkend="}
-                    . $key
-                    . '"/linkend="'
-                    . $UPDATED_IDS{$key}
-                    . q|"/g' $file; done|;
-                `$cmd`;
-
-                # Update po files - all of string on one line
-                $cmd
-                    = q{for file in `grep -lR "} 
-                    . $key
-                    . q{" ../*`; do sed -i -e 's/=\\\\"}
-                    . $key
-                    . '\\\\"/=\\\\"'
-                    . $UPDATED_IDS{$key}
-                    . q|\\\\"/g' $file; done|;
-                `$cmd`;
-
-                # Update po files - tail of string line wrapped
-                $cmd
-                    = q{for file in `grep -lR "} 
-                    . $key
-                    . q{" ../*`; do sed -i -e 's/=\\\\"}
-                    . $key
-                    . '"/=\\\\"'
-                    . $UPDATED_IDS{$key}
-                    . q|"/g' $file; done|;
-                `$cmd`;
-
-                # Update po files - string line wrapped after '='
-                $cmd
-                    = q{for file in `grep -lR "} 
-                    . $key
-                    . q{" ../*`; do sed -i -e 's/\\\\"}
-                    . $key
-                    . '\\\\"/\\\\"'
-                    . $UPDATED_IDS{$key}
-                    . q|\\\\"/g' $file; done|;
-                `$cmd`;
-
-            }
-        }
     }
 
     return;

@@ -16,6 +16,7 @@ use XML::LibXSLT;
 use XML::LibXML;
 use Cwd qw(abs_path);
 use Archive::Tar;
+use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
 use DateTime;
 use DateTime::Format::DateParse;
 use Syntax::Highlight::Engine::Kate;
@@ -737,6 +738,48 @@ sub transform {
         system(
             "classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$docname.pdf"
         );
+        $dir = undef;
+    }
+    elsif($format eq 'epub' ) {
+        $dir = undef;
+        dircopy( "$tmp_dir/$lang/xml/images",
+            "$tmp_dir/$lang/$format/OEBPS/images" );
+        dircopy(
+            "$tmp_dir/$lang/xml/Common_Content",
+            "$tmp_dir/$lang/$format/OEBPS/Common_Content"
+        );
+        dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
+            if ( -e "$xml_lang/files" );
+        dircopy( "$lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
+            if ( -e "$lang/files" );
+
+        # remove any RCS from the output
+        finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
+
+        # remove any XML files from common
+        finddepth( \&del_unwanted_xml,
+            "$tmp_dir/$lang/$format/OEBPS/Common_Content" );
+
+	my $MIME;
+	open($MIME, ">", "$tmp_dir/$lang/$format/mimetype") || croak(maketext("Can't open mimetype file: "));
+	print($MIME 'application/epub+zip');
+	close($MIME);
+
+        $dir = pushd("$tmp_dir/$lang/$format");
+
+        my $zip = Archive::Zip->new();
+	my $member = $zip->addDirectory( "OEBPS/" );
+	$member = $zip->addDirectory( "META-INF/" );
+#	$member = $zip->addFile( "$tmp_dir/$lang/$format/mimetype" );
+
+        my @filelist = File::Find::Rule->file->in(".");
+        foreach my $file (@filelist) {
+            $member = $zip->addFile( $file );
+        }
+
+	my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
+        $zip->writeToFileNamed( "../$epub_name" ) == AZ_OK || croak "NOOO" ;
+	logger( maketext( "Wrote epub archive: [_1]", "$tmp_dir/$lang/$epub_name") . "\n");
         $dir = undef;
     }
     else {

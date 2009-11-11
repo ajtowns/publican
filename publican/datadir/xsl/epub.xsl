@@ -8,6 +8,6 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/epub/docbook.xsl"/>
 
 <xsl:param name="tablecolumns.extensions" select="0"/>
-<xsl:param name="epub.oebps.dir" select="'.'"/> 
+<xsl:param name="epub.oebps.dir" select="'OEBPS/'"/> 
 
 </xsl:stylesheet>
