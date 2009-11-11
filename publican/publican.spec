@@ -14,13 +14,13 @@
 # TODO after beta revert to lower case name
 Name:           publican
 Version:        1.2
-Release:        0%{?dist}.t20
+Release:        0%{?dist}.t22
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
 Group:          Applications/Publishing
 URL:            https://publican.fedorahosted.org
-Source0:        https://fedorahosted.org/releases/publican/Publican-%{version}.tar.gz
+Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -177,7 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc Changes README COPYING Artistic
+%doc CHANGES README COPYING Artistic
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 %{_mandir}/man1/*

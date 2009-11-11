@@ -308,26 +308,26 @@ sub setup_xml {
             my $common_content = $self->{publican}->param('common_content');
             my $brand          = $self->{publican}->param('brand');
             File::Copy::Recursive::rcopy_glob(
-                "$common_content/common/en-US/*",
+                $common_content . "/common/en-US/*",
                 "$tmp_dir/$lang/xml/Common_Content"
             );
             File::Copy::Recursive::rcopy_glob(
-                "$common_content/common/$lang/*",
+                $common_content . "/common/$lang/*",
                 "$tmp_dir/$lang/xml/Common_Content"
-            ) if ( -e "$common_content/common/$lang" );
+            ) if ( -e $common_content . "/common/$lang" );
 
             if ( $brand ne 'common' ) {
                 croak(
                     "Brand '$brand' can not be located in: $common_content!")
-                    if ( !-d "$common_content/$brand" );
+                    if ( !-d $common_content . "/$brand" );
                 File::Copy::Recursive::rcopy_glob(
-                    "$common_content/$brand/en-US/*",
+                    $common_content . "/$brand/en-US/*",
                     "$tmp_dir/$lang/xml/Common_Content"
-                ) if ( -e "$common_content/$brand/en-US" );
+                ) if ( -e $common_content . "/$brand/en-US" );
                 File::Copy::Recursive::rcopy_glob(
-                    "$common_content/$brand/$lang/*",
+                    $common_content . "/$brand/$lang/*",
                     "$tmp_dir/$lang/xml/Common_Content"
-                ) if ( -e "$common_content/$brand/$lang" );
+                ) if ( -e $common_content . "/$brand/$lang" );
             }
 
             my $ent_file
@@ -605,16 +605,12 @@ sub transform {
         return;
     }
 
-    my $tmp_config = $common_config;
+    my $xsl_file = $common_config . "/xsl/$format.xsl";
+    $xsl_file    = $common_content . "/$brand/xsl/$format.xsl"
+        if ( -f $common_content . "/$brand/xsl/$format.xsl" );
 
     # required for Windows
-    $tmp_config =~ s/"//g;
-
-    my $xsl_file = "$tmp_config/xsl/$format.xsl";
-    $tmp_config = $common_content;
-    $tmp_config =~ s/"//g;
-    $xsl_file = "$tmp_config/$brand/xsl/$format.xsl"
-        if ( -f "$tmp_config/$brand/xsl/$format.xsl" );
+    $xsl_file =~ s/"//g;
 
     my %xslt_opts = (
         'toc.section.depth'          => $toc_section_depth,
@@ -640,9 +636,9 @@ sub transform {
         $xslt_opts{'embedtoc'} = $embedtoc;
     }
     elsif ( $format eq 'html-desktop' ) {
-        $xsl_file = "$common_config/xsl/html-single.xsl";
-        $xsl_file = "$common_config/$brand/xsl/html-single.xsl"
-            if ( -e "$common_config/$brand/xsl/html-single.xsl" );
+        $xsl_file = $common_config . "/xsl/html-single.xsl";
+        $xsl_file = $common_content . "/$brand/xsl/html-single.xsl"
+            if ( -e $common_content . "/$brand/xsl/html-single.xsl" );
         $dir = pushd("$tmp_dir/$lang/$format");
 
         $xslt_opts{'doc.url'}  = "'$doc_url'";
@@ -670,6 +666,9 @@ sub transform {
     else {
         croak( maketext( "Unknown format: [_1]", $format ) );
     }
+
+    # required for Windows
+    $xsl_file =~ s/"//g;
 
     logger(
         "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
@@ -1235,8 +1234,9 @@ sub package {
     $dir = undef;
 
     my $common_config = $self->{publican}->param('common_config');
-    my $xsl_file      = "$common_config/xsl/web-spec.xsl";
-    $xsl_file = "$common_config/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
+    my $xsl_file      = $common_config . "/xsl/web-spec.xsl";
+    $xsl_file         = $common_config. "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
+    $xsl_file         =~ s/"//g; # windows
     my $license       = $self->{publican}->param('license');
     my $brand         = lc( $self->{publican}->param('brand') );
     my $doc_url       = $self->{publican}->param('doc_url');

@@ -58,10 +58,33 @@ Windows
     TODO: Detail where that goes
     Download the DocBook DTD and expand it to the same dir publican is in
     Download the DocBook XSL and expand it to the same dir publican is in
-    cd publican\windows
+    cd publican
+    perl Build.PL
+    Build
+    Build test
+    cd windows
     pp @pp-opts ..\bin\publican -vv 1>2> pp.log
     compile publican.nsi in NSIS
 
+    C:\Perl\lib\HTML\Element.pm patch from cpan
+    XML-TreeBuilder patch
+    Image::Magick <--- how to get this *&^*% working?
+    
+vcvars32.bat
+
+perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
+nmake
+copy D:\Data\temp\Redhat\xml2\bin\*.dll blib\arch\auto\XML\LibXML
+nmake test
+nmake install
+
+perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
+nmake
+copy D:\Data\temp\Redhat\xml2\libxslt-1.1.24.win32\bin\*.dll blib\arch\auto\XML\LibXSLT
+nmake test
+nmake install
+
+    
 TODO
 wget http://www.iana.org/assignments/language-subtag-registry
 

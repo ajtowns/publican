@@ -517,18 +517,23 @@ sub new {
                     "Failed to load Win32::TieRegistry module. Error: [_1]", $@
                 )
             ) if ($@);
-    
+
+            $ENV{ANSI_COLORS_DISABLED} = 1;
+
             my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
                 { Delimiter => "\\" } );
+
             if($key and $key->GetValue("")) {
                 if(!$common_config) {
-                    $common_config = '"' .$key->GetValue("") .'"';
+                    $common_config = $key->GetValue("");
                     $common_config =~ s/\\/\//g;
                 }    
-
-logger("key: $common_config\n");
                 $common_content = "$common_config/Common_Content" if(!$common_content);
-            }    
+            }
+
+            $common_config = qq{"$common_config"};
+            $common_content = qq{"$common_content"};
+logger("key: $common_config\n");
         }
 #        my $localise = Publican::Localise->get_handle()
 #            || croak("Could not create a Publican::Localise object");
