@@ -93,8 +93,8 @@ sub build {
         || croak( maketext("langs is a mandatory argument") );
     my $formats = delete( $args->{formats} )
         || croak( maketext("formats is a mandatory argument") );
-    my $publish  = delete( $args->{publish} )  || undef;
-    my $embedtoc = delete( $args->{embedtoc} ) || undef;
+    my $publish         = delete( $args->{publish} )         || undef;
+    my $embedtoc        = delete( $args->{embedtoc} )        || undef;
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
 
     if ( %{$args} ) {
@@ -121,7 +121,11 @@ sub build {
         $langs = get_all_langs();
     }
     $self->setup_xml(
-        { langs => $langs, exlude_common => ( $type eq 'brand' ), distributed_set => $distributed_set } );
+        {   langs           => $langs,
+            exlude_common   => ( $type eq 'brand' ),
+            distributed_set => $distributed_set
+        }
+    );
 
     foreach my $lang ( sort( split( /,/, $langs ) ) ) {
         logger( maketext( "Beginning work on [_1]", $lang ) . "\n" );
@@ -164,9 +168,15 @@ sub build {
                     if ( $format eq 'html-desktop' ) {
                         $path = "publish/desktop/$lang";
                     }
+
                     mkpath($path);
-                    rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
-                        if ( -d "$tmp_dir/$lang/$format" );
+                    if ( $format eq 'epub' ) {
+                        fcopy( "$tmp_dir/$lang/" . $self->{epub_name}, "$path/." );
+                    }
+                    else {
+                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
+                            if ( -d "$tmp_dir/$lang/$format" );
+                    }
                 }
             }
             logger( "\t" . maketext( "Finished [_1]", $format ) . "\n" );
@@ -284,7 +294,11 @@ sub setup_xml {
 
         # clean XML
         my $cleaner = Publican::XmlClean->new(
-            { lang => $lang, donotset_lang => $exlude_common, distributed_set => $distributed_set } );
+            {   lang            => $lang,
+                donotset_lang   => $exlude_common,
+                distributed_set => $distributed_set
+            }
+        );
 
         my @xml_files = dir_list( "$tmp_dir/$lang/xml_tmp", '*.xml' );
 
@@ -606,7 +620,7 @@ sub transform {
     }
 
     my $xsl_file = $common_config . "/xsl/$format.xsl";
-    $xsl_file    = $common_content . "/$brand/xsl/$format.xsl"
+    $xsl_file = $common_content . "/$brand/xsl/$format.xsl"
         if ( -f $common_content . "/$brand/xsl/$format.xsl" );
 
     # required for Windows
@@ -734,12 +748,16 @@ sub transform {
     croak( maketext( "Transformation error '[_1]' : [_2]", $!, $@ ) ) if $@;
 
     if ( $format =~ /^pdf/ ) {
+        my $pdf_name = $self->{publican}->param('product') . '-'
+        . $self->{publican}->param('version') . '-'
+        . $self->{publican}->param('docname') . '-'
+        . "$lang.pdf";
         system(
-            "classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$docname.pdf"
+            "classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name"
         );
         $dir = undef;
     }
-    elsif($format eq 'epub' ) {
+    elsif ( $format eq 'epub' ) {
         $dir = undef;
         dircopy( "$tmp_dir/$lang/xml/images",
             "$tmp_dir/$lang/$format/OEBPS/images" );
@@ -759,26 +777,37 @@ sub transform {
         finddepth( \&del_unwanted_xml,
             "$tmp_dir/$lang/$format/OEBPS/Common_Content" );
 
-	my $MIME;
-	open($MIME, ">", "$tmp_dir/$lang/$format/mimetype") || croak(maketext("Can't open mimetype file: "));
-	print($MIME 'application/epub+zip');
-	close($MIME);
+        my $MIME;
+        open( $MIME, ">", "$tmp_dir/$lang/$format/mimetype" )
+            || croak( maketext("Can't open mimetype file: ") );
+        print( $MIME 'application/epub+zip' );
+        close($MIME);
 
         $dir = pushd("$tmp_dir/$lang/$format");
 
-        my $zip = Archive::Zip->new();
-	my $member = $zip->addDirectory( "OEBPS/" );
-	$member = $zip->addDirectory( "META-INF/" );
-#	$member = $zip->addFile( "$tmp_dir/$lang/$format/mimetype" );
+        my $zip    = Archive::Zip->new();
+        my $member = $zip->addDirectory("OEBPS/");
+        $member = $zip->addDirectory("META-INF/");
+
+        #	$member = $zip->addFile( "$tmp_dir/$lang/$format/mimetype" );
 
         my @filelist = File::Find::Rule->file->in(".");
         foreach my $file (@filelist) {
-            $member = $zip->addFile( $file );
+            $member = $zip->addFile($file);
         }
 
-	my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
-        $zip->writeToFileNamed( "../$epub_name" ) == AZ_OK || croak "NOOO" ;
-	logger( maketext( "Wrote epub archive: [_1]", "$tmp_dir/$lang/$epub_name") . "\n");
+#        my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
+        my $epub_name = $self->{publican}->param('product') . '-'
+        . $self->{publican}->param('version') . '-'
+        . $self->{publican}->param('docname') . '-'
+        . "$lang.epub";
+	$self->{epub_name} = $epub_name;
+        $zip->writeToFileNamed("../$epub_name") == AZ_OK || croak "NOOO";
+        logger(
+            maketext( "Wrote epub archive: [_1]",
+                "$tmp_dir/$lang/$epub_name" )
+                . "\n"
+        );
         $dir = undef;
     }
     else {
@@ -825,13 +854,12 @@ Updates all existing PO files with the new xref links.
 sub clean_ids {
     my ( $self, $args ) = @_;
 
-#    if ( %{$args} ) {
-#        croak "unknown args: " . join( ", ", keys %{$args} );
-#    }
+    #    if ( %{$args} ) {
+    #        croak "unknown args: " . join( ", ", keys %{$args} );
+    #    }
 
     my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
-    my $cleaner = Publican::XmlClean->new(
-        { clean_id => 1 } );
+    my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
     foreach my $xml_file ( sort(@xml_files) ) {
         $cleaner->process_file(
@@ -1235,8 +1263,8 @@ sub package {
 
     my $common_config = $self->{publican}->param('common_config');
     my $xsl_file      = $common_config . "/xsl/web-spec.xsl";
-    $xsl_file         = $common_config. "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
-    $xsl_file         =~ s/"//g; # windows
+    $xsl_file = $common_config . "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
+    $xsl_file =~ s/"//g;    # windows
     my $license       = $self->{publican}->param('license');
     my $brand         = lc( $self->{publican}->param('brand') );
     my $doc_url       = $self->{publican}->param('doc_url');
@@ -1448,7 +1476,11 @@ sub build_set_books {
             );
         }
 
-        if ( system("publican build --formats=xml --langs=$langs --distributed_set") != 0 ) {
+        if (system(
+                "publican build --formats=xml --langs=$langs --distributed_set"
+            ) != 0
+            )
+        {
 
             # build failed
             croak(

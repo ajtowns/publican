@@ -64,7 +64,7 @@ Requires:    xdg-utils
 
 %build
 export CLASSPATH=$CLASSPATH:%{_javadir}/ant/ant-trax-1.7.0.jar:%{_javadir}/xmlgraphics-commons.jar:%{_javadir}/batik-all.jar:%{_javadir}/xml-commons-apis.jar:%{_javadir}/xml-commons-apis-ext.jar
-publican build --embedtoc --formats="html,html-single,html-desktop,pdf" --langs=<xsl:value-of select="$lang"/> --publish
+publican build --embedtoc --formats="html,html-single,html-desktop,pdf,epub" --langs=<xsl:value-of select="$lang"/> --publish
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -93,11 +93,11 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-
 
 %preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 if [ "$1" = "0" ] ; then # last uninstall
-%{__perl} -e 'if (eval {require Publican::WebSite}) { my @formats = ("html", "pdf", "html-single"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->del_entry({ language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format"} ); } $ws->regen_all_toc();}';
+%{__perl} -e 'if (eval {require Publican::WebSite}) { my @formats = ("html", "pdf", "html-single", "epub"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->del_entry({ language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format"} ); } $ws->regen_all_toc();}';
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
+%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single", "epub"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
 
 %clean
 rm -rf $RPM_BUILD_ROOT
