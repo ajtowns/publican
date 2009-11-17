@@ -68,7 +68,7 @@ BuildRequires:  desktop-file-utils
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires:       perl(Locale::Maketext::Gettext)
 Requires:       fop >= 0.90
-Requires:       batik
+Requires:       batik rpm-build
 Requires:       docbook-style-xsl >= 1.75.1
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
@@ -197,6 +197,8 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed clean_ids taking too long.
 - Added nowait option for brew.
 - Improved epub support. BZ #536706
+- Add missing rpm-build req. BZ #537970
+- Changed ol ol style. BZ #537256
 
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
 - Fix images missing from distributed set output. BZ #532837
