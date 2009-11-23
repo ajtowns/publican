@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           publican
 Version:        1.2
-Release:        0%{?dist}.t56
+Release:        0%{?dist}.t63
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -200,6 +200,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add missing rpm-build req. BZ #537970
 - Changed ol ol style. BZ #537256
 - Fix missing revision history field crash. BZ #539741
+- Fix bug in condition logic in XmlClean. BZ #540685
 
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
 - Fix images missing from distributed set output. BZ #532837

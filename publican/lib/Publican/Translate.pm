@@ -636,8 +636,19 @@ sub po_report {
         untrans_count => 0,
         word_count    => 0,
     );
+    my $sep   = '=' x 100;
+    my $rate  = 250;
+    my $frate = $rate * 2;
 
-    foreach my $po_file (@po_files) {
+    my $file_name = maketext("File Name");
+    my $untranslated = maketext("Untranslated");
+    my $fuzzy = maketext("Fuzzy");
+    my $translated = maketext("Translated");
+
+    logger("$sep\n");
+    logger(sprintf("%-40s %15s %10s %10s\n", $file_name, $untranslated, $fuzzy, $translated));
+    logger("$sep\n");
+    foreach my $po_file (sort(@po_files)) {
 
         my $msgids = Locale::PO->load_file_ashash($po_file);
 
@@ -668,12 +679,7 @@ sub po_report {
             }
         }
 
-        logger(
-                maketext(
-                "[_1]\tUntranslated: [_2] Fuzzy: [_3] Translated: [_4]",
-                sprintf("%-40s", $po_file), sprintf("%5d", $po_stats{untrans_count}), sprintf("%5d", $po_stats{fuzzy_count}), sprintf("%5d", $po_stats{trans_count}) )
-                . "\n"
-        );
+        logger( sprintf("%-45s %10d %10d %10d\n", $po_file, $po_stats{untrans_count}, $po_stats{fuzzy_count}, $po_stats{trans_count}));
 
         $lang_stats{msg_count}     += $po_stats{msg_count};
         $lang_stats{fuzzy_count}   += $po_stats{fuzzy_count};
@@ -682,23 +688,16 @@ sub po_report {
         $lang_stats{word_count}    += $po_stats{word_count};
     }
 
-    my $sep   = '-' x 100;
-    my $rate  = 250;
-    my $frate = $rate * 2;
-
+    
     logger("$sep\n");
-    logger(
-            maketext(
-            "Total for [_1] Untranslated: [_2] Fuzzy: [_3] Translated: [_4]",
-            sprintf("%-37s", $lang), sprintf("%5d",$lang_stats{untrans_count}), sprintf("%5d", $lang_stats{fuzzy_count}), sprintf("%5d", $lang_stats{trans_count}) )
-            . "\n"
-    );
-    logger(
-            maketext(
-            "Remaining hours for [_1] Untranslated: [_2] Fuzzy: [_3]",
-            sprintf("%-27s", $lang), sprintf("%5.2f", ($lang_stats{untrans_count} / $rate)), sprintf("%5.2f", ($lang_stats{fuzzy_count} / $frate)))
-            . "\n"
-    );
+
+    my $total = maketext("Total for [_1]", $lang);
+    logger( sprintf("%-45s %10d %10d %10d\n", $total,$lang_stats{untrans_count}, $lang_stats{fuzzy_count}, $lang_stats{trans_count}));
+
+    my $remaining = maketext("Remaining hours for [_1]",  $lang); 
+
+    logger(sprintf("%-45s %10.2f %10.2f\n", $remaining, ($lang_stats{untrans_count} / $rate), ($lang_stats{fuzzy_count} / $frate)));
+    logger("$sep\n");
 
     return;
 }

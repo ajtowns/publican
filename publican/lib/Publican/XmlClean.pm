@@ -452,7 +452,7 @@ sub prune_xml {
                     sub {
                         $_[0]->attr('arch')
                             && $_[0]->attr('arch')
-                            !~ ( $self->{config}->param('arch') );
+                            !~ ( $self->{publican}->param('arch') );
                     }
                 )
                 )
@@ -468,7 +468,7 @@ sub prune_xml {
                     sub {
                         $_[0]->attr('condition')
                             && $_[0]->attr('condition')
-                            !~ ( $self->{config}->param('condition') );
+                            !~ ( $self->{publican}->param('condition') );
                     }
                 )
                 )
