@@ -193,6 +193,10 @@ my %actions = (
         'brief'   => maketext('Display help text for the configuration file'),
         'options' => [],
     },
+    'lang_stats' => {
+        'brief'   => maketext('report PO statistics'),
+        'options' => ['lang'],
+    },
 );
 
 # Grab to limit options to the valid ones for this action
@@ -446,6 +450,11 @@ if ( $action eq 'update_po' ) {
     else {
         $translater->update_po( { langs => $opts{langs} } );
     }
+}
+
+if ( $action eq 'lang_stats' ) {
+    my $translater = Publican::Translate->new();
+    $translater->po_report( { lang => $opts{lang} } );
 }
 
 if ( $action eq 'build' ) {

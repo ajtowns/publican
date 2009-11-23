@@ -490,7 +490,7 @@ sub print_msgs {
     foreach my $child ( $msg_list->content_list() ) {
         my $msg_id = $child->as_XML();
 
-        #        my $msg_id = $child->as_text();
+##        my $msg_id = $child->as_text();
         $msg_id = po_format( $self->normalise($msg_id), $child->tag() );
         next unless $msg_id;
         $msg_id = qq|"$msg_id"|;
@@ -613,7 +613,97 @@ sub po_unformat {
     return $string;
 }
 
-1;                              # Magic true value required at end of module
+sub po_report {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("'lang' is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my @po_files = dir_list( $lang, '*.po' );
+
+    my %lang_stats = (
+        msg_count     => 0,
+        fuzzy_count   => 0,
+        trans_count   => 0,
+        untrans_count => 0,
+        word_count    => 0,
+    );
+
+    foreach my $po_file (@po_files) {
+
+        my $msgids = Locale::PO->load_file_ashash($po_file);
+
+        #debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
+
+        my %po_stats = (
+            msg_count     => 0,
+            fuzzy_count   => 0,
+            trans_count   => 0,
+            untrans_count => 0,
+            word_count    => 0,
+        );
+
+        foreach my $key (keys(%{$msgids})) {
+	    my $msgref = $msgids->{ $key };
+            $po_stats{msg_count}++;
+            next unless $msgref->msgid();
+            my $count = () = $msgref->msgid() =~ /\w+/g;
+            $po_stats{word_count} += $count;
+            if ( $msgref->msgstr() =~ /^""$/ ) {
+                $po_stats{untrans_count} += $count;
+            }
+            elsif ( $msgref->fuzzy() ) {
+                $po_stats{fuzzy_count} += $count;
+            }
+            else {
+                $po_stats{trans_count} += $count;
+            }
+        }
+
+        logger(
+                maketext(
+                "[_1]\tUntranslated: [_2] Fuzzy: [_3] Translated: [_4]",
+                sprintf("%-40s", $po_file), sprintf("%5d", $po_stats{untrans_count}), sprintf("%5d", $po_stats{fuzzy_count}), sprintf("%5d", $po_stats{trans_count}) )
+                . "\n"
+        );
+
+        $lang_stats{msg_count}     += $po_stats{msg_count};
+        $lang_stats{fuzzy_count}   += $po_stats{fuzzy_count};
+        $lang_stats{trans_count}   += $po_stats{trans_count};
+        $lang_stats{untrans_count} += $po_stats{untrans_count};
+        $lang_stats{word_count}    += $po_stats{word_count};
+    }
+
+    my $sep   = '-' x 100;
+    my $rate  = 250;
+    my $frate = $rate * 2;
+
+    logger("$sep\n");
+    logger(
+            maketext(
+            "Total for [_1] Untranslated: [_2] Fuzzy: [_3] Translated: [_4]",
+            sprintf("%-37s", $lang), sprintf("%5d",$lang_stats{untrans_count}), sprintf("%5d", $lang_stats{fuzzy_count}), sprintf("%5d", $lang_stats{trans_count}) )
+            . "\n"
+    );
+    logger(
+            maketext(
+            "Remaining hours for [_1] Untranslated: [_2] Fuzzy: [_3]",
+            sprintf("%-27s", $lang), sprintf("%5.2f", ($lang_stats{untrans_count} / $rate)), sprintf("%5.2f", ($lang_stats{fuzzy_count} / $frate)))
+            . "\n"
+    );
+
+    return;
+}
+
+1;    # Magic true value required at end of module
 __END__
 
 =head1 DIAGNOSTICS
