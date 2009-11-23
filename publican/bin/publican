@@ -175,7 +175,7 @@ my %actions = (
         'brief'   => maketext('Package a language for shipping'),
         'options' => [
             'lang',          'desktop', 'brew', 'scratch',
-            'short_sighted', 'binary', 'wait'
+            'short_sighted', 'binary',  'wait'
         ],
     },
     'update_pot' => {
@@ -414,8 +414,7 @@ if ( $action eq 'clean' || $action eq 'package' ) {
             RED
         );
     }
-    logger(
-        maketext( "Clean: Removing temporary and publish content." ) . "\n",
+    logger( maketext("Clean: Removing temporary and publish content.") . "\n",
     );
     rmtree("tmp");
     rmtree("publish");
@@ -494,7 +493,7 @@ if ( $action eq 'package' ) {
 
         my @brew_args = ( "brew", "build" );
         push( @brew_args, "--scratch" ) if ( $opts{scratch} );
-        push( @brew_args, "--wait" ) if ( $opts{'wait'} );
+        push( @brew_args, "--wait" )    if ( $opts{'wait'} );
         push( @brew_args, $publican->param('brew_dist') );
 
         if ( -f "$srpm" ) {
