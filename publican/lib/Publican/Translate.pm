@@ -636,7 +636,7 @@ sub po_report {
         untrans_count => 0,
         word_count    => 0,
     );
-    my $sep   = '=' x 100;
+    my $sep   = '=' x 82;
     my $rate  = 250;
     my $frate = $rate * 2;
 

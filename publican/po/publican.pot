@@ -37,8 +37,8 @@ msgstr ""
 
 #. ('cmd')
 #. ('path')
-#: bin/publican:294
-#: bin/publican:375
+#: bin/publican:298
+#: bin/publican:379
 msgid "%1 is a required argument"
 msgstr ""
 
@@ -53,13 +53,17 @@ msgid "%1 is not used anymore."
 msgstr ""
 
 #. ($action)
-#: bin/publican:286
+#: bin/publican:290
 msgid "'%1' is an unknown action!"
 msgstr ""
 
 #: lib/Publican/Builder.pm:1397
 #: lib/Publican/Builder.pm:1447
 msgid "'books' is a required configuration parameter for a remote set"
+msgstr ""
+
+#: lib/Publican/Translate.pm:620
+msgid "'lang' is a mandatory argument"
 msgstr ""
 
 #: lib/Publican/XmlClean.pm:656
@@ -111,7 +115,7 @@ msgstr ""
 msgid "A space-separated list of books used in this remote set."
 msgstr ""
 
-#: bin/publican:276
+#: bin/publican:280
 msgid "Action required!"
 msgstr ""
 
@@ -178,7 +182,7 @@ msgid "Can't locate required file: %1"
 msgstr ""
 
 #. ("$srpm")
-#: bin/publican:495
+#: bin/publican:504
 msgid "Can't locate srpm %1, did you run --package?"
 msgstr ""
 
@@ -243,7 +247,7 @@ msgstr ""
 msgid "Can't write to overrides.cfg: %1"
 msgstr ""
 
-#: bin/publican:413
+#: bin/publican:417
 msgid "Clean: Removing temporary and publish content."
 msgstr ""
 
@@ -277,8 +281,8 @@ msgstr ""
 msgid "Consider not using this tag"
 msgstr ""
 
-#. ($out_file)
 #. ($out_file,$@)
+#. ($out_file)
 #: lib/Publican/CreateBook.pm:349
 #: lib/Publican/Translate.pm:159
 #: lib/Publican/XmlClean.pm:623
@@ -421,6 +425,10 @@ msgstr ""
 msgid "Fetching %1 from scm"
 msgstr ""
 
+#: lib/Publican/Translate.pm:643
+msgid "File Name"
+msgstr ""
+
 #. ($book)
 #: lib/Publican/Builder.pm:1493
 msgid "Finish building %1"
@@ -438,6 +446,10 @@ msgstr ""
 
 #: lib/Publican.pm:106
 msgid "For HTML, what is the deepest level of nesting at which a section should be split onto its own page?"
+msgstr ""
+
+#: lib/Publican/Translate.pm:645
+msgid "Fuzzy"
 msgstr ""
 
 #: lib/Publican.pm:173
@@ -474,7 +486,7 @@ msgid "Invalid language supplied: %1"
 msgstr ""
 
 #. ($opt)
-#: bin/publican:221
+#: bin/publican:225
 msgid "Invalid option '%1' in $actions{$action}->{options}"
 msgstr ""
 
@@ -526,11 +538,11 @@ msgstr ""
 msgid "Nested tables break pdf generation -- reconsider your data structure."
 msgstr ""
 
-#: bin/publican:298
+#: bin/publican:302
 msgid "No options"
 msgstr ""
 
-#: bin/publican:297
+#: bin/publican:301
 msgid "Options:"
 msgstr ""
 
@@ -583,8 +595,8 @@ msgstr ""
 msgid "Print out extra messages?"
 msgstr ""
 
-#. ($xml_file)
 #. ($file)
+#. ($xml_file)
 #: lib/Publican/Translate.pm:85
 #: lib/Publican/XmlClean.pm:1053
 msgid "Processing file %1"
@@ -622,6 +634,11 @@ msgstr ""
 msgid "Release of this package. For xml_lang fetched from title tag in xml_lang/TYPE_Info.xml. For translations it is fetched from Project-Id-Version in lang/TYPE_Info.po"
 msgstr ""
 
+#. ($lang)
+#: lib/Publican/Translate.pm:697
+msgid "Remaining hours for %1"
+msgstr ""
+
 #: bin/publican:139
 msgid "Remove all temporary files and directories"
 msgstr ""
@@ -648,11 +665,11 @@ msgid "Run clean ids for source XML"
 msgstr ""
 
 #. ($0)
-#: bin/publican:257
+#: bin/publican:261
 msgid "Run: '%1 <action> --help' for details on action usage"
 msgstr ""
 
-#: bin/publican:406
+#: bin/publican:410
 msgid "Running clean process to ensure stale content is not bundled in packages."
 msgstr ""
 
@@ -758,6 +775,11 @@ msgstr ""
 msgid "This tag set imposes English-language order on glossaries, making them useless when translated."
 msgstr ""
 
+#. ($lang)
+#: lib/Publican/Translate.pm:694
+msgid "Total for %1"
+msgstr ""
+
 #: bin/publican:134
 msgid "Transform XML to other formats (pdf, html, html-single, etc)"
 msgstr ""
@@ -765,6 +787,10 @@ msgstr ""
 #. ($!,$@)
 #: lib/Publican/Builder.pm:721
 msgid "Transformation error '%1' : %2"
+msgstr ""
+
+#: lib/Publican/Translate.pm:646
+msgid "Translated"
 msgstr ""
 
 #: lib/Publican.pm:252
@@ -807,6 +833,10 @@ msgstr ""
 msgid "Unknown width format will be ignored: %1"
 msgstr ""
 
+#: lib/Publican/Translate.pm:644
+msgid "Untranslated"
+msgstr ""
+
 #: bin/publican:185
 msgid "Update the PO files"
 msgstr ""
@@ -833,7 +863,7 @@ msgstr ""
 msgid "Using XML::LibXSLT on %1"
 msgstr ""
 
-#: bin/publican:250
+#: bin/publican:254
 msgid "Valid actions are:"
 msgstr ""
 
@@ -896,7 +926,7 @@ msgstr ""
 msgid "couldn't unlink xml file '%1', error: %2"
 msgstr ""
 
-#: bin/publican:379
+#: bin/publican:383
 msgid "destination must exist"
 msgstr ""
 
@@ -986,6 +1016,10 @@ msgstr ""
 msgid "regex is a required argument"
 msgstr ""
 
+#: bin/publican:197
+msgid "report PO statistics"
+msgstr ""
+
 #: lib/Publican/Builder.pm:1094
 msgid "rpmbuild not found, rpm creation aborted."
 msgstr ""
@@ -1031,6 +1065,7 @@ msgstr ""
 #: lib/Publican/Translate.pm:367
 #: lib/Publican/Translate.pm:427
 #: lib/Publican/Translate.pm:471
+#: lib/Publican/Translate.pm:625
 #: lib/Publican/TreeView.pm:69
 #: lib/Publican/XmlClean.pm:1048
 #: lib/Publican/XmlClean.pm:361
@@ -1058,6 +1093,6 @@ msgstr ""
 msgid "y is a mandatory argument"
 msgstr ""
 
-#: bin/publican:377
+#: bin/publican:381
 msgid "you need to publish the brand first"
 msgstr ""
