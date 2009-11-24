@@ -99,7 +99,10 @@ sub build {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $product = $self->{publican}->param('product');
@@ -132,7 +135,8 @@ sub build {
             and ( $self->validate_xml( { lang => $lang } ) == $INVALID ) )
         {
             logger(
-                maketext( "All build formats will be skipped for language: [_1]",
+                maketext(
+                    "All build formats will be skipped for language: [_1]",
                     $lang )
                     . "\n",
                 RED
@@ -158,7 +162,8 @@ sub build {
                         if ( -d "$tmp_dir/$lang/$format" );
                 }
                 else {
-                    my $path = "publish/$lang/$product/$version/$format/$docname";
+                    my $path
+                        = "publish/$lang/$product/$version/$format/$docname";
 
                     if ( $format eq 'html-desktop' ) {
                         $path = "publish/desktop/$lang";
@@ -210,7 +215,10 @@ sub setup_xml {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     foreach my $lang ( split( /,/, $langs ) ) {
@@ -228,11 +236,14 @@ sub setup_xml {
         if ( $lang eq $xml_lang ) {
             dircopy( $lang, "$tmp_dir/$lang/xml_tmp" );
         }
-        elsif (( $self->{publican}->param('ignored_translations') )
-            && ( $self->{publican}->param('ignored_translations') =~ m/$lang/ ) )
+        elsif ( ( $self->{publican}->param('ignored_translations') )
+            && ($self->{publican}->param('ignored_translations') =~ m/$lang/ )
+            )
         {
             logger(
-                "\t" . maketext( "Bypassing translation for [_1]", $lang ) . "\n",
+                "\t"
+                    . maketext( "Bypassing translation for [_1]", $lang )
+                    . "\n",
                 GREEN
             );
             dircopy( $self->{publican}->param('xml_lang'),
@@ -321,7 +332,8 @@ sub setup_xml {
             ) if ( -e $common_content . "/common/$lang" );
 
             if ( $brand ne 'common' ) {
-                croak("Brand '$brand' can not be located in: $common_content!")
+                croak(
+                    "Brand '$brand' can not be located in: $common_content!")
                     if ( !-d $common_content . "/$brand" );
                 File::Copy::Recursive::rcopy_glob(
                     $common_content . "/$brand/en-US/*",
@@ -377,6 +389,7 @@ sub setup_xml {
         }
         else {
             foreach my $xml_file ( sort(@xml_files) ) {
+                next if ( $xml_file =~ m{/extras/} );
                 my $out_file = $xml_file;
                 $out_file =~ s/xml_tmp/xml/;
 
@@ -405,7 +418,8 @@ sub del_unwanted_dirs {
         rmtree($_)
             || croak(
             maketext(
-                "couldn't remove unwanted dir '[_1]', error: [_2]", $_, $@
+                "couldn't remove unwanted dir '[_1]', error: [_2]",
+                $_, $@
             )
             );
         return;
@@ -423,7 +437,10 @@ sub del_unwanted_xml {
     if ( $_ =~ /\.xml$/ ) {
         unlink($_)
             || croak(
-            maketext( "couldn't unlink xml file '[_1]', error: [_2]", $_, $@ ) );
+            maketext(
+                "couldn't unlink xml file '[_1]', error: [_2]", $_, $@
+            )
+            );
         return;
     }
     return;
@@ -442,7 +459,10 @@ sub validate_xml {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $docname = $self->{publican}->param('docname');
@@ -450,7 +470,8 @@ sub validate_xml {
     if (   ( $self->{publican}->param('ignored_translations') )
         && ( $self->{publican}->param('ignored_translations') =~ m/$lang/ ) )
     {
-        logger( maketext( "Bypassing test for language: [_1]", $lang ) . "\n" );
+        logger(
+            maketext( "Bypassing test for language: [_1]", $lang ) . "\n" );
         return (0);
     }
 
@@ -475,7 +496,8 @@ sub validate_xml {
         my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
             { Delimiter => "\\" } );
         if ( $key and $key->GetValue("dtd_path") ) {
-            $dtd_path = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';
+            $dtd_path
+                = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';
             $dtd_path =~ s/ /%20/g;
             $dtd_path =~ s/\\/\//g;
         }
@@ -509,7 +531,10 @@ sub transform {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $dir;
@@ -568,7 +593,8 @@ sub transform {
         else {
             croak(
                 maketext(
-                    "Required PO file missing. Could not locate [_1].", $po_file
+                    "Required PO file missing. Could not locate [_1].",
+                    $po_file
                 )
             );
         }
@@ -585,7 +611,8 @@ sub transform {
         my $TXT_FILE;
         open( $TXT_FILE, ">:utf8", "txt/$docname.txt" )
             || croak( maketext("Can't open file for text output!") );
-        my $tree = HTML::TreeBuilder->new->parse_file("html-single/index.html");
+        my $tree
+            = HTML::TreeBuilder->new->parse_file("html-single/index.html");
         my $formatter
             = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
         print( $TXT_FILE $formatter->format($tree) );
@@ -621,7 +648,7 @@ sub transform {
 
         $xslt_opts{'doc.url'}  = "'$doc_url'";
         $xslt_opts{'prod.url'} = "'$prod_url'";
-        $xslt_opts{'package'}  = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
         $xslt_opts{'embedtoc'} = $embedtoc;
     }
     elsif ( $format eq 'html-desktop' ) {
@@ -632,8 +659,8 @@ sub transform {
 
         $xslt_opts{'doc.url'}  = "'$doc_url'";
         $xslt_opts{'prod.url'} = "'$prod_url'";
-        $xslt_opts{'package'}  = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
-        $xslt_opts{'desktop'}  = 1;
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'desktop'} = 1;
 
     }
     elsif ( $format eq 'html' ) {
@@ -641,8 +668,8 @@ sub transform {
 
         $xslt_opts{'doc.url'}  = "'$doc_url'";
         $xslt_opts{'prod.url'} = "'$prod_url'";
-        $xslt_opts{'package'}  = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
-        $xslt_opts{'embedtoc'} = $embedtoc;
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'embedtoc'}             = $embedtoc;
         $xslt_opts{'chunk.first.sections'} = $chunk_first;
         $xslt_opts{'chunk.section.depth'}  = $chunk_section_depth;
     }
@@ -659,7 +686,8 @@ sub transform {
     # required for Windows
     $xsl_file =~ s/"//g;
 
-    logger( "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
+    logger(
+        "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
     my $parser = XML::LibXML->new();
     my $xslt   = XML::LibXSLT->new();
     XML::LibXSLT->register_function( 'urn:perl', 'adjustColumnWidths',
@@ -685,8 +713,9 @@ sub transform {
             )
         ) if ($@);
 
-        my $defualt_href = 'http://docbook.sourceforge.net/release/xsl/current';
-        my $key          = new Win32::TieRegistry( "LMachine\\Software\\Publican",
+        my $defualt_href
+            = 'http://docbook.sourceforge.net/release/xsl/current';
+        my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
             { Delimiter => "\\" } );
 
         if ( $key and $key->GetValue("xsl_path") ) {
@@ -770,7 +799,7 @@ sub transform {
             $member = $zip->addFile($file);
         }
 
-        #        my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
+    #        my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
         my $epub_name
             = $self->{publican}->param('product') . '-'
             . $self->{publican}->param('version') . '-'
@@ -779,13 +808,16 @@ sub transform {
         $self->{epub_name} = $epub_name;
         $zip->writeToFileNamed("../$epub_name") == AZ_OK || croak "NOOO";
         logger(
-            maketext( "Wrote epub archive: [_1]", "$tmp_dir/$lang/$epub_name" )
-                . "\n" );
+            maketext( "Wrote epub archive: [_1]",
+                "$tmp_dir/$lang/$epub_name" )
+                . "\n"
+        );
         $dir = undef;
     }
     else {
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images", "$tmp_dir/$lang/$format/images" );
+        dircopy( "$tmp_dir/$lang/xml/images",
+            "$tmp_dir/$lang/$format/images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"
@@ -799,7 +831,8 @@ sub transform {
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
 
         # remove any XML files from common
-        finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" );
+        finddepth( \&del_unwanted_xml,
+            "$tmp_dir/$lang/$format/Common_Content" );
     }
 
     $xslt       = undef;
@@ -833,7 +866,9 @@ sub clean_ids {
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
     foreach my $xml_file ( sort(@xml_files) ) {
-        $cleaner->process_file( { file => $xml_file, out_file => $xml_file } );
+        next if ( $xml_file =~ m{/extras/} );
+        $cleaner->process_file(
+            { file => $xml_file, out_file => $xml_file } );
     }
 
     return;
@@ -873,7 +908,8 @@ sub adjustColumnWidths {
 
     my $table_width = $width->string_value();
 
-    debug_msg("TODO: adjustColumnWidths function is not fully implemented!\n");
+    debug_msg(
+        "TODO: adjustColumnWidths function is not fully implemented!\n");
 
     # XML::LibXML::Document
     my $doc       = $content->get_node(1);
@@ -915,7 +951,8 @@ sub adjustColumnWidths {
         }
         else {
             logger(
-                maketext( "Unknown width format will be ignored: [_1]", $width )
+                maketext( "Unknown width format will be ignored: [_1]",
+                    $width )
                     . "\n",
                 RED
             );
@@ -933,7 +970,8 @@ sub adjustColumnWidths {
         if ( $width =~ m/^(\d+)\*$/ ) {
             $width
                 = floor(
-                ( ( $1 / $total_prop ) * ( $perc_remaining / 100 ) * 100 ) + 0.5 )
+                ( ( $1 / $total_prop ) * ( $perc_remaining / 100 ) * 100 )
+                + 0.5 )
                 . '%';
 
         }
@@ -1023,7 +1061,10 @@ sub package_brand {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $tmp_dir = $self->{publican}->param('tmp_dir');
@@ -1079,7 +1120,10 @@ sub build_rpm {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $tmp_dir = $self->{publican}->param('tmp_dir');
@@ -1088,7 +1132,8 @@ sub build_rpm {
     my $dir = abs_path("$tmp_dir/rpm");
 
     # From cspanspec and Fedora Makefile.common
-    my $rpmbuild = ( -x "/usr/bin/rpmbuild" ? "/usr/bin/rpmbuild" : "/bin/rpm" );
+    my $rpmbuild
+        = ( -x "/usr/bin/rpmbuild" ? "/usr/bin/rpmbuild" : "/bin/rpm" );
 
     unless ( -x $rpmbuild ) {
         logger( maketext("rpmbuild not found, rpm creation aborted.") . "\n",
@@ -1118,8 +1163,8 @@ sub build_rpm {
                 . "\n";
         }
         elsif ( WIFSIGNALED($?) ) {
-            croak maketext( "[_1] died with signal [_2]", $rpmbuild,
-                WTERMSIG($?) )
+            croak maketext( "[_1] died with signal [_2]",
+                $rpmbuild, WTERMSIG($?) )
                 . "\n";
         }
         else {
@@ -1153,7 +1198,10 @@ sub package {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     croak(
@@ -1210,7 +1258,7 @@ sub package {
     $self->{publican}->{config}->param( 'xml_lang', $xml_lang );
     $self->{publican}->{config}->param( 'scm', $tmp_scm ) if ($tmp_scm);
 
-    #    $self->{publican}->{config}->param('books',$tmp_books) if ($tmp_books);
+  #    $self->{publican}->{config}->param('books',$tmp_books) if ($tmp_books);
 
     my $dir = pushd("$tmp_dir/tar");
     my @files = dir_list( $tardir, '*' );
@@ -1253,11 +1301,13 @@ sub package {
         language      => $language,
     );
 
-    logger( "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
+    logger(
+        "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
 
     my $parser = XML::LibXML->new();
     my $xslt   = XML::LibXSLT->new();
-    my $source = $parser->parse_file( "$tmp_dir/$lang/xml/$type" . '_Info.xml' );
+    my $source
+        = $parser->parse_file( "$tmp_dir/$lang/xml/$type" . '_Info.xml' );
     my $style_doc = $parser->parse_file($xsl_file);
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
@@ -1289,11 +1339,11 @@ Generate an RPM style change log from $xml_lang/Revision_History.xml
 sub change_log {
     my ( $self, $args ) = @_;
 
- #    my $lang = delete( $args->{lang} ) || croak("lang is a mandatory argument");
- #
- #    if ( %{$args} ) {
- #        croak "unknown args: " . join( ", ", keys %{$args} );
- #    }
+#    my $lang = delete( $args->{lang} ) || croak("lang is a mandatory argument");
+#
+#    if ( %{$args} ) {
+#        croak "unknown args: " . join( ", ", keys %{$args} );
+#    }
 
     my $xml_lang = $self->{publican}->param('xml_lang');
     my $log      = "";
@@ -1307,7 +1357,8 @@ sub change_log {
         )
     );
 
-    foreach my $revision ( $xml_doc->root()->look_down( "_tag", "revision" ) ) {
+    foreach my $revision ( $xml_doc->root()->look_down( "_tag", "revision" ) )
+    {
 
         my $node = $revision->look_down( '_tag', 'date' ) || croak(
             maketext(
@@ -1317,19 +1368,22 @@ sub change_log {
         my $in_date = $node->as_trimmed_text();
         my $dt      = DateTime::Format::DateParse->parse_datetime($in_date)
             || croak(
-            maketext( "Invalid date: '[_1]' in revision histroy.", $in_date ) );
+            maketext( "Invalid date: '[_1]' in revision histroy.", $in_date )
+            );
         my $date = $dt->strftime("%a %b %e %Y");
 
         $node = $revision->look_down( '_tag', 'firstname' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.", 'firstname'
+                "Missing mandatory field '[_1]' in revision histroy.",
+                'firstname'
             )
         );
         my $firstname = $node->as_trimmed_text();
 
         $node = $revision->look_down( '_tag', 'surname' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.", 'surname'
+                "Missing mandatory field '[_1]' in revision histroy.",
+                'surname'
             )
         );
         my $surname = $node->as_trimmed_text();
@@ -1343,7 +1397,8 @@ sub change_log {
 
         $node = $revision->look_down( '_tag', 'revnumber' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.", 'revnumber'
+                "Missing mandatory field '[_1]' in revision histroy.",
+                'revnumber'
             )
         );
         my $revnumber = $node->as_trimmed_text();
@@ -1353,7 +1408,10 @@ sub change_log {
 
         $revision->look_down( '_tag', 'member' )
             || croak(
-            maketext( "Missing mandatory field '[_1]' in revision.", 'member' ) );
+            maketext(
+                "Missing mandatory field '[_1]' in revision.", 'member'
+            )
+            );
         foreach my $member ( $revision->look_down( '_tag', 'member' ) ) {
             $log .= sprintf( "- %s \n", $member->as_trimmed_text() );
         }
@@ -1399,8 +1457,10 @@ sub get_books {
         );
     my $repo = $self->{publican}->param('repo')
         || croak(
-        maketext("'repo' is a required configuration parameter for a remote set")
-            . "\n" );
+        maketext(
+            "'repo' is a required configuration parameter for a remote set")
+            . "\n"
+        );
 
     foreach my $book ( split( " ", $books ) ) {
         if ( !-d $book ) {
@@ -1452,7 +1512,8 @@ sub build_set_books {
         logger( maketext( "Start building [_1]", $book ) . "\n" );
         my $dir = pushd($book);
 
-        logger( maketext("Running clean_ids to prevent inter-book ID clashes.")
+        logger(
+            maketext("Running clean_ids to prevent inter-book ID clashes.")
                 . "\n" );
 
         if ( system("publican clean_ids") != 0 ) {
@@ -1506,8 +1567,8 @@ TODO: Make XmlClean use this.
 
 sub new_tree {
 
-    my $xml_doc
-        = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     my $empty_element_map = $xml_doc->_empty_element_map;
     $empty_element_map->{'xref'}       = 1;
     $empty_element_map->{'index'}      = 1;
@@ -1541,7 +1602,10 @@ sub dtd_string {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $uri = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
