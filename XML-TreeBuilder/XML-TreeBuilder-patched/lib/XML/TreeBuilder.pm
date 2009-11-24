@@ -40,6 +40,7 @@ sub new {
 
     $self->{'_xml_parser'} = XML::Parser->new(
         'Handlers' => {
+## TODO fails on &#38;lt&#59;
             'Default' => sub {
                 if ( ( $self->{'NoExpand'} ) && ( $_[1] =~ /&.*\;/ ) ) {
                     $stack[-1]->push_content( $_[1] );
