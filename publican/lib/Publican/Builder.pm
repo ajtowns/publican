@@ -693,6 +693,7 @@ sub transform {
     XML::LibXSLT->register_function( 'urn:perl', 'adjustColumnWidths',
         \&adjustColumnWidths );
     XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
+    XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts', \&insertCallouts );
 
     my $security = XML::LibXSLT::Security->new();
     $security->register_callback( create_dir => sub { 1; } );
@@ -899,6 +900,8 @@ HTML input:
 
 "<?xml version=\"1.0\"?>\n<colgroup xmlns=\"http://www.w3.org/1999/xhtml\"><col width=\"1*\"/><col width=\"2*\"/><col width=\"1*\"/><col width=\"3*\"/></colgroup>\n"
 
+Returns: modified input tree which is XHTML or XML:FO
+
 =cut
 
 sub adjustColumnWidths {
@@ -997,6 +1000,8 @@ perl_highlight syntax highlighting
 
 Edit perl_XXX.color in pdf.xsl and .perl_XXX in CSS to change highlight colours
 
+Returns: Modified input tree, which is DocBook XML.
+
 =cut
 
 sub highlight {
@@ -1047,6 +1052,38 @@ sub highlight {
             . "</programlisting>" );
 
     return ( $list->firstChild() );
+}
+
+=head2 insertCallouts
+
+XSLT callout function for inserting Callout Nodes.
+
+Parameters:
+	areaspec: the DocBook areaspec node set
+	verbatim: the XHTML/XML:FO tree to place gfx in
+
+Returns: modified $verbatim
+
+=cut
+
+sub insertCallouts {
+    my $areaspec = shift();
+    my $verbatim = shift();
+
+    debug_msg("TODO: insertCallouts is not implimented! \n");
+
+## TODO Loop through areaspec
+##	foreach area mark it's line number and asign an index number
+##		all area in an areaset get the same index
+##	loop through verbatim and put the gfx on the correct line
+##		lines can have multiple numers
+##		some lines need to be padded
+##		img for XHTML
+##		fo:external-graphic for PDF
+##
+## TODO start with gfx, consider doing other options as requested
+
+    return($verbatim);
 }
 
 =head2 package_brand

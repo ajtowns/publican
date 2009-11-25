@@ -1,19 +1,21 @@
 <?xml version='1.0'?>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
-				xmlns:exsl="http://exslt.org/common"
-				xmlns:xtext="xalan://com.nwalsh.xalan.Text"
-				xmlns:xlink="http://www.w3.org/1999/xlink"
-				xmlns:stext="http://nwalsh.com/xslt/ext/com.nwalsh.saxon.TextFactory"
-				xmlns:simg="http://nwalsh.com/xslt/ext/com.nwalsh.saxon.ImageIntrinsics" 
-				xmlns:ximg="xalan://com.nwalsh.xalan.ImageIntrinsics" 
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:xtext="xalan://com.nwalsh.xalan.Text"
+		xmlns:xlink="http://www.w3.org/1999/xlink"
+		xmlns:stext="http://nwalsh.com/xslt/ext/com.nwalsh.saxon.TextFactory"
+		xmlns:simg="http://nwalsh.com/xslt/ext/com.nwalsh.saxon.ImageIntrinsics" 
+		xmlns:ximg="xalan://com.nwalsh.xalan.ImageIntrinsics" 
                 xmlns:stbl="http://nwalsh.com/xslt/ext/com.nwalsh.saxon.Table"
                 xmlns:xtbl="com.nwalsh.xalan.Table"
                 xmlns:ptbl="http://nwalsh.com/xslt/ext/xsltproc/python/Table"
 		xmlns:perl="urn:perl"
-				version="1.0"
-				exclude-result-prefixes="xlink exsl stext xtext simg ximg"
-				extension-element-prefixes="stext xtext perl ptbl xtbl stbl"
+		xmlns:sverb="http://nwalsh.com/xslt/ext/com.nwalsh.saxon.Verbatim"
+		xmlns:xverb="xalan://com.nwalsh.xalan.Verbatim"
+		version="1.0"
+		exclude-result-prefixes="sverb xverb xlink exsl stext xtext simg ximg"
+		extension-element-prefixes="stext xtext perl ptbl xtbl stbl"
 >
 
 <!-- Admonition Graphics -->
@@ -2283,6 +2285,65 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
       </tbody>
     </xsl:if>
   </table>
+</xsl:template>
+
+<xsl:template match="programlistingco|screenco">
+  <xsl:variable name="verbatim" select="programlisting|screen"/>
+
+  <xsl:choose>
+    <xsl:when test="$use.extensions != '0' and $callouts.extension != '0'">
+      <xsl:variable name="rtf">
+        <xsl:apply-templates select="$verbatim">
+          <xsl:with-param name="suppress-numbers" select="'1'"/>
+        </xsl:apply-templates>
+      </xsl:variable>
+
+      <xsl:variable name="rtf-with-callouts">
+        <xsl:choose>
+          <xsl:when test="function-available('sverb:insertCallouts')">
+            <xsl:copy-of select="sverb:insertCallouts(areaspec,$rtf)"/>
+          </xsl:when>
+          <xsl:when test="function-available('xverb:insertCallouts')">
+            <xsl:copy-of select="xverb:insertCallouts(areaspec,$rtf)"/>
+          </xsl:when>
+          <xsl:when test="function-available('perl:insertCallouts')">
+            <xsl:copy-of select="perl:adjustColumnWidths(areaspec,exsl:node-set($rtf))"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:message terminate="yes">
+              <xsl:text>No insertCallouts function is available.</xsl:text>
+            </xsl:message>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+
+      <xsl:choose>
+        <xsl:when test="$verbatim/@linenumbering = 'numbered'                         and $linenumbering.extension != '0'">
+          <div>
+            <xsl:call-template name="common.html.attributes"/>
+            <xsl:call-template name="number.rtf.lines">
+              <xsl:with-param name="rtf" select="$rtf-with-callouts"/>
+              <xsl:with-param name="pi.context" select="programlisting|screen"/>
+            </xsl:call-template>
+            <xsl:apply-templates select="calloutlist"/>
+          </div>
+        </xsl:when>
+        <xsl:otherwise>
+          <div>
+            <xsl:call-template name="common.html.attributes"/>
+            <xsl:copy-of select="$rtf-with-callouts"/>
+            <xsl:apply-templates select="calloutlist"/>
+          </div>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:when>
+    <xsl:otherwise>
+      <div>
+        <xsl:apply-templates select="." mode="common.html.attributes"/>
+        <xsl:apply-templates/>
+      </div>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

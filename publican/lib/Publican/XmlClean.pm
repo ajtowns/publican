@@ -606,7 +606,7 @@ sub print_xml {
             { xml_doc => $xml_doc, path => ( $1 || './' ) } );
         $text =~ s/&#10;//g;
         $text =~ s/&#9;//g;
-        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
+#        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
         $text =~ s/&#38;/&amp;/g;
         $text =~ s/&amp;#x200B;/&#x200B;/g;
         $text =~ s/&#x200B; &#x200B;/ /g;
@@ -936,11 +936,12 @@ sub my_as_XML {
                                 $node =~ s/^ //g;
                             }
                         }
-
+##debug_msg("node  : $node\n");
                         $tree->_xml_escape($node);
+##debug_msg("node 2: $node\n");
 
-# If my grantparent wants me left aligned do so
-# This used for abstract as white space & long lines cause problems with RPM Spec file
+## If my grantparent wants me left aligned do so
+## This used for abstract as white space & long lines cause problems with RPM Spec file
                         if (   $parent->parent()
                             && $MAP_OUT{ $parent->parent()->{'_tag'} }
                             ->{'line_wrap'} )
@@ -1213,7 +1214,7 @@ No bugs have been reported.
 
 Please report any bugs or feature requests to
 C<publican-list@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican>.
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&#59amp;version=rawhide&amp;component=publican>.
 
 =head1 AUTHOR
 

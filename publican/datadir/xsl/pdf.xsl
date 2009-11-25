@@ -2432,4 +2432,59 @@ Version:1.72
   </fo:block>
 </xsl:template>
 
+<xsl:template match="programlistingco|screenco">
+  <xsl:variable name="verbatim" select="programlisting|screen"/>
+  <xsl:variable name="vendor" select="system-property('xsl:vendor')"/>
+
+  <xsl:choose>
+    <xsl:when test="$use.extensions != '0'
+                    and $callouts.extension != '0'">
+      <xsl:variable name="rtf">
+        <xsl:apply-templates select="$verbatim">
+          <xsl:with-param name="suppress-numbers" select="'1'"/>
+        </xsl:apply-templates>
+      </xsl:variable>
+
+      <xsl:variable name="rtf-with-callouts">
+        <xsl:choose>
+          <xsl:when test="contains($vendor, 'SAXON ')">
+            <xsl:copy-of select="sverb:insertCallouts(areaspec,$rtf)"/>
+          </xsl:when>
+          <xsl:when test="contains($vendor, 'Apache Software Foundation')">
+            <xsl:copy-of select="xverb:insertCallouts(areaspec,$rtf)"/>
+          </xsl:when>
+          <xsl:when test="function-available('perl:insertCallouts')">
+            <xsl:copy-of select="perl:adjustColumnWidths(areaspec,exsl:node-set($rtf))"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:message terminate="yes">
+              <xsl:text>Don't know how to do callouts with </xsl:text>
+              <xsl:value-of select="$vendor"/>
+            </xsl:message>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+
+      <xsl:choose>
+        <xsl:when test="$verbatim/@linenumbering = 'numbered'
+                        and $linenumbering.extension != '0'">
+          <xsl:call-template name="number.rtf.lines">
+            <xsl:with-param name="rtf" select="$rtf-with-callouts"/>
+            <xsl:with-param name="pi.context"
+                            select="programlisting|screen"/>
+          </xsl:call-template>
+          <xsl:apply-templates select="calloutlist"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:copy-of select="$rtf-with-callouts"/>
+          <xsl:apply-templates select="calloutlist"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:apply-templates/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 </xsl:stylesheet>
