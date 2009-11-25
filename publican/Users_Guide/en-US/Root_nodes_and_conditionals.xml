@@ -11,7 +11,7 @@
 &lt;?xml version='1.0' encoding='utf-8' ?&gt;
 &lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]&gt;
-&lt;chapter id="chap-Installation_and_configuration_on_Fedora" CONDITION="Fedora"&gt;
+&lt;chapter id="chap-Installation_and_configuration_on_Fedora" condition="Fedora"&gt;
 &lt;title&gt;Installation and configuration on Fedora&lt;/title&gt;
 
 [text of chapter]
@@ -19,7 +19,7 @@
 &lt;/chapter&gt;
 </programlisting>
 	<para>
-		and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition=Ubuntu</command> set in the <filename>publican.cfg</filename> file.
+		and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: Ubuntu</command> set in the <filename>publican.cfg</filename> file.
 	</para>
 	<para>
 		To exclude this chapter, add a condition to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration_on_Fedora.xml</filename>.

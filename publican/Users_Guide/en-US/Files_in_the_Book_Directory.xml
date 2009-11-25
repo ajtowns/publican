@@ -134,7 +134,7 @@
 &lt;/chapter&gt;
 </programlisting>
 						<para>
-							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition=x86</command> set in the <filename>publican.cfg</filename> file.
+							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
 						</para>
 						<para>
 							To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>.
