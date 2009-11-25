@@ -2454,7 +2454,7 @@ Version:1.72
             <xsl:copy-of select="xverb:insertCallouts(areaspec,$rtf)"/>
           </xsl:when>
           <xsl:when test="function-available('perl:insertCallouts')">
-            <xsl:copy-of select="perl:adjustColumnWidths(areaspec,exsl:node-set($rtf))"/>
+            <xsl:copy-of select="perl:insertCallouts(areaspec,exsl:node-set($rtf))"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:message terminate="yes">

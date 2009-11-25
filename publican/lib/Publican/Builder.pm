@@ -693,7 +693,8 @@ sub transform {
     XML::LibXSLT->register_function( 'urn:perl', 'adjustColumnWidths',
         \&adjustColumnWidths );
     XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
-    XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts', \&insertCallouts );
+    XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts',
+        \&insertCallouts );
 
     my $security = XML::LibXSLT::Security->new();
     $security->register_callback( create_dir => sub { 1; } );
@@ -1056,7 +1057,7 @@ sub highlight {
 
 =head2 insertCallouts
 
-XSLT callout function for inserting Callout Nodes.
+XSLT callout function for inserting Callout markup in to verbatim text.
 
 Parameters:
 	areaspec: the DocBook areaspec node set
@@ -1070,7 +1071,23 @@ sub insertCallouts {
     my $areaspec = shift();
     my $verbatim = shift();
 
-    debug_msg("TODO: insertCallouts is not implimented! \n");
+debug_msg("TODO: insertCallouts is not implimented! \n");
+
+    # XML::LibXML::Document
+    my $doc = $areaspec->get_node(1);
+
+    my $verb      = $verbatim->get_node(1);
+    my $childnode = $verb->firstChild;
+
+debug_msg("TODO: work out FO/XHTML image markup \n");
+
+    # HTML
+    my $tagname = 'img';
+
+    # PDF
+    if ( $childnode->nodeName() eq 'fo:block' ) {
+        $tagname = 'fo:external-graphic';
+    }
 
 ## TODO Loop through areaspec
 ##	foreach area mark it's line number and asign an index number
@@ -1083,7 +1100,57 @@ sub insertCallouts {
 ##
 ## TODO start with gfx, consider doing other options as requested
 
-    return($verbatim);
+# This is a hash of arrays, key is line number, array contains indexes on that line.
+    my %callout;
+
+    my $index = 0;
+
+    # $node is XML::LibXML::Element
+    foreach my $node ( $doc->childNodes() ) {
+        if ( $node->nodeName() eq 'areaset' ) {
+            $index++;
+            foreach my $child ( $node->childNodes() ) {
+                if ( $child->nodeName() eq 'area' ) {
+                    my $col = $child->getAttribute('coords')
+                        || carp(
+                        maketext("'area' require a 'coords' attribute.") );
+                    push( @{ $callout{$col} }, $index );
+                }
+            }
+        }
+        elsif ( $node->nodeName() eq 'area' ) {
+            $index++;
+            my $col = $node->getAttribute('coords')
+                || carp( maketext("'area' require a 'coords' attribute.") );
+            push( @{ $callout{$col} }, $index );
+        }
+    }
+
+    my $in_string  = $childnode->string_value();
+    my $out_string = '';
+    my $count      = 0;
+    my $position   = 60;
+    foreach my $line ( split( /\n/, $in_string ) ) {
+        $count++;
+        chomp($line);
+        $out_string .= $line;
+        if ( defined( $callout{$count} ) ) {
+            my $padding = $position - length($line);
+            $out_string .= " " x $padding;
+            foreach my $index ( sort( { $a <=> $b } @{ $callout{$count} } ) )
+            {
+debug_msg("TODO This should be applying FO/XHTML image markup");
+                $out_string .= "$index ";
+            }
+        }
+
+        $out_string .= "\n";
+    }
+
+debug_msg("TODO This mightnot work once we have gfx nodes in place");
+    my $node = $childnode->firstChild()->setData($out_string);
+
+    return ($verbatim);
 }
 
 =head2 package_brand
