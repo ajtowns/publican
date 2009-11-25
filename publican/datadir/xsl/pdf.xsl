@@ -265,6 +265,7 @@ part nop
 <xsl:param name="callout.graphics.path">
     <xsl:if test="$img.src.path != ''"><xsl:value-of select="$img.src.path"/></xsl:if><xsl:text>Common_Content/images/</xsl:text>
 </xsl:param>
+<xsl:param name="callout.icon.size">10pt</xsl:param>
 
 <!-- Format Variable Lists as Blocks (prevents horizontal overflow). -->
 <xsl:param name="variablelist.as.blocks">1</xsl:param>

@@ -1071,34 +1071,19 @@ sub insertCallouts {
     my $areaspec = shift();
     my $verbatim = shift();
 
-debug_msg("TODO: insertCallouts is not implimented! \n");
-
     # XML::LibXML::Document
     my $doc = $areaspec->get_node(1);
 
     my $verb      = $verbatim->get_node(1);
     my $childnode = $verb->firstChild;
 
-debug_msg("TODO: work out FO/XHTML image markup \n");
-
-    # HTML
-    my $tagname = 'img';
+    my $mode   = 'gfx';
+    my $format = 'HTML';
 
     # PDF
     if ( $childnode->nodeName() eq 'fo:block' ) {
-        $tagname = 'fo:external-graphic';
+        $format = 'PDF';
     }
-
-## TODO Loop through areaspec
-##	foreach area mark it's line number and asign an index number
-##		all area in an areaset get the same index
-##	loop through verbatim and put the gfx on the correct line
-##		lines can have multiple numers
-##		some lines need to be padded
-##		img for XHTML
-##		fo:external-graphic for PDF
-##
-## TODO start with gfx, consider doing other options as requested
 
 # This is a hash of arrays, key is line number, array contains indexes on that line.
     my %callout;
@@ -1126,7 +1111,9 @@ debug_msg("TODO: work out FO/XHTML image markup \n");
         }
     }
 
-    my $in_string  = $childnode->string_value();
+    my $in_string = $childnode->string_value();
+    my $out_node  = XML::LibXML::Element->new( $childnode->nodeName() );
+
     my $out_string = '';
     my $count      = 0;
     my $position   = 60;
@@ -1134,22 +1121,48 @@ debug_msg("TODO: work out FO/XHTML image markup \n");
         $count++;
         chomp($line);
         $out_string .= $line;
+        $out_node->appendText($line);
         if ( defined( $callout{$count} ) ) {
             my $padding = $position - length($line);
             $out_string .= " " x $padding;
+            $out_node->appendText( " " x $padding );
             foreach my $index ( sort( { $a <=> $b } @{ $callout{$count} } ) )
             {
-debug_msg("TODO This should be applying FO/XHTML image markup");
                 $out_string .= "$index ";
+                if ( $mode eq 'gfx' ) {
+                    my $gfx_node;
+
+                    if ( $format eq 'HTML' ) {
+                        $gfx_node = XML::LibXML::Element->new('img');
+                        $gfx_node->setAttribute( 'class',  'callout' );
+                        $gfx_node->setAttribute( 'alt',    $index );
+                        $gfx_node->setAttribute( 'border', '0' );
+                        $gfx_node->setAttribute( 'src',
+                            "Common_Content/images/$index.png" );
+                    }
+                    elsif ( $format eq 'PDF' ) {
+                        $gfx_node = XML::LibXML::Element->new(
+                            'fo:external-graphic');
+                        $gfx_node->setAttribute( 'src',
+                            "url(Common_Content/images/$index.svg)" );
+                        $gfx_node->setAttribute( 'content-width',  '10pt' );
+                        $gfx_node->setAttribute( 'content-height', '10pt' );
+                        $gfx_node->setAttribute( 'content-type',
+                            'content-type:image/svg+xml' );
+                    }
+                    $out_node->appendChild($gfx_node);
+                }
+                else {    # numeric
+                    $out_node->appendText("$index  ");
+                }
             }
         }
 
         $out_string .= "\n";
+        $out_node->appendText("\n");
     }
 
-debug_msg("TODO This mightnot work once we have gfx nodes in place");
-    my $node = $childnode->firstChild()->setData($out_string);
-
+    $childnode->firstChild()->replaceNode($out_node);
     return ($verbatim);
 }
 
