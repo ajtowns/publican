@@ -808,7 +808,7 @@ sub transform {
             . $self->{publican}->param('docname') . '-'
             . "$lang.epub";
         $self->{epub_name} = $epub_name;
-        $zip->writeToFileNamed("../$epub_name") == AZ_OK || croak "NOOO";
+        $zip->writeToFileNamed("../$epub_name") == AZ_OK || croak(maketext("epub creation failed."));
         logger(
             maketext( "Wrote epub archive: [_1]",
                 "$tmp_dir/$lang/$epub_name" )
