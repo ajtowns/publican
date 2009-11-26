@@ -613,6 +613,12 @@ sub po_unformat {
     return $string;
 }
 
+=head2 po_report
+
+Generate translation statistics for the supplied langauge.
+
+=cut
+
 sub po_report {
     my ( $self, $args ) = @_;
 

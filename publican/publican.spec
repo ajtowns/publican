@@ -170,7 +170,7 @@ sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %check
-#./Build test
+./Build test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
