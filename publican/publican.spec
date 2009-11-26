@@ -206,14 +206,14 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed callout rendering. BZ #531686
 - Fix wrong docs for condition usage. BZ #540691
 - Remove list style from stepalternatives. BZ #511404
-- Force step::para to keep-with-next.
+- Force step::para to keep-with-next if followed by an figure.
 
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
 - Fix images missing from distributed set output. BZ #532837
 - Correct image path when running clean_ids.
 - Fix typo in format description. BZ #532379
 - Add comment to clean.
-- force package to run clean to avoid stale content.
+- force package to run clean to avoid stale content. BZ #538676
 
 * Mon Nov 2 2009 Jeff Fearn <jfearn@redhat.com> 1.1-0
 - Fix brew failure. BZ #532383
