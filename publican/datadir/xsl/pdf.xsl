@@ -318,6 +318,11 @@ part nop
                                    local-name()='formalpara']"
               priority="2">
   <fo:block xsl:use-attribute-sets="list.item.spacing">
+    <xsl:if test="ancestor::step and following-sibling::figure">
+      <xsl:attribute name="keep-with-next.within-column">
+        <xsl:text>always</xsl:text>
+      </xsl:attribute>
+    </xsl:if>
     <xsl:call-template name="anchor"/>
     <xsl:apply-templates/>
   </fo:block>
@@ -2486,6 +2491,41 @@ Version:1.72
       <xsl:apply-templates/>
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+
+<xsl:template match="stepalternatives/step">
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <xsl:variable name="keep.together">
+    <xsl:call-template name="pi.dbfo_keep-together"/>
+  </xsl:variable>
+
+  <fo:list-item xsl:use-attribute-sets="list.item.spacing">
+    <xsl:if test="$keep.together != ''">
+      <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                      select="$keep.together"/></xsl:attribute>
+    </xsl:if>
+    <fo:list-item-label end-indent="label-end()">
+      <fo:block id="{$id}">
+        <!--xsl:text>&#x2022;</xsl:text-->
+      </fo:block>
+    </fo:list-item-label>
+    <fo:list-item-body start-indent="body-start()">
+      <xsl:choose>
+        <!-- * work around broken passivetex list-item-body rendering -->
+        <xsl:when test="$passivetex.extensions = '1'">
+          <xsl:apply-templates/>
+        </xsl:when>
+        <xsl:otherwise>
+          <fo:block>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:otherwise>
+      </xsl:choose>
+    </fo:list-item-body>
+  </fo:list-item>
 </xsl:template>
 
 </xsl:stylesheet>
