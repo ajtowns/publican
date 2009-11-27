@@ -3,9 +3,9 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	1.0
-Release:	0%{?dist}.t1
-License:	Open Publication
+Version:	1.1
+Release:	0%{?dist}
+License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Nov 27 2009 Jeff Fearn <jfearn@redhat.com> 1.1
+- update license to CC-BY-SA
+
 * Fri Oct 30 2009 Jeff Fearn <jfearn@redhat.com> 1.0
 - port to publican 1.0.
 
