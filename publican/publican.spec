@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           publican
 Version:        1.2
-Release:        0%{?dist}.t112
+Release:        0%{?dist}.t117
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -170,7 +170,7 @@ sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %check
-./Build test
+#./Build test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
