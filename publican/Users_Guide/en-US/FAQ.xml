@@ -243,6 +243,26 @@
 		<qandaentry>
 			<question>
 				<para>
+					When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what's wrong?
+				</para>
+			</question>
+			<answer>
+				<para>
+					Code highlighting in <application>Publican</application> is generated with the <application>Syntax::Highlight::Engine::Kate</application> Perl module. If you specify a language in a <sgmltag>&lt;programlisting&gt;</sgmltag> tag that <application>Syntax::Highlight::Engine::Kate</application> does not recognize, you  receive an error when you build your book. The first lines of the error message are similar to:
+				</para>
+<screen><computeroutput>undefined language: JAVA at /usr/lib/perl5/vendor_perl/5.10.0/Syntax/Highlight/Engine/Kate.pm line 615.</computeroutput>
+<computeroutput>cannot create plugin for language 'JAVA'</computeroutput></screen>
+				<para>
+					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages. Therefore, <sgmltag>&lt;programlisting language="Java"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language="java"&gt;</sgmltag> and <sgmltag>&lt;programlisting language="JAVA"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
+				</para>
+				<para>
+					Refer to <ulink url="http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS"></ulink> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation.
+				</para>
+			</answer>
+		</qandaentry>
+		<qandaentry>
+			<question>
+				<para>
 					Why does Jeff call Isaac &lsquo;Ivan&rsquo;?
 				</para>
 			</question>

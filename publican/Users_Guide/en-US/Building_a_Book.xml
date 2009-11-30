@@ -46,6 +46,62 @@
 			</para>
 		</step>
 	</procedure>
+
+	<variablelist>
+		<title>Formats for the <command>build</command> action</title>
+		<varlistentry>
+			<term><option>html</option></term>
+			<listitem>
+				<para>
+					<application>Publican</application> outputs the document as in multiple HTML pages, with each chapter and major section on a separate page. <application>Publican</application> places an index at the start of the document, and places navigational elements on each page.
+				</para>
+				<para>
+					Use the <parameter>chunk_first</parameter> and <parameter>chunk_section depth</parameter> parameters in the <filename>publican.cfg</filename> file to control how how <application>Publican</application> chunks sections in this format.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>html-single</option></term>
+			<listitem>
+				<para>
+					<application>Publican</application> outputs the document as a single HTML page with the table of contents near the top of the page.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>html-desktop</option></term>
+			<listitem>
+				<para>
+					<application>Publican</application> outputs the document as a single HTML page with the table of contents located in a separate pane on the left side of the document.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>pdf</option></term>
+			<listitem>
+				<para>
+					<application>Publican</application> outputs the document as a PDF file.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>txt</option></term>
+			<listitem>
+				<para>
+					<application>Publican</application> outputs the document as a single text file.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>epub</option></term>
+			<listitem>
+				<para>
+					<application>Publican</application> outputs the document as an e-book in EPUB format.
+				</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
 	<para>
 		The following examples demonstrate commonly used <command>publican build</command> commands:
 	</para>
