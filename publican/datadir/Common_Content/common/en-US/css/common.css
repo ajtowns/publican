@@ -473,10 +473,6 @@ h3.author {
 	font-weight:bold;
 }
 
-.package {
-	font-style:italic;
-}
-
 /* inline syntax highlighting */
 .perl_Alert {
 	color: #0000ff;
@@ -685,11 +681,8 @@ img {
 	color:#444;
 }
 
-pre, code, .guibutton, .keycap, .guilabel {
+.guibutton, .guilabel {
 	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
-}
-
-.guibutton, .keycap, .guilabel {
 	font-weight:bold;
 	white-space:nowrap;
 }
@@ -703,10 +696,9 @@ pre, code, .guibutton, .keycap, .guilabel {
 
 /*terminal/console text*/
 .computeroutput, 
-.citetitle, 
-.replaceable, 
 .option {
 	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
+	font-weight:bold;
 }
 
 .replaceable {
@@ -739,7 +731,9 @@ pre .keycap {
 }
 
 code {
+	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
 	white-space: nowrap;
+	font-weight:bold;
 }
 
 /*Notifications*/
@@ -1378,7 +1372,7 @@ pre {
 	color:#336699;
 }
 
-.package {
+.package, .citetitle {
 	font-style: italic;
 }
 

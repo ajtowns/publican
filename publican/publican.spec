@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           publican
 Version:        1.2
-Release:        0%{?dist}.t122
+Release:        0%{?dist}.134
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -191,7 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Nov 11 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
+* Wed Dec 02 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
 - Fixed empty params in new book cfg file. BZ #533322
 - Fixed clean_ids taking too long.
@@ -207,6 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix wrong docs for condition usage. BZ #540691
 - Remove list style from stepalternatives. BZ #511404
 - Force step::para to keep-with-next if followed by a figure.
+- Edited Conventions.xml.
 
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
 - Fix images missing from distributed set output. BZ #532837
