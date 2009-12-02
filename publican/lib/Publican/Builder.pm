@@ -271,6 +271,10 @@ sub setup_xml {
                 my $out_file = $xml_file;
                 $out_file =~ s/$xml_lang//;
 
+                $out_file =~ m|^(.*)/[^/]+$|;
+                my $path = ($1 || undef);
+                mkpath("$tmp_dir/$lang/xml_tmp/$path") if ( $path && !-d $path );
+
                 if ( !-f $po_file ) {
                     logger(
                         "\t"
