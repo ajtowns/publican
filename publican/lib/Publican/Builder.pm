@@ -165,9 +165,15 @@ sub build {
                     my $path
                         = "publish/$lang/$product/$version/$format/$docname";
 
+                    # The basic layout is for the web system
+                    # but these formats are used differently
                     if ( $format eq 'html-desktop' ) {
                         $path = "publish/desktop/$lang";
                     }
+                    elsif ($format eq 'xml' ) {
+                        $path = "publish/xml/$lang";
+                    }
+
 
                     mkpath($path);
                     if ( $format eq 'epub' ) {
