@@ -1458,11 +1458,11 @@ From: fo/nline.xsl
 Reason: Italicise package name
 Version:1.72
 -->
-<xsl:template match="package">
+<xsl:template match="package|citetitle">
   <xsl:call-template name="inline.italicseq"/>
 </xsl:template>
 
-<xsl:template match="command|filename|keycap|classname|literal">
+<xsl:template match="command|filename|keycap|classname|literal|computeroutput|option|code">
   <xsl:call-template name="inline.boldmonoseq"/>
 </xsl:template>
 
