@@ -14,7 +14,7 @@
 # TODO after beta revert to lower case name
 Name:           publican
 Version:        1.2
-Release:        0%{?dist}.134
+Release:        0%{?dist}.136
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -208,6 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 - Remove list style from stepalternatives. BZ #511404
 - Force step::para to keep-with-next if followed by a figure.
 - Edited Conventions.xml.
+- Exclude Legal_Notic.xml from pot creation.
 
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
 - Fix images missing from distributed set output. BZ #532837

@@ -82,6 +82,7 @@ sub update_pot {
     my @xml_files = dir_list( $xml_lang, '*.xml' );
     foreach my $xml_file ( sort(@xml_files) ) {
         next if ( $xml_file =~ m|$xml_lang/extras/| );
+        next if ( $xml_file =~ m|$xml_lang/Legal_Notice.xml| );
         logger( "\t" . maketext( "Processing file [_1]", $xml_file ) . "\n" );
         my $pot_file = $xml_file;
         $pot_file =~ s/\.xml/\.pot/;
