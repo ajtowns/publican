@@ -71,20 +71,20 @@ SectionEnd
 SectionGroup "Brands" SecBrands
 Section "RedHat" SecBrandRedHat
   SetOutPath "$INSTDIR\Common_Content\RedHat"
-  file /r ..\..\publican-redhat\*
+  file /r /x .svn ..\..\publican-redhat\*
   
 SectionEnd
 Section "JBoss" SecBrandJBoss
 
   SetOutPath "$INSTDIR\Common_Content\JBoss"
-  file /r ..\..\publican-jboss\*
+  file /r /x .svn ..\..\publican-jboss\*
 
 SectionEnd
 
 Section "fedora" SecBrandfedora
 
   SetOutPath "$INSTDIR\Common_Content\fedora"
-  file /r ..\..\publican-fedora\*
+  file /r /x .svn ..\..\publican-fedora\*
 
 SectionEnd
 SectionGroupEnd
