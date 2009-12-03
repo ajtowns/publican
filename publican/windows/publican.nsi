@@ -11,7 +11,7 @@
 
   ;Name and file
   Name "Publican"
-  OutFile "Publican-Installer.exe"
+  OutFile "Publican-Installer-1.3.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Publican"
