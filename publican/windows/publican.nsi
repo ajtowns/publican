@@ -117,8 +117,8 @@ SectionGroupEnd
   LangString DESC_SecDocBookXSL ${LANG_ENGLISH} "The DocBook XSL."
   LangString DESC_SecBrands ${LANG_ENGLISH} "Some Publican Brands."
   LangString DESC_SecBrandRedHat ${LANG_ENGLISH} "The Red Hat Brand."
-  LangString DESC_SecBrandJBoss ${LANG_ENGLISH} "The JBoss Brans"
-  LangString DESC_SecBrandfedora ${LANG_ENGLISH} "The fedora Brans"
+  LangString DESC_SecBrandJBoss ${LANG_ENGLISH} "The JBoss Brand"
+  LangString DESC_SecBrandfedora ${LANG_ENGLISH} "The fedora Brand"
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
