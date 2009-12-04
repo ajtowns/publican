@@ -1056,13 +1056,18 @@ sub highlight {
 
     my $parser = XML::LibXML->new();
     $parser->expand_entities(0);
+    my $out_string = $hl->highlightText( $content->string_value() );
 
-    my $list
-        = $parser->parse_string( "<programlisting>"
-            . $hl->highlightText( $content->string_value() )
-            . "</programlisting>" );
+    # this gives an XML::LibXML::DocumentFragment
+    my $list = $parser->parse_balanced_chunk( $out_string );
+    # remove the input node
+    $content->shift;
+    # append the marked-up nodes
+    foreach my $node ( $list->childNodes() ) {
+         $content->push($node);
+    }
 
-    return ( $list->firstChild() );
+    return ( $content );
 }
 
 =head2 insertCallouts
