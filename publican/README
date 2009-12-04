@@ -6,6 +6,10 @@ Q: What actions are their?
 
 A: publican --help
 
+Q: How do I update the POT files for translation?
+
+A: publican update_pot
+
 Q: How do I add a language?
 
 A: publican update_po --langs=<xx-YY>
@@ -20,7 +24,6 @@ Q: What Book specific options can I use?
 
 A: publican --help_config
 
-
 Q: Where are the common files located?
 
 A: By default they are in /usr/share/publican
@@ -33,7 +36,7 @@ Get the source: svn co http://svn.fedorahosted.org/svn/publican/trunk/publican
 
 Perl
     cd publican
-    TODO: deps
+TODO: deps
     perl Build.PL
     ./Build
     ./Build test
@@ -41,21 +44,25 @@ Perl
 
 RHEL/Fedora
     cd publican
-    TODO: deps
+TODO: deps
     perl Build.PL
     ./Build rpm
 
 Debian
+    The publican package deb files are in the debain package repo
+    http://packages.debian.org/search?keywords=publican
     cd publican
-    TODO: deps
+TODO: deps
+    ./Build dist
+TODO: put the tgz where?
     debuild
 
 Windows
     Install Perl http://www.activestate.com/activeperl/
-    TODO: deps
+TODO: deps
     Install NSIS http://nsis.sourceforge.net/Download
     Install http://nsis.sourceforge.net/Environmental_Variables:_append,_prepend,_and_remove_entries
-    TODO: Detail where that goes
+TODO: Detail where that goes
     Download the DocBook DTD and expand it to the same dir publican is in
     Download the DocBook XSL and expand it to the same dir publican is in
     cd publican
@@ -70,22 +77,27 @@ Windows
     XML-TreeBuilder patch
     Image::Magick <--- how to get this *&^*% working?
     
-vcvars32.bat
+TODO: detail building xml2
 
-perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
-nmake
-copy D:\Data\temp\Redhat\xml2\bin\*.dll blib\arch\auto\XML\LibXML
-nmake test
-nmake install
+TODO: Complete deatils on uilding required LibXML and LibXSLT modules
 
-perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
-nmake
-copy D:\Data\temp\Redhat\xml2\libxslt-1.1.24.win32\bin\*.dll blib\arch\auto\XML\LibXSLT
-nmake test
-nmake install
+    vcvars32.bat
+
+    perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
+    nmake
+    copy D:\Data\temp\Redhat\xml2\bin\*.dll blib\arch\auto\XML\LibXML
+    nmake test
+    nmake install
+
+    perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
+    nmake
+    copy D:\Data\temp\Redhat\xml2\libxslt-1.1.24.win32\bin\*.dll blib\arch\auto\XML\LibXSLT
+    nmake test
+    nmake install
 
     
-TODO
-wget http://www.iana.org/assignments/language-subtag-registry
+TODO: what about a real list of valid langauges?
 
-$ grep -A 1 -B 0 -P '^Type: (language|redundant)' language-subtag-registry | grep -P '^(Subtag|Tag)' | perl -p -e 's/^(Subtag|Tag):\s*//gi' | wc -l
+	wget http://www.iana.org/assignments/language-subtag-registry
+
+	grep -A 1 -B 0 -P '^Type: (language|redundant)' language-subtag-registry | grep -P '^(Subtag|Tag)' | perl -p -e 's/^(Subtag|Tag):\s*//gi' | wc -l

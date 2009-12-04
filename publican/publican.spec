@@ -1,9 +1,8 @@
 
 # Track font name changes
-%define RHEL5 %(test "%{?dist}" == ".el5"  && echo 1 || echo 0)
-%define FC10  %(test "%{?dist}" == ".fc10" && echo 1 || echo 0)
-# Assume not rhel and not FC10 means FC11+
-%define OTHER %(test "%{RHEL5}" == "0" -a "%{FC10}" == "0" && echo 1 || echo 0)
+%define RHEL5 %(test "%{?dist}" == ".el5" && echo 1 || echo 0)
+# Assume not rhel means FC11+
+%define OTHER %(test "%{RHEL5}" == "0" && echo 1 || echo 0)
 
 # who doesn't have xdg-open?
 %define HTMLVIEW %(test "%{RHEL5}" == "1" && echo 1 || echo 0)
@@ -11,10 +10,9 @@
 # required for desktop file install
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
 
-# TODO after beta revert to lower case name
 Name:           publican
 Version:        1.2
-Release:        0%{?dist}.147
+Release:        0%{?dist}.149
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -85,17 +83,6 @@ BuildRequires:  fonts-hindi fonts-japanese fonts-kannada fonts-korean
 BuildRequires:  fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
 BuildRequires:  fonts-tamil fonts-telugu liberation-fonts
 %endif
-%if %{FC10}
-Requires:       lohit-fonts-bengali cjkunifonts-uming lohit-fonts-gujarati
-Requires:       lohit-fonts-hindi sazanami-fonts-gothic sazanami-fonts-mincho lohit-fonts-kannada
-Requires:       lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
-Requires:       lohit-fonts-tamil lohit-fonts-telugu liberation-fonts baekmuk-ttf-fonts-batang
-
-BuildRequires:  lohit-fonts-bengali cjkunifonts-uming lohit-fonts-gujarati
-BuildRequires:  lohit-fonts-hindi sazanami-fonts-gothic sazanami-fonts-mincho lohit-fonts-kannada
-BuildRequires:  lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi lklug-fonts
-BuildRequires:  lohit-fonts-tamil lohit-fonts-telugu liberation-fonts baekmuk-ttf-fonts-batang
-%endif
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts  sazanami-gothic-fonts sazanami-mincho-fonts
@@ -118,7 +105,7 @@ BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 #BuildRequires:  lohit-fonts-tamil lohit-fonts-telugu
 %endif
 
-Obsoletes:        Publican < 1.0
+Obsoletes:      Publican < 1.0
 
 %description
 Publican is a DocBook publication system, not just a DocBook processing tool.
@@ -133,7 +120,7 @@ Requires:       htmlview
 %else
 Requires:       xdg-utils
 %endif
-Obsoletes:        Publican-doc < 1.0
+Obsoletes:      Publican-doc < 1.0
 
 %description doc
 Publican is a tool for publishing material authored in DocBook XML.

@@ -67,8 +67,7 @@ my %PARAM_OLD = (
 );
 
 # All the valid fields in the publican.cfg file
-# TODO Consider adding field for validation
-# TODO Override common_content and common_config for Windows
+# constraint: a regex to validate the content
 my %PARAMS = (
 
     arch => {
@@ -649,66 +648,6 @@ sub help_config {
     return;
 }
 
-=head2 validate_params
-
-TODO Ensure all parameters are the correct format for usage.
-
-=cut
-
-sub validate_params {
-    my ( $self, $role ) = @_;
-
-    # HOLDER
-    # DOCNAME
-    # PRODUCT
-    # PROD_VERSION
-    # RPM_VERSION
-    # RPM_RELEASE
-    # ${L}_RPM_RELEASE
-    # BRAND
-    # ENTITY == Check should be moved to xmlClean
-    #
-    # STRICT
-    # LICENSE
-    # BRAND_MAKE
-    # EXTRA_DIRS_C
-    # OTHER_LANGS_C
-    # COMMON_CONTENT
-    # XML_LANG
-    # XMLFILE
-    # DOC_TYPE
-    # CONFIDENTIAL
-    # BREW_DIST
-    # WEB_BREW_DIST
-    # EXTRA_DIRS
-    # XSLTPROC
-    # TRANSLATIONS
-    # IGNORED_TRANSLATIONS
-    # BOOKNAME
-    #
-    # TOC_SECTION_DEPTH
-    # GENERATE_SECTION_TOC_LEVEL
-    # CHUNK_SECTION_DEPTH
-    # CHUNK_FIRST
-    # SHOW_REMARKS
-    # EMBEDTOC
-    # PROD_URL
-    # DOC_URL
-    # DESKTOP
-    # XMLCLEAN
-    # OS_VER
-    # LC_BRAND
-    # CLASSPATH
-    # XSLTHL
-    # XALAN
-    # USE_XALAN
-    # USE_SAXON
-    # SAXON
-    # ASPELL_EXCLUDES
-    #
-    return;
-}
-
 =head2 dir_list
 
 list all the files in a director, and it's subdirectories, matching the suplied regex.
@@ -930,8 +869,6 @@ Could not create a Publican::Localise object
 =head1 CONFIGURATION AND ENVIRONMENT
 
 Publican requires no configuration files or environment variables.
-
-TODO Consider adding a config to control paths etc.
 
 =head1 DEPENDENCIES
 

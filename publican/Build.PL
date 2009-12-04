@@ -83,7 +83,6 @@ my $class = Module::Build->subclass(
   }
 );
 
-# TODO validate requires are complete
 my $builder = $class->new(
     module_name       => 'Publican',
     dist_name         => 'Publican',

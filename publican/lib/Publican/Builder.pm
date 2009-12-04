@@ -854,7 +854,8 @@ sub transform {
     $parser     = undef;
 
     # TODO BUGBUG freeing $results goes BOOM on windows
-    #$results = undef;
+# TODO requires testing since the other crashbug is resolved
+    $results = undef;
 
     return;
 }
@@ -1315,7 +1316,7 @@ Create the structure for the distributed files and save it as a tar.gz file
 
 Creates RPM Specfile and build SRPM.
 
-TODO: Handle othe package formats, deb etc.
+TODO: Consider handling othe package formats, deb etc.
 
 =cut
 
@@ -1718,9 +1719,10 @@ sub new_tree {
 
 Returns a valid DTD for the DocBook tag supplied.
 
-TODO: Add a param for controlling adding .ent file.
-
-TODO: Make XmlClean use this.
+Parameters:
+	tag	 The root tag for this file
+	dtdver	 The DTD version
+	ent_file An entity file to include (optional)
 
 =cut
 
@@ -1767,7 +1769,7 @@ sub dtd_string {
 <!DOCTYPE $tag PUBLIC "-//OASIS//DTD DocBook XML V$dtdver//EN" "$uri" [
 DTD
 
-    #TODO handle entity file
+    # handle entity file
     if ($ent_file) {
         $dtd .= <<ENT;
 <!ENTITY % BOOK_ENTITIES SYSTEM "$ent_file">
