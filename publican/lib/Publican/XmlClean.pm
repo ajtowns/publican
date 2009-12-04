@@ -243,6 +243,9 @@ my %MAP_OUT = (
     'chapterinfo'   => { 'block' => 1 },
     'keywordset'    => { 'block' => 1 },
     'keyword'       => { 'newline_after' => 1 },
+    'subjectset'    => { 'block' => 1 },
+    'subject'       => { 'block' => 1 },
+    'subjectterm'   => { 'newline_after' => 1 },
 );
 
 my %BANNED_TAGS = (
