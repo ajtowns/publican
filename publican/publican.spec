@@ -198,6 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 - Exclude Legal_Notice.xml from pot creation.
 - Fix nested XML breaking translations.
 - Fix syntax highlighting adding whitespace. BZ #544141
+- Better error message for Kate language mismatch.
 
 * Wed Nov 4 2009 Jeff Fearn <jfearn@redhat.com> 1.2-0
 - Fix images missing from distributed set output. BZ #532837

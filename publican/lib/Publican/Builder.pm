@@ -1030,7 +1030,6 @@ sub highlight {
             ">" => "&gt;",
             "&" => "&amp;",
         },
-        language     => $language,
         format_table => {
             Alert        => [ "<perl_Alert>",        "</perl_Alert>" ],
             BaseN        => [ "<perl_BaseN>",        "</perl_BaseN>" ],
@@ -1054,6 +1053,9 @@ sub highlight {
             Warning      => [ "<perl_Warning>",      "</perl_Warning>" ],
         },
     );
+
+    my $tmp = $hl->languagePlug($language) || croak("\n\t" . maketext("'[_1]' is not a valid language for highlighting. Language names are case sensitive.", $language) . "\n");
+    $hl->language($language);
 
     my $parser = XML::LibXML->new();
     $parser->expand_entities(0);
