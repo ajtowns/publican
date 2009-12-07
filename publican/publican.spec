@@ -11,8 +11,8 @@
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
 
 Name:           publican
-Version:        1.2
-Release:        0%{?dist}.161
+Version:        1.3
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -178,7 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Dec 02 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
+* Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
 - Fixed empty params in new book cfg file. BZ #533322
 - Fixed clean_ids taking too long.
