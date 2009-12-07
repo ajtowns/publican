@@ -410,6 +410,7 @@ sub _load_config {
         $self->{config}->param( 'edition', $edition );
 
         my $path = $self->{config}->param('common_content') . "/$brand";
+        $path =~ s/\"//g;
 
         # Override publican defaults with brand defaults
         if ( -f "$path/defaults.cfg" ) {
@@ -535,19 +536,9 @@ sub new {
                 $common_content = "$common_config/Common_Content" if(!$common_content);
             }
 
-            $common_config = qq{"$common_config"};
-            $common_content = qq{"$common_content"};
+            $common_config = qq{"$common_config"} if($common_config);
+            $common_content = qq{"$common_content"} if($common_content);
         }
-#        my $localise = Publican::Localise->get_handle()
-#            || croak("Could not create a Publican::Localise object");
-#        $localise->encoding("UTF-8");
-
-#        $localise->bindtextdomain( "publican", "locale" );
-#        print(STDERR "LOCALEDIR: " . $localise->bindtextdomain( "publican", "/localhome/jfearn/Build/src/fedora/publican/trunk/Publican/po" ) . "\n");
-
-#        $localise->textdomain("publican");
-#        $localise->reload_text();
-#        $self->{localise} = $localise;
 
         $self->_load_config(
             {   configfile     => $configfile,

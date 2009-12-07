@@ -12,6 +12,7 @@
   ;Name and file
   Name "Publican"
   OutFile "Publican-Installer-1.3.exe"
+  !insertmacro MUI_DEFAULT MUI_ICON "publican.ico"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Publican"
@@ -90,13 +91,17 @@ SectionGroup "Brands" SecBrands
 Section "RedHat" SecBrandRedHat
   SetOutPath "$INSTDIR\Common_Content"
   file /r ..\..\publican-redhat\publish\*
-  
+  SetOutPath "$INSTDIR\Common_Content\RedHat"
+  file /r ..\..\publican-redhat\publican.cfg
+
 SectionEnd
 
 Section "fedora" SecBrandfedora
 
   SetOutPath "$INSTDIR\Common_Content"
   file /r ..\..\publican-fedora\publish\*
+  SetOutPath "$INSTDIR\Common_Content\fedora"
+  file /r ..\..\publican-fedora\publican.cfg
 
 SectionEnd
 
@@ -104,6 +109,8 @@ Section "JBoss" SecBrandJBoss
 
   SetOutPath "$INSTDIR\Common_Content"
   file /r ..\..\publican-jboss\publish\*
+  SetOutPath "$INSTDIR\Common_Content\jboss"
+  file /r ..\..\publican-jboss\publican.cfg
 
 SectionEnd
 
@@ -111,6 +118,8 @@ Section "JBoss Community" SecBrandJBossCom
 
   SetOutPath "$INSTDIR\Common_Content"
   file /r ..\..\publican-jboss-community\publish\*
+  SetOutPath "$INSTDIR\Common_Content\jboss-community"
+  file /r ..\..\publican-jboss-community\publican.cfg
 
 SectionEnd
 
@@ -118,6 +127,8 @@ Section "JBoss Hibernate Community" SecBrandJBossHib
 
   SetOutPath "$INSTDIR\Common_Content"
   file /r ..\..\publican-jboss-community-hibernate\publish\*
+  SetOutPath "$INSTDIR\Common_Content\jboss-community-hibernate"
+  file /r ..\..\publican-jboss-community-hibernate\publican.cfg
 
 SectionEnd
 
@@ -125,15 +136,10 @@ Section "GIMP" SecBrandGIMP
 
   SetOutPath "$INSTDIR\Common_Content"
   file /r ..\..\publican-gimp\publish\*
+  SetOutPath "$INSTDIR\Common_Content\GIMP"
+  file /r ..\..\publican-gimp\publican.cfg
 
 SectionEnd
-Section "" SecBrand
-
-  SetOutPath "$INSTDIR\Common_Content\fedora"
-  file /r ..\..\publican-fedora\publish\*
-
-SectionEnd
-
 
 SectionGroupEnd
 
@@ -185,7 +191,19 @@ SectionGroupEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandJBossHib} $(DESC_SecBrandJBossHib)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandGIMP} $(DESC_SecBrandGIMP)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
- 
+
+
+Section /o "Start Menu Group"
+	SectionIn		1
+	SetOutPath		"$INSTDIR\Users_Guide"
+#    file /r ..\Users_Guide\tmp\html-desktop\*
+
+	CreateDirectory "$SMPROGRAMS\Publican"
+
+	CreateShortCut	"$SMPROGRAMS\Publican\Uninstall Publican.lnk" "$INSTDIR\uninstall.exe"
+#	CreateShortCut	"$SMPROGRAMS\Publican Documentation.lnk" "$INSTDIR\Users_Guide\index.html"
+SectionEnd
+
 ;--------------------------------
 ;Uninstaller Section
 
@@ -194,6 +212,7 @@ Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
 
   RMDir /r "$INSTDIR"
+  RmDir /r "$SMPROGRAMS\Publican"
 
   DeleteRegKey HKLM  "Software\Publican"
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR

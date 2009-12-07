@@ -15,15 +15,23 @@ my $publican = abs_path('blib/script/publican');
 my $lib = abs_path('blib/lib');
 my $dir;
 
-
+#$dir = pushd("Users_Guide");
+#system(qq{perl -I $lib $publican clean --common_config="$common_config" --common_content="$common_content"});
+#system(qq{perl -I $lib $publican build --formats=html-desktop --langs=en-US --common_config="$common_config" --#common_content="$common_content"});
+#$dir = undef;
+	
 foreach my $brand (@brands) {
+	print("\nPreparing $brand\n");
 	$dir = pushd("../$brand");
+	system(qq{perl -I $lib $publican clean --common_config="$common_config" --common_content="$common_content"});
 	system(qq{perl -I $lib $publican build --formats=xml --langs=all --publish --common_config="$common_config" --common_content="$common_content"});
 	$dir = undef;              
 }
 
 $dir = pushd('windows');
+print("\nRunning pp\n");
 system('pp @pp-opts ..\bin\publican -vv 1>2> pp.log');
+print("\nRunning NSIS\n");
 system('"C:\Program Files\NSIS\makensis.exe" publican.nsi');
 $dir = undef;
 
