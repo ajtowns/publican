@@ -22,6 +22,8 @@
   ;Request application privileges for Windows Vista
   RequestExecutionLevel admin
 
+  AutoCloseWindow true
+
 ;--------------------------------
 ;Interface Configuration
 
@@ -34,6 +36,7 @@
 ;Pages
 
   !insertmacro MUI_PAGE_LICENSE "..\COPYING"
+  !insertmacro MUI_PAGE_LICENSE "..\CC0"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
@@ -47,10 +50,14 @@
   !insertmacro MUI_LANGUAGE "English"
 
 ;--------------------------------
+
+!define REG_UNINSTALL "Software\Microsoft\Windows\CurrentVersion\Uninstall\Publican"
+
+;--------------------------------
 ;Installer Sections
 
-Section "Main" SecMain
-
+Section "Publican" SecMain
+  SectionIn RO
   SetOutPath "$INSTDIR"
   
   file /r ..\blib\datadir\*
@@ -64,29 +71,68 @@ Section "Main" SecMain
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
+  WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayName" "Publican"
+  WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayVersion" "1.3"
+  WriteRegStr HKLM "${REG_UNINSTALL}" "Publisher" "Team Publican"
+  WriteRegStr HKLM "${REG_UNINSTALL}" "InstallSource" "$EXEDIR\"
+  WriteRegDWord HKLM "${REG_UNINSTALL}" "NoModify" 0
+  WriteRegDWord HKLM "${REG_UNINSTALL}" "NoRepair" 0
+  WriteRegStr HKLM "${REG_UNINSTALL}" "UninstallString" '"$INSTDIR\Uninstall.exe"'
+
   ; Hide first run IO error
-  nsExec::Exec "$INSTDIR\publican.exe"
+  ; TODO doesn't work :(
+  nsExec::Exec "$INSTDIR\publican.exe -v"
 SectionEnd
 
 SectionGroup "Brands" SecBrands
 Section "RedHat" SecBrandRedHat
-  SetOutPath "$INSTDIR\Common_Content\RedHat"
-  file /r /x .svn ..\..\publican-redhat\*
+  SetOutPath "$INSTDIR\Common_Content"
+  file /r ..\..\publican-redhat\publish\*
   
-SectionEnd
-Section "JBoss" SecBrandJBoss
-
-  SetOutPath "$INSTDIR\Common_Content\JBoss"
-  file /r /x .svn ..\..\publican-jboss\*
-
 SectionEnd
 
 Section "fedora" SecBrandfedora
 
-  SetOutPath "$INSTDIR\Common_Content\fedora"
-  file /r /x .svn ..\..\publican-fedora\*
+  SetOutPath "$INSTDIR\Common_Content"
+  file /r ..\..\publican-fedora\publish\*
 
 SectionEnd
+
+Section "JBoss" SecBrandJBoss
+
+  SetOutPath "$INSTDIR\Common_Content"
+  file /r ..\..\publican-jboss\publish\*
+
+SectionEnd
+
+Section "JBoss Community" SecBrandJBossCom
+
+  SetOutPath "$INSTDIR\Common_Content"
+  file /r ..\..\publican-jboss-community\publish\*
+
+SectionEnd
+
+Section "JBoss Hibernate Community" SecBrandJBossHib
+
+  SetOutPath "$INSTDIR\Common_Content"
+  file /r ..\..\publican-jboss-community-hibernate\publish\*
+
+SectionEnd
+
+Section "GIMP" SecBrandGIMP
+
+  SetOutPath "$INSTDIR\Common_Content"
+  file /r ..\..\publican-gimp\publish\*
+
+SectionEnd
+Section "" SecBrand
+
+  SetOutPath "$INSTDIR\Common_Content\fedora"
+  file /r ..\..\publican-fedora\publish\*
+
+SectionEnd
+
+
 SectionGroupEnd
 
 SectionGroup "DocBook" SecDocBook
@@ -94,7 +140,7 @@ Section "DTD" SecDocBookDTD
 
   SetOutPath "$INSTDIR\DocBook_DTD"
   
-  file /r ..\..\..\DTD\*
+  file /r ..\..\..\..\DTD\*
   WriteRegStr HKLM  "Software\Publican" "dtd_path" "$INSTDIR\DocBook_DTD"
 
 SectionEnd
@@ -102,7 +148,7 @@ Section "XSL" SecDocBookXSL
 
   SetOutPath "$INSTDIR\DocBook_XSL"
   
-  file /r ..\..\..\docbook-xsl-1.74.3\*
+  file /r ..\..\..\..\docbook-xsl-1.75.2\*
   WriteRegStr HKLM  "Software\Publican" "xsl_path" "$INSTDIR\DocBook_XSL"
 SectionEnd
 SectionGroupEnd
@@ -111,14 +157,17 @@ SectionGroupEnd
 ;Descriptions
 
   ;Language strings
-  LangString DESC_SecMain ${LANG_ENGLISH} "The Publican program."
+  LangString DESC_SecMain ${LANG_ENGLISH} "The Publican program"
   LangString DESC_SecDocBook ${LANG_ENGLISH} "Speed things up by including local DTD and XSL"
-  LangString DESC_SecDocBookDTD ${LANG_ENGLISH} "The DocBook DTD."
-  LangString DESC_SecDocBookXSL ${LANG_ENGLISH} "The DocBook XSL."
-  LangString DESC_SecBrands ${LANG_ENGLISH} "Some Publican Brands."
-  LangString DESC_SecBrandRedHat ${LANG_ENGLISH} "The Red Hat Brand."
+  LangString DESC_SecDocBookDTD ${LANG_ENGLISH} "DocBook XML DTD V4.5"
+  LangString DESC_SecDocBookXSL ${LANG_ENGLISH} "DocBook XSL Stylesheets V1.75.2"
+  LangString DESC_SecBrands ${LANG_ENGLISH} "Some Publican Brands"
+  LangString DESC_SecBrandRedHat ${LANG_ENGLISH} "The Red Hat Brand"
   LangString DESC_SecBrandJBoss ${LANG_ENGLISH} "The JBoss Brand"
   LangString DESC_SecBrandfedora ${LANG_ENGLISH} "The fedora Brand"
+  LangString DESC_SecBrandJBossCom ${LANG_ENGLISH} "The JBoss.org Brand"
+  LangString DESC_SecBrandJBossHib ${LANG_ENGLISH} "The JBoss.org Hibernate Brand"
+  LangString DESC_SecBrandGIMP ${LANG_ENGLISH} "The GIMP Brand"
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
@@ -130,6 +179,9 @@ SectionGroupEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandRedHat} $(DESC_SecBrandRedHat)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandJBoss} $(DESC_SecBrandJBoss)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandfedora} $(DESC_SecBrandfedora)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandJBossCom} $(DESC_SecBrandJBossCom)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandJBossHib} $(DESC_SecBrandJBossHib)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandGIMP} $(DESC_SecBrandGIMP)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
  
 ;--------------------------------
@@ -143,5 +195,5 @@ Section "Uninstall"
 
   DeleteRegKey HKLM  "Software\Publican"
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
-  
+  DeleteRegKey HKLM "${REG_UNINSTALL}"
 SectionEnd

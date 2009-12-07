@@ -8,7 +8,9 @@ use Config::Simple;
 use File::Path;
 use File::pushd;
 use DateTime;
+if ( $^O ne 'MSWin32' ) {
 use Image::Magick;
+}
 use Publican;
 use Publican::Builder;
 use Term::ANSIColor qw(:constants uncolor);

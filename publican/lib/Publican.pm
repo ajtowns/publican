@@ -439,6 +439,11 @@ sub _load_config {
             }
         }
 
+        # Brand Settings
+        my $brand_cfg = new Config::Simple("$path/publican.cfg")
+                || croak( maketext("Failed to load brand file: [_1]", "$path/publican.cfg") );
+
+        $self->{brand_config} = $brand_cfg;
     }
     $DEBUG = $self->{config}->param('debug') if ( !$DEBUG );
 
@@ -532,7 +537,6 @@ sub new {
 
             $common_config = qq{"$common_config"};
             $common_content = qq{"$common_content"};
-logger("key: $common_config\n");
         }
 #        my $localise = Publican::Localise->get_handle()
 #            || croak("Could not create a Publican::Localise object");

@@ -9,6 +9,9 @@ use Text::Wrap qw(wrap $columns);
 use Config::Simple;
 use Publican;
 use File::Path;
+if ( $^O ne 'MSWin32' ) {
+use Image::Magick;
+}
 use Image::Size;
 use Term::ANSIColor qw(:constants);
 use Publican::Builder;

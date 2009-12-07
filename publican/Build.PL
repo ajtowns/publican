@@ -74,6 +74,7 @@ my $class = Module::Build->subclass(
         my $path = "$cwd/blib/datadir/Common_Content";
         mkpath("$path");
         rcopy( "publish/*", "$path/.");
+        rcopy('publican.cfg', "$path/common/.");
         $dir = undef;
       }
       sub ACTION_update_pot {

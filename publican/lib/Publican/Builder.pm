@@ -339,20 +339,24 @@ sub setup_xml {
             File::Copy::Recursive::rcopy_glob(
                 $common_content . "/common/$lang/*",
                 "$tmp_dir/$lang/xml/Common_Content"
-            ) if ( -e $common_content . "/common/$lang" );
+            ) if ( $lang ne 'en-US' );
 
             if ( $brand ne 'common' ) {
-                croak(
-                    "Brand '$brand' can not be located in: $common_content!")
-                    if ( !-d $common_content . "/$brand" );
-                File::Copy::Recursive::rcopy_glob(
-                    $common_content . "/$brand/en-US/*",
+                my $brand_lang = $self->{publican}->{brand_config}->param('xml_lang');
+
+                my @files = File::Copy::Recursive::rcopy_glob(
+                    $common_content . "/$brand/$brand_lang/*",
                     "$tmp_dir/$lang/xml/Common_Content"
-                ) if ( -e $common_content . "/$brand/en-US" );
+                );
+
+                croak(
+                    maketext("Brand '[_1]' had no content to copy.", $brand))
+                     if(scalar(@files) == 0);
+
                 File::Copy::Recursive::rcopy_glob(
                     $common_content . "/$brand/$lang/*",
                     "$tmp_dir/$lang/xml/Common_Content"
-                ) if ( -e $common_content . "/$brand/$lang" );
+                ) if($lang ne $brand_lang);
             }
 
             my $ent_file
