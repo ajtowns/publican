@@ -35,8 +35,10 @@
 ;--------------------------------
 ;Pages
 
-  !insertmacro MUI_PAGE_LICENSE "..\COPYING"
+  !insertmacro MUI_PAGE_LICENSE "..\COPYING" # GPL
   !insertmacro MUI_PAGE_LICENSE "..\CC0"
+  !insertmacro MUI_PAGE_LICENSE "..\fdl.txt"
+  !insertmacro MUI_PAGE_LICENSE "..\..\publican-redhat\COPYING" # CC-BY-SA 3.0
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
@@ -51,7 +53,7 @@
 
 ;--------------------------------
 
-!define REG_UNINSTALL "Software\Microsoft\Windows\CurrentVersion\Uninstall\Publican"
+  !define REG_UNINSTALL "Software\Microsoft\Windows\CurrentVersion\Uninstall\Publican"
 
 ;--------------------------------
 ;Installer Sections
