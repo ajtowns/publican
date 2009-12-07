@@ -466,7 +466,7 @@
 			<varlistentry>
 				<term><sgmltag>&lt;bookinfo id="<replaceable>book_id</replaceable>"&gt;</sgmltag></term>
 				<term><sgmltag>&lt;articleinfo id="<replaceable>article_id</replaceable>"&gt;</sgmltag></term>
-				<term><sgmltag>&lt;bookinfo id="<replaceable>book_id</replaceable>"&gt;</sgmltag></term>
+				<term><sgmltag>&lt;setinfo id="<replaceable>set_id</replaceable>"&gt;</sgmltag></term>
 				<listitem>
 					<para>
 						The document ID is used internally and is not displayed to readers when the book is built. If you run the <command>publican clean_ids</command> command, any manually entered ID, including this one, changes to a <replaceable>Doc_Name-Title</replaceable> format, where <replaceable>Title</replaceable> is the title of the associated book, article, section, or chapter.
@@ -559,44 +559,99 @@
 				</listitem>
 			</varlistentry>
 		</variablelist>
+
+		<para>
+			You can add extra metadata to the <filename>Book_Info.xml</filename> file of a document, to support specific features in various output formats:
+		</para>
+		
+		<variablelist>
+			<varlistentry>
+				<term><sgmltag>&lt;keywordset&gt;</sgmltag></term>
+				<term><sgmltag>&lt;keyword&gt;</sgmltag></term>
+				<listitem>
+					<para>
+						 Terms tagged with <sgmltag>&lt;keyword&gt;</sgmltag> and placed within a <sgmltag>&lt;keywordset&gt;</sgmltag> are added to a <sgmltag>&lt;meta name="keywords"&gt;</sgmltag> entry in the head of HTML files and to the <literal>Keywords</literal> field of the properties of a PDF document.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><sgmltag>&lt;subjectset&gt;</sgmltag></term>
+				<term><sgmltag>&lt;subject&gt;</sgmltag></term>
+				<listitem>
+					<para>
+						 Terms tagged with <sgmltag>&lt;subject&gt;</sgmltag> and placed within a <sgmltag>&lt;subjectset&gt;</sgmltag> are added to the <literal>Subject</literal> field of the properties of a PDF document and in the metadata of an ebook in EPUB format. 
+					</para>
+					<para>
+						 Consider using a <firstterm>controlled vocabulary</firstterm> when defining the subject of your document, for example, the <firstterm>Library of Congress Subject Headings</firstterm> (LCSH). Identify the chosen vocabulary with the <parameter>scheme</parameter> attibute in the <sgmltag>&lt;subjectset&gt;</sgmltag> tag, for example, <sgmltag>&lt;subjectset scheme="libraryofcongress"&gt;</sgmltag>. You can search for LCSH subject headings through the Library of Congress <citetitle>Authorities &amp; Vocabularies</citetitle> page: <ulink url="http://id.loc.gov/authorities/search/"></ulink>.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><sgmltag>&lt;mediaobject role="cover" id="epub_cover"&gt;</sgmltag></term>
+				<listitem>
+					<para>
+						Use a <sgmltag>&lt;mediaobject&gt;</sgmltag> tag with the <literal>role="cover"</literal> and <literal>id="epub_cover"</literal> attributes to set cover art for an ebook in EPUB format. For example:
+					</para>
+<programlisting language="XML">&lt;mediaobject role="cover" id="epub_cover"&gt;
+	&lt;imageobject role="front-large" remap="lrg"&gt;
+		&lt;imagedata width="600px" format="PNG" fileref="images/front_cover.png"/&gt;
+	&lt;/imageobject&gt;
+	&lt;imageobject role="front" remap="s"&gt;
+		&lt;imagedata format="PNG" fileref="images/front_cover.png"/&gt;
+	&lt;/imageobject&gt;
+	&lt;imageobject role="front-small" remap="xs"&gt;
+		&lt;imagedata format="PNG" fileref="images/front_cover.png"/&gt;
+	&lt;/imageobject&gt;
+	&lt;imageobject role="thumbnail" remap="cs"&gt;
+		&lt;imagedata format="PNG" fileref="images/front_cover_thumbnail.png"/&gt;
+	&lt;/imageobject&gt;
+&lt;/mediaobject&gt;</programlisting>
+					<para>
+						As with all the other images in your document, place the cover images in the <filename>images</filename> subdirectory.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<section id="sect-Users_Guide-Files_in_the_book_directory-RPM_packages_editions_impressions_and_versions">
+			<title>RPM packages, editions, impressions and versions</title>
+			<para>
+				As noted above, the default <filename>Book_Info.xml</filename> used by <application>Publican</application> includes an <parameter>&lt;edition&gt;</parameter> tag.
+			</para>
+			<para>
+				If you distribute a book as an RPM package, the data placed within this tag sets 'the first two digits of the version number in the RPM file name.
+			</para>
+			<para>
+				So, an edition of '1.0' becomes a version of '1.0'.
+			</para>
+			<para>
+				<filename>Book_Info.xml</filename> also includes the <parameter>&lt;pubsnumber&gt;</parameter> tag. Any data placed within this tag changes the release number of RPM-packaged books.
+			</para>
+			<para>
+				A book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, release 5 (1.0-5).
+			</para>
+			<para>
+				The edition and pubsnumber are not tied to the <parameter>&lt;productnumber&gt;</parameter> tag also found in <filename>Book_Info.xml</filename>: <parameter>&lt;productnumber&gt;</parameter> denotes the version number of the product being documented or otherwise written about.
+			</para>
+			<para>
+				It is entirely possible to have a 2nd edition of a book pertaining to a particular version of a product.
+			</para>
+			<para>
+				In bibliography, two copies of a book are the same edition if they are printed using substantially the same type-set master plates or pages. ('Substantially' offers some allowance for typo corrections and other inconsequential changes.)
+			</para>
+			<para>
+				Book collectors routinely conflate 'first edition' with 'first print run', while bibliographers pay attention to the text commonly placed in the front matter of a book, which calls a 2nd print run off the same (or substantially the same) plates a '1st edition, 2nd impression' or '1st edition, 2nd printing'.
+			</para>
+			<para>
+				We recommend following bibliographic practice in this regard. When using <application>Publican</application> to re-publish a book from 'substantially the same XML', increment the <parameter>&lt;pubsnumber&gt;</parameter> tag, not the <parameter>&lt;edition&gt;</parameter> tag. It functions as a near-equivalent to the impression or printing number of traditional publishing.
+			</para>
+			<para>
+				As for changing the edition number, we recommend changing this in the same circumstances traditional publishers change the edition of a work: when it is revised and re-written significantly. What constitutes significant, and how much re-writing is needed to increment an edition number by a whole number and how much is needed to increment it by one-tenth of a whole number, is a matter of editorial discretion.
+			</para>
+		</section>
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_book_directory-RPM_packages_editions_impressions_and_versions">
-		<title>RPM packages, editions, impressions and versions</title>
-		<para>
-			As noted above, the default <filename>Book_Info.xml</filename> used by <application>Publican</application> includes an <parameter>&lt;edition&gt;</parameter> tag.
-		</para>
-		<para>
-			If you distribute a book as an RPM package, the data placed within this tag sets 'the first two digits of the version number in the RPM file name.
-		</para>
-		<para>
-			So, an edition of '1.0' becomes a version of '1.0'.
-		</para>
-		<para>
-			<filename>Book_Info.xml</filename> also includes the <parameter>&lt;pubsnumber&gt;</parameter> tag. Any data placed within this tag changes the release number of RPM-packaged books.
-		</para>
-		<para>
-			A book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, release 5 (1.0-5).
-		</para>
-		<para>
-			The edition and pubsnumber are not tied to the <parameter>&lt;productnumber&gt;</parameter> tag also found in <filename>Book_Info.xml</filename>: <parameter>&lt;productnumber&gt;</parameter> denotes the version number of the product being documented or otherwise written about.
-		</para>
-		<para>
-			It is entirely possible to have a 2nd edition of a book pertaining to a particular version of a product.
-		</para>
-		<para>
-			In bibliography, two copies of a book are the same edition if they are printed using substantially the same type-set master plates or pages. ('Substantially' offers some allowance for typo corrections and other inconsequential changes.)
-		</para>
-		<para>
-			Book collectors routinely conflate 'first edition' with 'first print run', while bibliographers pay attention to the text commonly placed in the front matter of a book, which calls a 2nd print run off the same (or substantially the same) plates a '1st edition, 2nd impression' or '1st edition, 2nd printing'.
-		</para>
-		<para>
-			We recommend following bibliographic practice in this regard. When using <application>Publican</application> to re-publish a book from 'substantially the same XML', increment the <parameter>&lt;pubsnumber&gt;</parameter> tag, not the <parameter>&lt;edition&gt;</parameter> tag. It functions as a near-equivalent to the impression or printing number of traditional publishing.
-		</para>
-		<para>
-			As for changing the edition number, we recommend changing this in the same circumstances traditional publishers change the edition of a work: when it is revised and re-written significantly. What constitutes significant, and how much re-writing is needed to increment an edition number by a whole number and how much is needed to increment it by one-tenth of a whole number, is a matter of editorial discretion.
-		</para>
-	</section>
+
 	
 	<section id="sect-Users_Guide-Files_in_the_book_directory-Author_Group.xml">
 		<title>Author_Group.xml</title>

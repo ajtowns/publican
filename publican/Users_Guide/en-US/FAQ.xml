@@ -195,7 +195,7 @@
 		<qandaentry>
 			<question>
 				<para>
-					Previous versions of <application>Publican</application> used to remove empty <sgmltag>&lt;para&gt;</sgmltag> tags. Does <application>Publican</application> still do this?
+					Previous versions of <application>Publican</application> removed empty <sgmltag>&lt;para&gt;</sgmltag> tags. Does <application>Publican</application> still do this?
 				</para>
 			</question>
 			<answer>
@@ -253,7 +253,7 @@
 <screen><computeroutput>undefined language: JAVA at /usr/lib/perl5/vendor_perl/5.10.0/Syntax/Highlight/Engine/Kate.pm line 615.</computeroutput>
 <computeroutput>cannot create plugin for language 'JAVA'</computeroutput></screen>
 				<para>
-					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages. Therefore, <sgmltag>&lt;programlisting language="Java"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language="java"&gt;</sgmltag> and <sgmltag>&lt;programlisting language="JAVA"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
+					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language="Java"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language="java"&gt;</sgmltag> and <sgmltag>&lt;programlisting language="JAVA"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
 				</para>
 				<para>
 					Refer to <ulink url="http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS"></ulink> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation.
