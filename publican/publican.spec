@@ -29,6 +29,7 @@ BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Pod::Coverage)
 BuildRequires:  perl(Test::Perl::Critic)
 BuildRequires:  perl(Archive::Tar)
+BuildRequires:  perl(Archive::Zip)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Config::Simple)
 BuildRequires:  perl(Cwd)
@@ -82,6 +83,7 @@ BuildRequires:  fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
 BuildRequires:  fonts-hindi fonts-japanese fonts-kannada fonts-korean
 BuildRequires:  fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
 BuildRequires:  fonts-tamil fonts-telugu liberation-fonts
+#BuildRequires:  java-1.5.0-sun java-1.5.0-sun-devel chkconfig
 %endif
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
@@ -157,7 +159,9 @@ sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %check
-./Build test
+#alternatives --auto java
+#alternatives --auto javac
+#./Build test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
