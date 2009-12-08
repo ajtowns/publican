@@ -65,10 +65,12 @@ Section "Publican" SecMain
   
   file /r ..\blib\datadir\*
   file publican.exe
-  
+  file "C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\Bin\msvcr71.dll"
+
+
   ;Store installation folder
   WriteRegStr HKLM  "Software\Publican" "" $INSTDIR
-  ; TODO confirm this works on Vista
+
   ${EnvVarUpdate} $0 "PATH" "A" "HKLM" $INSTDIR
   
   ;Create uninstaller
@@ -82,9 +84,10 @@ Section "Publican" SecMain
   WriteRegDWord HKLM "${REG_UNINSTALL}" "NoRepair" 0
   WriteRegStr HKLM "${REG_UNINSTALL}" "UninstallString" '"$INSTDIR\Uninstall.exe"'
 
+
   ; Hide first run IO error
-  ; TODO doesn't work :(
-  nsExec::Exec "$INSTDIR\publican.exe -v"
+;  Exec '"$INSTDIR\publican.exe -v"'
+ 
 SectionEnd
 
 SectionGroup "Brands" SecBrands
@@ -161,14 +164,38 @@ Section "XSL" SecDocBookXSL
 SectionEnd
 SectionGroupEnd
 
+SectionGroup "Tools" SecTools
+
+Section "ImageMagick" SecImageMagick
+  ; Install ImageMagick
+  SetOutPath "$TEMP"
+  File "D:\DownLoads\ImageMagick-6.5.8-4-Q16-windows-dll.exe"
+  ExecWait '"$TEMP\ImageMagick-6.5.8-4-Q16-windows-dll.exe"'
+SectionEnd
+Section "Get Text" SecGetText
+  ; Install GetText
+  SetOutPath "$TEMP"
+  File "D:\DownLoads\gettext-0.14.4.exe"
+  ExecWait '"$TEMP\gettext-0.14.4.exe"'
+  
+  ReadRegDWORD $0 HKLM  SOFTWARE\GnuWin32\GetText InstallPath
+  ${EnvVarUpdate} $1 "PATH" "A" "HKLM" "$0\bin"
+
+SectionEnd
+
+SectionGroupEnd
+
+
 ;--------------------------------
 ;Descriptions
 
   ;Language strings
   LangString DESC_SecMain ${LANG_ENGLISH} "The Publican program"
+  
   LangString DESC_SecDocBook ${LANG_ENGLISH} "Speed things up by including local DTD and XSL"
   LangString DESC_SecDocBookDTD ${LANG_ENGLISH} "DocBook XML DTD V4.5"
   LangString DESC_SecDocBookXSL ${LANG_ENGLISH} "DocBook XSL Stylesheets V1.75.2"
+  
   LangString DESC_SecBrands ${LANG_ENGLISH} "Some Publican Brands"
   LangString DESC_SecBrandRedHat ${LANG_ENGLISH} "The Red Hat Brand"
   LangString DESC_SecBrandJBoss ${LANG_ENGLISH} "The JBoss Brand"
@@ -177,12 +204,18 @@ SectionGroupEnd
   LangString DESC_SecBrandJBossHib ${LANG_ENGLISH} "The JBoss.org Hibernate Brand"
   LangString DESC_SecBrandGIMP ${LANG_ENGLISH} "The GIMP Brand"
 
+  LangString DESC_SecTools ${LANG_ENGLISH} "Tools to expand Publican's functionality"
+  LangString DESC_SecImageMagick ${LANG_ENGLISH} "Image manipulation tools"
+  LangString DESC_SecGetText ${LANG_ENGLISH} "Translation tool chain"
+
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_SecMain)
+    
     !insertmacro MUI_DESCRIPTION_TEXT ${SecDocBook} $(DESC_SecDocBook)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecDocBookDTD} $(DESC_SecDocBookDTD)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecDocBookXSL} $(DESC_SecDocBookXSL)
+    
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrands} $(DESC_SecBrands)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandRedHat} $(DESC_SecBrandRedHat)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandJBoss} $(DESC_SecBrandJBoss)
@@ -190,12 +223,17 @@ SectionGroupEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandJBossCom} $(DESC_SecBrandJBossCom)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandJBossHib} $(DESC_SecBrandJBossHib)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecBrandGIMP} $(DESC_SecBrandGIMP)
+    
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecTools} $(DESC_SecTools)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecImageMagick} $(DESC_SecImageMagick)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecGetText} $(DESC_SecGetText)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
 Section /o "Start Menu Group"
 	SectionIn		1
-	SetOutPath		"$INSTDIR\Users_Guide"
+	SetOutPath		"$INSTDIR"
+#	SetOutPath		"$INSTDIR\Users_Guide"
 #    file /r ..\Users_Guide\tmp\html-desktop\*
 
 	CreateDirectory "$SMPROGRAMS\Publican"
@@ -217,4 +255,8 @@ Section "Uninstall"
   DeleteRegKey HKLM  "Software\Publican"
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
   DeleteRegKey HKLM "${REG_UNINSTALL}"
+  
+  ReadRegDWORD $0 HKLM  SOFTWARE\GnuWin32\GetText InstallPath
+  ${un.EnvVarUpdate} $1 "PATH" "R" "HKLM" "$0\bin"
+  
 SectionEnd
