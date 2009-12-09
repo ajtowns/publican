@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community
 Summary:	Common documentation files for JBoss community documents
-Version:	0.5
+Version:	0.6
 Release:	0%{?dist}
 License:	SETUP: Set This
 Group:		Applications/Text
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Dec 8 2009  Jeff Fearn <jfearn@redhat.com> 0.6
+- fine-tune CSS and title SVG
 * Fri Nov 27 2009  Rüdiger Landmann <r.landmann@redhat.com> 0.5
 - Import more CSS from documentation.css -- not tested
 * Fri Nov 27 2009  Ryan Lerch <rlerch@redhat.com> 0.4
