@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}
+Release:        0%{?dist}.t5
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -182,6 +182,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Thu Dec 10 2009 Jeff Fearn <jfearn@redhat.com> 1.4-0
+- Ignore obsolete entires in stats code. BZ #546130
+
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
 - Fixed empty params in new book cfg file. BZ #533322

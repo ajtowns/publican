@@ -607,17 +607,17 @@ sub print_xml {
         $file =~ m|^(.*/xml/)|;
         my $text = $self->my_as_XML(
             { xml_doc => $xml_doc, path => ( $1 || './' ) } );
-        $text =~ s/&#10;//g;
-        $text =~ s/&#9;//g;
+#        $text =~ s/&#10;//g;
+#        $text =~ s/&#9;//g;
 #        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
-        $text =~ s/&#38;/&amp;/g;
-        $text =~ s/&amp;#x200B;/&#x200B;/g;
+#        $text =~ s/&#38;/&amp;/g;
+#        $text =~ s/&amp;#x200B;/&#x200B;/g;
         $text =~ s/&#x200B; &#x200B;/ /g;
         $text =~ s/&#x200B; / /g;
-        $text =~ s/&#60;/&lt;/g;
-        $text =~ s/&#62;/&gt;/g;
-        $text =~ s/&#34;/"/g;
-        $text =~ s/&#39;/'/g;
+#        $text =~ s/&#60;/&lt;/g;
+#        $text =~ s/&#62;/&gt;/g;
+#        $text =~ s/&#34;/"/g;
+#        $text =~ s/&#39;/'/g;
         $xml_doc->root()->delete();
 
         my $OUTDOC;
@@ -941,6 +941,7 @@ sub my_as_XML {
                         }
 ##debug_msg("node  : $node\n");
                         $tree->_xml_escape($node);
+#                        $node = $tree->as_text($node);
 ##debug_msg("node 2: $node\n");
 
 ## If my grantparent wants me left aligned do so
