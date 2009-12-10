@@ -183,7 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Dec 10 2009 Jeff Fearn <jfearn@redhat.com> 1.4-0
-- Ignore obsolete entires in stats code. BZ #546130
+- Ignore obsolete entrees in stats code. BZ #546130
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
