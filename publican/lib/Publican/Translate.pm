@@ -679,6 +679,12 @@ sub po_report {
             my $msgref = $msgids->{$key};
             $po_stats{msg_count}++;
             next unless $msgref->msgid();
+
+            if ( $msgref->obsolete() ) {
+                $po_stats{msg_count}--;
+                next;
+            }
+
             my $count = () = $msgref->msgid() =~ /\w+/g;
             $po_stats{word_count} += $count;
             if ( $msgref->msgstr() =~ /^""$/ ) {

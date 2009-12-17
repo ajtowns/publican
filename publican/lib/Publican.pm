@@ -687,7 +687,7 @@ sub get_all_langs {
         || croak( maketext( "Can't open directory: [_1]", $@ ) );
     my @dirs = sort( readdir($handle) );
     closedir($handle);
-    debug_msg("valid_lang matches on a load of crap\n");
+
     foreach my $dir (@dirs) {
         if ( -d $dir ) {
             next if ( $dir =~ /^(\.|\.\.|pot|tmp|xsl|\..*|CVS|publish)$/ );
@@ -734,8 +734,9 @@ Is the requested language valid according to I18N::LangTags::List
 
 sub valid_lang {
     my $lang = shift;
+    my $name = (I18N::LangTags::List::name($lang) || '');
 
-    return ( I18N::LangTags::List::is_decent($lang) );
+    return ( I18N::LangTags::List::is_decent($lang) && ($name ne '') );
 }
 
 =head2 maketext
