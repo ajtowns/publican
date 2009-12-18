@@ -67,16 +67,20 @@ sub new {
     $config->param( 'docname',
         delete( $args->{name} )
             || croak( maketext("name is a required parameter") ) );
-    $config->param( 'version',  delete( $args->{version} ) || '0.1' );
-    $config->param( 'edition',  delete( $args->{edition} ) || '0' );
-    $config->param( 'product',  delete( $args->{product} ) || 'Documentation' );
-    $config->param( 'brand',    delete( $args->{brand} )   || 'common' );
-    $config->param( 'xml_lang', delete( $args->{lang} )    || 'en-US' );
-    $config->param( 'type',     delete( $args->{type} )    || 'Book' );
+    $config->param( 'version', delete( $args->{version} ) || '0.1' );
+    $config->param( 'edition', delete( $args->{edition} ) || '0' );
+    $config->param( 'product',
+        delete( $args->{product} ) || 'Documentation' );
+    $config->param( 'brand',    delete( $args->{brand} ) || 'common' );
+    $config->param( 'xml_lang', delete( $args->{lang} )  || 'en-US' );
+    $config->param( 'type',     delete( $args->{type} )  || 'Book' );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     if ( $config->param('type') !~ m/^(Book|Set|Article)$/i ) {
@@ -262,7 +266,7 @@ sub create {
                                 [   'author',
                                     [ 'firstname', 'Dude' ],
                                     [ 'surname',   'McPants' ],
-                                    [ 'email',     'Dude.McPants@example.com' ],
+                                    [ 'email', 'Dude.McPants@example.com' ],
                                 ],
                                 [   'revdescription',
                                     [   'simplelist',
@@ -314,7 +318,9 @@ sub create {
                             'xmlns:xi' => 'http://www.w3.org/2001/XInclude'
                         },
                         [   'xi:fallback',
-                            { 'xmlns:xi' => 'http://www.w3.org/2001/XInclude' },
+                            {   'xmlns:xi' =>
+                                    'http://www.w3.org/2001/XInclude'
+                            },
                             [   'xi:include',
                                 {   href => 'Common_Content/Feedback.xml',
                                     'xmlns:xi' =>
@@ -338,8 +344,9 @@ sub create {
         }
         my $xml_doc = $files{$file}->{node};
         $xml_doc->pos( $xml_doc->root() );
-        my $text     = $xml_doc->as_XML($xml_doc);
-        my $out_file = "$name/$lang/$file" . ".xml";
+        my $node_type = $xml_doc->{'_tag'};
+        my $text      = $xml_doc->as_XML($xml_doc);
+        my $out_file  = "$name/$lang/$file" . ".xml";
         if ( $file =~ m/^(Book|Set|Article)$/ ) {
             $out_file = "$name/$lang/$name" . ".xml";
         }
@@ -349,7 +356,7 @@ sub create {
             maketext( "Could not open [_1] for output!", $out_file, $@ ) );
 
         print( $OUTDOC Publican::Builder::dtd_string(
-                { tag => $type, dtdver => '4.5' }
+                { tag => $node_type, dtdver => '4.5' }
             )
         );
 

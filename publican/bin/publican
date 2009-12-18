@@ -15,6 +15,7 @@ use Publican::TreeView;
 use File::Path;
 use File::Copy::Recursive qw(dircopy rcopy);
 use File::Find::Rule;
+use File::pushd;
 use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 
@@ -345,6 +346,20 @@ if ( $action eq 'create' ) {
         }
     );
     $creator->create();
+
+    my $dir = pushd( $opts{name} );
+
+    my $publican = Publican->new(
+        {   'configfile'   => $opts{config},
+            common_config  => $opts{common_config},
+            common_content => $opts{common_content}
+        }
+    );
+
+    my $builder = Publican::Builder->new();
+    $builder->clean_ids();
+
+    $dir = undef;
 
     exit(0);
 }
