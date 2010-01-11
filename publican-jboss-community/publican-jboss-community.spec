@@ -38,7 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Mon Jan 11 2010  "James Cobb" <jcobb@redhat.com> 0.7
+* Mon Jan 11 2010  James Cobb <jcobb@redhat.com> 0.7
 - fine-tune CSS and title logo
 * Tue Dec 8 2009  Jeff Fearn <jfearn@redhat.com> 0.6
 - fine-tune CSS and title SVG
