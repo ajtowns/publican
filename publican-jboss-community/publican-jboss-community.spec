@@ -2,9 +2,9 @@
 
 Name:		publican-jboss-community
 Summary:	Common documentation files for JBoss community documents
-Version:	0.6
+Version:	0.7
 Release:	0%{?dist}
-License:	SETUP: Set This
+License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Jan 11 2010  "James Cobb" <jcobb@redhat.com> 0.7
+- fine-tune CSS and title logo
 * Tue Dec 8 2009  Jeff Fearn <jfearn@redhat.com> 0.6
 - fine-tune CSS and title SVG
 * Fri Nov 27 2009  Rüdiger Landmann <r.landmann@redhat.com> 0.5
