@@ -1706,6 +1706,8 @@ TODO: Make XmlClean use this.
 
 sub new_tree {
 
+    my $store_comments = (shift() || 0);
+
     my $xml_doc = XML::TreeBuilder->new(
         { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     my $empty_element_map = $xml_doc->_empty_element_map;
@@ -1716,7 +1718,7 @@ sub new_tree {
     $empty_element_map->{'ulink'}      = 1;
     $empty_element_map->{'xi:include'} = 1;
 
-    $xml_doc->store_comments(1);
+    $xml_doc->store_comments(1) if($store_comments);
 
     return ($xml_doc);
 }

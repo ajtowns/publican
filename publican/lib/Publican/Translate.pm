@@ -96,6 +96,7 @@ sub update_pot {
             || croak(
             maketext( "Can't open file [_1]. Error: [_2]", $xml_file, $@ ) );
         $xml_doc->pos( $xml_doc->root() );
+
         my $msg_list = $self->get_msgs( { doc => $xml_doc } );
         $self->print_msgs( { msg_list => $msg_list, pot_file => $pot_file } );
 
@@ -138,7 +139,7 @@ sub po2xml {
 
     my $msgids = Locale::PO->load_file_ashash($po_file);
 
-    #debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
+    debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
 
     $self->merge_msgs( { out_doc => $out_doc, msgids => $msgids } );
 
@@ -303,8 +304,11 @@ sub get_msgs {
 
         # lookdown matches the root node
         if ( $child->address() eq $trans_tree->address() ) {
-            next;
+
+            #            next;
         }
+
+        next if ( $child->is_empty );
 
         $trans_node = XML::Element->new( $child->tag() );
 
@@ -373,8 +377,12 @@ sub merge_msgs {
 
         # lookdown matches the root node
         if ( $child->address() eq $out_doc->address() ) {
-            next;
+
+            #            next;
         }
+
+        next if ( $child->is_empty );
+
         my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/ );
 
     # No Nesting so push all of this nodes content on to the output trans_tree
@@ -386,20 +394,26 @@ sub merge_msgs {
             # have to recurse through children
             my $trans_node = XML::Element->new( $child->tag() );
 
-            foreach my $nested ( $child->content_list() ) {
+            # pop off all children to allow consecutive translatable nodes
+            # to be collected in one translation entry
+
+            foreach my $nested ( $child->detach_content() ) {
+
+                # No ref == text node
                 if ( ref $nested
                     && $nested->look_down( '_tag', qr/$TRANSTAGS/ ) )
                 {
                     if ( !$trans_node->is_empty ) {
                         $self->translate(
                             { node => $trans_node, msgids => $msgids } );
+                        $child->push_content( $trans_node->content_list() );
+                        $trans_node->delete();
                     }
                     $self->merge_msgs(
                         { out_doc => $nested, msgids => $msgids } );
-
+                    $child->push_content($nested);
                 }
                 else {
-                    $nested->detach() if ( ref $nested );
                     $trans_node->push_content($nested);
                 }
             }
@@ -434,10 +448,12 @@ sub translate {
     my $tag   = $node->tag();
     $msgid = $self->normalise($msgid);
     $msgid = po_format( $msgid, $tag );
+    debug_msg("msgid3: $msgid\n");
     if (   $msgid
         && defined $msgids->{ '"' . $msgid . '"' }
         && ( $msgids->{ '"' . $msgid . '"' }{msgstr} ne '""' ) )
     {
+        debug_msg("found msg!\n");
         my $repl = Encode::decode_utf8(
             po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} ) );
 

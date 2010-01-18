@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t11
+Release:        0%{?dist}.t44
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -188,6 +188,9 @@ rm -rf $RPM_BUILD_ROOT
 - Fix invalid tag in DTD. BZ #548629
 - Added contrib to translation tag list. BZ #550460
 - Added firstname, lastname, orgname to translation tag list. BZ #555645
+- Remove comments from translations. BZ #555647
+- Fix content in root nodes not being added to pot. BZ #554261
+- Fix mixed mode content being dropped when merging translations. BZ #549925
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
