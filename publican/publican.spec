@@ -186,6 +186,8 @@ rm -rf $RPM_BUILD_ROOT
 - Ignore obsolete entrees in stats code. BZ #546130
 - Fix valid_lang matching on unknown languages.
 - Fix invalid tag in DTD. BZ #548629
+- Add contrib to translation tag list. BZ #550460
+- Add contrib to firstname, lastname, orgname tag list. BZ #555645
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081

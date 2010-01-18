@@ -20,7 +20,7 @@ $VERSION = 0.1;
 
 # What tags do we translate?
 my $TRANSTAGS
-    = '^(ackno|bridgehead|conftitle|contrib|entry|glossterm|jobtitle|label|lineannotation|lotentry|member|orgdiv|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|term|termdef|tertiary|tertiaryie|title|titleabbrev)$';
+    = '^(ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|jobtitle|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|term|termdef|tertiary|tertiaryie|title|titleabbrev)$';
 
 =head1 NAME
 
