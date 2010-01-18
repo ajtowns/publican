@@ -53,7 +53,8 @@ Publican::XmlClean tidies XML formatting and filters structure based on input ru
 my %UPDATED_IDS;
 
 my %MAP_OUT = (
-    'section'       => { 'block'         => 1, 'newline_after' => 1 },
+    'section'    => { 'block' => 1, 'newline_after' => 1 },
+    'refsection' => { 'block' => 1, 'newline_after' => 1, no_id => 1 },
     'chapter'       => { 'block'         => 1 },
     'preface'       => { 'block'         => 1 },
     'bibliography'  => { 'block'         => 1 },
@@ -84,13 +85,18 @@ my %MAP_OUT = (
     'member'        => { 'newline_after' => 1 },
     'remark'        => { 'newline_after' => 1 },
     'userinput'     => {},
-    'listitem'      => { 'block'         => 1, 'keep_id'       => 1 },
-    'title'    => { 'newline_after' => 1 },
-    'street'   => { 'newline_after' => 1 },
-    'city'     => {},
-    'state'    => {},
-    'postcode' => {},
-    'coutry'   => {},
+    'listitem'      => { 'block'         => 1, 'keep_id' => 1 },
+    'title'         => { 'newline_after' => 1 },
+    'refentrytitle' => { 'newline_after' => 1 },
+    'refpurpose'    => { 'newline_after' => 1 },
+    'refname'       => { 'newline_after' => 1 },
+    'refnamediv'    => { 'block'         => 1, 'id_node' => 'refname' },
+    'manvolnum'     => { 'newline_after' => 1 },
+    'street'        => { 'newline_after' => 1 },
+    'city'          => {},
+    'state'         => {},
+    'postcode'      => {},
+    'coutry'        => {},
     'phone'    => { 'newline_after' => 1 },
     'fax'      => { 'newline_after' => 1 },
     'pob'      => {},
@@ -125,6 +131,10 @@ my %MAP_OUT = (
     'td'                => { 'block'         => 1 },
     'row'               => { 'block'         => 1 },
     'entry'             => { 'block'         => 1 },
+    'refentry'          => { 'block'         => 1 },
+    'refmeta'           => { 'block'         => 1 },
+    'refentryinfo'      => { 'block'         => 1, no_id => 1 },
+    'reference'         => { 'block'         => 1 },
     'indexterm'         => { 'block'         => 1 },
     'primary'           => { 'newline_after' => 1 },
     'secondary'         => { 'newline_after' => 1 },
@@ -219,34 +229,33 @@ my %MAP_OUT = (
     'parameter'     => {},
     'prompt'        => {},
     'property'      => {},
-    'see'           => { 'newline_after' => 1, },
-    'seealso'       => { 'newline_after' => 1, },
-    'step'          => { 'block' => 1 },
-    'substeps'      => { 'block'         => 1 },
-    'stepalternatives'   => { 'block'   => 1 },
-    'systemitem'    => {},
-    'wordasword'    => {},
-    'citerefentry'  => {},
-    'refentrytitle' => {},
-    'manvolnum'     => {},
-    'function'      => {},
-    'uri'           => {},
-    'mousebutton'   => {},
-    'hardware'      => {},
-    'type'          => {},
-    'methodname'    => {},
-    'exceptionname' => {},
-    'varname'       => {},
-    'interfacename' => {},
-    'othername'     => { 'newline_after' => 1 },
-    '~comment'      => {},
-    'foreignphrase' => {},
-    'chapterinfo'   => { 'block' => 1 },
-    'keywordset'    => { 'block' => 1 },
-    'keyword'       => { 'newline_after' => 1 },
-    'subjectset'    => { 'block' => 1 },
-    'subject'       => { 'block' => 1 },
-    'subjectterm'   => { 'newline_after' => 1 },
+    'see'              => { 'newline_after' => 1, },
+    'seealso'          => { 'newline_after' => 1, },
+    'step'             => { 'block'         => 1 },
+    'substeps'         => { 'block'         => 1 },
+    'stepalternatives' => { 'block'         => 1 },
+    'systemitem'       => {},
+    'wordasword'       => {},
+    'citerefentry'     => {},
+    'manvolnum'        => {},
+    'function'         => {},
+    'uri'              => {},
+    'mousebutton'      => {},
+    'hardware'         => {},
+    'type'             => {},
+    'methodname'       => {},
+    'exceptionname'    => {},
+    'varname'          => {},
+    'interfacename'    => {},
+    'othername'        => { 'newline_after' => 1 },
+    '~comment'         => {},
+    'foreignphrase'    => {},
+    'chapterinfo'      => { 'block'         => 1 },
+    'keywordset'       => { 'block'         => 1 },
+    'keyword'          => { 'newline_after' => 1 },
+    'subjectset'       => { 'block'         => 1 },
+    'subject'          => { 'block'         => 1 },
+    'subjectterm'      => { 'newline_after' => 1 },
 );
 
 my %BANNED_TAGS = (
@@ -607,17 +616,19 @@ sub print_xml {
         $file =~ m|^(.*/xml/)|;
         my $text = $self->my_as_XML(
             { xml_doc => $xml_doc, path => ( $1 || './' ) } );
-#        $text =~ s/&#10;//g;
-#        $text =~ s/&#9;//g;
-#        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
-#        $text =~ s/&#38;/&amp;/g;
-#        $text =~ s/&amp;#x200B;/&#x200B;/g;
+
+        #        $text =~ s/&#10;//g;
+        #        $text =~ s/&#9;//g;
+        #        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
+        #        $text =~ s/&#38;/&amp;/g;
+        #        $text =~ s/&amp;#x200B;/&#x200B;/g;
         $text =~ s/&#x200B; &#x200B;/ /g;
         $text =~ s/&#x200B; / /g;
-#        $text =~ s/&#60;/&lt;/g;
-#        $text =~ s/&#62;/&gt;/g;
-#        $text =~ s/&#34;/"/g;
-#        $text =~ s/&#39;/'/g;
+
+        #        $text =~ s/&#60;/&lt;/g;
+        #        $text =~ s/&#62;/&gt;/g;
+        #        $text =~ s/&#34;/"/g;
+        #        $text =~ s/&#39;/'/g;
         $xml_doc->root()->delete();
 
         my $OUTDOC;
@@ -941,7 +952,8 @@ sub my_as_XML {
                         }
 ##debug_msg("node  : $node\n");
                         $tree->_xml_escape($node);
-#                        $node = $tree->as_text($node);
+
+                       #                        $node = $tree->as_text($node);
 ##debug_msg("node 2: $node\n");
 
 ## If my grantparent wants me left aligned do so
