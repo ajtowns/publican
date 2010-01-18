@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t50
+Release:        0%{?dist}.t51
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -62,6 +62,7 @@ BuildRequires:  fop >= 0.90
 BuildRequires:  batik
 BuildRequires:  docbook-style-xsl >= 1.75.1
 BuildRequires:  desktop-file-utils
+BuildRequires:  gettext
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -72,6 +73,7 @@ Requires:       docbook-style-xsl >= 1.75.1
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 3.09-15
+Requires:       gettext
 
 # Pull in the fonts for all languages, else you can't build translated PDF in brew/koji
 %if %{RHEL5}
@@ -192,6 +194,8 @@ rm -rf $RPM_BUILD_ROOT
 - Fix content in root nodes not being added to pot. BZ #554261
 - Fix mixed mode content being dropped when merging translations. BZ #549925
 - Fix ID creation in refentry. BZ #553085
+- Add gettext Requires. BZ #550461
+- Fix non-default tmp dir. BZ #551974
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081

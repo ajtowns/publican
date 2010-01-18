@@ -411,7 +411,7 @@ sub setup_xml {
                     { file => $xml_file, out_file => $out_file } );
             }
         }
-        finddepth( \&del_unwanted_dirs, 'tmp' );
+        finddepth( \&del_unwanted_dirs, $tmp_dir );
     }
 
     return;

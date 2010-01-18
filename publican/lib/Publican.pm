@@ -673,15 +673,9 @@ Get all valid language directories.
 =cut
 
 sub get_all_langs {
-    my ($args) = @_;
-
- #    my $lang = delete( $args->{lang} ) || croak("lang is a mandatory argument");
- #
- #    if ( %{$args} ) {
- #        croak "unknown args: " . join( ", ", keys %{$args} );
- #    }
 
     my ( $handle, %filelist, @langs );
+    my $tmp_dir = $SINGLETON->param('tmp_dir');
 
     opendir( $handle, '.' )
         || croak( maketext( "Can't open directory: [_1]", $@ ) );
@@ -690,7 +684,7 @@ sub get_all_langs {
 
     foreach my $dir (@dirs) {
         if ( -d $dir ) {
-            next if ( $dir =~ /^(\.|\.\.|pot|tmp|xsl|\..*|CVS|publish)$/ );
+            next if ( $dir =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish)$/ );
 
             if ( valid_lang($dir) ) {
                 push( @langs, $dir );
