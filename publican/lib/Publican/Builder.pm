@@ -25,6 +25,7 @@ use HTML::FormatText;
 use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
+use List::Util qw[max];
 
 use version;
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
@@ -170,10 +171,9 @@ sub build {
                     if ( $format eq 'html-desktop' ) {
                         $path = "publish/desktop/$lang";
                     }
-                    elsif ($format eq 'xml' ) {
+                    elsif ( $format eq 'xml' ) {
                         $path = "publish/xml/$lang";
                     }
-
 
                     mkpath($path);
                     if ( $format eq 'epub' ) {
@@ -278,8 +278,9 @@ sub setup_xml {
                 $out_file =~ s/$xml_lang//;
 
                 $out_file =~ m|^(.*)/[^/]+$|;
-                my $path = ($1 || undef);
-                mkpath("$tmp_dir/$lang/xml_tmp/$path") if ( $path && !-d $path );
+                my $path = ( $1 || undef );
+                mkpath("$tmp_dir/$lang/xml_tmp/$path")
+                    if ( $path && !-d $path );
 
                 if ( !-f $po_file ) {
                     logger(
@@ -342,7 +343,8 @@ sub setup_xml {
             ) if ( $lang ne 'en-US' );
 
             if ( $brand ne 'common' ) {
-                my $brand_lang = $self->{publican}->{brand_config}->param('xml_lang');
+                my $brand_lang
+                    = $self->{publican}->{brand_config}->param('xml_lang');
 
                 my @files = File::Copy::Recursive::rcopy_glob(
                     $common_content . "/$brand/$brand_lang/*",
@@ -350,13 +352,15 @@ sub setup_xml {
                 );
 
                 croak(
-                    maketext("Brand '[_1]' had no content to copy.", $brand))
-                     if(scalar(@files) == 0);
+                    maketext(
+                        "Brand '[_1]' had no content to copy.", $brand
+                    )
+                ) if ( scalar(@files) == 0 );
 
                 File::Copy::Recursive::rcopy_glob(
                     $common_content . "/$brand/$lang/*",
                     "$tmp_dir/$lang/xml/Common_Content"
-                ) if($lang ne $brand_lang);
+                ) if ( $lang ne $brand_lang );
             }
 
             my $ent_file
@@ -493,7 +497,12 @@ sub validate_xml {
 
     my $dir = pushd("$tmp_dir/$lang/xml");
 
-    my $parser = XML::LibXML->new();
+    my $parser = XML::LibXML->new(
+        {   pedantic_parser   => 1,
+            suppress_errors   => 0,
+            suppress_warnings => 1
+        }
+    );
     $parser->expand_xinclude(1);
     my $source = $parser->parse_file("$docname.xml");
 
@@ -519,10 +528,10 @@ sub validate_xml {
     my $dtd = XML::LibXML::Dtd->new( "-//OASIS//DTD DocBook XML V4.5//EN",
         $dtd_path );
 
-    eval { $source->validate($dtd); };
-    croak( RED, maketext( "Validation failed: [_1]", $@ ) . "\n", RESET )
-        if ($@);
-
+    unless ( $source->is_valid($dtd) ) {
+        logger( maketext("Validation failed: ") . "\n", RED );
+        croak( $source->validate($dtd) );
+    }
     $dir = undef;
 
     return (0);
@@ -822,7 +831,8 @@ sub transform {
             . $self->{publican}->param('docname') . '-'
             . "$lang.epub";
         $self->{epub_name} = $epub_name;
-        $zip->writeToFileNamed("../$epub_name") == AZ_OK || croak(maketext("epub creation failed."));
+        $zip->writeToFileNamed("../$epub_name") == AZ_OK
+            || croak( maketext("epub creation failed.") );
         logger(
             maketext( "Wrote epub archive: [_1]",
                 "$tmp_dir/$lang/$epub_name" )
@@ -858,7 +868,7 @@ sub transform {
     $parser     = undef;
 
     # TODO BUGBUG freeing $results goes BOOM on windows
-# TODO requires testing since the other crashbug is resolved
+    # TODO requires testing since the other crashbug is resolved
     $results = undef;
 
     return;
@@ -1058,7 +1068,14 @@ sub highlight {
         },
     );
 
-    my $tmp = $hl->languagePlug($language) || croak("\n\t" . maketext("'[_1]' is not a valid language for highlighting. Language names are case sensitive.", $language) . "\n");
+    my $tmp = $hl->languagePlug($language) || croak(
+        "\n\t"
+            . maketext(
+            "'[_1]' is not a valid language for highlighting. Language names are case sensitive.",
+            $language
+            )
+            . "\n"
+    );
     $hl->language($language);
 
     my $parser = XML::LibXML->new();
@@ -1066,15 +1083,17 @@ sub highlight {
     my $out_string = $hl->highlightText( $content->string_value() );
 
     # this gives an XML::LibXML::DocumentFragment
-    my $list = $parser->parse_balanced_chunk( $out_string );
+    my $list = $parser->parse_balanced_chunk($out_string);
+
     # remove the input node
     $content->shift;
+
     # append the marked-up nodes
     foreach my $node ( $list->childNodes() ) {
-         $content->push($node);
+        $content->push($node);
     }
 
-    return ( $content );
+    return ($content);
 }
 
 =head2 insertCallouts
@@ -1138,7 +1157,13 @@ sub insertCallouts {
 
     my $out_string = '';
     my $count      = 0;
-    my $position   = 60;
+    my $position   = 40;
+
+    foreach my $line ( split( /\n/, $in_string ) ) {
+        chomp($line);
+        $position = max( $position, length($line) + 4 );
+    }
+
     foreach my $line ( split( /\n/, $in_string ) ) {
         $count++;
         chomp($line);
@@ -1706,7 +1731,7 @@ TODO: Make XmlClean use this.
 
 sub new_tree {
 
-    my $store_comments = (shift() || 0);
+    my $store_comments = ( shift() || 0 );
 
     my $xml_doc = XML::TreeBuilder->new(
         { 'NoExpand' => "1", 'ErrorContext' => "2" } );
@@ -1718,7 +1743,7 @@ sub new_tree {
     $empty_element_map->{'ulink'}      = 1;
     $empty_element_map->{'xi:include'} = 1;
 
-    $xml_doc->store_comments(1) if($store_comments);
+    $xml_doc->store_comments(1) if ($store_comments);
 
     return ($xml_doc);
 }

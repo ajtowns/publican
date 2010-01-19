@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t51
+Release:        0%{?dist}.t63
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -196,6 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix ID creation in refentry. BZ #553085
 - Add gettext Requires. BZ #550461
 - Fix non-default tmp dir. BZ #551974
+- Fix validation output. BZ #556684
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081

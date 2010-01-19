@@ -11,7 +11,7 @@
 			<secondary>contact information for this manual</secondary>
 		</indexterm>
 		<para>
-			If  &lt; &#38;ent1&semi; &#38;FOO&semi; &amp;ent3&semi; &amp;ent4&semi; you find a typographical error in this manual, or if you have thought of a way to make this manual better, we would love to hear from you! Please submit a report in Bugzilla: <ulink url="https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican">https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican</ulink> against the product <application>&PRODUCT;</application>. When submitting a bug report, be sure to mention the manual's identifier: <citetitle>&BOOKID;</citetitle>
+			If you find a typographical error in this manual, or if you have thought of a way to make this manual better, we would love to hear from you! Please submit a report in Bugzilla: <ulink url="https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican">https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican</ulink> against the product <application>&PRODUCT;</application>. When submitting a bug report, be sure to mention the manual's identifier: <citetitle>&BOOKID;</citetitle>
 		</para>
 		<para>
 			If you have a suggestion for improving the documentation, try to be as specific as possible when describing it. If you have found an error, please include the section number and some of the surrounding text so we can find it easily.
@@ -23,6 +23,96 @@
 		<para>
 			Many thanks to Josef Hruška for help with the Czech examples in <xref linkend="sect-Users_Guide-Entities_and_translation" />.
 		</para>
+<programlistingco>
+<areaspec>
+<areaset id="ex.plco.const" coords="">
+  <area id="ex.plco.c1" coords='4'/>
+  <area id="ex.plco.c2" coords='8'/>
+</areaset>
+<area id="ex.plco.ret" coords='12'/>
+<area id="ex.plco.dest" coords='12'/>
+</areaspec>
+<programlisting>
+sub do_nothing_useful {
+    my($a, $b, $c);
+
+    $a = new A;
+    
+    $a->does_nothing_either();
+
+    $b = new B; 
+
+    $c = "frog";
+
+    return ($a, $c);
+}
+</programlisting>
+<calloutlist>
+<callout arearefs="ex.plco.const">
+<para>
+These are calls to the constructor <function>new</function> in the object
+classes.
+</para>
+</callout>
+<callout arearefs="ex.plco.ret">
+<para>
+This function returns a two-element list.
+</para>
+</callout>
+<callout arearefs="ex.plco.dest">
+<para>
+The <emphasis>destructor</emphasis> (<function>DESTROY</function>) for
+the object <literal>$b</literal> will be called automatically for this
+object since there can be no other references to it outside this function.
+</para>
+</callout>
+</calloutlist>
+</programlistingco>
+<programlistingco>
+<areaspec>
+<areaset id="ex.plco.const1" coords="">
+  <area id="ex.plco.c11" coords='3'/>
+  <area id="ex.plco.c21" coords='7'/>
+</areaset>
+<area id="ex.plco.ret1" coords='11'/>
+<area id="ex.plco.dest1" coords='11'/>
+</areaspec>
+<programlisting>
+sub do_nothing_useful {
+    my($a, $b, $c);
+
+    $a = new A;
+    
+    $a->does_nothing_either() &amp;&amp; $a->does_nothing_neither() || $a->does_something_odd();
+
+    $b = new B; 
+
+    $c = "frog";
+
+    return ($a, $c);
+}
+</programlisting>
+<calloutlist>
+<callout arearefs="ex.plco.const1">
+<para>
+These are calls to the constructor <function>new</function> in the object
+classes.
+</para>
+</callout>
+<callout arearefs="ex.plco.ret1">
+<para>
+This function returns a two-element list.
+</para>
+</callout>
+<callout arearefs="ex.plco.dest1">
+<para>
+The <emphasis>destructor</emphasis> (<function>DESTROY</function>) for
+the object <literal>$b</literal> will be called automatically for this
+object since there can be no other references to it outside this function.
+</para>
+</callout>
+</calloutlist>
+</programlistingco>
 	</section>
 
 </preface>

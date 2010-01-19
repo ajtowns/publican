@@ -950,11 +950,7 @@ sub my_as_XML {
                                 $node =~ s/^ //g;
                             }
                         }
-##debug_msg("node  : $node\n");
                         $tree->_xml_escape($node);
-
-                       #                        $node = $tree->as_text($node);
-##debug_msg("node 2: $node\n");
 
 ## If my grantparent wants me left aligned do so
 ## This used for abstract as white space & long lines cause problems with RPM Spec file
