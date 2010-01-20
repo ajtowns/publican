@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t75
+Release:        0%{?dist}.t76
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -163,7 +163,7 @@ desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/ap
 %check
 #alternatives --auto java
 #alternatives --auto javac
-#./Build test
+./Build test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
