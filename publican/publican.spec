@@ -198,6 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix non-default tmp dir. BZ #551974
 - Fix validation output. BZ #556684
 - Fix tag attributes breaking translation merge. BZ #554230
+- Format XML when running reate. BZ #556201
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
