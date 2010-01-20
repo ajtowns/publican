@@ -444,11 +444,23 @@ sub translate {
         );
     }
 
-    my $msgid = $node->as_XML();
-    my $tag   = $node->tag();
+    my $msgid     = $node->as_XML();
+    my $tag       = $node->tag();
+    my $attr_text = '';
+
     $msgid = $self->normalise($msgid);
     $msgid = po_format( $msgid, $tag );
-    debug_msg("msgid3: $msgid\n");
+
+    # If a tag has attributes we need to remove them for comparison as
+    # the PO format does not allow this to be stored
+    if ( $msgid =~ m/<$tag([^>]+)>\s*(.*)$/ ) {
+        $attr_text = $1;
+        $msgid     = $2;
+        $attr_text =~ s/\\//g;
+    }
+
+debug_msg("msgid 3: |$msgid| |$tag|\n");
+
     if (   $msgid
         && defined $msgids->{ '"' . $msgid . '"' }
         && ( $msgids->{ '"' . $msgid . '"' }{msgstr} ne '""' ) )
@@ -461,7 +473,7 @@ sub translate {
         my $dtd = Publican::Builder::dtd_string(
             { tag => $tag, dtdver => $self->{publican}->param('dtdver') } );
         my $new_tree = Publican::Builder::new_tree();
-        $new_tree->parse(qq|$dtd<$tag>$repl</$tag>|);
+        $new_tree->parse(qq|$dtd<$tag$attr_text>$repl</$tag>|);
         $node->delete_content();
         $node->push_content( $new_tree->content_list() );
     }
