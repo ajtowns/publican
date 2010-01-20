@@ -185,7 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Dec 10 2009 Jeff Fearn <jfearn@redhat.com> 1.4-0
-- Ignore obsolete entrees in stats code. BZ #546130
+- Ignore obsolete entries in stats code. BZ #546130
 - Fix valid_lang matching on unknown languages.
 - Fix invalid tag in DTD. BZ #548629
 - Added contrib to translation tag list. BZ #550460
@@ -198,7 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix non-default tmp dir. BZ #551974
 - Fix validation output. BZ #556684
 - Fix tag attributes breaking translation merge. BZ #554230
-- Format XML when running reate. BZ #556201
+- Format XML when running create. BZ #556201
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
