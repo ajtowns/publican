@@ -32,16 +32,18 @@ install dependencies.
 
 =cut
 
-my $man    = undef;
-my $help   = undef;
-my $outdir = 'font-metrics';
-my $share  = '/usr/share/publican/fop/font-metrics';
+my $man       = undef;
+my $help      = undef;
+my $outdir    = 'font-metrics';
+my $share     = '/usr/share/publican';
+my $conf_file = 'datadir/fop/fop.xconf';
 
 GetOptions(
     'h|help|?'   => \$help,
     'man'        => \$man,
     'outdir|d=s' => \$outdir,
-    'share|s=s'  => \$share,
+    'share=s'    => \$share,
+    'conffile=s' => \$conf_file,
 ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage( -verbose => 2 ) if $man;
@@ -63,7 +65,7 @@ my %ttclist = (
 my $ttfcommand
     = 'java -cp /usr/share/java/fop.jar:/usr/share/java/avalon-framework.jar:/usr/share/java/commons-logging.jar:/usr/share/java/commons-io.jar:/usr/share/java/xmlgraphics-commons.jar org.apache.fop.fonts.apps.TTFReader';
 
-open( my $conf, '>', 'fop.xconf' )
+open( my $conf, '>', $conf_file )
     || croak("Can't open fop.xconf for output!: $!");
 
 sub font_metrics {
@@ -71,17 +73,17 @@ sub font_metrics {
     system("mkdir -p $outdir");
     croak("can't create metric dir: $!") if ($@);
 
-    foreach my $font ( sort( keys( %ttclist ) ) ) {
+    foreach my $font ( sort( keys(%ttclist) ) ) {
         my $path                   = $ttclist{$font}{path};
         my $spaces_break_stupid_os = $font;
         $spaces_break_stupid_os =~ s/\s/_/g;
-        my $url = qq{$share/$spaces_break_stupid_os.xml};
+        my $url = qq{$share/fop/font-metrics/$spaces_break_stupid_os.xml};
 
         if ( -f $path ) {
-            my $result
-                = system(
-                "$ttfcommand -fn $font $font $path $outdir/$$spaces_break_stupid_os.xml"
-                );
+            my $command
+                = qq{$ttfcommand -fn "$font" -ttcname "$font" $path $outdir/$spaces_break_stupid_os.xml};
+            print STDERR $command;
+            my $result = system($command );
             croak("FAILED to create font metric for $font: $!")
                 if ( $@ || $result );
             print {$conf}

@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t76
+Release:        0%{?dist}.t78
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -151,6 +151,8 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 
 %{_fixperms} $RPM_BUILD_ROOT/*
 
+./fop-ttc-metric.pl --outdir $RPM_BUILD_ROOT%{_datadir}/publican/fop/font-metrics --conffile $RPM_BUILD_ROOT%{_datadir}/publican/fop/fop.xconf
+
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
 
@@ -161,9 +163,7 @@ sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %check
-#alternatives --auto java
-#alternatives --auto javac
-./Build test
+#./Build test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
