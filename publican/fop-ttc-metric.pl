@@ -7,7 +7,7 @@ use Carp;
 
 =head1 NAME
 
-fop-ttc-metrics.pl - script to create fop.xconf file for TrueType font Collections.
+fop-ttc-metrics.pl - script to handle TrueType font Collections.
 
 =head1 SYNOPSIS
 
@@ -46,14 +46,17 @@ GetOptions(
 pod2usage(1) if $help;
 pod2usage( -verbose => 2 ) if $man;
 
+# FYI you also need to add the font names to template pickfont in datadir/xsl/pdf.xsl
 my %ttclist = (
-    'AR PL UMing CN' => { path => '/usr/share/fonts/cjkuni-uming/uming.ttc',
-            style  => [ 'normal', 'italic' ],
-            weight => [ 'normal', 'bold' ],
+    'AR PL UMing CN' => {
+        path   => '/usr/share/fonts/cjkuni-uming/uming.ttc',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
     },
-    'AR PL UMing TW' => { path =>'/usr/share/fonts/cjkuni-uming/uming.ttc',
-            style  => [ 'normal', 'italic' ],
-            weight => [ 'normal', 'bold' ],
+    'AR PL UMing TW' => {
+        path   => '/usr/share/fonts/cjkuni-uming/uming.ttc',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
     },
 );
 
@@ -61,22 +64,26 @@ my $ttfcommand
     = 'java -cp /usr/share/java/fop.jar:/usr/share/java/avalon-framework.jar:/usr/share/java/commons-logging.jar:/usr/share/java/commons-io.jar:/usr/share/java/xmlgraphics-commons.jar org.apache.fop.fonts.apps.TTFReader';
 
 open( my $conf, '>', 'fop.xconf' )
-        || croak("Can't open fop.xconf for output!: $!");
+    || croak("Can't open fop.xconf for output!: $!");
 
 sub font_metrics {
     `rm -rf $outdir`;
     system("mkdir -p $outdir");
-    croak("can't create metric dir: $!") if($@);
+    croak("can't create metric dir: $!") if ($@);
 
-    foreach my $font ( sort( keys( %{ %ttclist } ) ) ) {
-        my $path = $ttclist{$font}{path};
-	my $spaces_break_stupid_os = $font;
+    foreach my $font ( sort( keys( %{%ttclist} ) ) ) {
+        my $path                   = $ttclist{$font}{path};
+        my $spaces_break_stupid_os = $font;
         $spaces_break_stupid_os =~ s/\s/_/g;
-        my $url  = qq{$share/$spaces_break_stupid_os.xml};
+        my $url = qq{$share/$spaces_break_stupid_os.xml};
 
-        if( -f $path) {
-            my $result = system("$ttfcommand -fn $font $font $path $outdir/$$spaces_break_stupid_os.xml");
-	    croak("FAILED to create font metric for $font: $!") if($@ || $result);
+        if ( -f $path ) {
+            my $result
+                = system(
+                "$ttfcommand -fn $font $font $path $outdir/$$spaces_break_stupid_os.xml"
+                );
+            croak("FAILED to create font metric for $font: $!")
+                if ( $@ || $result );
             print {$conf}
                 qq{\t\t\t\t<font metrics-url="$url" kerning="yes" embed-url="$path">\n};
             foreach my $style ( @{ $ttclist{$font}{style} } ) {
