@@ -2,7 +2,7 @@
 
 Name:		publican-freeipa
 Summary:	Common documentation files for %{brand}
-Version:	1.1
+Version:	1.2
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,8 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Jan 21 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.2
+ - rm placeholder images
 * Thu Jan 21 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.1
- - rebuild spec fil
+ - rebuild spec file
  - update license to CC-BY-SA
  - add placeholder SVG of title logo
  - add pdf.xsl for green headings
