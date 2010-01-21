@@ -2,9 +2,9 @@
 
 Name:		publican-jboss-community-hibernate
 Summary:	Common documentation files for Hibernate community documents
-Version:	0.4
+Version:	0.5
 Release:	0%{?dist}
-License:	SETUP: Set This
+License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -38,7 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Tue Dec 8 2009  Jeff Fearn <r.landmann@redhat.com> 0.4
+* Thu Jan 21 2010  James Cobb <jcobb@redhat.com> 0.5
+- fine-tune CSS
+* Tue Dec 8 2009  Rüdiger Landmann <r.landmann@redhat.com> 0.4
 - fine-tune title SVG
 * Tue Dec 8 2009  Jeff Fearn <jfearn@redhat.com> 0.3
 - fine-tune CSS

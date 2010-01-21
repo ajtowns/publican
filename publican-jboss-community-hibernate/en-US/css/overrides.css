@@ -25,7 +25,7 @@ div.longdesc-link {
 /* Headings */
 
 h1, h2, h3, h4, h5, h6 {
-	color:#4a5d75;
+	color:#59666c;
 	line-height:130%;
 	margin-top:0em;
 	font-family:'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
@@ -40,12 +40,13 @@ h1 {
 
 .producttitle {
 	background: url(../images/h1-bg.png) top left no-repeat;
-	color:#182737;
+	color:#59666c;
 	font-size:2em;
+	clear:both;
 }
 
 .section h1.title {
-	color:#4a5d75;
+	color:#59666c;
 }
 
 h2 {font-size:1.6em;}
@@ -158,8 +159,8 @@ pre, code, .guibutton, .keycap, .guilabel {
 .keycap {padding:.1em.4em;}
 
 .example {
-    background-color:#c8c5ac;
-    padding:5px;
+    background-color:#DAD6B9;
+    padding:20px;
     margin-bottom:10px;
 }
 
@@ -208,7 +209,7 @@ div.tip {
 }
 
 div.important {
-    background:#4a5d75;
+    background:#59666c;
     color:white;
     border:1px solid #8a9195;
     margin-bottom:1.5em;
@@ -335,7 +336,7 @@ table {
 
 table th {
     text-align:left;
-    background-color:#4A5D75;
+	background:#59666c;
     padding:.3em .5em;
     color:white;
 }
@@ -550,3 +551,10 @@ pre {-moz-border-radius:11px;}
 
 div.note, div.tip, div.important, div.caution, div.warning {-moz-border-radius:11px;}
 
+
+/* added to center background */
+.draft {
+	background-image: url(../images/watermark-draft.png);
+	background-repeat: repeat-X;
+	background-position: center top;
+}
