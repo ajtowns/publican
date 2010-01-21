@@ -71,7 +71,7 @@ sub font_metrics {
     system("mkdir -p $outdir");
     croak("can't create metric dir: $!") if ($@);
 
-    foreach my $font ( sort( keys( %{%ttclist} ) ) ) {
+    foreach my $font ( sort( keys( %ttclist ) ) ) {
         my $path                   = $ttclist{$font}{path};
         my $spaces_break_stupid_os = $font;
         $spaces_break_stupid_os =~ s/\s/_/g;
