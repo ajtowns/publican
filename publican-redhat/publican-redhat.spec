@@ -3,7 +3,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	1.1
+Version:	1.2
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Nov 27 2009 Rüdiger Landmann <r.landmann@redhat.com> 1.2
+- include section on getting help from GSS and other sources. BZ #492499
+
 * Fri Nov 27 2009 Jeff Fearn <jfearn@redhat.com> 1.1
 - update license to CC-BY-SA
 
