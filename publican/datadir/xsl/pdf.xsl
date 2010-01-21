@@ -727,6 +727,7 @@ Version:1.72
 
 <!--
 	Pick a non-latin font
+	seperate fonts with a comma for fall-back
 	Remember to add a comma to the end!
 -->
 <xsl:template name="pickfont">
@@ -768,7 +769,7 @@ Version:1.72
 			<xsl:when test="$l10n.gentext.language = 'kn-IN' or $l10n.gentext.language = 'kn'">
 				<xsl:text>Lohit Kannada,</xsl:text>
 			</xsl:when>
-			<xsl:when test="$l10n.gentext.language = 'ml-IN' or $l10n.gentext.language = 'ml-IN'">
+			<xsl:when test="$l10n.gentext.language = 'ml-IN' or $l10n.gentext.language = 'ml'">
 				<xsl:text>Lohit Malayalam,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'or-IN' or $l10n.gentext.language = 'or'">

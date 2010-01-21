@@ -139,7 +139,7 @@ sub po2xml {
 
     my $msgids = Locale::PO->load_file_ashash($po_file);
 
-    debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
+##    debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
 
     $self->merge_msgs( { out_doc => $out_doc, msgids => $msgids } );
 
@@ -459,13 +459,13 @@ sub translate {
         $attr_text =~ s/\\//g;
     }
 
-debug_msg("msgid 3: |$msgid| |$tag|\n");
+##debug_msg("msgid 3: |$msgid| |$tag|\n");
 
     if (   $msgid
         && defined $msgids->{ '"' . $msgid . '"' }
         && ( $msgids->{ '"' . $msgid . '"' }{msgstr} ne '""' ) )
     {
-        debug_msg("found msg!\n");
+##        debug_msg("found msg!\n");
         my $repl = Encode::decode_utf8(
             po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} ) );
 
