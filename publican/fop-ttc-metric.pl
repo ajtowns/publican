@@ -26,7 +26,7 @@ Options
 FOP <= 0.95 can not automatically generate metrics for true Type collections so
 Publican must generate them at build time.
 
-This script will look for know ttc files and generate metrics if they are found.
+This script will look for known ttc files and generate metrics if they are found.
 This requires the packaging system to Require the ttc font packages as build and
 install dependencies.
 
@@ -123,6 +123,8 @@ print {$conf} <<BOTTOM;
 \t</renderers>
 </fop>
 BOTTOM
+
+close($conf);
 
 exit;
 
