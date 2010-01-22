@@ -301,7 +301,6 @@ sub get_msgs {
     my $trans_node;
 
     foreach my $child ( $doc->look_down( '_tag', qr/$TRANSTAGS/ ) ) {
-
         # lookdown matches the root node
         if ( $child->address() eq $trans_tree->address() ) {
 
@@ -340,6 +339,11 @@ sub get_msgs {
                     );
                 }
                 else {
+# mixed mode content, like a footnote, will break strings in two
+## TODO look in to joining split strings in to a single translation entry
+                    if($trans_node->tag() eq 'footnote' && $trans_node->is_empty()) {
+			$trans_node->tag($child->tag());
+		    }
                     $trans_node->push_content($nested);
                 }
             }
@@ -414,6 +418,11 @@ sub merge_msgs {
                     $child->push_content($nested);
                 }
                 else {
+# mixed mode content, like a footnote, will break strings in two
+## TODO look in to joining split strings in to a single translation entry
+                    unless($trans_node->tag()) {
+			$trans_node = XML::Element->new( $child->tag() );
+                    }
                     $trans_node->push_content($nested);
                 }
             }
@@ -615,7 +624,9 @@ Format a stirng for use in a PO file.
 
 sub po_format {
     my $string = shift;
-    my $name   = shift;
+    my $name   = shift || '';
+
+debug_msg("unknown tag for: $string") unless $name;
     $string =~ s/^<$name>\s*//s;      # remove start tag to reduce polution
     $string =~ s/\s*<\/$name>$//s;    # remove close tag to reduce polution
     $string =~ s/\\/\\\\/g;    # \ seen as control sequence by msg* programs

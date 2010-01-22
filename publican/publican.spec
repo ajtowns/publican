@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t78
+Release:        0%{?dist}.t97
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -89,7 +89,7 @@ BuildRequires:  fonts-tamil fonts-telugu liberation-fonts
 %endif
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
-Requires:       cjkuni-uming-fonts  sazanami-gothic-fonts sazanami-mincho-fonts
+Requires:       cjkuni-uming-fonts ipa-gothic-fonts
 Requires:       lklug-fonts baekmuk-ttf-batang-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
@@ -199,6 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix validation output. BZ #556684
 - Fix tag attributes breaking translation merge. BZ #554230
 - Format XML when running create. BZ #556201
+- Switch Japanese font to ipa-gothic-fonts on Fedora
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
