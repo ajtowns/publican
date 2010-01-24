@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t97
+Release:        0%{?dist}.t98
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -199,7 +199,8 @@ rm -rf $RPM_BUILD_ROOT
 - Fix validation output. BZ #556684
 - Fix tag attributes breaking translation merge. BZ #554230
 - Format XML when running create. BZ #556201
-- Switch Japanese font to ipa-gothic-fonts on Fedora
+- Switch Japanese font to ipa-gothic-fonts on Fedora.
+- Add TTC build time script. BZ #557336
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
