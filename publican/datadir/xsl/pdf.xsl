@@ -734,7 +734,7 @@ Version:1.72
 	<xsl:variable name="font">
 		<xsl:choose>
 			<xsl:when test="$l10n.gentext.language = 'ja-JP' or l10n.gentext.language = 'ja'">
-				<xsl:text>Sazanami Gothic,IPAGothic,</xsl:text>
+				<xsl:text>IPAGothic,Sazanami Gothic,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'ko-KR' or $l10n.gentext.language = 'ko'">
 				<xsl:text>Baekmuk Batang,</xsl:text>

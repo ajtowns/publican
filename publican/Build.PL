@@ -95,6 +95,7 @@ my $builder = $class->new(
         'Module::Build'                   => 0,
         'Test::Exception'                 => 0,
         'Test::More'                      => 0,
+        'Test::Pod'                       => 0,
         'Test::Pod::Coverage'             => 0,
         'Test::Perl::Critic'              => 0,
         'Archive::Tar'                    => 0,
