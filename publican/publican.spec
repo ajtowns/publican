@@ -11,8 +11,8 @@
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
 
 Name:           publican
-Version:        1.3
-Release:        0%{?dist}.t105
+Version:        1.4
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
