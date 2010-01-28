@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t102
+Release:        0%{?dist}.t105
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -184,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Thu Dec 10 2009 Jeff Fearn <jfearn@redhat.com> 1.4-0
+* Mon Jan 25 2010 Jeff Fearn <jfearn@redhat.com> 1.4-0
 - Ignore obsolete entries in stats code. BZ #546130
 - Fix valid_lang matching on unknown languages.
 - Fix invalid tag in DTD. BZ #548629
@@ -200,7 +200,10 @@ rm -rf $RPM_BUILD_ROOT
 - Fix tag attributes breaking translation merge. BZ #554230
 - Format XML when running create. BZ #556201
 - Switch Japanese font to ipa-gothic-fonts on Fedora.
+- Fix Japanes mono/proportional font selection.
 - Add TTC build time script. BZ #557336
+- Add check for main file before parsing.
+- Add check for OS before running FOP.
 
 * Tue Dec 08 2009 Jeff Fearn <jfearn@redhat.com> 1.3-0
 - Fixed --version BZ #533081
@@ -841,4 +844,5 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
+
 

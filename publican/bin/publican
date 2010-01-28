@@ -431,7 +431,7 @@ if ( $action eq 'clean' || $action eq 'package' ) {
     }
     logger( maketext("Clean: Removing temporary and publish content.") . "\n",
     );
-    rmtree("tmp");
+    rmtree($publican->param('tmp_dir'));
     rmtree("publish");
     my $books = $publican->param('books') || "";
     foreach my $book ( split( " ", $books ) ) {

@@ -170,7 +170,7 @@ my $builder = $class->new(
         'blib',
         'foo*',
         'Test_*',
-        'Users_Guide/tmp',
+        'Users_Guide/build',
         'datadir/Common_Content/common/tmp',
         'datadir/Common_Content/common/publish',
         'MANIFEST.bak',

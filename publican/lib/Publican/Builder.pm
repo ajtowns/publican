@@ -36,6 +36,8 @@ $VERSION = version->new('0.1');
 
 my $INVALID = 1;
 
+my $TEST_MML = 0;
+
 =head1 NAME
 
 Publican::Builder - A module to Convert XML to various output formats
@@ -504,9 +506,21 @@ sub validate_xml {
         }
     );
     $parser->expand_xinclude(1);
+
+    croak( maketext( "Cannot locate main XML file: '[_1]'", "$docname.xml" ) )
+        unless ( -f "$docname.xml" );
+
     my $source = $parser->parse_file("$docname.xml");
 
-    my $dtd_path = "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd";
+## TODO should version be a variable?
+    my $dtd_type = '-//OASIS//DTD DocBook XML V4.5//EN';
+    my $dtd_path = 'http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd';
+
+    if ( 0 && $TEST_MML ) {
+        $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
+        $dtd_path
+            = 'http://www.oasis-open.org/docbook/xml/mathml/1.0/dbmathml.dtd';
+    }
 
     if ( $^O eq 'MSWin32' ) {
         eval { require Win32::TieRegistry; };
@@ -525,8 +539,7 @@ sub validate_xml {
             $dtd_path =~ s/\\/\//g;
         }
     }
-    my $dtd = XML::LibXML::Dtd->new( "-//OASIS//DTD DocBook XML V4.5//EN",
-        $dtd_path );
+    my $dtd = XML::LibXML::Dtd->new( $dtd_type, $dtd_path );
 
     unless ( $source->is_valid($dtd) ) {
         logger( maketext("Validation failed: ") . "\n", RED );
@@ -780,9 +793,16 @@ sub transform {
             . $self->{publican}->param('version') . '-'
             . $self->{publican}->param('docname') . '-'
             . "$lang.pdf";
-        system(
-            "classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name"
-        );
+
+        my $fop_command = qq|classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
+
+## TODO find out if we need to set classpath on windows and how
+        if ( $^O eq 'MSWin32' ) {
+            $fop_command = qq|fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
+        }
+
+        system($fop_command);
+
         $dir = undef;
     }
     elsif ( $format eq 'epub' ) {
@@ -817,14 +837,14 @@ sub transform {
         my $member = $zip->addDirectory("OEBPS/");
         $member = $zip->addDirectory("META-INF/");
 
-        #	$member = $zip->addFile( "$tmp_dir/$lang/$format/mimetype" );
+##	$member = $zip->addFile( "$tmp_dir/$lang/$format/mimetype" );
 
         my @filelist = File::Find::Rule->file->in(".");
         foreach my $file (@filelist) {
             $member = $zip->addFile($file);
         }
 
-    #        my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
+##        my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
         my $epub_name
             = $self->{publican}->param('product') . '-'
             . $self->{publican}->param('version') . '-'
@@ -867,8 +887,8 @@ sub transform {
     $stylesheet = undef;
     $parser     = undef;
 
-    # TODO BUGBUG freeing $results goes BOOM on windows
-    # TODO requires testing since the other crashbug is resolved
+## TODO BUGBUG freeing $results goes BOOM on windows
+## TODO requires testing since the other crashbug is resolved
     $results = undef;
 
     return;
@@ -1776,6 +1796,13 @@ sub dtd_string {
     }
 
     my $uri = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
+    my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
+
+    if ( 0 && $TEST_MML ) {
+        $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
+        $uri
+            = 'http://www.oasis-open.org/docbook/xml/mathml/1.0/dbmathml.dtd';
+    }
 
     # TODO Maynot be necessary
     if ( $^O eq 'MSWin32' ) {
@@ -1797,10 +1824,23 @@ sub dtd_string {
         $uri =~ s/\\/\//g;
     }
 
-    my $dtd = <<DTD;
+    my $dtd = <<DTDHEAD;
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE $tag PUBLIC "-//OASIS//DTD DocBook XML V$dtdver//EN" "$uri" [
-DTD
+<!DOCTYPE $tag PUBLIC "$dtd_type" "$uri" [
+DTDHEAD
+
+    if ($TEST_MML) {
+        $dtd .= <<MML;
+<!ENTITY % MATHML.prefixed "INCLUDE">
+<!ENTITY % MATHML.prefix "mml">
+<!ENTITY % equation.content "(alt?, (graphic+|mediaobject+|mml:math))">
+<!ENTITY % inlineequation.content
+               "(alt?, (inlinegraphic+|inlinemediaobject+|mml:math))">
+<!ENTITY % mathml PUBLIC "-//W3C//DTD MathML 2.0//EN"
+       "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
+%mathml;
+MML
+    }
 
     # handle entity file
     if ($ent_file) {
@@ -1810,9 +1850,9 @@ DTD
 ENT
     }
 
-    $dtd .= <<DTD;
+    $dtd .= <<DTDTAIL;
 ]>
-DTD
+DTDTAIL
 
     return ($dtd);
 }
