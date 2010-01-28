@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.3
-Release:        0%{?dist}.t99
+Release:        0%{?dist}.t102
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -89,7 +89,7 @@ BuildRequires:  fonts-tamil fonts-telugu liberation-fonts
 %endif
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
-Requires:       cjkuni-uming-fonts ipa-gothic-fonts
+Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 Requires:       lklug-fonts baekmuk-ttf-batang-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
