@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.4
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -93,7 +93,7 @@ Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 Requires:       lklug-fonts baekmuk-ttf-batang-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
-BuildRequires:  cjkuni-uming-fonts sazanami-gothic-fonts sazanami-mincho-fonts
+BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 # Indic font names have changed AGAIN (F12)
 # and AGAIN they fail to set Provides
@@ -184,6 +184,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Fri Jan 29 2010 Jeff Fearn <jfearn@redhat.com> 1.4-1
+- make font BuildRequires match requires.
+
 * Mon Jan 25 2010 Jeff Fearn <jfearn@redhat.com> 1.4-0
 - Ignore obsolete entries in stats code. BZ #546130
 - Fix valid_lang matching on unknown languages.
