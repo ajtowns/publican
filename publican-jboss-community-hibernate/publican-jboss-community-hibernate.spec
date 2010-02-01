@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community-hibernate
 Summary:	Common documentation files for Hibernate community documents
-Version:	0.5
+Version:	0.6
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Feb 1 2010  James Cobb <jcobb@redhat.com> 0.5
+- CSS fix for gradient in draft docs
 * Thu Jan 21 2010  James Cobb <jcobb@redhat.com> 0.5
 - fine-tune CSS
 * Tue Dec 8 2009  Rüdiger Landmann <r.landmann@redhat.com> 0.4
