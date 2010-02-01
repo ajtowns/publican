@@ -454,6 +454,7 @@ sub prune_xml {
                 )
                 )
             {
+                croak( maketext("FATAL ERROR: language profiling would prune root node. Do NOT set lang in a root node." ) ) if($node->same_as($xml_doc->root()));
                 $node->delete();
             }
         }
@@ -469,6 +470,7 @@ sub prune_xml {
                 )
                 )
             {
+                croak( maketext("FATAL ERROR: arch profiling would prune root node. Do NOT set arch in a root node." ) ) if($node->same_as($xml_doc->root()));
                 $node->delete();
             }
         }
@@ -485,6 +487,7 @@ sub prune_xml {
                 )
                 )
             {
+                croak( maketext("FATAL ERROR: condition profiling would prune root node. Do NOT set condition in a root node." ) ) if($node->same_as($xml_doc->root()));
                 $node->delete();
             }
         }
