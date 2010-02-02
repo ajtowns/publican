@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community
 Summary:	Common documentation files for JBoss community documents
-Version:	0.9
+Version:	0.10
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Feb 2 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.10
+- Tweak pdf.xsl to match JDocBook
 * Mon Feb 1 2010  James Cobb <jcobb@redhat.com> 0.9
 - CSS fix for gradient in draft docs
 * Tue Jan 12 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.8
