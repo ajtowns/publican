@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community-richfaces
 Summary:	Common documentation files for RichFaces community documents
-Version:	0.2
+Version:	0.3
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Feb 3 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.3
+- Make body text ragged right
 * Tue Feb 2 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.2
 - Tweak pdf.xsl to match JDocBook
 * Tue Feb 2 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.1

@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community-hibernate
 Summary:	Common documentation files for Hibernate community documents
-Version:	0.7
+Version:	0.8
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Feb 3 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.8
+- make body text ragged right
 * Tue Feb 2 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.7
 - Tweak pdf.xsl to match JDocBook
 * Mon Feb 1 2010  James Cobb <jcobb@redhat.com> 0.6
