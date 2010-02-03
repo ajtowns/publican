@@ -186,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Feb 01 2010 Jeff Fearn <jfearn@redhat.com> 1.5-0
 - Croak if profiling would remove root node.
+- Add Archive::Zip to Build.pl
 
 * Fri Jan 29 2010 Jeff Fearn <jfearn@redhat.com> 1.4-1
 - make font BuildRequires match requires.

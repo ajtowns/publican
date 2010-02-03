@@ -99,6 +99,7 @@ my $builder = $class->new(
         'Test::Pod::Coverage'             => 0,
         'Test::Perl::Critic'              => 0,
         'Archive::Tar'                    => 0,
+        'Archive::Zip'                    => 0,
         'Carp'                            => 0,
         'Config::Simple'                  => 0,
         'Cwd'                             => 0,
@@ -132,6 +133,7 @@ my $builder = $class->new(
     },
     requires => {
         'Archive::Tar'                    => 0,
+        'Archive::Zip'                    => 0,
         'Carp'                            => 0,
         'Config::Simple'                  => 0,
         'Cwd'                             => 0,
