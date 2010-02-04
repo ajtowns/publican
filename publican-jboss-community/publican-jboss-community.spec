@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community
 Summary:	Common documentation files for JBoss community documents
-Version:	0.11
+Version:	0.13
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Feb 4 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.13
+- resize title_logo.svg
+* Thu Feb 4 2010  James Cobb <jcobb@redhat.com> 0.12
+- replace title_logo.svg
 * Wed Feb 3 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.11
 - make body text ragged right
 * Tue Feb 2 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.10
