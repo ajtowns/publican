@@ -22,6 +22,9 @@ $VERSION = 0.1;
 my $TRANSTAGS
     = '^(ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|jobtitle|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|term|termdef|tertiary|tertiaryie|title|titleabbrev)$';
 
+# Blocks to not split from surrounding content
+my $IGNOREBLOCKS = '^(footnote|indexterm)$';
+
 =head1 NAME
 
 Publican::Translate - Module for manipulating POT and PO files.
@@ -300,7 +303,8 @@ sub get_msgs {
 
     my $trans_node;
 
-    foreach my $child ( $doc->look_down( '_tag', qr/$TRANSTAGS/ ) ) {
+#    foreach my $child ( $doc->look_down( '_tag', qr/$TRANSTAGS/ ) ) {
+    foreach my $child ( $doc->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) ) {
         # lookdown matches the root node
         if ( $child->address() eq $trans_tree->address() ) {
 
@@ -311,7 +315,8 @@ sub get_msgs {
 
         $trans_node = XML::Element->new( $child->tag() );
 
-        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/ );
+#        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/ );
+        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } );
 
     # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
@@ -330,7 +335,8 @@ sub get_msgs {
             # this catches inline tags
             foreach my $nested ( $child->content_list() ) {
                 if ( ref $nested
-                    && $nested->look_down( '_tag', qr/$TRANSTAGS/ ) )
+#                    && $nested->look_down( '_tag', qr/$TRANSTAGS/) )
+                    && $nested->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) )
                 {
                     $trans_tree->push_content($trans_node);
                     $trans_node = XML::Element->new( $nested->tag() );
@@ -341,9 +347,9 @@ sub get_msgs {
                 else {
 # mixed mode content, like a footnote, will break strings in two
 ## TODO look in to joining split strings in to a single translation entry
-                    if($trans_node->tag() eq 'footnote' && $trans_node->is_empty()) {
-			$trans_node->tag($child->tag());
-		    }
+#                    if($trans_node->tag() eq 'footnote' && $trans_node->is_empty()) {
+#			$trans_node->tag($child->tag());
+#		    }
                     $trans_node->push_content($nested);
                 }
             }

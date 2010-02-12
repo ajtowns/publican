@@ -18,6 +18,7 @@ use File::Find::Rule;
 use File::pushd;
 use Archive::Tar;
 use Term::ANSIColor qw(:constants);
+use Cwd qw(abs_path);
 
 my $VERSION = version->new('1.4');
 
@@ -120,6 +121,8 @@ my %options = (
     'distributed_set' => maketext(
         'This flag tells publican the data being processed is a distributed set. Note: do not use on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.'
     ),
+    'cvs' => maketext(
+        'Import the SRPM in to CVS, the run make tag and make build.'),
 );
 
 # Options all actions use
@@ -177,7 +180,7 @@ my %actions = (
         'brief'   => maketext('Package a language for shipping'),
         'options' => [
             'lang',          'desktop', 'brew', 'scratch',
-            'short_sighted', 'binary',  'wait'
+            'short_sighted', 'binary',  'wait', 'cvs'
         ],
     },
     'update_pot' => {
@@ -432,7 +435,7 @@ if ( $action eq 'clean' || $action eq 'package' ) {
     }
     logger( maketext("Clean: Removing temporary and publish content.") . "\n",
     );
-    rmtree($publican->param('tmp_dir'));
+    rmtree( $publican->param('tmp_dir') );
     rmtree("publish");
     my $books = $publican->param('books') || "";
     foreach my $book ( split( " ", $books ) ) {
@@ -516,13 +519,63 @@ if ( $action eq 'package' ) {
             system( @brew_args, "$srpm" );
         }
         else {
-            logger(
-                maketext( "Can't locate srpm [_1], did you run --package?",
-                    "$srpm" )
-                    . "\n",
-                RED
-            );
+            croak( maketext("Can't locate srpm, packaging aborted") . "\n",
+                RED );
         }
+    }
+
+    if ( $opts{cvs} ) {
+
+        my $dir = pushd( $publican->param('tmp_dir') );
+print("pushd " . $publican->param('tmp_dir') . "\n");
+
+        my @filelist = File::Find::Rule->file->name('*.src.rpm')->in('rpm');
+
+        my $srpm = abs_path(pop(@filelist));
+
+        unless ( -f "$srpm" ) {
+            croak( maketext("Can't locate srpm, CVS import aborted") . "\n" );
+        }
+
+        my $cvs_root = $publican->param('cvs_root')
+            || croak(
+            maketext("--cvs requires cvs_root to be set in the cfg file") );
+        my $cvs_pkg = $publican->param('cvs_pkg') || croak(
+            maketext("--cvs requires cvs_pkg to be set in the cfg file") );;
+        my $cvs_branch = $publican->param('cvs_branch')
+            || croak(
+            maketext("--cvs requires cvs_branch to be set in the cfg file") );
+
+        my $cvs_dir = $publican->param('cvs_pkg') . '-'
+            . $publican->param('cvs_branch');
+
+        my @cvs_args = ( "cvs");
+        push( @cvs_args, ("-d", $cvs_root)) if ($cvs_root);
+        push( @cvs_args, ("co", $cvs_dir ));
+
+print("cvs command: " . join(" ",@cvs_args), "\n");
+        system(@cvs_args);
+        croak($@) if ($@);
+
+        $dir = pushd( $cvs_dir . '/' . $publican->param('cvs_pkg') );
+print("pushd $cvs_dir/" . $publican->param('cvs_pkg') . "\n");
+
+        print("../common/cvs-import.sh $srpm");
+        croak($@) if ($@);
+print("\n");
+        print("cvs up");
+        croak($@) if ($@);
+print("\n");
+
+        print("make tag");
+        croak($@) if ($@);
+print("\n");
+
+        print("make build");
+        croak($@) if ($@);
+print("\n");
+
+        $dir = undef;
     }
 }
 
@@ -617,7 +670,7 @@ package
         --short_sighted           Create package without using version in package name
         --binary                  Build binary rpm when running package
         --wait                    Wait for brew to finish building
-
+        --cvs                     Import the SRPM in to CVS, the run make tag and make build.
 
 printtree
     Print a tree of the xi:includes

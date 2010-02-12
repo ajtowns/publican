@@ -105,6 +105,7 @@ my %MAP_OUT = (
     'programlisting'   => { 'block'       => 1, 'verbatim'      => 1 },
     'programlistingco' => { 'block'       => 1, 'newline_after' => 1 },
     'xref'             => { 'force_empty' => 1 },
+    'footnoteref'      => { 'force_empty' => 1 },
     'important'        => { 'block'       => 1, 'no_id'         => 1 },
     'note'             => { 'block'       => 1, 'no_id'         => 1 },
     'warning'          => { 'block'       => 1, 'no_id'         => 1 },
@@ -684,6 +685,7 @@ sub my_as_XML {
 
     # This flags tags that use  /> instead of end tags IF they are empty.
     $empty_element_map->{'xref'}       = 1;
+    $empty_element_map->{'footnoteref'} = 1;
     $empty_element_map->{'index'}      = 1;
     $empty_element_map->{'xi:include'} = 1;
     $empty_element_map->{'ulink'}      = 1;
