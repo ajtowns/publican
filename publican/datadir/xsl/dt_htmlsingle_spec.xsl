@@ -34,10 +34,8 @@ BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: publican
 BuildRequires: desktop-file-utils
+<xsl:if test="$brand != 'publican-common'">BuildRequires:    <xsl:value-of select="$brand"/></xsl:if>
 
-<xsl:if test="$brand != 'publican-common'">
-BuildRequires:    <xsl:value-of select="$brand"/>
-</xsl:if>
 %if %{HTMLVIEW}
 Requires:    htmlview
 %else
@@ -47,8 +45,7 @@ Requires:    xdg-utils
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
-%description -l <xsl:value-of select="$lang"/></xsl:if>
-<xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
+%description -l <xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="$abstract" />
 
 %prep
 %setup -q

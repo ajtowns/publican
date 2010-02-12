@@ -26,6 +26,7 @@ use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
 use List::Util qw[max];
+use Text::Wrap qw(wrap $columns);
 
 use version;
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
@@ -37,6 +38,8 @@ $VERSION = version->new('0.1');
 my $INVALID = 1;
 
 my $TEST_MML = 0;
+my $DEFAULT_WRAP = 82;
+$columns = $DEFAULT_WRAP;
 
 =head1 NAME
 
@@ -1465,6 +1468,7 @@ sub package {
     my $language      = code2language( substr( $lang, 0, 2 ) );
 
     my $log = $self->change_log();
+    my $abstract = $self->abstract({lang => $lang});
 
     my %xslt_opts = (
         'book-title'  => $name_start,
@@ -1483,6 +1487,8 @@ sub package {
         web_obsoletes => $web_obsoletes,
         translation   => $translation,
         language      => $language,
+        abstract      => $abstract,
+        tmpdir        => $tmp_dir,
     );
 
     logger(
@@ -1604,6 +1610,40 @@ sub change_log {
     }
 
     return ($log);
+}
+
+
+=head2 abstract
+
+Generate an RPM style change log from $xml_lang/Revision_History.xml
+
+=cut
+
+sub abstract {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} ) || croak("lang is a mandatory argument");
+
+    if ( %{$args} ) {
+        croak "unknown args: " . join( ", ", keys %{$args} );
+    }
+
+    my $tmp_dir = $self->{publican}->param('tmp_dir');
+    my $type    = $self->{publican}->param('type');
+
+    my $xml_doc = XML::TreeBuilder->new();
+    $xml_doc->parse_file("$tmp_dir/$lang/xml/$type" . '_Info.xml');
+
+    my $abstract = $xml_doc->root()->look_down( "_tag", "abstract" ) || croak(
+        maketext(
+            "Missing mandatory field '[_1]'.", 'abstract')
+    );
+
+    $columns = 68;
+    my $text = wrap( "", "", $abstract->as_text() );
+    $columns = $DEFAULT_WRAP;
+    $text =~ s/^\s*//s;
+    return ($text);
 }
 
 =head2 get_books

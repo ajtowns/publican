@@ -36,7 +36,7 @@ Prefix:        /var/www/html/docs
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
 
-%description -l <xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
+%description -l <xsl:value-of select="$lang"/> </xsl:if><xsl:value-of select="$abstract" />
 
 %package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'">
@@ -44,8 +44,8 @@ Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of se
 Summary(<xsl:value-of select="$lang"/>):    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 </xsl:if>
 <xsl:if test="$translation != '1'">
-Summary:    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
-</xsl:if>
+Summary:    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/></xsl:if>
+
 Group:        Documentation
 %if %{HTMLVIEW}
 Requires:    htmlview
@@ -57,7 +57,7 @@ Requires:    xdg-utils
 %description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
-%description -l <xsl:value-of select="$lang"/>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="/bookinfo/abstract/para" /><xsl:value-of select="/setinfo/abstract/para" /><xsl:value-of select="/articleinfo/abstract/para" />
+%description -l <xsl:value-of select="$lang"/>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/> </xsl:if><xsl:value-of select="$abstract" />
 
 %prep
 %setup -q
@@ -108,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 %defattr(-,root,root,-)
-%doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
+%doc <xsl:value-of select="$tmpdir"/>/<xsl:value-of select="$lang"/>/html-desktop/*
 %if %{HTMLVIEW}
 %{_datadir}/applications/redhat-<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %else

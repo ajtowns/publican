@@ -5,7 +5,6 @@ use warnings;
 use Carp;
 use version;
 use XML::TreeBuilder;
-use Text::Wrap qw(wrap $columns);
 use Config::Simple;
 use Publican;
 use File::Path;
@@ -16,10 +15,7 @@ use Publican::Builder;
 
 use vars qw( $VERSION );
 
-my $DEFAULT_WRAP = 82;
 my $MAX_WIDTH    = 444;
-
-$columns = $DEFAULT_WRAP;
 
 $VERSION = version->new('0.1');
 
@@ -142,7 +138,7 @@ my %MAP_OUT = (
     'tertiary'          => { 'newline_after' => 1 },
     'bookinfo'          => { 'block'         => 1 },
     'articleinfo'       => { 'block'         => 1 },
-    'abstract'          => { 'block'         => 1, 'line_wrap' => 79 },
+    'abstract'          => { 'block'         => 1 },
     'inlinemediaobject' => { 'block'         => 1 },
     'publisher'         => { 'block'         => 1 },
     'copyright'         => { 'block'         => 1 },
@@ -956,18 +952,6 @@ sub my_as_XML {
                             }
                         }
                         $tree->_xml_escape($node);
-
-## If my grantparent wants me left aligned do so
-## This used for abstract as white space & long lines cause problems with RPM Spec file
-                        if (   $parent->parent()
-                            && $MAP_OUT{ $parent->parent()->{'_tag'} }
-                            ->{'line_wrap'} )
-                        {
-                            $node =~ s/^ //g;
-                            $columns = 68;
-                            $node    = wrap( "", "", $node );
-                            $columns = $DEFAULT_WRAP;
-                        }
 
                         # zero width space to allow Chinese to wrap
                         if ( $lang
