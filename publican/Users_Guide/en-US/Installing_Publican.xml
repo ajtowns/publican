@@ -94,15 +94,13 @@
 		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Debian">
 			<title>Installing Publican on Debian</title>
 			<warning>
-				<title>
-					Warning — Complete this procedure
-				</title>
+				<title> Warning — Complete this procedure </title>
 				<para>
 					Complete every step of this procedure. If you do not undo the changes that you make to the <filename>/etc/apt/sources.list</filename> file as described, your system might become unstable.
 				</para>
 			</warning>
 			<para>
-				<application>Publican</application> is not available in the current stable version of Debian (version 5.0, "Lenny"), but is available in the current testing version ("Squeeze"). To install <application>Publican</application> on a computer that runs Debian, temporarily enable access to the <literal>squeeze</literal> repository. When you enable access to this repository, you allow your computer to install newer software and newer versions of existing software than what is available in the current stable version of Debian. However, not all of the software available in the testing repository has completed quality assurance testing yet. If you do not disable access to this repository after you install <application>Publican</application>, the next time that your system updates, it will replace software packages on your system with newer but possibly untested versions of those packages that it downloads from the testing repository.
+				<application>Publican</application> is not available in the current stable version of Debian (version 5.0, &#34;Lenny&#34;), but is available in the current testing version (&#34;Squeeze&#34;). To install <application>Publican</application> on a computer that runs Debian, temporarily enable access to the <literal>squeeze</literal> repository. When you enable access to this repository, you allow your computer to install newer software and newer versions of existing software than what is available in the current stable version of Debian. However, not all of the software available in the testing repository has completed quality assurance testing yet. If you do not disable access to this repository after you install <application>Publican</application>, the next time that your system updates, it will replace software packages on your system with newer but possibly untested versions of those packages that it downloads from the testing repository.
 			</para>
 			<procedure>
 				<step>
@@ -114,6 +112,7 @@
 					<para>
 						Open your <filename>/etc/apt/sources.list</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
 					</para>
+					
 <screen><command>sudo gedit /etc/apt/sources.list</command>
 </screen>
 				</step>
@@ -121,12 +120,13 @@
 					<para>
 						Add the following line to the end of the file:
 					</para>
+					
 <programlisting>deb http://ftp.debian.org/debian/ squeeze main
 </programlisting>
 				</step>
 				<step>
 					<para>
-						Save the file and close the text editor. 
+						Save the file and close the text editor.
 					</para>
 				</step>
 				<step>
@@ -151,26 +151,25 @@
 					</para>
 				</step>
 			</procedure>
+			
 			<para>
-				Note that until the release of "Squeeze" as the stable version of Debian, you must manually enable and disable access to the testing repository as described in this procedure whenever a new version of <application>Publican</application> becomes available in the testing repository. You can find up-to-date information about the status of <application>Publican</application> for Debian at <ulink url="http://packages.debian.org/squeeze/publican"></ulink>, including the version number of <application>Publican</application> available in the repository (1.0 at the time of writing).
+				Note that until the release of &#34;Squeeze&#34; as the stable version of Debian, you must manually enable and disable access to the testing repository as described in this procedure whenever a new version of <application>Publican</application> becomes available in the testing repository. You can find up-to-date information about the status of <application>Publican</application> for Debian at <ulink url="http://packages.debian.org/squeeze/publican" />, including the version number of <application>Publican</application> available in the repository (1.0 at the time of writing).
 			</para>
 			<para>
-				When "Squeeze" becomes the stable version of Debian, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system.
+				When &#34;Squeeze&#34; becomes the stable version of Debian, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system.
 			</para>
 		</section>
 		
 		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Ubuntu">
 			<title>Installing Publican on Ubuntu</title>
 			<warning>
-				<title>
-					Warning — Complete this procedure
-				</title>
+				<title> Warning — Complete this procedure </title>
 				<para>
 					Complete every step of this procedure. If you do not undo the changes that you make to the <filename>/etc/apt/sources.list</filename> file as described, your system might become unstable.
 				</para>
 			</warning>
 			<para>
-				<application>Publican</application> is not available in the current stable version of Ubuntu (version 9.10, "Karmic Koala"), but is available in the current testing version ("Lucid Lynx"). To install <application>Publican</application> on a computer that runs Ubuntu, temporarily enable access to the <literal>lucid</literal> repository. When you enable access to this repository, you allow your computer to install newer software and newer versions of existing software than what is available in the current stable version of Ubuntu. However, not all of the software available in the testing repository has completed quality assurance testing yet. If you do not disable access to this repository after you install <application>Publican</application>, the next time that your system updates, it will replace software packages on your system with newer but possibly untested versions of those packages that it downloads from the testing repository.
+				<application>Publican</application> is not available in the current stable version of Ubuntu (version 9.10, &#34;Karmic Koala&#34;), but is available in the current testing version (&#34;Lucid Lynx&#34;). To install <application>Publican</application> on a computer that runs Ubuntu, temporarily enable access to the <literal>lucid</literal> repository. When you enable access to this repository, you allow your computer to install newer software and newer versions of existing software than what is available in the current stable version of Ubuntu. However, not all of the software available in the testing repository has completed quality assurance testing yet. If you do not disable access to this repository after you install <application>Publican</application>, the next time that your system updates, it will replace software packages on your system with newer but possibly untested versions of those packages that it downloads from the testing repository.
 			</para>
 			<procedure>
 				<step>
@@ -182,6 +181,7 @@
 					<para>
 						Open your <filename>/etc/apt/sources.list</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
 					</para>
+					
 <screen><command>sudo gedit /etc/apt/sources.list</command>
 </screen>
 				</step>
@@ -189,12 +189,13 @@
 					<para>
 						Add the following line to the end of the file:
 					</para>
+					
 <programlisting>deb http://archive.ubuntu.com/ubuntu/ lucid main restricted universe
 </programlisting>
 				</step>
 				<step>
 					<para>
-						Save the file and close the text editor. 
+						Save the file and close the text editor.
 					</para>
 				</step>
 				<step>
@@ -213,7 +214,7 @@
 <screen><command>sudo apt-get install fop</command>
 </screen>
 				</step>
-								<step>
+				<step>
 					<para>
 						Run the following command to install the <package>publican</package> package:
 					</para>
@@ -227,11 +228,12 @@
 					</para>
 				</step>
 			</procedure>
+			
 			<para>
-				Note that until the release of "Lucid Lynx" as the stable version of Ubuntu, you must manually enable and disable access to the testing repository as described in this procedure whenever a new version of <application>Publican</application> becomes available in the testing repository. You can find up-to-date information about the status of <application>Publican</application> for Ubuntu at <ulink url="http://packages.ubuntu.com/lucid/publican"></ulink>, including the version number of <application>Publican</application> available in the repository (1.0 at the time of writing).
+				Note that until the release of &#34;Lucid Lynx&#34; as the stable version of Ubuntu, you must manually enable and disable access to the testing repository as described in this procedure whenever a new version of <application>Publican</application> becomes available in the testing repository. You can find up-to-date information about the status of <application>Publican</application> for Ubuntu at <ulink url="http://packages.ubuntu.com/lucid/publican" />, including the version number of <application>Publican</application> available in the repository (1.0 at the time of writing).
 			</para>
 			<para>
-				When "Lucid Lynx" becomes the stable version of Ubuntu, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system.
+				When &#34;Lucid Lynx&#34; becomes the stable version of Ubuntu, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system.
 			</para>
 		</section>
 
@@ -257,15 +259,15 @@
 			</step>
 			<step>
 				<para>
-					The installer presents you with a series of license agreements. All of the files that constitute a <application>Publican</application> installation are available under a free license. However, because different licenses are more suitable for certain parts of <application>Publican</application> than others, the  <application>Publican</application> files are not all available under the same free license. Each license grants you a different set of rights and responsibilities when you copy or modify the files in your <application>Publican</application> installation. We chose this combination of licenses to allow you to use <application>Publican</application> as freely as possible and to allow you to choose whatever license you prefer for the documents that you publish with <application>Publican</application>.
+					The installer presents you with a series of license agreements. All of the files that constitute a <application>Publican</application> installation are available under a free license. However, because different licenses are more suitable for certain parts of <application>Publican</application> than others, the <application>Publican</application> files are not all available under the same free license. Each license grants you a different set of rights and responsibilities when you copy or modify the files in your <application>Publican</application> installation. We chose this combination of licenses to allow you to use <application>Publican</application> as freely as possible and to allow you to choose whatever license you prefer for the documents that you publish with <application>Publican</application>.
 				</para>
 				<para>
-					Read the terms of the various license agreements. If you agree to their terms, click <guibutton>I Agree</guibutton> on each of them, otherwise, click <guibutton>Cancel</guibutton>. 
+					Read the terms of the various license agreements. If you agree to their terms, click <guibutton>I Agree</guibutton> on each of them, otherwise, click <guibutton>Cancel</guibutton>.
 				</para>
 			</step>
 			<step>
 				<para>
-					The installer offers to install several components: <application>Publican</application> itself (labeled <literal>Main</literal> in the installer window), a number of <firstterm>brands</firstterm> (including <literal>RedHat</literal>, <literal>JBoss</literal>, and <literal>fedora</literal>), and two DocBook components (the DocBook <firstterm>Data Type Definition</firstterm> (DTD) and DocBook <firstterm>Extensible Stylesheet Language</firstterm> (XSL) stylesheets). The three brands are grouped under the collapsible heading <literal>Brands</literal> and the DocBook components are grouped under the collapsible heading <literal>DocBook</literal> in the installer window. Refer to <xref linkend="chap-Users_Guide-Branding" /> for an explanation of brands in <application>Publican</application>. <application>Publican</application> uses the DTD and the XSL stylesheets to render XML documents in other presentation formats (such as HTML and PDF). If you do not install these components, <application>Publican</application> must download this data from the Internet every time it processes a document, which creates lengthy delays. 
+					The installer offers to install several components: <application>Publican</application> itself (labeled <literal>Main</literal> in the installer window), a number of <firstterm>brands</firstterm> (including <literal>RedHat</literal>, <literal>JBoss</literal>, and <literal>fedora</literal>), and two DocBook components (the DocBook <firstterm>Data Type Definition</firstterm> (DTD) and DocBook <firstterm>Extensible Stylesheet Language</firstterm> (XSL) stylesheets). The three brands are grouped under the collapsible heading <literal>Brands</literal> and the DocBook components are grouped under the collapsible heading <literal>DocBook</literal> in the installer window. Refer to <xref linkend="chap-Users_Guide-Branding" /> for an explanation of brands in <application>Publican</application>. <application>Publican</application> uses the DTD and the XSL stylesheets to render XML documents in other presentation formats (such as HTML and PDF). If you do not install these components, <application>Publican</application> must download this data from the Internet every time it processes a document, which creates lengthy delays.
 				</para>
 				<para>
 					All components are selected by default. Click the checkboxes to deselect any components that you do <emphasis>not</emphasis> require and click <guibutton>Next</guibutton> to continue.

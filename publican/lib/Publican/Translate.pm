@@ -141,6 +141,10 @@ sub po2xml {
     $out_doc->pos( $out_doc->root() );
 
     my $msgids = Locale::PO->load_file_ashash($po_file);
+    foreach my $key ( keys( %{$msgids} ) ) {
+        my $msgref = $msgids->{$key};
+        delete($msgids->{$key}) if ( $msgref->obsolete() );
+    }
 
 ##    debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
 
@@ -383,7 +387,7 @@ sub merge_msgs {
             )
         );
     }
-    foreach my $child ( $out_doc->look_down( '_tag', qr/$TRANSTAGS/ ) ) {
+    foreach my $child ( $out_doc->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) ) {
 
         # lookdown matches the root node
         if ( $child->address() eq $out_doc->address() ) {
@@ -393,7 +397,7 @@ sub merge_msgs {
 
         next if ( $child->is_empty );
 
-        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/ );
+        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } );
 
     # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
@@ -411,7 +415,7 @@ sub merge_msgs {
 
                 # No ref == text node
                 if ( ref $nested
-                    && $nested->look_down( '_tag', qr/$TRANSTAGS/ ) )
+                    && $nested->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) )
                 {
                     if ( !$trans_node->is_empty ) {
                         $self->translate(
@@ -480,7 +484,7 @@ sub translate {
         && defined $msgids->{ '"' . $msgid . '"' }
         && ( $msgids->{ '"' . $msgid . '"' }{msgstr} ne '""' ) )
     {
-##        debug_msg("found msg!\n");
+debug_msg("found msg: $msgid\n") if ($msgids->{ '"' . $msgid . '"' }{msgstr} =~ /^#~/);
         my $repl = Encode::decode_utf8(
             po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} ) );
 

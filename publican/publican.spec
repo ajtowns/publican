@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.4
-Release:        1%{?dist}.t35
+Release:        1%{?dist}.t37
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -191,6 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 - Force footnotes and indexterms to be inline for translations. BZ #563056
 - Add CVS package option. RT #59132
 - Fix white space issues in abstract. BZ #559823
+- Fix translation strings not matching correctly BZ #563397
 
 * Fri Jan 29 2010 Jeff Fearn <jfearn@redhat.com> 1.4-1
 - make font BuildRequires match requires.

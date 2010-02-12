@@ -10,25 +10,25 @@
 		<application>Publican</application> makes it easy to manage differences between multiple versions of a book by allowing you to use a single source for all versions. <firstterm>Conditional tagging</firstterm> allows you to make sure that version-specific content only appears in the correct version; that is, you <firstterm>conditionalize</firstterm> the content.
 	</para>
 	<para>
-		To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let's say the book <citetitle>How To Use Product Foo</citetitle> has an "upstream", "enterprise", and "beta" version:
+		To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let&#39;s say the book <citetitle>How To Use Product Foo</citetitle> has an &#34;upstream&#34;, &#34;enterprise&#34;, and &#34;beta&#34; version:
 	</para>
 	
 <programlisting language="XML">
-&lt;para condition="upstream"&gt;
+&#60;para condition=&#34;upstream&#34;&#62;
 This paragraph will only appear in the upstream version of How To Use Product Foo.
-&lt;/para&gt;
+&#60;/para&#62;
 	
-&lt;para condition="enterprise"&gt;
+&#60;para condition=&#34;enterprise&#34;&#62;
 This paragraph will only appear in the enterprise version of How To Use Product Foo.
-&lt;/para&gt;	
+&#60;/para&#62;	
 	
-&lt;para condition="beta"&gt;
+&#60;para condition=&#34;beta&#34;&#62;
 This paragraph will only appear in the beta version of How To Use Product Foo.
-&lt;/para&gt;
+&#60;/para&#62;
 	
-&lt;para condition="beta,enterprise"&gt;
+&#60;para condition=&#34;beta,enterprise&#34;&#62;
 This paragraph will only appear in the beta and enterprise versions of How To Use Product Foo.
-&lt;/para&gt;
+&#60;/para&#62;
 </programlisting>
 	<para>
 		To build a specific version (and thereby capture all content conditionalized for that version), add the <command>condition: <replaceable>version</replaceable></command> parameter to the <filename>publican.cfg</filename> file and run the <command>publican build</command> command as normal. For example, if you add <command>condition: upstream</command> to the <filename>publican.cfg</filename> file of <citetitle>How To Use Product Foo</citetitle> and run:
@@ -38,7 +38,7 @@ This paragraph will only appear in the beta and enterprise versions of How To Us
 publican build --formats=pdf --langs=en-US
 </screen>
 	<para>
-		<application>Publican</application> will capture all tags that use <command>condition="upstream"</command> attribute and build <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
+		<application>Publican</application> will capture all tags that use <command>condition=&#34;upstream&#34;</command> attribute and build <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
 	</para>
 	<xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -60,29 +60,29 @@ publican build --formats=pdf --langs=en-US
 <programlisting>
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the upstream version of How To Use Product Foo."
-msgstr ""
+msgid &#34;Content that only appears in the upstream version of How To Use Product Foo.&#34;
+msgstr &#34;&#34;
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the enterprise version of How To Use Product Foo."
-msgstr ""
+msgid &#34;Content that only appears in the enterprise version of How To Use Product Foo.&#34;
+msgstr &#34;&#34;
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the beta version of How To Use Product Foo."
-msgstr ""
+msgid &#34;Content that only appears in the beta version of How To Use Product Foo.&#34;
+msgstr &#34;&#34;
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the beta and enterprise versions of How To Use Product Foo."
-msgstr ""
+msgid &#34;Content that only appears in the beta and enterprise versions of How To Use Product Foo.&#34;
+msgstr &#34;&#34;
 </programlisting>
 		<para>
 			In this example, the only paragraphs where the meaning flows logically from one to the next is between paragraphs three and four. Because both of these paragraphs appear in the book for the beta version of the product, they (hopefully) make sense together. Beyond that, the use of conditionals here requires translators to translate individual small chunks of content without the ability to follow the context from one paragraph to the next. When translators must work under these conditions, the quality of the translation will suffer, or the time required — and therefore the cost of translation — will increase.
 		</para>
 		<para>
-			Furthermore, unless the translators who work on your book know how to configure <application>Publican</application>'s <filename>publican.cfg</filename> file and are aware of the valid conditions for your book, they cannot proofread their work. Without that knowledge, when translators proofread a document, they will wonder why they cannot find text that they know they translated and can find easily in the PO file. If you must use conditionals in your book, you must be prepared to provide a greater degree of support to your translators than you would otherwise provide.
+			Furthermore, unless the translators who work on your book know how to configure <application>Publican</application>&#39;s <filename>publican.cfg</filename> file and are aware of the valid conditions for your book, they cannot proofread their work. Without that knowledge, when translators proofread a document, they will wonder why they cannot find text that they know they translated and can find easily in the PO file. If you must use conditionals in your book, you must be prepared to provide a greater degree of support to your translators than you would otherwise provide.
 		</para>
 		<para>
 			As an alternative to conditionals, consider maintaining separate versions of your book in separate branches of a version-controlled repository. You can still share XML files and even PO files between the various branches as necessary, and some version control systems allow you to share changes readily among branches.

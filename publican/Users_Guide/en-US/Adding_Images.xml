@@ -7,15 +7,15 @@
 		Store images in the <filename>images</filename> subdirectory in the directory that holds your XML files. Use <computeroutput>./images/<replaceable>image-name</replaceable></computeroutput> to insert images into a book. The following is an example that inserts the <filename>testimage.png</filename> image:
 	</para>
 	
-<programlisting language="XML">&lt;mediaobject&gt;
-&lt;imageobject&gt;
-	&lt;imagedata fileref="./images/testimage.png" /&gt;
-&lt;/imageobject&gt;
-&lt;textobject&gt;&lt;phrase&gt;alternate text goes here&lt;/phrase&gt;&lt;/textobject&gt;
-&lt;/mediaobject&gt;
+<programlisting language="XML">&#60;mediaobject&#62;
+&#60;imageobject&#62;
+	&#60;imagedata fileref=&#34;./images/testimage.png&#34; /&#62;
+&#60;/imageobject&#62;
+&#60;textobject&#62;&#60;phrase&#62;alternate text goes here&#60;/phrase&#62;&#60;/textobject&#62;
+&#60;/mediaobject&#62;
 </programlisting>
 	<para>
-		Ensure that you supply a <sgmltag>&lt;textobject&gt;</sgmltag> so that your content remains accessible to people with visual impairments. In certain jurisdictions, you might have a legal responsibility to provide this accessibility — for example, if you or your organization must comply with Section 508 of the United States <citetitle>Rehabilitation Act of 1973</citetitle>.<footnote>
+		Ensure that you supply a <sgmltag>&#60;textobject&#62;</sgmltag> so that your content remains accessible to people with visual impairments. In certain jurisdictions, you might have a legal responsibility to provide this accessibility — for example, if you or your organization must comply with Section 508 of the United States <citetitle>Rehabilitation Act of 1973</citetitle>.<footnote>
 		<para>
 			Refer to <ulink url="http://www.section508.gov/">http://www.section508.gov/</ulink>
 		</para>

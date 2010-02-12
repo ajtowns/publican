@@ -89,7 +89,7 @@
 				<term><parameter>type</parameter></term>
 				<listitem>
 					<para>
-						specifies the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, as set by the <option>--type</option> option for <command>publican create</command>.
+						specifies the type of document — a DocBook <sgmltag>&#60;article&#62;</sgmltag>, DocBook <sgmltag>&#60;book&#62;</sgmltag>, or DocBook <sgmltag>&#60;set&#62;</sgmltag>, as set by the <option>--type</option> option for <command>publican create</command>.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -108,7 +108,7 @@
 				<term><parameter>arch</parameter></term>
 				<listitem>
 					<para>
-						filters output by computer <firstterm>architecture</firstterm>. For example, if you set <literal>arch: x86_64</literal> in the <filename>publican.cfg</filename> file, <application>Publican</application> will only include XML elements tagged with the equivalent attribute, such as <sgmltag>&lt;para arch="x86_64"&gt;</sgmltag>.
+						filters output by computer <firstterm>architecture</firstterm>. For example, if you set <literal>arch: x86_64</literal> in the <filename>publican.cfg</filename> file, <application>Publican</application> will only include XML elements tagged with the equivalent attribute, such as <sgmltag>&#60;para arch=&#34;x86_64&#34;&#62;</sgmltag>.
 					</para>
 					<warning>
 						<title>Use with caution</title>
@@ -123,27 +123,27 @@
 						</para>
 						
 <programlisting>
-&lt;?xml version='1.0' encoding='utf-8' ?&gt;
-&lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-]&gt;
-&lt;chapter id="chap-Installation_and_configuration_on_PowerPC" arch="PowerPC"&gt;
-&lt;title&gt;Installation and configuration on PowerPC&lt;/title&gt;
+&#60;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39; ?&#62;
+&#60;!DOCTYPE chapter PUBLIC &#34;-//OASIS//DTD DocBook XML V4.5//EN&#34; &#34;http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd&#34; [
+]&#62;
+&#60;chapter id=&#34;chap-Installation_and_configuration_on_PowerPC&#34; arch=&#34;PowerPC&#34;&#62;
+&#60;title&#62;Installation and configuration on PowerPC&#60;/title&#62;
 
 [text of chapter]
 
-&lt;/chapter&gt;
+&#60;/chapter&#62;
 </programlisting>
 						<para>
-							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
+							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&#60;xi:include&#62;</sgmltag> tag, the document will not build with <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
 						</para>
 						<para>
-							To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>.
+							To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&#60;xi:include&#62;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&#60;chapter&#62;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>.
 						</para>
 					</important>
 					<important>
 						<title>xrefs and the arch attribute</title>
 						<para>
-							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
+							If an <sgmltag>&#60;xref&#62;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&#60;xref linkend=&#34;Itanium_installation&#34;&#62;</sgmltag> pointing to <sgmltag>&#60;section id=&#34;Itanium_installation&#34; arch=&#34;IA64&#34;&#62;</sgmltag>.
 						</para>
 					</important>
 				</listitem>
@@ -160,7 +160,7 @@
 				<term><parameter>brew_dist</parameter></term>
 				<listitem>
 					<para>
-						specifies the build target to use for building the desktop RPM package in <application>Brew</application>, Red Hat's internal build system. This parameter defaults to <literal>docs-5E</literal>. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book-The_publican_package_command" /> and <xref linkend="sect-Users_Guide-Packaging_a_brand" /> for more information on building RPM packages.
+						specifies the build target to use for building the desktop RPM package in <application>Brew</application>, Red Hat&#39;s internal build system. This parameter defaults to <literal>docs-5E</literal>. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book-The_publican_package_command" /> and <xref linkend="sect-Users_Guide-Packaging_a_brand" /> for more information on building RPM packages.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -192,7 +192,7 @@
 				<term><parameter>classpath</parameter></term>
 				<listitem>
 					<para>
-						sets the path to the <firstterm>Java archive</firstterm> (<firstterm>jar</firstterm>) files for <application>FOP</application>. <application>Publican</application> relies on Apache <application>FOP</application> — a Java application — to render documents as PDF files. The default path for <application>FOP</application>'s jar files on a computer with a Linux operating system is: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>
+						sets the path to the <firstterm>Java archive</firstterm> (<firstterm>jar</firstterm>) files for <application>FOP</application>. <application>Publican</application> relies on Apache <application>FOP</application> — a Java application — to render documents as PDF files. The default path for <application>FOP</application>&#39;s jar files on a computer with a Linux operating system is: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>
 					</para>
 				</listitem>
 			</varlistentry>
@@ -250,7 +250,7 @@
 				<term><parameter>docname</parameter></term>
 				<listitem>
 					<para>
-						specifies the document name. If set, this value overrides the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
+						specifies the document name. If set, this value overrides the content of the <sgmltag>&#60;title&#62;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
 					</para>
 				</listitem>
 			</varlistentry>
@@ -280,7 +280,7 @@
 				<term><parameter>edition</parameter></term>
 				<listitem>
 					<para>
-						specifies the edition number for this document. If set, this value overrides the content of the <sgmltag>&lt;edition&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
+						specifies the edition number for this document. If set, this value overrides the content of the <sgmltag>&#60;edition&#62;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
 					</para>
 				</listitem>
 			</varlistentry>
@@ -288,7 +288,7 @@
 				<term><parameter>generate_section_toc_level</parameter></term>
 				<listitem>
 					<para>
-						controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value is set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.
+						controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value is set to <literal>1</literal>, tables of contents also appear in each &#34;level 1&#34; section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in &#34;level 2&#34; sections, such as sections 1.1.1, 1.1.2, and 1.2.1.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -328,7 +328,7 @@
 				<term><parameter>product</parameter></term>
 				<listitem>
 					<para>
-						specifies the product to which this documentation applies. If set, this value overrides the content of the <sgmltag>&lt;productname&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
+						specifies the product to which this documentation applies. If set, this value overrides the content of the <sgmltag>&#60;productname&#62;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
 					</para>
 				</listitem>
 			</varlistentry>
@@ -336,7 +336,7 @@
 				<term><parameter>release</parameter></term>
 				<listitem>
 					<para>
-						specifies the release number of this package. If set, this value overrides the value of <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;).
+						specifies the release number of this package. If set, this value overrides the value of <sgmltag>&#60;pubsnumber&#62;</sgmltag> in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;).
 					</para>
 				</listitem>
 			</varlistentry>
@@ -408,7 +408,7 @@
 				<term><parameter>version</parameter></term>
 				<listitem>
 					<para>
-						specifies the version number of that product to which this document applies. If set, this value overrides the content of the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
+						specifies the version number of that product to which this document applies. If set, this value overrides the content of the <sgmltag>&#60;productnumber&#62;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
 					</para>
 				</listitem>
 			</varlistentry>
@@ -447,13 +447,13 @@
 		</note>
 		<xi:include href="Applicable_to_RPM_only.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		<para>
-			The <filename>Book_Info.xml</filename> file contains the key metadata concerning a book: the book's ID; title; subtitle; author and edition number. It also contains the name and version of the product that is documented, and an abstract.
+			The <filename>Book_Info.xml</filename> file contains the key metadata concerning a book: the book&#39;s ID; title; subtitle; author and edition number. It also contains the name and version of the product that is documented, and an abstract.
 		</para>
 		<para>
-			Aside from constituting much of a book's front matter, this metadata is also used when building books as RPM packages. Usually, if you distribute a book as an RPM package, several of the tags included by default in <filename>Book_Info.xml</filename> must have appropriate data within them, and that data must conform to the requirements of the RPM format. You can override the data in these tags by using equivalent fields in the <filename>publican.cfg</filename> file, as discussed in this section.
+			Aside from constituting much of a book&#39;s front matter, this metadata is also used when building books as RPM packages. Usually, if you distribute a book as an RPM package, several of the tags included by default in <filename>Book_Info.xml</filename> must have appropriate data within them, and that data must conform to the requirements of the RPM format. You can override the data in these tags by using equivalent fields in the <filename>publican.cfg</filename> file, as discussed in this section.
 		</para>
 		<para>
-			Unless overridden in the <filename>publican.cfg</filename> file, data from seven of the default tags in <filename>Book_Info.xml</filename> is required to build books as RPMs. Most immediately, the file name of a book built as an RPM package is constructed as follows: <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable>.src.rpm</filename>. Everything but <replaceable>language</replaceable> above is pulled from <filename>Book_Info.xml</filename> — you specify <replaceable>language</replaceable> when you build the book. As well, the <sgmltag>&lt;subtitle&gt;</sgmltag> and <sgmltag>&lt;abstract&gt;</sgmltag> are used in the RPM spec file, to provide the <parameter>Summary:</parameter> field in the header and the <parameter>%description</parameter> field, respectively.
+			Unless overridden in the <filename>publican.cfg</filename> file, data from seven of the default tags in <filename>Book_Info.xml</filename> is required to build books as RPMs. Most immediately, the file name of a book built as an RPM package is constructed as follows: <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable>.src.rpm</filename>. Everything but <replaceable>language</replaceable> above is pulled from <filename>Book_Info.xml</filename> — you specify <replaceable>language</replaceable> when you build the book. As well, the <sgmltag>&#60;subtitle&#62;</sgmltag> and <sgmltag>&#60;abstract&#62;</sgmltag> are used in the RPM spec file, to provide the <parameter>Summary:</parameter> field in the header and the <parameter>%description</parameter> field, respectively.
 		</para>
 		<para>
 			An example <filename>Book_Info.xml</filename> file, for the <literal>Test_Book</literal> book, is presented below. Details regarding this file, and what the RPM format requirements are for each tag, follow.
@@ -464,9 +464,9 @@
 </programlisting>
 		<variablelist>
 			<varlistentry>
-				<term><sgmltag>&lt;bookinfo id="<replaceable>book_id</replaceable>"&gt;</sgmltag></term>
-				<term><sgmltag>&lt;articleinfo id="<replaceable>article_id</replaceable>"&gt;</sgmltag></term>
-				<term><sgmltag>&lt;setinfo id="<replaceable>set_id</replaceable>"&gt;</sgmltag></term>
+				<term><sgmltag>&#60;bookinfo id=&#34;<replaceable>book_id</replaceable>&#34;&#62;</sgmltag></term>
+				<term><sgmltag>&#60;articleinfo id=&#34;<replaceable>article_id</replaceable>&#34;&#62;</sgmltag></term>
+				<term><sgmltag>&#60;setinfo id=&#34;<replaceable>set_id</replaceable>&#34;&#62;</sgmltag></term>
 				<listitem>
 					<para>
 						The document ID is used internally and is not displayed to readers when the book is built. If you run the <command>publican clean_ids</command> command, any manually entered ID, including this one, changes to a <replaceable>Doc_Name-Title</replaceable> format, where <replaceable>Title</replaceable> is the title of the associated book, article, section, or chapter.
@@ -474,10 +474,10 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;productname&gt;<replaceable>productname</replaceable>&lt;/productname&gt;</sgmltag></term>
+				<term><sgmltag>&#60;productname&#62;<replaceable>productname</replaceable>&#60;/productname&#62;</sgmltag></term>
 				<listitem>
 					<para>
-						The name of the product or product stream to which the book, article, or set applies, for example: <literal>Red Hat Enterprise Linux</literal> or <literal>JBoss Enterprise Application Platform</literal>. When building a book as an RPM package, data in the &lt;productname&gt; tag is used as part of the file name of the package.
+						The name of the product or product stream to which the book, article, or set applies, for example: <literal>Red Hat Enterprise Linux</literal> or <literal>JBoss Enterprise Application Platform</literal>. When building a book as an RPM package, data in the &#60;productname&#62; tag is used as part of the file name of the package.
 					</para>
 					<para>
 						Override this tag with the <parameter>product</parameter> variable in the <filename>publican.cfg</filename> file if the name of your product contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
@@ -486,7 +486,7 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;</sgmltag></term>
+				<term><sgmltag>&#60;title&#62;<replaceable>title</replaceable>&#60;/title&#62;</sgmltag></term>
 				<listitem>
 					<para>
 						Obviously enough, the title of the document (for example, <emphasis>Server Configuration Guide</emphasis>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package.
@@ -498,15 +498,15 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;</sgmltag></term>
+				<term><sgmltag>&#60;subtitle&#62;<replaceable>subtitle</replaceable>&#60;/subtitle&#62;</sgmltag></term>
 				<listitem>
 					<para>
-						Again, plainly enough, the subtitle tag contains a book's subtitle: an alternative, and commonly explanatory title for the book (for example: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). The subtitle appears under the title in both HTML and PDF editions. A subtitle is also required to make a book available as an RPM package. When building a book as an RPM package, the subtitle is used as the <parameter>Summary</parameter> in the RPM spec file. The <command>rpm -qi</command> returns the contents of several spec file fields, including the <computeroutput>Summary</computeroutput> field.
+						Again, plainly enough, the subtitle tag contains a book&#39;s subtitle: an alternative, and commonly explanatory title for the book (for example: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). The subtitle appears under the title in both HTML and PDF editions. A subtitle is also required to make a book available as an RPM package. When building a book as an RPM package, the subtitle is used as the <parameter>Summary</parameter> in the RPM spec file. The <command>rpm -qi</command> returns the contents of several spec file fields, including the <computeroutput>Summary</computeroutput> field.
 					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;productnumber&gt;<replaceable>productnumber</replaceable>&lt;/productnumber&gt;</sgmltag></term>
+				<term><sgmltag>&#60;productnumber&#62;<replaceable>productnumber</replaceable>&#60;/productnumber&#62;</sgmltag></term>
 				<listitem>
 					<para>
 						The version number of the product the book covers, for example &lsquo;5.2&rsquo; for Red Hat Enterprise Linux 5.2 and &lsquo;4.3&rsquo; for JBoss EAP 4.3.
@@ -521,7 +521,7 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;edition&gt;<replaceable>edition</replaceable>&lt;/edition&gt;</sgmltag></term>
+				<term><sgmltag>&#60;edition&#62;<replaceable>edition</replaceable>&#60;/edition&#62;</sgmltag></term>
 				<listitem>
 					<para>
 						This is the edition number of the book. The first edition of the book should be 1.0 (unless you use 0.<replaceable>x</replaceable> for pre-release versions of a book). Subsequent editions should increment the 1.<replaceable>x</replaceable> to indicate to readers that the book is a new edition. The edition changes the version number in the file name when building a book with the <command>publican package</command> command.
@@ -539,7 +539,7 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;pubsnumber&gt;<replaceable>pubsnumber</replaceable>&lt;/pubsnumber&gt;</sgmltag></term>
+				<term><sgmltag>&#60;pubsnumber&#62;<replaceable>pubsnumber</replaceable>&#60;/pubsnumber&#62;</sgmltag></term>
 				<listitem>
 					<para>
 						The pubsnumber changes the release number (the last digit) when building a book with the <command>publican package</command> command. For example, setting the pubsnumber to <filename>1</filename> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
@@ -551,107 +551,105 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;&lt;/abstract&gt;</sgmltag></term>
+				<term><sgmltag>&#60;abstract&#62;&#60;para&#62;<replaceable>abstract</replaceable>&#60;/para&#62;&#60;/abstract&#62;</sgmltag></term>
 				<listitem>
 					<para>
-						A short overview and summary of the book's subject and purpose, traditionally no more than a paragraph long. The abstract appears before the table of contents in HTML editions and on the second page of PDF editions. When a book is built as an RPM package, the abstract sets the <parameter>Description</parameter> field of the RPM's spec file. This makes the abstract for a package available via the <command>rpm -qi</command> command.
+						A short overview and summary of the book&#39;s subject and purpose, traditionally no more than a paragraph long. The abstract appears before the table of contents in HTML editions and on the second page of PDF editions. When a book is built as an RPM package, the abstract sets the <parameter>Description</parameter> field of the RPM&#39;s spec file. This makes the abstract for a package available via the <command>rpm -qi</command> command.
 					</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
-
 		<para>
 			You can add extra metadata to the <filename>Book_Info.xml</filename> file of a document, to support specific features in various output formats:
 		</para>
-		
 		<variablelist>
 			<varlistentry>
-				<term><sgmltag>&lt;keywordset&gt;</sgmltag></term>
-				<term><sgmltag>&lt;keyword&gt;</sgmltag></term>
+				<term><sgmltag>&#60;keywordset&#62;</sgmltag></term>
+				<term><sgmltag>&#60;keyword&#62;</sgmltag></term>
 				<listitem>
 					<para>
-						 Terms tagged with <sgmltag>&lt;keyword&gt;</sgmltag> and placed within a <sgmltag>&lt;keywordset&gt;</sgmltag> are added to a <sgmltag>&lt;meta name="keywords"&gt;</sgmltag> entry in the head of HTML files and to the <literal>Keywords</literal> field of the properties of a PDF document.
+						Terms tagged with <sgmltag>&#60;keyword&#62;</sgmltag> and placed within a <sgmltag>&#60;keywordset&#62;</sgmltag> are added to a <sgmltag>&#60;meta name=&#34;keywords&#34;&#62;</sgmltag> entry in the head of HTML files and to the <literal>Keywords</literal> field of the properties of a PDF document.
 					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;subjectset&gt;</sgmltag></term>
-				<term><sgmltag>&lt;subject&gt;</sgmltag></term>
+				<term><sgmltag>&#60;subjectset&#62;</sgmltag></term>
+				<term><sgmltag>&#60;subject&#62;</sgmltag></term>
 				<listitem>
 					<para>
-						 Terms tagged with <sgmltag>&lt;subject&gt;</sgmltag> and placed within a <sgmltag>&lt;subjectset&gt;</sgmltag> are added to the <literal>Subject</literal> field of the properties of a PDF document and in the metadata of an ebook in EPUB format. 
+						Terms tagged with <sgmltag>&#60;subject&#62;</sgmltag> and placed within a <sgmltag>&#60;subjectset&#62;</sgmltag> are added to the <literal>Subject</literal> field of the properties of a PDF document and in the metadata of an ebook in EPUB format.
 					</para>
 					<para>
-						 Consider using a <firstterm>controlled vocabulary</firstterm> when defining the subject of your document, for example, the <firstterm>Library of Congress Subject Headings</firstterm> (LCSH). Identify the chosen vocabulary with the <parameter>scheme</parameter> attibute in the <sgmltag>&lt;subjectset&gt;</sgmltag> tag, for example, <sgmltag>&lt;subjectset scheme="libraryofcongress"&gt;</sgmltag>. You can search for LCSH subject headings through the Library of Congress <citetitle>Authorities &amp; Vocabularies</citetitle> page: <ulink url="http://id.loc.gov/authorities/search/"></ulink>.
+						Consider using a <firstterm>controlled vocabulary</firstterm> when defining the subject of your document, for example, the <firstterm>Library of Congress Subject Headings</firstterm> (LCSH). Identify the chosen vocabulary with the <parameter>scheme</parameter> attibute in the <sgmltag>&#60;subjectset&#62;</sgmltag> tag, for example, <sgmltag>&#60;subjectset scheme=&#34;libraryofcongress&#34;&#62;</sgmltag>. You can search for LCSH subject headings through the Library of Congress <citetitle>Authorities &#38; Vocabularies</citetitle> page: <ulink url="http://id.loc.gov/authorities/search/" />.
 					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><sgmltag>&lt;mediaobject role="cover" id="epub_cover"&gt;</sgmltag></term>
+				<term><sgmltag>&#60;mediaobject role=&#34;cover&#34; id=&#34;epub_cover&#34;&#62;</sgmltag></term>
 				<listitem>
 					<para>
-						Use a <sgmltag>&lt;mediaobject&gt;</sgmltag> tag with the <literal>role="cover"</literal> and <literal>id="epub_cover"</literal> attributes to set cover art for an ebook in EPUB format. For example:
+						Use a <sgmltag>&#60;mediaobject&#62;</sgmltag> tag with the <literal>role=&#34;cover&#34;</literal> and <literal>id=&#34;epub_cover&#34;</literal> attributes to set cover art for an ebook in EPUB format. For example:
 					</para>
-<programlisting language="XML">&lt;mediaobject role="cover" id="epub_cover"&gt;
-	&lt;imageobject role="front-large" remap="lrg"&gt;
-		&lt;imagedata width="600px" format="PNG" fileref="images/front_cover.png"/&gt;
-	&lt;/imageobject&gt;
-	&lt;imageobject role="front" remap="s"&gt;
-		&lt;imagedata format="PNG" fileref="images/front_cover.png"/&gt;
-	&lt;/imageobject&gt;
-	&lt;imageobject role="front-small" remap="xs"&gt;
-		&lt;imagedata format="PNG" fileref="images/front_cover.png"/&gt;
-	&lt;/imageobject&gt;
-	&lt;imageobject role="thumbnail" remap="cs"&gt;
-		&lt;imagedata format="PNG" fileref="images/front_cover_thumbnail.png"/&gt;
-	&lt;/imageobject&gt;
-&lt;/mediaobject&gt;</programlisting>
+					
+<programlisting language="XML">&#60;mediaobject role=&#34;cover&#34; id=&#34;epub_cover&#34;&#62;
+	&#60;imageobject role=&#34;front-large&#34; remap=&#34;lrg&#34;&#62;
+		&#60;imagedata width=&#34;600px&#34; format=&#34;PNG&#34; fileref=&#34;images/front_cover.png&#34;/&#62;
+	&#60;/imageobject&#62;
+	&#60;imageobject role=&#34;front&#34; remap=&#34;s&#34;&#62;
+		&#60;imagedata format=&#34;PNG&#34; fileref=&#34;images/front_cover.png&#34;/&#62;
+	&#60;/imageobject&#62;
+	&#60;imageobject role=&#34;front-small&#34; remap=&#34;xs&#34;&#62;
+		&#60;imagedata format=&#34;PNG&#34; fileref=&#34;images/front_cover.png&#34;/&#62;
+	&#60;/imageobject&#62;
+	&#60;imageobject role=&#34;thumbnail&#34; remap=&#34;cs&#34;&#62;
+		&#60;imagedata format=&#34;PNG&#34; fileref=&#34;images/front_cover_thumbnail.png&#34;/&#62;
+	&#60;/imageobject&#62;
+&#60;/mediaobject&#62;
+</programlisting>
 					<para>
 						As with all the other images in your document, place the cover images in the <filename>images</filename> subdirectory.
 					</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
-
-		<section id="sect-Users_Guide-Files_in_the_book_directory-RPM_packages_editions_impressions_and_versions">
+		<section id="sect-Users_Guide-Book_Info.xml-RPM_packages_editions_impressions_and_versions">
 			<title>RPM packages, editions, impressions and versions</title>
 			<para>
-				As noted above, the default <filename>Book_Info.xml</filename> used by <application>Publican</application> includes an <parameter>&lt;edition&gt;</parameter> tag.
+				As noted above, the default <filename>Book_Info.xml</filename> used by <application>Publican</application> includes an <parameter>&#60;edition&#62;</parameter> tag.
 			</para>
 			<para>
-				If you distribute a book as an RPM package, the data placed within this tag sets 'the first two digits of the version number in the RPM file name.
+				If you distribute a book as an RPM package, the data placed within this tag sets &#39;the first two digits of the version number in the RPM file name.
 			</para>
 			<para>
-				So, an edition of '1.0' becomes a version of '1.0'.
+				So, an edition of &#39;1.0&#39; becomes a version of &#39;1.0&#39;.
 			</para>
 			<para>
-				<filename>Book_Info.xml</filename> also includes the <parameter>&lt;pubsnumber&gt;</parameter> tag. Any data placed within this tag changes the release number of RPM-packaged books.
+				<filename>Book_Info.xml</filename> also includes the <parameter>&#60;pubsnumber&#62;</parameter> tag. Any data placed within this tag changes the release number of RPM-packaged books.
 			</para>
 			<para>
 				A book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, release 5 (1.0-5).
 			</para>
 			<para>
-				The edition and pubsnumber are not tied to the <parameter>&lt;productnumber&gt;</parameter> tag also found in <filename>Book_Info.xml</filename>: <parameter>&lt;productnumber&gt;</parameter> denotes the version number of the product being documented or otherwise written about.
+				The edition and pubsnumber are not tied to the <parameter>&#60;productnumber&#62;</parameter> tag also found in <filename>Book_Info.xml</filename>: <parameter>&#60;productnumber&#62;</parameter> denotes the version number of the product being documented or otherwise written about.
 			</para>
 			<para>
 				It is entirely possible to have a 2nd edition of a book pertaining to a particular version of a product.
 			</para>
 			<para>
-				In bibliography, two copies of a book are the same edition if they are printed using substantially the same type-set master plates or pages. ('Substantially' offers some allowance for typo corrections and other inconsequential changes.)
+				In bibliography, two copies of a book are the same edition if they are printed using substantially the same type-set master plates or pages. (&#39;Substantially&#39; offers some allowance for typo corrections and other inconsequential changes.)
 			</para>
 			<para>
-				Book collectors routinely conflate 'first edition' with 'first print run', while bibliographers pay attention to the text commonly placed in the front matter of a book, which calls a 2nd print run off the same (or substantially the same) plates a '1st edition, 2nd impression' or '1st edition, 2nd printing'.
+				Book collectors routinely conflate &#39;first edition&#39; with &#39;first print run&#39;, while bibliographers pay attention to the text commonly placed in the front matter of a book, which calls a 2nd print run off the same (or substantially the same) plates a &#39;1st edition, 2nd impression&#39; or &#39;1st edition, 2nd printing&#39;.
 			</para>
 			<para>
-				We recommend following bibliographic practice in this regard. When using <application>Publican</application> to re-publish a book from 'substantially the same XML', increment the <parameter>&lt;pubsnumber&gt;</parameter> tag, not the <parameter>&lt;edition&gt;</parameter> tag. It functions as a near-equivalent to the impression or printing number of traditional publishing.
+				We recommend following bibliographic practice in this regard. When using <application>Publican</application> to re-publish a book from &#39;substantially the same XML&#39;, increment the <parameter>&#60;pubsnumber&#62;</parameter> tag, not the <parameter>&#60;edition&#62;</parameter> tag. It functions as a near-equivalent to the impression or printing number of traditional publishing.
 			</para>
 			<para>
 				As for changing the edition number, we recommend changing this in the same circumstances traditional publishers change the edition of a work: when it is revised and re-written significantly. What constitutes significant, and how much re-writing is needed to increment an edition number by a whole number and how much is needed to increment it by one-tenth of a whole number, is a matter of editorial discretion.
 			</para>
 		</section>
-	</section>
-	
 
+	</section>
 	
 	<section id="sect-Users_Guide-Files_in_the_book_directory-Author_Group.xml">
 		<title>Author_Group.xml</title>
@@ -697,7 +695,7 @@
 	<section id="sect-Users_Guide-Files_in_the_book_directory-Doc_Name.xml">
 		<title>Doc_Name.xml</title>
 		<para>
-			The <filename><replaceable>Doc_Name</replaceable>.xml</filename> file contains <literal>xi:include</literal> directives to include the other necessary XML files for the document, including chapters or sections contained in other XML files. For example, a book's <filename><replaceable>Doc_Name</replaceable>.xml</filename> file brings together chapters that are contained in separate XML files.
+			The <filename><replaceable>Doc_Name</replaceable>.xml</filename> file contains <literal>xi:include</literal> directives to include the other necessary XML files for the document, including chapters or sections contained in other XML files. For example, a book&#39;s <filename><replaceable>Doc_Name</replaceable>.xml</filename> file brings together chapters that are contained in separate XML files.
 		</para>
 		<para>
 			The following is an example <filename><replaceable>Doc_Name</replaceable>.xml</filename> file that describes a DocBook book — note the <parameter>DOCTYPE</parameter> is set to <literal>book</literal>.
@@ -718,35 +716,35 @@
 			The <filename><replaceable>Doc_Name</replaceable>.xml</filename> file is not limited to using <literal>xi:include</literal> directives. You can create documents with a single XML file. The following is an example of a book created using a single XML file:
 		</para>
 		
-<programlisting language="XML">&lt;book&gt;
+<programlisting language="XML">&#60;book&#62;
 
-&lt;chapter&gt;
-&lt;title&gt;Chapter 1&lt;/title&gt;
-&lt;para&gt;
+&#60;chapter&#62;
+&#60;title&#62;Chapter 1&#60;/title&#62;
+&#60;para&#62;
 	A paragraph in Chapter 1.
-&lt;/para&gt;
-&lt;section id="section1"&gt;
-&lt;title&gt;Chapter 1 Section 1&lt;/title&gt;
-	&lt;para&gt;
+&#60;/para&#62;
+&#60;section id=&#34;section1&#34;&#62;
+&#60;title&#62;Chapter 1 Section 1&#60;/title&#62;
+	&#60;para&#62;
 		A paragraph in Section 1.
-	&lt;/para&gt;
-&lt;/section&gt;
-&lt;section id="section2"&gt;
-&lt;title&gt;Chapter 1 Section 2&lt;/title&gt;
-	&lt;para&gt;
+	&#60;/para&#62;
+&#60;/section&#62;
+&#60;section id=&#34;section2&#34;&#62;
+&#60;title&#62;Chapter 1 Section 2&#60;/title&#62;
+	&#60;para&#62;
 		A paragraph in Section 2.
-	&lt;/para&gt;
-&lt;/section&gt;
-&lt;/chapter&gt;
+	&#60;/para&#62;
+&#60;/section&#62;
+&#60;/chapter&#62;
 
-&lt;chapter&gt;
-&lt;title&gt;Chapter 2&lt;/title&gt;
-&lt;para&gt;
+&#60;chapter&#62;
+&#60;title&#62;Chapter 2&#60;/title&#62;
+&#60;para&#62;
 	A paragraph in Chapter 2.
-&lt;/para&gt;
-&lt;/chapter&gt;
+&#60;/para&#62;
+&#60;/chapter&#62;
 
-&lt;/book&gt;
+&#60;/book&#62;
 </programlisting>
 		<para>
 			This book contains two chapters. Chapter one contains two sections. Refer to <ulink url="http://docbook.org/tdg/en/html/section.html" /> for further information about sections, and <ulink url="http://docbook.org/tdg/en/html/book.html" /> for further information about books.
@@ -772,7 +770,7 @@
 	<section id="sect-Users_Guide-Files_in_the_book_directory-Revision_History.xml">
 		<title>Revision_History.xml</title>
 		<para>
-			The <command>publican package</command> command searches for the first XML file in the document's XML directory containing a <literal>&lt;revhistory&gt;</literal> tag. <application>Publican</application> then uses that file to build the RPM revision history.
+			The <command>publican package</command> command searches for the first XML file in the document&#39;s XML directory containing a <literal>&#60;revhistory&#62;</literal> tag. <application>Publican</application> then uses that file to build the RPM revision history.
 		</para>
 	</section>
 
