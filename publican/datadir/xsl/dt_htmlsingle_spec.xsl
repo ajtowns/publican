@@ -45,7 +45,8 @@ Requires:    xdg-utils
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
-%description -l <xsl:value-of select="$lang"/></xsl:if><xsl:value-of select="$abstract" />
+%description -l <xsl:value-of select="$lang"/></xsl:if>
+<xsl:value-of select="$abstract" />
 
 %prep
 %setup -q

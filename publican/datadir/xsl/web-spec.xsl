@@ -36,7 +36,8 @@ Prefix:        /var/www/html/docs
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
 
-%description -l <xsl:value-of select="$lang"/> </xsl:if><xsl:value-of select="$abstract" />
+%description -l <xsl:value-of select="$lang"/> </xsl:if>
+<xsl:value-of select="$abstract" />
 
 %package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'">
@@ -57,7 +58,8 @@ Requires:    xdg-utils
 %description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
-%description -l <xsl:value-of select="$lang"/>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/> </xsl:if><xsl:value-of select="$abstract" />
+%description -l <xsl:value-of select="$lang"/>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/> </xsl:if>
+<xsl:value-of select="$abstract" />
 
 %prep
 %setup -q

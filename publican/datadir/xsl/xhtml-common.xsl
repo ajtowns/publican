@@ -1007,7 +1007,7 @@ Version: 1.72.0
   </xsl:call-template>
 </xsl:template>
 
-<xsl:template match="section/title                     |section/info/title                     |sectioninfo/title" mode="titlepage.mode" priority="2">
+<xsl:template match="section/title|section/info/title|sectioninfo/title" mode="titlepage.mode" priority="2">
   <xsl:call-template name="section.title"/>
 </xsl:template>
 
