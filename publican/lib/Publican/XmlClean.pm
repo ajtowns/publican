@@ -617,18 +617,18 @@ sub print_xml {
         my $text = $self->my_as_XML(
             { xml_doc => $xml_doc, path => ( $1 || './' ) } );
 
-        #        $text =~ s/&#10;//g;
-        #        $text =~ s/&#9;//g;
-        #        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
-        #        $text =~ s/&#38;/&amp;/g;
-        #        $text =~ s/&amp;#x200B;/&#x200B;/g;
+##        $text =~ s/&#10;//g;
+##        $text =~ s/&#9;//g;
+        $text =~ s/&#38;([a-zA-Z-_0-9\.-\:]+;)/&$1/g;
+        $text =~ s/&#38;/&amp;/g;
+##        $text =~ s/&amp;#x200B;/&#x200B;/g;
         $text =~ s/&#x200B; &#x200B;/ /g;
         $text =~ s/&#x200B; / /g;
 
-        #        $text =~ s/&#60;/&lt;/g;
-        #        $text =~ s/&#62;/&gt;/g;
-        #        $text =~ s/&#34;/"/g;
-        #        $text =~ s/&#39;/'/g;
+##        $text =~ s/&#60;/&lt;/g;
+##        $text =~ s/&#62;/&gt;/g;
+##        $text =~ s/&#34;/"/g;
+##        $text =~ s/&#39;/'/g;
         $xml_doc->root()->delete();
 
         my $OUTDOC;
