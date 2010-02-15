@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community-richfaces
 Summary:	Common documentation files for RichFaces community documents
-Version:	0.5
+Version:	1.0
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 1.0
+- bump version number for release
+* Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.6
+- another monospaced font fix
 * Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.5
 - tweak some headings to match JDocBook styles that use H2 in places where Publican uses H1
 * Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.4
