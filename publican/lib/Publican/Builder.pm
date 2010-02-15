@@ -775,7 +775,10 @@ sub transform {
     }
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
-
+debug_msg("opts: \n");
+foreach my $key (sort(keys(%xslt_opts))) {
+debug_msg("\t$key: " . $xslt_opts{$key} . "\n");
+}
     my $results = $stylesheet->transform( $source, %xslt_opts );
 
     if ( $format =~ /^pdf/ ) {
@@ -1128,6 +1131,11 @@ Parameters:
 	verbatim: the XHTML/XML:FO tree to place gfx in
 
 Returns: modified $verbatim
+
+BUGBUG: BZ #561618
+BUGBUG: The approach taken here does not work for tagged content in the verbatim.
+BUGBUG: Need to walk the node tree in childnode instead of using it as a string.
+BUGBUG: make sure class is being set
 
 =cut
 

@@ -3,6 +3,52 @@
 ]>
 <chapter id="chap-Users_Guide-Installing_Publican">
 	<title>Installing Publican</title>
+   <section>
+      <title>Callout Test</title>
+      <para>This is a test of callouts within a <literal>screen</literal>
+tag.</para>
+      <screenco>
+         <areaspec>
+            <area id="make" coords="2"/>
+            <area id="install" coords="3"/>
+         </areaspec>
+<screen format="linespecific"><prompt>[root@server src]# </prompt><userinput>cd foo.<replaceable>X</replaceable>.<replaceable>Y</replaceable></userinput>
+<prompt>[root@server foo.<replaceable>X</replaceable>.<replaceable>Y</replaceable>]# </prompt><userinput>make</userinput>
+<prompt>[root@server foo.<replaceable>X</replaceable>.<replaceable>Y</replaceable>]# </prompt><userinput>make install</userinput>
+</screen>
+         <calloutlist>
+            <callout arearefs="make">
+               <para>This command compiles the <application>foo</application> source code into an program</para>
+            </callout>
+            <callout arearefs="install">
+               <para>This command installs the <application>foo</application> application into the proper system directory</para>
+            </callout>
+         </calloutlist>
+      </screenco>
+   </section>
+   <section>
+      <title>Callout Test 2</title>
+      <para>This is a test of callouts within a <literal>screen</literal>
+tag.</para>
+      <screenco>
+         <areaspec>
+            <area id="make1" coords="2"/>
+            <area id="install1" coords="3"/>
+         </areaspec>
+<screen>[root@server src]# cd foo.X.Y
+[root@server foo.X.Y]# make
+[root@server foo.X.Y]# make install
+</screen>
+         <calloutlist>
+            <callout arearefs="make1">
+               <para>This command compiles the <application>foo</application> source code into an program</para>
+            </callout>
+            <callout arearefs="install1">
+               <para>This command installs the <application>foo</application> application into the proper system directory</para>
+            </callout>
+         </calloutlist>
+      </screenco>
+   </section>
 	<section id="sect-Users_Guide-Installing_Publican-Installing_Publican_on_Linux_operating_systems">
 		<title>Installing Publican on Linux operating systems</title>
 		<important>

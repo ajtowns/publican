@@ -341,7 +341,7 @@ sub _load_config {
         || croak( maketext( "Failed to load config file: [_1]", $configfile ) );
 
     foreach my $def ( keys(%PARAMS) ) {
-        if ( defined $PARAMS{$def}->{default} and not $config->param($def) ) {
+        if ( defined $PARAMS{$def}->{default} and not defined($config->param($def)) ) {
             $config->param( $def, $PARAMS{$def}->{default} );
         }
     }
