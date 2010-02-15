@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community
 Summary:	Common documentation files for JBoss community documents
-Version:	0.13
+Version:	0.15
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.15
+- tweak some headings to match JDocBook styles that use H2 in places where Publican uses H1
+* Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.14
+- monospaced fonts for screens and programlistings
 * Thu Feb 4 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.13
 - resize title_logo.svg
 * Thu Feb 4 2010  James Cobb <jcobb@redhat.com> 0.12
