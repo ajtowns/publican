@@ -38,7 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 1.0
+* Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 1.0-0
 - bump version number for release
 * Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.11
 - another monospaced font fix
