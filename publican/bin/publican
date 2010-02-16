@@ -20,7 +20,9 @@ use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path);
 
-my $VERSION = version->new('1.4');
+my $VERSION       = version->new('1.4');
+my $LANG_PATTERN  = q|__LANG__|;
+my $IMPORT_SCRIPT = '../common/cvs-import.sh';
 
 =head1 NAME
 
@@ -527,11 +529,11 @@ if ( $action eq 'package' ) {
     if ( $opts{cvs} ) {
 
         my $dir = pushd( $publican->param('tmp_dir') );
-print("pushd " . $publican->param('tmp_dir') . "\n");
+        print( "pushd " . $publican->param('tmp_dir') . "\n" );
 
         my @filelist = File::Find::Rule->file->name('*.src.rpm')->in('rpm');
 
-        my $srpm = abs_path(pop(@filelist));
+        my $srpm = abs_path( pop(@filelist) );
 
         unless ( -f "$srpm" ) {
             croak( maketext("Can't locate srpm, CVS import aborted") . "\n" );
@@ -540,40 +542,43 @@ print("pushd " . $publican->param('tmp_dir') . "\n");
         my $cvs_root = $publican->param('cvs_root')
             || croak(
             maketext("--cvs requires cvs_root to be set in the cfg file") );
-        my $cvs_pkg = $publican->param('cvs_pkg') || croak(
-            maketext("--cvs requires cvs_pkg to be set in the cfg file") );;
+
+        my $cvs_pkg = $publican->param('cvs_pkg')
+            || croak(
+            maketext("--cvs requires cvs_pkg to be set in the cfg file") );
+        $cvs_pkg =~ s/$LANG_PATTERN/$opts{lang}/g;
+
         my $cvs_branch = $publican->param('cvs_branch')
             || croak(
             maketext("--cvs requires cvs_branch to be set in the cfg file") );
 
-        my $cvs_dir = $publican->param('cvs_pkg') . '-'
-            . $publican->param('cvs_branch');
+        my $cvs_dir = "$cvs_pkg-$cvs_branch";
 
-        my @cvs_args = ( "cvs");
-        push( @cvs_args, ("-d", $cvs_root)) if ($cvs_root);
-        push( @cvs_args, ("co", $cvs_dir ));
+        my @cvs_args = ("cvs");
+        push( @cvs_args, ( "-d", $cvs_root ) ) if ($cvs_root);
+        push( @cvs_args, ( "co", $cvs_dir ) );
 
-print("cvs command: " . join(" ",@cvs_args), "\n");
+        print( "cvs command: " . join( " ", @cvs_args ), "\n" );
         system(@cvs_args);
         croak($@) if ($@);
 
-        $dir = pushd( $cvs_dir . '/' . $publican->param('cvs_pkg') );
-print("pushd $cvs_dir/" . $publican->param('cvs_pkg') . "\n");
+        $dir = pushd("$cvs_dir/$cvs_pkg");
+        print("pushd $cvs_dir/$cvs_pkg\n");
 
-        print("../common/cvs-import.sh $srpm");
+        print("$IMPORT_SCRIPT $srpm");
         croak($@) if ($@);
-print("\n");
+        print("\n");
         print("cvs up");
         croak($@) if ($@);
-print("\n");
+        print("\n");
 
         print("make tag");
         croak($@) if ($@);
-print("\n");
+        print("\n");
 
         print("make build");
         croak($@) if ($@);
-print("\n");
+        print("\n");
 
         $dir = undef;
     }
@@ -588,7 +593,7 @@ __END__
 build
     Transform XML to other formats (pdf, html, html-single, etc)
 
-        Options:
+	Options:
         --formats=<FORMATS>       Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub
         --langs=<LANGS>           Comma-separated list of languages, for example: en-US,de-DE,all
         --publish                 Set up built content for publishing
@@ -599,28 +604,28 @@ build
 clean
     Remove all temporary files and directories
 
-        Options:
-                No options
+	Options:
+		No options
 
 
 clean_ids
     Run clean ids for source XML
 
-        Options:
-                No options
+	Options:
+		No options
 
 
 cleanset
     Remove local copies of remote set books
 
-        Options:
-                No options
+	Options:
+		No options
 
 
 create
     Create a new book, set, or article
 
-        Options:
+	Options:
         --name=<NAME>             The name of the book, article, set, or brand
         --version=<VERSION>       The version of the product
         --edition=<EDITION>       The edition of the book, article, or set
@@ -633,7 +638,7 @@ create
 create_brand
     Create a new brand
 
-        Options:
+	Options:
         --name=<NAME>             The name of the book, article, set, or brand
         --lang=<LANG>             The language the XML will be written in
 
@@ -641,28 +646,35 @@ create_brand
 help_config
     Display help text for the configuration file
 
-        Options:
-                No options
+	Options:
+		No options
 
 
 installbrand
     Install a brand to the supplied location
 
-        Options:
+	Options:
         --path=<PATH>             /path/to/install/to
+
+
+lang_stats
+    report PO statistics
+
+	Options:
+        --lang=<LANG>             The language the XML will be written in
 
 
 old2new
     Create a publican.cfg file from the Makefile of an old book, set, or article
 
-        Options:
-                No options
+	Options:
+		No options
 
 
 package
     Package a language for shipping
 
-        Options:
+	Options:
         --lang=<LANG>             The language the XML will be written in
         --desktop                 Create desktop instead of web package
         --brew                    Push SRPM to brew
@@ -672,25 +684,26 @@ package
         --wait                    Wait for brew to finish building
         --cvs                     Import the SRPM in to CVS, the run make tag and make build.
 
+
 printtree
     Print a tree of the xi:includes
 
-        Options:
-                No options
+	Options:
+		No options
 
 
 update_po
     Update the PO files
 
-        Options:
+	Options:
         --langs=<LANGS>           Comma-separated list of languages, for example: en-US,de-DE,all
 
 
 update_pot
     Update the POT files
 
-        Options:
-                No options
+	Options:
+		No options
 
 
 =head1 CONFIGURATION AND ENVIRONMENT

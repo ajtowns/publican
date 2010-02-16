@@ -37,7 +37,7 @@ $VERSION = version->new('0.1');
 
 my $INVALID = 1;
 
-my $TEST_MML = 0;
+my $TEST_MML     = 0;
 my $DEFAULT_WRAP = 82;
 $columns = $DEFAULT_WRAP;
 
@@ -775,10 +775,6 @@ sub transform {
     }
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
-debug_msg("opts: \n");
-foreach my $key (sort(keys(%xslt_opts))) {
-debug_msg("\t$key: " . $xslt_opts{$key} . "\n");
-}
     my $results = $stylesheet->transform( $source, %xslt_opts );
 
     if ( $format =~ /^pdf/ ) {
@@ -800,11 +796,13 @@ debug_msg("\t$key: " . $xslt_opts{$key} . "\n");
             . $self->{publican}->param('docname') . '-'
             . "$lang.pdf";
 
-        my $fop_command = qq|classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
+        my $fop_command
+            = qq|classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
 
 ## TODO find out if we need to set classpath on windows and how
         if ( $^O eq 'MSWin32' ) {
-            $fop_command = qq|fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
+            $fop_command
+                = qq|fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
         }
 
         system($fop_command);
@@ -1476,7 +1474,7 @@ sub package {
     my $language      = code2language( substr( $lang, 0, 2 ) );
 
     my $log = $self->change_log();
-    my $abstract = $self->abstract({lang => $lang});
+    my $abstract = $self->abstract( { lang => $lang } );
 
     my %xslt_opts = (
         'book-title'  => $name_start,
@@ -1620,7 +1618,6 @@ sub change_log {
     return ($log);
 }
 
-
 =head2 abstract
 
 Generate an RPM style change log from $xml_lang/Revision_History.xml
@@ -1630,7 +1627,8 @@ Generate an RPM style change log from $xml_lang/Revision_History.xml
 sub abstract {
     my ( $self, $args ) = @_;
 
-    my $lang = delete( $args->{lang} ) || croak("lang is a mandatory argument");
+    my $lang = delete( $args->{lang} )
+        || croak("lang is a mandatory argument");
 
     if ( %{$args} ) {
         croak "unknown args: " . join( ", ", keys %{$args} );
@@ -1640,12 +1638,10 @@ sub abstract {
     my $type    = $self->{publican}->param('type');
 
     my $xml_doc = XML::TreeBuilder->new();
-    $xml_doc->parse_file("$tmp_dir/$lang/xml/$type" . '_Info.xml');
+    $xml_doc->parse_file( "$tmp_dir/$lang/xml/$type" . '_Info.xml' );
 
-    my $abstract = $xml_doc->root()->look_down( "_tag", "abstract" ) || croak(
-        maketext(
-            "Missing mandatory field '[_1]'.", 'abstract')
-    );
+    my $abstract = $xml_doc->root()->look_down( "_tag", "abstract" )
+        || croak( maketext( "Missing mandatory field '[_1]'.", 'abstract' ) );
 
     $columns = 68;
     my $text = wrap( "", "", $abstract->as_text() );

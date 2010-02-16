@@ -75,8 +75,8 @@ my %PARAMS = (
 
     },
     books => {
-        descr =>
-            maketext('A space-separated list of books used in this remote set.'),
+        descr => maketext(
+            'A space-separated list of books used in this remote set.'),
 
     },
     brand => {
@@ -96,7 +96,8 @@ my %PARAMS = (
     },
     chunk_first => {
         descr => maketext(
-            'For HTML, should the first section be on the same page as its parent?'),
+            'For HTML, should the first section be on the same page as its parent?'
+        ),
         default => 0,
 
     },
@@ -124,8 +125,8 @@ my %PARAMS = (
 
     },
     condition => {
-        descr =>
-            maketext('Conditions on which to prune XML before transformation.'),
+        descr => maketext(
+            'Conditions on which to prune XML before transformation.'),
 
     },
     confidential => {
@@ -133,7 +134,14 @@ my %PARAMS = (
         default => 0,
 
     },
-    debug => {
+    cvs_root => {
+        descr => maketext(
+            'CVS root to import SRPM into. e.g. :ext:@cvs.fedoraproject.org:/cvs/pkgs'
+        ),
+    },
+    cvs_pkg    => { descr => maketext('The name of the package in CVS.'), },
+    cvs_branch => { descr => maketext('The Branch of the package in CVS.'), },
+    debug      => {
         descr   => maketext('Print out extra messages?'),
         default => 0,
 
@@ -152,7 +160,8 @@ my %PARAMS = (
 
     },
     dtdver => {
-        descr => maketext('Version of the DocBook DTD on which this project is based.'),
+        descr => maketext(
+            'Version of the DocBook DTD on which this project is based.'),
         default => '4.5',
 
     },
@@ -197,7 +206,8 @@ my %PARAMS = (
 
     },
     prod_url => {
-        descr   => maketext('URL for the product. Used in top left URL in HTML.'),
+        descr =>
+            maketext('URL for the product. Used in top left URL in HTML.'),
         default => 'https://fedorahosted.org/publican',
 
     },
@@ -207,8 +217,10 @@ my %PARAMS = (
         ),
         constraint => '[^0-9.]',
     },
-    repo => { descr => maketext('Repository from which to fetch remote set books.'), },
-    scm  => {
+    repo => {
+        descr => maketext('Repository from which to fetch remote set books.'),
+    },
+    scm => {
         descr => maketext(
             'Type of repository Remote Set Books are stored in. Supported types: SVN.'
         ),
@@ -225,8 +237,8 @@ my %PARAMS = (
 
     },
     src_url => {
-        descr =>
-            maketext('URL to find tar of source files. Used in RPM Spec files.'),
+        descr => maketext(
+            'URL to find tar of source files. Used in RPM Spec files.'),
     },
     strict => {
         descr => maketext(
@@ -263,8 +275,9 @@ my %PARAMS = (
         descr   => maketext('The brew dist to use for building the web rpm.'),
         default => 'docs-5E',
     },
-    web_obsoletes => { descr => maketext('Packages to obsolete in web RPM.'), },
-    xml_lang      => {
+    web_obsoletes =>
+        { descr => maketext('Packages to obsolete in web RPM.'), },
+    xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
         default => 'en-US',
     },
@@ -273,8 +286,8 @@ my %PARAMS = (
 
 # Setup localisation ASAP
 BEGIN {
-    if(! $LOCALISE) {
-            $LOCALISE = Publican::Localise->get_handle()
+    if ( !$LOCALISE ) {
+        $LOCALISE = Publican::Localise->get_handle()
             || croak("Could not create a Publican::Localise object");
         $LOCALISE->encoding("UTF-8");
         $LOCALISE->textdomain("publican");
@@ -323,7 +336,10 @@ sub _load_config {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
     if ( not -f $configfile ) {
 
@@ -338,10 +354,13 @@ sub _load_config {
     my $config = new Config::Simple();
     $config->syntax('http');
     $config->read($configfile)
-        || croak( maketext( "Failed to load config file: [_1]", $configfile ) );
+        || croak(
+        maketext( "Failed to load config file: [_1]", $configfile ) );
 
     foreach my $def ( keys(%PARAMS) ) {
-        if ( defined $PARAMS{$def}->{default} and not defined($config->param($def)) ) {
+        if ( defined $PARAMS{$def}->{default}
+            and not defined( $config->param($def) ) )
+        {
             $config->param( $def, $PARAMS{$def}->{default} );
         }
     }
@@ -391,7 +410,9 @@ sub _load_config {
         }
 
         my $edition = $config->param('edition')
-            || eval { $xml_doc->root()->look_down( "_tag", "edition" )->as_text(); };
+            || eval {
+            $xml_doc->root()->look_down( "_tag", "edition" )->as_text();
+            };
         if ($@) {
             croak maketext("edition not found in Info file");
         }
@@ -415,15 +436,17 @@ sub _load_config {
         # Override publican defaults with brand defaults
         if ( -f "$path/defaults.cfg" ) {
             my $tmp_cfg = new Config::Simple("$path/defaults.cfg")
-                || croak( maketext("Failed to load brand defaults.cfg file") );
+                || croak(
+                maketext("Failed to load brand defaults.cfg file") );
             my %Config = $tmp_cfg->vars();
             foreach my $cfg ( keys(%Config) ) {
 
-              # If a book key is unset or equals the publican default, Override it
+          # If a book key is unset or equals the publican default, Override it
                 if (   ( !$self->{config}->param($cfg) )
                     or ( !defined( $PARAMS{$cfg}->{default} ) )
-                    or
-                    ( $self->{config}->param($cfg) eq $PARAMS{$cfg}->{default} ) )
+                    or ( $self->{config}->param($cfg) eq
+                        $PARAMS{$cfg}->{default} )
+                    )
                 {
                     $self->{config}->param( $cfg, $Config{$cfg} );
                 }
@@ -433,7 +456,8 @@ sub _load_config {
         # Enforce Brand Overrides
         if ( -f "$path/overrides.cfg" ) {
             my $tmp_cfg = new Config::Simple("$path/overrides.cfg")
-                || croak( maketext("Failed to load brand overrides.cfg file") );
+                || croak(
+                maketext("Failed to load brand overrides.cfg file") );
             my %Config = $tmp_cfg->vars();
             foreach my $cfg ( keys(%Config) ) {
                 $config->param( $cfg, $Config{$cfg} );
@@ -442,14 +466,19 @@ sub _load_config {
 
         # Brand Settings
         my $brand_cfg = new Config::Simple("$path/publican.cfg")
-                || croak( maketext("Failed to load brand file: [_1]", "$path/publican.cfg") );
+            || croak(
+            maketext(
+                "Failed to load brand file: [_1]",
+                "$path/publican.cfg"
+            )
+            );
 
         $self->{brand_config} = $brand_cfg;
     }
     $DEBUG = $self->{config}->param('debug') if ( !$DEBUG );
 
     return;
-};
+}
 
 =head2 _validate_config
 
@@ -462,11 +491,15 @@ sub _validate_config {
 
     foreach my $key ( keys(%PARAMS) ) {
         if ( defined $PARAMS{$key}->{constraint} ) {
-            my $value = $self->{config}->param($key);
+            my $value      = $self->{config}->param($key);
             my $constraint = $PARAMS{$key}->{constraint};
-            if($value && $value =~ /$constraint/) {
+            if ( $value && $value =~ /$constraint/ ) {
                 croak(
-                maketext( "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])", $key, $value, $constraint) );
+                    maketext(
+                        "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])",
+                        $key, $value, $constraint
+                    )
+                );
             }
         }
     }
@@ -507,7 +540,8 @@ sub new {
         if ( %{$args} ) {
             croak(
                 maketext(
-                    "unknown arguments: [_1]", join( ", ", keys %{$args} )
+                    "unknown arguments: [_1]",
+                    join( ", ", keys %{$args} )
                 )
             );
         }
@@ -519,7 +553,8 @@ sub new {
             eval { require Win32::TieRegistry; };
             croak(
                 maketext(
-                    "Failed to load Win32::TieRegistry module. Error: [_1]", $@
+                    "Failed to load Win32::TieRegistry module. Error: [_1]",
+                    $@
                 )
             ) if ($@);
 
@@ -528,16 +563,17 @@ sub new {
             my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
                 { Delimiter => "\\" } );
 
-            if($key and $key->GetValue("")) {
-                if(!$common_config) {
+            if ( $key and $key->GetValue("") ) {
+                if ( !$common_config ) {
                     $common_config = $key->GetValue("");
                     $common_config =~ s/\\/\//g;
-                }    
-                $common_content = "$common_config/Common_Content" if(!$common_content);
+                }
+                $common_content = "$common_config/Common_Content"
+                    if ( !$common_content );
             }
 
-            $common_config = qq{"$common_config"} if($common_config);
-            $common_content = qq{"$common_content"} if($common_content);
+            $common_config  = qq{"$common_config"}  if ($common_config);
+            $common_content = qq{"$common_content"} if ($common_content);
         }
 
         $self->_load_config(
@@ -684,14 +720,16 @@ sub get_all_langs {
 
     foreach my $dir (@dirs) {
         if ( -d $dir ) {
-            next if ( $dir =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish)$/ );
+            next
+                if (
+                $dir =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish)$/ );
 
             if ( valid_lang($dir) ) {
                 push( @langs, $dir );
             }
             else {
-                logger(
-                    maketext( "Skipping unknown language: [_1]", $dir ) . "\n" );
+                logger( maketext( "Skipping unknown language: [_1]", $dir )
+                        . "\n" );
             }
         }
     }
@@ -728,9 +766,9 @@ Is the requested language valid according to I18N::LangTags::List
 
 sub valid_lang {
     my $lang = shift;
-    my $name = (I18N::LangTags::List::name($lang) || '');
+    my $name = ( I18N::LangTags::List::name($lang) || '' );
 
-    return ( I18N::LangTags::List::is_decent($lang) && ($name ne '') );
+    return ( I18N::LangTags::List::is_decent($lang) && ( $name ne '' ) );
 }
 
 =head2 maketext
@@ -747,7 +785,7 @@ sub maketext {
         return ( $LOCALISE->maketext( $string, @params ) );
     }
     else {
-        carp(RED, "Warning localisation not enabled!\n", RESET);
+        carp( RED, "Warning localisation not enabled!\n", RESET );
     }
 
     return ($string);
@@ -774,11 +812,11 @@ sub old2new {
 
     foreach my $var (@vars) {
         if ( !defined $PARAM_OLD{$var} ) {
-            logger(maketext("[_1] is not handled yet.", $var) . "\n");
+            logger( maketext( "[_1] is not handled yet.", $var ) . "\n" );
             next;
         }
         if ( $PARAM_OLD{$var} eq '' ) {
-            logger(maketext("[_1] is not used anymore.", $var) . "\n");
+            logger( maketext( "[_1] is not used anymore.", $var ) . "\n" );
             next;
         }
 

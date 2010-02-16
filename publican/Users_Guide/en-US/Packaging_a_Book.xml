@@ -113,6 +113,14 @@
 					</para>
 				</listitem>
 			</varlistentry>
+			<varlistentry>
+				<term><option>--cvs</option></term>
+				<listitem>
+					<para>
+						specifies that <application>Publican</application> should import the generated SRPM package in to CVS. This requires <option>cvs_root</option>, <option>cvs_pkg</option>, and <option>cvs_branch</option> be set in the configuration file.
+					</para>
+				</listitem>
+			</varlistentry>
 		</variablelist>
 		<para>
 			After you run the <command>publican package</command> command, <application>Publican</application> outputs completed SRPM packages to the document&#39;s <filename>tmp/rpm</filename> directory, and completed binary RPM packages to the document&#39;s <filename>tmp/rpm/noarch</filename> directory.
