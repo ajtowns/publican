@@ -40,7 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Fri Nov 27 2009 Rüdiger Landmann <r.landmann@redhat.com> 1.2
+* Thu Jan 21 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.2
 - include section on getting help from GSS and other sources. BZ #492499
 
 * Fri Nov 27 2009 Jeff Fearn <jfearn@redhat.com> 1.1
