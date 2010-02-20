@@ -33,6 +33,8 @@
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
+<!-- This is required to get footnotes to format correctly due to overriding para BZ #565903 -->
+<xsl:include href="http://docbook.sourceforge.net/release/xsl/current/fo/footnote.xsl"/>
 <xsl:include href="defaults.xsl"/>
 <xsl:param name="alignment">
 	<xsl:choose>
@@ -45,7 +47,7 @@
 	</xsl:choose>
 </xsl:param>
 <xsl:param name="use.extensions" select="1"/>
-<xsl:param name="tablecolumns.extensions" select="1"/>
+<xsl:param name="tablecolumns.extension" select="1"/>
 <xsl:param name="fop.extensions" select="0"/>
 <xsl:param name="fop1.extensions" select="1"/>
 <xsl:param name="img.src.path"/>
