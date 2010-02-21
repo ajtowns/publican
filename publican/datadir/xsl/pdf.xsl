@@ -28,7 +28,8 @@
                 xmlns:xtbl="com.nwalsh.xalan.Table"
                 xmlns:ptbl="http://nwalsh.com/xslt/ext/xsltproc/python/Table"
 		xmlns:perl="urn:perl"
-                exclude-result-prefixes="perl ptbl xtbl stbl">
+		xmlns:exsl="http://exslt.org/common"
+                exclude-result-prefixes="exsl perl ptbl xtbl stbl">
 <!--		exclude-result-prefixes="#default"> -->
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>

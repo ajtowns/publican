@@ -1149,9 +1149,10 @@ sub insertCallouts {
 
     my $mode   = 'gfx';
     my $format = 'HTML';
+    my $tag    = $childnode->nodeName();
 
     # PDF
-    if ( $childnode->nodeName() eq 'fo:block' ) {
+    if ( $tag eq 'fo:block' ) {
         $format = 'PDF';
     }
 
@@ -1169,7 +1170,7 @@ sub insertCallouts {
                     my $col = $child->getAttribute('coords')
                         || carp(
                         maketext("'area' require a 'coords' attribute.") );
-                    push( @{ $callout{$col} }, $index );
+                    push( @{ $callout{$col}{lines} }, $index );
                 }
             }
         }
@@ -1177,7 +1178,7 @@ sub insertCallouts {
             $index++;
             my $col = $node->getAttribute('coords')
                 || carp( maketext("'area' require a 'coords' attribute.") );
-            push( @{ $callout{$col} }, $index );
+            push( @{ $callout{$col}{lines} }, $index );
         }
     }
 
@@ -1188,23 +1189,80 @@ sub insertCallouts {
     my $count      = 0;
     my $position   = 40;
 
-    foreach my $line ( split( /\n/, $in_string ) ) {
-        chomp($line);
-        $position = max( $position, length($line) + 4 );
+    my $parser = XML::LibXML->new();
+    $parser->expand_entities(0);
+
+    my $test       = $verb->toString();
+    my $line_count = 0;
+
+    # calculate numer of lines
+    my $io = IO::String->new($test);
+    while (<$io>) {
+        $line_count++;
     }
 
-    foreach my $line ( split( /\n/, $in_string ) ) {
+    # calculate longest line
+    $io    = IO::String->new($test);
+    $count = -1;
+    while (<$io>) {
         $count++;
+        my $line = $_;
         chomp($line);
-        $out_string .= $line;
-        $out_node->appendText($line);
+
+        # skip fir line, which has xml decl
+        if ( $count == 0 ) { next; }
+
+        # skip last line, which is close tag
+        if ( $count == $line_count - 1 ) { next; }
+
+        # for first node add close tag
+        # BUGBUG this will break if there are nested block tags
+        my $node;
+        if ( $count == 1 ) {
+            $node = $parser->parse_xml_chunk( $line . "</$tag>" );
+        }
+        else {
+
+            # FO needs a wrapper to set the namespace
+            if ( $format eq 'PDF' ) {
+                $node
+                    = $parser->parse_xml_chunk(
+                    qq|<$tag xmlns:fo="http://www.w3.org/1999/XSL/Format">|
+                        . $line
+                        . "</$tag>" );
+            }
+            else {
+                $node = $parser->parse_xml_chunk($line);
+            }
+        }
+
+        # calculate unformated line length
+        my $fline = $node->string_value();
+        $position = max( $position, length($fline) + 4 );
         if ( defined( $callout{$count} ) ) {
-            my $padding = $position - length($line);
+            $callout{$count}{'length'} = length($fline);
+        }
+    }
+
+    # add callout numbers
+    $io    = IO::String->new($test);
+    $count = -1;
+    while (<$io>) {
+        my $line = $_;
+        $count++;
+
+        # skip first line, which has xml decl
+        if ( $count == 0 ) { next; }
+        $out_string .= $line;
+
+        if ( defined( $callout{$count} ) ) {
+            chomp($out_string);
+            my $padding = $position - $callout{$count}{'length'};
             $out_string .= " " x $padding;
-            $out_node->appendText( " " x $padding );
-            foreach my $index ( sort( { $a <=> $b } @{ $callout{$count} } ) )
+
+            foreach my $index (
+                sort( { $a <=> $b } @{ $callout{$count}{lines} } ) )
             {
-                $out_string .= "$index ";
                 if ( $mode eq 'gfx' ) {
                     my $gfx_node;
 
@@ -1226,19 +1284,18 @@ sub insertCallouts {
                         $gfx_node->setAttribute( 'content-type',
                             'content-type:image/svg+xml' );
                     }
-                    $out_node->appendChild($gfx_node);
+                    $out_string .= $gfx_node->toString();
                 }
                 else {    # numeric
-                    $out_node->appendText("$index  ");
+                    $out_string .= "$index ";
                 }
             }
+            $out_string .= "\n";
         }
 
-        $out_string .= "\n";
-        $out_node->appendText("\n");
     }
 
-    $childnode->firstChild()->replaceNode($out_node);
+    $childnode->replaceNode( $parser->parse_xml_chunk($out_string) );
     return ($verbatim);
 }
 
