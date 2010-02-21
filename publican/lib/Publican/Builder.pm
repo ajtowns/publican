@@ -25,7 +25,7 @@ use HTML::FormatText;
 use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
-use List::Util qw[max];
+use List::Util qw(max);
 use Text::Wrap qw(wrap $columns);
 
 use version;
