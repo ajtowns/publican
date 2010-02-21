@@ -12,7 +12,7 @@ use Publican::CreateBrand;
 use Publican::Builder;
 use Publican::XmlClean;
 use Publican::TreeView;
-use File::Path qw(remove_tree);
+use File::Path;
 use File::Copy::Recursive qw(dircopy rcopy);
 use File::Find::Rule;
 use File::pushd;
@@ -446,21 +446,19 @@ if ( $action eq 'clean' || $action eq 'package' ) {
 
     my $error;
 
-    remove_tree( $publican->param('tmp_dir'),
-        'publish', { verbose => 0, error => $error } );
-    logger("error: $error\n") if ($error);
+    rmtree( $publican->param('tmp_dir'));
 
     my $books = $publican->param('books') || "";
     foreach my $book ( split( " ", $books ) ) {
-        remove_tree("$book/tmp");
-        remove_tree("$book/publish");
+        rmtree("$book/tmp");
+        rmtree("$book/publish");
     }
 }
 
 if ( $action eq 'cleanset' ) {
     my $books = $publican->param('books') || "";
     foreach my $book ( split( " ", $books ) ) {
-        remove_tree("$book");
+        rmtree("$book");
     }
 }
 
