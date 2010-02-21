@@ -22,6 +22,7 @@ use Cwd qw(abs_path);
 
 my $VERSION       = version->new('1.4');
 my $LANG_PATTERN  = q|__LANG__|;
+## TODO Consider making this a parameter
 my $IMPORT_SCRIPT = '../common/cvs-import.sh';
 
 =head1 NAME
@@ -549,6 +550,7 @@ if ( $action eq 'package' ) {
             croak( maketext("Can't locate srpm, CVS import aborted") . "\n" );
         }
 
+        # TODO consider making this optional?
         my $cvs_root = $publican->param('cvs_root')
             || croak(
             maketext("--cvs requires cvs_root to be set in the cfg file") );
@@ -573,22 +575,18 @@ if ( $action eq 'package' ) {
         croak($@) if ($@);
 
         $dir = pushd("$cvs_dir/$cvs_pkg");
-        print("pushd $cvs_dir/$cvs_pkg\n");
 
-        print("$IMPORT_SCRIPT $srpm");
+        system("$IMPORT_SCRIPT $srpm");
         croak($@) if ($@);
-        print("\n");
-        print("cvs up");
-        croak($@) if ($@);
-        print("\n");
 
-        print("make tag");
+        system("cvs up");
         croak($@) if ($@);
-        print("\n");
 
-        print("make build");
+        system("make tag");
         croak($@) if ($@);
-        print("\n");
+
+        system("make build");
+        croak($@) if ($@);
 
         $dir = undef;
     }
