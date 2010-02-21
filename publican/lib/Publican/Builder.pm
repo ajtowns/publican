@@ -489,6 +489,8 @@ sub validate_xml {
     }
 
     my $docname = $self->{publican}->param('docname');
+    my $dtdver = delete( $args->{dtdver} )
+        || croak( maketext("dtdver is a mandatory argument") );
 
     if (   ( $self->{publican}->param('ignored_translations') )
         && ( $self->{publican}->param('ignored_translations') =~ m/$lang/ ) )
@@ -516,8 +518,8 @@ sub validate_xml {
     my $source = $parser->parse_file("$docname.xml");
 
 ## TODO should version be a variable?
-    my $dtd_type = '-//OASIS//DTD DocBook XML V4.5//EN';
-    my $dtd_path = 'http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd';
+    my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
+    my $dtd_path = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
 
     if ( 0 && $TEST_MML ) {
         $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
