@@ -90,10 +90,6 @@ my %PARAMS = (
         default => 'docs-5E',
 
     },
-    catalogs => {
-        descr => maketext('Path to DocBook catalog files.'),
-
-    },
     chunk_first => {
         descr => maketext(
             'For HTML, should the first section be on the same page as its parent?'

@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.4
-Release:        1%{?dist}.t62
+Release:        1%{?dist}.t64
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -196,6 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix config values of zero being ignored. BZ #564405
 - Fix footnote number missing in footer. BZ #565903
 - Fix duplicate text in callouts. BZ #561618
+- Remove outdated references to catalogs parameter. BZ #565498
 
 * Fri Jan 29 2010 Jeff Fearn <jfearn@redhat.com> 1.4-1
 - make font BuildRequires match requires.
