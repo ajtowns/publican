@@ -215,7 +215,7 @@ sub create {
             types => 'Book Set Article',
             node  => XML::Element->new_from_lol(
                 [   $lctype . 'info',
-                    [ 'title',         $name ],
+                    [ 'title',         $bookname ],
                     [ 'subtitle',      'short description' ],
                     [ 'productname',   $product ],
                     [ 'productnumber', $version ],

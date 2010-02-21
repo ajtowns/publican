@@ -489,8 +489,7 @@ sub validate_xml {
     }
 
     my $docname = $self->{publican}->param('docname');
-    my $dtdver = delete( $args->{dtdver} )
-        || croak( maketext("dtdver is a mandatory argument") );
+    my $dtdver  = $self->{publican}->param('dtdver');
 
     if (   ( $self->{publican}->param('ignored_translations') )
         && ( $self->{publican}->param('ignored_translations') =~ m/$lang/ ) )
@@ -519,7 +518,8 @@ sub validate_xml {
 
 ## TODO should version be a variable?
     my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
-    my $dtd_path = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
+    my $dtd_path
+        = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
 
     if ( 0 && $TEST_MML ) {
         $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
@@ -1497,20 +1497,13 @@ sub package {
     # Need to remove scm from packaged set to avoid fetching from repo
     my $tmp_scm = undef;
 
-    #    my $tmp_books = undef;
-
     if ( $type eq 'Set' && $self->{publican}->{config}->param('scm') ) {
         $tmp_scm = $self->{publican}->{config}->param('scm');
         $self->{publican}->{config}->delete('scm');
-
-        #	$tmp_books =  $self->{publican}->{config}->param('books');
-        #        $self->{publican}->{config}->delete('books');
     }
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
     $self->{publican}->{config}->param( 'xml_lang', $xml_lang );
     $self->{publican}->{config}->param( 'scm', $tmp_scm ) if ($tmp_scm);
-
-  #    $self->{publican}->{config}->param('books',$tmp_books) if ($tmp_books);
 
     my $dir = pushd("$tmp_dir/tar");
     my @files = dir_list( $tardir, '*' );
@@ -1679,7 +1672,7 @@ sub change_log {
 
 =head2 abstract
 
-Generate an RPM style change log from $xml_lang/Revision_History.xml
+Generate an RPM style description from $lang/$TYPE_Info.xml
 
 =cut
 

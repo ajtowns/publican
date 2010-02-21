@@ -341,8 +341,13 @@ if ($help) {
 
 #pod2usage(1) if ( !$name || $type !~ /[Book|Set|Article]/);
 if ( $action eq 'create' ) {
+
+    my $docname = $opts{name}
+        || croak( maketext("name is a required parameter") );
+    $docname =~ s/\s/_/g;
+
     my $creator = Publican::CreateBook->new(
-        {   name    => $opts{name},
+        {   name    => $docname,
             version => $opts{version},
             edition => $opts{edition},
             product => $opts{product},
@@ -353,7 +358,7 @@ if ( $action eq 'create' ) {
     );
     $creator->create();
 
-    my $dir = pushd( $opts{name} );
+    my $dir = pushd($docname);
 
     my $publican = Publican->new(
         {   'configfile'   => $opts{config},
@@ -440,10 +445,11 @@ if ( $action eq 'clean' || $action eq 'package' ) {
 
     my $error;
 
-    remove_tree( $publican->param('tmp_dir'), 'publish',{verbose => 0, error => $error} );
-    logger("error: $error\n") if($error);
+    remove_tree( $publican->param('tmp_dir'),
+        'publish', { verbose => 0, error => $error } );
+    logger("error: $error\n") if ($error);
 
-	my $books = $publican->param('books') || "";
+    my $books = $publican->param('books') || "";
     foreach my $book ( split( " ", $books ) ) {
         remove_tree("$book/tmp");
         remove_tree("$book/publish");
