@@ -604,43 +604,9 @@ sub transform {
         . $self->{publican}->param('version');
     my $RPM_VERSION = $self->{publican}->param('edition');
 
-    my $RPM_RELEASE = undef;
+    my $RPM_RELEASE = $self->{publican}->param('release');
 
-    if ( $lang eq $xml_lang ) {
-        $RPM_RELEASE = $self->{publican}->param('release');
-    }
-    else {
-        my $po_file = "$lang/$type" . '_Info.po';
-
-        if ( -f $po_file ) {
-            my $PO;
-            open( $PO, "<:utf8", $po_file )
-                || croak( maketext( "Can't open PO file: [_1]", $po_file ) );
-            while (<$PO>) {
-                if (/"Project-Id-Version:\s*(\d*).*"$/) {
-                    $RPM_RELEASE = $1;
-                    last;
-                }
-            }
-            close($PO);
-
-            croak(
-                maketext(
-                    "Project-Id-Version in [_1] is not a valid release value.",
-                    $po_file
-                )
-            ) unless defined($RPM_RELEASE);
-        }
-        else {
-            croak(
-                maketext(
-                    "Required PO file missing. Could not locate [_1].",
-                    $po_file
-                )
-            );
-        }
-
-    }
+debug_msg("RPM_RELEASE $RPM_RELEASE\n");
 
     if ( $format eq 'txt' ) {
         if ( !-e "$tmp_dir/$lang/html-single" ) {
@@ -1472,10 +1438,47 @@ sub package {
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $type       = $self->{publican}->param('type');
 
+debug_msg("here\n");
+    if ( $lang ne $xml_lang ) {
+debug_msg("$lang ne $xml_lang\n");
+		$release = undef;
+        my $po_file = "$lang/$type" . '_Info.po';
+
+        if ( -f $po_file ) {
+            my $PO;
+            open( $PO, "<:utf8", $po_file )
+                || croak( maketext( "Can't open PO file: [_1]", $po_file ) );
+            while (<$PO>) {
+                if (/"Project-Id-Version:\s*(\d*).*"$/) {
+                    $release = $1;
+                    last;
+                }
+            }
+            close($PO);
+
+            croak(
+                maketext(
+                    "Project-Id-Version in [_1] is not a valid release value.",
+                    $po_file
+                )
+            ) unless $release;
+        }
+        else {
+            croak(
+                maketext(
+                    "Required PO file missing. Could not locate [_1].",
+                    $po_file
+                )
+            );
+        }
+
+    }
+
+
     my $name_start = "$product-$docname-$version";
     $name_start = "$product-$docname" if ($short_sighted);
 
-    my $tardir = "$name_start-web-$lang-$edition";
+    my $tardir = "$name_start-web-$lang-$edition";xml_lang
     $tardir = "$name_start-$lang-$edition" if ($desktop);
     $tardir = "$name_start-$lang-$edition" if ($short_sighted);
 
@@ -1501,7 +1504,11 @@ sub package {
         $tmp_scm = $self->{publican}->{config}->param('scm');
         $self->{publican}->{config}->delete('scm');
     }
+
+    $self->{publican}->{config}->param( 'release', $release );
+
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
+    $self->{publican}->{config}->delete('release');
     $self->{publican}->{config}->param( 'xml_lang', $xml_lang );
     $self->{publican}->{config}->param( 'scm', $tmp_scm ) if ($tmp_scm);
 
