@@ -62,7 +62,7 @@ Version:
       </xsl:call-template>
       <xsl:if test="$embedtoc != 0">
       <div id="tocdiv" class="toc">
-        <object><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="data">/docs/<xsl:value-of select="$l10n.gentext.language"/>/toc.html</xsl:attribute><xsl:attribute name="type">text/html</xsl:attribute></object>
+        <iframe><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="src">/docs/<xsl:value-of select="$l10n.gentext.language"/>/toc.html</xsl:attribute>This is an iframe, to view it upgrade your browser or enable iframe display.</iframe>
       </div>
       </xsl:if>
       <xsl:apply-templates select="."/>
@@ -79,7 +79,7 @@ Version:
           <xsl:text>mailto:</xsl:text>
           <xsl:value-of select="email"/>
         </xsl:attribute>
-        <xsl:value-of select="firstname"/> <xsl:value-of select="surname"/>
+        <xsl:value-of select="firstname"/><xsl:text> </xsl:text><xsl:value-of select="surname"/>
       </a>
   </span>
   <xsl:if test="position() &lt; last()">
