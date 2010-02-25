@@ -340,6 +340,7 @@ sub get_msgs {
             $trans_node->push_content( $child->content_list() );
         }
         else {
+
             #debug_msg("processing a $child->tag()\n");
 
             # Nesting, need to start a new output node
@@ -542,6 +543,7 @@ sub translate {
         $node->push_content( $new_tree->content_list() );
     }
     else {
+
         #debug_msg("msgid '$msgid' not found\n");
     }
     return;

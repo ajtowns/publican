@@ -606,7 +606,7 @@ sub transform {
 
     my $RPM_RELEASE = $self->{publican}->param('release');
 
-debug_msg("RPM_RELEASE $RPM_RELEASE\n");
+    debug_msg("RPM_RELEASE $RPM_RELEASE\n");
 
     if ( $format eq 'txt' ) {
         if ( !-e "$tmp_dir/$lang/html-single" ) {
@@ -1438,10 +1438,8 @@ sub package {
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $type       = $self->{publican}->param('type');
 
-debug_msg("here\n");
     if ( $lang ne $xml_lang ) {
-debug_msg("$lang ne $xml_lang\n");
-		$release = undef;
+        $release = undef;
         my $po_file = "$lang/$type" . '_Info.po';
 
         if ( -f $po_file ) {
@@ -1474,12 +1472,11 @@ debug_msg("$lang ne $xml_lang\n");
 
     }
 
-
     my $name_start = "$product-$docname-$version";
     $name_start = "$product-$docname" if ($short_sighted);
 
-    my $tardir = "$name_start-web-$lang-$edition";xml_lang
-    $tardir = "$name_start-$lang-$edition" if ($desktop);
+    my $tardir = "$name_start-web-$lang-$edition";
+    xml_lang $tardir = "$name_start-$lang-$edition" if ($desktop);
     $tardir = "$name_start-$lang-$edition" if ($short_sighted);
 
     # distributed sets need to be collected before packaging
