@@ -20,10 +20,10 @@ $VERSION = 0.1;
 
 # What tags do we translate?
 my $TRANSTAGS
-    = '^(ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|jobtitle|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|term|termdef|tertiary|tertiaryie|title|titleabbrev)$';
+    = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|jobtitle|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|term|termdef|tertiary|tertiaryie|title|titleabbrev)$/;
 
 # Blocks to not split from surrounding content
-my $IGNOREBLOCKS = '^(footnote|indexterm)$';
+my $IGNOREBLOCKS = qr/^(?:footnote|indexterm)$/;
 
 =head1 NAME
 
@@ -143,7 +143,10 @@ sub po2xml {
     my $msgids = Locale::PO->load_file_ashash($po_file);
     foreach my $key ( keys( %{$msgids} ) ) {
         my $msgref = $msgids->{$key};
-        delete($msgids->{$key}) if ( $msgref->obsolete() );
+        if ( $msgref->obsolete() ) {
+            debug_msg("Deleting obsolete msg_id: $key\n");
+            delete( $msgids->{$key} );
+        }
     }
 
 ##    debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
@@ -307,8 +310,15 @@ sub get_msgs {
 
     my $trans_node;
 
-#    foreach my $child ( $doc->look_down( '_tag', qr/$TRANSTAGS/ ) ) {
-    foreach my $child ( $doc->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) ) {
+    foreach my $child (
+        $doc->look_down(
+            '_tag',
+            qr/$TRANSTAGS/,
+            sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
+        )
+        )
+    {
+
         # lookdown matches the root node
         if ( $child->address() eq $trans_tree->address() ) {
 
@@ -319,14 +329,18 @@ sub get_msgs {
 
         $trans_node = XML::Element->new( $child->tag() );
 
-#        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/ );
-        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } );
+        my @matches = $child->look_down(
+            '_tag',
+            qr/$TRANSTAGS/,
+            sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
+        );
 
     # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
             $trans_node->push_content( $child->content_list() );
         }
         else {
+            #debug_msg("processing a $child->tag()\n");
 
             # Nesting, need to start a new output node
             $trans_tree->push_content($trans_node)
@@ -338,9 +352,17 @@ sub get_msgs {
             # any non-matching node should be pushed on to output with text
             # this catches inline tags
             foreach my $nested ( $child->content_list() ) {
-                if ( ref $nested
-#                    && $nested->look_down( '_tag', qr/$TRANSTAGS/) )
-                    && $nested->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) )
+                if (ref $nested
+
+                    && $nested->look_down(
+                        '_tag',
+                        qr/$TRANSTAGS/,
+                        sub {
+                            not defined(
+                                $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
+                        }
+                    )
+                    )
                 {
                     $trans_tree->push_content($trans_node);
                     $trans_node = XML::Element->new( $nested->tag() );
@@ -349,11 +371,6 @@ sub get_msgs {
                     );
                 }
                 else {
-# mixed mode content, like a footnote, will break strings in two
-## TODO look in to joining split strings in to a single translation entry
-#                    if($trans_node->tag() eq 'footnote' && $trans_node->is_empty()) {
-#			$trans_node->tag($child->tag());
-#		    }
                     $trans_node->push_content($nested);
                 }
             }
@@ -387,7 +404,14 @@ sub merge_msgs {
             )
         );
     }
-    foreach my $child ( $out_doc->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) ) {
+    foreach my $child (
+        $out_doc->look_down(
+            '_tag',
+            qr/$TRANSTAGS/,
+            sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
+        )
+        )
+    {
 
         # lookdown matches the root node
         if ( $child->address() eq $out_doc->address() ) {
@@ -397,7 +421,11 @@ sub merge_msgs {
 
         next if ( $child->is_empty );
 
-        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } );
+        my @matches = $child->look_down(
+            '_tag',
+            qr/$TRANSTAGS/,
+            sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
+        );
 
     # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
@@ -414,8 +442,16 @@ sub merge_msgs {
             foreach my $nested ( $child->detach_content() ) {
 
                 # No ref == text node
-                if ( ref $nested
-                    && $nested->look_down( '_tag', qr/$TRANSTAGS/, sub { not defined($_[0]->look_up('_tag', qr/$IGNOREBLOCKS/ ) ) } ) )
+                if (ref $nested
+                    && $nested->look_down(
+                        '_tag',
+                        qr/$TRANSTAGS/,
+                        sub {
+                            not defined(
+                                $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
+                        }
+                    )
+                    )
                 {
                     if ( !$trans_node->is_empty ) {
                         $self->translate(
@@ -428,10 +464,11 @@ sub merge_msgs {
                     $child->push_content($nested);
                 }
                 else {
-# mixed mode content, like a footnote, will break strings in two
+
+              # mixed mode content, like a footnote, will break strings in two
 ## TODO look in to joining split strings in to a single translation entry
-                    unless($trans_node->tag()) {
-			$trans_node = XML::Element->new( $child->tag() );
+                    unless ( $trans_node->tag() ) {
+                        $trans_node = XML::Element->new( $child->tag() );
                     }
                     $trans_node->push_content($nested);
                 }
@@ -463,28 +500,36 @@ sub translate {
         );
     }
 
-    my $msgid     = $node->as_XML();
-    my $tag       = $node->tag();
+    my $msgid = $node->as_XML();
+    my $tag   = $node->tag();
+
+    #debug_msg("msgid 1: |$msgid| |$tag|\n");
     my $attr_text = '';
 
     $msgid = $self->normalise($msgid);
+
+    #debug_msg("msgid 2: |$msgid| |$tag|\n");
     $msgid = po_format( $msgid, $tag );
+
+    #debug_msg("msgid 3: |$msgid| |$tag|\n");
 
     # If a tag has attributes we need to remove them for comparison as
     # the PO format does not allow this to be stored
-    if ( $msgid =~ m/<$tag([^>]+)>\s*(.*)$/ ) {
+## BUGBUG document this better
+    if ( $msgid =~ m/^<$tag\s([^>]+)>\s*(.*)$/ ) {
         $attr_text = $1;
         $msgid     = $2;
         $attr_text =~ s/\\//g;
     }
 
-##debug_msg("msgid 3: |$msgid| |$tag|\n");
+    #debug_msg("msgid 4: |$msgid| |$tag|\n");
 
     if (   $msgid
         && defined $msgids->{ '"' . $msgid . '"' }
         && ( $msgids->{ '"' . $msgid . '"' }{msgstr} ne '""' ) )
     {
-debug_msg("found msg: $msgid\n") if ($msgids->{ '"' . $msgid . '"' }{msgstr} =~ /^#~/);
+        debug_msg("DANGER: found obsolete msg: $msgid\n")
+            if ( $msgids->{ '"' . $msgid . '"' }{msgstr} =~ /^#~/ );
         my $repl = Encode::decode_utf8(
             po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} ) );
 
@@ -496,7 +541,9 @@ debug_msg("found msg: $msgid\n") if ($msgids->{ '"' . $msgid . '"' }{msgstr} =~ 
         $node->delete_content();
         $node->push_content( $new_tree->content_list() );
     }
-
+    else {
+        #debug_msg("msgid '$msgid' not found\n");
+    }
     return;
 }
 
@@ -634,9 +681,9 @@ Format a stirng for use in a PO file.
 
 sub po_format {
     my $string = shift;
-    my $name   = shift || '';
+    my $name = shift || '';
 
-debug_msg("unknown tag for: $string") unless $name;
+    debug_msg("unknown tag for: $string") unless $name;
     $string =~ s/^<$name>\s*//s;      # remove start tag to reduce polution
     $string =~ s/\s*<\/$name>$//s;    # remove close tag to reduce polution
     $string =~ s/\\/\\\\/g;    # \ seen as control sequence by msg* programs
