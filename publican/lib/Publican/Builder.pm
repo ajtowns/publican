@@ -606,8 +606,6 @@ sub transform {
 
     my $RPM_RELEASE = $self->{publican}->param('release');
 
-    debug_msg("RPM_RELEASE $RPM_RELEASE\n");
-
     if ( $format eq 'txt' ) {
         if ( !-e "$tmp_dir/$lang/html-single" ) {
             $self->transform( { lang => $lang, format => 'html-single' } );
