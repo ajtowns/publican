@@ -284,7 +284,7 @@ Version:
       <xsl:call-template name="body.attributes"/>
       <xsl:if test="$embedtoc != 0">
       <div id="tocdiv" class="toc">
-        <object><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="data">/docs/<xsl:value-of select="$l10n.gentext.language"/>/toc.html</xsl:attribute><xsl:attribute name="type">text/html</xsl:attribute></object>
+        <iframe><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="src">/docs/<xsl:value-of select="$l10n.gentext.language"/>/toc.html</xsl:attribute>This is an iframe, to view it upgrade your browser or enable iframe display.</iframe>
       </div>
       </xsl:if>
       <xsl:call-template name="user.header.navigation"/>
