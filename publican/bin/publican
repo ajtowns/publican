@@ -572,7 +572,10 @@ if ( $action eq 'package' ) {
         system(@cvs_args);
         croak($@) if ($@);
 
-        $dir = pushd("$cvs_dir/$cvs_pkg");
+        print(qq|pushd("$cvs_dir/$cvs_pkg"\n|);
+		## BUGBUG this breaks if you undef $dir first ...
+		$dir = undef;
+        $dir = pushd($publican->param('tmp_dir') . "/$cvs_dir/$cvs_pkg");
 
         system("$IMPORT_SCRIPT $srpm");
         croak($@) if ($@);
