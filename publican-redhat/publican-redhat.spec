@@ -3,7 +3,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	1.3
+Version:	1.4
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Feb 26 2010 Timo Trinks <ttrinks@redhat.com> 1.4
+- ah the optionally empty tag O doom
+
 * Fri Feb 26 2010 Timo Trinks <ttrinks@redhat.com> 1.3
 - updated Feedback.pot based on new en-US Feedback.xml
 - updated de-DE Feedback.po
