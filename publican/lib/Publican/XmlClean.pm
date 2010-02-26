@@ -15,7 +15,7 @@ use Publican::Builder;
 
 use vars qw( $VERSION );
 
-my $MAX_WIDTH    = 444;
+my $MAX_WIDTH = 444;
 
 $VERSION = version->new('0.1');
 
@@ -451,7 +451,11 @@ sub prune_xml {
                 )
                 )
             {
-                croak( maketext("FATAL ERROR: language profiling would prune root node. Do NOT set lang in a root node." ) ) if($node->same_as($xml_doc->root()));
+                croak(
+                    maketext(
+                        "FATAL ERROR: language profiling would prune root node. Do NOT set lang in a root node."
+                    )
+                ) if ( $node->same_as( $xml_doc->root() ) );
                 $node->delete();
             }
         }
@@ -467,7 +471,11 @@ sub prune_xml {
                 )
                 )
             {
-                croak( maketext("FATAL ERROR: arch profiling would prune root node. Do NOT set arch in a root node." ) ) if($node->same_as($xml_doc->root()));
+                croak(
+                    maketext(
+                        "FATAL ERROR: arch profiling would prune root node. Do NOT set arch in a root node."
+                    )
+                ) if ( $node->same_as( $xml_doc->root() ) );
                 $node->delete();
             }
         }
@@ -484,7 +492,11 @@ sub prune_xml {
                 )
                 )
             {
-                croak( maketext("FATAL ERROR: condition profiling would prune root node. Do NOT set condition in a root node." ) ) if($node->same_as($xml_doc->root()));
+                croak(
+                    maketext(
+                        "FATAL ERROR: condition profiling would prune root node. Do NOT set condition in a root node."
+                    )
+                ) if ( $node->same_as( $xml_doc->root() ) );
                 $node->delete();
             }
         }
@@ -679,13 +691,13 @@ sub my_as_XML {
     my $lang         = $self->{config}->param('lang');
 
     # This flags tags that use  /> instead of end tags IF they are empty.
-    $empty_element_map->{'xref'}       = 1;
+    $empty_element_map->{'xref'}        = 1;
     $empty_element_map->{'footnoteref'} = 1;
-    $empty_element_map->{'index'}      = 1;
-    $empty_element_map->{'xi:include'} = 1;
-    $empty_element_map->{'ulink'}      = 1;
-    $empty_element_map->{'imagedata'}  = 1;
-    $empty_element_map->{'area'}       = 1;
+    $empty_element_map->{'index'}       = 1;
+    $empty_element_map->{'xi:include'}  = 1;
+    $empty_element_map->{'ulink'}       = 1;
+    $empty_element_map->{'imagedata'}   = 1;
+    $empty_element_map->{'area'}        = 1;
 
     my $depth  = 0;
     my $indent = "\t";

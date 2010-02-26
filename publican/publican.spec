@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.4
-Release:        1%{?dist}.t105
+Release:        1%{?dist}.t106
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -73,7 +73,7 @@ Requires:       docbook-style-xsl >= 1.75.1
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 3.09-15
-Requires:       gettext
+Requires:       gettext cvs
 
 # Pull in the fonts for all languages, else you can't build translated PDF in brew/koji
 %if %{RHEL5}
@@ -192,12 +192,12 @@ rm -rf $RPM_BUILD_ROOT
 - Add CVS package option. RT #59132
 - Fix white space issues in abstract. BZ #559823
 - Fix translation strings not matching correctly BZ #563397
-- Fix enitity with underscore. BZ #561178
+- Fix entity with underscore. BZ #561178
 - Fix config values of zero being ignored. BZ #564405
 - Fix footnote number missing in footer. BZ #565903
 - Fix duplicate text in callouts. BZ #561618
 - Remove outdated references to catalogs parameter. BZ #565498
-- Fix whitespace in book name breaking creation.
+- Fix white space in book name breaking creation.
 - Fix nested tag with similar name breaking translation. BZ #568201
 - Fix translated packages using source version.
 - Switch from object to iframe BZ #542524
