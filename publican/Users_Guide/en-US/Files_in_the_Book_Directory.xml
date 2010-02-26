@@ -69,6 +69,16 @@
 	</itemizedlist>
 	<section id="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file">
 		<title>The publican.cfg file</title>
+		
+		<note>
+			<title>Note — Customizing output</title>
+			<para>
+				If you maintain multiple versions of a document, you can create a configuration file for each version. When building or packaging the document, you can use the <option>--config</option> to specify a configuration file other than the <filename>publican.cfg</filename> file and therefore a different set of parameters to use in a particular build. For example:
+			</para>
+<screen><command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>
+</screen>
+		</note>
+		
 		<para>
 			The <filename>publican.cfg</filename> file configures build options, and is located in the root of the book directory. The following is an example <filename>publican.cfg</filename> file, with a description of <filename>publican.cfg</filename> parameters following afterwards:
 		</para>

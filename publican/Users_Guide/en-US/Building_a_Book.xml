@@ -3,6 +3,19 @@
 ]>
 <section id="sect-Users_Guide-Building_a_document">
 	<title>Building a document</title>
+	
+	<note>
+		<title>Note — Customizing output</title>
+		<para>
+			The parameters set in the document configuration file (by default, <filename>publican.cfg</filename>) allow you to control many aspects of the way in which a document is presented — refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file"/>.
+		</para>
+		<para>
+			If you maintain multiple versions of a document, you can create a configuration file for each version. When building the document, you can use the <option>--config</option> to specify which configuration file (and therefore which set of parameters) to use in a particular build, for example:
+		</para>
+<screen><command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>
+</screen>
+	</note>
+
 	<para>
 		To build a document:
 	</para>
@@ -100,7 +113,7 @@
 				</para>
 			</listitem>
 		</varlistentry>
-	</variablelist>
+	</variablelist>	
 	<para>
 		The following examples demonstrate commonly used <command>publican build</command> commands:
 	</para>
