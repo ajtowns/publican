@@ -8,21 +8,21 @@
 	</para>
 	
 <programlisting>
-&#60;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39; ?&#62;
-&#60;!DOCTYPE chapter PUBLIC &#34;-//OASIS//DTD DocBook XML V4.5//EN&#34; &#34;http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd&#34; [
-]&#62;
-&#60;chapter id=&#34;chap-Installation_and_configuration_on_Fedora&#34; condition=&#34;Fedora&#34;&#62;
-&#60;title&#62;Installation and configuration on Fedora&#60;/title&#62;
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]&gt;
+&lt;chapter id="chap-Installation_and_configuration_on_Fedora" condition="Fedora"&gt;
+&lt;title&gt;Installation and configuration on Fedora&lt;/title&gt;
 
 [text of chapter]
 
-&#60;/chapter&#62;
+&lt;/chapter&gt;
 </programlisting>
 	<para>
-		and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&#60;xi:include&#62;</sgmltag> tag, the document will not build with <command>condition: Ubuntu</command> set in the <filename>publican.cfg</filename> file.
+		and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: Ubuntu</command> set in the <filename>publican.cfg</filename> file.
 	</para>
 	<para>
-		To exclude this chapter, add a condition to the <sgmltag>&#60;xi:include&#62;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&#60;chapter&#62;</sgmltag> tag in <filename>Installation_and_configuration_on_Fedora.xml</filename>.
+		To exclude this chapter, add a condition to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration_on_Fedora.xml</filename>.
 	</para>
 </important>
 

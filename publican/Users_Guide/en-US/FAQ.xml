@@ -24,7 +24,7 @@
 			</question>
 			<answer>
 				<para>
-					Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People&#39;s Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings.
+					Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People's Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings.
 				</para>
 			</answer>
 		</qandaentry>
@@ -43,7 +43,7 @@
 		<qandaentry>
 			<question>
 				<para>
-					Where can I get a complete list of <application>Publican</application>&#39;s build options?
+					Where can I get a complete list of <application>Publican</application>'s build options?
 				</para>
 			</question>
 			<answer>
@@ -105,9 +105,9 @@
 					<step>
 						<para>
 							<sgmltag>xi:include</sgmltag> the sample file in your xml file 
-<programlisting language="XML">&#60;programlisting&#62;
-&#60;xi:include parse=&#34;text&#34; href=&#34;extras/foo.c&#34; xmlns:xi=&#34;http://www.w3.org/2001/XInclude&#34; /&#62;
-&#60;/programlisting&#62;
+<programlisting language="XML">&lt;programlisting&gt;
+&lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
+&lt;/programlisting&gt;
 </programlisting>
 						</para>
 					</step>
@@ -183,24 +183,24 @@
 		<qandaentry>
 			<question>
 				<para>
-					I get an error <computeroutput>Exception in thread &#34;main&#34; java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
+					I get an error <computeroutput>Exception in thread "main" java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
 				</para>
 			</question>
 			<answer>
 				<para>
-					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo &#34;FOP_OPTS=&#39;-Xms50m -Xmx700m&#39;&#34; &#62; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo "FOP_OPTS='-Xms50m -Xmx700m'" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Previous versions of <application>Publican</application> removed empty <sgmltag>&#60;para&#62;</sgmltag> tags. Does <application>Publican</application> still do this?
+					Previous versions of <application>Publican</application> removed empty <sgmltag>&lt;para&gt;</sgmltag> tags. Does <application>Publican</application> still do this?
 				</para>
 			</question>
 			<answer>
 				<para>
-					No. <application>Publican</application> previously removed empty <sgmltag>&#60;para&#62;</sgmltag> tags while it transformed XML because empty <sgmltag>&#60;para&#62;</sgmltag> tags broke earlier translation toolchains used within Red Hat and the Fedora Project. Empty <sgmltag>&#60;para&#62;</sgmltag> tags are valid DocBook XML, and <application>Publican</application> no longer removes them.
+					No. <application>Publican</application> previously removed empty <sgmltag>&lt;para&gt;</sgmltag> tags while it transformed XML because empty <sgmltag>&lt;para&gt;</sgmltag> tags broke earlier translation toolchains used within Red Hat and the Fedora Project. Empty <sgmltag>&lt;para&gt;</sgmltag> tags are valid DocBook XML, and <application>Publican</application> no longer removes them.
 				</para>
 			</answer>
 		</qandaentry>
@@ -212,19 +212,19 @@
 			</question>
 			<answer>
 				<para>
-					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document&#39;s XML. Due to negative feedback from users, this feature was dropped.
+					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document's XML. Due to negative feedback from users, this feature was dropped.
 				</para>
 			</answer>
 		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
-					Why don&#39;t <sgmltag>&#60;segmentedlist&#62;</sgmltag>s work when I build PDFs?
+					Why don't <sgmltag>&lt;segmentedlist&gt;</sgmltag>s work when I build PDFs?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Check the number of columns in your <sgmltag>&#60;segmentedlist&#62;</sgmltag>s. When <sgmltag>&#60;segmentedlist&#62;</sgmltag>s are formatted as tables, the DocBook XSL limits the number of columns to two, and <application>Publican</application> formats <sgmltag>&#60;segmentedlist&#62;</sgmltag>s as tables.
+					Check the number of columns in your <sgmltag>&lt;segmentedlist&gt;</sgmltag>s. When <sgmltag>&lt;segmentedlist&gt;</sgmltag>s are formatted as tables, the DocBook XSL limits the number of columns to two, and <application>Publican</application> formats <sgmltag>&lt;segmentedlist&gt;</sgmltag>s as tables.
 				</para>
 			</answer>
 		</qandaentry>
@@ -243,19 +243,19 @@
 		<qandaentry>
 			<question>
 				<para>
-					When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what&#39;s wrong?
+					When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what's wrong?
 				</para>
 			</question>
 			<answer>
 				<para>
-					Code highlighting in <application>Publican</application> is generated with the <application>Syntax::Highlight::Engine::Kate</application> Perl module. If you specify a language in a <sgmltag>&#60;programlisting&#62;</sgmltag> tag that <application>Syntax::Highlight::Engine::Kate</application> does not recognize, you receive an error when you build your book. The first lines of the error message are similar to:
+					Code highlighting in <application>Publican</application> is generated with the <application>Syntax::Highlight::Engine::Kate</application> Perl module. If you specify a language in a <sgmltag>&lt;programlisting&gt;</sgmltag> tag that <application>Syntax::Highlight::Engine::Kate</application> does not recognize, you receive an error when you build your book. The first lines of the error message are similar to:
 				</para>
 				
 <screen><computeroutput>undefined language: JAVA at /usr/lib/perl5/vendor_perl/5.10.0/Syntax/Highlight/Engine/Kate.pm line 615.</computeroutput>
-<computeroutput>cannot create plugin for language &#39;JAVA&#39;</computeroutput>
+<computeroutput>cannot create plugin for language 'JAVA'</computeroutput>
 </screen>
 				<para>
-					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&#60;programlisting language=&#34;Java&#34;&#62;</sgmltag> works, but <sgmltag>&#60;programlisting language=&#34;java&#34;&#62;</sgmltag> and <sgmltag>&#60;programlisting language=&#34;JAVA&#34;&#62;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
+					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language="Java"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language="java"&gt;</sgmltag> and <sgmltag>&lt;programlisting language="JAVA"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
 				</para>
 				<para>
 					Refer to <ulink url="http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation.
@@ -270,7 +270,7 @@
 			</question>
 			<answer>
 				<para>
-					Because Jeff&#39;s memory is pants!
+					Because Jeff's memory is pants!
 				</para>
 			</answer>
 		</qandaentry>

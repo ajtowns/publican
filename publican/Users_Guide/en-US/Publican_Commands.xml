@@ -21,7 +21,7 @@
 				<term><command>publican <replaceable>action</replaceable> <replaceable>options</replaceable></command></term>
 				<listitem>
 					<para>
-						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document&#39;s XML files. The <replaceable>options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
+						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document's XML files. The <replaceable>options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -93,7 +93,7 @@
 					<term>clean_ids</term>
 					<listitem>
 						<para>
-							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after running <command>make clean_ids</command>: <sgmltag>&#60;section id=&#34;Test_Book-First_Section&#34;&#62;</sgmltag>
+							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after running <command>make clean_ids</command>: <sgmltag>&lt;section id="Test_Book-First_Section"&gt;</sgmltag>
 						</para>
 						<warning>
 							<title>Warning: <command>make clean_ids</command></title>
@@ -174,7 +174,7 @@
 					<term>printtree</term>
 					<listitem>
 						<para>
-							prints a tree of the XML files included with the <sgmltag>&#60;xi:include&#62;</sgmltag> tag in a book, article, or set.
+							prints a tree of the XML files included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.
 						</para>
 					</listitem>
 				</varlistentry>

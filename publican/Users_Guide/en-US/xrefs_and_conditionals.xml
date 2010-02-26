@@ -4,7 +4,7 @@
 <important>
 	<title>xrefs and conditional tagging</title>
 	<para>
-		If an <sgmltag>&#60;xref&#62;</sgmltag> points to content not included in the build due to conditional tagging, the build will fail. For example, with <command>condition: upstream</command> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&#60;xref linkend=&#34;betasection&#34;&#62;</sgmltag> pointing to <sgmltag>&#60;section id=&#34;betasection&#34; condition=&#34;beta&#34;&#62;</sgmltag>.
+		If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to conditional tagging, the build will fail. For example, with <command>condition: upstream</command> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="betasection"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="betasection" condition="beta"&gt;</sgmltag>.
 	</para>
 </important>
 

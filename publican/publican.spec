@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.4
-Release:        1%{?dist}.t103
+Release:        1%{?dist}.t105
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -184,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Mon Feb 01 2010 Jeff Fearn <jfearn@redhat.com> 1.5-0
+* Fri Feb 26 2010 Jeff Fearn <jfearn@redhat.com> 1.5-0
 - Croak if profiling would remove root node.
 - Add Archive::Zip to Build.pl
 - Fix --config and add to help text
