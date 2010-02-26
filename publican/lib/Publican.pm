@@ -17,7 +17,7 @@ use Publican::Localise;
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE);
 
-$VERSION = version->new('1.4');
+$VERSION = version->new('1.5');
 @ISA     = qw(Exporter AutoLoader);
 
 @EXPORT
