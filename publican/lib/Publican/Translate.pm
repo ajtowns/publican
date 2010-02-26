@@ -782,8 +782,11 @@ sub po_report {
                 $po_stats{msg_count}--;
                 next;
             }
-
-            my $count = () = $msgref->msgid() =~ /\w+/g;
+## More accurate word counts
+##            my $count = () = $msgref->msgid() =~ /\w+/g;
+            my $count = ()
+                = $msgref->msgid()
+                =~ /(?:\s+|<\/[a-zA-Z]+><[a-zA-Z]+>\S|-|.$)/g;
             $po_stats{word_count} += $count;
             if ( $msgref->msgstr() =~ /^""$/ ) {
                 $po_stats{untrans_count} += $count;

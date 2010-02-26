@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.4
-Release:        1%{?dist}.t106
+Release:        1%{?dist}.t112
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -201,6 +201,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix nested tag with similar name breaking translation. BZ #568201
 - Fix translated packages using source version.
 - Switch from object to iframe BZ #542524
+- More accurate word counts for translations reports.
 
 * Fri Jan 29 2010 Jeff Fearn <jfearn@redhat.com> 1.4-1
 - make font BuildRequires match requires.
