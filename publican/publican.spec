@@ -12,7 +12,7 @@
 
 Name:           publican
 Version:        1.5
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -184,6 +184,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Mon 01 Mar 2010 Jeff Fearn <jfearn@redhat.com> 1.5-1
+- Fix missing IO::String requires. BZ #568950
+- Fix xml_lang error. BZ #569249
+
 * Fri Feb 26 2010 Jeff Fearn <jfearn@redhat.com> 1.5-0
 - Croak if profiling would remove root node.
 - Add Archive::Zip to Build.pl

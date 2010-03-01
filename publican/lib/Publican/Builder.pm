@@ -1474,7 +1474,7 @@ sub package {
     $name_start = "$product-$docname" if ($short_sighted);
 
     my $tardir = "$name_start-web-$lang-$edition";
-    xml_lang $tardir = "$name_start-$lang-$edition" if ($desktop);
+    $tardir = "$name_start-$lang-$edition" if ($desktop);
     $tardir = "$name_start-$lang-$edition" if ($short_sighted);
 
     # distributed sets need to be collected before packaging
