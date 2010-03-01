@@ -184,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Mon 01 Mar 2010 Jeff Fearn <jfearn@redhat.com> 1.5-1
+* Mon Mar 01 2010 Jeff Fearn <jfearn@redhat.com> 1.5-1
 - Fix missing IO::String requires. BZ #568950
 - Fix xml_lang error. BZ #569249
 
