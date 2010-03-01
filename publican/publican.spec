@@ -11,8 +11,8 @@
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
 
 Name:           publican
-Version:        1.5
-Release:        1%{?dist}
+Version:        1.6
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -184,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Mon Mar 01 2010 Jeff Fearn <jfearn@redhat.com> 1.5-1
+* Mon Mar 01 2010 Jeff Fearn <jfearn@redhat.com> 1.6-0
 - Fix missing IO::String requires. BZ #568950
 - Fix xml_lang error. BZ #569249
 
