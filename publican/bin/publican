@@ -12,6 +12,7 @@ use Publican::CreateBrand;
 use Publican::Builder;
 use Publican::XmlClean;
 use Publican::TreeView;
+use Publican::WebSite;
 use File::Path;
 use File::Copy::Recursive qw(dircopy rcopy);
 use File::Find::Rule;
@@ -20,10 +21,11 @@ use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path);
 
-my $VERSION      = version->new('1.6');
+my $VERSION      = version->new($Publican::VERSION);
 my $LANG_PATTERN = q|__LANG__|;
-## TODO Consider making this a parameter
-my $IMPORT_SCRIPT = '../common/cvs-import.sh';
+## TODO Consider making these parameters
+my $IMPORT_SCRIPT     = '../common/cvs-import.sh';
+my $WEB_TEMPLATE_PATH = '/usr/share/publican-website';
 
 =head1 NAME
 
@@ -57,14 +59,19 @@ Valid actions are:
     cleanset      Remove local copies of remote set books
     create        Create a new book, set, or article
     create_brand  Create a new brand
+    create_site   Create a new WebSite in the supplied location.
     help_config   Display help text for the configuration file
+    install_book  Install a book in to a WebSite.
     installbrand  Install a brand to the supplied location
     lang_stats    report PO statistics
     old2new       Create a publican.cfg file from the Makefile of an old book, set, or article
     package       Package a language for shipping
     printtree     Print a tree of the xi:includes
+    remove_book   Remove a book from a WebSite.
+    site_stats        Report on the contents of a WebSite
     update_po     Update the PO files
     update_pot    Update the POT files
+    update_site   Update an existing sites templates.
 
 =head1 DESCRIPTION
 
@@ -126,6 +133,12 @@ my %options = (
     ),
     'cvs' => maketext(
         'Import the SRPM in to CVS, the run make tag and make build.'),
+## WebSite options
+    'db_file=s'   => maketext('Override default database file.'),
+    'toc_path=s'  => maketext('Override the deafult TOC path.'),
+    'tmpl_path=s' => maketext('Override the default template path.'),
+    'site_config=s' =>
+        maketext('WebSite configuration file to use or create.'),
 );
 
 # Options all actions use
@@ -205,6 +218,27 @@ my %actions = (
     'lang_stats' => {
         'brief'   => maketext('report PO statistics'),
         'options' => ['lang'],
+    },
+## WebSite actions
+    'create_site' => {
+        'brief' => maketext('Create a new WebSite in the supplied location.'),
+        'options' => [ 'site_config', 'db_file', 'toc_path', 'tmpl_path' ],
+    },
+    'update_site' => {
+        'brief'   => maketext('Update an existing sites templates.'),
+        'options' => ['site_config'],
+    },
+    'install_book' => {
+        'brief'   => maketext('Install a book in to a WebSite.'),
+        'options' => [ 'site_config', 'lang' ],
+    },
+    'remove_book' => {
+        'brief'   => maketext('Remove a book from a WebSite.'),
+        'options' => [ 'site_config', 'lang' ],
+    },
+    'site_stats' => {
+        'brief'   => maketext('Report on the contents of a WebSite'),
+        'options' => ['site_config'],
     },
 );
 
@@ -392,7 +426,60 @@ if ( $action eq 'old2new' ) {
     exit(0);
 }
 
-my %args = ( 'configfile' => $opts{config} );
+if ( $action eq 'create_site' ) {
+    my $site_config = $opts{site_config}
+        || croak( maketext( "[_1] is a required argument", 'site_config' ) );
+    my $db_file   = $opts{db_file}   || undef;
+    my $toc_path  = $opts{toc_path}  || undef;
+    my $tmpl_path = $opts{tmpl_path} || undef;
+
+    if ( -f $site_config ) {
+        croak(
+            maketext(
+                "Config file exists, you must supply a non-existing filename."
+            )
+        );
+    }
+
+    my $config = new Config::Simple();
+    $config->syntax('http');
+    $config->param( 'db_file', abs_path($db_file) ) if ($db_file);
+    if ($toc_path) {
+        $config->param( 'toc_path', abs_path($toc_path) );
+        mkpath($toc_path) unless -d $toc_path;
+        rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", "$toc_path/." );
+    }
+
+    $config->param( 'tmpl_path', abs_path($tmpl_path) ) if ($tmpl_path);
+    $config->write($site_config);
+
+    my $ws = Publican::WebSite->new(
+        { create => 1, configfile => $site_config } );
+    $ws->regen_all_toc();
+
+    exit(0);
+}
+
+if ( $action eq 'update_site' ) {
+    my $site_config = $opts{site_config} || undef;
+    local $File::Copy::Recursive::RMTrgFil = 1;
+    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+
+    rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", $ws->toc_path() . "/." );
+    $ws->regen_all_toc();
+
+    exit(0);
+}
+
+if ( $action eq 'site_stats' ) {
+    my $site_config = $opts{site_config} || undef;
+    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+    print( $ws->report() );
+
+    exit(0);
+}
+
+## NOTE: All targets here MUST have a valid publican.cfg file
 
 my $publican = Publican->new(
     {   'configfile'   => $opts{config},
@@ -429,6 +516,7 @@ if ( $action eq 'help_config' ) {
 if ( $action eq 'printtree' ) {
     my $treeview = Publican::TreeView->new();
     $treeview->print_tree();
+    exit(0);
 }
 
 if ( $action eq 'clean' || $action eq 'package' ) {
@@ -447,6 +535,7 @@ if ( $action eq 'clean' || $action eq 'package' ) {
     my $error;
 
     rmtree( $publican->param('tmp_dir') );
+    rmtree("publish");
 
     my $books = $publican->param('books') || "";
     foreach my $book ( split( " ", $books ) ) {
@@ -503,6 +592,9 @@ if ( $action eq 'package' ) {
     my $builder = Publican::Builder->new();
     if ( $publican->param('type') eq 'brand' ) {
         $builder->package_brand( { binary => $opts{binary} } );
+    }
+    elsif ( $publican->param('web_home') ) {
+        $builder->package_home( { binary => $opts{binary} } );
     }
     else {
         $builder->package(
@@ -593,6 +685,96 @@ if ( $action eq 'package' ) {
     }
 }
 
+if ( $action eq 'install_book' ) {
+    my $site_config = $opts{site_config} || undef;
+    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+
+    if ( $publican->param('web_home') ) {
+        croak( maketext("can't find 'publish' directory") )
+            unless ( -d "publish/home" );
+        rcopy( "publish/home/*", $ws->toc_path() . "/." );
+
+        my $web_host   = $publican->param('web_host');
+        my $web_search = $publican->param('web_search');
+        $ws->update_settings( { host => $web_host, search => $web_search } );
+    }
+    else {
+        my $lang = $opts{lang}
+            || croak( maketext( "[_1] is a required argument", 'lang' ) );
+        my $product = $publican->param('product');
+        my $version = $publican->param('version');
+        my $name    = $publican->param('docname');
+
+        croak( maketext( "can't find 'publish/[_1]' directory", $lang ) )
+            unless ( -d "publish/$lang" );
+
+        mkpath( $ws->toc_path() . "/$lang" )
+            unless ( -d $ws->toc_path() . "/$lang" );
+        rcopy( "publish/$lang/*", $ws->toc_path() . "/$lang/." );
+
+        my @formats = ( "html", "pdf", "html-single", "epub" );
+        foreach my $format (@formats) {
+
+            # BUGBUG get these the normal way
+            $ws->add_entry(
+                {   language => $lang,
+                    product  => $product,
+                    version  => $version,
+                    name     => $name,
+                    format   => $format,
+                }
+            );
+        }
+
+    }
+    $ws->regen_all_toc();
+}
+
+if ( $action eq 'remove_book' ) {
+    my $site_config = $opts{site_config} || undef;
+    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+
+    my $lang = $opts{lang}
+        || croak( maketext( "[_1] is a required argument", 'lang' ) );
+    my $product = $publican->param('product');
+    my $version = $publican->param('version');
+    my $name    = $publican->param('docname');
+
+    my @formats = ( "html", "pdf", "html-single", "epub" );
+    foreach my $format (@formats) {
+
+        # BUGBUG get these the normal way
+        $ws->del_entry(
+            {   language => $lang,
+                product  => $product,
+                version  => $version,
+                name     => $name,
+                format   => "$format"
+            }
+        );
+
+        my $dir = "$ws->{toc_path}/$lang/$product/$version/$format/$name";
+        rmtree($dir);
+
+        # delete empty directories
+        $dir = "$ws->{toc_path}/$lang/$product/$version/$format";
+        unless ( File::Find::Rule->not_name(qr/(\.|\.\.)/)->in($dir) ) {
+            rmtree($dir);
+            $dir = "$ws->{toc_path}/$lang/$product/$version";
+            unless ( File::Find::Rule->not_name(qr/(\.|\.\.)/)->in($dir) ) {
+                rmtree($dir);
+                $dir = "$ws->{toc_path}/$lang/$product";
+                unless ( File::Find::Rule->not_name(qr/(\.|\.\.)/)->in($dir) )
+                {
+                    rmtree($dir);
+                }
+            }
+        }
+    }
+    $ws->regen_all_toc();
+
+}
+
 exit(0);
 
 __END__
@@ -652,6 +834,16 @@ create_brand
         --lang=<LANG>             The language the XML will be written in
 
 
+create_site
+    Create a new WebSite in the supplied location.
+
+	Options:
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+        --db_file=<DB_FILE>       Override default database file.
+        --toc_path=<TOC_PATH>     Override the deafult TOC path.
+        --tmpl_path=<TMPL_PATH>    Override the default template path.
+
+
 help_config
     Display help text for the configuration file
 
@@ -659,12 +851,19 @@ help_config
 		No options
 
 
+install_book
+    Install a book in to a WebSite.
+
+	Options:
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+        --lang=<LANG>             The language the XML will be written in
+
+
 installbrand
     Install a brand to the supplied location
 
 	Options:
         --path=<PATH>             /path/to/install/to
-
 
 lang_stats
     report PO statistics
@@ -701,6 +900,21 @@ printtree
 		No options
 
 
+remove_book
+    Remove a book from a WebSite.
+
+	Options:
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+        --lang=<LANG>             The language the XML will be written in
+
+
+site_stats
+    Report on the contents of a WebSite
+
+	Options:
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+
+
 update_po
     Update the PO files
 
@@ -714,6 +928,12 @@ update_pot
 	Options:
 		No options
 
+
+update_site
+    Update an existing sites templates.
+
+	Options:
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 

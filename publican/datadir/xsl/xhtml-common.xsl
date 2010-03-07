@@ -36,6 +36,7 @@
 
 <xsl:param name="html.stylesheet" select="'./Common_Content/css/default.css'"/>
 <xsl:param name="html.stylesheet.type" select="'text/css'"/>
+<xsl:param name="html.stylesheet.print" select="'./Common_Content/css/print.css'"/>
 <xsl:param name="html.cleanup" select="0"/>
 <xsl:param name="html.ext" select="'.html'"/>
 <xsl:output method="xml" indent="yes"/>
@@ -59,7 +60,7 @@
 <xsl:param name="generate.toc">
 set toc
 book toc
-article toc
+article nop
 chapter toc
 qandadiv toc
 qandaset toc
@@ -290,6 +291,18 @@ Version: 1.72.0
 			<xsl:with-param name="stylesheets" select="normalize-space($html.stylesheet)"/>
 		</xsl:call-template>
 	</xsl:if>
+	<xsl:if test="$html.stylesheet.print != ''">
+         <link rel="stylesheet" media="print">
+            <xsl:attribute name="href">
+              <xsl:value-of select="$html.stylesheet.print"/>
+            </xsl:attribute>
+            <xsl:if test="$html.stylesheet.type != ''">
+              <xsl:attribute name="type">
+                <xsl:value-of select="$html.stylesheet.type"/>
+              </xsl:attribute>
+           </xsl:if>
+         </link>
+        </xsl:if>
 
 	<xsl:if test="$link.mailto.url != ''">
 		<link rev="made" href="{$link.mailto.url}"/>

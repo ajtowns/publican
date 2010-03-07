@@ -50,10 +50,7 @@ my $class = Module::Build->subclass(
       sub ACTION_local {
         my $self = shift;
         $self->ACTION_rpm || die;
-        my $rpm = `find $dir/noarch -name '*.rpm'`;
-        chomp($rpm);
-        $rpm =~ s/\n/ /g;
-        $self->do_system("sudo yum -y localinstall --nogpg $rpm");
+        $self->do_system("sudo yum -y localinstall --nogpg $dir/noarch/*.rpm");
       }
       sub  process_common_files {
         my $self = shift;
@@ -76,10 +73,49 @@ my $class = Module::Build->subclass(
         rcopy( "publish/*", "$path/.");
         rcopy('publican.cfg', "$path/common/.");
         $dir = undef;
+        $builder = undef;
+        $publican = undef;
       }
       sub ACTION_update_pot {
         my $self = shift;
         $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
+      }
+      sub  process_generated_files {
+        my $self = shift;
+        use Cwd qw(abs_path);
+        use File::Path;
+        use File::Copy::Recursive qw(rcopy);
+        use File::Find::Rule;
+        my $pwd = getcwd();
+        my $dir = pushd('Site_Tech');
+        die "can't chdir: $@" if $@;
+        $self->do_system(qq|perl -I $pwd/blib/lib $pwd/blib/script/publican build --formats=html-single --publish --embedtoc --langs=all --common_config="$pwd/blib/datadir" --common_content="$pwd/blib/datadir/Common_Content"|);
+
+        my @lang_dirs = sort( { $b cmp $a } find(
+                maxdepth  => 1,
+                directory => name => "*-*",
+                in        => 'tmp',
+                relative  => 0,
+        ) );
+		foreach my $lang_dir (@lang_dirs) {
+			my $new_dir = $lang_dir;
+			$new_dir =~ s/tmp\///;
+			$new_dir = "$pwd/blib/generated/$new_dir";
+			mkpath($new_dir);
+			rcopy("$lang_dir/html-single/index.html", "$new_dir/Site_Tech.html");
+		    if ( -d "$lang_dir/html-single/images" ) {
+    			mkpath("$new_dir/images");
+			    rcopy( "$lang_dir/html-single/images/*", "$new_dir/images/.");
+            }
+        }
+      }
+      sub  process_sitetemplate_files {
+        my $self = shift;
+        use Cwd;
+        use File::Copy::Recursive qw(rcopy);
+        my $pwd = getcwd();
+        rcopy("$pwd/blib/generated", "$pwd/blib/sitetemplate");
+        rcopy("$pwd/blib/web/*", "$pwd/blib/sitetemplate/.");
       }
   }
 );
@@ -106,6 +142,8 @@ my $builder = $class->new(
         'Data::Dumper'                    => 0,
         'DateTime'                        => 0,
         'DateTime::Format::DateParse'     => 0,
+        'DBI'                             => 0,
+        'DBD::SQLite'                     => 0,
         'Encode'                          => 0,
         'File::Copy::Recursive'           => 0.38,
         'File::Find'                      => 0,
@@ -166,6 +204,9 @@ my $builder = $class->new(
         'XML::LibXSLT'                    => 1.67,
         'XML::TreeBuilder'                => 3.09,
         'Locale::Maketext::Gettext'       => 0,
+        'DBI'                             => 0,
+        'DBD::SQLite'                     => 0,
+        'HTML::Template'                  => 0,
     },
     add_to_cleanup => [
         'publican-*',
@@ -175,26 +216,59 @@ my $builder = $class->new(
         'foo*',
         'Test_*',
         'Users_Guide/build',
+        'Users_Guide/publish',
         'datadir/Common_Content/common/tmp',
         'datadir/Common_Content/common/publish',
         'MANIFEST.bak',
+        'Site_Tech/tmp',
+        'Site_Tech/publish',
+        'META.yml',
     ],
     script_files => ['bin/publican'],
-    install_path => { 'datadir' => '/usr/share/publican' },
-    data_files   => {
-        'datadir/fop/fop.xconf'       => 'datadir/fop/fop.xconf',
+    install_path => {
+        'datadir'      => '/usr/share/publican',
+        'generated'    => '/var/www/html/docs',
+        'sitetemplate' => '/usr/share/publican-website/sitetemplate',
+        'web'          => '/var/www/html/docs',
+        'templates'    => '/usr/share/publican-website/templates',
+        'database'     => '/usr/share/publican-website',
+        'etc'          => '/etc',
+    },
+    data_files => {
+        'datadir/fop/fop.xconf' => 'datadir/fop/fop.xconf',
         'datadir/xsl/dt_htmlsingle_spec.xsl' =>
             'datadir/xsl/dt_htmlsingle_spec.xsl',
-        'datadir/xsl/xhtml-common.xsl' => 'datadir/xsl/xhtml-common.xsl',
-        'datadir/xsl/html.xsl'         => 'datadir/xsl/html.xsl',
-        'datadir/xsl/txt.xsl'          => 'datadir/xsl/txt.xsl',
-        'datadir/xsl/web-spec.xsl'     => 'datadir/xsl/web-spec.xsl',
-        'datadir/xsl/defaults.xsl'     => 'datadir/xsl/defaults.xsl',
-        'datadir/xsl/html-single.xsl'  => 'datadir/xsl/html-single.xsl',
-        'datadir/xsl/pdf.xsl'          => 'datadir/xsl/pdf.xsl',
-        'datadir/xsl/epub.xsl'         => 'datadir/xsl/epub.xsl',
+        'datadir/xsl/xhtml-common.xsl'  => 'datadir/xsl/xhtml-common.xsl',
+        'datadir/xsl/html.xsl'          => 'datadir/xsl/html.xsl',
+        'datadir/xsl/txt.xsl'           => 'datadir/xsl/txt.xsl',
+        'datadir/xsl/web-spec.xsl'      => 'datadir/xsl/web-spec.xsl',
+        'datadir/xsl/web-home-spec.xsl' => 'datadir/xsl/web-home-spec.xsl',
+        'datadir/xsl/defaults.xsl'      => 'datadir/xsl/defaults.xsl',
+        'datadir/xsl/html-single.xsl'   => 'datadir/xsl/html-single.xsl',
+        'datadir/xsl/pdf.xsl'           => 'datadir/xsl/pdf.xsl',
+        'datadir/xsl/epub.xsl'          => 'datadir/xsl/epub.xsl',
     },
+    web_files => {
+        'web/index.html'        => 'web/index.html',
+        'web/toc.js'            => 'web/toc.js',
+        'web/interactive.css'   => 'web/interactive.css',
+        'web/images/arrows.png' => 'web/images/arrows.png',
+    },
+    templates_files => {
+        'templates/static_toc.tmpl' => 'templates/static_toc.tmpl',
+        'templates/toc.tmpl'        => 'templates/toc.tmpl',
+        'templates/stats.tmpl'      => 'templates/stats.tmpl',
+    },
+    database_files => { 'database/default.db' => 'database/default.db', },
+    etc_files =>
+        { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
 );
 $builder->add_build_element('common');
 $builder->add_build_element('data');
+$builder->add_build_element('web');
+$builder->add_build_element('sitetemplate');
+$builder->add_build_element('templates');
+$builder->add_build_element('database');
+$builder->add_build_element('etc');
+$builder->add_build_element('generated');
 $builder->create_build_script();

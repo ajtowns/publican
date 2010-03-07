@@ -9,6 +9,7 @@
 %define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
 
 %define viewer xdg-open
+%define wwwdir %{_localstatedir}/www/html/docs
 
 %if %{HTMLVIEW}
 %define viewer htmlview
@@ -26,12 +27,11 @@ URL:           <xsl:value-of select="$url"/>
 Source:        <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: publican
+BuildRequires: publican >= 1.6
 BuildRequires: desktop-file-utils
-Requires:      perl-Publican-WebSite
+Requires:      publican-website
 <xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
 <xsl:if test="$web_obsoletes != ''">Obsoletes:    <xsl:value-of select="$web_obsoletes"/></xsl:if>
-Prefix:        /var/www/html/docs
 
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
@@ -70,9 +70,9 @@ publican build --embedtoc --formats="html,html-single,html-desktop,pdf,epub" --l
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/%{prefix}
+mkdir -p $RPM_BUILD_ROOT/%{wwwdir}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{prefix}/.
+cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{wwwdir}/.
 
 cat > <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop &lt;&lt;'EOF'
 [Desktop Entry]
@@ -106,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{prefix}/<xsl:value-of select="$lang"/>
+%{wwwdir}/<xsl:value-of select="$lang"/>
 
 %files -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 %defattr(-,root,root,-)

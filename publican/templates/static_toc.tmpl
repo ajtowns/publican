@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="interactive.css" type="text/css" />
+	<title>Site Map</title>
+</head>
+<body class="tocnav">
+<div class="static_tocnavwrap">
+<h1 class="producttitle">Site Map</h1>
+	<ul>
+	<TMPL_LOOP NAME="static_langs_toc">
+		<li><a href="#<TMPL_VAR name="toc_name">"><TMPL_VAR name="toc_name"></a></li>
+	</TMPL_LOOP>
+	</ul>
+	<TMPL_LOOP NAME="static_langs">
+	<div class="perlang" id="<TMPL_VAR name="name">">
+		<h2><TMPL_VAR name="name"> (<TMPL_VAR name="langloc">)</h2>
+		<TMPL_LOOP NAME="products">
+		<div class="product">
+			<span id="<TMPL_VAR name="product">" class="product"><TMPL_VAR name="product_clean"></span>
+			<div class="versions">
+			<TMPL_LOOP NAME="versions">
+				<div class="version">
+					<span class="version"><TMPL_VAR name="version"></span>
+					<div class="books">
+					<TMPL_LOOP NAME="books">
+						<div class="book">
+							<span id="<TMPL_VAR name="book">" class="book"><TMPL_VAR name="book_clean"></span> 
+							<div class="types">
+							<TMPL_LOOP NAME="types">
+								<a class="type" href="<TMPL_VAR name="prep"><TMPL_VAR name="langloc">/<TMPL_VAR name="product">/<TMPL_VAR name="version">/<TMPL_VAR name="type">/<TMPL_VAR name="book">/<TMPL_VAR name="ext">"><TMPL_VAR name="type"></a>
+			        			</TMPL_LOOP>
+							</div>
+						</div>
+	        			</TMPL_LOOP>
+					</div>
+				</div>					
+			</TMPL_LOOP>
+			</div>					
+		</div>					
+       		</TMPL_LOOP>
+	</div>
+	</TMPL_LOOP>
+</div>					
+</body>
+</html>
+

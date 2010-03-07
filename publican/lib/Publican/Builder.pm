@@ -27,6 +27,7 @@ use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
 use List::Util qw(max);
 use Text::Wrap qw(wrap $columns);
+use IO::String;
 
 use version;
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
@@ -173,7 +174,10 @@ sub build {
 
                     # The basic layout is for the web system
                     # but these formats are used differently
-                    if ( $format eq 'html-desktop' ) {
+                    if ( $self->{publican}->param('web_home') ) {
+                        $path = "publish/home/$lang";
+                    }
+                    elsif ( $format eq 'html-desktop' ) {
                         $path = "publish/desktop/$lang";
                     }
                     elsif ( $format eq 'xml' ) {
@@ -437,7 +441,7 @@ sub del_unwanted_dirs {
     my $dir      = $_;
     my @unwanted = qw(  );
 
-    if ( $dir =~ /^(CVS|\.svn|.*\.swp)$/ ) {
+    if ( $dir =~ /^(CVS|\.svn|.*\.swp|.*\.xml~|.directory)$/ ) {
         rmtree($_)
             || croak(
             maketext(
@@ -647,6 +651,9 @@ sub transform {
 
     mkdir "$tmp_dir/$lang/$format";
 
+    my $toc_path = '../../../..';
+    $toc_path = '.' if ( $self->{publican}->param('web_home') );
+
     if ( $format eq 'html-single' ) {
 
         $dir = pushd("$tmp_dir/$lang/$format");
@@ -655,6 +662,7 @@ sub transform {
         $xslt_opts{'prod.url'} = "'$prod_url'";
         $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
         $xslt_opts{'embedtoc'} = $embedtoc;
+        $xslt_opts{'tocpath'}  = "'$toc_path'";
     }
     elsif ( $format eq 'html-desktop' ) {
         $xsl_file = $common_config . "/xsl/html-single.xsl";
@@ -675,6 +683,7 @@ sub transform {
         $xslt_opts{'prod.url'} = "'$prod_url'";
         $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
         $xslt_opts{'embedtoc'}             = $embedtoc;
+        $xslt_opts{'tocpath'}              = "'$toc_path'";
         $xslt_opts{'chunk.first.sections'} = $chunk_first;
         $xslt_opts{'chunk.section.depth'}  = $chunk_section_depth;
     }
@@ -1175,35 +1184,41 @@ sub insertCallouts {
         my $line = $_;
         chomp($line);
 
-        # skip fir line, which has xml decl
+        # skip first line, which has xml decl
         if ( $count == 0 ) { next; }
 
         # skip last line, which is close tag
         if ( $count == $line_count - 1 ) { next; }
 
-        # for first node add close tag
-        # BUGBUG this will break if there are nested block tags
-        my $node;
-        if ( $count == 1 ) {
-            $node = $parser->parse_xml_chunk( $line . "</$tag>" );
-        }
-        else {
+        my $fline = "";
 
-            # FO needs a wrapper to set the namespace
-            if ( $format eq 'PDF' ) {
-                $node
-                    = $parser->parse_xml_chunk(
-                    qq|<$tag xmlns:fo="http://www.w3.org/1999/XSL/Format">|
-                        . $line
-                        . "</$tag>" );
+        if ( $line !~ /^$/ ) {
+
+            # for first node add close tag
+            # BUGBUG this will break if there are nested block tags
+            my $node;
+            if ( $count == 1 ) {
+                $node = $parser->parse_xml_chunk( $line . "</$tag>" );
             }
             else {
-                $node = $parser->parse_xml_chunk($line);
+
+                # FO needs a wrapper to set the namespace
+                if ( $format eq 'PDF' ) {
+                    $node
+                        = $parser->parse_xml_chunk(
+                        qq|<$tag xmlns:fo="http://www.w3.org/1999/XSL/Format">|
+                            . $line
+                            . "</$tag>" );
+                }
+                else {
+                    $node = $parser->parse_xml_chunk($line);
+                }
             }
+
+            # calculate unformated line length
+            $fline = $node->string_value();
         }
 
-        # calculate unformated line length
-        my $fline = $node->string_value();
         $position = max( $position, length($fline) + 4 );
         if ( defined( $callout{$count} ) ) {
             $callout{$count}{'length'} = length($fline);
@@ -1309,7 +1324,7 @@ sub package_brand {
     }
 
     my $dir = pushd("$tmp_dir/tar");
-    del_unwanted_dirs($tardir);
+    finddepth( \&del_unwanted_dirs, $tardir );
     my @files = dir_list( $tardir, '*' );
     Archive::Tar->create_archive( "$tardir.tgz", 9, @files );
     $dir = undef;
@@ -1317,6 +1332,120 @@ sub package_brand {
     fmove( "$tmp_dir/tar/$tardir.tgz", "$tmp_dir/rpm/." );
 
     $self->build_rpm( { spec => "publican-$name.spec", binary => $binary } );
+
+    return;
+}
+
+=head2 package_home
+
+Package a book for use as a Publican Website home page.
+
+=cut
+
+sub package_home {
+    my ( $self, $args ) = @_;
+
+    my $binary = delete( $args->{binary} );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my $tmp_dir    = $self->{publican}->param('tmp_dir');
+    my $product    = $self->{publican}->param('product');
+    my $version    = $self->{publican}->param('version');
+    my $docname    = $self->{publican}->param('docname');
+    my $edition    = $self->{publican}->param('edition');
+    my $configfile = $self->{publican}->param('configfile');
+    my $release    = $self->{publican}->param('release');
+    my $xml_lang   = $self->{publican}->param('xml_lang');
+    my $type       = $self->{publican}->param('type');
+
+    my $name_start = "$docname";
+    my $tardir     = "$name_start-web-home-$edition";
+
+    mkpath("$tmp_dir/tar/$tardir");
+    mkpath("$tmp_dir/rpm");
+
+    my $langs     = get_all_langs();
+    my @file_list = ('publican.cfg');
+
+    foreach my $file (@file_list) {
+        rcopy( $file, "$tmp_dir/tar/$tardir/." ) if ( -f $file );
+    }
+
+    foreach my $dir ( split( /,/, $langs ), 'pot' ) {
+        dircopy( "$dir", "$tmp_dir/tar/$tardir/$dir" ) if ( -d $dir );
+    }
+
+    my $dir = pushd("$tmp_dir/tar");
+    finddepth( \&del_unwanted_dirs, $tardir );
+    my @files = dir_list( $tardir, '*' );
+    Archive::Tar->create_archive( "$tardir-$release.tgz", 9, @files );
+    $dir = undef;
+
+    fmove( "$tmp_dir/tar/$tardir-$release.tgz", "$tmp_dir/rpm/." );
+
+    my $common_config = $self->{publican}->param('common_config');
+    my $xsl_file      = $common_config . "/xsl/web-home-spec.xsl";
+    $xsl_file =~ s/"//g;    # windows
+
+    my $license = $self->{publican}->param('license');
+    my $brand   = 'publican-' . lc( $self->{publican}->param('brand') );
+    my $doc_url = $self->{publican}->param('doc_url');
+    my $src_url = $self->{publican}->param('src_url');
+    my $os_ver  = $self->{publican}->param('os_ver');
+    my $search  = $self->{publican}->param('web_search');
+    my $host    = $self->{publican}->param('web_host');
+    my $log     = $self->change_log();
+
+    my %xslt_opts = (
+        'book-title' => $name_start,
+        'brand'      => $brand,
+        'prod'       => $product,
+        'prodver'    => $version,
+        'rpmver'     => $edition,
+        'rpmrel'     => $release,
+        'docname'    => $docname,
+        'license'    => $license,
+        'url'        => $doc_url,
+        'src_url'    => $src_url,
+        'log'        => $log,
+        tmpdir       => $tmp_dir,
+        web_search   => $search,
+        web_host     => $host,
+    );
+
+    logger(
+        "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
+
+    my $parser    = XML::LibXML->new();
+    my $xslt      = XML::LibXSLT->new();
+    my $source    = $parser->parse_file( "$xml_lang/$type" . '_Info.xml' );
+    my $style_doc = $parser->parse_file($xsl_file);
+
+    my $stylesheet = $xslt->parse_stylesheet($style_doc);
+
+    my $results = $stylesheet->transform( $source,
+        XML::LibXSLT::xpath_to_string(%xslt_opts) );
+
+    my $outfile;
+    my $spec_name = "$tmp_dir/rpm/$name_start-web-home.spec";
+
+    open( $outfile, ">:utf8", "$spec_name" )
+        || croak( maketext( "Can't open spec file: [_1]", $@ ) );
+    print( $outfile $stylesheet->output_string($results) );
+    close($outfile);
+
+    $self->build_rpm(
+        {   spec   => "$tmp_dir/rpm/$name_start-web-home.spec",
+            binary => $binary
+        }
+    );
 
     return;
 }
@@ -1516,6 +1645,7 @@ sub package {
     my $common_config = $self->{publican}->param('common_config');
     my $xsl_file      = $common_config . "/xsl/web-spec.xsl";
     $xsl_file = $common_config . "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
+
     $xsl_file =~ s/"//g;    # windows
     my $license       = $self->{publican}->param('license');
     my $brand         = lc( $self->{publican}->param('brand') );

@@ -17,7 +17,7 @@ use Publican::Localise;
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE);
 
-$VERSION = version->new('1.6');
+$VERSION = version->new('1.99');
 @ISA     = qw(Exporter AutoLoader);
 
 @EXPORT
@@ -271,8 +271,20 @@ my %PARAMS = (
         descr   => maketext('The brew dist to use for building the web rpm.'),
         default => 'docs-5E',
     },
+    web_home => {
+        descr => maketext(
+            'This is a Publican Website home page, not a standard book.'),
+    },
+    web_host => {
+        descr => maketext(
+            'This is a Publican Website host name, used for searches.'),
+    },
     web_obsoletes =>
         { descr => maketext('Packages to obsolete in web RPM.'), },
+    web_search => {
+        descr => maketext(
+            'Override the default search form for a Publican Website.'),
+    },
     xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
         default => 'en-US',

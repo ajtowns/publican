@@ -149,7 +149,10 @@ sub po2xml {
         }
     }
 
-##    debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
+##foreach my $key (keys( %{$msgids} )) {
+##debug_msg( "key: $key\n" );
+##debug_msg("is utf8: ". utf8::is_utf8($key) ."\n\n");
+##}
 
     $self->merge_msgs( { out_doc => $out_doc, msgids => $msgids } );
 
@@ -504,15 +507,15 @@ sub translate {
     my $msgid = $node->as_XML();
     my $tag   = $node->tag();
 
-    #debug_msg("msgid 1: |$msgid| |$tag|\n");
+##debug_msg("msgid 1: |$msgid| |$tag|\n");
     my $attr_text = '';
 
     $msgid = $self->normalise($msgid);
 
-    #debug_msg("msgid 2: |$msgid| |$tag|\n");
+##debug_msg("msgid 2: |$msgid| |$tag|\n");
     $msgid = po_format( $msgid, $tag );
 
-    #debug_msg("msgid 3: |$msgid| |$tag|\n");
+##debug_msg("msgid 3: |$msgid| |$tag|\n");
 
     # If a tag has attributes we need to remove them for comparison as
     # the PO format does not allow this to be stored
@@ -523,7 +526,7 @@ sub translate {
         $attr_text =~ s/\\//g;
     }
 
-    #debug_msg("msgid 4: |$msgid| |$tag|\n");
+##debug_msg("msgid 4: |$msgid| |$tag|\n");
 
     if (   $msgid
         && defined $msgids->{ '"' . $msgid . '"' }
@@ -534,7 +537,7 @@ sub translate {
         my $repl = Encode::decode_utf8(
             po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} ) );
 
-        #debug_msg("is utf8: ".utf8::is_utf8($repl)."\n");
+##debug_msg("is utf8: ".utf8::is_utf8($repl)."\n");
         my $dtd = Publican::Builder::dtd_string(
             { tag => $tag, dtdver => $self->{publican}->param('dtdver') } );
         my $new_tree = Publican::Builder::new_tree();
@@ -543,8 +546,8 @@ sub translate {
         $node->push_content( $new_tree->content_list() );
     }
     else {
-
-        #debug_msg("msgid '$msgid' not found\n");
+##debug_msg("msgid '$msgid' not found\n");
+##debug_msg("is utf8: ".utf8::is_utf8($msgid)."\n");
     }
     return;
 }

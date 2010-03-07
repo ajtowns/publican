@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Red Hat Documentation</title>
+	<link rel="stylesheet" href="default.css" type="text/css" />
+</head>
+<body class="nojs">
+<h1>Welcome to Red Hat Documentation</h1>
+<script type="text/javascript">
+	var lang = "";
+	if(window.navigator.userLanguage)
+		lang = window.navigator.userLanguage;
+	else
+		lang = window.navigator.language;
+
+	var match = 0;
+	var locales = ["as-IN", "bn-IN", "de-DE", "es-ES", "fr-FR", "gu-IN", "hi-IN", "it-IT", "ja-JP", "kn-IN", "ko-KR", "ml-IN", "mr-IN", "or-IN", "pa-IN", "pt-BR", "ru-RU", "si-LK", "ta-IN", "te-IN", "zh-CN", "zh-TW"];
+
+	if(lang) {
+		// Try for full match of lang_LOC
+		for(locale in locales) {
+			if(lang == locales[locale]) {
+				match = 1;
+				break;
+			}
+		}
+
+		// Else try for match of lang
+		if(match == 0) {
+			for(locale in locales) {
+				var loc_lang = locales[locale].substring(0,2);
+				var language = lang.substring(0,2);
+
+				if(loc_lang == language) {
+					lang = locales[locale];
+					match = 1;
+					break;
+				}
+			}
+		}
+	}
+
+	// Else default to en-US
+	if(match == 0) {
+		lang = 'en-US';
+	}
+
+	window.location = lang + "/index.html";
+</script>
+<noscript>
+<p>
+This web site requires JavaScript and cookies to be enabled to function correctly.
+</p>
+<p>
+To view a static Table of Contents click <a href="toc.html">here</a>
+</p>
+</noscript>
+</body>
+
+</html>

@@ -38,6 +38,8 @@ Copied from fo/params.xsl
 <xsl:param name="use.id.as.filename" select="'1'"/>
 
 <xsl:param name="embedtoc" select="'0'"/>
+<xsl:param name="tocpath" select="''"/>
+
 <xsl:param name="desktop" select="0"/>
 
 <xsl:param name="funcsynopsis.style">ansi</xsl:param>
