@@ -454,7 +454,7 @@ if ( $action eq 'create_site' ) {
     $config->write($site_config);
 
     my $ws = Publican::WebSite->new(
-        { create => 1, configfile => $site_config } );
+        { create => 1, site_config => $site_config } );
     $ws->regen_all_toc();
 
     exit(0);
@@ -463,7 +463,7 @@ if ( $action eq 'create_site' ) {
 if ( $action eq 'update_site' ) {
     my $site_config = $opts{site_config} || undef;
     local $File::Copy::Recursive::RMTrgFil = 1;
-    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+    my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
     rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", $ws->toc_path() . "/." );
     $ws->regen_all_toc();
@@ -473,7 +473,7 @@ if ( $action eq 'update_site' ) {
 
 if ( $action eq 'site_stats' ) {
     my $site_config = $opts{site_config} || undef;
-    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+    my $ws = Publican::WebSite->new( { site_config => $site_config } );
     print( $ws->report() );
 
     exit(0);
@@ -687,7 +687,7 @@ if ( $action eq 'package' ) {
 
 if ( $action eq 'install_book' ) {
     my $site_config = $opts{site_config} || undef;
-    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+    my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
     if ( $publican->param('web_home') ) {
         croak( maketext("can't find 'publish' directory") )
@@ -732,7 +732,7 @@ if ( $action eq 'install_book' ) {
 
 if ( $action eq 'remove_book' ) {
     my $site_config = $opts{site_config} || undef;
-    my $ws = Publican::WebSite->new( { configfile => $site_config } );
+    my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
     my $lang = $opts{lang}
         || croak( maketext( "[_1] is a required argument", 'lang' ) );

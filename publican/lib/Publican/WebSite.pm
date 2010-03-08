@@ -48,7 +48,7 @@ sub new {
     my ( $class, $arg ) = @_;
 
     my $create     = delete $arg->{create}     || undef;
-    my $configfile = delete $arg->{configfile} || $DEFAULT_CONFIG_FILE;
+    my $site_config = delete $arg->{site_config} || $DEFAULT_CONFIG_FILE;
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -56,8 +56,8 @@ sub new {
 
     my $config = new Config::Simple();
     $config->syntax('http');
-    $config->read($configfile)
-        || croak("Failed to load config file: $configfile");
+    $config->read($site_config)
+        || croak("Failed to load config file: $site_config");
 
     my $toc_path  = $config->param('toc_path')  || $DEFAULT_TOC_PATH;
     my $tmpl_path = $config->param('tmpl_path') || $DEFAULT_TMPL_PATH;
