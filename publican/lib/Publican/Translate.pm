@@ -337,9 +337,9 @@ sub get_msgs {
             my $inner_tag = $node->tag();
             croak(
                 maketext(
-                    "Verbatim content can not be embedded in translatable content, found a [_1] in a [_2]!",
-                    $outer_tag,
-                    $inner_tag
+                    "ERROR: Verbatim content can not be embedded in translatable content, found a [_1] in a [_2]!",
+                    $inner_tag,
+                    $outer_tag
                 )
             );
         }
