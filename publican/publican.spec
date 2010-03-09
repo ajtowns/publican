@@ -14,7 +14,7 @@
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t14
+Release:        0%{?dist}.t15
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -233,6 +233,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add Publican::Website.
 - Fix package_brand including unwanted files. BZ #570715
 - Fix empty lines breaking callouts. BZ #570046
+- Detect verbatim content in translatable content. BZ #571633
 
 * Mon Mar 01 2010 Jeff Fearn <jfearn@redhat.com> 1.6-0
 - Fix missing IO::String requires. BZ #568950
@@ -920,5 +921,6 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
+
 
 

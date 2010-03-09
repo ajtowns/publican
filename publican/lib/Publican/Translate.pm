@@ -25,6 +25,8 @@ my $TRANSTAGS
 # Blocks to not split from surrounding content
 my $IGNOREBLOCKS = qr/^(?:footnote|indexterm)$/;
 
+my $VERBATIM = qr/^(?:screen|programlisting|literallayout)$/;
+
 =head1 NAME
 
 Publican::Translate - Module for manipulating POT and PO files.
@@ -329,6 +331,18 @@ sub get_msgs {
         }
 
         next if ( $child->is_empty );
+
+        if ( my $node = $child->look_down( '_tag', qr/$VERBATIM/ ) ) {
+            my $outer_tag = $child->tag();
+            my $inner_tag = $node->tag();
+            croak(
+                maketext(
+                    "Verbatim content can not be embedded in translatable content, found a [_1] in a [_2]!",
+                    $outer_tag,
+                    $inner_tag
+                )
+            );
+        }
 
         $trans_node = XML::Element->new( $child->tag() );
 
