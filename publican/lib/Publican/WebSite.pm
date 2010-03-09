@@ -183,7 +183,9 @@ sub update_settings {
     $sql .= '(' . join( ',', @cols ) . ') ';
     $sql .= 'values (' . join( ',', @vals ) . ') ';
 
-    $self->_dbh()->do($sql);
+    if($search || $host) {
+        $self->_dbh()->do($sql);
+    }
 
     return;
 }
