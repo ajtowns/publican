@@ -134,6 +134,14 @@ sub po2xml {
             )
         );
     }
+
+    logger(
+        "\t"
+            . maketext( "Merging [_1] >> [_2] => [_3]",
+            $po_file, $xml_file, $out_file )
+            . "\n"
+    );
+
     my $dtdver = $self->{publican}->param('dtdver');
 
     my $out_doc = Publican::Builder::new_tree();
@@ -501,6 +509,10 @@ sub merge_msgs {
 
 Replace strings with translated strings.
 
+BUGBUG: This gets called twice for mixed mode content,
+        second call fails as it's already translated,
+	    has no effect on output
+
 =cut
 
 sub translate {
@@ -548,8 +560,7 @@ sub translate {
     {
         debug_msg("DANGER: found obsolete msg: $msgid\n")
             if ( $msgids->{ '"' . $msgid . '"' }{msgstr} =~ /^#~/ );
-        my $repl = Encode::decode_utf8(
-            po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} ) );
+        my $repl = po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} );
 
 ##debug_msg("is utf8: ".utf8::is_utf8($repl)."\n");
         my $dtd = Publican::Builder::dtd_string(

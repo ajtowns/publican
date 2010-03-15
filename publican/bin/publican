@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+use utf8;
+use encoding 'utf8';
 use warnings;
 use strict;
 use Carp;
@@ -20,6 +22,8 @@ use File::pushd;
 use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path);
+
+binmode STDOUT, ":utf8";
 
 my $VERSION      = version->new($Publican::VERSION);
 my $LANG_PATTERN = q|__LANG__|;
