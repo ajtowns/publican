@@ -2,7 +2,7 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	1.2
+Version:	1.3
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Development/Libraries
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Nov 20 2009 Rüdiger Landmann <rlandmann@redhat.com> 1.3-0
+- rename sr-LATN to sr-Latn-RS
+
 * Fri Nov 20 2009 Ryan Lerch <rlerch@redhat.com> 1.2-0
 - new Documentation graphic -- image_right.png
 
