@@ -520,7 +520,6 @@ sub validate_xml {
 
     my $source = $parser->parse_file("$docname.xml");
 
-## TODO should version be a variable?
     my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
     my $dtd_path
         = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;

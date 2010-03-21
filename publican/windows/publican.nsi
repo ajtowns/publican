@@ -80,8 +80,10 @@ Function .onInstSuccess
 	; Hide first run IO error
 	ExecWait '"$INSTDIR\publican.exe -v"'
 	
+	; This isn't set by the gettext installer
 	ReadRegDWORD $0 HKLM	SOFTWARE\GnuWin32\GetText InstallPath
-	${EnvVarUpdate} $1 "PATH" "A" "HKLM" "$0"
+	ifErrors +2 0
+		${EnvVarUpdate} $1 "PATH" "A" "HKLM" "$0"
 	
 	IfFileExists $INSTDIR\fop-0.95 0 +2
 		${EnvVarUpdate} $1 "PATH" "A" "HKLM" "$INSTDIR\fop-0.95"
@@ -332,17 +334,22 @@ SectionEnd
 Section "Uninstall"
 
 	Delete "$INSTDIR\Uninstall.exe"
+	
+	IfFileExists $INSTDIR\fop-0.95 0 +2
+		${un.EnvVarUpdate} $1 "PATH" "R" "HKLM" "$INSTDIR\fop-0.95"
 
 	RMDir /r "$INSTDIR"
 	RmDir /r "$SMPROGRAMS\Publican"
 
 	DeleteRegKey HKLM	"Software\Publican"
-	${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
+	IfErrors +2 0
+		${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" $INSTDIR
+
 	DeleteRegKey HKLM "${REG_UNINSTALL}"
-	
+
+	; This isn't set by the gettext installer
 	ReadRegDWORD $0 HKLM	SOFTWARE\GnuWin32\GetText InstallPath
-	${un.EnvVarUpdate} $1 "PATH" "R" "HKLM" "$0\bin"
-	
-	${un.EnvVarUpdate} $1 "PATH" "R" "HKLM" "$INSTDIR\fop-0.95"
+	IfErrors +2 0
+		${un.EnvVarUpdate} $1 "PATH" "R" "HKLM" "$0\bin"
 
 SectionEnd
