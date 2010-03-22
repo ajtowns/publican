@@ -229,11 +229,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/publican-website.cfg
 
 %changelog
-* Tue Mar 02 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
+* Mon Mar 22 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
 - Fix package_brand including unwanted files. BZ #570715
 - Fix empty lines breaking callouts. BZ #570046
 - Detect verbatim content in translatable content. BZ #571633
+- Fix missing IO::String requires properly. BZ #568950
+- Add print style sheet to XHTML. RT #60327
+- Force UTF8 on all files. BZ #570979
+- Fix comments in callout breaking build. BZ #572047
 
 * Mon Mar 01 2010 Jeff Fearn <jfearn@redhat.com> 1.6-0
 - Fix missing IO::String requires. BZ #568950

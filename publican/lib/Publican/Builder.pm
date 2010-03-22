@@ -1079,6 +1079,9 @@ sub highlight {
     my $parser = XML::LibXML->new();
     $parser->expand_entities(0);
     my $out_string = $hl->highlightText( $content->string_value() );
+## BUGBUG remove nested block tag, insertCallouts nested block tag limitation :(
+    $out_string =~ s/<perl_Comment>\n<\/perl_Comment>/\n/mg;
+##    debug_msg("Highlighting: $out_string\n");
 
     # this gives an XML::LibXML::DocumentFragment
     my $list = $parser->parse_balanced_chunk($out_string);
