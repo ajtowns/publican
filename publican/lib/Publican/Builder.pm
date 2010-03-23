@@ -771,7 +771,7 @@ sub transform {
             . "$lang.pdf";
 
         my $fop_command
-            = qq|classpath=$classpath fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
+            = qq|CLASSPATH="$classpath" fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
 
 ## TODO find out if we need to set classpath on windows and how
         if ( $^O eq 'MSWin32' ) {
