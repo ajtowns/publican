@@ -2,7 +2,7 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	1.0
+Version:	1.1
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.1
+- add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
+
 * Fri Oct 30 2009 Jeff Fearn <jfearn@redhat.com> 1.0
 - port to publican 1.0.
 

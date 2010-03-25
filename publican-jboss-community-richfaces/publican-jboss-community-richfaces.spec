@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community-richfaces
 Summary:	Common documentation files for RichFaces community documents
-Version:	1.0
+Version:	1.1
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.1
+- add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
 * Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 1.0-0
 - bump version number for release
 * Mon Feb 15 2010  Rüdiger Landmann <r.landmann@redhat.com> 0.6

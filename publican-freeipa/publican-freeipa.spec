@@ -2,7 +2,7 @@
 
 Name:		publican-freeipa
 Summary:	Common documentation files for %{brand}
-Version:	1.4
+Version:	1.5
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,31 +38,45 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.5
+- add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
+
 * Mon Feb 1 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
 - remove gradients from SVG so logo renders properly on all PDF viewers
+
 * Thu Jan 29 2010 Máirín Duffy <duffy@redhat.com>  1.3
- - replace SVG of title logo
+- replace SVG of title logo
+
 * Thu Jan 21 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.2
- - rm placeholder images
+- rm placeholder images
+
 * Thu Jan 21 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.1
- - rebuild spec file
- - update license to CC-BY-SA
- - add placeholder SVG of title logo
- - add pdf.xsl for green headings
+- rebuild spec file
+- update license to CC-BY-SA
+- add placeholder SVG of title logo
+- add pdf.xsl for green headings
+
 * Wed Jan 20 2010 David O'Brien <davido@redhat.com> 1.0
- - port to publican 1.0
+- port to publican 1.0
+
 * Tue Jun 02 2009 David O'Brien <davido@redhat.com> 0.7
- - fixed typos in Document Conventions
- - removed some condition tags
+- fixed typos in Document Conventions
+- removed some condition tags
+
 * Wed May 13 2009 David O'Brien <davido@redhat.com> 0.6
- - fixed errors in condition tags
+- fixed errors in condition tags
+
 * Wed May 13 2009 David O'Brien <davido@redhat.com> 0.5
- - added conditions and updated Bugzilla links in Feedback.xml
+- added conditions and updated Bugzilla links in Feedback.xml
+
 * Tue May 12 2009 David O'Brien <davido@redhat.com> 0.4
- - updated link to Bugzilla in Feedback.xml to point directly to freeipa product
+- updated link to Bugzilla in Feedback.xml to point directly to freeipa product
+
 * Tue Apr 28 2009 David O'Brien <davido@redhat.com> 0.3
- - added local and updated Conventions.xml
+- added local and updated Conventions.xml
+
 * Fri Apr 23 2009 David O'Brien <davido@redhat.com> 0.2
- - updated freeIPA logo on title page to avoid perception of being off-centre
+- updated freeIPA logo on title page to avoid perception of being off-centre
+
 * Mon Apr 13 2009  David O'Brien <davido@redhat.com> 0.1
 - Created using oVirt 0.7 as a template
