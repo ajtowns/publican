@@ -3,7 +3,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	1.4
+Version:	1.5
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -40,6 +40,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Mar 25 2010 Jeff Fearn <jfearn@redhat.com> 1.5
+- Add TOC to articles
+- Fix broken ml-IN translation
+
 * Fri Feb 26 2010 Timo Trinks <ttrinks@redhat.com> 1.4
 - ah the optionally empty tag O doom
 
