@@ -708,6 +708,7 @@ sub transform {
     XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
     XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts',
         \&insertCallouts );
+    XML::LibXSLT->max_depth(1000);
 
     my $security = XML::LibXSLT::Security->new();
     $security->register_callback( create_dir => sub { 1; } );

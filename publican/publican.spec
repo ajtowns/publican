@@ -239,6 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 - Force UTF8 on all files. BZ #570979
 - Fix comments in callout breaking build. BZ #572047
 - Fix table border display. BZ #572995
+- Fix hyphenate.verbatim running out of depth. BZ #577095
 
 * Mon Mar 01 2010 Jeff Fearn <jfearn@redhat.com> 1.6-0
 - Fix missing IO::String requires. BZ #568950
