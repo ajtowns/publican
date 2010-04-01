@@ -57,6 +57,7 @@ BuildRequires:  perl(Makefile::Parser)
 BuildRequires:  perl(Syntax::Highlight::Engine::Kate)
 BuildRequires:  perl(Term::ANSIColor)
 BuildRequires:  perl(Text::Wrap)
+BuildRequires:  perl(Test::Pod)
 BuildRequires:  perl(version)
 BuildRequires:  perl(XML::LibXML)  >=  1.67
 BuildRequires:  perl(XML::LibXSLT) >=  1.67

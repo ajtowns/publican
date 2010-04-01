@@ -62,13 +62,14 @@ my $class = Module::Build->subclass(
         use File::Copy::Recursive qw(rcopy);
         my $cwd = getcwd();
         my $dir = pushd('datadir/Common_Content/common');
+        my $path = "$cwd/blib/datadir/Common_Content";
+	return if(-d $path);
         die "can't chdir: $@" if $@;
 
         my $publican = Publican->new();
         my $builder = Publican::Builder->new();
         $builder->build(
         { formats => 'xml', langs => 'all', publish => 1 } );
-        my $path = "$cwd/blib/datadir/Common_Content";
         mkpath("$path");
         rcopy( "publish/*", "$path/.");
         rcopy('publican.cfg', "$path/common/.");
@@ -87,6 +88,7 @@ my $class = Module::Build->subclass(
         use File::Copy::Recursive qw(rcopy);
         use File::Find::Rule;
         my $pwd = getcwd();
+        return if(-d "$pwd/blib/generated");
         my $dir = pushd('Site_Tech');
         die "can't chdir: $@" if $@;
         $self->do_system(qq|perl -I $pwd/blib/lib $pwd/blib/script/publican build --formats=html-single --publish --embedtoc --langs=all --common_config="$pwd/blib/datadir" --common_content="$pwd/blib/datadir/Common_Content"|);
