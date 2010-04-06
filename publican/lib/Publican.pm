@@ -546,7 +546,7 @@ sub new {
         $DEBUG = ( delete( $args->{debug} ) || $DEBUG );
         my $common_config  = delete( $args->{common_config} );
         my $common_content = delete( $args->{common_content} );
-        $QUIET    = delete( $args->{QUIET} );
+        $QUIET     = delete( $args->{QUIET} );
         $NOCOLOURS = delete( $args->{NOCOLOURS} );
 
         if ( %{$args} ) {

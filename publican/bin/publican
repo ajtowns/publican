@@ -1,7 +1,5 @@
 #!/usr/bin/env perl
 
-#use utf8;
-#use encoding 'utf8';
 use warnings;
 use strict;
 use Carp;
@@ -23,8 +21,6 @@ use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path);
 
-#binmode STDOUT, ":utf8";
-
 my $VERSION      = version->new($Publican::VERSION);
 my $LANG_PATTERN = q|__LANG__|;
 ## TODO Consider making these parameters
@@ -41,19 +37,16 @@ This document describes publican version 1.0
 
 =head1 SYNOPSIS
 
-publican <global options>
+publican <command options>
 
-publican <action> <options>
+publican <action> <action options>
 
-Global Options
+Command Options
 
     --help 		Display help message
     --man		Display the man page
     --help_actions	Display a list of valid actions
     -v			Display the version of Publican
-    --config <file>	Use a nonstandard config file
-    --nocolours Disable ANSI colourisation of logging
-    --quiet     Disable all logging
 
 Run: 'publican <action> --help' for details on action usage
 
@@ -74,7 +67,7 @@ Valid actions are:
     package       Package a language for shipping
     printtree     Print a tree of the xi:includes
     remove_book   Remove a book from a WebSite.
-    site_stats        Report on the contents of a WebSite
+    site_stats    Report on the contents of a WebSite
     update_po     Update the PO files
     update_pot    Update the POT files
     update_site   Update an existing sites templates.
@@ -151,11 +144,9 @@ my %options = (
 
 # Options all actions use
 my @utility_opts = (
-    'help',            'help_actions',
-    'man',             'config=s',
+    'help',            'config=s',
     'common_config=s', 'common_content=s',
-    'v',               'nocolours',
-    'quiet',
+    'nocolours',       'quiet',
 );
 
 # Actions
@@ -256,7 +247,7 @@ my %actions = (
 $action = ( $ARGV[0] || "" );
 
 # Getopt: standard + the options for the supplied action
-my @optns = @utility_opts;
+my @optns = ( keys(%opts), @utility_opts );
 
 if ( defined $actions{$action} ) {
     foreach my $opt ( @{ $actions{$action}->{options} } ) {
@@ -350,10 +341,8 @@ sub _help_action {
     my $cmd = shift || croak maketext( "[_1] is a required argument", 'cmd' );
 
     print( "$cmd\n    " . $actions{$cmd}->{brief} );
-    print( "\n\n\t", maketext("Options:"),   "\n" );
-    print( "\t\t",   maketext("No options"), "\n" )
-        unless ( @{ $actions{$cmd}->{options} } );
-    foreach my $option ( @{ $actions{$cmd}->{options} } ) {
+    print( "\n\n\t", maketext("Options:"), "\n" );
+    foreach my $option ( @utility_opts, @{ $actions{$cmd}->{options} } ) {
         debug_msg("TODO: does printf work for right to left languages?\n");
         if ( $options{$option} ) {
             printf( "        --%-20s    %s\n", $option, $options{$option} );
