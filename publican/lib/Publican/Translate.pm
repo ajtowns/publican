@@ -12,7 +12,6 @@ use File::Path;
 use Term::ANSIColor qw(:constants);
 use DateTime;
 use Locale::PO;
-use Encode;
 
 use vars qw($VERSION);
 
@@ -20,7 +19,7 @@ $VERSION = 0.1;
 
 # What tags do we translate?
 my $TRANSTAGS
-    = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|jobtitle|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|term|termdef|tertiary|tertiaryie|title|titleabbrev)$/;
+    = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|jobtitle|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiary|tertiaryie|title|titleabbrev)$/;
 
 # Blocks to not split from surrounding content
 my $IGNOREBLOCKS = qr/^(?:footnote|indexterm)$/;
@@ -152,9 +151,11 @@ sub po2xml {
 
     my $msgids = Locale::PO->load_file_ashash($po_file);
     foreach my $key ( keys( %{$msgids} ) ) {
+##debug_msg("is utf8  key " . utf8::is_utf8($key) . "\n");
         my $msgref = $msgids->{$key};
-        if ( $msgref->obsolete() ) {
-            debug_msg("Deleting obsolete msg_id: $key\n");
+##debug_msg("is utf8 msgref " . utf8::is_utf8($msgref->msgstr()) . "\n");
+        if ( $msgref->obsolete() || $msgref->fuzzy() ) {
+##            debug_msg("Deleting obsolete msg_id: $key\n");
             delete( $msgids->{$key} );
         }
     }
@@ -184,6 +185,7 @@ sub po2xml {
         || croak( maketext( "Could not open [_1] for output!", $out_file ) );
     print $OUTDOC Publican::Builder::dtd_string(
         { tag => $type, dtdver => $dtdver } );
+##debug_msg("is utf8 text: " . utf8::is_utf8($text) . "\n");
     print( $OUTDOC $text );
     close($OUTDOC);
 
@@ -536,6 +538,8 @@ sub translate {
 ##debug_msg("msgid 1: |$msgid| |$tag|\n");
     my $attr_text = '';
 
+    utf8::encode($msgid);
+
     $msgid = $self->normalise($msgid);
 
 ##debug_msg("msgid 2: |$msgid| |$tag|\n");
@@ -558,11 +562,17 @@ sub translate {
         && defined $msgids->{ '"' . $msgid . '"' }
         && ( $msgids->{ '"' . $msgid . '"' }{msgstr} ne '""' ) )
     {
+        my $msgstr = $msgids->{ '"' . $msgid . '"' }{msgstr};
         debug_msg("DANGER: found obsolete msg: $msgid\n")
-            if ( $msgids->{ '"' . $msgid . '"' }{msgstr} =~ /^#~/ );
-        my $repl = po_unformat( $msgids->{ '"' . $msgid . '"' }{msgstr} );
+            if ( $msgstr =~ /^#~/ );
+##debug_msg("is utf8 msgstr 1: " . utf8::is_utf8($msgstr) . "\n");
+        utf8::decode($msgstr);
+##debug_msg("is utf8 msgstr 2: " . utf8::is_utf8($msgstr) . "\n");
 
-##debug_msg("is utf8: ".utf8::is_utf8($repl)."\n");
+        my $repl = po_unformat($msgstr);
+
+##debug_msg("is utf8 repl: ".utf8::is_utf8($repl)."\n");
+##debug_msg("repl: |$repl|\n");
         my $dtd = Publican::Builder::dtd_string(
             { tag => $tag, dtdver => $self->{publican}->param('dtdver') } );
         my $new_tree = Publican::Builder::new_tree();
@@ -571,8 +581,8 @@ sub translate {
         $node->push_content( $new_tree->content_list() );
     }
     else {
-##debug_msg("msgid '$msgid' not found\n");
-##debug_msg("is utf8: ".utf8::is_utf8($msgid)."\n");
+
+## debug_msg("msgid '$msgid' not found\n");
     }
     return;
 }

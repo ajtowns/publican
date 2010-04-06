@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
-use utf8;
-use encoding 'utf8';
+#use utf8;
+#use encoding 'utf8';
 use warnings;
 use strict;
 use Carp;
@@ -23,7 +23,7 @@ use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path);
 
-binmode STDOUT, ":utf8";
+#binmode STDOUT, ":utf8";
 
 my $VERSION      = version->new($Publican::VERSION);
 my $LANG_PATTERN = q|__LANG__|;
@@ -52,6 +52,8 @@ Global Options
     --help_actions	Display a list of valid actions
     -v			Display the version of Publican
     --config <file>	Use a nonstandard config file
+    --nocolours Disable ANSI colourisation of logging
+    --quiet     Disable all logging
 
 Run: 'publican <action> --help' for details on action usage
 
@@ -137,6 +139,8 @@ my %options = (
     ),
     'cvs' => maketext(
         'Import the SRPM in to CVS, the run make tag and make build.'),
+    'nocolours' => maketext('Disable ANSI colourisation of logging.'),
+    'quiet'     => maketext('Disable all logging.'),
 ## WebSite options
     'db_file=s'   => maketext('Override default database file.'),
     'toc_path=s'  => maketext('Override the deafult TOC path.'),
@@ -150,7 +154,8 @@ my @utility_opts = (
     'help',            'help_actions',
     'man',             'config=s',
     'common_config=s', 'common_content=s',
-    'v',
+    'v',               'nocolours',
+    'quiet',
 );
 
 # Actions
@@ -402,7 +407,9 @@ if ( $action eq 'create' ) {
     my $publican = Publican->new(
         {   'configfile'   => $opts{config},
             common_config  => $opts{common_config},
-            common_content => $opts{common_content}
+            common_content => $opts{common_content},
+            QUIET          => $opts{quiet},
+            NOCOLOURS      => $opts{nocolours},
         }
     );
 
@@ -488,7 +495,9 @@ if ( $action eq 'site_stats' ) {
 my $publican = Publican->new(
     {   'configfile'   => $opts{config},
         common_config  => $opts{common_config},
-        common_content => $opts{common_content}
+        common_content => $opts{common_content},
+        QUIET          => $opts{quiet},
+        NOCOLOURS      => $opts{nocolours},
     }
 );
 

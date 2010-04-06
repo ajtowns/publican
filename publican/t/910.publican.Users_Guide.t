@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More tests => 4;
 use File::pushd;
 use Cwd qw(abs_path);
 
@@ -28,6 +28,12 @@ my $dir = pushd('Users_Guide');
 
 is( system(qq{perl -I $lib $publican printtree $common_opts}),
     0, 'Run print_tree' );
+
+is( system( qq{perl -I $lib $publican update_pot $common_opts} ), 0, 'Update POT file' );
+
+# TODO rebuild all translation when we get some
+is( system( qq{perl -I $lib $publican update_po --langs=de-DE $common_opts} ),
+    0, 'Update German PO files' );
 
 # TODO build translation when we get one
 is( system(

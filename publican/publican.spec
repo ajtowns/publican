@@ -230,8 +230,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/publican-website.cfg
 
 %changelog
-* Mon Mar 22 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
+* Thu Apr 01 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
+
+* Thu Apr 01 2010 Jeff Fearn <jfearn@redhat.com> 1.6.2-0
+- Fix hyphenate.verbatim running out of depth. BZ #577095
+- Fix UTF8 error in translations. BZ #576771
+- Add surname and othername to translatable tag list. BZ #578343
+- No fuzzy strings in merged XML. BZ #578337
+- Allow clean_ids to add entity reference. BZ #576462
+- Added --quiet and --nocolours. BZ #578366
+
+* Mon Mar 22 2010 Jeff Fearn <jfearn@redhat.com> 1.6.1-0
 - Fix package_brand including unwanted files. BZ #570715
 - Fix empty lines breaking callouts. BZ #570046
 - Detect verbatim content in translatable content. BZ #571633
@@ -240,7 +250,6 @@ rm -rf $RPM_BUILD_ROOT
 - Force UTF8 on all files. BZ #570979
 - Fix comments in callout breaking build. BZ #572047
 - Fix table border display. BZ #572995
-- Fix hyphenate.verbatim running out of depth. BZ #577095
 
 * Mon Mar 01 2010 Jeff Fearn <jfearn@redhat.com> 1.6-0
 - Fix missing IO::String requires. BZ #568950

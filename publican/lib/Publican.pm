@@ -25,6 +25,8 @@ $VERSION = version->new('1.99');
 
 my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
+my $NOCOLOURS           = undef;
+my $QUIET               = undef;
 
 my %PARAM_OLD = (
     ARCH                       => 'arch',
@@ -544,6 +546,8 @@ sub new {
         $DEBUG = ( delete( $args->{debug} ) || $DEBUG );
         my $common_config  = delete( $args->{common_config} );
         my $common_content = delete( $args->{common_content} );
+        $QUIET    = delete( $args->{QUIET} );
+        $NOCOLOURS = delete( $args->{NOCOLOURS} );
 
         if ( %{$args} ) {
             croak(
@@ -756,7 +760,9 @@ TODO: consider using Log::Dispatch or similar
 sub logger {
     my ( $msg, $colour ) = @_;
 
-    if ($colour) {
+    return if ($QUIET);
+
+    if ( $colour && !$NOCOLOURS ) {
         print( STDERR $colour, $msg, RESET );
     }
     else {

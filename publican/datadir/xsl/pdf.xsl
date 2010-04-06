@@ -347,7 +347,7 @@ part nop
 </xsl:attribute-set>
 
 <!-- Only hairlines as frame and cell borders in tables -->
-<xsl:param name="table.frame.border.thickness">0.5pt</xsl:param>
+<xsl:param name="table.frame.border.thickness">0.6pt</xsl:param>
 <xsl:param name="table.cell.border.thickness">0.3pt</xsl:param>
 <xsl:param name="table.cell.border.color">black</xsl:param>
 <xsl:param name="table.frame.border.color">black</xsl:param>
