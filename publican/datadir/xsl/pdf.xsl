@@ -67,7 +67,7 @@
 	</xsl:choose>
 </xsl:param>
 <!--xsl:param name="default.image.width" select="'440'"/-->
-<xsl:param name="hyphenate.verbatim" select="1"/>
+<xsl:param name="hyphenate.verbatim" select="0"/>
 <xsl:param name="hyphenate">true</xsl:param>
 <!--xsl:param name="ulink.hyphenate" select="''"/-->
 <xsl:param name="ulink.footnotes" select="1"/>
