@@ -26,7 +26,7 @@ use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
 use List::Util qw(max);
-use Text::Wrap qw(wrap $columns);
+use Text::Wrap qw(fill $columns);
 use IO::String;
 
 use version;
@@ -1831,7 +1831,7 @@ sub abstract {
         || croak( maketext( "Missing mandatory field '[_1]'.", 'abstract' ) );
 
     $columns = 68;
-    my $text = wrap( "", "", $abstract->as_text() );
+    my $text = fill( "", "", $abstract->as_text() );
     $columns = $DEFAULT_WRAP;
     $text =~ s/^\s*//s;
     return ($text);
