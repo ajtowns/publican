@@ -7,30 +7,38 @@
 		<application>Publican</application> is a command-line tool. To use <application>Publican</application> on a computer with a Linux operating system, you must either start a terminal emulator program (such as <application>GNOME Terminal</application> or <application>Konsole</application>) or switch to a virtual console. To use <application>Publican</application> on a computer with a Windows operating system, run the <command>cmd</command> command from the <guimenu>Start menu</guimenu> to open a command prompt.
 	</para>
 	<para>
-		<application>Publican</application> commands take one of the following two formats: 
+		<application>Publican</application> commands take one of the following formats: 
 		<variablelist>
 			<varlistentry>
-				<term><command>publican <replaceable>global_option</replaceable></command></term>
+				<term><command>publican <replaceable>command_option</replaceable></command></term>
 				<listitem>
 					<para>
-						The <replaceable>global_option</replaceable> is any of several options that display basic information about <application>Publican</application> or help for <application>Publican</application> in one of a number of formats.
+						The <replaceable>command_option</replaceable> is any of several options for the <command>publican</command> command itself.
 					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><command>publican <replaceable>action</replaceable> <replaceable>options</replaceable></command></term>
+				<term><command>publican <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
 				<listitem>
 					<para>
-						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document's XML files. The <replaceable>options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
+						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document's XML files. The <replaceable>action_options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><command>publican <replaceable>command_option</replaceable> <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
+				<listitem>
+					<para>
+						Some <replaceable>command_options</replaceable> affect the output of <replaceable>actions</replaceable>, for example, whether <application>Publican</application> should use ANSI colors in its output.
 					</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
 	</para>
-	<section id="sect-Users_Guide-Publican_commands-Global_options">
-		<title>Global options</title>
+	<section id="sect-Users_Guide-Publican_commands-Command_options">
+		<title>Command options</title>
 		<para>
-			The global options for <application>Publican</application> are: 
+			The options for the <command>publican</command> command are: 
 			<variablelist>
 				<varlistentry>
 					<term><option>--help</option></term>
@@ -61,6 +69,30 @@
 					<listitem>
 						<para>
 							This option displays the version number of your <application>Publican</application> installation.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><option>--config <replaceable>file</replaceable></option></term>
+					<listitem>
+						<para>
+							This option allows you to specify a config file for a document, in place of the default <filename>publican.cfg</filename>.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><option>--nocolours</option></term>
+					<listitem>
+						<para>
+							This option disables ANSI colors in <application>Publican</application> logging.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><option>--quiet</option></term>
+					<listitem>
+						<para>
+							This option disables all logging.
 						</para>
 					</listitem>
 				</varlistentry>

@@ -3,8 +3,8 @@
 ]>
 <appendix id="appe-Users_Guide-Command_summary">
 	<title>Command summary</title>
-	<variablelist id="vari-Users_Guide-Command_summary-Global_options">
-		<title>Global options</title>
+	<variablelist id="vari-Users_Guide-Command_summary-Command_options">
+		<title>Command options</title>
 		<varlistentry>
 			<term><command>publican --help</command></term>
 			<listitem>
@@ -37,6 +37,30 @@
 				</para>
 			</listitem>
 		</varlistentry>
+		<varlistentry>
+			<term><option>--config <replaceable>file</replaceable></option></term>
+			<listitem>
+				<para>
+					specifies a config file for a document, in place of the default <filename>publican.cfg</filename>.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--nocolours</option></term>
+			<listitem>
+				<para>
+					disables ANSI colors in <application>Publican</application> logging.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--quiet</option></term>
+			<listitem>
+				<para>
+					disables all logging.
+				</para>
+			</listitem>
+		</varlistentry>
 	</variablelist>
 	<variablelist id="vari-Users_Guide-Command_summary-Actions">
 		<title>Actions</title>
@@ -60,14 +84,6 @@
 						<listitem>
 							<para>
 								comma-separated list of languages to build (mandatory).
-							</para>
-						</listitem>
-					</varlistentry>
-					<varlistentry>
-						<term>--config</term>
-						<listitem>
-							<para>
-								use a configuration file other than the default <filename>publican.cfg</filename> file.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -280,16 +296,6 @@
 						<listitem>
 							<para>
 								pushes a package to the <application>Brew</application> build system (meaningless outside Red Hat).
-							</para>
-						</listitem>
-					</varlistentry>
-				</variablelist>
-				<variablelist>
-					<varlistentry>
-						<term>--config</term>
-						<listitem>
-							<para>
-								use a configuration file other than the default <filename>publican.cfg</filename> file.
 							</para>
 						</listitem>
 					</varlistentry>
