@@ -3,7 +3,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	1.6
+Version:	1.7
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Apr 03 2010 Jeff Fearn <jfearn@redhat.com> 1.7
+- fix using FO template for xhmtl O_O
+
 * Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.6
 - add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
 
