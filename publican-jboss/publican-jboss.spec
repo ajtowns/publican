@@ -2,9 +2,9 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	1.3
-Release:	0%{?dist}
-License:	CC-BY-SA
+Version:		1.3
+Release:		1%{?dist}
+License:		CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Apr 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3-1
+- try building again
+
 * Thu Apr 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3
 - rm reference to Fedora Project
 
