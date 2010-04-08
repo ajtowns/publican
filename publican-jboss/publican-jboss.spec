@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	1.2
+Version:	1.3
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Apr 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3-0
+- rm reference to Fedora Project
+
 * Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.2
 - add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
 
