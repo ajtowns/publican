@@ -39,7 +39,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Thu Apr 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3-0
+* Thu Apr 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3
 - rm reference to Fedora Project
 
 * Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.2
