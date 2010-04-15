@@ -29,31 +29,22 @@
 			<para>
 				Change into the root directory of the document. For example, if the document was named <literal>Test_Book</literal> and was located in the <filename>books/</filename> directory, run the following command:
 			</para>
-			<para>
-				
 <screen><command>cd books/Test_Book</command>
 </screen>
-			</para>
 		</step>
 		<step>
 			<para>
 				Run a test for any errors that would stop the book from building in your chosen language, for example:
 			</para>
-			<para>
-				
 <screen><command>publican build --formats=test --langs=en-US</command>
 </screen>
-			</para>
 		</step>
 		<step>
 			<para>
 				Run the following command to build the book:
-			</para>
-			<para>
-				
+			</para>		
 <screen><command>publican build --formats=<replaceable>formats</replaceable> --langs=<replaceable>languages</replaceable></command>
 </screen>
-			</para>
 			<para>
 				Replace <replaceable>formats</replaceable> with a comma-separated list of the formats that you want to build, for example, <literal>--formats=html,html-single,pdf</literal>. Replace <replaceable>langs</replaceable> with a comma-separated list of the languages that you want to build, for example, <literal>--langs=en-US,sv-SE,uk-UA,ko-KR</literal>.
 			</para>

@@ -91,25 +91,25 @@
 					<step>
 						<para>
 							Create the extras directory 
+						</para>
 <programlisting><command>mkdir <filename>en-US/extras</filename></command>
 </programlisting>
-						</para>
 					</step>
 					<step>
 						<para>
 							Copy the code file to the extras directory 
+						</para>
 <programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
 </programlisting>
-						</para>
 					</step>
 					<step>
 						<para>
 							<sgmltag>xi:include</sgmltag> the sample file in your xml file 
+						</para>
 <programlisting language="XML">&lt;programlisting&gt;
 &lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
 &lt;/programlisting&gt;
 </programlisting>
-						</para>
 					</step>
 					<step>
 						<para>
