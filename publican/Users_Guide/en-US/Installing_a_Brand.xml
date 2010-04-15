@@ -7,8 +7,60 @@
 		<application>Publican</application> brands for Fedora, Genome, and oVirt documents are available as RPM packages in Fedora. Similarly, Red Hat internally distributes RPM packages containing <application>Publican</application> brands for GIMP, JBoss, and Red Hat documents. Providing that you have access to the relevant repositories, you can install these brands on a computer that runs Red Hat Enterprise Linux or Fedora — or an operating system derived from either — with the command <command>yum install publican-<replaceable>brand</replaceable></command> or with a graphical package manager such as <application>PackageKit</application>.
 	</para>
 	<para>
-		If you use <application>Publican</application> on an operating system that does not use RPM packages, your documentation project might provide its brand in another format. Whatever the format in which the brand is supplied, you must place the brand files in a subdirectory of the <application>Publican</application> Common Content directory. By default, this directory is located at <filename>/usr/share/publican/Common_Content</filename> on Linux operating systems and at <filename>%SystemDrive%/%ProgramFiles%/Publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/Publican/Common_Content</filename>
+		If you use <application>Publican</application> on an operating system that does not use RPM packages, your documentation project might provide its brand in another format. Whatever the format in which the brand is supplied, you must install the brand files to a subdirectory of the <application>Publican</application> Common Content directory. By default, this directory is located at <filename>/usr/share/publican/Common_Content</filename> on Linux operating systems and at <filename>%SystemDrive%/%ProgramFiles%/Publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/Publican/Common_Content</filename>
 	</para>
+	<para>
+		To install the brand:
+	</para>
+	<procedure>
+		<step>
+			<para>
+				If the brand was supplied to you in an archive of some kind, for example, a tarball or ZIP file, unpack the brand into a new directory on your system.
+			</para>
+		</step>
+		<step>
+			<para>
+				Change into the directory in which you created or unpacked the brand:
+			</para>
+<screen><command>cd publican-<replaceable>brand</replaceable></command>
+</screen>
+			<para>
+				where <replaceable>brand</replaceable> is the name of the brand.
+			</para>
+		</step>
+		<step>
+			<para>
+				Build the brand:
+			</para>
+<screen><command>publican build --formats xml --langs all --publish</command>
+</screen>
+		</step>
+		<step>
+			<para>
+				Install the brand:
+			</para>
+<screen><command>sudo publican installbrand --path <replaceable>path</replaceable></command>
+</screen>
+			<para>
+				where <replaceable>path</replaceable> is the path to the <application>Publican</application> Common Content files. For example, on a Linux system, run:
+			</para>
+<screen><command>sudo publican installbrand --path /usr/share/publican/Common_Content</command>
+</screen>
+			<para>
+				or on a Windows system, run
+			</para>
+<screen><command>sudo publican installbrand --path "C:/Program Files/Publican/Common_Content"</command>
+</screen>
+		</step>
+		<step>
+			<para>
+			</para>
+		</step>
+		<step>
+			<para>
+			</para>
+		</step>
+	</procedure>
 	<para>
 		Each currently available brand is distributed under a brand-specific license as follows:
 	</para>

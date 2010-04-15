@@ -174,7 +174,7 @@
 					<term>installbrand</term>
 					<listitem>
 						<para>
-							configures a brand for installation. This action is of no use to end users of <application>Publican</application>, but supports the development of different types of installation packages.
+							configures a brand for installation. Refer to <xref linkend="sect-Users_Guide-Installing_a_brand"/> for details of installing a brand.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -203,10 +203,34 @@
 					</listitem>
 				</varlistentry>
 				<varlistentry>
+					<term>print_banned</term>
+					<listitem>
+						<para>
+							prints a list of DocBook tags banned by <application>Publican</application>. Refer to <xref linkend="appe-Users_Guide-Disallowed_elements_and_attributes"/> for a discussion of banned tags.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>print_known</term>
+					<listitem>
+						<para>
+							prints a list of DocBook tags supported by <application>Publican</application>. <firstterm>Supported</firstterm> are those tags whose output has undergone at least cursory verification for quality when used in <application>Publican</application> — refer to <xref linkend="appe-Users_Guide-Disallowed_elements_and_attributes"/>.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
 					<term>printtree</term>
 					<listitem>
 						<para>
 							prints a tree of the XML files included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>print_unused</term>
+					<listitem>
+						<para>
+							prints a list of the XML files <emphasis>not</emphasis> included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.
 						</para>
 					</listitem>
 				</varlistentry>

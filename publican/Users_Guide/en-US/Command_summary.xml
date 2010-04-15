@@ -234,8 +234,18 @@
 			<term><command>publican installbrand</command></term>
 			<listitem>
 				<para>
-					configures a brand for installation (supports the development of different types of installation packages).
+					configures a brand for installation. Option:
 				</para>
+				<variablelist>
+					<varlistentry>
+						<term>--path</term>
+						<listitem>
+							<para>
+								path to the <application>Publican</application> Common Content files. By default, <filename>/usr/share/publican/Common_Content</filename> on Linux operating systems and at <filename>%SystemDrive%/%ProgramFiles%/Publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/Publican/Common_Content</filename>
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -343,10 +353,34 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
+			<term>publican print_banned</term>
+			<listitem>
+				<para>
+					prints a list of DocBook tags banned by <application>Publican</application>.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>publican print_known</term>
+			<listitem>
+				<para>
+					prints a list of DocBook tags supported by <application>Publican</application>.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
 			<term><command>publican printtree</command></term>
 			<listitem>
 				<para>
 					displays a tree of the XML files included in a document.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>publican print_unused</term>
+			<listitem>
+				<para>
+					prints a list of the XML files <emphasis>not</emphasis> included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.
 				</para>
 			</listitem>
 		</varlistentry>
