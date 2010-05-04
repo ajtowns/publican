@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue May 4 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
+- rm another Fedora reference
+
 * Thu Apr 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3-1
 - try building again
 
