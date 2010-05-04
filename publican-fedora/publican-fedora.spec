@@ -2,7 +2,7 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	1.4
+Version:	1.5
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Development/Libraries
@@ -39,7 +39,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4
+* Tue May 04 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.5-0
+- turn article ToCs back on for now
+
+* Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
 - add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
 
 * Fri Nov 20 2009 Rüdiger Landmann <rlandmann@redhat.com> 1.3-0
