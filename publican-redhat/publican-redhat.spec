@@ -3,7 +3,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	1.7
+Version:	1.8
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -40,6 +40,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu May 6 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.8
+- remove reference to OPL licence
+- add max_image_width for BZ#580774
+- add confidential_text for BZ#588980
+
 * Wed Apr 03 2010 Jeff Fearn <jfearn@redhat.com> 1.7
 - fix using FO template for xhmtl O_O
 

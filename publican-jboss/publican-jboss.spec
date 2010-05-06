@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:		1.4
+Version:		1.5
 Release:		0%{?dist}
 License:		CC-BY-SA
 Group:		Applications/Text
@@ -39,6 +39,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu May 6 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.5-0
+- remove reference to OPL licence
+- add max_image_width for BZ#580774
+- add confidential_text for BZ#588980
+- fix links BZ#589371
+
 * Tue May 4 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
 - rm another Fedora reference
 
