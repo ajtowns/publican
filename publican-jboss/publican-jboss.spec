@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:		1.5
+Version:		1.6
 Release:		0%{?dist}
 License:		CC-BY-SA
 Group:		Applications/Text
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu May 6 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.6-0
+- fix scrollbars appearing around title logo in WebKit browsers BZ#589834
+
 * Thu May 6 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.5-0
 - remove reference to OPL licence
 - add max_image_width for BZ#580774
