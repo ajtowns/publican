@@ -315,7 +315,7 @@
 				<term><parameter>ec_id</parameter></term>
 				<listitem>
 					<para>
-						sets the ID for an <application>Eclipse</application> help plugin. Every <application>Eclipse</application> help plugin must have a unique ID, and these generally follow Java package naming conventions — refer to <ulink url="http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html"/>. By default, <application>Publican</application> sets the ID to <replaceable>product</replaceable>.<replaceable>docname</replaceable>, which lacks the top-level domain name prefix that should be part of the ID. The ID that you set here also determines the directory name for this plugin in the <filename>plugin</filename> directory.
+						sets the ID for an <application>Eclipse</application> help plugin. Every <application>Eclipse</application> help plugin must have a unique ID, and these generally follow Java package naming conventions — refer to <ulink url="http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html"/>. By default, <application>Publican</application> sets the ID to <replaceable>org.product</replaceable>.<replaceable>docname</replaceable>. The ID that you set here also determines the directory name for this plugin in the <filename>plugin</filename> directory.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -373,12 +373,7 @@
 					<para>
 						specifies the maximum width allowable for images in the document in pixels. By default, <application>Publican</application> scales down any images wider than 444 pixels so that they fit within this limit. Keeping images no wider than 444 pixels ensures that they present no wider than the right-hand margin of the text in HTML output and that they fit within the pages of PDF output.
 					</para>
-					<important>
-						<title>Important — 444 pixels is the maximum safe width</title>
-						<para>
-							Depending on their position in a document, images wider than 444 pixels might lead to poorly presented HTML and unusable PDF output. Do not use this option if images contain important information.
-						</para>
-					</important>
+					<xi:include href="Image_width.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 				</listitem>
 			</varlistentry>
 			<varlistentry>
