@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
 ]>
 <appendix id="appe-Users_Guide-publican.cfg_parameters">
 	<title>publican.cfg parameters</title>
@@ -144,6 +146,14 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
+			<term><parameter>confidential_text</parameter></term>
+			<listitem>
+				<para>
+					sets the text with which to mark a document as confidential. (Default: <literal>CONFIDENTIAL</literal>).
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
 			<term><parameter>cvs_branch</parameter></term>
 			<listitem>
 				<para>
@@ -195,7 +205,31 @@
 			<term><parameter>dtdver</parameter></term>
 			<listitem>
 				<para>
-					the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. (Default: 4.5)
+					the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. (Default: <literal>4.5</literal>)
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><parameter>ec_id</parameter></term>
+			<listitem>
+				<para>
+					the ID for an <application>Eclipse</application> help plugin (Default: <replaceable>product</replaceable>.<replaceable>docname</replaceable>)
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><parameter>ec_name</parameter></term>
+			<listitem>
+				<para>
+					the name of an <application>Eclipse</application> help plugin (Default: <replaceable>product</replaceable> <replaceable>docname</replaceable>)
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><parameter>ec_provider</parameter></term>
+			<listitem>
+				<para>
+					the provider name for an <application>Eclipse</application> help plugin (Default: <replaceable>Publican</replaceable>-<replaceable>Publican version</replaceable>)
 				</para>
 			</listitem>
 		</varlistentry>
@@ -223,6 +257,21 @@
 				</para>
 			</listitem>
 		</varlistentry>
+		<varlistentry>
+			<term><parameter>max_image_width</parameter></term>
+			<listitem>
+				<para>
+					the maximum width allowable for images in the document. (Default: <literal>444</literal> — 444 pixels wide)
+				</para>
+				<important>
+					<title>Important — 444 pixels is the maximum safe width</title>
+					<para>
+						Depending on their position in a document, images wider than 444 pixels might lead to poorly presented HTML and unusable PDF output. Do not use this option if images contain important information.
+					</para>
+				</important>
+			</listitem>
+		</varlistentry>
+		
 		<varlistentry>
 			<term><parameter>os_ver</parameter></term>
 			<listitem>
