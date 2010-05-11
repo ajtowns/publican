@@ -35,8 +35,8 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
 <!-- This is required to get footnotes to format correctly due to overriding para BZ #565903 -->
-<xsl:include href="http://docbook.sourceforge.net/release/xsl/current/fo/footnote.xsl"/>
-<xsl:include href="defaults.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/footnote.xsl"/>
+<xsl:import href="defaults.xsl"/>
 <xsl:param name="alignment">
 	<xsl:choose>
 		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW' or $l10n.gentext.language = 'ja-JP' or $l10n.gentext.language = 'ko-KR'">
@@ -348,7 +348,7 @@ part nop
 
 <!-- Only hairlines as frame and cell borders in tables -->
 <xsl:param name="table.frame.border.thickness">0.6pt</xsl:param>
-<xsl:param name="table.cell.border.thickness">0.3pt</xsl:param>
+<xsl:param name="table.cell.border.thickness">0.6pt</xsl:param>
 <xsl:param name="table.cell.border.color">black</xsl:param>
 <xsl:param name="table.frame.border.color">black</xsl:param>
 <xsl:param name="table.cell.border.right.color">white</xsl:param>
@@ -1047,16 +1047,19 @@ body, blank, left, chapter
 			  </xsl:choose>
 		  </fo:inline>
       </xsl:when-->
-	  <xsl:when test="$confidential = 1 and (($sequence='odd' and $position='left') or ($sequence='even' and $position='right'))">
-	      <fo:inline keep-together.within-line="always" font-weight="bold">
-			<xsl:text>RED HAT CONFIDENTIAL</xsl:text>
-		  </fo:inline>
+      <xsl:when test="$confidential = 1 and (($sequence='odd' and $position='left') or
+                                             ($sequence='even' and $position='right') or
+                                             ($sequence='blank' and $position='right') or
+                                             ($sequence='first' and $position='left') )">
+        <fo:inline keep-together.within-line="always" font-weight="bold">
+	  <xsl:value-of select="$confidential.text"/>
+	</fo:inline>
       </xsl:when>
 	  <xsl:when test="$sequence = 'blank'">
         <!-- nothing -->
       </xsl:when>
  	  <!-- Extracting 'Chapter' + Chapter Number from the full Chapter title, with a dirty, dirty hack -->
-  		<xsl:when test="($sequence='first' and $position='left' and $gentext-key='chapter')">
+  		<xsl:when test="($sequence='first' and $position='center' and $gentext-key='chapter')">
 		<xsl:variable name="text">
 			<xsl:call-template name="component.title.nomarkup"/>
 		</xsl:variable>
@@ -1301,6 +1304,13 @@ Version:1.72
 </xsl:template>
 
 <xsl:template name="book.titlepage.recto">
+      <xsl:if test="$confidential = 1">
+	<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.style" margin-left="{$title.margin.left}">
+          <fo:inline keep-together.within-line="always">
+	    <xsl:value-of select="$confidential.text"/>
+	  </fo:inline>
+	</fo:block>
+      </xsl:if>
   <xsl:choose>
     <xsl:when test="bookinfo/productname">
 <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.style" text-align="center" font-size="34pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}">
@@ -2630,6 +2640,46 @@ Version:1.72
       </xsl:choose>
     </fo:list-item-body>
   </fo:list-item>
+</xsl:template>
+
+<!-- need ID in term -->
+<xsl:template match="varlistentry/term">
+  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+  <fo:inline id="{$id}">
+    <xsl:call-template name="simple.xlink">
+      <xsl:with-param name="content">
+        <xsl:apply-templates/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </fo:inline>
+  <xsl:choose>
+    <xsl:when test="not(following-sibling::term)"/> <!-- do nothing -->
+    <xsl:otherwise>
+      <!-- * if we have multiple terms in the same varlistentry, generate -->
+      <!-- * a separator (", " by default) and/or an additional line -->
+      <!-- * break after each one except the last -->
+      <fo:inline><xsl:value-of select="$variablelist.term.separator"/></fo:inline>
+      <xsl:if test="not($variablelist.term.break.after = '0')">
+        <fo:block/>
+      </xsl:if>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<!-- don't include indexterms in xrefs -->
+<xsl:template match="varlistentry/term" mode="xref-to">
+  <xsl:param name="verbose" select="1"/>
+  <!-- to avoid the comma that will be generated if there are several terms -->
+  <!-- added mode -->
+  <xsl:apply-templates mode="xref-to"/>
+</xsl:template>
+
+<!-- do nothing -->
+<xsl:template match="indexterm" mode="xref-to">
+</xsl:template>
+
+<!-- do nothing -->
+<xsl:template match="primary|secondary|tertiary" mode="xref-to">
 </xsl:template>
 
 </xsl:stylesheet>

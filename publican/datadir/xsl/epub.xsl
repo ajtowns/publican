@@ -27,4 +27,124 @@ section nop
 part nop
 </xsl:param>
 
+<!-- Why is this spammed everywhere? It's not valid in most locations -->
+<xsl:template name="generate.html.lang">
+  <!--xsl:apply-templates select="." mode="html.lang.attribute"/-->
+</xsl:template>
+
+<!-- Added check for html.stylesheet.print -->
+  <xsl:template name="opf.manifest">
+    <xsl:element namespace="http://www.idpf.org/2007/opf" name="manifest">
+      <xsl:element namespace="http://www.idpf.org/2007/opf" name="item">
+        <xsl:attribute name="id"> <xsl:value-of select="$epub.ncx.toc.id"/> </xsl:attribute>
+        <xsl:attribute name="media-type">application/x-dtbncx+xml</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$epub.ncx.filename"/> </xsl:attribute>
+      </xsl:element>
+
+      <xsl:if test="contains($toc.params, 'toc')">
+        <xsl:element namespace="http://www.idpf.org/2007/opf" name="item">
+          <xsl:attribute name="id"> <xsl:value-of select="$epub.html.toc.id"/> </xsl:attribute>
+          <xsl:attribute name="media-type">application/xhtml+xml</xsl:attribute>
+          <xsl:attribute name="href">
+            <xsl:call-template name="toc-href">
+              <xsl:with-param name="node" select="/*"/>
+            </xsl:call-template>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:if>  
+
+      <xsl:if test="$html.stylesheet != ''">
+        <xsl:element namespace="http://www.idpf.org/2007/opf" name="item">
+          <xsl:attribute name="media-type">text/css</xsl:attribute>
+          <xsl:attribute name="id">css</xsl:attribute>
+          <xsl:attribute name="href"><xsl:value-of select="$html.stylesheet"/></xsl:attribute>
+        </xsl:element>
+      </xsl:if>
+
+      <xsl:if test="$html.stylesheet.print != ''">
+        <xsl:element namespace="http://www.idpf.org/2007/opf" name="item">
+          <xsl:attribute name="media-type">text/css</xsl:attribute>
+          <xsl:attribute name="id">print-css</xsl:attribute>
+          <xsl:attribute name="href"><xsl:value-of select="$html.stylesheet.print"/></xsl:attribute>
+        </xsl:element>
+      </xsl:if>
+
+      <xsl:if test="/*/*[cover or contains(name(.), 'info')]//mediaobject[@role='cover' or ancestor::cover]"> 
+        <xsl:element namespace="http://www.idpf.org/2007/opf" name="item">
+          <xsl:attribute name="id"> <xsl:value-of select="$epub.cover.id"/> </xsl:attribute>
+          <xsl:attribute name="href"> 
+            <xsl:value-of select="$epub.cover.html"/>
+          </xsl:attribute>
+          <xsl:attribute name="media-type">application/xhtml+xml</xsl:attribute>
+        </xsl:element>
+      </xsl:if>  
+
+     <xsl:if test="$epub.embedded.font != ''">
+        <xsl:element namespace="http://www.idpf.org/2007/opf" name="item">
+          <xsl:attribute name="id">epub.embedded.font</xsl:attribute>
+          <xsl:attribute name="href"><xsl:value-of select="$epub.embedded.font"/></xsl:attribute>
+          <xsl:choose>
+            <xsl:when test="contains($epub.embedded.font, 'otf')">
+              <xsl:attribute name="media-type">font/opentype</xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:message>
+                <xsl:text>WARNING: OpenType fonts should be supplied! (</xsl:text>
+                <xsl:value-of select="$epub.embedded.font"/>
+                <xsl:text>)</xsl:text>
+              </xsl:message>
+            </xsl:otherwise>  
+            </xsl:choose>
+        </xsl:element>
+     </xsl:if>
+
+      <!-- TODO: be nice to have a id="titlepage" here -->
+      <xsl:apply-templates select="//part|
+                                   //book[*[last()][self::bookinfo]]|
+                                   //book[bookinfo]|
+                                   /set|
+                                   /set/book|
+                                   //reference|
+                                   //preface|
+                                   //chapter|
+                                   //bibliography|
+                                   //appendix|
+                                   //article|
+                                   //glossary|
+                                   //section|
+                                   //sect1|
+                                   //sect2|
+                                   //sect3|
+                                   //sect4|
+                                   //sect5|
+                                   //refentry|
+                                   //colophon|
+                                   //bibliodiv[title]|
+                                   //index|
+                                   //setindex|
+                                   //graphic|
+                                   //inlinegraphic|
+                                   //mediaobject|
+                                   //mediaobjectco|
+                                   //inlinemediaobject" 
+                           mode="opf.manifest"/>
+      <xsl:call-template name="opf.calloutlist"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="opf.calloutlist">
+    <xsl:variable name="format">
+      <xsl:call-template name="guess-media-type">
+        <xsl:with-param name="ext" select="$callout.graphics.extension"/>
+      </xsl:call-template>
+    </xsl:variable>  
+    <xsl:if test="(//calloutlist|//co)">
+      <xsl:call-template name="opf.reference.callout">
+        <xsl:with-param name="conum" select="1"/>
+        <xsl:with-param name="format" select="$format"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+
 </xsl:stylesheet>

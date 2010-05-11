@@ -249,6 +249,7 @@ my $builder = $class->new(
         'datadir/xsl/html-single.xsl'   => 'datadir/xsl/html-single.xsl',
         'datadir/xsl/pdf.xsl'           => 'datadir/xsl/pdf.xsl',
         'datadir/xsl/epub.xsl'          => 'datadir/xsl/epub.xsl',
+        'datadir/xsl/eclipse.xsl'      => 'datadir/xsl/eclipse.xsl',
     },
     web_files => {
         'web/index.html'        => 'web/index.html',

@@ -19,11 +19,12 @@ $VERSION = 0.1;
 
 # What tags do we translate?
 my $TRANSTAGS
-    = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|jobtitle|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|primary|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondary|secondaryie|see|seealso|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiary|tertiaryie|title|titleabbrev)$/;
+    = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|indexterm|jobtitle|keyword|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondaryie|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiaryie|title|titleabbrev|screen|programlisting|literallayout)$/;
 
-# Blocks to not split from surrounding content
-my $IGNOREBLOCKS = qr/^(?:footnote|indexterm)$/;
+# Blocks that contain translatable tags that need to be kept inline
+my $IGNOREBLOCKS = qr/^(?:footnote|citerefentry)$/;
 
+# Preserve white space in these tags
 my $VERBATIM = qr/^(?:screen|programlisting|literallayout)$/;
 
 =head1 NAME
@@ -102,10 +103,11 @@ sub update_pot {
         $xml_doc->pos( $xml_doc->root() );
 
         my $msg_list = $self->get_msgs( { doc => $xml_doc } );
+##debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
         $self->print_msgs( { msg_list => $msg_list, pot_file => $pot_file } );
 
         # Remove pot files with no content
-        unlink($pot_file) if ( !( stat($pot_file) )[7] );
+        unlink($pot_file) if ( -z $pot_file );
     }
 
     return;
@@ -136,7 +138,7 @@ sub po2xml {
 
     logger(
         "\t"
-            . maketext( "Merging [_1] >> [_2] => [_3]",
+            . maketext( "Merging [_1] >> [_2] -> [_3]",
             $po_file, $xml_file, $out_file )
             . "\n"
     );
@@ -160,23 +162,22 @@ sub po2xml {
         }
     }
 
-##foreach my $key (keys( %{$msgids} )) {
-##debug_msg( "key: $key\n" );
-##debug_msg("is utf8: ". utf8::is_utf8($key) ."\n\n");
-##}
+##debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
 
     $self->merge_msgs( { out_doc => $out_doc, msgids => $msgids } );
 
     $out_doc->pos( $out_doc->root() );
     my $type = $out_doc->attr("_tag");
     my $text = $out_doc->as_XML();
-    $text =~ s/&#10;//g;
-    $text =~ s/&#9;//g;
+
+##    $text =~ s/&#10;//g;
+##    $text =~ s/&#9;//g;
     $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
     $text =~ s/&#38;/&amp;/g;
-    $text =~ s/&#60;/&lt;/g;
-    $text =~ s/&#62;/&gt;/g;
-    $text =~ s/&#34;/"/g;
+##    $text =~ s/&#60;/&lt;/g;
+##    $text =~ s/&#62;/&gt;/g;
+##    $text =~ s/&#34;/"/g;
+##    $text =~ s/&#39;/'/g;
     $out_doc->root()->delete();
 
     my $OUTDOC;
@@ -224,7 +225,7 @@ sub update_po {
 
         unless ( Publican::valid_lang($lang) ) {
             logger(
-                maketext( "WARNING: Skipping invalid langauge: [_1]", $lang )
+                maketext( "WARNING: Skipping invalid language: [_1]", $lang )
                     . "\n" );
             next;
         }
@@ -240,7 +241,7 @@ sub update_po {
             $po_file =~ s/^pot/$lang/;
             logger(
                 "\t"
-                    . maketext( "Processing file [_1] => [_2]",
+                    . maketext( "Processing file [_1] -> [_2]",
                     $pot_file, $po_file )
                     . "\n"
             );
@@ -249,12 +250,12 @@ sub update_po {
             $pot_file =~ m|^(.*)/[^/]+$|;
             my $path = $1;
             mkpath($path) if ( !-d $path );
-            if ( !-f $po_file ) {
+            if ( !-f $po_file || -z $po_file ) {
                 fcopy( $pot_file, $po_file );
             }
             else {
                 if (system(
-                        "msgmerge --quiet --backup=none --update $po_file $pot_file"
+                        "msgmerge --no-wrap --quiet --backup=none --update $po_file $pot_file"
                     ) != 0
                     )
                 {
@@ -325,11 +326,25 @@ sub get_msgs {
 
     my $trans_node;
 
+    # Break strings up in to translatable blocks
+    # some block level tags, $IGNOREBLOCKS, should be treated inline
+    # IF they are inside translatable tags
     foreach my $child (
         $doc->look_down(
             '_tag',
             qr/$TRANSTAGS/,
-            sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
+            sub {
+                not defined(
+                    $_[0]->look_up(
+                        '_tag',
+                        qr/$IGNOREBLOCKS/,
+                        sub {
+                            defined(
+                                $_[0]->look_up( '_tag', qr/$TRANSTAGS/ ) );
+                        }
+                    )
+                );
+            }
         )
         )
     {
@@ -342,20 +357,9 @@ sub get_msgs {
 
         next if ( $child->is_empty );
 
-        if ( my $node = $child->look_down( '_tag', qr/$VERBATIM/ ) ) {
-            my $outer_tag = $child->tag();
-            my $inner_tag = $node->tag();
-            croak(
-                maketext(
-                    "ERROR: Verbatim content can not be embedded in translatable content, found a [_1] in a [_2]!",
-                    $inner_tag,
-                    $outer_tag
-                )
-            );
-        }
-
         $trans_node = XML::Element->new( $child->tag() );
 
+     # Have to be inside a translatable tag here, so don't need to check again
         my @matches = $child->look_down(
             '_tag',
             qr/$TRANSTAGS/,
@@ -392,8 +396,9 @@ sub get_msgs {
                     )
                     )
                 {
-                    $trans_tree->push_content($trans_node);
-                    $trans_node = XML::Element->new( $nested->tag() );
+                    $trans_tree->push_content($trans_node)
+                        if ( !$trans_node->is_empty );
+                    $trans_node = XML::Element->new( $child->tag() );
                     $trans_tree->push_content(
                         $self->get_msgs( { doc => $nested } )->content_list()
                     );
@@ -403,9 +408,11 @@ sub get_msgs {
                 }
             }
 
-            $trans_tree->push_content($trans_node);
+            $trans_tree->push_content($trans_node)
+                if ( !$trans_node->is_empty );
         }
-        $trans_tree->push_content($trans_node);
+        $trans_tree->push_content($trans_node)
+            if ( !$trans_node->is_empty );
         $child->delete();
     }
 
@@ -461,13 +468,12 @@ sub merge_msgs {
         }
         else {
 
+            my $trans_node;
+
             # have to recurse through children
-            my $trans_node = XML::Element->new( $child->tag() );
-
-            # pop off all children to allow consecutive translatable nodes
-            # to be collected in one translation entry
-
-            foreach my $nested ( $child->detach_content() ) {
+            # pop off all children
+            my @content = $child->detach_content();
+            foreach my $nested (@content) {
 
                 # No ref == text node
                 if (ref $nested
@@ -492,13 +498,12 @@ sub merge_msgs {
                     $child->push_content($nested);
                 }
                 else {
-
-              # mixed mode content, like a footnote, will break strings in two
-## TODO look in to joining split strings in to a single translation entry
-                    unless ( $trans_node->tag() ) {
-                        $trans_node = XML::Element->new( $child->tag() );
-                    }
+                    $trans_node = XML::Element->new( $child->tag() );
                     $trans_node->push_content($nested);
+                    $self->translate(
+                        { node => $trans_node, msgids => $msgids } );
+                    $child->push_content( $trans_node->content_list() );
+                    $trans_node->delete();
                 }
             }
         }
@@ -510,10 +515,6 @@ sub merge_msgs {
 =head2 translate
 
 Replace strings with translated strings.
-
-BUGBUG: This gets called twice for mixed mode content,
-        second call fails as it's already translated,
-	    has no effect on output
 
 =cut
 
@@ -535,22 +536,24 @@ sub translate {
     my $msgid = $node->as_XML();
     my $tag   = $node->tag();
 
-##debug_msg("msgid 1: |$msgid| |$tag|\n");
+    #debug_msg("msgid 1: |$msgid| |$tag|\n");
     my $attr_text = '';
 
+##debug_msg("is utf8 msgid: ".utf8::is_utf8($msgid)."\n");
     utf8::encode($msgid);
 
-    $msgid = $self->normalise($msgid);
-
-##debug_msg("msgid 2: |$msgid| |$tag|\n");
+    $msgid = $self->normalise( $msgid, $tag );
     $msgid = po_format( $msgid, $tag );
+    if ( $tag =~ /$VERBATIM/ ) {
+        $msgid =~ s/\\\\n/\\n/g;
+    }
 
-##debug_msg("msgid 3: |$msgid| |$tag|\n");
+    #debug_msg("msgid 3: |$msgid| |$tag|\n");
 
     # If a tag has attributes we need to remove them for comparison as
     # the PO format does not allow this to be stored
 ## BUGBUG document this better
-    if ( $msgid =~ m/^<$tag(\s+[^>]+)>\s*(.*)$/ ) {
+    if ( $msgid =~ m/^<$tag([\t ]+[^>]+)>[\t ]*(.*)$/ ) {
         $attr_text = $1;
         $msgid     = $2;
         $attr_text =~ s/\\//g;
@@ -559,30 +562,37 @@ sub translate {
 ##debug_msg("msgid 4: |$msgid| |$tag|\n");
 
     if (   $msgid
-        && defined $msgids->{ '"' . $msgid . '"' }
-        && ( $msgids->{ '"' . $msgid . '"' }{msgstr} ne '""' ) )
+        && $msgid ne '""'
+        && defined $msgids->{$msgid} )
     {
-        my $msgstr = $msgids->{ '"' . $msgid . '"' }{msgstr};
-        debug_msg("DANGER: found obsolete msg: $msgid\n")
-            if ( $msgstr =~ /^#~/ );
+        if ( $msgids->{$msgid}{msgstr} ne '""' ) {
+            my $msgstr = $msgids->{$msgid}{msgstr};
+            debug_msg("DANGER: found obsolete msg: $msgid\n")
+                if ( $msgstr =~ /^#~/ );
 ##debug_msg("is utf8 msgstr 1: " . utf8::is_utf8($msgstr) . "\n");
-        utf8::decode($msgstr);
+            utf8::decode($msgstr);
 ##debug_msg("is utf8 msgstr 2: " . utf8::is_utf8($msgstr) . "\n");
+##debug_msg("msgstr: |$msgstr|\n");
 
-        my $repl = po_unformat($msgstr);
+            my $repl = po_unformat( $msgstr, $tag );
 
 ##debug_msg("is utf8 repl: ".utf8::is_utf8($repl)."\n");
 ##debug_msg("repl: |$repl|\n");
-        my $dtd = Publican::Builder::dtd_string(
-            { tag => $tag, dtdver => $self->{publican}->param('dtdver') } );
-        my $new_tree = Publican::Builder::new_tree();
-        $new_tree->parse(qq|$dtd<$tag$attr_text>$repl</$tag>|);
-        $node->delete_content();
-        $node->push_content( $new_tree->content_list() );
+            my $dtd
+                = Publican::Builder::dtd_string(
+                { tag => $tag, dtdver => $self->{publican}->param('dtdver') }
+                );
+            my $new_tree = Publican::Builder::new_tree();
+            $new_tree->parse(qq|$dtd<$tag$attr_text>$repl</$tag>|);
+            $node->delete_content();
+            $node->push_content( $new_tree->content_list() );
+        }
+        else {
+##        debug_msg("WARNING: Un-translated message: '$msgid'\n");
+        }
     }
     else {
-
-## debug_msg("msgid '$msgid' not found\n");
+##         debug_msg("WARNING: Missing message: '\n$msgid\n'\n");
     }
     return;
 }
@@ -624,13 +634,25 @@ sub print_msgs {
 
     foreach my $child ( $msg_list->content_list() ) {
         my $msg_id = $child->as_XML();
+##debug_msg("is utf8 msg_id 1: '" . utf8::is_utf8($msg_id) . "'\n");
+##debug_msg("msg_id: $msg_id\n");
 
 ##        my $msg_id = $child->as_text();
-        $msg_id = po_format( $self->normalise($msg_id), $child->tag() );
+        $msg_id = po_format( $self->normalise( $msg_id, $child->tag() ),
+            $child->tag() );
         next unless $msg_id;
-        $msg_id = qq|"$msg_id"|;
-        next if ( defined $msgs{$msg_id} );
+
+##        $msg_id = qq|"$msg_id"|;
+        next
+            if ( $msg_id eq '' || $msg_id eq '""' || defined $msgs{$msg_id} );
+##debug_msg("is utf8 msg_id 2: '" . utf8::is_utf8($msg_id) . "'\n");
+##debug_msg("msg_id: $msg_id\n\n");
         $msgs{$msg_id} = 1;
+        if ( $child->tag() =~ /$VERBATIM/ ) {
+            $msg_id =~ s/\\\\n/\\n"\n"/g;
+        }
+##debug_msg("is utf8 msg_id 3: '" . utf8::is_utf8($msg_id) . "'\n");
+##debug_msg("msg_id: $msg_id\n\n");
         my $tag = $child->tag();
         print $fh <<MSGID
 #. Tag: $tag
@@ -659,8 +681,6 @@ sub header {
     #    my $date = UnixDate( ParseDate("today"), "%Y-%m-%d %H:%M%z" );
     my $date = DateTime->now->iso8601();
 
-    debug_msg("TODO: header: confirm this doesn't break on update\n");
-
     my $string = <<POT;
 # 
 # AUTHOR <EMAIL\@ADDRESS>, YEAR.
@@ -683,7 +703,7 @@ POT
 
 =head2 normalise
 
-Remove extranious white space.
+Remove extraneous white space.
 
 =cut
 
@@ -691,31 +711,39 @@ sub normalise {
     my $self = shift;
     my $norm = shift;
     my $name = shift;
-    $norm =~ s/\n/ /g;     # CR
-    $norm =~ s/^\s*//g;    # space at start of line
-    $norm =~ s/\s*$//g;    # space at end of line
-    $norm =~ s/\s+/ /g;    # colapse spacing
+    if ( $name =~ /$VERBATIM/ ) {
+        $norm =~ s/\n/\\n/g;    # CR
+    }
+    else {
+        $norm =~ s/\n/ /g;        # CR
+        $norm =~ s/^[\t ]*//g;    # space at start of line
+        $norm =~ s/[\t ]*$//g;    # space at end of line
+        $norm =~ s/[\t ]+/ /g;    # colapse spacing
+    }
 
     # Escaped entities :(
 ## TODO dupe code from XmlClean
-    $norm =~ s/&#10;//g;
-    $norm =~ s/&#9;//g;
-    $norm =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
+##    $norm =~ s/&#10;//g;
+##    $norm =~ s/&#9;//g;
+##    $norm =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
     $norm =~ s/&#38;/&amp;/g;
     $norm =~ s/&amp;#x200B;/&#x200B;/g;
-    $norm =~ s/&#x200B; &#x200B;/ /g;
-    $norm =~ s/&#x200B; / /g;
-    $norm =~ s/&#60;/&lt;/g;
-    $norm =~ s/&#62;/&gt;/g;
-    $norm =~ s/&#34;/"/g;
-    $norm =~ s/&#39;/'/g;
+##    $norm =~ s/&#x200B; &#x200B;/ /g;
+##    $norm =~ s/&#x200B; / /g;
+##    $norm =~ s/&#60;/&lt;/g;
+##    $norm =~ s/&#62;/&gt;/g;
+##    $norm =~ s/&#34;/"/g;
+##    $norm =~ s/&#39;/'/g;
+
+##debug_msg("is utf8 norm: '" . utf8::is_utf8($norm) . "'\n");
+##debug_msg("norm: $norm\n\n");
 
     return $norm;
 }
 
 =head2 po_format
 
-Format a stirng for use in a PO file.
+Format a string for use in a PO file.
 
 =cut
 
@@ -723,11 +751,24 @@ sub po_format {
     my $string = shift;
     my $name = shift || '';
 
-    debug_msg("unknown tag for: $string") unless $name;
-    $string =~ s/^<$name>\s*//s;      # remove start tag to reduce polution
-    $string =~ s/\s*<\/$name>$//s;    # remove close tag to reduce polution
-    $string =~ s/\\/\\\\/g;    # \ seen as control sequence by msg* programs
-    $string =~ s/\"/\\"/g;     # " seen as special char by msg* programs
+    debug_msg("unknown tag for: $string") if $name eq '';
+
+    if ( $name =~ /$VERBATIM/ ) {
+        $string =~ s/^<$name>//s;    # remove start tag to reduce polution
+        $string =~ s/<\/$name>(?:\\n|[\t ])*$//s
+            ;                        # remove close tag to reduce polution
+        $string =~ s/\\/\\\\/g;  # \ seen as control sequence by msg* programs
+        $string =~ s/\"/\\"/g;   # " seen as special char by msg* programs
+    }
+    else {
+        $string =~ s/^<$name>[\t ]*//s;  # remove start tag to reduce polution
+        $string
+            =~ s/[\t ]*<\/$name>$//s;    # remove close tag to reduce polution
+        $string =~ s/\\/\\\\/g;  # \ seen as control sequence by msg* programs
+        $string =~ s/\"/\\"/g;   # " seen as special char by msg* programs
+    }
+    $string = qq|"$string"|;
+
     return $string;
 }
 
@@ -739,20 +780,32 @@ Remove PO formatting from a string.
 
 sub po_unformat {
     my $string = shift;
+    my $name = shift || '';
 
-    $string =~ s/^\"//msg;    # strip sol quotes added by msguniq etc
-    $string =~ s/\"$//msg;    # strip sol quotes added by msguniq etc
-    $string =~ s/\n//msg;     # strip eol quotes added by msguniq etc
-    $string
-        =~ s/^\s*//msg; # strip the leading spaces left from the msgid "" line
-    $string =~ s/\\"/\"/msg;    # unescape quotes added by po_format
-    $string =~ s/\\\\/\\/g;     # unescape backslash added by po_format
+    if ( $name =~ /$VERBATIM/ ) {
+        $string =~ s/^\"//msg;    # strip sol quotes added by msguniq etc
+        $string =~ s/\"$//msg;    # strip sol quotes added by msguniq etc
+##debug_msg("string: $string");
+        $string =~ s/\\n/\n/msg;  # strip eol quotes added by msguniq etc
+##debug_msg("string: $string");
+        $string =~ s/\\"/\"/msg;  # unescape quotes added by po_format
+        $string =~ s/\\\\/\\/g;   # unescape backslash added by po_format
+    }
+    else {
+        $string =~ s/^\"//msg;      # strip sol quotes added by msguniq etc
+        $string =~ s/\"$//msg;      # strip sol quotes added by msguniq etc
+        $string =~ s/\n//msg;       # strip eol quotes added by msguniq etc
+        $string =~ s/^[\t ]*//msg
+            ;    # strip the leading spaces left from the msgid "" line
+        $string =~ s/\\"/\"/msg;    # unescape quotes added by po_format
+        $string =~ s/\\\\/\\/g;     # unescape backslash added by po_format
+    }
     return $string;
 }
 
 =head2 po_report
 
-Generate translation statistics for the supplied langauge.
+Generate translation statistics for the supplied language.
 
 =cut
 
@@ -887,11 +940,11 @@ __END__
 
 =item C<< unknown args %s >>
 
-All subs with named parameters will return this error when unexpected anmed arguments are provided.
+All subs with named parameters will return this error when unexpected named arguments are provided.
 
 =item C<< %s is a required argument >>
 
-Any sub with a mandadtory parameter will return this error if the parameter is undef.
+Any sub with a mandatory parameter will return this error if the parameter is undef.
 
 =back
 

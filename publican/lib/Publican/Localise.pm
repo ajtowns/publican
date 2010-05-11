@@ -15,7 +15,7 @@ Publican::Localise - Publican localisation utilities.
 
 =head2 fallback_language_classes
 
-fallback to en for unknow locales
+fallback to en for unknown locales
 
 =cut
 

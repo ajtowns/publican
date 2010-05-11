@@ -26,18 +26,18 @@ my $dir = pushd('Users_Guide');
 
 #is(system('perl -I ../blib/lib ../blib/script/publican old2new'), 0, 'Run old2new');
 
-is( system(qq{perl -I $lib $publican printtree $common_opts}),
+is( system(qq{perl -I $lib $coverdb $publican printtree $common_opts}),
     0, 'Run print_tree' );
 
-is( system( qq{perl -I $lib $publican update_pot $common_opts} ), 0, 'Update POT file' );
+is( system( qq{perl -I $lib $coverdb $publican update_pot $common_opts} ), 0, 'Update POT file' );
 
 # TODO rebuild all translation when we get some
-is( system( qq{perl -I $lib $publican update_po --langs=de-DE $common_opts} ),
+is( system( qq{perl -I $lib $coverdb $publican update_po --langs=de-DE $common_opts} ),
     0, 'Update German PO files' );
 
 # TODO build translation when we get one
 is( system(
-        qq{perl -I $lib $publican build --formats=pdf,html --langs=en-US $common_opts}
+        qq{perl -I $lib $coverdb $publican build --formats=eclipse,epub,html,html-single,html-desktop,pdf,txt --langs=en-US $common_opts}
     ),
     0,
     'build the Users Guide'

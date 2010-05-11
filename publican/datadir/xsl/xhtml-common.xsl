@@ -21,8 +21,8 @@
 <!-- Admonition Graphics -->
 <xsl:param name="admon.graphics" select="1"/>
 <xsl:param name="admon.style" select="''"/>
-<xsl:param name="admon.graphics.path">./Common_Content/images/</xsl:param>
-<xsl:param name="callout.graphics.path">./Common_Content/images/</xsl:param>
+<xsl:param name="admon.graphics.path">Common_Content/images/</xsl:param>
+<xsl:param name="callout.graphics.path">Common_Content/images/</xsl:param>
 
 <xsl:param name="package" select="''"/>
 
@@ -34,9 +34,9 @@
 <xsl:param name="html.longdesc" select="0"/>
 <xsl:param name="html.longdesc.embed" select="1"/>
 
-<xsl:param name="html.stylesheet" select="'./Common_Content/css/default.css'"/>
+<xsl:param name="html.stylesheet" select="'Common_Content/css/default.css'"/>
 <xsl:param name="html.stylesheet.type" select="'text/css'"/>
-<xsl:param name="html.stylesheet.print" select="'./Common_Content/css/print.css'"/>
+<xsl:param name="html.stylesheet.print" select="'Common_Content/css/print.css'"/>
 <xsl:param name="html.cleanup" select="0"/>
 <xsl:param name="html.ext" select="'.html'"/>
 <xsl:output method="xml" indent="yes"/>
@@ -349,7 +349,7 @@ Version: 1.72.0
 -->
 <xsl:template name="body.attributes">
 	<!--xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and ancestor-or-self::*[@status][1]/@status = 'draft'))"-->
-	<xsl:attribute name="class">
+	<xsl:variable name="class">
 		<xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and (ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'))">
 			<xsl:value-of select="ancestor-or-self::*[@status][1]/@status"/><xsl:text> </xsl:text>
 		</xsl:if>
@@ -359,7 +359,12 @@ Version: 1.72.0
        		<xsl:if test="$desktop != 0">
 		  <xsl:text>desktop </xsl:text>
 		</xsl:if>
-	</xsl:attribute>
+	</xsl:variable>
+        <xsl:if test="$class != ''">
+	  <xsl:attribute name="class">
+		<xsl:value-of select="$class"/>
+	  </xsl:attribute>
+	</xsl:if>
 </xsl:template>
 
 <!--
@@ -371,7 +376,7 @@ Version: 1.72.0
 	<xsl:param name="node" select="."/>
 	<xsl:if test="$confidential = '1'">
 		<h1 xmlns="http://www.w3.org/1999/xhtml" class="confidential">
-			<xsl:text>Red Hat Confidential!</xsl:text>
+			<xsl:value-of select="$confidential.text"/>
 		</h1>
 	</xsl:if>
 </xsl:template>
@@ -955,6 +960,8 @@ Version: 1.72.0
   </xsl:choose>
 </xsl:template>
 
+<!-- anchors are bad, mmmk -->
+<!-- but we need to catch formal objects with no ID -->
 <xsl:template name="anchor">
   <xsl:param name="node" select="."/>
   <xsl:param name="conditional" select="1"/>
@@ -963,21 +970,26 @@ Version: 1.72.0
       <xsl:with-param name="object" select="$node"/>
     </xsl:call-template>
   </xsl:variable>
+  <xsl:if test="self::title and substring($id,1,2) = 'id'">
+    <xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
+  </xsl:if>
+</xsl:template>
 
-  <xsl:if test="$conditional = 0 or $node/@id or $node/@xml:id">
-  <!--xsl:message>
-    <xsl:text>Element </xsl:text>
-    <xsl:value-of select="local-name(.)"/>
-    <xsl:text> id '</xsl:text>
-    <xsl:value-of select="$id"/>
-    <xsl:text>' encountered</xsl:text>
-    <xsl:if test="parent::*">
-      <xsl:text> in </xsl:text>
-      <xsl:value-of select="name(parent::*)"/>
-    </xsl:if>
-  </xsl:message-->
+<xsl:template name="common.html.attributes">
+  <xsl:param name="node" select="."/>
+  <xsl:param name="inherit" select="0"/>
+  <xsl:param name="class" select="local-name(.)"/>
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="object" select="$node"/>
+    </xsl:call-template>
+  </xsl:variable>
+  <xsl:apply-templates select="." mode="common.html.attributes">
+    <xsl:with-param name="class" select="$class"/>
+    <xsl:with-param name="inherit" select="$inherit"/>
+  </xsl:apply-templates>
+  <xsl:if test="$node/@id or $node/@xml:id">
 	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
-    <!--a id="{$id}"/-->
   </xsl:if>
 </xsl:template>
 
@@ -997,10 +1009,12 @@ Version: 1.72.0
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-<!-- need id here because some blocks with titles don't have their id's set-->
-  <h1 id="{$id}">
+  <h1>
+    <!-- some blocks with titles don't have their id's set-->
+    <xsl:if test="substring($id,1,2) = 'id'">
+	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
+    </xsl:if>
     <xsl:apply-templates select="." mode="class.attribute"/>
-    <!--a id="{$id}"/-->
     <xsl:choose>
       <xsl:when test="$show.revisionflag != 0 and @revisionflag">
 	<span class="{@revisionflag}">
@@ -2441,6 +2455,28 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
       <xsl:text>)</xsl:text>
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+
+<!-- move call to anchor above separator -->
+<xsl:template match="refentry">
+  <xsl:call-template name="id.warning"/>
+
+  <div>
+    <xsl:call-template name="common.html.attributes">
+      <xsl:with-param name="inherit" select="1"/>
+    </xsl:call-template>
+    <xsl:call-template name="anchor">
+      <xsl:with-param name="conditional" select="0"/>
+    </xsl:call-template>
+    <xsl:if test="$refentry.separator != 0 and preceding-sibling::refentry">
+      <div class="refentry.separator">
+        <hr/>
+      </div>
+    </xsl:if>
+    <xsl:call-template name="refentry.titlepage"/>
+    <xsl:apply-templates/>
+    <xsl:call-template name="process.footnotes"/>
+  </div>
 </xsl:template>
 
 </xsl:stylesheet>

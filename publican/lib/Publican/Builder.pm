@@ -87,9 +87,9 @@ sub new {
 
 Transform the source in to another format.
 
-FORMATS html html-single html-desktop pdf txt
+FORMATS eclipse epub html html-single html-desktop pdf txt
 
-Valid formats: html html-single html-desktop pdf txt
+Valid formats: eclipse epub html html-single html-desktop pdf txt
 
 =cut
 
@@ -182,6 +182,9 @@ sub build {
                     }
                     elsif ( $format eq 'xml' ) {
                         $path = "publish/xml/$lang";
+                    }
+                    elsif ( $format eq 'eclipse' ) {
+                        $path = "publish/eclipse/$lang";
                     }
 
                     mkpath($path);
@@ -590,6 +593,7 @@ sub transform {
     my $brand             = $self->{publican}->param('brand');
     my $toc_section_depth = $self->{publican}->param('toc_section_depth');
     my $confidential      = $self->{publican}->param('confidential');
+    my $confidential_text = $self->{publican}->param('confidential_text');
     my $show_remarks      = $self->{publican}->param('show_remarks');
     my $generate_section_toc_level
         = $self->{publican}->param('generate_section_toc_level');
@@ -600,6 +604,9 @@ sub transform {
     my $xml_lang            = $self->{publican}->param('xml_lang');
     my $classpath           = $self->{publican}->param('classpath');
     my $type                = $self->{publican}->param('type');
+    my $ec_name             = $self->{publican}->param('ec_name');
+    my $ec_id               = $self->{publican}->param('ec_id');
+    my $ec_provider         = $self->{publican}->param('ec_provider');
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'
@@ -639,6 +646,7 @@ sub transform {
     my %xslt_opts = (
         'toc.section.depth'          => $toc_section_depth,
         'confidential'               => $confidential,
+        'confidential.text'          => "'$confidential_text'",
         'profile.lang'               => "'$lang'",
         'l10n.gentext.language'      => "'$lang'",
         'show.comments'              => $show_remarks,
@@ -690,6 +698,12 @@ sub transform {
         $dir = pushd("$tmp_dir/$lang/xml");
     }
     elsif ( $format eq 'epub' ) {
+        $dir = pushd("$tmp_dir/$lang/$format");
+    }
+    elsif ( $format eq 'eclipse' ) {
+        $xslt_opts{'eclipse.plugin.name'}     = "'$ec_name'";
+        $xslt_opts{'eclipse.plugin.id'}       = "'$ec_id'";
+        $xslt_opts{'eclipse.plugin.provider'} = "'$ec_provider'";
         $dir = pushd("$tmp_dir/$lang/$format");
     }
     else {
@@ -812,18 +826,19 @@ sub transform {
 
         $dir = pushd("$tmp_dir/$lang/$format");
 
-        my $zip    = Archive::Zip->new();
+        my $zip = Archive::Zip->new();
+
+        my $mimetype = $zip->addFile("mimetype");
+        $mimetype->desiredCompressionMethod(COMPRESSION_STORED);
+
         my $member = $zip->addDirectory("OEBPS/");
         $member = $zip->addDirectory("META-INF/");
 
-##	$member = $zip->addFile( "$tmp_dir/$lang/$format/mimetype" );
-
-        my @filelist = File::Find::Rule->file->in(".");
+        my @filelist = File::Find::Rule->file->not_name('mimetype')->in(".");
         foreach my $file (@filelist) {
             $member = $zip->addFile($file);
         }
 
-##        my $epub_name = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.epub";
         my $epub_name
             = $self->{publican}->param('product') . '-'
             . $self->{publican}->param('version') . '-'
@@ -1035,13 +1050,13 @@ sub highlight {
 
     my $language = $lang->string_value();
 
-    debug_msg("Highlighting $language\n");
+##debug_msg("Highlighting $language\n");
 
     my $hl = new Syntax::Highlight::Engine::Kate(
         substitutions => {
-            "<" => "&lt;",
-            ">" => "&gt;",
-            "&" => "&amp;",
+            "<"  => "&lt;",
+            ">"  => "&gt;",
+            "&"  => "&amp;",
         },
         format_table => {
             Alert        => [ "<perl_Alert>",        "</perl_Alert>" ],
@@ -1078,11 +1093,18 @@ sub highlight {
     $hl->language($language);
 
     my $parser = XML::LibXML->new();
+
     $parser->expand_entities(0);
     my $out_string = $hl->highlightText( $content->string_value() );
+## TODO since all the tags are inline we should really make these rules apply to all tags
 ## BUGBUG remove nested block tag, insertCallouts nested block tag limitation :(
     $out_string =~ s/<perl_Comment>\n<\/perl_Comment>/\n/mg;
-##    debug_msg("Highlighting: $out_string\n");
+##debug_msg("Highlighting: $out_string\n");
+    $out_string =~ s/\n<\/perl_String>/<\/perl_String>\n/mg;
+    $out_string =~ s/\n<\/perl_Keyword>/<\/perl_Keyword>\n/mg;
+    $out_string
+        =~ s/(<perl_Keyword>\.\.\.)\n/$1<\/perl_Keyword>\n<perl_Keyword>/mg;
+##debug_msg("Highlighting2: $out_string\n");
 
     # this gives an XML::LibXML::DocumentFragment
     my $list = $parser->parse_balanced_chunk($out_string);
@@ -1198,7 +1220,7 @@ sub insertCallouts {
         if ( $line !~ /^$/ ) {
 
             # for first node add close tag
-            # BUGBUG this will break if there are nested block tags
+## BUGBUG this will break if there are nested block tags
             my $node;
             if ( $count == 1 ) {
                 $node = $parser->parse_xml_chunk( $line . "</$tag>" );
@@ -1241,7 +1263,7 @@ sub insertCallouts {
 
         if ( defined( $callout{$count} ) ) {
             chomp($out_string);
-            my $padding = $position - $callout{$count}{'length'};
+            my $padding = $position - ( $callout{$count}{'length'} || 0 );
             $out_string .= " " x $padding;
 
             foreach my $index (
@@ -1267,6 +1289,8 @@ sub insertCallouts {
                         $gfx_node->setAttribute( 'content-height', '10pt' );
                         $gfx_node->setAttribute( 'content-type',
                             'content-type:image/svg+xml' );
+                        $gfx_node->setNamespace(
+                            'http://www.w3.org/1999/XSL/Format', 'fo' );
                     }
                     $out_string .= $gfx_node->toString();
                 }
@@ -1531,7 +1555,7 @@ Create the structure for the distributed files and save it as a tar.gz file
 
 Creates RPM Specfile and build SRPM.
 
-TODO: Consider handling othe package formats, deb etc.
+TODO: Consider handling other package formats, deb etc.
 
 =cut
 
@@ -1648,7 +1672,6 @@ sub package {
     my $common_config = $self->{publican}->param('common_config');
     my $xsl_file      = $common_config . "/xsl/web-spec.xsl";
     $xsl_file = $common_config . "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
-
     $xsl_file =~ s/"//g;    # windows
     my $license       = $self->{publican}->param('license');
     my $brand         = lc( $self->{publican}->param('brand') );
@@ -2117,11 +2140,11 @@ __END__
 
 =item C<< unknown args %s >>
 
-All subs with named parameters will return this error when unexpected anmed arguments are provided.
+All subs with named parameters will return this error when unexpected named arguments are provided.
 
 =item C<< %s is a required argument >>
 
-Any sub with a mandadtory parameter will return this error if the parameter is undef.
+Any sub with a mandatory parameter will return this error if the parameter is undef.
 
 =back
 

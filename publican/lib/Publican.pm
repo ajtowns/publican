@@ -130,7 +130,10 @@ my %PARAMS = (
     confidential => {
         descr   => maketext('Is the content confidential?'),
         default => 0,
-
+    },
+    confidential_text => {
+        descr   => maketext('The text used to indicate content is confidential.'),
+        default => maketext('CONFIDENTIAL'),
     },
     cvs_root => {
         descr => maketext(
@@ -167,6 +170,18 @@ my %PARAMS = (
         descr => maketext('List of desktop packages this package obsoletes.'),
 
     },
+    'ec_id' => {
+        descr =>
+            maketext('Eclipse plugin ID. Defaults to "$product.$docname"'),
+    },
+    'ec_name' => {
+        descr =>
+            maketext('Eclipse plugin name. Defaults to "$product $docname"'),
+    },
+    'ec_provider' => {
+        descr =>
+            maketext('Eclipse plugin provider. Defaults to "Publican-Publican::VERSION"'),
+    },
     edition => {
         descr => maketext(
             'Edition of this package. Fetched from edition tag in xml_lang/TYPE_Info.xml'
@@ -189,6 +204,11 @@ my %PARAMS = (
     license => {
         descr   => maketext('License this package uses.'),
         default => 'GFDL',
+
+    },
+    max_image_width => {
+        descr   => maketext('The maximum pixel width an image can be before it will be scaled.'),
+        default => '444',
 
     },
     os_ver => {
@@ -484,6 +504,13 @@ sub _load_config {
             );
 
         $self->{brand_config} = $brand_cfg;
+
+        $config->param( 'ec_name', "$product $docname" )
+            unless defined $config->param('ec_name');
+        $config->param( 'ec_id', "org.$product.$docname" )
+            unless defined $config->param('ec_id');
+        $config->param( 'ec_provider', "Publican-$Publican::VERSION" )
+            unless defined $config->param('ec_provider');
     }
     $DEBUG = $self->{config}->param('debug') if ( !$DEBUG );
 
@@ -670,7 +697,7 @@ sub param {
 
 =head2 help_config
 
-Display a list of config file parameters and a short desciption of them.
+Display a list of config file parameters and a short description of them.
 
 =cut
 
@@ -693,7 +720,7 @@ sub help_config {
 
 =head2 dir_list
 
-list all the files in a director, and it's subdirectories, matching the suplied regex.
+list all the files in a directory, and its sub-directories, matching the supplied regex.
 
 =cut
 
@@ -787,7 +814,7 @@ sub valid_lang {
 
 =head2 maketext
 
-Get localalised strings
+Get localised strings
 
 =cut
 
@@ -853,11 +880,11 @@ __END__
 
 =item C<< unknown args %s >>
 
-All subs with named parameters will return this error when unexpected anmed arguments are provided.
+All subs with named parameters will return this error when unexpected named arguments are provided.
 
 =item C<< %s is a required argument >>
 
-Any sub with a mandadtory parameter will return this error if the parameter is undef.
+Any sub with a mandatory parameter will return this error if the parameter is undef.
 
 =item C<< Config file not found: %s >>
 

@@ -65,6 +65,9 @@ Valid actions are:
     lang_stats    report PO statistics
     old2new       Create a publican.cfg file from the Makefile of an old book, set, or article
     package       Package a language for shipping
+    print_banned  Print a list of banned DocBook tags
+    print_known   Print a list of QA'd DocBook tags
+    print_unused  Print a list of unused XML files
     printtree     Print a tree of the xi:includes
     remove_book   Remove a book from a WebSite.
     site_stats    Report on the contents of a WebSite
@@ -128,7 +131,7 @@ my %options = (
         maketext('Create package without using version in package name'),
     'path=s'          => maketext('/path/to/install/to'),
     'distributed_set' => maketext(
-        'This flag tells publican the data being processed is a distributed set. Note: do not use on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.'
+        qq|This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.|
     ),
     'cvs' => maketext(
         'Import the SRPM in to CVS, the run make tag and make build.'),
@@ -179,6 +182,18 @@ my %actions = (
     },
     'printtree' => {
         'brief'   => maketext('Print a tree of the xi:includes'),
+        'options' => [],
+    },
+    'print_banned' => {
+        'brief'   => maketext('Print a list of banned DocBook tags'),
+        'options' => [],
+    },
+    'print_known' => {
+        'brief'   => maketext("Print a list of QA'd DocBook tags"),
+        'options' => [],
+    },
+    'print_unused' => {
+        'brief'   => maketext('Print a list of unused XML files'),
         'options' => [],
     },
     'create' => {
@@ -480,6 +495,17 @@ if ( $action eq 'site_stats' ) {
 }
 
 ## NOTE: All targets here MUST have a valid publican.cfg file
+if ( $action eq 'print_known' ) {
+    Publican::XmlClean::print_known_tags();
+    exit(0);
+}
+
+if ( $action eq 'print_banned' ) {
+    Publican::XmlClean::print_banned_tags();
+    exit(0);
+}
+
+my %args = ( 'configfile' => $opts{config} );
 
 my $publican = Publican->new(
     {   'configfile'   => $opts{config},
@@ -518,6 +544,12 @@ if ( $action eq 'help_config' ) {
 if ( $action eq 'printtree' ) {
     my $treeview = Publican::TreeView->new();
     $treeview->print_tree();
+    exit(0);
+}
+
+if ( $action eq 'print_unused' ) {
+    my $treeview = Publican::TreeView->new();
+    $treeview->print_unused();
     exit(0);
 }
 
@@ -786,39 +818,66 @@ __END__
 build
     Transform XML to other formats (pdf, html, html-single, etc)
 
-	Options:
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
         --formats=<FORMATS>       Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub
         --langs=<LANGS>           Comma-separated list of languages, for example: en-US,de-DE,all
         --publish                 Set up built content for publishing
         --embedtoc                Embed the web site TOC object in the generated HTML
-        --distributed_set         This flag tells publican the data being processed is a distributed set. Note: do not use on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.
+        --distributed_set         This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.
 
 
 clean
     Remove all temporary files and directories
 
-	Options:
-		No options
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
 
 
 clean_ids
     Run clean ids for source XML
 
-	Options:
-		No options
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
 
 
 cleanset
     Remove local copies of remote set books
 
-	Options:
-		No options
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
 
 
 create
     Create a new book, set, or article
 
-	Options:
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
         --name=<NAME>             The name of the book, article, set, or brand
         --version=<VERSION>       The version of the product
         --edition=<EDITION>       The edition of the book, article, or set
@@ -831,7 +890,13 @@ create
 create_brand
     Create a new brand
 
-	Options:
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
         --name=<NAME>             The name of the book, article, set, or brand
         --lang=<LANG>             The language the XML will be written in
 
@@ -849,8 +914,13 @@ create_site
 help_config
     Display help text for the configuration file
 
-	Options:
-		No options
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
 
 
 install_book
@@ -864,27 +934,51 @@ install_book
 installbrand
     Install a brand to the supplied location
 
-	Options:
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
         --path=<PATH>             /path/to/install/to
+
 
 lang_stats
     report PO statistics
 
-	Options:
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
         --lang=<LANG>             The language the XML will be written in
 
 
 old2new
     Create a publican.cfg file from the Makefile of an old book, set, or article
 
-	Options:
-		No options
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
 
 
 package
     Package a language for shipping
 
-	Options:
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
         --lang=<LANG>             The language the XML will be written in
         --desktop                 Create desktop instead of web package
         --brew                    Push SRPM to brew
@@ -894,12 +988,52 @@ package
         --wait                    Wait for brew to finish building
         --cvs                     Import the SRPM in to CVS, the run make tag and make build.
 
+print_banned
+    Print a list of banned DocBook tags
+
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+print_known
+    Print a list of QA'd DocBook tags
+
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+print_unused
+    Print a list of unused XML files
+
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
 
 printtree
     Print a tree of the xi:includes
 
-	Options:
-		No options
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
 
 
 remove_book
@@ -920,15 +1054,27 @@ site_stats
 update_po
     Update the PO files
 
-	Options:
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
         --langs=<LANGS>           Comma-separated list of languages, for example: en-US,de-DE,all
 
 
 update_pot
     Update the POT files
 
-	Options:
-		No options
+        Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
 
 
 update_site

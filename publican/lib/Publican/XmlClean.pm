@@ -13,9 +13,13 @@ use Image::Size;
 use Term::ANSIColor qw(:constants);
 use Publican::Builder;
 
-use vars qw( $VERSION );
+## Testing collation
+my $test_collate = undef;
+if ($test_collate) {
+    use Unicode::Collate;
+}
 
-my $MAX_WIDTH = 444;
+use vars qw( $VERSION );
 
 $VERSION = version->new('0.1');
 
@@ -634,12 +638,12 @@ sub print_xml {
         $text =~ s/&#38;([a-zA-Z-_0-9\.-\:]+;)/&$1/g;
         $text =~ s/&#38;/&amp;/g;
 ##        $text =~ s/&amp;#x200B;/&#x200B;/g;
-        $text =~ s/&#x200B; &#x200B;/ /g;
-        $text =~ s/&#x200B; / /g;
-        $text =~ s/&#60;/&lt;/g;
-        $text =~ s/&#62;/&gt;/g;
-        $text =~ s/&#34;/"/g;
-        $text =~ s/&#39;/'/g;
+##        $text =~ s/&#x200B; &#x200B;/ /g;
+##        $text =~ s/&#x200B; / /g;
+##        $text =~ s/&#60;/&lt;/g;
+##        $text =~ s/&#62;/&gt;/g;
+##        $text =~ s/&#34;/"/g;
+##        $text =~ s/&#39;/'/g;
         $xml_doc->root()->delete();
 
         my $OUTDOC;
@@ -649,17 +653,21 @@ sub print_xml {
 
         my $ent_file = undef;
 
-        if ( !$self->{config}->param('clean_id') and $docname ) {
+        # Will be unset when processing common files outside books
+        if ($docname) {
             my $xml_lang = $self->{publican}->param('xml_lang');
             if ( -e "$xml_lang/$docname" . '.ent' ) {
                 $ent_file = "$path$docname.ent";
             }
         }
+
         print( $OUTDOC Publican::Builder::dtd_string(
                 { tag => $type, dtdver => $dtdver, ent_file => $ent_file }
             )
         );
-        print( $OUTDOC qq|$text| );
+
+        #debug_msg("is utf8: " . utf8::is_utf8($text) . "\n");
+        print( $OUTDOC $text );
         close($OUTDOC);
     }
 
@@ -838,8 +846,13 @@ sub my_as_XML {
                                         . "\n"
                                 );
                             }
-                            elsif ( $width > $MAX_WIDTH ) {
-                                $node->attr( 'width', $MAX_WIDTH );
+                            elsif ( $width
+                                > $self->{publican}->param('max_image_width')
+                                )
+                            {
+                                $node->attr( 'width',
+                                    $self->{publican}
+                                        ->param('max_image_width') );
                             }
                         }
                         elsif ( $img_file !~ /Common_Content/ ) {
@@ -894,17 +907,17 @@ sub my_as_XML {
                     if ( $MAP_OUT{$tag}->{'block'} ) {
 
                         # remove empty lines
-                        if ( $xml[$#xml] =~ /^\s*$/s ) {
+                        if ( $xml[$#xml] =~ /^[\t ]*$/s ) {
                             pop(@xml);
-                            if ( $xml[$#xml] =~ /^\s*$/s ) {
+                            if ( $xml[$#xml] =~ /^[\t ]*$/s ) {
                                 pop(@xml);
                             }
                         }
 
                         # remove trailing space
-                        if ( $xml[$#xml] =~ /\s*$/ )    # ||
+                        if ( $xml[$#xml] =~ /[\t ]*$/ )    # ||
                         {
-                            $xml[$#xml] =~ s/\s*$//;
+                            $xml[$#xml] =~ s/[\t ]*$//;
                         }
 
                         if ( $MAP_OUT{$tag}->{'block'} ) {
@@ -950,10 +963,10 @@ sub my_as_XML {
 
                   # Don't out put empty tags
                   # BZ #453067 but spaces between inline tags should be output
-                    if ( $node !~ /^\s*$/ || $node !~ /\n/ ) {
+                    if ( $node !~ /^[\t ]*$/ || $node !~ /\n/ ) {
 
                         # Truncate leading space
-                        $node =~ s/[\n\r\f\t\s ]+/ /g;
+                        $node =~ s/[\n\r\f\t ]+/ /g;
 
                         if ( $MAP_OUT{ $parent->{'_tag'} }->{'block'} ) {
 
@@ -962,6 +975,7 @@ sub my_as_XML {
                                 $node =~ s/^ //g;
                             }
                         }
+
                         $tree->_xml_escape($node);
 
                         # zero width space to allow Chinese to wrap
@@ -988,9 +1002,9 @@ sub my_as_XML {
 
 =head2 validate_tables
 
-Ensure Tables comply to requirements not enforcable in XML validation.
+Ensure Tables comply to requirements not enforceable in XML validation.
 
-1. tgropy attribute cols must match the number of entrys in every row.
+1. tgroup attribute cols must match the number of entries in every row.
 
 =cut
 
@@ -1041,6 +1055,40 @@ sub validate_tables {
     return;
 }
 
+=head2 sort_glossaries
+
+Sort glosslists
+
+=cut
+
+sub sort_glossaries {
+    my ( $self, $xml_doc ) = @_;
+
+    return unless ($test_collate);
+
+    my $Collator = Unicode::Collate->new();
+
+    if ($xml_doc) {
+        foreach
+            my $glosslist ( $xml_doc->root->look_down( "_tag", "glosslist" ) )
+        {
+            my @glossentries = sort( {
+                    $Collator->cmp(
+                        $a->look_down( "_tag", "glossterm" )->as_text(),
+                        $b->look_down( "_tag", "glossterm" )->as_text()
+                    )
+            } $glosslist->look_down( "_tag", "glossentry" ) );
+
+            foreach my $glossentry (@glossentries) {
+                $glossentry->detach();
+                $glosslist->push_content($glossentry);
+            }
+        }
+    }
+
+    return;
+}
+
 =head2 process_file
 
 Create XML::TreeBuilder object and perform operations.
@@ -1063,7 +1111,9 @@ sub process_file {
         );
     }
 
-    logger( "\t" . maketext( "Processing file [_1]", $file ) . "\n" );
+    logger(   "\t"
+            . maketext( "Processing file [_1] -> [_2]", $file, $out_file )
+            . "\n" );
 
     my $clean_id        = $self->{config}->param('clean_id');
     my $update_includes = $self->{config}->param('update_includes');
@@ -1072,11 +1122,14 @@ sub process_file {
     my $xml_doc = XML::TreeBuilder->new(
         { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
+##debug_msg("here 1");
 
     $xml_doc->parse_file($file)
         || croak( maketext( "Can't open file '[_1]' [_2]", $file, $@ ) );
+##debug_msg("here 2");
 
     $self->validate_tables($xml_doc);
+    $self->sort_glossaries($xml_doc);
 
     if ($update_includes) {
         $self->update_include($xml_doc);
@@ -1180,11 +1233,11 @@ sub process_file {
 
 =item C<< unknown args %s >>
 
-All subs with named parameters will return this error when unexpected anmed arguments are provided.
+All subs with named parameters will return this error when unexpected named arguments are provided.
 
 =item C<< %s is a required argument >>
 
-Any sub with a mandadtory parameter will return this error if the parameter is undef.
+Any sub with a mandatory parameter will return this error if the parameter is undef.
 
 =item C<< Could not open %s for output! >>
 
@@ -1192,7 +1245,7 @@ The named file could not be opened.
 
 =item C<< Can't calculate image size of %s >>
 
-Images are automaticalled scaled if thy are to wide, this check could not be
+Images are automatically scaled if thy are to wide, this check could not be
 performed due to either access permissions or file weirdness.
 
 =back

@@ -33,6 +33,7 @@ Copied from fo/params.xsl
 
 <xsl:param name="show.comments">0</xsl:param>
 <xsl:param name="confidential" select="0"/>
+<xsl:param name="confidential.text">CONFIDENTIAL</xsl:param>
 
 <!-- This sets the filename based on the ID.								-->
 <xsl:param name="use.id.as.filename" select="'1'"/>

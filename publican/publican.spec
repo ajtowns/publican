@@ -64,7 +64,7 @@ BuildRequires:  perl(XML::LibXSLT) >=  1.67
 BuildRequires:  perl(XML::TreeBuilder) >= 3.09-15
 BuildRequires:  fop >= 0.90
 BuildRequires:  batik
-BuildRequires:  docbook-style-xsl >= 1.75.1
+BuildRequires:  docbook-style-xsl >= 1.75.2-6
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 
@@ -73,7 +73,7 @@ Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versi
 Requires:       perl(Locale::Maketext::Gettext)
 Requires:       fop >= 0.90
 Requires:       batik rpm-build
-Requires:       docbook-style-xsl >= 1.75.1
+Requires:       docbook-style-xsl >= 1.75.2-6
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 3.09-15
@@ -232,6 +232,33 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Apr 01 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
+
+* Tue Apr 06 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
+- Disable verbatim hyphenation. BZ #577068
+- Fix anchors breaking HTML. BZ #579069
+- Fix common options not in help text.
+- Fix formatting of abstract in spec. BZ #579928
+- Translate verbatim tags. BZ #580360
+- Add print_unused option. BZ #580799
+- Overwrite zero length PO files. BZ #581397
+- Fix citerefentry breaking translation. BZ #581773
+- Fix reference bug in html-single.
+- Added print_known and print_banned actions.
+- Fix typo in POD. Raphaël Hertzog <hertzog@debian.org>
+- Fix indexterm translation. BZ #582255
+- Fix non-breaking space being treated like normal white space. BZ #582649
+- Fix webkit & pdf table borders. BZ #585115
+- Make indexterm translatable. BZ #582680
+- Make keyword translatable. BZ #583224
+- Add Eclipse help target. BZ #587489
+- Convert MAX_WIDTH to a parameter max_image_width. BZ #580774
+- Add confidential text to title, first, and blank pages in PDF. BZ #588980
+- Add confidential_text parameter. BZ #588980
+- Fix article list formatting in HTML. BZ #588999
+- Fix epub validation issues. BZ #589333
+- Fix xref to term with indexterm BOOM. BZ #580751
+- Fix keyword highlight breaking callouts. BZ #590933
+- Fix right icon misaligned. BZ #590964
 
 * Thu Apr 01 2010 Jeff Fearn <jfearn@redhat.com> 1.6.2-0
 - Fix hyphenate.verbatim running out of depth. BZ #577095

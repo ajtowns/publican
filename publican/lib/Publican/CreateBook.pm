@@ -399,7 +399,7 @@ EOL
 
 =item C<< unknown args %s >>
 
-All subs with named parameters will return this error when unexpected anmed arguments are provided.
+All subs with named parameters will return this error when unexpected named arguments are provided.
 
 =item C<< %s is a required argument >>
 
