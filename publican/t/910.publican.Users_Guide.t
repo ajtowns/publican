@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 use File::pushd;
 use Cwd qw(abs_path);
 
@@ -35,9 +35,16 @@ is( system( qq{perl -I $lib $coverdb $publican update_pot $common_opts} ), 0, 'U
 is( system( qq{perl -I $lib $coverdb $publican update_po --langs=de-DE $common_opts} ),
     0, 'Update German PO files' );
 
-# TODO build translation when we get one
 is( system(
         qq{perl -I $lib $coverdb $publican build --formats=eclipse,epub,html,html-single,html-desktop,pdf,txt --langs=en-US $common_opts}
+    ),
+    0,
+    'build the Users Guide'
+);
+
+# TODO build translation when we get one
+is( system(
+        qq{perl -I $lib $coverdb $publican build --formats=html --langs=de-DE $common_opts}
     ),
     0,
     'build the Users Guide'

@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
 ]>
 <section id="sect-Users_Guide-Preparing_a_document_for_translation">
 	<title>Preparing a document for translation</title>
@@ -7,8 +9,8 @@
 		Support for localization of documents was a key consideration in the design of <application>Publican</application>. The general translation workflow for documents developed in <application>Publican</application> is as follows:
 	</para>
 	<procedure>
-		<step>
-			<para>
+		<step id="step1">
+			<para id="para1">
 				Complete the XML of a document.
 			</para>
 			<para>
@@ -20,10 +22,10 @@
 				Generate <firstterm>portable object template</firstterm> (POT) files from the XML files:
 			</para>
 			
-<screen>$ <command>publican update_pot</command>
+<screen id="test">$ <command>publican update_pot</command>
 </screen>
 			<para>
-				If this is the first time that POT files have been created for this document, <application>Publican</application> creates a new subdirectory, named <filename>pot</filename>. The <filename>pot</filename> subdirectory holds a POT file for each XML file in the document. If <application>Publican</application> has created POT files for this document previously, <application>Publican</application> updates the existing POT files to reflect any changes in the XML since the POT files were last updated.
+				If this is the first time that POT files have been created for this document, <application>Publican</application> creates a new subdirectory, named <filename id="stupid">pot</filename>. The <filename>pot</filename> subdirectory holds a POT file for each XML file in the document. If <application>Publican</application> has created POT files for this document previously, <application>Publican</application> updates the existing POT files to reflect any changes in the XML since the POT files were last updated.
 			</para>
 			<important>
 				<title>Remove unused XML files</title>

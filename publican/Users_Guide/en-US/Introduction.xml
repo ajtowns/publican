@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
 ]>
 <preface id="pref-Users_Guide-Introduction">
 	<title>Introduction</title>
-	<para>
+	<para><indexterm><primary>Introduction</primary></indexterm>
 		<application>Publican</application> is a tool for publishing material authored in DocBook XML. This guide explains how to create and build books and articles using <application>Publican</application>. It is not a general DocBook XML tutorial; refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner, available at <ulink url="http://www.docbook.org/tdg/en/html/docbook.html" /> for more general help with DocBook XML.
 	</para>
 	<para>
@@ -27,7 +29,7 @@
 	<para>
 		Entities also present an essentially insurmountable obstacle to quality translation (refer to <xref linkend="sect-Users_Guide-Entities_and_translation" />). Consequently, while we are not reducing the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file's functionality, we are no longer considering requests to add functionality or features associated with entity use.
 	</para>
-	<!--   para>
+	<!--    para>
 <equation>
 <title>My MathML example</title>
 <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
@@ -39,6 +41,6 @@
   </mml:mrow>
 </mml:math>
 </equation>
-      </para   -->
+      </para    -->
 </preface>
 

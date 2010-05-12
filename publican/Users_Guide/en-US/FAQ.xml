@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
 ]>
 <chapter id="chap-Users_Guide-Frequently_Asked_Questions">
 	<title>Frequently Asked Questions</title>
@@ -90,22 +92,25 @@
 					<title>Including code samples</title>
 					<step>
 						<para>
-							Create the extras directory 
+							Create the extras directory
 						</para>
-<programlisting><command>mkdir <filename>en-US/extras</filename></command>
-</programlisting>
+						
+<screen><command>mkdir <filename>en-US/extras</filename></command>
+</screen>
 					</step>
 					<step>
 						<para>
-							Copy the code file to the extras directory 
+							Copy the code file to the extras directory
 						</para>
-<programlisting><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
-</programlisting>
+						
+<screen><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
+</screen>
 					</step>
 					<step>
 						<para>
-							<sgmltag>xi:include</sgmltag> the sample file in your xml file 
+							<sgmltag>xi:include</sgmltag> the sample file in your xml file
 						</para>
+						
 <programlisting language="XML">&lt;programlisting&gt;
 &lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
 &lt;/programlisting&gt;

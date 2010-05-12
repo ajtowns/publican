@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
 ]>
 <chapter id="chap-Users_Guide-Creating_a_document">
 	<title>Creating a document</title>
@@ -88,20 +90,21 @@
 	</variablelist>
 	<para>
 		Before running the <command>publican create</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named <literal>Test_Book</literal> in the <filename>my_books/</filename> directory, run the following commands:
-	</para>	
-<screen><command>cd my_books/</command>
-</screen>	
-
-<screen><command>publican create --name Test_Book</command>
+	</para>
+	
+<screen><command>cd my_books/</command> 
+<command>publican create --name Test_Book</command>
 </screen>
 	<para>
 		To see the results of this command on a computer with a Linux operating system, run the following:
 	</para>
+	
 <screen><command>ls</command>
 </screen>
 	<para>
 		The output should be similar to the following:
 	</para>
+	
 <screen><computeroutput>en-US publican.cfg</computeroutput>
 </screen>
 	<xi:include href="Files_in_the_Book_Directory.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />

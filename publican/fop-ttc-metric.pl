@@ -62,8 +62,12 @@ my %ttclist = (
     },
 );
 
+my $log_jar = '/usr/share/java/commons-logging.jar';
+
+$log_jar = '/usr/share/java/commons-logging-1.1.1.jar' if(-f '/usr/share/java/commons-logging-1.1.1.jar') ;
+
 my $ttfcommand
-    = 'java -cp /usr/share/java/fop.jar:/usr/share/java/avalon-framework.jar:/usr/share/java/commons-logging.jar:/usr/share/java/commons-io.jar:/usr/share/java/xmlgraphics-commons.jar org.apache.fop.fonts.apps.TTFReader';
+    = qq|java -cp /usr/share/java/fop.jar:/usr/share/java/avalon-framework.jar:$log_jar:/usr/share/java/commons-io.jar:/usr/share/java/xmlgraphics-commons.jar org.apache.fop.fonts.apps.TTFReader|;
 
 open( my $conf, '>', $conf_file )
     || croak("Can't open fop.xconf for output!: $!");

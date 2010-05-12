@@ -487,7 +487,7 @@ sub merge_msgs {
                     )
                     )
                 {
-                    if ( !$trans_node->is_empty ) {
+                    if ( $trans_node && !$trans_node->is_empty ) {
                         $self->translate(
                             { node => $trans_node, msgids => $msgids } );
                         $child->push_content( $trans_node->content_list() );

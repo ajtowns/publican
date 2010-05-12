@@ -233,7 +233,10 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Apr 01 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
 
-* Tue Apr 06 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
+* Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-1
+- Fix different log jar path on F14+
+
+* Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068
 - Fix anchors breaking HTML. BZ #579069
 - Fix common options not in help text.
@@ -964,6 +967,5 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
-
 
 
