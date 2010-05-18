@@ -22,7 +22,7 @@ my $TRANSTAGS
     = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|indexterm|jobtitle|keyword|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondaryie|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiaryie|title|titleabbrev|screen|programlisting|literallayout)$/;
 
 # Blocks that contain translatable tags that need to be kept inline
-my $IGNOREBLOCKS = qr/^(?:footnote|citerefentry)$/;
+my $IGNOREBLOCKS = qr/^(?:footnote|citerefentry|indexterm)$/;
 
 # Preserve white space in these tags
 my $VERBATIM = qr/^(?:screen|programlisting|literallayout)$/;
@@ -328,21 +328,19 @@ sub get_msgs {
 
     # Break strings up in to translatable blocks
     # some block level tags, $IGNOREBLOCKS, should be treated inline
-    # IF they are inside translatable tags
+    # indexterm is special as it's both translatable and ignorable >_<
     foreach my $child (
         $doc->look_down(
             '_tag',
             qr/$TRANSTAGS/,
             sub {
-                not defined(
+                my $inner = $_[0];
+                 not defined(
                     $_[0]->look_up(
                         '_tag',
                         qr/$IGNOREBLOCKS/,
-                        sub {
-                            defined(
-                                $_[0]->look_up( '_tag', qr/$TRANSTAGS/ ) );
-                        }
-                    )
+						sub { $_[0]->tag() =~ /$TRANSTAGS/ && $inner->parent() && $inner->parent()->tag() =~ /$TRANSTAGS/ },
+                     )
                 );
             }
         )

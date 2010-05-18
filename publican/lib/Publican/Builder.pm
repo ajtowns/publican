@@ -345,6 +345,11 @@ sub setup_xml {
             # copy common files
             my $common_content = $self->{publican}->param('common_content');
             my $brand          = $self->{publican}->param('brand');
+
+            if ( $common_content =~ m/\"/ & $common_content !~ m/\s/ ) {
+                $common_content =~ s/\"//g;
+            }
+
             File::Copy::Recursive::rcopy_glob(
                 $common_content . "/common/en-US/*",
                 "$tmp_dir/$lang/xml/Common_Content"
@@ -549,6 +554,9 @@ sub validate_xml {
             $dtd_path =~ s/ /%20/g;
             $dtd_path =~ s/\\/\//g;
         }
+        else {
+            $dtd_path = 'file:///D:/Data/temp/Redhat/DTD/docbookx.dtd';
+        }
     }
     my $dtd = XML::LibXML::Dtd->new( $dtd_type, $dtd_path );
 
@@ -748,18 +756,19 @@ sub transform {
         my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
             { Delimiter => "\\" } );
 
+        my $new_href = 'file:///D:/Data/temp/Redhat/docbook-xsl-1.75.2';
         if ( $key and $key->GetValue("xsl_path") ) {
-            my $new_href = 'file:///' . $key->GetValue("xsl_path");
+            $new_href = 'file:///' . $key->GetValue("xsl_path");
             $new_href =~ s/ /%20/g;
             $new_href =~ s/\\/\//g;
+        }
 
-            my @nodelist = $style_doc->getElementsByTagName('xsl:import');
-            foreach my $node (@nodelist) {
-                my $href = $node->getAttribute('href');
-                debug_msg("changing $defualt_href to $new_href\n");
-                $href =~ s|$defualt_href|$new_href|;
-                $node->setAttribute( 'href', $href );
-            }
+        my @nodelist = $style_doc->getElementsByTagName('xsl:import');
+        foreach my $node (@nodelist) {
+            my $href = $node->getAttribute('href');
+            debug_msg("changing $defualt_href to $new_href\n");
+            $href =~ s|$defualt_href|$new_href|;
+            $node->setAttribute( 'href', $href );
         }
     }
 
@@ -1054,9 +1063,9 @@ sub highlight {
 
     my $hl = new Syntax::Highlight::Engine::Kate(
         substitutions => {
-            "<"  => "&lt;",
-            ">"  => "&gt;",
-            "&"  => "&amp;",
+            "<" => "&lt;",
+            ">" => "&gt;",
+            "&" => "&amp;",
         },
         format_table => {
             Alert        => [ "<perl_Alert>",        "</perl_Alert>" ],
@@ -1169,7 +1178,7 @@ sub insertCallouts {
                 if ( $child->nodeName() eq 'area' ) {
                     my $col = $child->getAttribute('coords')
                         || carp(
-                        maketext("'area' require a 'coords' attribute.") );
+                        maketext("'area' requires a 'coords' attribute.") );
                     push( @{ $callout{$col}{lines} }, $index );
                 }
             }
@@ -1177,7 +1186,7 @@ sub insertCallouts {
         elsif ( $node->nodeName() eq 'area' ) {
             $index++;
             my $col = $node->getAttribute('coords')
-                || carp( maketext("'area' require a 'coords' attribute.") );
+                || carp( maketext("'area' requires a 'coords' attribute.") );
             push( @{ $callout{$col}{lines} }, $index );
         }
     }
@@ -2069,6 +2078,8 @@ sub dtd_string {
 
         my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
             { Delimiter => "\\" } );
+
+        $uri = 'file:///D:/Data/temp/Redhat/DTD/docbookx.dtd';
 
         if ( $key and $key->GetValue("dtd_path") ) {
             $uri = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';

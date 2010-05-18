@@ -711,6 +711,10 @@ sub help_config {
                 . maketext( "Default: [_1]", $PARAMS{$param}->{default} )
                 . "\n" )
             if ( defined( $PARAMS{$param}->{default} ) );
+        logger(   "\t\t"
+                . maketext( "Constraint: [_1]", $PARAMS{$param}->{constraint} )
+                . "\n" )
+            if ( defined( $PARAMS{$param}->{constraint} ) );
 
         logger("\n");
     }

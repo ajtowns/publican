@@ -12,6 +12,8 @@
 
 %define wwwdir %{_localstatedir}/www/html/docs
 
+%define TESTS 0
+
 Name:           publican
 Version:        1.99
 Release:        0%{?dist}.t21
@@ -176,8 +178,9 @@ sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 %check
+%if %{TESTS}
 ./Build test
-
+%endif
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -230,11 +233,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/publican-website.cfg
 
 %changelog
-* Thu Apr 01 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
+* Tue May 18 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
 
-* Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-1
+* Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.4-0
 - Fix different log jar path on F14+
+- Add constraint to help_config output.
+- Fix segfault when indexterm has no leading content. BZ #592666
+- Fix inline indexterm. BZ #592823
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068
