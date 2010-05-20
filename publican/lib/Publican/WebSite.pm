@@ -545,7 +545,7 @@ SEARCH
             my @books = ();
 
             foreach
-                my $book ( sort( keys( %{ $list2->{$product}{$version} } ) ) )
+                my $book ( sort( { $a <=> $b } keys( %{ $list2->{$product}{$version} } ) ) )
             {
                 my %book_data;
                 my @types = ();

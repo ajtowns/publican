@@ -12,11 +12,11 @@
 
 %define wwwdir %{_localstatedir}/www/html/docs
 
-%define TESTS 0
+%define TESTS 1
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t28
+Release:        0%{?dist}.t29
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
