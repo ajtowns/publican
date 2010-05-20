@@ -191,6 +191,9 @@ CREATE TABLE IF NOT EXISTS $DB_NAME (
 	version text(255) NOT NULL,
 	name text(255) NOT NULL,
 	format text(31) NOT NULL,
+	product_label text(255),
+	version_label text(255),
+	name_label text(255),
 	UNIQUE(language, product, version, name, format)
 )
 CREATE_TABLE
@@ -288,6 +291,9 @@ sub add_entry {
     my $version  = delete $arg->{version}  || croak "version required";
     my $name     = delete $arg->{name}     || croak "name required";
     my $format   = delete $arg->{format}   || croak "format required";
+    my $product_label  = delete $arg->{product_label};
+    my $version_label  = delete $arg->{version_label};
+    my $name_label     = delete $arg->{name_label};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -297,12 +303,11 @@ sub add_entry {
 
     my $sql = <<INSERT_ENTRY;
         INSERT INTO $DB_NAME 
-               (language, product, version, name, format) 
-               VALUES (?, ?, ?, ?, ?)
+               (language, product, version, name, format, product_label, version_label, name_label) 
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 INSERT_ENTRY
 
-    return $self->_dbh->do( $sql, undef, $language, $product, $version, $name,
-        $format );
+    return $self->_dbh->do( $sql, undef, $language, $product, $version, $name, $format, $product_label, $version_label, $name_label );
 }
 
 sub del_entry {
@@ -333,33 +338,6 @@ DELETE_ENTRY
         $format );
 }
 
-# return an array of records
-sub get_list {
-    my ( $self, $arg ) = @_;
-
-    my $language = delete $arg->{language} || croak "language required";
-
-    if ( %{$arg} ) {
-        croak "unknown args: " . join( ", ", keys %{$arg} );
-    }
-
-    my $sql = <<GET_LIST;
-        SELECT id, 
-               product, 
-               version, 
-               name, 
-               format 
-          FROM $DB_NAME 
-         WHERE language = ? 
-      ORDER BY product, 
-               version DESC, 
-               name, 
-               format
-GET_LIST
-
-    return $self->_dbh->selectall_arrayref( $sql, undef, $language );
-}
-
 # return a hash of records
 sub get_hash_ref {
     my ( $self, $arg ) = @_;
@@ -376,7 +354,10 @@ sub get_hash_ref {
                product, 
                version, 
                name, 
-               format 
+               format,
+               product_label, 
+               version_label, 
+               name_label
           FROM $DB_NAME 
          WHERE language = ? 
       ORDER BY product, 
@@ -390,10 +371,13 @@ GET_LIST
 
     my %list;
 
-    while ( my ( $id, $product, $version, $name, $format )
+    while ( my ( $id, $product, $version, $name, $format, $product_label, $version_label, $name_label )
         = $sth->fetchrow() )
     {
-        $list{$product}{$version}{$name}{$format} = 1;
+        $list{$product}{$version}{$name}{'formats'}{$format} = 1;
+        $list{$product}{$version}{$name}{product_label} = $product_label;
+        $list{$product}{$version}{$name}{version_label} = $version_label;
+        $list{$product}{$version}{$name}{name_label} = $name_label;
     }
 
     $sth->finish();
@@ -535,24 +519,31 @@ SEARCH
 
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
 ##        print("product: $product\n");
+        my $product_label = $product;
         my %prod_data;
         my @versions = ();
 
         foreach
             my $version ( reverse( sort( keys( %{ $list2->{$product} } ) ) ) )
         {
+            my $version_label = $version;
             my %ver_data;
             my @books = ();
 
             foreach
-                my $book ( sort( { $a <=> $b } keys( %{ $list2->{$product}{$version} } ) ) )
+                my $book ( sort( { $a cmp $b } keys( %{ $list2->{$product}{$version} } ) ) )
             {
+                my $book_label = $book;
                 my %book_data;
                 my @types = ();
 
                 foreach my $type (
-                    sort keys %{ $list2->{$product}{$version}{$book} } )
+                    sort keys %{ $list2->{$product}{$version}{$book}{'formats'} } )
                 {
+                    $book_label = $list2->{$product}{$version}{$book}{name_label} if( $list2->{$product}{$version}{$book}{name_label} and $list2->{$product}{$version}{$book}{name_label} != $book);
+                    $version_label = $list2->{$product}{$version}{$book}{version_label} if( $list2->{$product}{$version}{$book}{version_label} and $list2->{$product}{$version}{$book}{version_label} != $version);
+                    $product_label = $list2->{$product}{$version}{$book}{product_label} if( $list2->{$product}{$version}{$book}{product_label} and $list2->{$product}{$version}{$book}{product_label} != $product);
+
                     my %type_data;
                     $type_data{'type'}  = $type;
                     $type_data{prep}    = './';
@@ -584,19 +575,20 @@ SEARCH
                 }
 
                 $book_data{'book'}       = $book;
-                $book_data{'book_clean'} = $book;
+                $book_data{'book_clean'} = $book_label;
                 $book_data{'book_clean'} =~ s/_/ /g;
                 $book_data{'types'} = \@types;
                 push( @books, \%book_data );
             }
 
             $ver_data{'version'} = $version;
+            $ver_data{'version_label'} = $version_label;
             $ver_data{'books'}   = \@books;
             push( @versions, \%ver_data );
         }
 
         $prod_data{'product'}       = $product;
-        $prod_data{'product_clean'} = $product;
+        $prod_data{'product_clean'} = $product_label;
         $prod_data{'product_clean'} =~ s/_/ /g;
         $prod_data{'versions'} = \@versions;
         push( @products, \%prod_data );
@@ -824,10 +816,6 @@ Returns number of rows added. Should be 1 for success, 0 for failure.
 Delete an entry from the current Publican::WebSite DB...
 
 Returns number of rows deleted. Should be 1 for success, 0 for failure.
-
-=head2  get_list
-
-Returns an array ref containing the complete list of entries in the current Publican::WebSite DB...
 
 =head2 get_hash_ref
 

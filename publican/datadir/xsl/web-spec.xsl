@@ -6,7 +6,7 @@
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
 <xsl:template match="/">#Publican Document Specfile
-%define HTMLVIEW %(eval 'if [ "%{?dist}" = ".el5" ]; then echo "1"; else echo "0"; fi')
+%define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
 
 %define viewer xdg-open
 %define wwwdir %{_localstatedir}/www/html/docs
