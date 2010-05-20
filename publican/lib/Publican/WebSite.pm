@@ -6,9 +6,16 @@ use strict;
 use Carp qw(cluck croak);
 use Config::Simple;
 use DBI;
-use HTML::Template;
+use Template;
+use Template::Constants;
 use Locale::Language;
 use File::Find::Rule;
+## BUGBUG This requires splitting publican into 3 rpms to
+## allow translations to not conflict on systems
+## with web and builder installed
+use Publican;
+#use Publican::Translate;
+
 our $VERSION = '1.3';
 
 my $DB_NAME             = 'books';
@@ -19,60 +26,86 @@ my $DEFAULT_DB_FILE     = '/usr/share/publican-website/default.db';
 my $DEFAULT_CONFIG_FILE = '/etc/publican-website.cfg';
 
 my %LANG_NAME = (
-    'ar-SA' => 'العربية',
-    'as-IN' => 'অসমীয়া',
-    'ast-ES' => 'Asturianu',
-    'bg-BG' => 'български',
-    'bn-IN' => 'বাংলা',
-    'bs-BA' => 'Bosanski',
-    'ca-ES' => 'Català',
-    'cs-CZ' => 'Čeština',
-    'da-DK' => 'Dansk',
-    'de-CH' => 'Schweizerdeutsch',
-    'de-DE' => 'Deutsch',
-    'el-GR' => 'Ελληνικά',
-    'en-US' => 'English',
-    'es-ES' => 'Español',
-    'fi-FI' => 'Suomi',
-    'fr-FR' => 'Français',
-    'gu-IN' => 'ગુજરાતી',
-    'he-IL' => 'עברית',
-    'hi-IN' => 'हिन्दी',
-    'hr-HR' => 'Hrvatski',
-    'hu-HU' => 'Magyar',
-    'id-ID' => 'Indonesia',
-    'is-IS' => 'Íslenska',
-    'it-IT' => 'Italiano',
-    'ja-JP' => '日本語',
-    'kn-IN' => 'ಕನ್ನಡ',
-    'ko-KR' => '한국어',
-    'ml-IN' => 'മലയാളം',
-    'mr-IN' => 'मराठी',
-    'ms-MY' => 'Melayu',
-    'nb-NO' => 'Norsk (bokmål)',
-    'nl-NL' => 'Nederlands',
-    'or-IN' => 'ଓଡ଼ିଆ',
-    'pa-IN' => 'ਪੰਜਾਬੀ',
-    'pl-PL' => 'Polski',
-    'pt-BR' => 'Português Brasileiro',
-    'pt-PT' => 'Português',
-    'ru-RU' => 'Русский',
-    'si-LK' => 'සිංහල',
-    'sk-SK' => 'Slovenščina',
-    'sr-RS' => 'Српски',
+    'ar-SA'      => 'العربية',
+    'as-IN'      => 'অসমীয়া',
+    'ast-ES'     => 'Asturianu',
+    'bg-BG'      => 'български',
+    'bn-IN'      => 'বাংলা',
+    'bs-BA'      => 'Bosanski',
+    'ca-ES'      => 'Català',
+    'cs-CZ'      => 'Čeština',
+    'da-DK'      => 'Dansk',
+    'de-CH'      => 'Schweizerdeutsch',
+    'de-DE'      => 'Deutsch',
+    'el-GR'      => 'Ελληνικά',
+    'en-US'      => 'English',
+    'es-ES'      => 'Español',
+    'fi-FI'      => 'Suomi',
+    'fr-FR'      => 'Français',
+    'gu-IN'      => 'ગુજરાતી',
+    'he-IL'      => 'עברית',
+    'hi-IN'      => 'हिन्दी',
+    'hr-HR'      => 'Hrvatski',
+    'hu-HU'      => 'Magyar',
+    'id-ID'      => 'Indonesia',
+    'is-IS'      => 'Íslenska',
+    'it-IT'      => 'Italiano',
+    'ja-JP'      => '日本語',
+    'kn-IN'      => 'ಕನ್ನಡ',
+    'ko-KR'      => '한국어',
+    'ml-IN'      => 'മലയാളം',
+    'mr-IN'      => 'मराठी',
+    'ms-MY'      => 'Melayu',
+    'nb-NO'      => 'Norsk (bokmål)',
+    'nl-NL'      => 'Nederlands',
+    'or-IN'      => 'ଓଡ଼ିଆ',
+    'pa-IN'      => 'ਪੰਜਾਬੀ',
+    'pl-PL'      => 'Polski',
+    'pt-BR'      => 'Português Brasileiro',
+    'pt-PT'      => 'Português',
+    'ru-RU'      => 'Русский',
+    'si-LK'      => 'සිංහල',
+    'sk-SK'      => 'Slovenščina',
+    'sr-RS'      => 'Српски',
     'sr-Latn-RS' => 'Srpski (latinica)',
-    'sv-SE' => 'Svenska',
-    'ta-IN' => 'தமிழ்',
-    'te-IN' => 'తెలుగు',
-    'uk-UA' => 'Українська',
-    'zh-CN' => '简体中文',
-    'zh-TW' => '繁體中文',
+    'sv-SE'      => 'Svenska',
+    'ta-IN'      => 'தமிழ்',
+    'te-IN'      => 'తెలుగు',
+    'uk-UA'      => 'Українська',
+    'zh-CN'      => '简体中文',
+    'zh-TW'      => '繁體中文',
+);
+
+my %tmpl_strings = (
+    'toc_nav'      => maketext('toc nav'),
+    'Welcome'      => maketext('Welcome'),
+    'collapse_all' => maketext('collapse all'),
+    'Language'     => maketext('Language'),
+    'nocookie'     => maketext(
+        'The Navigation Menu below will automatically collapse when pages are loaded. Enable cookies to fix the Navigation Menu functionality.'
+    ),
+    'nojs' => maketext(
+        '<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to view the Navigation options without JavaScript enabled</p>'
+    ),
+    'Site_Map'        => maketext('Site Map'),
+    'Site_Statistics' => maketext('Site Statistics'),
+    'Site_Tech'       => maketext('Site Tech'),
+    'iframe'          => maketext(
+        'This is an iframe, to view it upgrade your browser or enable iframe display.'
+    ),
+    'Code'            => maketext('Code'),
+    'Products'        => maketext('Products'),
+    'Books'           => maketext('Books'),
+    'Versions'        => maketext('Versions'),
+    'Packages'        => maketext('Packages'),
+    'Total_Languages' => maketext('Total Languages'),
+    'Total_Packages'  => maketext('Total Packages'),
 );
 
 sub new {
     my ( $class, $arg ) = @_;
 
-    my $create     = delete $arg->{create}     || undef;
+    my $create      = delete $arg->{create}      || undef;
     my $site_config = delete $arg->{site_config} || $DEFAULT_CONFIG_FILE;
 
     if ( %{$arg} ) {
@@ -97,6 +130,14 @@ sub new {
     $self->_load_db;
     $self->{toc_path}  = $toc_path;
     $self->{tmpl_path} = $tmpl_path;
+
+    my $conf = {
+        INCLUDE_PATH => $tmpl_path,
+##        DEBUG => Template::Constants::DEBUG_ALL,
+    };
+
+    # create Template object
+    $self->{Template} = Template->new($conf) or croak( Template->error() );
 
     return $self;
 }
@@ -205,10 +246,10 @@ sub update_settings {
         push( @cols, 'search' );
         push( @vals, "'$search'" );
     }
-    $sql .= '(' . join( ',', @cols ) . ') ';
+    $sql .= '(' . join( ',',        @cols ) . ') ';
     $sql .= 'values (' . join( ',', @vals ) . ') ';
 
-    if($search || $host) {
+    if ( $search || $host ) {
         $self->_dbh()->do($sql);
     }
 
@@ -391,11 +432,6 @@ sub regen_all_toc {
 
     my $langs = $self->get_lang_list();
 
-    open( $OUT, '>', $self->{toc_path} . "/toc.html" )
-        || croak "can't open output file " . qx|pwd|
-        . $self->{toc_path}
-        . "/toc.html: $@";
-
     my @fulltoc   = ();
     my @toc_names = ();
 
@@ -415,17 +451,15 @@ sub regen_all_toc {
         push( @toc_names, \%toc_name );
     }
 
-    my $template = HTML::Template->new(
-        filename          => 'static_toc.tmpl',
-        global_vars       => 1,
-        die_on_bad_params => 0,
-        path              => [ $self->{tmpl_path} ]
-    );
-    $template->param( 'static_langs'     => \@fulltoc );
-    $template->param( 'static_langs_toc' => \@toc_names );
-    print $OUT $template->output();
+    my $vars = {
+        'static_langs'     => \@fulltoc,
+        'static_langs_toc' => \@toc_names,
+        'Site_Map'         => $tmpl_strings{'Site_Map'},
+    };
 
-    close($OUT);
+    $self->{Template}->process( 'static_toc.tmpl', $vars,
+        $self->{toc_path} . "/toc.html" )
+        or croak( $self->{Template}->error() );
 
     $self->stats();
 
@@ -444,16 +478,7 @@ sub _regen_toc {
 
 ##    print("Processing lang: $language\n");
 
-    my $OUT;
-    my $outfile = $self->{toc_path} . "/$language/toc.html";
-    open( $OUT, '>', $outfile )
-        || croak "can't open output file, $outfile : $@";
-
-    my $template = HTML::Template->new(
-        filename    => 'toc.tmpl',
-        global_vars => 1,
-        path        => [ $self->{tmpl_path} ]
-    );
+    my $vars = {};
 
     my $settings = $self->get_settings();
 
@@ -475,8 +500,7 @@ SEARCH
 	</form>
 SEARCH
 
-    $template->param(
-        'search' => ( $settings->{search} || $default_search ) );
+    $vars->{'search'} = ( $settings->{search} || $default_search );
 
     my $langs      = $self->get_lang_list();
     my @tmpl_langs = ();
@@ -500,10 +524,14 @@ SEARCH
         push( @tmpl_langs, \%row_data );
     }
 
-    $template->param( 'langs' => \@tmpl_langs );
+    $vars->{'langs'} = \@tmpl_langs;
 
     my $list2 = $self->get_hash_ref( { language => "$language" } );
     my @products = ();
+
+    foreach my $string ( sort( keys(%tmpl_strings) ) ) {
+        $vars->{$string} = $tmpl_strings{$string};
+    }
 
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
 ##        print("product: $product\n");
@@ -574,11 +602,11 @@ SEARCH
         push( @products, \%prod_data );
     }
 
-    $template->param( 'products' => \@products );
+    $vars->{'products'} = \@products;
 
-    print $OUT $template->output();
-
-    close($OUT);
+    $self->{Template}->process( 'toc.tmpl', $vars,
+        $self->{toc_path} . "/$language/toc.html" )
+        or croak( $self->{Template}->error() );
 
     return \@products;
 }
@@ -614,10 +642,6 @@ sub stats {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
     my $langs = $self->get_lang_list();
-    my $OUT;
-
-    open( $OUT, '>', $self->{toc_path} . "/Site_Statistics.html" )
-        || croak "can't open output file: $!";
 
     my $sql = <<GET_COUNTS;
     SELECT COUNT(*) as total,
@@ -670,18 +694,18 @@ GET_COUNTS
         }
     }
 
-    my $template = HTML::Template->new(
-        filename    => 'stats.tmpl',
-        global_vars => 1,
-        path        => [ $self->{tmpl_path} ]
-    );
-    $template->param( 'stat_langs'     => \@lang_stats );
-    $template->param( 'total_langs'    => $total_langs );
-    $template->param( 'total_packages' => $total_packages );
+    my $vars = {
+        'stat_langs'     => \@lang_stats,
+        'total_langs'    => $total_langs,
+        'total_packages' => $total_packages
+    };
+    foreach my $string ( sort( keys(%tmpl_strings) ) ) {
+        $vars->{$string} = $tmpl_strings{$string};
+    }
 
-    print $OUT $template->output();
-
-    close($OUT);
+    $self->{Template}->process( 'stats.tmpl', $vars,
+        $self->{toc_path} . "/Site_Statistics.html" )
+        or croak( $self->{Template}->error() );
 
     return;
 }

@@ -4,37 +4,37 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" href="interactive.css" type="text/css" />
-	<title>Site Statistics</title>
+	<title>[% Site_Statistics %]</title>
 </head>
 <body  class="toc_embeded">
-<div id="tocdiv" class="toc"><iframe id="tocframe" class="toc" src="./en-US/toc.html">This is an iframe, to view it upgrade your browser or enable iframe display.</iframe></div>
+<div id="tocdiv" class="toc"><iframe id="tocframe" class="toc" src="./en-US/toc.html">[% iframe %]</iframe></div>
 <div>
-<h1 class="producttitle">Site Statistics</h1>
+<h1 class="producttitle">[% Site_Statistics %]</h1>
 <p>
 </p>
 <table class="stats">
 	<tr>
-		<th>Language</th>
-		<th>Code</th>
-		<th>Products</th>
-		<th>Books</th>
-		<th>Versions</th>
-		<th>Packages</th>
+		<th>[% Language %]</th>
+		<th>[% Code %]</th>
+		<th>[% Products %]</th>
+		<th>[% Books %]</th>
+		<th>[% Versions %]</th>
+		<th>[% Packages %]</th>
 	</tr>
-	<TMPL_LOOP NAME="stat_langs">
+	[% FOREACH stat_langs %]
 	<tr>
-		<td><TMPL_VAR name="language"></td>
-		<td><TMPL_VAR name="code"></td>
-		<td><TMPL_VAR name="products"></td>
-		<td><TMPL_VAR name="books"></td>
-		<td><TMPL_VAR name="versions"></td>
-		<td><TMPL_VAR name="packages"></td>
+		<td>[% language %]</td>
+		<td>[% code %]</td>
+		<td>[% products %]</td>
+		<td>[% books %]</td>
+		<td>[% versions %]</td>
+		<td>[% packages %]</td>
 	</tr>
-	</TMPL_LOOP>
+	[% END %]
 </table>
 <div class="totals">
-	<b>Total Languages: </b><TMPL_VAR name="total_langs"><br />
-	<b>Total Packages: </b><TMPL_VAR name="total_packages">
+	<b>[% Total_Languages %]: </b>[% total_langs %]<br />
+	<b>[% Total_Packages %]: </b>[% total_packages %]
 </div>
 </body>
 </html>
