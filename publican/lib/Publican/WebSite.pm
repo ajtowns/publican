@@ -14,6 +14,7 @@ use File::Find::Rule;
 ## allow translations to not conflict on systems
 ## with web and builder installed
 use Publican;
+
 #use Publican::Translate;
 
 our $VERSION = '1.3';
@@ -291,9 +292,9 @@ sub add_entry {
     my $version  = delete $arg->{version}  || croak "version required";
     my $name     = delete $arg->{name}     || croak "name required";
     my $format   = delete $arg->{format}   || croak "format required";
-    my $product_label  = delete $arg->{product_label};
-    my $version_label  = delete $arg->{version_label};
-    my $name_label     = delete $arg->{name_label};
+    my $product_label = delete $arg->{product_label};
+    my $version_label = delete $arg->{version_label};
+    my $name_label    = delete $arg->{name_label};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -307,7 +308,11 @@ sub add_entry {
                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 INSERT_ENTRY
 
-    return $self->_dbh->do( $sql, undef, $language, $product, $version, $name, $format, $product_label, $version_label, $name_label );
+    return $self->_dbh->do(
+        $sql,           undef, $language, $product,
+        $version,       $name, $format,   $product_label,
+        $version_label, $name_label
+    );
 }
 
 sub del_entry {
@@ -371,13 +376,17 @@ GET_LIST
 
     my %list;
 
-    while ( my ( $id, $product, $version, $name, $format, $product_label, $version_label, $name_label )
-        = $sth->fetchrow() )
+    while (
+        my ($id,     $product,       $version,       $name,
+            $format, $product_label, $version_label, $name_label
+        )
+        = $sth->fetchrow()
+        )
     {
-        $list{$product}{$version}{$name}{'formats'}{$format} = 1;
-        $list{$product}{$version}{$name}{product_label} = $product_label;
-        $list{$product}{$version}{$name}{version_label} = $version_label;
-        $list{$product}{$version}{$name}{name_label} = $name_label;
+        $list{$product}{$version}{$name}{formats}{$format} = 1;
+        $list{$product}{$version}{$name}{product_label}      = $product_label if $product_label;
+        $list{$product}{$version}{$name}{version_label}      = $version_label if $version_label;
+        $list{$product}{$version}{$name}{name_label}         = $name_label if $name_label;
     }
 
     $sth->finish();
@@ -441,8 +450,8 @@ sub regen_all_toc {
         'Site_Map'         => $tmpl_strings{'Site_Map'},
     };
 
-    $self->{Template}->process( 'static_toc.tmpl', $vars,
-        $self->{toc_path} . "/toc.html" )
+    $self->{Template}
+        ->process( 'static_toc.tmpl', $vars, $self->{toc_path} . "/toc.html" )
         or croak( $self->{Template}->error() );
 
     $self->stats();
@@ -530,19 +539,37 @@ SEARCH
             my %ver_data;
             my @books = ();
 
-            foreach
-                my $book ( sort( { $a cmp $b } keys( %{ $list2->{$product}{$version} } ) ) )
+            foreach my $book (
+                sort(
+                    { $a cmp $b } keys( %{ $list2->{$product}{$version} } ) )
+                )
             {
                 my $book_label = $book;
                 my %book_data;
                 my @types = ();
 
                 foreach my $type (
-                    sort keys %{ $list2->{$product}{$version}{$book}{'formats'} } )
+                    sort
+                    keys %{ $list2->{$product}{$version}{$book}{formats} } )
                 {
-                    $book_label = $list2->{$product}{$version}{$book}{name_label} if( $list2->{$product}{$version}{$book}{name_label} and $list2->{$product}{$version}{$book}{name_label} != $book);
-                    $version_label = $list2->{$product}{$version}{$book}{version_label} if( $list2->{$product}{$version}{$book}{version_label} and $list2->{$product}{$version}{$book}{version_label} != $version);
-                    $product_label = $list2->{$product}{$version}{$book}{product_label} if( $list2->{$product}{$version}{$book}{product_label} and $list2->{$product}{$version}{$book}{product_label} != $product);
+
+                    $book_label
+                        = $list2->{$product}{$version}{$book}{name_label}
+                        if ($list2->{$product}{$version}{$book}{name_label}
+                        and $list2->{$product}{$version}{$book}{name_label}
+                        != $book );
+                    $version_label
+                        = $list2->{$product}{$version}{$book}{version_label}
+                        if (
+                            $list2->{$product}{$version}{$book}{version_label}
+                        and $list2->{$product}{$version}{$book}{version_label}
+                        != $version );
+                    $product_label
+                        = $list2->{$product}{$version}{$book}{product_label}
+                        if (
+                            $list2->{$product}{$version}{$book}{product_label}
+                        and $list2->{$product}{$version}{$book}{product_label}
+                        != $product );
 
                     my %type_data;
                     $type_data{'type'}  = $type;
@@ -581,9 +608,9 @@ SEARCH
                 push( @books, \%book_data );
             }
 
-            $ver_data{'version'} = $version;
+            $ver_data{'version'}       = $version;
             $ver_data{'version_label'} = $version_label;
-            $ver_data{'books'}   = \@books;
+            $ver_data{'books'}         = \@books;
             push( @versions, \%ver_data );
         }
 

@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t33
+Release:        0%{?dist}.t37
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -143,7 +143,7 @@ solely on using the publican tools.
 %package website
 Group:          Documentation
 Summary:        Web Site content for the Publican package
-Obsoletes:      perl-Publican-WebSite <= 1.3
+Obsoletes:      perl-Publican-WebSite <= 1.4-3
 Requires:	perl-DBD-SQLite
 
 %description website
@@ -237,6 +237,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue May 18 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
+- Translate productname tag. BZ #
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.4-0
 - Fix different log jar path on F14+
