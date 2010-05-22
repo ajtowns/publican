@@ -22,21 +22,25 @@
 			<span id="[% product %]" class="product">[% product_clean %]</span>
 			<div class="versions">
 			[% FOREACH versions %]
+			    [%- IF version_label != 'UNUSED' -%]
 				<div class="version">
 					<span class="version">[% version %]</span>
+			    [%- END -%]
 					<div class="books">
 					[% FOREACH books %]
 						<div class="book">
 							<span id="[% book %]" class="book">[% book_clean %]</span> 
 							<div class="types">
 							[% FOREACH types %]
-								<a class="type" href="[% prep %][% langloc %]/[% product %]/[% version %]/[% type %]/[% book %]/[% ext %]">[% type %]</a>
+								<a class="type" href="[% prep %][% langloc %]/[% product_path %]/[% version %]/[% type %]/[% book %]/[% ext %]">[% type %]</a>
 			        			[% END %]
 							</div>
 						</div>
 	        			[% END %]
 					</div>
+			    [%- IF version_label != 'UNUSED' -%]
 				</div>					
+			    [%- END -%]
 			[% END %]
 			</div>					
 		</div>					

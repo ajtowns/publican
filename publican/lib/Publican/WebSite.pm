@@ -383,10 +383,11 @@ GET_LIST
         = $sth->fetchrow()
         )
     {
-        $list{$product}{$version}{$name}{formats}{$format} = 1;
-        $list{$product}{$version}{$name}{product_label}      = $product_label if $product_label;
-        $list{$product}{$version}{$name}{version_label}      = $version_label if $version_label;
-        $list{$product}{$version}{$name}{name_label}         = $name_label if $name_label;
+        $product_label = $product unless $product_label;
+        $list{$product_label}{$version}{$name}{formats}{$format} = 1;
+        $list{$product_label}{$version}{$name}{product}          = $product;
+        $list{$product_label}{$version}{$name}{version_label}    = $version_label if $version_label;
+        $list{$product_label}{$version}{$name}{name_label}       = $name_label if $name_label;
     }
 
     $sth->finish();
@@ -528,7 +529,7 @@ SEARCH
 
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
 ##        print("product: $product\n");
-        my $product_label = $product;
+        my $product_path = $product;
         my %prod_data;
         my @versions = ();
 
@@ -557,19 +558,16 @@ SEARCH
                         = $list2->{$product}{$version}{$book}{name_label}
                         if ($list2->{$product}{$version}{$book}{name_label}
                         and $list2->{$product}{$version}{$book}{name_label}
-                        != $book );
+                        ne $book );
                     $version_label
                         = $list2->{$product}{$version}{$book}{version_label}
                         if (
                             $list2->{$product}{$version}{$book}{version_label}
                         and $list2->{$product}{$version}{$book}{version_label}
-                        != $version );
-                    $product_label
-                        = $list2->{$product}{$version}{$book}{product_label}
-                        if (
-                            $list2->{$product}{$version}{$book}{product_label}
-                        and $list2->{$product}{$version}{$book}{product_label}
-                        != $product );
+                        ne $version );
+
+                    $product_path
+                        = $list2->{$product}{$version}{$book}{product};
 
                     my %type_data;
                     $type_data{'type'}  = $type;
@@ -581,7 +579,7 @@ SEARCH
                             = File::Find::Rule->file->relative()
                             ->name('*.pdf')
                             ->in(
-                            "$self->{toc_path}/$language/$product/$version/$type/$book"
+                            "$self->{toc_path}/$language/$product_path/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
                     }
@@ -590,7 +588,7 @@ SEARCH
                             = File::Find::Rule->file->relative()
                             ->name('*.epub')
                             ->in(
-                            "$self->{toc_path}/$language/$product/$version/$type/$book"
+                            "$self->{toc_path}/$language/$product_path/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
 ## hmm epub link for safari ...
@@ -614,8 +612,9 @@ SEARCH
             push( @versions, \%ver_data );
         }
 
-        $prod_data{'product'}       = $product;
-        $prod_data{'product_clean'} = $product_label;
+        $prod_data{'product'}  = $product;
+        $prod_data{'product_path'}  = $product_path;
+        $prod_data{'product_clean'} = $product;
         $prod_data{'product_clean'} =~ s/_/ /g;
         $prod_data{'versions'} = \@versions;
         push( @products, \%prod_data );

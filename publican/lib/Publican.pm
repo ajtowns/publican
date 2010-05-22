@@ -307,6 +307,15 @@ my %PARAMS = (
         descr => maketext(
             'Override the default search form for a Publican Website.'),
     },
+    web_name_label => {
+        descr => maketext('Override the book name, bottom level, menu label on a Publican Website.'),
+    },
+    web_product_label => {
+        descr => maketext('Override the product, top level, menu label on a Publican Website.'),
+    },
+    web_version_label => {
+        descr => maketext('Override the version, middle level, menu label on a Publican Website. To hide this meu item set this to: UNUSED'),
+    },
     xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
         default => 'en-US',

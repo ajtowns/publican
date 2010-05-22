@@ -738,6 +738,9 @@ if ( $action eq 'install_book' ) {
         my $product = $publican->param('product');
         my $version = $publican->param('version');
         my $name    = $publican->param('docname');
+        my $product_label = $publican->param('web_product_label');
+        my $version_label = $publican->param('web_version_label');
+        my $name_label    = $publican->param('web_name_label');
 
         croak( maketext( "can't find 'publish/[_1]' directory", $lang ) )
             unless ( -d "publish/$lang" );
@@ -756,6 +759,9 @@ if ( $action eq 'install_book' ) {
                     version  => $version,
                     name     => $name,
                     format   => $format,
+                    product_label  => $product_label,
+                    version_label  => $version_label,
+                    name_label     => $name_label,
                 }
             );
         }
