@@ -4,8 +4,9 @@ use warnings;
 use File::pushd;
 use Cwd qw(abs_path);
 
-my @brands = qw{publican-fedora publican-gimp publican-jboss publican-jboss-community publican-jboss-community-hibernate publican-redhat};
+my @brands = qw{publican-fedora publican-gimp publican-jboss publican-jboss-community publican-jboss-community-hibernate publican-redhat publican-jboss-community-richfaces };
 
+system('Build realclean') if( -f 'Build' );
 system('perl Build.PL');
 system('Build');
 
@@ -15,14 +16,16 @@ my $publican = abs_path('blib/script/publican');
 my $lib = abs_path('blib/lib');
 my $dir;
 
-#$dir = pushd("Users_Guide");
-#system(qq{perl -I $lib $publican clean --common_config="$common_config" --common_content="$common_content"});
-#system(qq{perl -I $lib $publican build --formats=html-desktop --langs=en-US --common_config="$common_config" --#common_content="$common_content"});
-#$dir = undef;
-	
+$dir = pushd("Users_Guide");
+system(qq{perl -I $lib $publican clean --common_config="$common_config" --common_content="$common_content"});
+system(qq{perl -I $lib $publican build --publish --formats=html-desktop --langs=en-US --common_config="$common_config" --common_content="$common_content"});
+$dir = undef;
+
+my $brand_path = 'D:\Data\temp\Redhat\publican\trunk';
+
 foreach my $brand (@brands) {
 	print("\nPreparing $brand\n");
-	$dir = pushd("../$brand");
+	$dir = pushd("$brand_path/$brand");
 	system(qq{perl -I $lib $publican clean --common_config="$common_config" --common_content="$common_content"});
 	system(qq{perl -I $lib $publican build --formats=xml --langs=all --publish --common_config="$common_config" --common_content="$common_content"});
 	$dir = undef;              
