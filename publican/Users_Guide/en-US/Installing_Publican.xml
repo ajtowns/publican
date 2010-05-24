@@ -93,6 +93,30 @@
 			</para>
 		</section>
 		
+		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Ubuntu">
+			<title>Installing Publican on Ubuntu</title>
+			<important>
+				<title> Important — New in 10.4 "Lucid Lynx"</title>
+				<para>
+					<application>Publican</application> is new in Ubuntu 10.4 "Lucid Lynx". 
+				</para>
+			</important>
+			<procedure>
+				<step>
+					<para>
+						Open a terminal.
+					</para>
+				</step>
+				<step>
+					<para>
+						Run the following command to install the <package>publican</package> package:
+					</para>
+<screen><command>sudo apt-get install publican</command>
+</screen>
+				</step>
+			</procedure>
+		</section>
+		
 		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Debian">
 			<title>Installing Publican on Debian</title>
 			<warning>
@@ -159,83 +183,6 @@
 			</para>
 			<para>
 				When "Squeeze" becomes the stable version of Debian, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system.
-			</para>
-		</section>
-		
-		<section id="sect-Users_Guide-Installing_Publican_on_Linux_operating_systems-Installing_Publican_on_Ubuntu">
-			<title>Installing Publican on Ubuntu</title>
-			<warning>
-				<title> Warning — Complete this procedure </title>
-				<para>
-					Complete every step of this procedure. If you do not undo the changes that you make to the <filename>/etc/apt/sources.list</filename> file as described, your system might become unstable.
-				</para>
-			</warning>
-			<para>
-				<application>Publican</application> is not available in the current stable version of Ubuntu (version 9.10, "Karmic Koala"), but is available in the current testing version ("Lucid Lynx"). To install <application>Publican</application> on a computer that runs Ubuntu, temporarily enable access to the <literal>lucid</literal> repository. When you enable access to this repository, you allow your computer to install newer software and newer versions of existing software than what is available in the current stable version of Ubuntu. However, not all of the software available in the testing repository has completed quality assurance testing yet. If you do not disable access to this repository after you install <application>Publican</application>, the next time that your system updates, it will replace software packages on your system with newer but possibly untested versions of those packages that it downloads from the testing repository.
-			</para>
-			<procedure>
-				<step>
-					<para>
-						Open a terminal.
-					</para>
-				</step>
-				<step>
-					<para>
-						Open your <filename>/etc/apt/sources.list</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
-					</para>
-					
-<screen><command>sudo gedit /etc/apt/sources.list</command>
-</screen>
-				</step>
-				<step>
-					<para>
-						Add the following line to the end of the file:
-					</para>
-					
-<programlisting>deb http://archive.ubuntu.com/ubuntu/ lucid main restricted universe
-</programlisting>
-				</step>
-				<step>
-					<para>
-						Save the file and close the text editor.
-					</para>
-				</step>
-				<step>
-					<para>
-						Run the following command to update the list of packages available to your computer:
-					</para>
-					
-<screen><command>sudo apt-get update</command>
-</screen>
-				</step>
-				<step>
-					<para>
-						Run the following command to install the <package>fop</package> package:
-					</para>
-					
-<screen><command>sudo apt-get install fop</command>
-</screen>
-				</step>
-				<step>
-					<para>
-						Run the following command to install the <package>publican</package> package:
-					</para>
-					
-<screen><command>sudo apt-get install publican</command>
-</screen>
-				</step>
-				<step>
-					<para>
-						Open your <filename>/etc/apt/sources.list</filename> file again, and delete the extra line that you added in this procedure.
-					</para>
-				</step>
-			</procedure>
-			
-			<para>
-				Note that until the release of "Lucid Lynx" as the stable version of Ubuntu, you must manually enable and disable access to the testing repository as described in this procedure whenever a new version of <application>Publican</application> becomes available in the testing repository. You can find up-to-date information about the status of <application>Publican</application> for Ubuntu at <ulink url="http://packages.ubuntu.com/lucid/publican" />, including the version number of <application>Publican</application> available in the repository (1.0 at the time of writing).
-			</para>
-			<para>
-				When "Lucid Lynx" becomes the stable version of Ubuntu, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system.
 			</para>
 		</section>
 
