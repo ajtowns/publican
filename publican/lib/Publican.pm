@@ -180,7 +180,7 @@ my %PARAMS = (
     },
     'ec_provider' => {
         descr =>
-            maketext('Eclipse plugin provider. Defaults to "Publican-Publican::VERSION"'),
+            maketext('Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION),
     },
     edition => {
         descr => maketext(
@@ -518,7 +518,7 @@ sub _load_config {
             unless defined $config->param('ec_name');
         $config->param( 'ec_id', "org.$product.$docname" )
             unless defined $config->param('ec_id');
-        $config->param( 'ec_provider', "Publican-$Publican::VERSION" )
+        $config->param( 'ec_provider', "Publican-$VERSION" )
             unless defined $config->param('ec_provider');
     }
     $DEBUG = $self->{config}->param('debug') if ( !$DEBUG );
