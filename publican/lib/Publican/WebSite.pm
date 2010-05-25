@@ -534,7 +534,7 @@ SEARCH
         my @versions = ();
 
         foreach
-            my $version ( reverse( sort( keys( %{ $list2->{$product} } ) ) ) )
+            my $version ( reverse( sort({ $a <=> $b } keys( %{ $list2->{$product} } ) ) ) )
         {
             my $version_label = $version;
             my %ver_data;
@@ -542,7 +542,7 @@ SEARCH
 
             foreach my $book (
                 sort(
-                    { $a cmp $b } keys( %{ $list2->{$product}{$version} } ) )
+                    keys( %{ $list2->{$product}{$version} } ) )
                 )
             {
                 my $book_label = $book;
