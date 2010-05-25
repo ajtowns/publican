@@ -24,16 +24,16 @@ INSTALLATION
 
 Just follow the usual procedure:
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+   perl Build.PL
+   ./Build
+   ./Build test
+   ./Build install
 
 If you want to install a private copy of this module-suite in your home
 directory, then you should try to produce the initial Makefile with
 something like this command:
 
-  perl Makefile.PL PREFIX=~/perl
+  perl Build.PL PREFIX=~/perl
 
 See perldoc perlmodinstall for more information on installing modules.
 

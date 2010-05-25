@@ -3,14 +3,14 @@ require 5;
 
 package XML::TreeBuilder;
 
-#Time-stamp: "2004-06-10 19:59:14 ADT"
+use warnings;
 use strict;
 use XML::Element ();
 use XML::Parser  ();
 use Carp;
 use vars qw(@ISA $VERSION);
 
-$VERSION = '3.09';
+$VERSION = '3.09_1';
 @ISA     = ('XML::Element');
 
 #==========================================================================
@@ -20,6 +20,7 @@ sub new {
 
     my $NoExpand     = ( delete $arg->{'NoExpand'}     || undef );
     my $ErrorContext = ( delete $arg->{'ErrorContext'} || undef );
+    my $EncodeAmp    = ( delete $arg->{'EncodeAmp'}    || undef );
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -33,6 +34,7 @@ sub new {
     $self->{'_store_declarations'} = 0;
     $self->{'NoExpand'}            = $NoExpand if ($NoExpand);
     $self->{'ErrorContext'}        = $ErrorContext if ($ErrorContext);
+    $self->{'EncodeAmp'}           = $EncodeAmp if ($EncodeAmp);
 
     my @stack;
 
@@ -40,9 +42,10 @@ sub new {
 
     $self->{'_xml_parser'} = XML::Parser->new(
         'Handlers' => {
-## TODO fails on &#38;lt&#59;
             'Default' => sub {
-                if ( ( $self->{'NoExpand'} ) && ( $_[1] =~ /&.*\;/ ) ) {
+
+                # Stuff unexpanded entities back on to the stack as is.
+                if ( ( $self->{'NoExpand'} ) && ( $_[1] =~ /&[^\;]+\;/ ) ) {
                     $stack[-1]->push_content( $_[1] );
                 }
                 return;
@@ -62,7 +65,14 @@ sub new {
 
             'End' => sub { pop @stack; return },
 
-            'Char' => sub { $stack[-1]->push_content( $_[1] ) },
+            'Char' => sub {
+                if ( $_[1] eq '&' and $self->{'EncodeAmp'} ) {
+                    $stack[-1]->push_content('&amp;');
+                }
+                else {
+                    $stack[-1]->push_content( $_[1] );
+                }
+            },
 
             'Comment' => sub {
                 return unless $self->{'_store_comments'};
@@ -81,12 +91,15 @@ sub new {
             },
 
             'Final' => sub {
+
+                # clean up the internal attributes
                 $self->root()->traverse(
                     sub {
                         my ( $node, $start ) = @_;
                         if ( ref $node ) {    # it's an element
                             $node->attr( 'NoExpand',     undef );
                             $node->attr( 'ErrorContext', undef );
+                            $node->attr( 'EncodeAmp',    undef );
                         }
                     }
                 );
@@ -147,7 +160,8 @@ sub new {
             },
         },
         'NoExpand'     => $self->{'NoExpand'},
-        'ErrorContext' => $self->{'ErrorContext'}
+        'ErrorContext' => $self->{'ErrorContext'},
+        'EncodeAmp'    => $self->{'EncodeAmp'},
     );
 
     return $self;
@@ -195,7 +209,7 @@ XML::TreeBuilder - Parser that builds a tree of XML::Element objects
 =head1 SYNOPSIS
 
   foreach my $file_name (@ARGV) {
-    my $tree = XML::TreeBuilder->new; # empty tree
+    my $tree = XML::TreeBuilder->new({ 'NoExpand' => 0, 'ErrorContext' => 0, 'EncodeAmp' => 1 }); # empty tree
     $tree->parse_file($file_name);
     print "Hey, here's a dump of the parse tree of $file_name:\n";
     $tree->dump; # a method we inherit from XML::Element
@@ -250,6 +264,33 @@ allows you to call these additional methods:
 =item $root = XML::TreeBuilder->new()
 
 Construct a new XML::TreeBuilder object.
+
+Parameters:
+
+=over
+
+=item NoExpand
+
+    Passed to XML::Parser. Do not Expand external entities.
+    Deafult: undef
+
+=item ErrorContext
+
+    Passed to XML::Parser. Number of context lines to generate on errors.
+    Deafult: undef
+
+=item EncodeAmp
+
+    XML::Parser will convert &amp; to '&', enabling this will encode
+    all ampersand characters to &amp;.
+
+    Effectively converts &#38; to &amp; since we can't know which it was.
+    
+=back
+
+=item $root->eof
+
+Deletes parser object.
 
 =item $root->parse(...options...)
 

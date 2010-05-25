@@ -1655,6 +1655,12 @@ sub package {
     rmtree("$tmp_dir/tar/$tardir/$lang/Common_Content");
     mkpath("$tmp_dir/rpm");
 
+    dircopy( "$xml_lang/icons", "$tmp_dir/tar/$tardir/icons" )
+            if ( -e "$xml_lang/icons" );
+    dircopy( "$lang/icons", "$tmp_dir/tar/$tardir/icons" )
+            if ( -e "$lang/icons" );
+    finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/icons" );
+
     $self->{publican}->{config}->param( 'xml_lang', $lang );
 
     # Need to remove scm from packaged set to avoid fetching from repo
@@ -1714,6 +1720,7 @@ sub package {
         language      => $language,
         abstract      => $abstract,
         tmpdir        => $tmp_dir,
+        ICONS         => (-e "$xml_lang/icons"? 1 : 0),
     );
 
     logger(

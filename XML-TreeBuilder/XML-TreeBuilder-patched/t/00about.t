@@ -1,10 +1,10 @@
+#!/usr/bin/perl -T
 
-require 5;
-# Time-stamp: "2004-06-10 20:02:08 ADT"
+use warnings;
+use strict;
 
 # Summary of, well, things.
 
-use strict;
 use Test;
 my @modules;
 BEGIN {

@@ -1,30 +1,137 @@
-diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/Changes XML-TreeBuilder-patched/Changes
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/Build.PL XML-TreeBuilder-patched/Build.PL
+--- XML-TreeBuilder-3.09/Build.PL	1970-01-01 10:00:00.000000000 +1000
++++ XML-TreeBuilder-patched/Build.PL	2010-04-18 16:15:59.857890505 +1000
+@@ -0,0 +1,36 @@
++use strict;
++use warnings;
++use Module::Build;
++
++my $class = Module::Build->subclass(
++    class => 'My::Builder',
++    code  => q{
++    }
++);
++
++my $builder = $class->new(
++    module_name       => 'XML::TreeBuilder',
++    license           => 'perl',
++    dist_author       => 'Jeff Fearn <Jeff.Fearn@gmail.com>',
++    dist_version_from => 'lib/XML/TreeBuilder.pm',
++    build_requires    => {
++        'Devel::Cover'        => 0,
++        'Module::Build'       => 0,
++        'Test::Exception'     => 0,
++        'Test::More'          => 0,
++        'Test::Pod::Coverage' => 0,
++        'Test::Perl::Critic'  => 0,
++        'XML::Parser'         => 0,
++        'HTML::Element'       => 3.08,
++        'HTML::Tagset'        => 3.02,
++    },
++    requires => {
++        'XML::Parser'   => 0,
++        'HTML::Element' => 3.08,
++        'HTML::Tagset'  => 3.02,
++    },
++    add_to_cleanup => [ 'XML-TreeBuilder-*', 'tmp', 'blib', 'MANIFEST.bak', 'META.yml' ],
++    script_files   => [],
++);
++
++$builder->create_build_script();
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/Changes XML-TreeBuilder-patched/Changes
 --- XML-TreeBuilder-3.09/Changes	2004-06-11 14:28:41.000000000 +1000
-+++ XML-TreeBuilder-patched/Changes	2009-03-16 14:30:51.000000000 +1000
-@@ -1,5 +1,10 @@
++++ XML-TreeBuilder-patched/Changes	2010-04-18 16:12:15.126008876 +1000
+@@ -1,5 +1,15 @@
 -# Time-stamp: "2004-06-10 20:28:41 ADT"
-+2009-16-03 Jeff Fearn <jfearn@redhat.com>
++2009-16-03   Jeff Fearn <Jeff.Fearn@gmail.com>
  
-+   Release 3.09.x
++   Release 3.09_1
 +
 +   Added NoExpand option to allow entities to be left untouched in xml.
 +   Added ErrorContext option to allow better reporting of error locations.
 +   Expanded tests to test these options.
++   Added EncodeAmp option to encode unencoded ampersans on parsing.
++   Switched to Module::Build
++   Added Perl::Critic tests
++   Fixed Perl::Critic complaints
++   Switched t/10main.t to Test::More
  
  2004-06-10   Sean M. Burke <sburke@cpan.org>
  
-diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBuilder.pm XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/Element.pm XML-TreeBuilder-patched/lib/XML/Element.pm
+--- XML-TreeBuilder-3.09/lib/XML/Element.pm	2004-06-11 14:00:02.000000000 +1000
++++ XML-TreeBuilder-patched/lib/XML/Element.pm	2010-04-18 15:32:15.616368105 +1000
+@@ -1,14 +1,17 @@
+ 
+ require 5;
+ package XML::Element;
+-#Time-stamp: "2004-06-10 20:00:02 ADT"
++use warnings;
++use strict;
+ use HTML::Tagset ();
+ use HTML::Element 3.08 ();
++
++use vars qw(@ISA $VERSION);
+ $VERSION = '3.09';
+ @ISA = ('HTML::Element');
+ 
+ # Init:
+-%emptyElement = ();
++my %emptyElement = ();
+ foreach my $e (%HTML::Tagset::emptyElement) {
+   $emptyElement{$e} = 1
+     if substr($e,0,1) eq '~' and $HTML::Tagset::emptyElement{$e};
+@@ -30,8 +33,6 @@
+ #TODO: test and document this:
+ # with no tagname set, assumes ALL all-whitespace nodes are ignorable!
+ 
+-use strict;
+-
+ sub delete_ignorable_whitespace {
+   my $under_hash = $_[1];
+   my(@to_do) = ($_[0]);
+@@ -77,6 +78,21 @@
+ 
+   [See HTML::Element]
+ 
++=head1 METHODS AND ATTRIBUTES
++
++=head2 delete_ignorable_whitespace
++
++TODO: test and document this:
++with no tagname set, assumes ALL all-whitespace nodes are ignorable!
++
++=head2 endtag
++
++Redirects to HTML::Element::endtag_XML
++
++=head2 starttag
++
++Redirects to HTML::Element::starttag_XML
++
+ =head1 DESCRIPTION
+ 
+ This is just a subclass of HTML::Element.  It works basically the same
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBuilder.pm XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm
 --- XML-TreeBuilder-3.09/lib/XML/TreeBuilder.pm	2004-06-11 13:59:14.000000000 +1000
-+++ XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm	2009-09-29 09:21:18.000000000 +1000
-@@ -5,6 +7,7 @@
++++ XML-TreeBuilder-patched/lib/XML/TreeBuilder.pm	2010-04-18 15:46:13.145376868 +1000
+@@ -1,19 +1,30 @@
+ 
+ require 5;
++
+ package XML::TreeBuilder;
+-#Time-stamp: "2004-06-10 19:59:14 ADT"
++
++use warnings;
  use strict;
  use XML::Element ();
  use XML::Parser ();
 +use Carp;
  use vars qw(@ISA $VERSION);
  
- $VERSION = '3.09';
-@@ -12,8 +15,15 @@
+-$VERSION = '3.09';
++$VERSION = '3.09_1';
+ @ISA = ('XML::Element');
  
  #==========================================================================
  sub new {
@@ -35,6 +142,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
 +
 +    my $NoExpand     = ( delete $arg->{'NoExpand'}     || undef );
 +    my $ErrorContext = ( delete $arg->{'ErrorContext'} || undef );
++    my $EncodeAmp    = ( delete $arg->{'EncodeAmp'}    || undef );
 +
 +    if ( %{$arg} ) {
 +        croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -42,12 +150,13 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
    
    my $self = XML::Element->new('NIL');
    bless $self, $class; # and rebless
-@@ -21,57 +31,76 @@
+@@ -21,57 +32,89 @@
    $self->{'_store_comments'}     = 0;
    $self->{'_store_pis'}          = 0;
    $self->{'_store_declarations'} = 0;
 +    $self->{'NoExpand'}            = $NoExpand if ($NoExpand);
 +    $self->{'ErrorContext'}        = $ErrorContext if ($ErrorContext);
++    $self->{'EncodeAmp'}           = $EncodeAmp if ($EncodeAmp);
    
    my @stack;
 +
@@ -57,7 +166,9 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
 +    $self->{'_xml_parser'} = XML::Parser->new(
 +        'Handlers' => {
 +            'Default' => sub {
-+                if ( ( $self->{'NoExpand'} ) && ( $_[1] =~ /&.*\;/ ) ) {
++
++                # Stuff unexpanded entities back on to the stack as is.
++                if ( ( $self->{'NoExpand'} ) && ( $_[1] =~ /&[^\;]+\;/ ) ) {
 +                    $stack[-1]->push_content( $_[1] );
 +                }
 +                return;
@@ -81,7 +192,14 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
      'End'  => sub { pop @stack; return },
      
 -    'Char' => sub { $stack[-1]->push_content($_[1]) },
-+            'Char' => sub { $stack[-1]->push_content( $_[1] ) },
++            'Char' => sub {
++                if ( $_[1] eq '&' and $self->{'EncodeAmp'} ) {
++                    $stack[-1]->push_content('&amp;');
++                }
++                else {
++                    $stack[-1]->push_content( $_[1] );
++                }
++            },
      
      'Comment' => sub {
         return unless $self->{'_store_comments'};
@@ -110,12 +228,15 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
      },
      
 +            'Final' => sub {
++
++                # clean up the internal attributes
 +                $self->root()->traverse(
 +                    sub {
 +                        my ( $node, $start ) = @_;
 +                        if ( ref $node ) {    # it's an element
 +                            $node->attr( 'NoExpand',     undef );
 +                            $node->attr( 'ErrorContext', undef );
++                            $node->attr( 'EncodeAmp',    undef );
 +                        }
 +                    }
 +                );
@@ -139,7 +260,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
           )
         );
         return;
-@@ -80,11 +109,11 @@
+@@ -80,11 +123,11 @@
      'Element' => sub {
         return unless $self->{'_store_declarations'};
         shift;
@@ -156,7 +277,7 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
           )
         );
         return;
-@@ -93,17 +122,32 @@
+@@ -93,17 +136,33 @@
      'Doctype' => sub {
         return unless $self->{'_store_declarations'};
         shift;
@@ -190,12 +311,13 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
 +            },
 +        },
 +        'NoExpand'     => $self->{'NoExpand'},
-+        'ErrorContext' => $self->{'ErrorContext'}
++        'ErrorContext' => $self->{'ErrorContext'},
++        'EncodeAmp'    => $self->{'EncodeAmp'},
 +    );
    
    return $self;
  }
-@@ -110,15 +155,15 @@
+@@ -110,15 +170,15 @@
  #==========================================================================
  sub _elem # universal accessor...
  {
@@ -215,53 +337,336 @@ diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/lib/XML/TreeBui
  
  #==========================================================================
  
-diff -rubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/10main.t XML-TreeBuilder-patched/t/10main.t
---- XML-TreeBuilder-3.09/t/10main.t	2009-09-28 14:00:50.000000000 +1000
-+++ XML-TreeBuilder-patched/t/10main.t	2009-09-28 14:00:54.000000000 +1000
-@@ -2,7 +2,7 @@
- # Time-stamp: "2004-06-10 20:22:53 ADT" 
+@@ -149,7 +209,7 @@
+ =head1 SYNOPSIS
  
+   foreach my $file_name (@ARGV) {
+-    my $tree = XML::TreeBuilder->new; # empty tree
++    my $tree = XML::TreeBuilder->new({ 'NoExpand' => 0, 'ErrorContext' => 0, 'EncodeAmp' => 1 }); # empty tree
+     $tree->parse_file($file_name);
+     print "Hey, here's a dump of the parse tree of $file_name:\n";
+     $tree->dump; # a method we inherit from XML::Element
+@@ -205,6 +265,33 @@
+ 
+ Construct a new XML::TreeBuilder object.
+ 
++Parameters:
++
++=over
++
++=item NoExpand
++
++    Passed to XML::Parser. Do not Expand external entities.
++    Deafult: undef
++
++=item ErrorContext
++
++    Passed to XML::Parser. Number of context lines to generate on errors.
++    Deafult: undef
++
++=item EncodeAmp
++
++    XML::Parser will convert &amp; to '&', enabling this will encode
++    all ampersand characters to &amp;.
++
++    Effectively converts &#38; to &amp; since we can't know which it was.
++    
++=back
++
++=item $root->eof
++
++Deletes parser object.
++
+ =item $root->parse(...options...)
+ 
+ Uses XML::Parser's C<parse> method to parse XML from the source(s?)
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/Makefile.PL XML-TreeBuilder-patched/Makefile.PL
+--- XML-TreeBuilder-3.09/Makefile.PL	2004-06-11 13:57:41.000000000 +1000
++++ XML-TreeBuilder-patched/Makefile.PL	1970-01-01 10:00:00.000000000 +1000
+@@ -1,33 +0,0 @@
+-# This -*- perl -*- script writes the Makefile for XML::TreeBuilder
+-#
+-# Time-stamp: "2004-06-10 19:57:41 ADT"
+-#
+-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
+-# the contents of the Makefile that is written.
+-#
+-
+-require 5.004;
+-use strict;
+-use ExtUtils::MakeMaker;
+-
+-WriteMakefile(
+-    'NAME'	    => 'XML-TreeBuilder',
+-    'VERSION_FROM'  => 'lib/XML/TreeBuilder.pm',
+-    'ABSTRACT_FROM' => 'lib/XML/TreeBuilder.pm',
+-
+-    'PREREQ_PM'    => {	
+-	                 'HTML::Element' => 3.08,   # at LEAST!
+-	                 'HTML::Tagset' => 3.02,
+-                         'XML::Parser' => 0,
+-		      },
+-    dist           => { COMPRESS => 'gzip -6f', SUFFIX => 'gz', },
+-);
+-
+-package MY;
+-
+-sub libscan
+-{ # Determine things that should *not* be installed
+-    my($self, $path) = @_;
+-    return '' if $path =~ m/~/;
+-    $path;
+-}
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/MANIFEST XML-TreeBuilder-patched/MANIFEST
+--- XML-TreeBuilder-3.09/MANIFEST	2004-06-11 14:28:49.000000000 +1000
++++ XML-TreeBuilder-patched/MANIFEST	2010-04-18 15:32:49.623889662 +1000
+@@ -1,10 +1,12 @@
++Build.PL
+ Changes
+ lib/XML/Element.pm
+ lib/XML/TreeBuilder.pm
+-Makefile.PL
+ MANIFEST
+-MANIFEST.SKIP
++META.yml			Module meta-data (added by MakeMaker)
+ README
+ t/00about.t
+ t/10main.t
+-META.yml                                 Module meta-data (added by MakeMaker)
++t/zz_perlcritic.t
++t/zz_pod-coverage.t
++t/zz_pod.t
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/MANIFEST.SKIP XML-TreeBuilder-patched/MANIFEST.SKIP
+--- XML-TreeBuilder-3.09/MANIFEST.SKIP	2004-06-11 14:27:34.000000000 +1000
++++ XML-TreeBuilder-patched/MANIFEST.SKIP	2010-04-18 15:13:16.601891577 +1000
+@@ -1,8 +1,44 @@
+-^MANIFEST\.bak$
+-^XML-TreeBuilder-\d
+-Makefile(\.old)?$
++# Avoid version control files.
++\bRCS\b
++\bCVS\b
++,v$
++\B\.svn\b
++\B\.cvsignore$
++
++# Avoid Makemaker generated and utility files.
++\bMakefile$
++\bblib
++\bMakeMaker-\d
++\bpm_to_blib$
++\bblibdirs$
++^MANIFEST\.SKIP$
++
++# Avoid Module::Build generated and utility files.
++\bBuild$
++\bBuild.bat$
++\b_build
++
++# Avoid Devel::Cover generated files
++\bcover_db
++
++# Avoid temp and backup files.
++~$
++\.tmp$
++\.old$
++\.bak$
++\#$
++\.#
+ \.rej$
+-CVS
+-blib
+-~
++\.orig$
+ 
++# Avoid OS-specific files/dirs
++#   Mac OSX metadata
++\B\.DS_Store
++#   Mac OSX SMB mount metadata files
++\B\._
++# Avoid archives of this distribution
++\bXML-TreeBuilder-[\d\.\_]+
++\btmp\b
++\.swp$
++\bARC
++\.spec$
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/META.yml XML-TreeBuilder-patched/META.yml
+--- XML-TreeBuilder-3.09/META.yml	2004-06-11 14:28:56.000000000 +1000
++++ XML-TreeBuilder-patched/META.yml	1970-01-01 10:00:00.000000000 +1000
+@@ -1,13 +0,0 @@
+-# http://module-build.sourceforge.net/META-spec.html
+-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+-name:         XML-TreeBuilder
+-version:      3.09
+-version_from: lib/XML/TreeBuilder.pm
+-installdirs:  site
+-requires:
+-    HTML::Element:                 3.08
+-    HTML::Tagset:                  3.02
+-    XML::Parser:                   0
+-
+-distribution_type: module
+-generated_by: ExtUtils::MakeMaker version 6.17
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/README XML-TreeBuilder-patched/README
+--- XML-TreeBuilder-3.09/README	2004-06-11 14:01:55.000000000 +1000
++++ XML-TreeBuilder-patched/README	2010-04-18 15:34:23.451360825 +1000
+@@ -24,16 +24,16 @@
+ 
+ Just follow the usual procedure:
+ 
+-   perl Makefile.PL
+-   make
+-   make test
+-   make install
++   perl Build.PL
++   ./Build
++   ./Build test
++   ./Build install
+ 
+ If you want to install a private copy of this module-suite in your home
+ directory, then you should try to produce the initial Makefile with
+ something like this command:
+ 
+-  perl Makefile.PL PREFIX=~/perl
++  perl Build.PL PREFIX=~/perl
+ 
+ See perldoc perlmodinstall for more information on installing modules.
+ 
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/00about.t XML-TreeBuilder-patched/t/00about.t
+--- XML-TreeBuilder-3.09/t/00about.t	2004-06-11 14:02:08.000000000 +1000
++++ XML-TreeBuilder-patched/t/00about.t	2010-04-18 15:55:38.047892598 +1000
+@@ -1,10 +1,10 @@
++#!/usr/bin/perl -T
+ 
+-require 5;
+-# Time-stamp: "2004-06-10 20:02:08 ADT"
++use warnings;
++use strict;
+ 
+ # Summary of, well, things.
+ 
+-use strict;
  use Test;
+ my @modules;
+ BEGIN {
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/10main.t XML-TreeBuilder-patched/t/10main.t
+--- XML-TreeBuilder-3.09/t/10main.t	2004-06-11 14:22:53.000000000 +1000
++++ XML-TreeBuilder-patched/t/10main.t	2010-04-18 16:09:26.078230112 +1000
+@@ -1,38 +1,33 @@
++#!/usr/bin/perl -T
+ 
+-# Time-stamp: "2004-06-10 20:22:53 ADT" 
+-
+-use Test;
 -BEGIN { plan tests => 3 }
-+BEGIN { plan tests => 4 }
+-
+-use XML::TreeBuilder;
++use warnings;
++use strict;
++use Test::More tests => 4;
  
- use XML::TreeBuilder;
+-print "# Hi, I'm ", __FILE__ , " running  XML::TreeBuilder v$XML::TreeBuilder::VERSION\n";
+-ok 1;
++BEGIN {
++    use_ok('XML::TreeBuilder');
++}
  
-@@ -29,8 +29,7 @@
+-use strict;
+ my $x = XML::TreeBuilder->new;
+ $x->store_comments(1);
+ $x->store_pis(1);
+ $x->store_declarations(1);
+-$x->parse(
+-  qq{<!-- myorp --><Gee><foo Id="me" xml:foo="lal">Hello World</foo>} .
+-  qq{<lor/><!-- foo --></Gee><!-- glarg -->}
+-);
++$x->parse(qq{<!-- myorp --><Gee><foo Id="me" xml:foo="lal">Hello World</foo>}
++        . qq{<lor/><!-- foo --></Gee><!-- glarg -->} );
+ 
+ my $y = XML::Element->new_from_lol(
+- ['Gee',
+-   ['~comment', {'text' => ' myorp '}],
+-   ['foo', {'Id'=> 'me', 'xml:foo' => 'lal'}, 'Hello World'],
++    [   'Gee',
++        [ '~comment', { 'text' => ' myorp ' } ],
++        [ 'foo', { 'Id' => 'me', 'xml:foo' => 'lal' }, 'Hello World' ],
+    ['lor'],
+-   ['~comment', {'text' => ' foo '}],
+-   ['~comment', {'text' => ' glarg '}],
++        [ '~comment', { 'text' => ' foo ' } ],
++        [ '~comment', { 'text' => ' glarg ' } ],
   ]
  );
  
--
--ok $x->same_as($y);
-+ok($x->same_as($y));
++ok( $x->same_as($y) );
  
- unless( $ENV{'HARNESS_ACTIVE'} ) {
+-ok $x->same_as($y);
+-
+-unless( $ENV{'HARNESS_ACTIVE'} ) {
++unless ( $ENV{'HARNESS_ACTIVE'} ) {
    $x->dump;
-@@ -43,6 +44,27 @@
+   $y->dump;
+ }
+@@ -45,7 +38,27 @@
  $x->delete;
  $y->delete;
  
-+$x = XML::TreeBuilder->new({ 'NoExpand' => "1", 'ErrorContext' => "2" });
+-ok 1;
+-print "# Bye from ", __FILE__, "\n";
++$x = XML::TreeBuilder->new( { NoExpand => 1, ErrorContext => 2 } );
 +$x->store_comments(1);
 +$x->store_pis(1);
 +$x->store_declarations(1);
-+$x->parse(
-+  qq{<!-- myorp --><Gee><foo Id="me" xml:foo="lal">Hello World</foo>} .
-+  qq{<lor/><!-- foo --></Gee><!-- glarg -->}
-+);
++$x->parse(qq{<!-- myorp --><Gee><foo Id="me" xml:foo="lal">Hello World</foo>}
++        . qq{<lor/><!-- foo --></Gee><!-- glarg -->} );
 +
 +$y = XML::Element->new_from_lol(
-+ ['Gee',
-+   ['~comment', {'text' => ' myorp '}],
-+   ['foo', {'Id'=> 'me', 'xml:foo' => 'lal'}, 'Hello World'],
-+   ['lor'],
-+   ['~comment', {'text' => ' foo '}],
-+   ['~comment', {'text' => ' glarg '}],
-+ ]
++    [   'Gee',
++        [ '~comment', { 'text' => ' myorp ' } ],
++        [ 'foo', { 'Id' => 'me', 'xml:foo' => 'lal' }, 'Hello World' ],
++        ['lor'],
++        [ '~comment', { 'text' => ' foo ' } ],
++        [ '~comment', { 'text' => ' glarg ' } ],
++    ]
 +);
 +
-+ok($x->same_as($y));
++ok( $x->same_as($y) );
 +
- ok 1;
- print "# Bye from ", __FILE__, "\n";
++my $z = XML::TreeBuilder->new( { EncodeAmp => 1 } );
++$z->parse(qq{<p>Here &amp; There</p>});
++like( $z->as_XML(), qr{<p>Here &amp; There</p>}, 'Encoded ampersand' );
  
+ __END__
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/zz_perlcritic.t XML-TreeBuilder-patched/t/zz_perlcritic.t
+--- XML-TreeBuilder-3.09/t/zz_perlcritic.t	1970-01-01 10:00:00.000000000 +1000
++++ XML-TreeBuilder-patched/t/zz_perlcritic.t	2010-04-18 15:11:15.194891962 +1000
+@@ -0,0 +1,9 @@
++#!perl
++
++if (!require Test::Perl::Critic) {
++    Test::More::plan(
++        skip_all => "Test::Perl::Critic required for testing PBP compliance"
++    );
++}
++
++Test::Perl::Critic::all_critic_ok();
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/zz_pod-coverage.t XML-TreeBuilder-patched/t/zz_pod-coverage.t
+--- XML-TreeBuilder-3.09/t/zz_pod-coverage.t	1970-01-01 10:00:00.000000000 +1000
++++ XML-TreeBuilder-patched/t/zz_pod-coverage.t	2010-04-18 15:11:15.195892158 +1000
+@@ -0,0 +1,6 @@
++#!perl -T
++
++use Test::More;
++eval "use Test::Pod::Coverage 1.04";
++plan skip_all => "Test::Pod::Coverage 1.04 required for testing POD coverage" if $@;
++all_pod_coverage_ok();
+diff -NrubB --exclude=.svn --exclude='*.swp' XML-TreeBuilder-3.09/t/zz_pod.t XML-TreeBuilder-patched/t/zz_pod.t
+--- XML-TreeBuilder-3.09/t/zz_pod.t	1970-01-01 10:00:00.000000000 +1000
++++ XML-TreeBuilder-patched/t/zz_pod.t	2010-04-18 15:11:15.195892158 +1000
+@@ -0,0 +1,6 @@
++#!perl -T
++
++use Test::More;
++eval "use Test::Pod 1.14";
++plan skip_all => "Test::Pod 1.14 required for testing POD" if $@;
++all_pod_files_ok();

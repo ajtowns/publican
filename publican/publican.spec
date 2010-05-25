@@ -237,7 +237,6 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue May 18 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
-- Translate productname tag. BZ #
 - Add web_*_label params for web menus.
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.4-0
@@ -245,6 +244,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add constraint to help_config output.
 - Fix segfault when indexterm has no leading content. BZ #592666
 - Fix inline indexterm. BZ #592823
+- Translate productname tag. BZ #592669
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068

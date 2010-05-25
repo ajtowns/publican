@@ -1,14 +1,17 @@
 
 require 5;
 package XML::Element;
-#Time-stamp: "2004-06-10 20:00:02 ADT"
+use warnings;
+use strict;
 use HTML::Tagset ();
 use HTML::Element 3.08 ();
+
+use vars qw(@ISA $VERSION);
 $VERSION = '3.09';
 @ISA = ('HTML::Element');
 
 # Init:
-%emptyElement = ();
+my %emptyElement = ();
 foreach my $e (%HTML::Tagset::emptyElement) {
   $emptyElement{$e} = 1
     if substr($e,0,1) eq '~' and $HTML::Tagset::emptyElement{$e};
@@ -29,8 +32,6 @@ sub _empty_element_map { \%emptyElement }
 
 #TODO: test and document this:
 # with no tagname set, assumes ALL all-whitespace nodes are ignorable!
-
-use strict;
 
 sub delete_ignorable_whitespace {
   my $under_hash = $_[1];
@@ -76,6 +77,21 @@ XML::Element - XML elements with the same interface as HTML::Element
 =head1 SYNOPSIS
 
   [See HTML::Element]
+
+=head1 METHODS AND ATTRIBUTES
+
+=head2 delete_ignorable_whitespace
+
+TODO: test and document this:
+with no tagname set, assumes ALL all-whitespace nodes are ignorable!
+
+=head2 endtag
+
+Redirects to HTML::Element::endtag_XML
+
+=head2 starttag
+
+Redirects to HTML::Element::starttag_XML
 
 =head1 DESCRIPTION
 
