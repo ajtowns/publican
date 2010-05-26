@@ -518,16 +518,39 @@ sub validate_xml {
     my $parser = XML::LibXML->new(
         {   pedantic_parser   => 1,
             suppress_errors   => 0,
-            suppress_warnings => 1
+            suppress_warnings => 1,
+            line_numbers      => 1,
+            expand_xinclude   => 1,
         }
     );
-    $parser->expand_xinclude(1);
 
     croak( maketext( "Cannot locate main XML file: '[_1]'", "$docname.xml" ) )
         unless ( -f "$docname.xml" );
 
-    my $source = $parser->parse_file("$docname.xml");
+    my $source;
+    eval { $source = $parser->parse_file("$docname.xml"); };
 
+    if ($@) {
+        if ( ref($@) ) {
+
+            # handle a structured error (XML::LibXML::Error object)
+            croak(
+                maketext(
+                    "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
+                    $@->domain(),
+                    $@->code(),
+                    $@->file(),
+                    $@->line(),
+                    $@->message()
+                )
+            );
+        }
+        else {
+            croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+        }
+    }
+
+## TODO should version be a variable?
     my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
     my $dtd_path
         = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
@@ -1656,9 +1679,9 @@ sub package {
     mkpath("$tmp_dir/rpm");
 
     dircopy( "$xml_lang/icons", "$tmp_dir/tar/$tardir/icons" )
-            if ( -e "$xml_lang/icons" );
+        if ( -e "$xml_lang/icons" );
     dircopy( "$lang/icons", "$tmp_dir/tar/$tardir/icons" )
-            if ( -e "$lang/icons" );
+        if ( -e "$lang/icons" );
     finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/icons" );
 
     $self->{publican}->{config}->param( 'xml_lang', $lang );
@@ -1720,7 +1743,7 @@ sub package {
         language      => $language,
         abstract      => $abstract,
         tmpdir        => $tmp_dir,
-        ICONS         => (-e "$xml_lang/icons"? 1 : 0),
+        ICONS         => ( -e "$xml_lang/icons" ? 1 : 0 ),
     );
 
     logger(
