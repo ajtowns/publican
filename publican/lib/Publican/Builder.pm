@@ -326,7 +326,7 @@ sub setup_xml {
 
         my @xml_files = dir_list( "$tmp_dir/$lang/xml_tmp", '*.xml' );
 
-        # copy css for brand and defaule images for non-brand
+        # copy css for brand and default images for non-brand
         if ( $type eq 'brand' ) {
             dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
                 if ( -d "$lang/css" );

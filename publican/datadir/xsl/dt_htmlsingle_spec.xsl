@@ -7,6 +7,7 @@
      will be reproduced in the output -->
 <xsl:template match="/"># Documentation Specfile
 %define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
+<xsl:if test="$ICONS = '1'">%define ICONS 1</xsl:if>
 
 %define viewer xdg-open
 
@@ -58,12 +59,22 @@ publican build --formats="html-desktop" --langs=<xsl:value-of select="$lang"/>
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 
+%if %{ICONS}
+for icon in `ls icons/*x*.png`; do
+	size=`echo "$icon" | sed -e 's/icons\/\(.*\)\.png/\1/'`;
+	mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
+	cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
+done
+mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
+cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+%endif
+
 cat > %{name}.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/productname" /><xsl:value-of select="/setinfo/productname" /><xsl:value-of select="/articleinfo/productname"/> <xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" /><xsl:value-of select="/articleinfo/productnumber"/>: <xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
 Comment=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Exec=%{viewer} %{_docdir}/%{name}-%{version}/index.html
-Icon=%{_docdir}/%{name}-%{version}/images/icon.svg
+Icon=<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 Categories=Documentation;X-Red-Hat-Base;
 Type=Application
 Encoding=UTF-8
@@ -82,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
+%if %{ICONS}
+/usr/share/icons/hicolor/*
+%endif
 %if %{HTMLVIEW}
 %{_datadir}/applications/%{?vendor}%{name}.desktop
 %else

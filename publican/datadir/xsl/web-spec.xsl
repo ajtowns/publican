@@ -9,6 +9,7 @@
 %define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
 
 %define viewer xdg-open
+<xsl:if test="$ICONS = '1'">%define ICONS 1</xsl:if>
 %define wwwdir %{_localstatedir}/www/html/docs
 
 %if %{HTMLVIEW}
@@ -74,12 +75,23 @@ mkdir -p $RPM_BUILD_ROOT/%{wwwdir}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{wwwdir}/.
 
+%if %{ICONS}
+for icon in `ls icons/*x*.png`; do
+	size=`echo "$icon" | sed -e 's/icons\/\(.*\)\.png/\1/'`;
+	mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
+	cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
+done
+mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
+cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+%endif
+
+
 cat > <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/productname" /><xsl:value-of select="/setinfo/productname" /><xsl:value-of select="/articleinfo/productname"/> <xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" /><xsl:value-of select="/articleinfo/productnumber"/>: <xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
 Comment=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Exec=%{viewer} %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
-Icon=%{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/images/icon.svg
+Icon=<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 Categories=Documentation;X-Red-Hat-Base;
 Type=Application
 Encoding=UTF-8
@@ -111,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 %defattr(-,root,root,-)
 %doc <xsl:value-of select="$tmpdir"/>/<xsl:value-of select="$lang"/>/html-desktop/*
+%if %{ICONS}
+/usr/share/icons/hicolor/*
+%endif
 %if %{HTMLVIEW}
 %{_datadir}/applications/redhat-<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop
 %else

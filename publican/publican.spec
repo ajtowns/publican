@@ -245,6 +245,8 @@ rm -rf $RPM_BUILD_ROOT
 - Fix segfault when indexterm has no leading content. BZ #592666
 - Fix inline indexterm. BZ #592823
 - Translate productname tag. BZ #592669
+- Fix formalpara missing ID. BZ #595564
+- Add dummy lang.css to avoid 404's. BZ #595799
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068

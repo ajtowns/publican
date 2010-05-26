@@ -1142,6 +1142,11 @@ Version: 1.72.0
           <xsl:with-param name="class" select="$class"/>
         </xsl:apply-templates>
       </xsl:if>
+      <xsl:if test="@id or @xml:id">
+        <xsl:attribute name="id">
+          <xsl:value-of select="(@id|@xml:id)[1]"/>
+        </xsl:attribute>
+      </xsl:if>
       <xsl:copy-of select="$content"/>
     </div>
   </xsl:variable>
