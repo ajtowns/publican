@@ -652,8 +652,10 @@ Version: 1.72.0
   </div>
 </xsl:template>
 
+<!-- set id BZ #593892 -->
 <xsl:template match="qandaentry">
-  <div>
+  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+  <div id="{$id}">
     <xsl:apply-templates select="." mode="class.attribute"/>
     <xsl:apply-templates/>
   </div>

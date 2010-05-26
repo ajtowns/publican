@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t50
+Release:        0%{?dist}.t51
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -248,6 +248,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix formalpara missing ID. BZ #595564
 - Add dummy lang.css to avoid 404's. BZ #595799
 - Improve validation error message. BZ #593887
+- Fix qandaentry ID. BZ #593892
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068
@@ -980,6 +981,5 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
-
 
 
