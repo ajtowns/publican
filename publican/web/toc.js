@@ -1,5 +1,5 @@
 var work = 1;
-var name_c = 'redhat.docs';
+var name_c = window.location.hostname + '-publican';
 var num_days = 7;
 
 function setCookie(name, value, expires, path, domain, secure) { 
@@ -165,8 +165,8 @@ function toggle(e, id) {
 function loadToc() {
 	var my_select = document.getElementById('langselect');
 	if (my_select.selectedIndex > 0) {
-		location.href="/docs/" + my_select.options[my_select.selectedIndex].value + "/toc.html";
-		parent.frames.main.location.replace("/docs/" + my_select.options[my_select.selectedIndex].value + "/index.html");
+		location.href="../" + my_select.options[my_select.selectedIndex].value + "/toc.html";
+		parent.frames.main.location.replace("../" + my_select.options[my_select.selectedIndex].value + "/index.html");
 	}
 }
 

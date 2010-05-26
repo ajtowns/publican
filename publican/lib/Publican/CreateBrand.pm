@@ -324,8 +324,8 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://www.SETUP.set.me.example.com/source/%{name}-%{version}.tgz
-Requires:	$PUBLICAN_NAME >= 1.0
-BuildRequires:	$PUBLICAN_NAME >= 1.0
+Requires:	$PUBLICAN_NAME >= 1.99
+BuildRequires:	$PUBLICAN_NAME >= 1.99
 URL:		https://www.SETUP.set.me.example.com
 
 %description
@@ -341,7 +341,7 @@ publican build --formats=xml --langs=all --publish
 %install
 rm -rf \$RPM_BUILD_ROOT
 mkdir -p -m755 \$RPM_BUILD_ROOT%{_datadir}/$PUBLICAN_NAME/Common_Content
-publican installbrand --path=\$RPM_BUILD_ROOT%{_datadir}/$PUBLICAN_NAME/Common_Content
+publican install_brand --path=\$RPM_BUILD_ROOT%{_datadir}/$PUBLICAN_NAME/Common_Content
 
 %clean
 rm -rf \$RPM_BUILD_ROOT

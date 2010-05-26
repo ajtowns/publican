@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t51
+Release:        0%{?dist}.t52
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -238,6 +238,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue May 18 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
 - Add web_*_label params for web menus.
+- Add underscores to cleanset, installbrand, and printtree. BZ #581090
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.4-0
 - Fix different log jar path on F14+
