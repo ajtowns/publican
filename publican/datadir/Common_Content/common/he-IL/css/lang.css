@@ -1,5 +1,6 @@
 /* RTL problems fixed by <alsadi@ojuba.org> report RTL bugs to core@ojuba.org */
 pre, tt, code, div.legalnotice .para {
+	text-align: left;
 	direction: ltr;
 }
 
@@ -8,18 +9,30 @@ body {
 }
 
 body.toc_embeded {
+	margin-left: inherit;
 	margin-right: 300px;
+	text-align: right;
+	float: right;
 }
 
-
-object.toc {
-	right:0;
+object.toc, iframe.toc {
+	left: inherit;
+	right: 0;
+	border-style:none;
 	border-left:1px solid #999;
 }
 
 body.desktop {
+	margin-left: inherit;
 	margin-right: 26em;
+	text-align: right;
+	float: right;
 }
+
+body.desktop .book > .toc {
+	padding-right:1em;
+}
+
 
 body.desktop .book > .toc {
 	right:0px;
