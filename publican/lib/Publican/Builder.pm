@@ -515,14 +515,23 @@ sub validate_xml {
 
     my $dir = pushd("$tmp_dir/$lang/xml");
 
-    my $parser = XML::LibXML->new(
-        {   pedantic_parser   => 1,
-            suppress_errors   => 0,
-            suppress_warnings => 1,
-            line_numbers      => 1,
-            expand_xinclude   => 1,
-        }
-    );
+    # 1.69 blows up if you pass some paramaters in
+    my $parser;
+    if ( $XML::LibXML::VERSION >= 1.70 ) {
+        $parser = XML::LibXML->new(
+            {   pedantic_parser   => 1,
+                suppress_errors   => 0,
+                suppress_warnings => 1,
+                line_numbers      => 1,
+                expand_xinclude   => 1
+            }
+        );
+    }
+    else {
+        $parser = XML::LibXML->new();
+        $parser->line_numbers(1);
+        $parser->expand_xinclude(1);
+    }
 
     croak( maketext( "Cannot locate main XML file: '[_1]'", "$docname.xml" ) )
         unless ( -f "$docname.xml" );
@@ -541,7 +550,7 @@ sub validate_xml {
                     $@->code(),
                     $@->file(),
                     $@->line(),
-                    $@->message()
+                    $@->message(),
                 )
             );
         }

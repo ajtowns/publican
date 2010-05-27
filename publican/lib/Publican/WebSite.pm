@@ -159,7 +159,7 @@ sub _dbh {
 
 ##    cluck("Connected to DB $db_file\n");
 
-    $dbh->{unicode} = 1;
+    $dbh->{sqlite_unicode} = 1;
 
     $self->{'dbh'} = $dbh;
 }
