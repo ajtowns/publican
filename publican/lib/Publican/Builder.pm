@@ -1691,7 +1691,8 @@ sub package {
         if ( -e "$xml_lang/icons" );
     dircopy( "$lang/icons", "$tmp_dir/tar/$tardir/icons" )
         if ( -e "$lang/icons" );
-    finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/icons" );
+    finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/icons" )
+        if ( -e "$tmp_dir/tar/$tardir/icons" );
 
     $self->{publican}->{config}->param( 'xml_lang', $lang );
 

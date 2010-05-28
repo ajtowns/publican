@@ -250,6 +250,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add dummy lang.css to avoid 404's. BZ #595799
 - Improve validation error message. BZ #593887
 - Fix qandaentry ID. BZ #593892
+- Fix Icon non-conformance. BZ #593890
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068
@@ -982,6 +983,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
+
 
 
 

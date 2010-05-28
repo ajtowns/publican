@@ -29,11 +29,16 @@ my $dir = pushd('Users_Guide');
 is( system(qq{perl -I $lib $coverdb $publican print_tree $common_opts}),
     0, 'Run print_tree' );
 
-is( system( qq{perl -I $lib $coverdb $publican update_pot $common_opts} ), 0, 'Update POT file' );
+is( system(qq{perl -I $lib $coverdb $publican update_pot $common_opts}),
+    0, 'Update POT file' );
 
 # TODO rebuild all translation when we get some
-is( system( qq{perl -I $lib $coverdb $publican update_po --langs=de-DE $common_opts} ),
-    0, 'Update German PO files' );
+is( system(
+        qq{perl -I $lib $coverdb $publican update_po --langs=de-DE $common_opts}
+    ),
+    0,
+    'Update German PO files'
+);
 
 is( system(
         qq{perl -I $lib $coverdb $publican build --formats=eclipse,epub,html,html-single,html-desktop,pdf,txt --langs=en-US $common_opts}

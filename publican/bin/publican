@@ -709,9 +709,6 @@ if ( $action eq 'package' ) {
         system("cvs up");
         croak($@) if ($@);
 
-        system("make tag");
-        croak($@) if ($@);
-
         system("make build");
         croak($@) if ($@);
 
