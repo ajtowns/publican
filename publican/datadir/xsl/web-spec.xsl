@@ -9,7 +9,7 @@
 %define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
 
 %define viewer xdg-open
-%define ICONS <xsl:value-of select="$ICONS"/>https://svn.devel.redhat.com/repos/ecs/Red_Hat_Enterprise_Linux/6.0/Installation_Guide
+%define ICONS <xsl:value-of select="$ICONS"/>
 %define wwwdir %{_localstatedir}/www/html/docs
 
 %if %{HTMLVIEW}
