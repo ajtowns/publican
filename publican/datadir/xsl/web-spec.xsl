@@ -9,7 +9,7 @@
 %define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
 
 %define viewer xdg-open
-<xsl:if test="$ICONS = '1'">%define ICONS 1</xsl:if>
+%define ICONS <xsl:value-of select="$ICONS"/>https://svn.devel.redhat.com/repos/ecs/Red_Hat_Enterprise_Linux/6.0/Installation_Guide
 %define wwwdir %{_localstatedir}/www/html/docs
 
 %if %{HTMLVIEW}
@@ -83,6 +83,8 @@ for icon in `ls icons/*x*.png`; do
 done
 mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+%else
+cp images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %endif
 
 
@@ -112,6 +114,19 @@ fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 %{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single", "epub"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
+
+# Update Icon cache if it exists
+%post -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
+touch --no-create %{_datadir}/icons/hicolor &amp;>/dev/null || :
+
+%postun -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
+if [ $1 -eq 0 ] ; then
+    touch --no-create %{_datadir}/icons/hicolor &amp;>/dev/null
+    gtk-update-icon-cache %{_datadir}/icons/hicolor &amp;>/dev/null || :
+fi
+
+%posttrans -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
+gtk-update-icon-cache %{_datadir}/icons/hicolor &amp;>/dev/null || :
 
 %clean
 rm -rf $RPM_BUILD_ROOT

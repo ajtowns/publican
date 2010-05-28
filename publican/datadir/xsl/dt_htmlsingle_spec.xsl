@@ -7,7 +7,7 @@
      will be reproduced in the output -->
 <xsl:template match="/"># Documentation Specfile
 %define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
-<xsl:if test="$ICONS = '1'">%define ICONS 1</xsl:if>
+%define ICONS <xsl:value-of select="$ICONS"/>
 
 %define viewer xdg-open
 
@@ -67,6 +67,8 @@ for icon in `ls icons/*x*.png`; do
 done
 mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+%else
+cp images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %endif
 
 cat > %{name}.desktop &lt;&lt;'EOF'
@@ -86,6 +88,19 @@ desktop-file-install  %{?vendoropt} --dir=${RPM_BUILD_ROOT}%{_datadir}/applicati
 %else
 desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications %{name}.desktop
 %endif
+
+# Update Icon cache if it exists
+%post
+touch --no-create %{_datadir}/icons/hicolor &amp;>/dev/null || :
+
+%postun
+if [ $1 -eq 0 ] ; then
+    touch --no-create %{_datadir}/icons/hicolor &amp;>/dev/null
+    gtk-update-icon-cache %{_datadir}/icons/hicolor &amp;>/dev/null || :
+fi
+
+%posttrans
+gtk-update-icon-cache %{_datadir}/icons/hicolor &amp;>/dev/null || :
 
 %clean
 rm -rf $RPM_BUILD_ROOT
