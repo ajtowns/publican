@@ -649,7 +649,12 @@ if ( $action eq 'package' ) {
 
         my @brew_args = ( "brew", "build" );
         push( @brew_args, "--scratch" ) if ( $opts{scratch} );
-        push( @brew_args, "--wait" )    if ( $opts{'wait'} );
+        if ( $opts{'wait'} ) {
+            push( @brew_args, "--wait" );
+        } else {
+            push( @brew_args, "--nowait" );
+        }
+
         push( @brew_args, $publican->param('brew_dist') );
 
         if ( -f "$srpm" ) {
