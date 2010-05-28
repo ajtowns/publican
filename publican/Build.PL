@@ -262,6 +262,7 @@ my $builder = $class->new(
         'templates/static_toc.tmpl' => 'templates/static_toc.tmpl',
         'templates/toc.tmpl'        => 'templates/toc.tmpl',
         'templates/stats.tmpl'      => 'templates/stats.tmpl',
+        'templates/Sitemap.tmpl'    => 'templates/Sitemap.tmpl',
     },
     database_files => { 'database/default.db' => 'database/default.db', },
     etc_files =>

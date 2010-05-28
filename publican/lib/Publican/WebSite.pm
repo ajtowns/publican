@@ -10,6 +10,7 @@ use Template;
 use Template::Constants;
 use Locale::Language;
 use File::Find::Rule;
+use DateTime;
 ## BUGBUG This requires splitting publican into 3 rpms to
 ## allow translations to not conflict on systems
 ## with web and builder installed
@@ -88,9 +89,9 @@ my %tmpl_strings = (
     'nojs' => maketext(
         '<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to view the Navigation options without JavaScript enabled</p>'
     ),
-    'Site_Map'        => maketext('Site Map'),
-    'Site_Statistics' => maketext('Site Statistics'),
-    'Site_Tech'       => maketext('Site Tech'),
+    'Site_Map'        => maketext('Map'),
+    'Site_Statistics' => maketext('Statistics'),
+    'Site_Tech'       => maketext('Tech'),
     'iframe'          => maketext(
         'This is an iframe, to view it upgrade your browser or enable iframe display.'
     ),
@@ -195,6 +196,7 @@ CREATE TABLE IF NOT EXISTS $DB_NAME (
 	product_label text(255),
 	version_label text(255),
 	name_label text(255),
+        update_date text(10),
 	UNIQUE(language, product, version, name, format)
 )
 CREATE_TABLE
@@ -300,18 +302,54 @@ sub add_entry {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
 
+    my $update_date = DateTime->today()->ymd();
+
     $format = lc $format;
 
     my $sql = <<INSERT_ENTRY;
         INSERT INTO $DB_NAME 
-               (language, product, version, name, format, product_label, version_label, name_label) 
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+               (language, product, version, name, format, product_label, version_label, name_label, update_date) 
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 INSERT_ENTRY
 
     return $self->_dbh->do(
-        $sql,           undef, $language, $product,
-        $version,       $name, $format,   $product_label,
-        $version_label, $name_label
+        $sql,           undef,       $language, $product,
+        $version,       $name,       $format,   $product_label,
+        $version_label, $name_label, $update_date
+    );
+}
+
+sub update_entry {
+    my ( $self, $arg ) = @_;
+
+    my $ID       = delete $arg->{ID}       || croak "ID required";
+    my $language = delete $arg->{language} || croak "language required";
+    my $product  = delete $arg->{product}  || croak "product required";
+    my $version  = delete $arg->{version}  || croak "version required";
+    my $name     = delete $arg->{name}     || croak "name required";
+    my $format   = delete $arg->{format}   || croak "format required";
+    my $product_label = delete $arg->{product_label};
+    my $version_label = delete $arg->{version_label};
+    my $name_label    = delete $arg->{name_label};
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $update_date = DateTime->today()->ymd();
+
+    $format = lc $format;
+
+    my $sql = <<INSERT_ENTRY;
+        UPDATE $DB_NAME SET
+               language = ?, product = ?, version = ?, name = ?, format = ?, product_label = ?, version_label = ?, name_label = ?, update_date = ? 
+               WHERE ID = $ID
+INSERT_ENTRY
+
+    return $self->_dbh->do(
+        $sql,           undef,       $language, $product,
+        $version,       $name,       $format,   $product_label,
+        $version_label, $name_label, $update_date
     );
 }
 
@@ -343,6 +381,35 @@ DELETE_ENTRY
         $format );
 }
 
+sub get_entry_id {
+    my ( $self, $arg ) = @_;
+
+    my $language = delete $arg->{language} || croak "language required";
+    my $product  = delete $arg->{product}  || croak "product required";
+    my $version  = delete $arg->{version}  || croak "version required";
+    my $name     = delete $arg->{name}     || croak "name required";
+    my $format   = delete $arg->{format}   || croak "format required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $sql = <<GET_ENTRY;
+        SELECT ID FROM $DB_NAME 
+         WHERE language = ?
+           AND product = ?
+           AND version = ?
+           AND name = ?
+           AND format = ?
+GET_ENTRY
+
+    my $sth = $self->_dbh->prepare($sql);
+    $sth->execute( $language, $product, $version, $name, $format );
+    my $result = $sth->fetchrow();
+
+    return $result;
+}
+
 # return a hash of records
 sub get_hash_ref {
     my ( $self, $arg ) = @_;
@@ -362,7 +429,8 @@ sub get_hash_ref {
                format,
                product_label, 
                version_label, 
-               name_label
+               name_label,
+               update_date
           FROM $DB_NAME 
          WHERE language = ? 
       ORDER BY product, 
@@ -377,17 +445,22 @@ GET_LIST
     my %list;
 
     while (
-        my ($id,     $product,       $version,       $name,
-            $format, $product_label, $version_label, $name_label
+        my ($id,            $product,    $version,
+            $name,          $format,     $product_label,
+            $version_label, $name_label, $update_date
         )
         = $sth->fetchrow()
         )
     {
         $product_label = $product unless $product_label;
         $list{$product_label}{$version}{$name}{formats}{$format} = 1;
-        $list{$product_label}{$version}{$name}{product}          = $product;
-        $list{$product_label}{$version}{$name}{version_label}    = $version_label if $version_label;
-        $list{$product_label}{$version}{$name}{name_label}       = $name_label if $name_label;
+        $list{$product_label}{$version}{$name}{product} = $product;
+        $list{$product_label}{$version}{$name}{version_label} = $version_label
+            if $version_label;
+        $list{$product_label}{$version}{$name}{name_label} = $name_label
+            if $name_label;
+        $list{$product_label}{$version}{$name}{update_date} = $update_date
+            || '2000-01-01';
     }
 
     $sth->finish();
@@ -428,11 +501,12 @@ sub regen_all_toc {
 
     my @fulltoc   = ();
     my @toc_names = ();
+    my @urls      = ();
 
     foreach my $lang ( @{$langs} ) {
         my %toc;
-        $toc{'products'}
-            = $self->_regen_toc( { language => qq|$lang->[0]| } );
+        $toc{'products'} = $self->_regen_toc(
+            { language => qq|$lang->[0]|, urls => \@urls } );
         $lang->[0] =~ m/^([^-_]*)/;
         my $lang_name = code2language($1) || "unknown $1";
         if ( $LANG_NAME{ $lang->[0] } ) {
@@ -457,6 +531,12 @@ sub regen_all_toc {
 
     $self->stats();
 
+    $vars = ();
+    $vars = { urls => \@urls, };
+    $self->{Template}
+        ->process( 'Sitemap.tmpl', $vars, $self->{toc_path} . "/Sitemap" )
+        or croak( $self->{Template}->error() );
+
     return;
 }
 
@@ -465,6 +545,9 @@ sub _regen_toc {
 
     my $language = delete $arg->{language}
         || croak "_regen_toc: language required";
+
+    my $urls = delete $arg->{urls}
+        || croak "_regen_toc: urls required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -483,9 +566,11 @@ sub _regen_toc {
 			<input class="searchsub" type="submit" value="Search" />
 SEARCH
 
-    if ( $settings->{host} ) {
+    my $host = $settings->{host};
+
+    if ($host) {
         $default_search .= <<SEARCH;
-			<input class="searchchk" type="hidden"  name="sitesearch" value="$settings->{host}" />
+			<input class="searchchk" type="hidden"  name="sitesearch" value="$host" />
 SEARCH
     }
 
@@ -533,17 +618,15 @@ SEARCH
         my %prod_data;
         my @versions = ();
 
-        foreach
-            my $version ( reverse( sort({ $a <=> $b } keys( %{ $list2->{$product} } ) ) ) )
+        foreach my $version (
+            reverse( sort( { $a <=> $b } keys( %{ $list2->{$product} } ) ) ) )
         {
             my $version_label = $version;
             my %ver_data;
             my @books = ();
 
-            foreach my $book (
-                sort(
-                    keys( %{ $list2->{$product}{$version} } ) )
-                )
+            foreach
+                my $book ( sort( keys( %{ $list2->{$product}{$version} } ) ) )
             {
                 my $book_label = $book;
                 my %book_data;
@@ -551,14 +634,15 @@ SEARCH
 
                 foreach my $type (
                     sort
-                    keys %{ $list2->{$product}{$version}{$book}{formats} } )
+                    keys %{ $list2->{$product}{$version}{$book}{formats} }
+                    )
                 {
 
                     $book_label
                         = $list2->{$product}{$version}{$book}{name_label}
                         if ($list2->{$product}{$version}{$book}{name_label}
-                        and $list2->{$product}{$version}{$book}{name_label}
-                        ne $book );
+                        and $list2->{$product}{$version}{$book}{name_label} ne
+                        $book );
                     $version_label
                         = $list2->{$product}{$version}{$book}{version_label}
                         if (
@@ -583,7 +667,7 @@ SEARCH
                             );
                         $type_data{'ext'} = pop(@filelist);
                     }
-                    if ( $type eq 'epub' ) {
+                    elsif ( $type eq 'epub' ) {
                         my @filelist
                             = File::Find::Rule->file->relative()
                             ->name('*.epub')
@@ -596,6 +680,14 @@ SEARCH
                         $type_data{onclick} = 0;
                     }
 
+                    my $url = {
+                        url =>
+                            qq|$host/$language/$product_path/$version/$type/$book/|
+                            . $type_data{'ext'},
+                        update_date =>
+                            $list2->{$product}{$version}{$book}{update_date},
+                    };
+                    push( @{$urls}, $url );
                     push( @types, \%type_data );
                 }
 
@@ -612,7 +704,7 @@ SEARCH
             push( @versions, \%ver_data );
         }
 
-        $prod_data{'product'}  = $product;
+        $prod_data{'product'}       = $product;
         $prod_data{'product_path'}  = $product_path;
         $prod_data{'product_clean'} = $product;
         $prod_data{'product_clean'} =~ s/_/ /g;

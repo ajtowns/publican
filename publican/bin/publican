@@ -735,9 +735,9 @@ if ( $action eq 'install_book' ) {
     else {
         my $lang = $opts{lang}
             || croak( maketext( "[_1] is a required argument", 'lang' ) );
-        my $product = $publican->param('product');
-        my $version = $publican->param('version');
-        my $name    = $publican->param('docname');
+        my $product       = $publican->param('product');
+        my $version       = $publican->param('version');
+        my $name          = $publican->param('docname');
         my $product_label = $publican->param('web_product_label');
         my $version_label = $publican->param('web_version_label');
         my $name_label    = $publican->param('web_name_label');
@@ -751,19 +751,42 @@ if ( $action eq 'install_book' ) {
 
         my @formats = ( "html", "pdf", "html-single", "epub" );
         foreach my $format (@formats) {
-
-            # BUGBUG get these the normal way
-            $ws->add_entry(
+            my $id = $ws->get_entry_id(
                 {   language => $lang,
                     product  => $product,
                     version  => $version,
                     name     => $name,
-                    format   => $format,
-                    product_label  => $product_label,
-                    version_label  => $version_label,
-                    name_label     => $name_label,
+                    format   => $format
                 }
             );
+
+            if ($id) {
+                $ws->update_entry(
+                    {   ID            => $id,
+                        language      => $lang,
+                        product       => $product,
+                        version       => $version,
+                        name          => $name,
+                        format        => $format,
+                        product_label => $product_label,
+                        version_label => $version_label,
+                        name_label    => $name_label,
+                    }
+                );
+            }
+            else {
+                $ws->add_entry(
+                    {   language      => $lang,
+                        product       => $product,
+                        version       => $version,
+                        name          => $name,
+                        format        => $format,
+                        product_label => $product_label,
+                        version_label => $version_label,
+                        name_label    => $name_label,
+                    }
+                );
+            }
         }
 
     }

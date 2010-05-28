@@ -132,7 +132,8 @@ my %PARAMS = (
         default => 0,
     },
     confidential_text => {
-        descr   => maketext('The text used to indicate content is confidential.'),
+        descr =>
+            maketext('The text used to indicate content is confidential.'),
         default => maketext('CONFIDENTIAL'),
     },
     cvs_root => {
@@ -179,8 +180,9 @@ my %PARAMS = (
             maketext('Eclipse plugin name. Defaults to "$product $docname"'),
     },
     'ec_provider' => {
-        descr =>
-            maketext('Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION),
+        descr => maketext(
+            'Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION
+        ),
     },
     edition => {
         descr => maketext(
@@ -207,7 +209,9 @@ my %PARAMS = (
 
     },
     max_image_width => {
-        descr   => maketext('The maximum pixel width an image can be before it will be scaled.'),
+        descr => maketext(
+            'The maximum pixel width an image can be before it will be scaled.'
+        ),
         default => '444',
 
     },
@@ -299,22 +303,30 @@ my %PARAMS = (
     },
     web_host => {
         descr => maketext(
-            'This is a Publican Website host name, used for searches.'),
+            'This is a Publican Website host name, used for searches and Sitemap.Be sure to include the full path to your document tree. e.g. if your documentas are in the docs directory: http://www.example.com/docs'
+        ),
     },
     web_obsoletes =>
         { descr => maketext('Packages to obsolete in web RPM.'), },
     web_search => {
         descr => maketext(
-            'Override the default search form for a Publican Website.'),
+            'Override the default search form for a Publican Website. By default this will use Gogle search and do a site search if web_host is set.'
+        ),
     },
     web_name_label => {
-        descr => maketext('Override the book name, bottom level, menu label on a Publican Website.'),
+        descr => maketext(
+            'Override the book name, bottom level, menu label on a Publican Website.'
+        ),
     },
     web_product_label => {
-        descr => maketext('Override the product, top level, menu label on a Publican Website.'),
+        descr => maketext(
+            'Override the product, top level, menu label on a Publican Website.'
+        ),
     },
     web_version_label => {
-        descr => maketext('Override the version, middle level, menu label on a Publican Website. To hide this meu item set this to: UNUSED'),
+        descr => maketext(
+            'Override the version, middle level, menu label on a Publican Website. To hide this meu item set this to: UNUSED'
+        ),
     },
     xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
@@ -720,8 +732,9 @@ sub help_config {
                 . maketext( "Default: [_1]", $PARAMS{$param}->{default} )
                 . "\n" )
             if ( defined( $PARAMS{$param}->{default} ) );
-        logger(   "\t\t"
-                . maketext( "Constraint: [_1]", $PARAMS{$param}->{constraint} )
+        logger( "\t\t"
+                . maketext( "Constraint: [_1]",
+                $PARAMS{$param}->{constraint} )
                 . "\n" )
             if ( defined( $PARAMS{$param}->{constraint} ) );
 
