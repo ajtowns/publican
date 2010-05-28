@@ -929,11 +929,23 @@ Add an entry to the current Publican::WebSite DB...
 
 Returns number of rows added. Should be 1 for success, 0 for failure.
 
+=head2 update_entry
+
+Update an existing entry in the current Publican::WebSite DB...
+
+Returns number of rows added. Should be 1 for success, 0 for failure.
+
 =head2  del_entry
 
 Delete an entry from the current Publican::WebSite DB...
 
 Returns number of rows deleted. Should be 1 for success, 0 for failure.
+
+=head2  get_entry_id
+
+Get the ID of a book from the Publican::WebSite DB.
+
+Returns the ID or NULL.
 
 =head2 get_hash_ref
 
