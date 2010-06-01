@@ -755,15 +755,12 @@ if ( $action eq 'install_book' ) {
         # get translated labels
 ## BUGBUG this is copied from Publican.pm, maybe a sub for these?
         if ( $lang ne $xml_lang ) {
-            croak(
-                maketext(
-                    "Can't locate required file: [_1]",
-                    "$tmp_dir/$lang/xml/$type" . '_Info.xml'
-                )
-            ) if ( !-f "$tmp_dir/$lang/xml/$type" . '_Info.xml' );
+            my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
+            croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
+                if ( !-f $xml_file );
 
             my $xml_doc = XML::TreeBuilder->new();
-            $xml_doc->parse_file( "$xml_lang/$type" . '_Info.xml' );
+            $xml_doc->parse_file($xml_file);
 
             # BUGBUG can't translate overridden labels :(
             unless ($product_label) {
