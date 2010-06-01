@@ -651,7 +651,8 @@ if ( $action eq 'package' ) {
         push( @brew_args, "--scratch" ) if ( $opts{scratch} );
         if ( $opts{'wait'} ) {
             push( @brew_args, "--wait" );
-        } else {
+        }
+        else {
             push( @brew_args, "--nowait" );
         }
 
@@ -746,6 +747,46 @@ if ( $action eq 'install_book' ) {
 
         croak( maketext( "can't find 'publish/[_1]' directory", $lang ) )
             unless ( -d "publish/$lang" );
+
+        my $type     = $publican->param('type');
+        my $xml_lang = $publican->param('xml_lang');
+        my $tmp_dir  = $publican->param('tmp_dir');
+
+        # get translated labels
+## BUGBUG this is copied from Publican.pm, maybe a sub for these?
+        if ( $lang ne $xml_lang ) {
+            croak(
+                maketext(
+                    "Can't locate required file: [_1]",
+                    "$tmp_dir/$lang/xml/$type" . '_Info.xml'
+                )
+            ) if ( !-f "$tmp_dir/$lang/xml/$type" . '_Info.xml' );
+
+            my $xml_doc = XML::TreeBuilder->new();
+            $xml_doc->parse_file( "$xml_lang/$type" . '_Info.xml' );
+
+            # BUGBUG can't translate overridden labels :(
+            unless ($product_label) {
+                $product_label = eval {
+                    $xml_doc->root()->look_down( "_tag", "productname" )
+                        ->as_text();
+                };
+                if ($@) {
+                    croak maketext("productname not found in Info file");
+                }
+                $product_label =~ s/\s/_/g;
+            }
+
+            unless ($name_label) {
+                $name_label = eval {
+                    $xml_doc->root()->look_down( "_tag", "title" )->as_text();
+                };
+                if ($@) {
+                    croak maketext("title not found in Info file");
+                }
+                $name_label =~ s/\s/_/g;
+            }
+        }
 
         mkpath( $ws->toc_path() . "/$lang" )
             unless ( -d $ws->toc_path() . "/$lang" );
