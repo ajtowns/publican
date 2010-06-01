@@ -52,7 +52,27 @@ Debian
     The publican package deb files are in the debian package repo
     http://packages.debian.org/search?keywords=publican
     cd publican
-TODO: deps
+    sudo apt-get install \
+libfile-pushd-perl \
+libconfig-simple-perl \
+libxml-treebuilder-perl \
+libfile-find-rule-perl \
+libmakefile-parser-perl \
+liblocale-maketext-gettext-perl \
+perlmagick \
+libimage-size-perl \
+libdatetime-perl \
+liblocale-po-perl \
+libxml-libxslt-perl \
+libdatetime-format-dateparse-perl \
+libsyntax-highlight-engine-kate-perl \
+libtest-perl-critic-perl \
+libtest-pod-coverage-perl \
+libtest-exception-perl \
+libdbd-sqlite-perl \
+libdevel-cover-perl \
+libdbd-sqlite3-perl
+
     ./Build dist
 TODO: put the tgz where?
     debuild
