@@ -602,6 +602,7 @@ SEARCH
         $row_data{'selected'}  = $selected;
         $row_data{'lang'}      = $lang->[0];
         $row_data{'lang_name'} = $lang_name;
+debug_msg("lang name: $lang_name\n");
         push( @tmpl_langs, \%row_data );
     }
 
@@ -654,6 +655,8 @@ SEARCH
 
                     $product_path
                         = $list2->{$product}{$version}{$book}{product};
+
+debug_msg("product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_path: $product_path \n");
 
                     my %type_data;
                     $type_data{'type'}  = $type;
