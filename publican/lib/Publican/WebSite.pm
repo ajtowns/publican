@@ -138,6 +138,8 @@ sub new {
 ##        DEBUG => Template::Constants::DEBUG_ALL,
     };
 
+    $conf->{DEBUG} = Template::Constants::DEBUG_ALL if($Publican::DEBUG);
+
     # create Template object
     $self->{Template} = Template->new($conf) or croak( Template->error() );
 
@@ -553,7 +555,7 @@ sub _regen_toc {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
 
-##    print("Processing lang: $language\n");
+debug_msg("Processing lang: $language\n");
 
     my $vars = {};
 
