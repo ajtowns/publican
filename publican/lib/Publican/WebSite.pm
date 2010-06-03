@@ -22,9 +22,7 @@ our $VERSION = '1.3';
 
 my $DB_NAME             = 'books';
 my $DEFAULT_LANG        = 'en-US';
-my $DEFAULT_TOC_PATH    = "/var/www/html/docs";
-my $DEFAULT_TMPL_PATH   = '/usr/share/publican-website/templates';
-my $DEFAULT_DB_FILE     = '/usr/share/publican-website/default.db';
+my $DEFAULT_TMPL_PATH   = '/usr/share/publican/templates';
 my $DEFAULT_CONFIG_FILE = '/etc/publican-website.cfg';
 
 my %LANG_NAME = (
@@ -119,9 +117,18 @@ sub new {
     $config->read($site_config)
         || croak("Failed to load config file: $site_config");
 
-    my $toc_path  = $config->param('toc_path')  || $DEFAULT_TOC_PATH;
+    my $toc_path = $config->param('toc_path') || croak(
+        maketext(
+            "[_1] is a manadory field in a site configuration file",
+            'toc_path'
+        )
+    );
     my $tmpl_path = $config->param('tmpl_path') || $DEFAULT_TMPL_PATH;
-    my $db_file   = $config->param('db_file')   || $DEFAULT_DB_FILE;
+    my $db_file   = $config->param('db_file')   || croak(
+        maketext(
+            "[_1] is a manadory field in a site configuration file", 'db_file'
+        )
+    );
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -133,12 +140,9 @@ sub new {
     $self->{toc_path}  = $toc_path;
     $self->{tmpl_path} = $tmpl_path;
 
-    my $conf = {
-        INCLUDE_PATH => $tmpl_path,
-##        DEBUG => Template::Constants::DEBUG_ALL,
-    };
+    my $conf = { INCLUDE_PATH => $tmpl_path, };
 
-    $conf->{DEBUG} = Template::Constants::DEBUG_ALL if($Publican::DEBUG);
+    $conf->{DEBUG} = Template::Constants::DEBUG_ALL if ($Publican::DEBUG);
 
     # create Template object
     $self->{Template} = Template->new($conf) or croak( Template->error() );
@@ -254,7 +258,7 @@ sub update_settings {
         push( @cols, 'search' );
         push( @vals, "'$search'" );
     }
-    $sql .= '(' . join( ',',        @cols ) . ') ';
+    $sql .= '(' . join( ',', @cols ) . ') ';
     $sql .= 'values (' . join( ',', @vals ) . ') ';
 
     if ( $search || $host ) {
@@ -528,7 +532,7 @@ sub regen_all_toc {
     };
 
     $self->{Template}
-        ->process( 'static_toc.tmpl', $vars, $self->{toc_path} . "/toc.html" )
+        ->process( 'static_toc.tmpl', $vars, $self->{toc_path} . "/toc.html", binmode => ':utf8' )
         or croak( $self->{Template}->error() );
 
     $self->stats();
@@ -536,7 +540,7 @@ sub regen_all_toc {
     $vars = ();
     $vars = { urls => \@urls, };
     $self->{Template}
-        ->process( 'Sitemap.tmpl', $vars, $self->{toc_path} . "/Sitemap" )
+        ->process( 'Sitemap.tmpl', $vars, $self->{toc_path} . "/Sitemap", binmode => ':utf8' )
         or croak( $self->{Template}->error() );
 
     return;
@@ -555,7 +559,7 @@ sub _regen_toc {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
 
-debug_msg("Processing lang: $language\n");
+    debug_msg("Processing lang: $language\n");
 
     my $vars = {};
 
@@ -602,7 +606,7 @@ SEARCH
         $row_data{'selected'}  = $selected;
         $row_data{'lang'}      = $lang->[0];
         $row_data{'lang_name'} = $lang_name;
-debug_msg("lang name: $lang_name\n");
+        debug_msg("lang name: $lang_name\n");
         push( @tmpl_langs, \%row_data );
     }
 
@@ -656,7 +660,9 @@ debug_msg("lang name: $lang_name\n");
                     $product_path
                         = $list2->{$product}{$version}{$book}{product};
 
-debug_msg("product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_path: $product_path \n");
+                    debug_msg(
+                        "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_path: $product_path \n"
+                    );
 
                     my %type_data;
                     $type_data{'type'}  = $type;
@@ -693,7 +699,7 @@ debug_msg("product: $product, version: $version, book: $book, book_label: $book_
                             $list2->{$product}{$version}{$book}{update_date},
                     };
                     push( @{$urls}, $url );
-                    push( @types, \%type_data );
+                    push( @types,   \%type_data );
                 }
 
                 $book_data{'book'}       = $book;
@@ -720,7 +726,7 @@ debug_msg("product: $product, version: $version, book: $book, book_label: $book_
     $vars->{'products'} = \@products;
 
     $self->{Template}->process( 'toc.tmpl', $vars,
-        $self->{toc_path} . "/$language/toc.html" )
+        $self->{toc_path} . "/$language/toc.html", binmode => ':utf8' )
         or croak( $self->{Template}->error() );
 
     return \@products;
@@ -819,7 +825,7 @@ GET_COUNTS
     }
 
     $self->{Template}->process( 'stats.tmpl', $vars,
-        $self->{toc_path} . "/Site_Statistics.html" )
+        $self->{toc_path} . "/Site_Statistics.html", binmode => ':utf8' )
         or croak( $self->{Template}->error() );
 
     return;

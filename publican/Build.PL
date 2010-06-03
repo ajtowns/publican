@@ -111,14 +111,14 @@ my $class = Module::Build->subclass(
             }
         }
       }
-      sub  process_sitetemplate_files {
-        my $self = shift;
-        use Cwd;
-        use File::Copy::Recursive qw(rcopy);
-        my $pwd = getcwd();
-        rcopy("$pwd/blib/generated", "$pwd/blib/sitetemplate");
-        rcopy("$pwd/blib/web/*", "$pwd/blib/sitetemplate/.");
-      }
+#      sub  process_sitetemplate_files {
+#        my $self = shift;
+#        use Cwd;
+#        use File::Copy::Recursive qw(rcopy);
+#        my $pwd = getcwd();
+#        rcopy("$pwd/blib/generated", "$pwd/blib/sitetemplate");
+#        rcopy("$pwd/blib/web/*", "$pwd/blib/sitetemplate/.");
+#      }
   }
 );
 
@@ -230,11 +230,12 @@ my $builder = $class->new(
     script_files => ['bin/publican'],
     install_path => {
         'datadir'      => '/usr/share/publican',
-        'generated'    => '/var/www/html/docs',
-        'sitetemplate' => '/usr/share/publican-website/sitetemplate',
-        'web'          => '/var/www/html/docs',
-        'templates'    => '/usr/share/publican-website/templates',
-        'database'     => '/usr/share/publican-website',
+        'generated'    => '/usr/share/publican/sitetemplates',
+#        'generated'    => '/var/www/html/docs',
+#        'sitetemplate' => '/usr/share/publican/sitetemplate',
+#        'web'          => '/var/www/html/docs',
+        'web'          => '/usr/share/publican/sitetemplate',
+        'templates'    => '/usr/share/publican/templates',
         'etc'          => '/etc',
     },
     data_files => {
@@ -264,16 +265,14 @@ my $builder = $class->new(
         'templates/stats.tmpl'      => 'templates/stats.tmpl',
         'templates/Sitemap.tmpl'    => 'templates/Sitemap.tmpl',
     },
-    database_files => { 'database/default.db' => 'database/default.db', },
     etc_files =>
         { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
 );
 $builder->add_build_element('common');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
-$builder->add_build_element('sitetemplate');
+#$builder->add_build_element('sitetemplate');
 $builder->add_build_element('templates');
-$builder->add_build_element('database');
 $builder->add_build_element('etc');
 $builder->add_build_element('generated');
 $builder->create_build_script();

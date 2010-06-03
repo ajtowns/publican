@@ -10,13 +10,11 @@
 # required for desktop file install
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
 
-%define wwwdir %{_localstatedir}/www/html/docs
-
 %define TESTS 0
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t75
+Release:        0%{?dist}.t77
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -25,6 +23,8 @@ URL:            https://publican.fedorahosted.org
 Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+Obsoletes:      perl-Publican-WebSite <= 1.4-3
+Provides:       perl-Publican-WebSite
 
 BuildRequires:  perl(Devel::Cover)
 BuildRequires:  perl(Module::Build)
@@ -140,15 +140,6 @@ This guide explains how to  to create and build books and articles
 using publican. It is not a DocBook XML tutorial and concentrates
 solely on using the publican tools.
 
-%package website
-Group:          Documentation
-Summary:        Web Site content for the Publican package
-Obsoletes:      perl-Publican-WebSite <= 1.4-3
-Requires:	perl-DBD-SQLite
-
-%description website
-The server side web content for Publican generated web content.
-
 %prep
 %setup -q -n Publican-%{version}
 
@@ -186,53 +177,22 @@ desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/ap
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -n publican-website
-%{__perl} -e 'use Publican::WebSite; my $ws = Publican::WebSite->new(); $ws->regen_all_toc();'
-
 %files
 %defattr(-,root,root,-)
 %doc CHANGES README COPYING Artistic
 %{perl_vendorlib}/Publican.pm
-%{perl_vendorlib}/Publican/Builder.pm
-%{perl_vendorlib}/Publican/CreateBook.pm
-%{perl_vendorlib}/Publican/CreateBrand.pm
-%{perl_vendorlib}/Publican/Localise.pm
-%{perl_vendorlib}/Publican/Translate.pm
-%{perl_vendorlib}/Publican/TreeView.pm
-%{perl_vendorlib}/Publican/XmlClean.pm
-%{_mandir}/man3/Publican.*
-%{_mandir}/man3/Publican::Builder.*
-%{_mandir}/man3/Publican::CreateBook.*
-%{_mandir}/man3/Publican::CreateBrand.*
-%{_mandir}/man3/Publican::Localise.*
-%{_mandir}/man3/Publican::Translate.*
-%{_mandir}/man3/Publican::TreeView.*
-%{_mandir}/man3/Publican::XmlClean.*
+%{perl_vendorlib}/Publican/*
+%{_mandir}/man3/Publican*
 %{_mandir}/man1/*
 %{_bindir}/publican
 %{_datadir}/publican
+%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/publican-website.cfg
 
 %files doc
 %defattr(-,root,root,-)
 %doc Users_Guide/publish/desktop/*
 %{_datadir}/applications/%{my_vendor}-%{name}.desktop
 %doc fdl.txt
-
-%files website
-%{perl_vendorlib}/Publican/WebSite.pm
-%{wwwdir}/toc.js
-%{wwwdir}/index.html
-%{wwwdir}/interactive.css
-%{wwwdir}/images
-%{_mandir}/man3/Publican::WebSite.*
-# BUGBUG this is right path?
-#%config(noreplace) %verify(not md5 size mtime) /var/opt/%{name}-website/default.db
-# BUGBUG this is right path?
-%{_datadir}/%{name}-website
-#%exclude %{_datadir}/%{name}-website/default.db
-%config(noreplace) %verify(not md5 size mtime) %{_datadir}/%{name}-website/default.db
-%{wwwdir}/*-*
-%{_sysconfdir}/publican-website.cfg
 
 %changelog
 * Tue May 18 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
