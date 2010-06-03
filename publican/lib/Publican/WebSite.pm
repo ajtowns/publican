@@ -1,5 +1,6 @@
 package Publican::WebSite;
 
+use utf8;
 use warnings;
 use strict;
 
@@ -15,6 +16,7 @@ use DateTime;
 ## allow translations to not conflict on systems
 ## with web and builder installed
 use Publican;
+use Encode qw(is_utf8 decode_utf8);
 
 #use Publican::Translate;
 
@@ -621,6 +623,9 @@ SEARCH
 
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
 ##        print("product: $product\n");
+
+        $product = decode_utf8($product) unless(is_utf8($product));
+
         my $product_path = $product;
         my %prod_data;
         my @versions = ();
@@ -650,6 +655,9 @@ SEARCH
                         if ($list2->{$product}{$version}{$book}{name_label}
                         and $list2->{$product}{$version}{$book}{name_label} ne
                         $book );
+
+                    $book_label= decode_utf8($book_label) unless(is_utf8($book_label));
+
                     $version_label
                         = $list2->{$product}{$version}{$book}{version_label}
                         if (
@@ -657,12 +665,12 @@ SEARCH
                         and $list2->{$product}{$version}{$book}{version_label}
                         ne $version );
 
+                    $version_label = decode_utf8($version_label) unless(is_utf8($version_label));
+
                     $product_path
                         = $list2->{$product}{$version}{$book}{product};
 
-                    debug_msg(
-                        "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_path: $product_path \n"
-                    );
+## debug_msg( "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_path: $product_path \n" );
 
                     my %type_data;
                     $type_data{'type'}  = $type;
