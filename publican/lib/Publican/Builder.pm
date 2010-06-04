@@ -29,10 +29,9 @@ use List::Util qw(max);
 use Text::Wrap qw(fill $columns);
 use IO::String;
 
-use version;
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
-$VERSION = version->new('0.1');
+$VERSION = '0.2';
 @ISA     = qw(Exporter AutoLoader);
 @EXPORT  = qw(new_tree dtd_string);
 

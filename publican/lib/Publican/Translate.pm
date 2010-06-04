@@ -4,7 +4,6 @@ use utf8;
 use strict;
 use warnings;
 use Carp;
-use version;
 use Publican;
 use Publican::Builder;
 use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);
@@ -15,7 +14,7 @@ use Locale::PO;
 
 use vars qw($VERSION);
 
-$VERSION = 0.1;
+$VERSION = '0.2';
 
 # What tags do we translate?
 my $TRANSTAGS

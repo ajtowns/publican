@@ -3,7 +3,6 @@ package Publican::XmlClean;
 use strict;
 use warnings;
 use Carp;
-use version;
 use XML::TreeBuilder;
 use Config::Simple;
 use Publican;
@@ -21,7 +20,7 @@ if ($test_collate) {
 
 use vars qw( $VERSION );
 
-$VERSION = version->new('0.1');
+$VERSION = '0.2';
 
 =head1 NAME
 

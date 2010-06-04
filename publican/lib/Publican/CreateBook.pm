@@ -3,9 +3,7 @@ package Publican::CreateBook;
 use strict;
 use warnings;
 use Carp;
-use version;
 use Config::Simple;
-
 use XML::TreeBuilder;
 use File::Path;
 use DateTime;
@@ -15,7 +13,7 @@ use Publican::Builder;
 
 use vars qw( $VERSION );
 
-$VERSION = version->new('0.1');
+$VERSION = '0.2';
 
 =head1 NAME
 

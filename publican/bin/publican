@@ -21,7 +21,7 @@ use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path);
 
-my $VERSION      = version->new($Publican::VERSION);
+my $VERSION      = "$Publican::VERSION";
 my $LANG_PATTERN = q|__LANG__|;
 ## TODO Consider making these parameters
 my $IMPORT_SCRIPT     = '../common/cvs-import.sh';

@@ -1,11 +1,12 @@
 
 # Track font name changes
-%define RHEL5 %(test "%{?dist}" == ".el5" && echo 1 || echo 0)
+%define RHEL5 %(test "%{?dist}" == ".el5" && echo "1" || echo "0")
+%define RHEL6 %(test "%{?dist}" == ".el6" && echo "1" || echo "0")
 # Assume not rhel means FC11+
-%define OTHER %(test "%{RHEL5}" == "0" && echo 1 || echo 0)
+%define OTHER %(test "%{RHEL5}" == "0" && "%{RHEL6}" == "0" && echo "1" || echo "0")
 
 # who doesn't have xdg-open?
-%define HTMLVIEW %(test "%{RHEL5}" == "1" && echo 1 || echo 0)
+%define HTMLVIEW %(test "%{RHEL5}" == "1" && echo "1" || echo "0")
 
 # required for desktop file install
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
@@ -22,9 +23,14 @@ Group:          Applications/Publishing
 URL:            https://publican.fedorahosted.org
 Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+# Limited to these arches on RHEL 6 due to PDF + Java limitations
+%if %{RHEL6}
+BuildArch:      i386 x86_64
+%else
 BuildArch:      noarch
+%endif
 Obsoletes:      perl-Publican-WebSite < 1.5
-Provides:       perl-Publican-WebSite
+Provides:       perl-Publican-WebSite = 1.5
 
 BuildRequires:  perl(Devel::Cover)
 BuildRequires:  perl(Module::Build)
@@ -66,7 +72,7 @@ BuildRequires:  perl(XML::LibXSLT) >=  1.67
 BuildRequires:  perl(XML::TreeBuilder) >= 3.09-15
 BuildRequires:  fop >= 0.95
 BuildRequires:  batik
-BuildRequires:  docbook-style-xsl >= 1.75.2-6
+BuildRequires:  docbook-style-xsl >= 1.75.2-5
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  perl-Template-Toolkit
@@ -76,7 +82,7 @@ Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versi
 Requires:       perl(Locale::Maketext::Gettext)
 Requires:       fop >= 0.95
 Requires:       batik rpm-build
-Requires:       docbook-style-xsl >= 1.75.2-6
+Requires:       docbook-style-xsl >= 1.75.2-5
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 3.09-15
@@ -95,6 +101,15 @@ BuildRequires:  fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
 BuildRequires:  fonts-tamil fonts-telugu liberation-fonts
 #BuildRequires:  java-1.5.0-sun java-1.5.0-sun-devel chkconfig
 %endif
+%if %{RHEL6}
+Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
+Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
+Requires:       lklug-fonts baekmuk-ttf-batang-fonts
+
+BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
+BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
+BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
+%endif
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
@@ -103,21 +118,10 @@ Requires:       lklug-fonts baekmuk-ttf-batang-fonts
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
-# Indic font names have changed AGAIN (F12)
-# and AGAIN they fail to set Provides
-# but they don't work for PDFs anyway
-# So we aren't going to use them
-#Requires:       lohit-fonts-bengali lohit-fonts-gujarati
-#Requires:       lohit-fonts-hindi lohit-fonts-kannada
-#Requires:       lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi
-#Requires:       lohit-fonts-tamil lohit-fonts-telugu
-#BuildRequires:  lohit-fonts-bengali lohit-fonts-gujarati
-#BuildRequires:  lohit-fonts-hindi lohit-fonts-kannada
-#BuildRequires:  lohit-fonts-malayalam lohit-fonts-oriya lohit-fonts-punjabi
-#BuildRequires:  lohit-fonts-tamil lohit-fonts-telugu
 %endif
 
 Obsoletes:      Publican < 1.0
+Provides:       Publican = 1.0
 
 %description
 Publican is a DocBook publication system, not just a DocBook processing tool.
@@ -133,6 +137,7 @@ Requires:       htmlview
 Requires:       xdg-utils
 %endif
 Obsoletes:      Publican-doc < 1.0
+Provides:       Publican-doc = 1.0
 
 %description doc
 Publican is a tool for publishing material authored in DocBook XML.
@@ -211,6 +216,7 @@ rm -rf $RPM_BUILD_ROOT
 - Improve validation error message. BZ #593887
 - Fix qandaentry ID. BZ #593892
 - Fix Icon non-conformance. BZ #593890
+- Fix admonitions splitting across pages. BZ #596257
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068

@@ -213,6 +213,7 @@
 <!--xsl:attribute-set name="admonition.properties"></xsl:attribute-set-->
 
 <xsl:attribute-set name="graphical.admonition.properties">
+	<xsl:attribute name="keep-together.within-column">always</xsl:attribute>
 	<xsl:attribute name="color">white</xsl:attribute>
 	<xsl:attribute name="background-color">
 	  <xsl:choose>

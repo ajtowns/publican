@@ -3,7 +3,6 @@ package Publican::CreateBrand;
 use strict;
 use warnings;
 use Carp;
-use version;
 use Config::Simple;
 use File::Path;
 use File::pushd;
@@ -15,7 +14,7 @@ use Term::ANSIColor qw(:constants uncolor);
 
 use vars qw( $VERSION $MAX_COUNT );
 
-$VERSION   = version->new('0.1');
+$VERSION   = '0.2';
 $MAX_COUNT = 29;
 
 my $INIT_VERSION  = '0.1';

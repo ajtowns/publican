@@ -3,9 +3,7 @@ package Publican;
 use utf8;
 use warnings;
 use strict;
-
 use Carp;
-use version;
 use Config::Simple;
 use XML::TreeBuilder;
 use I18N::LangTags::List;
@@ -17,7 +15,7 @@ use Publican::Localise;
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE);
 
-$VERSION = version->new('1.99');
+$VERSION = '1.99';
 @ISA     = qw(Exporter AutoLoader);
 
 @EXPORT
