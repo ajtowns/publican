@@ -14,7 +14,7 @@
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t82
+Release:        0%{?dist}.t84
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -23,7 +23,7 @@ URL:            https://publican.fedorahosted.org
 Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
-Obsoletes:      perl-Publican-WebSite <= 1.4-3
+Obsoletes:      perl-Publican-WebSite < 1.5
 Provides:       perl-Publican-WebSite
 
 BuildRequires:  perl(Devel::Cover)
