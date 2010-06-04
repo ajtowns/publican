@@ -30,10 +30,7 @@ publican build --embedtoc --formats="html-single" --langs=all --publish
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/%{wwwdir}
-cat > tmp.cfg &lt;&lt;EOF
-toc_path: $RPM_BUILD_ROOT/%{wwwdir}
-EOF
-publican install_book --site_config tmp.cfg
+cp -rf publish/home/* $RPM_BUILD_ROOT/%{wwwdir}/.
 
 %clean
 rm -rf $RPM_BUILD_ROOT
