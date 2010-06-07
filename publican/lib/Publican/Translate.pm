@@ -334,13 +334,32 @@ sub get_msgs {
             qr/$TRANSTAGS/,
             sub {
                 my $inner = $_[0];
-                 not defined(
-                    $_[0]->look_up(
-                        '_tag',
-                        qr/$IGNOREBLOCKS/,
-						sub { $_[0]->tag() =~ /$TRANSTAGS/ && $inner->parent() && $inner->parent()->tag() =~ /$TRANSTAGS/ },
-                     )
-                );
+## an index term NOT in a translatable tag should be translated as a block.
+## An indexterm in a translatable tag should be translated inline
+                if ( $inner->tag() eq 'indexterm' ) {
+                    not defined(
+                        $inner->look_up(
+                            '_tag',
+                            qr/$IGNOREBLOCKS/,
+                            sub {
+                                $_[0]->tag() =~ /$TRANSTAGS/
+                                    && $inner->parent()
+                                    && $inner->parent()->tag()
+                                    =~ /$TRANSTAGS/;
+                            },
+                        )
+                    );
+                }
+                else {
+## Other IGNOREBLOCKS tags are completely ignored for translation structure.
+                    not defined(
+                        $inner->look_up(
+                            '_tag',
+                            qr/$IGNOREBLOCKS/
+                        )
+                    );
+
+                }
             }
         )
         )
