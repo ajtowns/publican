@@ -796,7 +796,7 @@ GET_COUNTS
         my $lang = $counts->[4];
         $found_langs{$lang} = '1';
         $lang =~ m/^([^-_]*)/;
-        my $lang_name = code2language($1) || "unknown $1";
+        my $lang_name = code2language($1) || $lang;
 
         $stats{'language'} = $lang_name;
         $stats{'code'}     = $lang;
@@ -807,12 +807,13 @@ GET_COUNTS
         push( @lang_stats, \%stats );
     }
 
+    # This catches all the languages in the list without books installed.
     foreach my $lang ( sort( keys(%LANG_NAME) ) ) {
         if ( !defined $found_langs{$lang} ) {
             $total_langs++;
             my %stats;
             $lang =~ m/^([^-_]*)/;
-            my $lang_name = code2language($1) || "unknown $1";
+            my $lang_name = code2language($1) || $lang;
             $stats{'language'} = $lang_name;
             $stats{'code'}     = $lang;
             $stats{'packages'} = 0;
