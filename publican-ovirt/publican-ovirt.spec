@@ -2,7 +2,7 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	1.1
+Version:	1.2
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Jun 10 2010 Jeff Fearn <jfearn@redhat.com> 1.2
+- Remove HTML term color. BZ #592822
+
 * Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.1
 - add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
 

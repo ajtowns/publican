@@ -2,9 +2,9 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:		1.7
-Release:		0%{?dist}
-License:		CC-BY-SA
+Version:	1.8
+Release:	0%{?dist}
+License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Jun 10 2010 Jeff Fearn <jfearn@redhat.com> 1.8
+- Remove HTML term color. BZ #592822
+
 * Mon May 10 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.7-0
 - Turn on TOCs for articles again for now, for JBoss release notes
 

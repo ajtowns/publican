@@ -3,7 +3,7 @@
 Name:		publican-experimental
 Summary:	Common documentation files for %{brand}
 Version:	0.1
-Release:	0%{?dist}.t34
+Release:	0%{?dist}.t39
 License:	SETUP: Set This
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

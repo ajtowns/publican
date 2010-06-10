@@ -2,7 +2,7 @@
 
 Name:		publican-freeipa
 Summary:	Common documentation files for %{brand}
-Version:	1.5
+Version:	1.6
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Jun 10 2010 Jeff Fearn <jfearn@redhat.com> 1.6
+- Remove HTML term color. BZ #592822
+
 * Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.5
 - add trademark notices for XFS and Java per Pamela Chestek <pchestek@redhat.com>
 
