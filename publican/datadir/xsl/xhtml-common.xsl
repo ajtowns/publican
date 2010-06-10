@@ -2486,4 +2486,73 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
   </div>
 </xsl:template>
 
+<!-- change anchor to common.html.attributes -->
+<xsl:template name="formal.object">
+  <xsl:param name="placement" select="'before'"/>
+  <xsl:param name="class">
+    <xsl:apply-templates select="." mode="class.value"/>
+  </xsl:param>
+
+  <xsl:call-template name="id.warning"/>
+
+  <xsl:variable name="content">
+    <div class="{$class}">
+      <!--xsl:call-template name="anchor">
+        <xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template-->
+     <xsl:call-template name="common.html.attributes"/>
+
+      <xsl:choose>
+        <xsl:when test="$placement = 'before'">
+          <xsl:call-template name="formal.object.heading"/>
+          <div class="{$class}-contents">
+            <xsl:apply-templates/>
+          </div>
+          <!-- HACK: This doesn't belong inside formal.object; it 
+               should be done by the table template, but I want 
+               the link to be inside the DIV, so... -->
+          <xsl:if test="local-name(.) = 'table'">
+            <xsl:call-template name="table.longdesc"/>
+          </xsl:if>
+    
+          <xsl:if test="$spacing.paras != 0"><p/></xsl:if>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test="$spacing.paras != 0"><p/></xsl:if>
+          <div class="{$class}-contents"><xsl:apply-templates/></div>
+          <!-- HACK: This doesn't belong inside formal.object; it 
+               should be done by the table template, but I want 
+               the link to be inside the DIV, so... -->
+          <xsl:if test="local-name(.) = 'table'">
+            <xsl:call-template name="table.longdesc"/>
+          </xsl:if>
+    
+          <xsl:call-template name="formal.object.heading"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </div>
+    <xsl:if test="not($formal.object.break.after = '0')">
+      <br class="{$class}-break"/>
+    </xsl:if>
+  </xsl:variable>
+
+  <xsl:variable name="floatstyle">
+    <xsl:call-template name="floatstyle"/>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$floatstyle != ''">
+      <xsl:call-template name="floater">
+        <xsl:with-param name="class"><xsl:value-of select="$class"/>-float</xsl:with-param>
+        <xsl:with-param name="floatstyle" select="$floatstyle"/>
+        <xsl:with-param name="content" select="$content"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:copy-of select="$content"/>
+    </xsl:otherwise>
+  </xsl:choose>
+
+</xsl:template>
+
 </xsl:stylesheet>

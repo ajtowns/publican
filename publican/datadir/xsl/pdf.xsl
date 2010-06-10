@@ -341,10 +341,13 @@ part nop
 </xsl:attribute-set>
 
 <xsl:attribute-set name="revhistory.table.cell.properties" use-attribute-sets="table.cell.padding">
+	<xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="revremark.table.cell.properties">
-  <xsl:attribute name="padding-bottom">20pt</xsl:attribute>
+  <xsl:attribute name="padding-bottom">25pt</xsl:attribute>
+  <xsl:attribute name="font-weight">normal</xsl:attribute>
+  <xsl:attribute name="padding-left">16pt</xsl:attribute>
 </xsl:attribute-set>
 
 <!-- Only hairlines as frame and cell borders in tables -->
@@ -2313,7 +2316,7 @@ Version:1.72
   </fo:table-row>
   <xsl:if test="$revremark">
     <fo:table-row>
-      <fo:table-cell number-columns-spanned="3" xsl:use-attribute-sets="revhistory.table.cell.properties revremark.table.cell.properties">
+      <fo:table-cell number-columns-spanned="3" xsl:use-attribute-sets="revremark.table.cell.properties">
         <fo:block>
           <xsl:apply-templates select="$revremark[1]"/>
         </fo:block>

@@ -353,11 +353,7 @@ sub get_msgs {
                 else {
 ## Other IGNOREBLOCKS tags are completely ignored for translation structure.
                     not defined(
-                        $inner->look_up(
-                            '_tag',
-                            qr/$IGNOREBLOCKS/
-                        )
-                    );
+                        $inner->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
 
                 }
             }

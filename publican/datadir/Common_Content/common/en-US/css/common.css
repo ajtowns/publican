@@ -346,7 +346,6 @@ a.version:focus, a.version:hover {
 	clear:both;
 }
 
-
 /*revision history*/
 .revhistory {
 	display:block;
@@ -362,34 +361,24 @@ a.version:focus, a.version:hover {
 }
 
 .revhistory td {
-	text-align:right;
+	text-align :left;
 	padding:0em;
 	border: none;
 	border-top: 1px solid #fff;
+	font-weight: bold;
 }
 
-
-.revhistory tr td:first-child {
-	text-align:left;
+.revhistory .simplelist td {
+	font-weight: normal;
 }
 
-.revhistory tr td p, .revhistory tr td div.para {
-	text-align:left;
-	font-weight:bold;
-	display:block;
-	margin:0em;
-	padding:0em;
-	padding-bottom:0.7em;
-	border-bottom:1px solid #eee;
+.revhistory .simplelist {
+	margin-bottom: 1.5em;
+	margin-left: 1em;
 }
 
 .revhistory table th {
-	background-color:transparent;
-	color:#336699;
-	font-size:2em;
-	padding: 1em 0em;
-	border: none;
-	border-bottom:1px solid #eee;
+	display: none;
 }
 
 
@@ -1373,10 +1362,6 @@ pre {
 	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
 	border-radius: 15px;
-}
-
-.term{
-	color:#336699;
 }
 
 .package, .citetitle {

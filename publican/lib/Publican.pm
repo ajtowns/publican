@@ -130,8 +130,7 @@ my %PARAMS = (
         default => 0,
     },
     confidential_text => {
-        descr =>
-            maketext('The text used to indicate content is confidential.'),
+        descr   => maketext('The text used to indicate content is confidential.'),
         default => maketext('CONFIDENTIAL'),
     },
     cvs_root => {
@@ -178,9 +177,8 @@ my %PARAMS = (
             maketext('Eclipse plugin name. Defaults to "$product $docname"'),
     },
     'ec_provider' => {
-        descr => maketext(
-            'Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION
-        ),
+        descr =>
+            maketext('Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION),
     },
     edition => {
         descr => maketext(
@@ -207,9 +205,7 @@ my %PARAMS = (
 
     },
     max_image_width => {
-        descr => maketext(
-            'The maximum pixel width an image can be before it will be scaled.'
-        ),
+        descr   => maketext('The maximum pixel width an image can be before it will be scaled.'),
         default => '444',
 
     },
@@ -730,9 +726,8 @@ sub help_config {
                 . maketext( "Default: [_1]", $PARAMS{$param}->{default} )
                 . "\n" )
             if ( defined( $PARAMS{$param}->{default} ) );
-        logger( "\t\t"
-                . maketext( "Constraint: [_1]",
-                $PARAMS{$param}->{constraint} )
+        logger(   "\t\t"
+                . maketext( "Constraint: [_1]", $PARAMS{$param}->{constraint} )
                 . "\n" )
             if ( defined( $PARAMS{$param}->{constraint} ) );
 

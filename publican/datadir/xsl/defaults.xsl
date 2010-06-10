@@ -3,8 +3,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:exsl="http://exslt.org/common"
 		xmlns:perl="urn:perl"
+                xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		version="1.0"
-		exclude-result-prefixes="exsl perl">
+		exclude-result-prefixes="l exsl perl">
 
 <!-- titles after all elements -->
 <xsl:param name="formal.title.placement">
@@ -122,6 +123,107 @@ Copied from fo/params.xsl
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+
+<xsl:template name="l10n.language">
+  <xsl:param name="target" select="."/>
+  <xsl:param name="xref-context" select="false()"/>
+
+  <xsl:variable name="mc-language">
+    <xsl:choose>
+      <xsl:when test="$l10n.gentext.language != ''">
+        <xsl:value-of select="$l10n.gentext.language"/>
+      </xsl:when>
+
+      <xsl:when test="$xref-context or $l10n.gentext.use.xref.language != 0">
+        <!-- can't do this one step: attributes are unordered! -->
+        <xsl:variable name="lang-scope"
+                      select="$target/ancestor-or-self::*
+                              [@lang or @xml:lang][1]"/>
+        <xsl:variable name="lang-attr"
+                      select="($lang-scope/@lang | $lang-scope/@xml:lang)[1]"/>
+        <xsl:choose>
+          <xsl:when test="string($lang-attr) = ''">
+            <xsl:value-of select="$l10n.gentext.default.language"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$lang-attr"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+
+      <xsl:otherwise>
+        <!-- can't do this one step: attributes are unordered! -->
+        <xsl:variable name="lang-scope"
+                      select="$target/ancestor-or-self::*
+                              [@lang or @xml:lang][1]"/>
+        <xsl:variable name="lang-attr"
+                      select="($lang-scope/@lang | $lang-scope/@xml:lang)[1]"/>
+
+        <xsl:choose>
+          <xsl:when test="string($lang-attr) = ''">
+            <xsl:value-of select="$l10n.gentext.default.language"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$lang-attr"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="language" select="translate($mc-language,
+                                        'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                                        'abcdefghijklmnopqrstuvwxyz')"/>
+
+<!-- sr-Latn-SR Need to remove contry code to get match -->
+  <xsl:variable name="adjusted.language">
+    <xsl:choose>
+      <xsl:when test="contains($language,'-')">
+        <xsl:variable name="start"><xsl:value-of select="substring-before($language,'-')"/></xsl:variable>
+        <xsl:variable name="end"><xsl:value-of select="substring-after($language,'-')"/></xsl:variable>
+        <xsl:choose>
+           <xsl:when test="contains($end,'-')">
+              <xsl:value-of select="$start"/>
+              <xsl:text>_</xsl:text>
+              <xsl:value-of select="substring-before($end,'-')"/>
+           </xsl:when>
+           <xsl:otherwise>
+              <xsl:value-of select="$start"/>
+              <xsl:text>_</xsl:text>
+              <xsl:value-of select="$end"/>
+           </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$language"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$l10n.xml/l:i18n/l:l10n[@language=$adjusted.language]">
+      <xsl:value-of select="$adjusted.language"/>
+    </xsl:when>
+    <!-- try just the lang code without country -->
+    <xsl:when test="$l10n.xml/l:i18n/l:l10n[@language=substring-before($adjusted.language,'_')]">
+      <xsl:value-of select="substring-before($adjusted.language,'_')"/>
+    </xsl:when>
+    <!-- or use the default -->
+    <xsl:otherwise>
+      <xsl:message>
+        <xsl:text>No localization exists for "</xsl:text>
+        <xsl:value-of select="$adjusted.language"/>
+        <xsl:text>" or "</xsl:text>
+        <xsl:value-of select="substring-before($adjusted.language,'_')"/>
+        <xsl:text>". Using default "</xsl:text>
+        <xsl:value-of select="$l10n.gentext.default.language"/>
+        <xsl:text>".</xsl:text>
+      </xsl:message>
+      <xsl:value-of select="$l10n.gentext.default.language"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 
 </xsl:stylesheet>
 

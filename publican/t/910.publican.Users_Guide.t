@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use File::pushd;
 use Cwd qw(abs_path);
 
@@ -24,7 +24,7 @@ my $common_opts
 
 my $dir = pushd('Users_Guide');
 
-#is(system('perl -I ../blib/lib ../blib/script/publican old2new'), 0, 'Run old2new');
+is(system('perl -I ../blib/lib ../blib/script/publican old2new'), 0, 'Run old2new');
 
 is( system(qq{perl -I $lib $coverdb $publican print_tree $common_opts}),
     0, 'Run print_tree' );
