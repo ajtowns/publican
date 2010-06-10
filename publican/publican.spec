@@ -76,6 +76,7 @@ BuildRequires:  docbook-style-xsl >= 1.75.2-5
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  perl-Template-Toolkit
+BuildRequires:  perl(DBD::SQLite)
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -88,6 +89,7 @@ Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 3.09-15
 Requires:       gettext cvs
 Requires:       perl-Template-Toolkit
+Requires:       perl(DBD::SQLite)
 
 # Pull in the fonts for all languages, else you can't build translated PDF in brew/koji
 %if %{RHEL5}
