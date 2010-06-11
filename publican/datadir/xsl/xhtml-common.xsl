@@ -103,8 +103,6 @@ Version: 1.72.0
 		<xsl:choose>
 			<xsl:when test="local-name(.)='note'">Note</xsl:when>
 			<xsl:when test="local-name(.)='warning'">Warning</xsl:when>
-			<xsl:when test="local-name(.)='caution'">Caution</xsl:when>
-			<xsl:when test="local-name(.)='tip'">Tip</xsl:when>
 			<xsl:when test="local-name(.)='important'">Important</xsl:when>
 			<xsl:otherwise>Note</xsl:otherwise>
 		</xsl:choose>
@@ -726,80 +724,29 @@ Version: 1.72.0
    </div>
 </xsl:template>
 
-<xsl:template match="perl_Alert">
-<span class="perl_Alert"><xsl:apply-templates/></span>
-</xsl:template>
+<!--
 
-<xsl:template match="perl_BaseN">
-<span class="perl_BaseN"><xsl:apply-templates/></span>
-</xsl:template>
+BUGBUG callout code blows up if the span contains a newline
+because it has to parse lines one by one to place the gfx
 
-<xsl:template match="perl_BString">
-<span class="perl_BString"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Char">
-<span class="perl_Char"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Comment">
-<span class="perl_Comment"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_DataType">
-<span class="perl_DataType"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_DecVal">
-<span class="perl_DecVal"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Error">
-<span class="perl_Error"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Float">
-<span class="perl_Float"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Function">
-<span class="perl_Function"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_IString">
-<span class="perl_IString"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Keyword">
-<span class="perl_Keyword"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Operator">
-<span class="perl_Operator"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Others">
-<span class="perl_Others"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_RegionMarker">
-<span class="perl_RegionMarker"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Reserved">
-<span class="perl_Reserved"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_String">
-<span class="perl_String"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Variable">
-<span class="perl_Variable"><xsl:apply-templates/></span>
-</xsl:template>
-
-<xsl:template match="perl_Warning">
-<span class="perl_Warning"><xsl:apply-templates/></span>
+-->
+<xsl:template match="perl_Alert | perl_BaseN | perl_BString | perl_Char | perl_Comment | perl_DataType | perl_DecVal | perl_Error | perl_Float | perl_Function | perl_IString | perl_Keyword | perl_Operator | perl_Others | perl_RegionMarker | perl_Reserved | perl_String | perl_Variable | perl_Warning ">
+  <xsl:variable name="name">
+    <xsl:value-of select="local-name(.)"/>
+  </xsl:variable>
+  <xsl:variable name="content">
+    <xsl:apply-templates/>
+  </xsl:variable>
+  <xsl:choose>
+    <xsl:when test="contains($content,'&#xA;')">
+      <span><xsl:attribute name="class"><xsl:value-of select="$name"/></xsl:attribute><xsl:value-of select="substring-before($content,'&#xA;')"/></span><xsl:text>
+</xsl:text>
+      <span><xsl:attribute name="class"><xsl:value-of select="$name"/></xsl:attribute><xsl:value-of select="substring-after($content,'&#xA;')"/></span>
+    </xsl:when>
+    <xsl:otherwise>
+      <span><xsl:attribute name="class"><xsl:value-of select="$name"/></xsl:attribute><xsl:value-of select="$content"/></span>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <xsl:template match="productnumber" mode="book.titlepage.recto.auto.mode">

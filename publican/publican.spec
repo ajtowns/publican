@@ -222,6 +222,9 @@ rm -rf $RPM_BUILD_ROOT
 - Fix HTML simple list border. BZ #599258
 - Fix formal object IDs. BZ #601363
 - Fix Revision History layout. BZ #559787 #598828 #598833
+- Remove title color from term in HTML. BZ #592822
+- Fix highlight breaking callouts. BZ #590933
+- Add support for LineColumn coords in area tag.
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068

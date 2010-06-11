@@ -30,6 +30,32 @@
 	<para>
 		Entities also present an essentially insurmountable obstacle to quality translation (refer to <xref linkend="sect-Users_Guide-Entities_and_translation" />). Consequently, while we are not reducing the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file's functionality, we are no longer considering requests to add functionality or features associated with entity use.
 	</para>
+<!--programlistingco>
+    <areaspec>
+ <area id="index1" coords="2 65"/>
+ <area id="index2" coords="3 11"/>
+    </areaspec>
+<programlisting language="XML">  &lt;list-index 
+        column="column_name"
+        base="0|1|..."/&gt;
+</programlisting>
+    <calloutlist>
+ <callout arearefs="index1">
+     <para>
+  <literal>column_name</literal> (required): the name of the column holding the
+  collection index values.
+     </para>
+ </callout>
+ <callout arearefs="index2">
+     <para>
+  <literal>base</literal> (optional - defaults to <literal>0</literal>): the
+value
+  of the index column that corresponds to the first element of the list or
+array.
+     </para>
+ </callout>
+    </calloutlist>
+</programlistingco-->
 	<!--    para>
 <equation>
 <title>My MathML example</title>

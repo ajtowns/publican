@@ -50,7 +50,8 @@ body.desktop .book > .toc {
 	line-height:1.35em;
 }
 
-.toc .chapter, .toc .appendix, .toc .glossary {
+ .toc .glossary,
+.toc .chapter, .toc .appendix {
 	margin-top:1em;
 }
 
@@ -59,7 +60,8 @@ body.desktop .book > .toc {
 	display:block;
 }
 
-span.appendix, span.glossary {
+span.glossary,
+span.appendix {
 	display:block;
 	margin-top:0.5em;
 }
@@ -890,6 +892,10 @@ th, td {
 	border: 1px solid #000;
 }
 
+.simplelist th, .simplelist td {
+	border: none;
+}
+
 table table td {
 	border-bottom:1px dotted #aaa;
 	background-color:white;
@@ -996,7 +1002,8 @@ span.chapter {
 	margin-bottom:1em;
 }
 
-.glossary dt, .index dt {
+.glossary dt,
+.index dt {
 	color:#444;
 	padding-top:.5em;
 }

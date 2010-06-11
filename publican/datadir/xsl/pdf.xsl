@@ -79,26 +79,6 @@
 <xsl:param name="line-height" select="1.3"/>
 <xsl:param name="segmentedlist.as.table" select="1"/>
 
-<xsl:param name="perl_Alert.color">#0000ff</xsl:param>
-<xsl:param name="perl_BaseN.color">#007f00</xsl:param>
-<xsl:param name="perl_BString.color">#5C3566</xsl:param>
-<xsl:param name="perl_Char.color">#ff00ff</xsl:param>
-<xsl:param name="perl_Comment.color">#FF00FF</xsl:param>
-<xsl:param name="perl_DataType.color">#0000ff</xsl:param>
-<xsl:param name="perl_DecVal.color">#00007f</xsl:param>
-<xsl:param name="perl_Error.color">#ff0000</xsl:param>
-<xsl:param name="perl_Float.color">#00007f</xsl:param>
-<xsl:param name="perl_Function.color">#007f00</xsl:param>
-<xsl:param name="perl_IString.color">#5C3566</xsl:param>
-<xsl:param name="perl_Keyword.color">#002F5D</xsl:param>
-<xsl:param name="perl_Operator.color">#ffa500</xsl:param>
-<xsl:param name="perl_Others.color">#b03060</xsl:param>
-<xsl:param name="perl_RegionMarker.color">#96b9ff</xsl:param>
-<xsl:param name="perl_Reserved.color">#9b30ff</xsl:param>
-<xsl:param name="perl_String.color">#5C3566</xsl:param>
-<xsl:param name="perl_Variable.color">#0000ff</xsl:param>
-<xsl:param name="perl_Warning.color">#0000ff</xsl:param>
-
 <xsl:attribute-set name="xref.properties">
   <xsl:attribute name="font-style">italic</xsl:attribute>
   <xsl:attribute name="color">
@@ -1956,80 +1936,51 @@ Version:1.72
   </fo:external-graphic>
 </xsl:template>
 
-<xsl:template match="perl_Alert">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Alert.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+<xsl:template name="highlight_color">
+  <xsl:param name="key" select="perl_Alert"/>
+
+  <xsl:choose>
+    <xsl:when test="$key = 'perl_Alert'">#0000ff</xsl:when>
+    <xsl:when test="$key = 'perl_BaseN'">#007f00</xsl:when>
+    <xsl:when test="$key = 'perl_BString'">#5C3566</xsl:when>
+    <xsl:when test="$key = 'perl_Char'">#ff00ff</xsl:when>
+    <xsl:when test="$key = 'perl_Comment'">#FF00FF</xsl:when>
+    <xsl:when test="$key = 'perl_DataType'">#0000ff</xsl:when>
+    <xsl:when test="$key = 'perl_DecVal'">#00007f</xsl:when>
+    <xsl:when test="$key = 'perl_Error'">#ff0000</xsl:when>
+    <xsl:when test="$key = 'perl_Float'">#00007f</xsl:when>
+    <xsl:when test="$key = 'perl_Function'">#007f00</xsl:when>
+    <xsl:when test="$key = 'perl_IString'">#5C3566</xsl:when>
+    <xsl:when test="$key = 'perl_Keyword'">#002F5D</xsl:when>
+    <xsl:when test="$key = 'perl_Operator'">#ffa500</xsl:when>
+    <xsl:when test="$key = 'perl_Others'">#b03060</xsl:when>
+    <xsl:when test="$key = 'perl_RegionMarker'">#96b9ff</xsl:when>
+    <xsl:when test="$key = 'perl_Reserved'">#9b30ff</xsl:when>
+    <xsl:when test="$key = 'perl_String'">#5C3566</xsl:when>
+    <xsl:when test="$key = 'perl_Variable'">#0000ff</xsl:when>
+    <xsl:when test="$key = 'perl_Warning'">#0000ff</xsl:when>
+    <xsl:otherwise>#0000ff</xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
-<xsl:template match="perl_BaseN">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_BaseN.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_BString">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_BString.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Char">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Char.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Comment">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Comment.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_DataType">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_DataType.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_DecVal">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_DecVal.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Error">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Error.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Float">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Float.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Function">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Function.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_IString">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_IString.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Keyword">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Keyword.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Operator">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Operator.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Others">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Others.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_RegionMarker">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_RegionMarker.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Reserved">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Reserved.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_String">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_String.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Variable">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Variable.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
-</xsl:template>
-
-<xsl:template match="perl_Warning">
-<fo:inline><xsl:attribute name="color"><xsl:value-of select="$perl_Warning.color"/></xsl:attribute><xsl:apply-templates/></fo:inline>
+<xsl:template match="perl_Alert | perl_BaseN | perl_BString | perl_Char | perl_Comment | perl_DataType | perl_DecVal | perl_Error | perl_Float | perl_Function | perl_IString | perl_Keyword | perl_Operator | perl_Others | perl_RegionMarker | perl_Reserved | perl_String | perl_Variable | perl_Warning ">
+  <xsl:variable name="name">
+    <xsl:value-of select="local-name(.)"/>
+  </xsl:variable>
+  <xsl:variable name="content">
+    <xsl:apply-templates/>
+  </xsl:variable>
+  <xsl:choose>
+    <xsl:when test="contains($content,'&#xA;')">
+<fo:inline><xsl:attribute name="color"><xsl:call-template name="highlight_color"><xsl:with-param name="key" select="$name"/></xsl:call-template></xsl:attribute><xsl:value-of select="substring-before($content,'&#xA;')"/></fo:inline>
+<xsl:text>
+</xsl:text>
+<fo:inline><xsl:attribute name="color"><xsl:call-template name="highlight_color"><xsl:with-param name="key" select="$name"/></xsl:call-template></xsl:attribute><xsl:value-of select="substring-after($content,'&#xA;')"/></fo:inline>
+    </xsl:when>
+    <xsl:otherwise>
+<fo:inline><xsl:attribute name="color"><xsl:call-template name="highlight_color"><xsl:with-param name="key" select="$name"/></xsl:call-template></xsl:attribute><xsl:apply-templates/></fo:inline>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <xsl:template match="varlistentry" mode="vl.as.blocks">

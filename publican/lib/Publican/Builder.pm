@@ -1136,15 +1136,9 @@ sub highlight {
 
     $parser->expand_entities(0);
     my $out_string = $hl->highlightText( $content->string_value() );
-## TODO since all the tags are inline we should really make these rules apply to all tags
 ## BUGBUG remove nested block tag, insertCallouts nested block tag limitation :(
-    $out_string =~ s/<perl_Comment>\n<\/perl_Comment>/\n/mg;
+
 ##debug_msg("Highlighting: $out_string\n");
-    $out_string =~ s/\n<\/perl_String>/<\/perl_String>\n/mg;
-    $out_string =~ s/\n<\/perl_Keyword>/<\/perl_Keyword>\n/mg;
-    $out_string
-        =~ s/(<perl_Keyword>\.\.\.)\n/$1<\/perl_Keyword>\n<perl_Keyword>/mg;
-##debug_msg("Highlighting2: $out_string\n");
 
     # this gives an XML::LibXML::DocumentFragment
     my $list = $parser->parse_balanced_chunk($out_string);
@@ -1207,18 +1201,33 @@ sub insertCallouts {
             $index++;
             foreach my $child ( $node->childNodes() ) {
                 if ( $child->nodeName() eq 'area' ) {
+                    my $pos = 0;
                     my $col = $child->getAttribute('coords')
                         || carp(
                         maketext("'area' requires a 'coords' attribute.") );
+                    if( $col =~ m/^(\d+)\s+(\d+)$/ ) {
+                        $col = $1;
+                        $pos = $2;
+                    }
+
                     push( @{ $callout{$col}{lines} }, $index );
+                    $callout{$col}{'pos'} = $pos ;
                 }
             }
         }
         elsif ( $node->nodeName() eq 'area' ) {
             $index++;
+            my $pos = 0;
             my $col = $node->getAttribute('coords')
                 || carp( maketext("'area' requires a 'coords' attribute.") );
+
+            if( $col =~ m/^(\d+)\s+(\d+)$/ ) {
+                $col = $1;
+                $pos = $2;
+            }
+
             push( @{ $callout{$col}{lines} }, $index );
+            $callout{$col}{'pos'} = $pos;
         }
     }
 
@@ -1303,7 +1312,13 @@ sub insertCallouts {
 
         if ( defined( $callout{$count} ) ) {
             chomp($out_string);
-            my $padding = $position - ( $callout{$count}{'length'} || 0 );
+
+            # if the position requested is less than the line length,
+            # use the calculated position instead
+            my $pos = $callout{$count}{'pos'};
+            $pos = $position if($pos < $callout{$count}{'length'});
+
+            my $padding = $pos - ( $callout{$count}{'length'} || 0 );
             $out_string .= " " x $padding;
 
             foreach my $index (
