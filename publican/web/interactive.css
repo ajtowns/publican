@@ -220,25 +220,32 @@ object.toc, iframe.toc {
 	cursor: pointer;
 }
 
-.product.collapsed {}
-.product.collapsed:hover {}
-.product.expanded {
-	border-bottom-color: #f6f6f6 !important;
-}
-
 .product.expanded span.product {
 	color: white;
-	background-color: #777;
 }
 
 .product.expanded:hover span.product {
 	color: white !important;
-	background-color: #666;
 }
 
-.tocnav div.product:hover {
-	background-color: #fff !important;
-	background-image: none !important;
+.product.collapsed {
+	background-position: 8px -82px;
+}
+
+.product.collapsed:hover {
+	background-position: 8px -260px;
+}
+
+.product.expanded {
+	color: white;
+	background-color: #777;
+	background-position: 8px 7px !important;
+}
+
+.product.expanded:hover {
+	color: white !important;
+	background-color: #666;
+	background-position: 8px -170px !important;
 }
 
 /*books*/
