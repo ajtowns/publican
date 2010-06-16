@@ -1078,7 +1078,7 @@ sub adjustColumnWidths {
 
 perl_highlight syntax highlighting
 
-Edit perl_XXX.color in pdf.xsl and .perl_XXX in CSS to change highlight colours
+Edit highlight_color template in pdf.xsl and .perl_XXX in CSS to change highlight colours
 
 Returns: Modified input tree, which is DocBook XML.
 
@@ -1134,9 +1134,14 @@ sub highlight {
 
     my $parser = XML::LibXML->new();
 
+## BUGBUG testing https://bugzilla.redhat.com/show_bug.cgi?id=604255
+##    my $test = $content->get_node(1);
+##    my $in_string = $test->toString();
+##    $in_string =~ s/^<\?xml version="1.0"\?>\n//gm;
+##debug_msg("Highlighting: " . $in_string . "\n") if $language eq 'C++';
+
     $parser->expand_entities(0);
     my $out_string = $hl->highlightText( $content->string_value() );
-## BUGBUG remove nested block tag, insertCallouts nested block tag limitation :(
 
 ##debug_msg("Highlighting: $out_string\n");
 

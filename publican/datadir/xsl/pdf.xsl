@@ -1937,7 +1937,7 @@ Version:1.72
 </xsl:template>
 
 <xsl:template name="highlight_color">
-  <xsl:param name="key" select="perl_Alert"/>
+  <xsl:param name="key" select=""/>
 
   <xsl:choose>
     <xsl:when test="$key = 'perl_Alert'">#0000ff</xsl:when>
@@ -1959,10 +1959,16 @@ Version:1.72
     <xsl:when test="$key = 'perl_String'">#5C3566</xsl:when>
     <xsl:when test="$key = 'perl_Variable'">#0000ff</xsl:when>
     <xsl:when test="$key = 'perl_Warning'">#0000ff</xsl:when>
-    <xsl:otherwise>#0000ff</xsl:otherwise>
+    <xsl:otherwise>#000000</xsl:otherwise>
   </xsl:choose>
 </xsl:template>
 
+<!--
+
+BUGBUG callout code blows up if the fo:inline contains a newline
+because it has to parse lines one by one to place the gfx
+
+-->
 <xsl:template match="perl_Alert | perl_BaseN | perl_BString | perl_Char | perl_Comment | perl_DataType | perl_DecVal | perl_Error | perl_Float | perl_Function | perl_IString | perl_Keyword | perl_Operator | perl_Others | perl_RegionMarker | perl_Reserved | perl_String | perl_Variable | perl_Warning ">
   <xsl:variable name="name">
     <xsl:value-of select="local-name(.)"/>

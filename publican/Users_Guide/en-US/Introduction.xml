@@ -30,6 +30,79 @@
 	<para>
 		Entities also present an essentially insurmountable obstacle to quality translation (refer to <xref linkend="sect-Users_Guide-Entities_and_translation" />). Consequently, while we are not reducing the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file's functionality, we are no longer considering requests to add functionality or features associated with entity use.
 	</para>
+<!-- https://bugzilla.redhat.com/show_bug.cgi?id=604255 -->
+<!--example>
+  <title>"Hello world!" in C++</title>
+  <programlisting language="C++"><![CDATA[
+#include <qpid/messaging/Connection.h>
+#include <qpid/messaging/Message.h>
+#include <qpid/messaging/Receiver.h>
+#include <qpid/messaging/Sender.h>
+#include <qpid/messaging/Session.h>
+
+#include <iostream>]]>
+
+using namespace qpid::messaging;
+
+int main(int argc, char** argv) {
+    std::string broker = argc > 1 ? argv[1] : "localhost:5672";
+    std::string address = argc > 2 ? argv[2] : "amq.topic";
+    Connection connection(broker); 
+    try {
+        connection.open();  <co id="hello-cpp-open" linkends="callout-cpp-open"/>
+        Session session = connection.createSession(); <co id="hello-cpp-session" linkends="callout-cpp-session"/>
+
+        Receiver receiver = session.createReceiver(address); <co id="hello-cpp-receiver" linkends="callout-cpp-receiver"/>
+        Sender sender = session.createSender(address); <co id="hello-cpp-sender" linkends="callout-cpp-sender"/>
+
+        sender.send(Message("Hello world!"));
+
+        Message message = receiver.fetch(Duration::SECOND * 1); <co id="hello-cpp-fetch" linkends="callout-cpp-fetch"/>
+        <![CDATA[std::cout << message.getContent() << std::endl;]]>
+        session.acknowledge(); <co id="hello-cpp-acknowledge" linkends="callout-cpp-acknowledge"/>
+
+        connection.close(); <co id="hello-cpp-close" linkends="callout-cpp-close"/>
+        return 0;
+    } catch(const std::exception&amp; error) {
+        <![CDATA[std::cerr << error.what() << std::endl;]]>
+        connection.close();
+        return 1;   
+    }
+  }</programlisting>
+
+  <calloutlist>
+    <callout id="callout-cpp-open" arearefs="hello-cpp-open">
+      <para>Establishes the connection with the messaging broker.</para>
+    </callout>
+    <callout id="callout-cpp-session" arearefs="hello-cpp-session">
+      <para>Creates a session object, which maintains the state of all
+interactions with the messaging broker, and manages senders and
+receivers.</para>
+    </callout>
+    <callout id="callout-cpp-receiver" arearefs="hello-cpp-receiver">
+      <para>Creates a receiver that reads from the given address.</para>
+    </callout>
+    <callout id="callout-cpp-sender" arearefs="hello-cpp-sender">
+      <para>Creates a sender that sends to the given address.</para>
+    </callout>
+    <callout id="callout-cpp-fetch" arearefs="hello-cpp-fetch">
+      <para>Reads the next message. The duration is optional, if omitted, will
+wait indefinitely for the next message.</para>
+    </callout>
+    <callout id="callout-cpp-acknowledge" arearefs="hello-cpp-acknowledge">
+      <para>Acknowledges messages that have been read. To guarantee delivery, a
+message remains on the messaging broker until it is acknowledged by a client.
+session.acknowledge() acknowledges all unacknowledged messages for the given
+session&mdash;this allows acknowledgements to be batched, which is  more
+efficient than acknowledging messages individually.</para>
+    </callout>
+    <callout id="callout-cpp-close" arearefs="hello-cpp-close">
+      <para>Closes the connection, all sessions managed by the connection, and
+all senders and receivers managed by each session.</para>
+    </callout>
+  </calloutlist>
+</example-->
+
 <!--programlistingco>
     <areaspec>
  <area id="index1" coords="2 65"/>

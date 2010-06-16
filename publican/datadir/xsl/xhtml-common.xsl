@@ -726,7 +726,7 @@ Version: 1.72.0
 
 <!--
 
-BUGBUG callout code blows up if the span contains a newline
+BUGBUG callout code blows up highlight if the span contains a newline
 because it has to parse lines one by one to place the gfx
 
 -->
