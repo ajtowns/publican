@@ -1937,7 +1937,7 @@ Version:1.72
 </xsl:template>
 
 <xsl:template name="highlight_color">
-  <xsl:param name="key" select=""/>
+  <xsl:param name="key" select="default"/>
 
   <xsl:choose>
     <xsl:when test="$key = 'perl_Alert'">#0000ff</xsl:when>
