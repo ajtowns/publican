@@ -921,7 +921,8 @@ sub my_as_XML {
 
                         if ( $MAP_OUT{$tag}->{'block'} ) {
                             if ( $MAP_OUT{$tag}->{'verbatim'} ) {
-                                push( @xml, "\n" );
+## BZ #604465 don't add trailing newline.
+##                                push( @xml, "\n" );
                             }
                             elsif ($node->parent()
                                 && $MAP_OUT{ $node->parent()->{'_tag'} }

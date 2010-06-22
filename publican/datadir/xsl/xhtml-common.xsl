@@ -49,7 +49,7 @@
 <xsl:param name="othercredit.like.author.enabled" select="0"/>
 <xsl:param name="email.delimiters.enabled">0</xsl:param>
 
-<xsl:param name="generate.id.attributes" select="0"/>
+<xsl:param name="generate.id.attributes" select="1"/>
 <xsl:param name="make.graphic.viewport" select="0"/>
 <xsl:param name="use.embed.for.svg" select="0"/>
 
