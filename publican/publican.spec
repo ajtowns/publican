@@ -11,11 +11,11 @@
 # required for desktop file install
 %define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
 
-%define TESTS 0
+%define TESTS 1
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t95
+Release:        0%{?dist}.t96
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -29,8 +29,12 @@ BuildArch:      i386 x86_64
 %else
 BuildArch:      noarch
 %endif
+
+# Get rid of the old packages
 Obsoletes:      perl-Publican-WebSite < 1.5
+Obsoletes:      publican-WebSite-obsoletes < 1.21
 Provides:       perl-Publican-WebSite = 1.5
+Provides:       publican-WebSite-obsoletes = 1.21
 
 BuildRequires:  perl(Devel::Cover)
 BuildRequires:  perl(Module::Build)
