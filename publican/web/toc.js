@@ -199,7 +199,7 @@ function checkCookie() {
 		var entity = document.getElementById('nocookie');
 		var my_class = entity.className;
 		entity.className = my_class.replace(/hidden/, "nocookie");
-//		alert("ATTENTION: The Navigation Menu requires cookies to be enabled to function correctly.");
+//		alert("DEBUG: The Navigation Menu requires cookies to be enabled to function correctly.");
 	}
 }
 

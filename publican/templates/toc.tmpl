@@ -47,6 +47,24 @@
 						</div>
 					</div>
 	        		[% END %]
+                                [%- IF untrans_books %]
+				<div id='[% product %].[% version %]' class="version collapsed" onclick="toggle(event, '[% product %].[% version %].untrans_books');">
+				<span class="version">[% Untranslated %]</span>
+				<div id='[% product %].[% version %].untrans_books' class="books hidden">
+				[% FOREACH untrans_books %]
+					<div id='[% product %].[% version %].[% book %]' class="book collapsed" onclick="toggle(event, '[% product %].[% version %].[% book %].types');">
+						<a class="type" href="../[% untrans_lang %]/[% product_path %]/[% version %]/html/[% book %]/index.html" onclick="window.top.location='./[% product_path %]/[% version %]/html/[% book %]/index.html'"><span class="book">[% book_clean %]</span></a> 
+						<div id='[% product %].[% version %].[% book %].types' class="types hidden" onclick="work=0;">
+						[% FOREACH types %]
+							<a class="type" href="../[% untrans_lang %]/[% prep %][% product_path %]/[% version %]/[% type %]/[% book %]/[% ext %]" [% IF onclick %]onclick="window.top.location='../[% untrans_lang %]/[% prep %][% product_path %]/[% version %]/[% type %]/[% book %]/[% ext %]';return false;"[% END %]>[% type %]</a>
+			        		[% END %]
+						</div>
+					</div>
+	        		[% END %]
+				</div>
+
+				</div>
+	        		[% END %]
 				</div>
 		    [%- IF version != 'UNUSED' -%]
 			</div>					

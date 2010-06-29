@@ -102,6 +102,7 @@ my %tmpl_strings = (
     'Packages'        => maketext('Packages'),
     'Total_Languages' => maketext('Total Languages'),
     'Total_Packages'  => maketext('Total Packages'),
+    'Untranslated'  => maketext('Untranslated'),
 );
 
 sub new {
@@ -126,6 +127,7 @@ sub new {
         )
     );
     my $tmpl_path = $config->param('tmpl_path') || $DEFAULT_TMPL_PATH;
+    my $def_lang  = $config->param('def_lang')  || $DEFAULT_LANG;
     my $db_file   = $config->param('db_file')   || croak(
         maketext(
             "[_1] is a manadory field in a site configuration file", 'db_file'
@@ -141,6 +143,7 @@ sub new {
     $self->_load_db;
     $self->{toc_path}  = $toc_path;
     $self->{tmpl_path} = $tmpl_path;
+    $self->{def_lang}  = $def_lang;
 
     my $conf = { INCLUDE_PATH => $tmpl_path, };
 
@@ -429,8 +432,13 @@ sub get_hash_ref {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
 
+    my $def_lang  = $self->{def_lang};
+    my $direction = 'DESC';
+    $direction = 'ASC' if($def_lang gt $language);
+
     my $sql = <<GET_LIST;
-        SELECT ID, 
+        SELECT ID,
+               language, 
                product, 
                version, 
                name, 
@@ -440,20 +448,22 @@ sub get_hash_ref {
                name_label,
                update_date
           FROM $DB_NAME 
-         WHERE language = ? 
-      ORDER BY product, 
+         WHERE (language = ? or language = ?)
+      GROUP BY product, version, name, format
+      ORDER BY language $direction,
+               product, 
                version DESC, 
                name, 
                format
 GET_LIST
 
     my $sth = $self->_dbh->prepare($sql);
-    $sth->execute($language);
+    $sth->execute($language, $def_lang );
 
     my %list;
 
     while (
-        my ($id,            $product,    $version,
+        my ($id,            $lang, $product,    $version,
             $name,          $format,     $product_label,
             $version_label, $name_label, $update_date
         )
@@ -462,7 +472,8 @@ GET_LIST
     {
         $product_label = $product unless $product_label;
         $list{$product_label}{$version}{$name}{formats}{$format} = 1;
-        $list{$product_label}{$version}{$name}{product} = $product;
+        $list{$product_label}{$version}{$name}{language} = $lang;
+        $list{$product_label}{$version}{$name}{product}  = $product;
         $list{$product_label}{$version}{$name}{version_label} = $version_label
             if $version_label;
         $list{$product_label}{$version}{$name}{name_label} = $name_label
@@ -473,7 +484,7 @@ GET_LIST
 
     $sth->finish();
 
-    return \%list;
+    return(\%list);
 }
 
 sub get_lang_list {
@@ -621,6 +632,8 @@ SEARCH
         $vars->{$string} = $tmpl_strings{$string};
     }
 
+    $vars->{untrans_lang} = $self->{def_lang};
+
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
 ##        print("product: $product\n");
 
@@ -636,6 +649,7 @@ SEARCH
             my $version_label = $version;
             my %ver_data;
             my @books = ();
+            my @untrans_books = ();
 
             foreach
                 my $book ( sort( keys( %{ $list2->{$product}{$version} } ) ) )
@@ -643,6 +657,7 @@ SEARCH
                 my $book_label = $book;
                 my %book_data;
                 my @types = ();
+                my $lang = $list2->{$product}{$version}{$book}{language};
 
                 foreach my $type (
                     sort
@@ -682,7 +697,7 @@ SEARCH
                             = File::Find::Rule->file->relative()
                             ->name('*.pdf')
                             ->in(
-                            "$self->{toc_path}/$language/$product_path/$version/$type/$book"
+                            "$self->{toc_path}/$lang/$product_path/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
                     }
@@ -691,17 +706,17 @@ SEARCH
                             = File::Find::Rule->file->relative()
                             ->name('*.epub')
                             ->in(
-                            "$self->{toc_path}/$language/$product_path/$version/$type/$book"
+                            "$self->{toc_path}/$lang/$product_path/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
 ## hmm epub link for safari ...
-##                        $type_data{prep} = "epub://$host/docs/$language/";
+##                        $type_data{prep} = "epub://$host/docs/$lang/";
                         $type_data{onclick} = 0;
                     }
 
                     my $url = {
                         url =>
-                            qq|$host/$language/$product_path/$version/$type/$book/|
+                            qq|$host/$lang/$product_path/$version/$type/$book/|
                             . $type_data{'ext'},
                         update_date =>
                             $list2->{$product}{$version}{$book}{update_date},
@@ -714,12 +729,18 @@ SEARCH
                 $book_data{'book_clean'} = $book_label;
                 $book_data{'book_clean'} =~ s/_/ /g;
                 $book_data{'types'} = \@types;
-                push( @books, \%book_data );
+
+                if($lang eq $language) {
+                    push( @books, \%book_data );
+                } else {
+                    push( @untrans_books, \%book_data );
+                }
             }
 
             $ver_data{'version'}       = $version;
             $ver_data{'version_label'} = $version_label;
             $ver_data{'books'}         = \@books;
+            $ver_data{'untrans_books'} = \@untrans_books if scalar @untrans_books;
             push( @versions, \%ver_data );
         }
 

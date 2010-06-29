@@ -1673,7 +1673,7 @@ sub package {
                     "Project-Id-Version in [_1] is not a valid release value.",
                     $po_file
                 )
-            ) unless $release;
+            ) unless defined $release;
         }
         else {
             croak(
