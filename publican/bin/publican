@@ -450,7 +450,7 @@ if ( $action eq 'create_site' ) {
     if ( -f $site_config ) {
         croak(
             maketext(
-                "Config file exists, you must supply a non-existing filename."
+                "Config file exists, you must supply a non-existent filename."
             )
         );
     }
@@ -562,7 +562,7 @@ if ( $action eq 'clean' || $action eq 'package' ) {
             RED
         );
     }
-    logger( maketext("Clean: Removing temporary and publish content.") . "\n",
+    logger( maketext("Clean: Removing [_1] and publish directories.", $publican->param('tmp_dir')) . "\n",
     );
 
     my $error;
