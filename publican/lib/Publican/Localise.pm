@@ -47,7 +47,6 @@ use base qw(Locale::Maketext::Gettext);
 return 1;
 =cut
 
-
 =head1 BUGS AND LIMITATIONS
 
 None reported.

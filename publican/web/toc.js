@@ -118,6 +118,14 @@ function getCookie() {
 			current_val = current_c[1];
 			break;
 		}
+                else if(current_c[0] == name_c + '-lang') {
+			var lang = current_c[1];
+           		var loc = location.href;
+                        var rg = new RegExp("/" + lang + "/");
+                        if(loc.match(rg) == null) {
+				location.href="../" + lang + "/toc.html";
+			}                        
+                }
 	}
 
 	if(current_val.length <= 0) { return;}
@@ -166,7 +174,10 @@ function loadToc() {
 	var my_select = document.getElementById('langselect');
 	if (my_select.selectedIndex > 0) {
 		location.href="../" + my_select.options[my_select.selectedIndex].value + "/toc.html";
-		parent.frames.main.location.replace("../" + my_select.options[my_select.selectedIndex].value + "/index.html");
+//		parent.frames.main.location.replace("../" + my_select.options[my_select.selectedIndex].value + "/index.html");
+		var expDate = new Date();
+		expDate.setDate(expDate.getDate() + num_days);
+		setCookie(name_c + '-lang', my_select.options[my_select.selectedIndex].value, expDate, false, false, false);              
 	}
 }
 
