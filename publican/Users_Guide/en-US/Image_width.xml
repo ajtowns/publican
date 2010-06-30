@@ -1,16 +1,17 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE important PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
 ]>
-
 <important>
 	<title>Important — 444 pixels is the maximum safe width</title>
-	<para>
+	 <para>
 		Do not use the <parameter>max_image_width</parameter> parameter if your images contain important information. Images wider than 444 pixels might lead to poorly presented HTML and to PDF output that it is unusable because images have run off the page and are presented incomplete to the reader.
 	</para>
-	<para>
-		Conversely, images lose quality when scaled down in HTML and PDF. 
+	 <para>
+		Conversely, images lose quality when scaled down in HTML and PDF.
 	</para>
-	<para>
+	 <para>
 		To safeguard the quality of your images, crop or scale them so that they are no wider than 444 pixels before including them in a document.
 	</para>
 </important>

@@ -5,25 +5,26 @@
 ]>
 <important>
 	<title>Root nodes and conditional tagging</title>
-	<para>
+	 <para>
 		If the root node of an XML file is excluded with a conditional, your document will not build, because empty files are not valid XML. For example, if <filename>Installation_and_configuration_on_Fedora.xml</filename> contains a single chapter:
 	</para>
-	
+	 
 <programlisting>
-&lt;?xml version='1.0' encoding='utf-8' ?&gt;
-&lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos; ?&gt;
+&lt;!DOCTYPE chapter PUBLIC &quot;-//OASIS//DTD DocBook XML V4.5//EN&quot; &quot;http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd&quot; [
 ]&gt;
-&lt;chapter id="chap-Installation_and_configuration_on_Fedora" condition="Fedora"&gt;
+&lt;chapter id=&quot;chap-Installation_and_configuration_on_Fedora&quot; condition=&quot;Fedora&quot;&gt;
 &lt;title&gt;Installation and configuration on Fedora&lt;/title&gt;
 
 [text of chapter]
 
 &lt;/chapter&gt;
+
 </programlisting>
-	<para>
+	 <para>
 		and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: Ubuntu</command> set in the <filename>publican.cfg</filename> file.
 	</para>
-	<para>
+	 <para>
 		To exclude this chapter, add a condition to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration_on_Fedora.xml</filename>.
 	</para>
 </important>

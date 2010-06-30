@@ -5,280 +5,336 @@
 ]>
 <section id="sect-Users_Guide-Files_in_the_brand_directory">
 	<title>Files in the brand directory</title>
-	<para>
+	 <para>
 		Running the <command>publican create_brand --name=<replaceable>brand</replaceable> --lang=<replaceable>language_code</replaceable></command> command creates a directory structure and the required files. The brand directory initially contains: 
 		<itemizedlist>
 			<listitem>
 				<para>
 					<filename>COPYING</filename>
 				</para>
+
 			</listitem>
-			<listitem>
+			 <listitem>
 				<para>
 					<filename>defaults.cfg</filename>
 				</para>
+
 			</listitem>
-			<listitem>
+			 <listitem>
 				<para>
 					<filename>overrides.cfg</filename>
 				</para>
+
 			</listitem>
-			<listitem>
+			 <listitem>
 				<para>
 					<filename>publican.cfg</filename>
 				</para>
+
 			</listitem>
-			<listitem>
+			 <listitem>
 				<para>
 					<filename>publican-<replaceable>brand</replaceable>.spec</filename>, where <replaceable>brand</replaceable> is the name of the brand.
 				</para>
+
 			</listitem>
-			<listitem>
+			 <listitem>
 				<para>
 					<filename>README</filename>
 				</para>
+
 			</listitem>
-			<listitem>
+			 <listitem>
 				<para>
-					a subdirectory for the brand's XML files, CSS stylesheets, and default images. The subdirectory is named with the language code of the original language of the brand (for example, <filename>en-US</filename>). These files are:
+					a subdirectory for the brand&apos;s XML files, CSS stylesheets, and default images. The subdirectory is named with the language code of the original language of the brand (for example, <filename>en-US</filename>). These files are:
 				</para>
-				<itemizedlist>
+				 <itemizedlist>
 					<listitem>
 						<para>
 							<filename>Feedback.xml</filename>
 						</para>
+
 					</listitem>
-					<listitem>
+					 <listitem>
 						<para>
 							<filename>Legal_Notice.xml</filename>
 						</para>
+
 					</listitem>
-					<listitem>
+					 <listitem>
 						<para>
 							the <filename>css</filename> subdirectory, which contains:
 						</para>
-						<itemizedlist>
+						 <itemizedlist>
 							<listitem>
 								<para>
 									<filename>overrides.css</filename>
 								</para>
+
 							</listitem>
+
 						</itemizedlist>
+
 					</listitem>
-					<listitem>
+					 <listitem>
 						<para>
 							the <filename>images</filename> subdirectory, which contains 43 images in both raster (PNG) and vector (SVG) formats.
 						</para>
+
 					</listitem>
+
 				</itemizedlist>
+
 			</listitem>
+
 		</itemizedlist>
+
 	</para>
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-The_publican.cfg_file">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_publican.cfg_file">
 		<title>The publican.cfg file</title>
-		<para>
+		 <para>
 			The <filename>publican.cfg</filename> file in a brand serves a similar purpose to the <filename>publican.cfg</filename> file in a document — it configures a number of basic options that define your brand.
 		</para>
-		<variablelist>
+		 <variablelist>
 			<varlistentry>
 				<term><parameter>version</parameter></term>
-				<listitem>
+				 <listitem>
 					<para>
 						specifies the version number for the brand. When you create the brand with <command>publican create_brand</command>, the version number is set to <literal>1.0</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the brand <filename>publican.spec</filename> file when you prepare a new version of the brand.
 					</para>
-					<para>
+					 <para>
 						Note that this parameter is unrelated to the version number of documents built with this brand. For example, the <citetitle>Fedora 12 Installation Guide</citetitle> has its version set as <literal>12</literal> in its <filename>publican.cfg</filename> file, but might be built with version 1.0 of the <package>publican-fedora</package> brand.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><parameter>xml_lang</parameter></term>
-				<listitem>
+				 <listitem>
 					<para>
-						specifies the language of the source XML files for the brand's Common Content, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create_brand</command>.
+						specifies the language of the source XML files for the brand&apos;s Common Content, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create_brand</command>.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><parameter>release</parameter></term>
-				<listitem>
+				 <listitem>
 					<para>
 						specifies the release number for the brand. When you create the brand with <command>publican create_brand</command>, the release number is set to <literal>0</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the brand <filename>publican.spec</filename> file when you prepare a new release of an existing version of the brand.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><parameter>type</parameter></term>
-				<listitem>
+				 <listitem>
 					<para>
 						when set to <literal>type=brand</literal>, this parameter identifies the contents of this directory as a brand, rather than a book, article, or set.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><parameter>brand</parameter></term>
-				<listitem>
+				 <listitem>
 					<para>
 						specifies the name of the brand, as set by the <option>--name</option> option for <command>publican create_brand</command>.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
+
 		</variablelist>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-The_defaults.cfg_file_and_overrides.cfg_file">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_defaults.cfg_file_and_overrides.cfg_file">
 		<title>The defaults.cfg file and overrides.cfg file</title>
-		<para>
-			Every document built in <application>Publican</application> has a <filename>publican.cfg</filename> file in its root directory, which configures build options for the document. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for a full description of these options. The <filename>defaults.cfg</filename> file and <filename>overrides.cfg</filename> file in a brand supply default values for any of the parameters that you can otherwise set with a document's <filename>publican.cfg</filename> file.
+		 <para>
+			Every document built in <application>Publican</application> has a <filename>publican.cfg</filename> file in its root directory, which configures build options for the document. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for a full description of these options. The <filename>defaults.cfg</filename> file and <filename>overrides.cfg</filename> file in a brand supply default values for any of the parameters that you can otherwise set with a document&apos;s <filename>publican.cfg</filename> file.
 		</para>
-		<para>
-			When you build a document with a particular brand, <application>Publican</application> first applies the values in the brand's <filename>defaults.cfg</filename> file before it applies the values in the document's <filename>publican.cfg</filename> file. Values in the document's <filename>publican.cfg</filename> file therefore override those in the brand's <filename>defaults.cfg</filename> file.
+		 <para>
+			When you build a document with a particular brand, <application>Publican</application> first applies the values in the brand&apos;s <filename>defaults.cfg</filename> file before it applies the values in the document&apos;s <filename>publican.cfg</filename> file. Values in the document&apos;s <filename>publican.cfg</filename> file therefore override those in the brand&apos;s <filename>defaults.cfg</filename> file.
 		</para>
-		<para>
-			<application>Publican</application> next applies the values in the brand's <filename>overrides.cfg</filename> file, which therefore override any values in the brand's <filename>defaults.cfg</filename> file and the document's <filename>publican.cfg</filename> file.
+		 <para>
+			<application>Publican</application> next applies the values in the brand&apos;s <filename>overrides.cfg</filename> file, which therefore override any values in the brand&apos;s <filename>defaults.cfg</filename> file and the document&apos;s <filename>publican.cfg</filename> file.
 		</para>
-		<para>
+		 <para>
 			Use the <filename>defaults.cfg</filename> file to set values that you routinely apply to your brand but want to allow writers to change in particular books; use the <filename>overrides.cfg</filename> file for values that you do not want to allow writers to change.
 		</para>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-publican_brand.spec_file">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-publican_brand.spec_file">
 		<title>publican-<replaceable>brand</replaceable>.spec file</title>
-		<para>
+		 <para>
 			Some Linux operating systems use the <application>RPM Package Manager</application> to distribute software, in the form of <firstterm>RPM packages</firstterm>. In general terms, an RPM package contains software files compressed into an archive, accompanied by a <firstterm>spec file</firstterm> that tells the <application>RPM Package Manager</application> how and where to install those files.
 		</para>
-		<para>
+		 <para>
 			When you create a brand, <application>Publican</application> generates the outline of an RPM spec file for the brand. The automatically generated spec file provides you with a starting point from which to create an RPM package to distribute your brand. Refer to <xref linkend="sect-Users_Guide-Packaging_a_brand" /> to learn how to configure the spec file and use it to produce an RPM package.
 		</para>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-README">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-README">
 		<title>README</title>
-		<para>
+		 <para>
 			The <filename>README</filename> file in an SRPM package includes a brief description of the package.
 		</para>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-COPYING">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-COPYING">
 		<title>COPYING</title>
-		<para>
+		 <para>
 			The <filename>COPYING</filename> file in an SRPM package contains details of the copyright license for the package.
 		</para>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-Common_Content_for_the_brand">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-Common_Content_for_the_brand">
 		<title>Common Content for the brand</title>
-		<para>
+		 <para>
 			Inside the brand directory is a subdirectory named after the default XML language for brand, as set with the <option>--lang</option> option when you created the brand. This subdirectory contains XML and image files that override the default Common Content provided with <application>Publican</application>. Customizing these files provides your brand with its distinctive appearance, including its color scheme and logos.
 		</para>
-		<section id="sect-Users_Guide-Common_Content_for_the_brand-Feedback.xml">
+		 <section id="sect-Users_Guide-Common_Content_for_the_brand-Feedback.xml">
 			<title><filename>Feedback.xml</filename></title>
-			<para>
+			 <para>
 				The <filename>Feedback.xml</filename> file is included by default in the preface of every book produced in <application>Publican</application>. It invites readers to leave feedback about the document. Customize this file with the contact details of your project. If your project uses a bug tracking system such as <application>Bugzilla</application>, <application>JIRA</application>, or <application>Trac</application>, you could include this information here.
 			</para>
+
 		</section>
 		
-		<section id="sect-Users_Guide-Common_Content_for_the_brand-Legal_Notice.xml">
+		 <section id="sect-Users_Guide-Common_Content_for_the_brand-Legal_Notice.xml">
 			<title><filename>Legal_Notice.xml</filename></title>
-			<para>
+			 <para>
 				The <filename>Legal_Notice.xml</filename> file contains the legal notice that appears at the beginning of every document produced by <application>Publican</application>. Insert the details of your chosen copyright license into this file. Typically, this might include the name of the license, a short summary of the license, and a link to the full details of the license.
 			</para>
+
 		</section>
+		
 
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-The_css_subdirectory">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_css_subdirectory">
 		<title>The <filename>css</filename> subdirectory</title>
-		<para>
+		 <para>
 			The <filename>css</filename> subdirectory contains a single file: <filename>overrides.css</filename>.
 		</para>
-		<section id="sect-Users_Guide-The_css_subdirectory-overrides.css">
+		 <section id="sect-Users_Guide-The_css_subdirectory-overrides.css">
 			<title>overrides.css</title>
-			<para>
-				The <filename>overrides.css</filename> file sets the visual style for your brand. Values in this file override those in <application>Publican</application>'s <filename>Common_Content/common/<replaceable>xml_lang</replaceable>/css/common.css</filename> file.
+			 <para>
+				The <filename>overrides.css</filename> file sets the visual style for your brand. Values in this file override those in <application>Publican</application>&apos;s <filename>Common_Content/common/<replaceable>xml_lang</replaceable>/css/common.css</filename> file.
 			</para>
+
 		</section>
+		
 
 	</section>
 	
-	<section id="sect-Users_Guide-Files_in_the_brand_directory-The_images_subdirectory">
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_images_subdirectory">
 		<title>The <filename>images</filename> subdirectory</title>
-		<para>
+		 <para>
 			The <filename>images</filename> subdirectory contains 43 images in both <firstterm>portable network graphics</firstterm> (PNG) and <firstterm>scalable vector graphics</firstterm> (SVG) format. These images are placeholders for various navigation icons, admonition graphics, and brand logos. They include:
 		</para>
-		<variablelist>
+		 <variablelist>
 			<varlistentry>
 				<term><filename>image_left</filename></term>
-				<listitem>
+				 <listitem>
 					<para>
-						is a logo for the product to which this document applies. It appears at the top left corner of HTML pages, where it contains a hyperlink to a web page for the product, as defined by <parameter>prod_url</parameter> in the <filename>publican.cfg</filename> file for the document. Consider setting <parameter>prod_url</parameter> in the brand's <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
+						is a logo for the product to which this document applies. It appears at the top left corner of HTML pages, where it contains a hyperlink to a web page for the product, as defined by <parameter>prod_url</parameter> in the <filename>publican.cfg</filename> file for the document. Consider setting <parameter>prod_url</parameter> in the brand&apos;s <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><filename>image_right</filename></term>
-				<listitem>
+				 <listitem>
 					<para>
-						is a logo for the team that produced this documentation. It appears at the top right corner of HTML pages, where it contains a hyperlink to a web page for the documentation team, as defined by <parameter>doc_url</parameter> in the <filename>publican.cfg</filename> file for the document. If all the documentation for this brand is produced by the same team, consider setting <parameter>doc_url</parameter> in the brand's <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
+						is a logo for the team that produced this documentation. It appears at the top right corner of HTML pages, where it contains a hyperlink to a web page for the documentation team, as defined by <parameter>doc_url</parameter> in the <filename>publican.cfg</filename> file for the document. If all the documentation for this brand is produced by the same team, consider setting <parameter>doc_url</parameter> in the brand&apos;s <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><filename>title_logo</filename></term>
-				<listitem>
+				 <listitem>
 					<para>
 						is a larger version of your product logo, which appears on the title page of PDF documents and at the start of HTML documents.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><filename>note</filename></term>
-				<term><filename>important</filename></term>
-				<term><filename>warning</filename></term>
-				<listitem>
+				 <term><filename>important</filename></term>
+				 <term><filename>warning</filename></term>
+				 <listitem>
 					<para>
 						are icons that accompany the XML admonitions <sgmltag>&lt;note&gt;</sgmltag>, <sgmltag>&lt;important&gt;</sgmltag>, and <sgmltag>&lt;warning&gt;</sgmltag>.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><filename>dot</filename></term>
-				<term><filename>dot2</filename></term>
-				<listitem>
+				 <term><filename>dot2</filename></term>
+				 <listitem>
 					<para>
 						are bullets used for <sgmltag>&lt;listitem&gt;</sgmltag>s in <sgmltag>&lt;itemizedlist&gt;</sgmltag>s.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><filename>stock-go-back</filename></term>
-				<term><filename>stock-go-forward</filename></term>
-				<term><filename>stock-go-up</filename></term>
-				<term><filename>stock-home</filename></term>
-				<listitem>
+				 <term><filename>stock-go-forward</filename></term>
+				 <term><filename>stock-go-up</filename></term>
+				 <term><filename>stock-home</filename></term>
+				 <listitem>
 					<para>
 						are navigation icons for HTML pages.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><filename>h1-bg</filename></term>
-				<listitem>
+				 <listitem>
 					<para>
 						is a background for the heading that contains the name of your product, as it appears at the very beginning of a HTML document.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><filename>watermark_draft</filename></term>
-				<listitem>
+				 <listitem>
 					<para>
 						is a watermark that appears on pages of draft documentation. Refer to <xref linkend="sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_draft_documentation" />.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
+
 		</variablelist>
+
 	</section>
+	
 
 </section>
 

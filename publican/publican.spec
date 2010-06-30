@@ -229,6 +229,10 @@ rm -rf $RPM_BUILD_ROOT
 - Remove title color from term in HTML. BZ #592822
 - Fix highlight breaking callouts. BZ #590933
 - Add support for LineColumn coords in area tag.
+- Update font requires for F12 and F13.
+- Fix clean_ids adding newline to verbatim. BZ #604465
+- Fix index missing ID. BZ #606418
+- Fix files dir being missed. BZ #609345
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068

@@ -5,92 +5,105 @@
 ]>
 <section id="sect-Users_Guide-Pre_release_software_and_draft_documentation">
 	<title>Pre-release software and draft documentation</title>
-	<para>
+	 <para>
 		Completed documentation for pre-release software is not the same thing as draft documentation.
 	</para>
-	<para>
+	 <para>
 		Drafts are unfinished versions of a book or article, and their unfinished state is unrelated to the status of the software they document.
 	</para>
-	<para>
+	 <para>
 		In both circumstances, however, it is important to make the status of the software, documentation or both clear to users, developers, readers and reviewers.
 	</para>
-	<section id="sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_pre_release_software">
+	 <section id="sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_pre_release_software">
 		<title>Denoting pre-release software</title>
-		<para>
+		 <para>
 			Documentation for pre-release software, especially pre-release software being distributed to testers, customers and partners, should carry a clear mark denoting the beta-status of the software.
 		</para>
-		<para>
+		 <para>
 			To create that mark do the following:
 		</para>
-		<procedure>
+		 <procedure>
 			<step>
 				<para>
-					Add the software's pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:
+					Add the software&apos;s pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:
 				</para>
-				
+				 
 <programlisting language="XML">&lt;subtitle&gt;Using Red Hat Enterprise Warp Drive&lt;remark&gt; Version 1.1, Beta 2&lt;/remark&gt;&lt;/subtitle&gt;
+
 </programlisting>
+
 			</step>
-			<step>
+			 <step>
 				<para>
-					add <varname>show_remarks</varname> to the <filename>publican.cfg</filename> file and set it to '1':
+					add <varname>show_remarks</varname> to the <filename>publican.cfg</filename> file and set it to &apos;1&apos;:
 				</para>
-				
+				 
 <programlisting>show_remarks: 1
+
 </programlisting>
+
 			</step>
+
 		</procedure>
 		
-		<para>
+		 <para>
 			When you build your book with this <sgmltag>&lt;remark&gt;</sgmltag> tag and the <varname>show_remarks</varname> setting in place, the pre-release nature of the software is displayed clearly and unmistakably. PDF builds display the remark on their cover and title pages. HTML builds (both single-page HTML and multiple-page HTML) display the remark near the beginning of <filename>index.html</filename>.
 		</para>
-		<para>
-			Because this approach makes no changes to the information in <filename>Book_Info.xml</filename> used to generate RPMs, it also ensures there is no ambiguity in the RPM subsystem's operation.
+		 <para>
+			Because this approach makes no changes to the information in <filename>Book_Info.xml</filename> used to generate RPMs, it also ensures there is no ambiguity in the RPM subsystem&apos;s operation.
 		</para>
-		<important>
+		 <important>
 			<title>Important</title>
-			<para>
-				It is the writer's responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>show_remarks</varname> when documentation is updated for use with the release version of the software.
+			 <para>
+				It is the writer&apos;s responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>show_remarks</varname> when documentation is updated for use with the release version of the software.
 			</para>
+
 		</important>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_draft_documentation">
+	 <section id="sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_draft_documentation">
 		<title>Denoting draft documentation</title>
-		<para>
+		 <para>
 			Unfinished documentation made available to others for review should be labeled clearly as such.
 		</para>
-		<procedure>
+		 <procedure>
 			<step>
 				<para>
-					To add the draft watermark to your documentation add the <userinput>status="draft"</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document's root node. For example:
+					To add the draft watermark to your documentation add the <userinput>status=&quot;draft&quot;</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document&apos;s root node. For example:
 				</para>
-				
-<programlisting language="XML">&lt;book status="draft"&gt;
+				 
+<programlisting language="XML">&lt;book status=&quot;draft&quot;&gt;
+
 </programlisting>
+
 			</step>
+
 		</procedure>
 		
-		<para>
+		 <para>
 			By default, your root node is the <sgmltag>&lt;book&gt;</sgmltag> tag in your <filename><replaceable>Doc_Name</replaceable>.xml</filename> file.
 		</para>
-		<para>
+		 <para>
 			If you are working on an article or set, the root node is the <sgmltag>&lt;article&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in <filename><replaceable>Doc_Name</replaceable>.xml</filename>.
 		</para>
-		<para>
-			Adding the <userinput>status="draft"</userinput> attribute causes each page of the document to show the draft watermark. This is by design.
+		 <para>
+			Adding the <userinput>status=&quot;draft&quot;</userinput> attribute causes each page of the document to show the draft watermark. This is by design.
 		</para>
-		<para>
+		 <para>
 			Even if you change only a portion of a work before sending it out for review, marking every page as draft will encourage reviewers to report errors or typos they spot in passing. It will also ensure non-reviewers who encounter the work do not mistake a draft for a finished version.
 		</para>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_draft_documentation_of_pre_release_software">
+	 <section id="sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_draft_documentation_of_pre_release_software">
 		<title>Denoting draft documentation of pre-release software</title>
-		<para>
+		 <para>
 			To denote unfinished documentation of pre-release software properly, do both previously noted procedures.
 		</para>
+
 	</section>
+	
 
 </section>
 

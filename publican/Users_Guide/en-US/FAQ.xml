@@ -5,280 +5,342 @@
 ]>
 <chapter id="chap-Users_Guide-Frequently_Asked_Questions">
 	<title>Frequently Asked Questions</title>
-	<qandaset>
+	 <qandaset>
 		<qandaentry>
 			<question>
 				<para>
 					How do I add a language to my book?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					Run <command>publican update_po --langs=<replaceable>language</replaceable></command>, where <replaceable>language</replaceable> is the code for the new language that you want to add. You can add more than one language at a time, with the language codes separated by commas. For example, <command>publican update_po --langs=ja-JP</command> creates the Japanese language directory and Japanese PO files, and <command>publican update_po --langs=ja-JP,ko-KR</command> creates directories and PO files for both Japanese and Korean.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					What if I do not want to use the country code? For example, can I run <command>publican update_po --langs=es,de,fr</command>?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
-					Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People's Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings.
+					Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People&apos;s Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					How do I update all po files?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					Run the <command>publican update_po --langs=all</command> command.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
-					Where can I get a complete list of <application>Publican</application>'s build options?
+					Where can I get a complete list of <application>Publican</application>&apos;s build options?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					Run the <command>publican build --help</command> command.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					Where can I get a complete list of parameters that can be set in the <filename>publican.cfg</filename>?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					Run the <command>publican help_config</command> command in a directory that holds any <application>Publican</application> document.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					Where are the <application>Publican</application> common files located?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					By default, they are in <filename>/usr/share/publican/</filename> on Linux operating systems and in <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/publican/Common_Content</filename>.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					I have extensive code samples for my book, how can I include them without having to XML escape everything?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					The best way to do this is to create a directory named <filename>extras</filename> in your source language directory and use an <sgmltag>xi:include</sgmltag> to pull in the code file.
 				</para>
-				<procedure id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
+				 <procedure id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
 					<title>Including code samples</title>
-					<step>
+					 <step>
 						<para>
 							Create the extras directory
 						</para>
-						
+						 
 <screen><command>mkdir <filename>en-US/extras</filename></command>
 </screen>
+
 					</step>
-					<step>
+					 <step>
 						<para>
 							Copy the code file to the extras directory
 						</para>
-						
+						 
 <screen><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
 </screen>
+
 					</step>
-					<step>
+					 <step>
 						<para>
 							<sgmltag>xi:include</sgmltag> the sample file in your xml file
 						</para>
-						
+						 
 <programlisting language="XML">&lt;programlisting&gt;
-&lt;xi:include parse="text" href="extras/foo.c" xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;
+&lt;xi:include parse=&quot;text&quot; href=&quot;extras/foo.c&quot; xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot; /&gt;
 &lt;/programlisting&gt;
+
 </programlisting>
+
 					</step>
-					<step>
+					 <step>
 						<para>
 							You can now edit <filename>en-US/extras/foo.c</filename> in your favorite editor without having to be concerned about how it will affect the XML.
 						</para>
+
 					</step>
+
 				</procedure>
+				
 
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					Is it possible to include arbitrary files in tarballs and RPM packages?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					Yes. If you make a directory named <filename>files</filename> in your source language directory it will be included in any tarballs or SRPM packages that <application>Publican</application> creates.
 				</para>
-				<important>
+				 <important>
 					<title>Important</title>
-					<para>
+					 <para>
 						The <filename>files</filename> directory will not be available during the validation process so you can not <sgmltag>xi:include</sgmltag> or otherwise embed any files in this directory in your XML.
 					</para>
+
 				</important>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					Why does <application>Publican</application> give me warnings about unknown tags?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					This warning informs you that you are using a tag whose output has not been tested for attractiveness, XHTML 1.0 Strict compliance, or Section 508 (Accessibility) compliance.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					<emphasis role="strikethrough">Which brands enable strict mode?</emphasis> Strict mode is no longer enforced.
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					<emphasis role="strikethrough">Currently the Red Hat and JBoss brands enable strict mode.</emphasis>
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					I get an error saying <application>Batik</application> is not in the classpath but <application>Batik</application> is installed! What is wrong?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					We believe this is due to classpath issues caused by having different JRE and JDK versions installed. Sometimes this can be fixed by upgrading your JDK to the same version of your JRE.
 				</para>
-				<para>
+				 <para>
 					Sometimes this issue can be revealed by running <command>alternatives --config java</command> and <command>alternatives --config javac</command>, if the versions are different then selecting the same version in both can fix this problem.
 				</para>
-				<para>
+				 <para>
 					Some Java installs do not set-up the <command>alternatives</command> environment correctly, no fix has been determined for this situation.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
-					I get an error <computeroutput>Exception in thread "main" java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
+					I get an error <computeroutput>Exception in thread &quot;main&quot; java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
-					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo "FOP_OPTS='-Xms50m -Xmx700m'" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo &quot;FOP_OPTS=&apos;-Xms50m -Xmx700m&apos;&quot; &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					Previous versions of <application>Publican</application> removed empty <sgmltag>&lt;para&gt;</sgmltag> tags. Does <application>Publican</application> still do this?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					No. <application>Publican</application> previously removed empty <sgmltag>&lt;para&gt;</sgmltag> tags while it transformed XML because empty <sgmltag>&lt;para&gt;</sgmltag> tags broke earlier translation toolchains used within Red Hat and the Fedora Project. Empty <sgmltag>&lt;para&gt;</sgmltag> tags are valid DocBook XML, and <application>Publican</application> no longer removes them.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					What happened to the spell check?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
-					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document's XML. Due to negative feedback from users, this feature was dropped.
+					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document&apos;s XML. Due to negative feedback from users, this feature was dropped.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
-					Why don't <sgmltag>&lt;segmentedlist&gt;</sgmltag>s work when I build PDFs?
+					Why don&apos;t <sgmltag>&lt;segmentedlist&gt;</sgmltag>s work when I build PDFs?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					Check the number of columns in your <sgmltag>&lt;segmentedlist&gt;</sgmltag>s. When <sgmltag>&lt;segmentedlist&gt;</sgmltag>s are formatted as tables, the DocBook XSL limits the number of columns to two, and <application>Publican</application> formats <sgmltag>&lt;segmentedlist&gt;</sgmltag>s as tables.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					What happened to the colors in my images in this PDF?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					This is the result of a bug in <application>FOP</application> that distorts colors in 24-bit PNG images. Convert your images to 32-bit PNG images to work around the problem.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
-					When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what's wrong?
+					When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what&apos;s wrong?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
 					Code highlighting in <application>Publican</application> is generated with the <application>Syntax::Highlight::Engine::Kate</application> Perl module. If you specify a language in a <sgmltag>&lt;programlisting&gt;</sgmltag> tag that <application>Syntax::Highlight::Engine::Kate</application> does not recognize, you receive an error when you build your book. The first lines of the error message are similar to:
 				</para>
-				
+				 
 <screen><computeroutput>undefined language: JAVA at /usr/lib/perl5/vendor_perl/5.10.0/Syntax/Highlight/Engine/Kate.pm line 615.</computeroutput>
-<computeroutput>cannot create plugin for language 'JAVA'</computeroutput>
+<computeroutput>cannot create plugin for language &apos;JAVA&apos;</computeroutput>
 </screen>
-				<para>
-					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language="Java"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language="java"&gt;</sgmltag> and <sgmltag>&lt;programlisting language="JAVA"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
+				 <para>
+					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language=&quot;Java&quot;&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language=&quot;java&quot;&gt;</sgmltag> and <sgmltag>&lt;programlisting language=&quot;JAVA&quot;&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
 				</para>
-				<para>
+				 <para>
 					Refer to <ulink url="http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation.
 				</para>
+
 			</answer>
+
 		</qandaentry>
-		<qandaentry>
+		 <qandaentry>
 			<question>
 				<para>
 					Why does Jeff call Isaac &lsquo;Ivan&rsquo;?
 				</para>
+
 			</question>
-			<answer>
+			 <answer>
 				<para>
-					Because Jeff's memory is pants!
+					Because Jeff&apos;s memory is pants!
 				</para>
+
 			</answer>
+
 		</qandaentry>
+
 	</qandaset>
 </chapter>
 

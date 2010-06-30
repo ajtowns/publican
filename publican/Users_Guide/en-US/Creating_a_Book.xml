@@ -5,114 +5,133 @@
 ]>
 <chapter id="chap-Users_Guide-Creating_a_document">
 	<title>Creating a document</title>
-	<para>
+	 <para>
 		This chapter describes creating books and articles: the main configuration files, example document files, and how to build a document.
 	</para>
-	<para>
+	 <para>
 		Use the <command>publican create</command> command to create a new document, including all the necessary files for the document.
 	</para>
-	<para>
+	 <para>
 		The following is a list of valid options that you can append to the <command>publican create</command> command. For example, <command>publican create --help</command>, <command>publican create --name New_Book</command>, and so on:
 	</para>
-	<variablelist>
+	 <variablelist>
 		<varlistentry>
 			<term><option>--help</option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					print a list of all <command>publican create</command> command options.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--name<replaceable> Doc_Name</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					replace <replaceable>Doc_Name</replaceable> with the name of the book or article. This variable must not contain any spaces. For example, the command <command>create_book --name Test_Book</command> creates a book named <literal>Test_Book</literal> with all the necessary files to build the book, and sets the <parameter>BOOKID</parameter> in the <filename>Test_Book.ent</filename> file.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--lang<replaceable> Language_Code</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					replace <replaceable>Language_Code</replaceable> with the language code of the language in which the book or article will be authored. If you do not specify a language, <application>Publican</application> defaults to <literal>en-US</literal> (American English). The <option>--lang</option> option sets the <parameter>xml_lang</parameter> in the <filename>publican.cfg</filename> file. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for more information on <filename>publican.cfg</filename> parameters and <xref linkend="appe-Users_Guide-Language_codes" /> for more detail on language codes.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--version<replaceable> version</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					replace <replaceable>version</replaceable> with the version number of the product that the book describes. For example, for Red Hat Enterprise Linux 5.1 you would use <literal>5.1</literal>. The default version is <literal>0.1</literal>. The <option>--version</option> option sets the <sgmltag>&lt;pubsnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml" />.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--edition<replaceable> edition</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					replace <replaceable>edition</replaceable> with the edition number of the book. This number indicates to users when a new edition of the book is released. The initial <firstterm>general availability</firstterm> (GA) release of the book should be edition <literal>1.0</literal>. The default value is <literal>0</literal>. The <option>--edition</option> option sets the <sgmltag>&lt;edition&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml" />.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--product<replaceable> Product_Name</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					replace <replaceable>Product_Name</replaceable> with the product name. This variable must not contain any spaces. For example, set this to <literal>Fedora</literal> for core Fedora documentation, and the name of the product for other products, for example, <literal>Fedora_Directory_Server</literal>. The <option>--product</option> option sets the <sgmltag>&lt;product name&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> and the <parameter>PRODUCT</parameter> in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--type Article --name<replaceable> Article_Name</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					create an article instead of a book. Replace <replaceable>Article_Name</replaceable> with the article name. This variable must not contain any spaces. The <option>--type</option> option sets the <parameter>type</parameter> in the <filename>publican.cfg</filename> file. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for more information on <filename>publican.cfg</filename> parameters.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--type Set --name<replaceable> Set_Name</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					create a set of documents instead of a book. Replace <replaceable>Set_Name</replaceable> with the set name. This variable must not contain any spaces. The <option>--type</option> option sets the <parameter>type</parameter> in the <filename>publican.cfg</filename> file. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for more information on <filename>publican.cfg</filename> parameters and to <xref linkend="chap-Users_Guide-Using_sets" /> for details on using sets.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--brand <replaceable>brand</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					replace <replaceable>brand</replaceable> with RedHat, fedora, JBoss, oVirt, or GIMP. The <option>--type</option> option sets the <parameter>brand</parameter> in the <filename>publican.cfg</filename> file. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for more information on <filename>publican.cfg</filename> parameters. This option requires the appropriate <application>Publican</application> brand package to be installed. For example, to build Red Hat branded books, you must install the <package>publican-redhat</package> package. Refer to <xref linkend="sect-Users_Guide-Installing_a_brand" /> for instructions on installing brand packages for <application>Publican</application>. If you do not specify a brand, <application>Publican</application> uses its built-in, default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
+
 	</variablelist>
-	<para>
+	 <para>
 		Before running the <command>publican create</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named <literal>Test_Book</literal> in the <filename>my_books/</filename> directory, run the following commands:
 	</para>
-	
+	 
 <screen><command>cd my_books/</command> 
 <command>publican create --name Test_Book</command>
 </screen>
-	<para>
+	 <para>
 		To see the results of this command on a computer with a Linux operating system, run the following:
 	</para>
-	
+	 
 <screen><command>ls</command>
 </screen>
-	<para>
+	 <para>
 		The output should be similar to the following:
 	</para>
-	
+	 
 <screen><computeroutput>en-US publican.cfg</computeroutput>
 </screen>
-	<xi:include href="Files_in_the_Book_Directory.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="Adding_Images.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="Preparing_a_Book_for_Translation.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="Building_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="Packaging_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="Conditionaltagging.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="Draft.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="Files_in_the_Book_Directory.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="Adding_Images.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="Preparing_a_Book_for_Translation.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="Building_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="Packaging_a_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="Conditionaltagging.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="Draft.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </chapter>
 

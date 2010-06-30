@@ -5,372 +5,462 @@
 ]>
 <appendix id="appe-Users_Guide-publican.cfg_parameters">
 	<title>publican.cfg parameters</title>
-	<para>
+	 <para>
 		Every book, article, document set, or brand has a <filename>publican.cfg</filename> file in its root directory. Parameters that can be set in the <filename>publican.cfg</filename> file are:
 	</para>
-	<variablelist>
+	 <variablelist>
 		<varlistentry>
 			<term><parameter>docname</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the document name, set by the <option>--name</option> option.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>version</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the product version, set by the <option>--version</option> option.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>xml_lang</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the language of the source XML files, set by the <option>--lang</option> option.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>edition</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the edition number for this documentation, set by the <option>--edition</option> option.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>type</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, set by the <option>--type</option> option.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>brand</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the <firstterm>brand</firstterm> of the document, set by the <option>--brand</option> option.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>product</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the product to which this documentation applies, set by the <option>--product</option> option.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>arch</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the computer <firstterm>architecture</firstterm> for this document.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>books</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					a space-separated list of books used in a remote set.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>brew_dist</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the build target to use for building the desktop RPM package in <application>Brew</application>. (Default: <literal>docs-5E</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>chunk_first</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					whether the first section should appear on the same page as its parent when rendered in HTML. (Default: <literal>0</literal> — the first section starts a new HTML page).
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>chunk_section_depth</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the point at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. (Default: <literal>4</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>classpath</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the path to the jar files for <application>FOP</application>. (Default for Linux operating systems: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>common_config</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the path to the <application>Publican</application> installation. (Default for Linux operating systems: <filename>/usr/share/publican</filename>, default for Windows operating systems: <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — most usually <filename>C:/Program Files/publican</filename>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>common_content</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
-					the path to the <application>Publican</application>'s <firstterm>Common Content</firstterm> files. (Default for Linux operating systems: <filename>/usr/share/publican/Common_Content</filename>, default for Windows operating systems: <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>)
+					the path to the <application>Publican</application>&apos;s <firstterm>Common Content</firstterm> files. (Default for Linux operating systems: <filename>/usr/share/publican/Common_Content</filename>, default for Windows operating systems: <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>condition</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					conditions on which to prune XML before transformation.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>confidential</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					marks a document as confidential. (Default: <literal>0</literal> — not confidential).
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>confidential_text</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					sets the text with which to mark a document as confidential. (Default: <literal>CONFIDENTIAL</literal>).
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>cvs_branch</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the CVS branch into which to import the SRPM.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>cvs_pkg</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the CVS package into which to import the SRPM. This parameter takes the literal string <literal>__LANG__</literal> and replaces it with the langauge supplied to the package action at run time.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>cvs_root</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the CVS root into which to import the SRPM.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>debug</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					whether <application>Publican</application> should display debugging messages as it works. (Default: <literal>0</literal> — suppress messages)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>doc_url</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					URL for the documentation team for this package. (Default: <literal>https://fedorahosted.org/publican</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>dt_obsoletes</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the desktop packages that this package obsoletes.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>dtdver</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. (Default: <literal>4.5</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>ec_id</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the ID for an <application>Eclipse</application> help plugin (Default: <replaceable>product</replaceable>.<replaceable>docname</replaceable>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>ec_name</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the name of an <application>Eclipse</application> help plugin (Default: <replaceable>product</replaceable> <replaceable>docname</replaceable>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>ec_provider</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the provider name for an <application>Eclipse</application> help plugin (Default: <replaceable>Publican</replaceable>-<replaceable>Publican version</replaceable>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>generate_section_toc_level</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the section depth at which <application>Publican</application> generates a table of contents. (Default: <literal>0</literal> — no tables of contents in sections)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>ignored_translations</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					translations to ignore.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>license</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the license this package uses. (Default: GNU Free Documentation License).
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>max_image_width</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the maximum width allowable for images in the document. (Default: <literal>444</literal> — 444 pixels wide)
 				</para>
-				<xi:include href="Image_width.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+				 <xi:include href="Image_width.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
 			</listitem>
+
 		</varlistentry>
-		
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>os_ver</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the operating system for which to build packages. (Default: <literal>.el5</literal> — Red Hat Enterprise Linux 5)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>prod_url</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					URL for the product to which this document applies. (Default: <literal>https://fedorahosted.org/publican</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>release</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the release number of this package. Defaults to the value of <literal>xml_lang</literal>, fetched from the title tag in <filename>xml_lang/TYPE_Info.xml</filename> or <literal>Project-Id-Version</literal> in <filename>lang/TYPE_Info.po</filename>.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>repo</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the repository from which to fetch remote books that form part of a distributed set.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>scm</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the version control system used in the repository in that stores the remote books in a distributed set. (Default: <literal>SVN</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>show_remarks</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					whether to display remarks in transformed output. (Default: <literal>0</literal> — hide remarks)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>show_unknown</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					whether <application>Publican</application> reports unknown tags when processing XML. (Default: <literal>1</literal> — report unknown tags)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>src_url</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					URL at which to find to find tarballs of source files.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>strict</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					<emphasis role="strikethrough">use <firstterm>strict mode</firstterm> (Default: <literal>0</literal> — not strict)</emphasis> Strict mode is no longer enforced.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>tmp_dir</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the directory for <application>Publican</application> output. (Default: <literal>tmp</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>toc_section_depth</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the depth of sections that <application>Publican</application> includes in the main table of contents. (Default: <literal>2</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>web_brew_dist</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					the <application>brew</application> build target to use for the web RPM package. (Defaults to <literal>docs-5E</literal>)
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><parameter>web_obsoletes</parameter></term>
-			<listitem>
+			 <listitem>
 				<para>
 					packages that the web RPM package obsoletes.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
+
 	</variablelist>
 </appendix>
 

@@ -5,195 +5,218 @@
 ]>
 <section id="sect-Users_Guide-Installing_a_brand">
 	<title>Installing a brand</title>
-	<para>
+	 <para>
 		<application>Publican</application> brands for Fedora, Genome, and oVirt documents are available as RPM packages in Fedora. Similarly, Red Hat internally distributes RPM packages containing <application>Publican</application> brands for GIMP, JBoss, and Red Hat documents. Providing that you have access to the relevant repositories, you can install these brands on a computer that runs Red Hat Enterprise Linux or Fedora — or an operating system derived from either — with the command <command>yum install publican-<replaceable>brand</replaceable></command> or with a graphical package manager such as <application>PackageKit</application>.
 	</para>
-	<para>
+	 <para>
 		If you use <application>Publican</application> on an operating system that does not use RPM packages, your documentation project might provide its brand in another format. Whatever the format in which the brand is supplied, you must place the brand files in a subdirectory of the <application>Publican</application> Common Content directory. By default, this directory is located at <filename>/usr/share/publican/Common_Content</filename> on Linux operating systems and at <filename>%SystemDrive%/%ProgramFiles%/Publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/Publican/Common_Content</filename>
 	</para>
-	<para>
+	 <para>
 		Each currently available brand is distributed under a brand-specific license as follows:
 	</para>
-	<para>
+	 <para>
 		To install the brand:
 	</para>
-	<procedure>
+	 <procedure>
 		<step>
 			<para>
 				If the brand was supplied to you in an archive of some kind, for example, a tarball or ZIP file, unpack the brand into a new directory on your system.
 			</para>
+
 		</step>
-		<step>
+		 <step>
 			<para>
 				Change into the directory in which you created or unpacked the brand:
 			</para>
-			
+			 
 <screen><command>cd publican-<replaceable>brand</replaceable></command>
 </screen>
-			<para>
+			 <para>
 				where <replaceable>brand</replaceable> is the name of the brand.
 			</para>
+
 		</step>
-		<step>
+		 <step>
 			<para>
 				Build the brand:
 			</para>
-			
+			 
 <screen><command>publican build --formats xml --langs all --publish</command>
 </screen>
+
 		</step>
-		<step>
+		 <step>
 			<para>
 				Install the brand:
 			</para>
-			
+			 
 <screen><command>sudo publican install_brand --path <replaceable>path</replaceable></command>
 </screen>
-			<para>
+			 <para>
 				where <replaceable>path</replaceable> is the path to the <application>Publican</application> Common Content files. For example, on a Linux system, run:
 			</para>
-			
+			 
 <screen><command>sudo publican install_brand --path /usr/share/publican/Common_Content</command>
 </screen>
-			<para>
+			 <para>
 				or on a Windows system, run
 			</para>
-			
-<screen><command>publican install_brand --path "C:/Program Files/Publican/Common_Content"</command>
+			 
+<screen><command>publican install_brand --path &quot;C:/Program Files/Publican/Common_Content&quot;</command>
 </screen>
+
 		</step>
-		<step>
+		 <step>
 			<para>
+
 			</para>
+
 		</step>
-		<step>
+		 <step>
 			<para>
+
 			</para>
+
 		</step>
+
 	</procedure>
 	
-	<table id="tabl-Users_Guide-Installing_a_brand-Current_Brands_and_their_packages">
+	 <table id="tabl-Users_Guide-Installing_a_brand-Current_Brands_and_their_packages">
 		<title>Current Brands and their packages</title>
-		<tgroup cols="4">
+		 <tgroup cols="4">
 			<colspec colnum="1" colwidth="1*"></colspec>
-			<colspec colnum="2" colwidth="2*"></colspec>
-			<colspec colnum="3" colwidth="2*"></colspec>
-			<colspec colnum="4" colwidth="2*"></colspec>
-			<thead>
+			 <colspec colnum="2" colwidth="2*"></colspec>
+			 <colspec colnum="3" colwidth="2*"></colspec>
+			 <colspec colnum="4" colwidth="2*"></colspec>
+			 <thead>
 				<row>
 					<entry>
 						Brand
 					</entry>
-					<entry>
+					 <entry>
 						License
 					</entry>
-					<entry>
+					 <entry>
 						Package
 					</entry>
-					<entry>
+					 <entry>
 						Comment
 					</entry>
+
 				</row>
+
 			</thead>
-			<tbody>
+			 <tbody>
 				<row>
 					<entry>
 						common
 					</entry>
-					<entry>
+					 <entry>
 						<ulink url="http://www.gnu.org/licenses/fdl.html">GFDL Version 1.2</ulink>
 					</entry>
-					<entry>
+					 <entry>
 						publican
 					</entry>
-					<entry>
+					 <entry>
 						GPL compatible license. No options.
 					</entry>
+
 				</row>
-				<row>
+				 <row>
 					<entry>
 						RedHat
 					</entry>
-					<entry>
+					 <entry>
 						<ulink url="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0</ulink>
 					</entry>
-					<entry>
+					 <entry>
 						publican-redhat
 					</entry>
-					<entry>
+					 <entry>
+
 					</entry>
+
 				</row>
-				<row>
+				 <row>
 					<entry>
 						Fedora
 					</entry>
-					<entry>
+					 <entry>
 						<ulink url="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0</ulink>
 					</entry>
-					<entry>
+					 <entry>
 						publican-fedora
 					</entry>
-					<entry>
+					 <entry>
+
 					</entry>
+
 				</row>
-				<row>
+				 <row>
 					<entry>
 						JBoss
 					</entry>
-					<entry>
+					 <entry>
 						<ulink url="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0</ulink>
 					</entry>
-					<entry>
+					 <entry>
 						publican-jboss
 					</entry>
-					<entry>
+					 <entry>
 						No Options.
 					</entry>
+
 				</row>
-				<row>
+				 <row>
 					<entry>
 						oVirt
 					</entry>
-					<entry>
+					 <entry>
 						<ulink url="http://www.opencontent.org/openpub/">OPL 1.0</ulink>
 					</entry>
-					<entry>
+					 <entry>
 						publican-ovirt
 					</entry>
-					<entry>
+					 <entry>
 						No Options.
 					</entry>
+
 				</row>
-				<row>
+				 <row>
 					<entry>
 						GIMP
 					</entry>
-					<entry>
+					 <entry>
 						<ulink url="http://www.gnu.org/licenses/fdl.html">GFDL Version 1.2</ulink>
 					</entry>
-					<entry>
+					 <entry>
 						publican-gimp
 					</entry>
-					<entry>
+					 <entry>
 						GPL compatible license. No options.
 					</entry>
+
 				</row>
-				<row>
+				 <row>
 					<entry>
 						Genome
 					</entry>
-					<entry>
+					 <entry>
 						<ulink url="http://www.opencontent.org/openpub/">OPL 1.0</ulink>
 					</entry>
-					<entry>
+					 <entry>
 						publican-genome
 					</entry>
-					<entry>
+					 <entry>
 						No Options.
 					</entry>
+
 				</row>
+
 			</tbody>
+
 		</tgroup>
+
 	</table>
 </section>
 

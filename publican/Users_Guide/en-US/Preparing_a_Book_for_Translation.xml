@@ -5,90 +5,99 @@
 ]>
 <section id="sect-Users_Guide-Preparing_a_document_for_translation">
 	<title>Preparing a document for translation</title>
-	<para>
+	 <para>
 		Support for localization of documents was a key consideration in the design of <application>Publican</application>. The general translation workflow for documents developed in <application>Publican</application> is as follows:
 	</para>
-	<procedure>
-		<step id="step1">
-			<para id="para1">
+	 <procedure>
+		<step>
+			<para>
 				Complete the XML of a document.
 			</para>
-			<para>
+			 <para>
 				The XML for this version of the document should now be considered &lsquo;frozen&rsquo;. If your document is stored in a version-controlled repository, you should now move this version into a separate directory or branch. This allows writers to begin work on subsequent versions of the document in one branch, while providing a stable base for translation in another branch.
 			</para>
+
 		</step>
-		<step>
+		 <step>
 			<para>
 				Generate <firstterm>portable object template</firstterm> (POT) files from the XML files:
 			</para>
-			
-<screen id="test">$ <command>publican update_pot</command>
+			 
+<screen>$ <command>publican update_pot</command>
 </screen>
-			<para>
-				If this is the first time that POT files have been created for this document, <application>Publican</application> creates a new subdirectory, named <filename id="stupid">pot</filename>. The <filename>pot</filename> subdirectory holds a POT file for each XML file in the document. If <application>Publican</application> has created POT files for this document previously, <application>Publican</application> updates the existing POT files to reflect any changes in the XML since the POT files were last updated.
+			 <para>
+				If this is the first time that POT files have been created for this document, <application>Publican</application> creates a new subdirectory, named <filename>pot</filename>. The <filename>pot</filename> subdirectory holds a POT file for each XML file in the document. If <application>Publican</application> has created POT files for this document previously, <application>Publican</application> updates the existing POT files to reflect any changes in the XML since the POT files were last updated.
 			</para>
-			<important>
+			 <important>
 				<title>Remove unused XML files</title>
-				<para>
+				 <para>
 					<application>Publican</application> generates a POT file for every XML file in the XML directory, whether the XML file is used in the document or not. If you transform unused XML files into POT files, you waste the time and effort of volunteer translators, and waste money if you are paying for translations.
 				</para>
-				<para>
+				 <para>
 					Use the <command>publican print_unused</command> command to generate a list of XML files that are not used in your document.
 				</para>
+
 			</important>
+
 		</step>
-		<step>
+		 <step>
 			<para>
 				Generate <firstterm>portable object</firstterm> (PO) files from the POT files to begin translation into a particular language:
 			</para>
-			
+			 
 <screen>$ <command>publican update_po --langs=<replaceable>language_code</replaceable></command>
 </screen>
-			<para>
+			 <para>
 				where <replaceable>language_code</replaceable> is the code for the target language. Refer to <xref linkend="appe-Users_Guide-Language_codes" /> for more information about language codes. You can provide multiple language codes, separated by commas, to generate PO files for more than one language at a time. For example:
 			</para>
-			
+			 
 <screen>$ <command>publican update_po --langs=hi-IN,pt-BR,ru-RU,zh-CN</command>
 </screen>
-			<para>
+			 <para>
 				If this is the first time that PO files have been created for a particular language, <application>Publican</application> creates a new subdirectory, named with the language code that you specified with the <option>--langs=</option> option. This subdirectory holds a PO file for each POT file in <filename>pot</filename> subdirectory. If <application>Publican</application> has created PO files for this language previously, <application>Publican</application> updates the existing PO files to reflect any changes in the POT files since the PO files were last updated. You can update existing PO files in every subdirectory with the <option>--langs=all</option> option:
 			</para>
-			
+			 
 <screen>$ <command>publican update_po --langs=all</command>
 </screen>
-			<important>
+			 <important>
 				<title>Remove unused POT files</title>
-				<para>
+				 <para>
 					<application>Publican</application> generates a PO file for every POT file in the <filename>pot</filename> directory, whether the POT file is based on a corresponding XML file that is used in the document or not, or whether a corresponding XML file even exists. If you transform POT files for unused or deleted XML files into PO files, you waste the time and effort of volunteer translators, and waste money if you are paying for translations.
 				</para>
-				<para>
+				 <para>
 					When you generate PO files, <application>Publican</application> presents you with a warning for any POT files that do not have corresponding XML files, but will generate the PO file nevertheless. However, <application>Publican</application> will not warn you if a POT file exists for an XML file that is not used in the document.
 				</para>
+
 			</important>
+
 		</step>
-		<step>
+		 <step>
 			<para>
 				Translators translate the <firstterm>strings</firstterm> contained in the PO files.
 			</para>
+
 		</step>
-		<step>
+		 <step>
 			<para>
 				Build the document in the target language, for example:
 			</para>
-			
+			 
 <screen>$ <command>publican build --formats=html,html-single,pdf --langs=is-IS,nb-NO</command>
 </screen>
-			<para>
+			 <para>
 				or package it in the target language, for example:
 			</para>
-			
+			 
 <screen>$ <command>publican package --lang=is-IS</command>
 </screen>
-			<para>
+			 <para>
 				You can build the document in all languages for which you have translations with the <option>--langs=all</option> option, but note that you must package each language individually. Refer to <xref linkend="sect-Users_Guide-Building_a_document" /> for more information on building a document, and <xref linkend="sect-Users_Guide-Packaging_a_book" /> on packaging a document.
 			</para>
+
 		</step>
+
 	</procedure>
+	
 
 </section>
 

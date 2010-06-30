@@ -5,125 +5,149 @@
 ]>
 <chapter id="chap-Users_Guide-Using_sets">
 	<title>Using sets</title>
-	<para>
+	 <para>
 		A <firstterm>set</firstterm> is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. There are two types of sets, <firstterm>stand-alone sets</firstterm> and <firstterm>distributed sets</firstterm>.
 	</para>
-	<section id="sect-Users_Guide-Using_sets-Stand_alone_sets">
+	 <section id="sect-Users_Guide-Using_sets-Stand_alone_sets">
 		<title>Stand-alone sets</title>
-		<para>
+		 <para>
 			A stand-alone set contains the XML files for each book, all of which are located inside the directory of the set.
 		</para>
-		<para>
+		 <para>
 			The procedure that follows will guide you through the process of creating a stand-alone set named <citetitle>My Set</citetitle> located in a directory called <filename>books/My_Set/</filename>. The set will contain <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> both of which will be manually created inside the <filename>books/My_Set/en-US</filename> directory.
 		</para>
-		<procedure id="proc-Users_Guide-Stand_alone_sets-Creating_a_stand_alone_set">
+		 <procedure id="proc-Users_Guide-Stand_alone_sets-Creating_a_stand_alone_set">
 			<title>Creating a stand-alone set</title>
-			<step>
+			 <step>
 				<para>
 					Run the following command in a shell in the <filename>books/</filename> directory to create a set named <literal>My_Set</literal> branded in the Red Hat style and in which the XML will be written in American English.
 				</para>
-				
+				 
 <programlisting>publican create --type=Set --name=My_Set --brand=RedHat --lang=en-US
+
 </programlisting>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					<command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two directories called <filename>Book_A</filename> and <filename>Book_B</filename>.
 				</para>
-				
+				 
 <screen>cd My_Set/en-US
 mkdir Book_A Book_B
+
 </screen>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					<command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
 				</para>
-				
-<programlisting language="XML">&lt;?xml version='1.0'?&gt;
-&lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
-"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+				 
+<programlisting language="XML">&lt;?xml version=&apos;1.0&apos;?&gt;
+&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook XML V4.5//EN&quot; 
+&quot;http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd&quot; [
 ]&gt;
 	  
 &lt;book&gt;
-	  &lt;xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
-	  &lt;xi:include href="Chapter_1.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
+	  &lt;xi:include href=&quot;Book_Info.xml&quot; xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;&lt;/xi:include&gt;
+	  &lt;xi:include href=&quot;Chapter_1.xml&quot; xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;&lt;/xi:include&gt;
 &lt;/book&gt;
+
 </programlisting>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					Use the same process for <citetitle>Book_B</citetitle>, located in the <filename>books/My_Set/en-US/Book_B</filename> directory, as per the step above.
 				</para>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					Open the <filename>books/My_Set/en-US/My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary xml file from the book. The primary xml file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
-				
+				 
 <programlisting language="XML"><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
 </programlisting>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					Test your set by running the <command>publican build --formats=test langs=en-US</command> command.
 				</para>
+
 			</step>
+
 		</procedure>
+		
 
 	</section>
 	
-	<section id="sect-Users_Guide-Using_sets-Distributed_sets">
+	 <section id="sect-Users_Guide-Using_sets-Distributed_sets">
 		<title>Distributed sets</title>
-		<para>
+		 <para>
 			A <firstterm>distributed set</firstterm> contains books that are located in a version-controlled repository. Although several version control systems exist, this version of <application>Publican</application> supports only one: <application>Subversion</application> (<application>SVN</application>). By setting the repository location and titles of the included books in the <filename>publican.cfg</filename> file, each book can be exported to build the entire set. The procedure that follows will guide you through the process of creating a set named <citetitle>My Set</citetitle> containing <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle>.
 		</para>
-		<important>
+		 <important>
 			<para>
 				The following procedure assumes that <citetitle>Book A</citetitle> and <citetitle>Book B</citetitle> already exist and are available in your <application>SVN</application> repository. Currently <application>Publican</application> only supports <application>SVN</application>.
 			</para>
+
 		</important>
-		<procedure id="proc-Users_Guide-Distributed_sets-Creating_a_set">
+		 <procedure id="proc-Users_Guide-Distributed_sets-Creating_a_set">
 			<title>Creating a set</title>
-			<step>
+			 <step>
 				<para>
 					Run the following command in a shell to create a set named <literal>My_Set</literal> branded in the Red Hat style and in which the XML will be written in American English.
 				</para>
-				
+				 
 <programlisting>$ publican create --type=Set --name=My_Set --brand=RedHat  --lang=en-US
+
 </programlisting>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					Add the following lines to the <filename>publican.cfg</filename> file:
 				</para>
-				
+				 
 <programlisting>books 		= Book_A Book_B
 repo	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
 scm	= SVN
+
 </programlisting>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					Open the <filename>My_Set.xml</filename> file in an editor. For each book in the set, add an <sgmltag>xi:include</sgmltag> reference to the primary XML file from the book. The primary XML file for <citetitle>Book A</citetitle> will be <filename>Book_A.xml</filename> and for <citetitle>Book B</citetitle>, <filename>Book_B.xml</filename>. The <filename>My_Set.xml</filename> file should now look like this:
 				</para>
-				
+				 
 <programlisting language="XML"><xi:include href="extras/Set_Name.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
 </programlisting>
+
 			</step>
-			<step>
+			 <step>
 				<para>
 					Test your set by running the <command>publican build --formats=test --langs=en-US</command> command.
 				</para>
-				<important>
+				 <important>
 					<para>
 						When building a set, the <command>publican clean_ids</command> command will be run over each book because of the constraint that IDs must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
 					</para>
+
 				</important>
+
 			</step>
+
 		</procedure>
+		
 
 	</section>
+	
 
 </chapter>
 

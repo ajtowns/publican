@@ -5,256 +5,320 @@
 ]>
 <chapter id="chap-Users_Guide-Publican_commands">
 	<title>Publican commands</title>
-	<para>
+	 <para>
 		<application>Publican</application> is a command-line tool. To use <application>Publican</application> on a computer with a Linux operating system, you must either start a terminal emulator program (such as <application>GNOME Terminal</application> or <application>Konsole</application>) or switch to a virtual console. To use <application>Publican</application> on a computer with a Windows operating system, run the <command>cmd</command> command from the <guimenu>Start menu</guimenu> to open a command prompt.
 	</para>
-	<para>
+	 <para>
 		<application>Publican</application> commands take one of the following formats: 
 		<variablelist>
 			<varlistentry>
 				<term><command>publican <replaceable>command_option</replaceable></command></term>
-				<listitem>
+				 <listitem>
 					<para>
 						The <replaceable>command_option</replaceable> is any of several options for the <command>publican</command> command itself.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><command>publican <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
-				<listitem>
+				 <listitem>
 					<para>
-						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document's XML files. The <replaceable>action_options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
+						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document&apos;s XML files. The <replaceable>action_options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
-			<varlistentry>
+			 <varlistentry>
 				<term><command>publican <replaceable>command_option</replaceable> <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
-				<listitem>
+				 <listitem>
 					<para>
 						Some <replaceable>command_options</replaceable> affect the output of <replaceable>actions</replaceable>, for example, whether <application>Publican</application> should use ANSI colors in its output.
 					</para>
+
 				</listitem>
+
 			</varlistentry>
+
 		</variablelist>
+
 	</para>
-	<section id="sect-Users_Guide-Publican_commands-Command_options">
+	 <section id="sect-Users_Guide-Publican_commands-Command_options">
 		<title>Command options</title>
-		<para>
+		 <para>
 			The options for the <command>publican</command> command are: 
 			<variablelist>
 				<varlistentry>
 					<term><option>--help</option></term>
-					<listitem>
+					 <listitem>
 						<para>
 							This option displays a help message, a condensed version of the contents of this chapter.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term><option>--man</option></term>
-					<listitem>
+					 <listitem>
 						<para>
 							This option displays the man page for <application>Publican</application>, which includes the same information as the <option>--help</option> option supplies, in addition to information about licensing and dependencies.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term><option>--help_actions</option></term>
-					<listitem>
+					 <listitem>
 						<para>
 							This option displays a list of valid <application>Publican</application> <firstterm>actions</firstterm>.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term><option>-v</option></term>
-					<listitem>
+					 <listitem>
 						<para>
 							This option displays the version number of your <application>Publican</application> installation.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term><option>--config <replaceable>file</replaceable></option></term>
-					<listitem>
+					 <listitem>
 						<para>
 							This option allows you to specify a config file for a document, in place of the default <filename>publican.cfg</filename>.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term><option>--nocolours</option></term>
-					<listitem>
+					 <listitem>
 						<para>
 							This option disables ANSI colors in <application>Publican</application> logging.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term><option>--quiet</option></term>
-					<listitem>
+					 <listitem>
 						<para>
 							This option disables all logging.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
+
 			</variablelist>
+
 		</para>
+
 	</section>
 	
-	<section id="sect-Users_Guide-Publican_commands-Actions">
+	 <section id="sect-Users_Guide-Publican_commands-Actions">
 		<title>Actions</title>
-		<para>
+		 <para>
 			<application>Publican</application> can perform the following actions: 
 			<variablelist>
 				<varlistentry>
 					<term>build</term>
-					<listitem>
+					 <listitem>
 						<para>
 							transforms XML to other formats (for example: PDF, single-page HTML, or multiple-page HTML). Refer to <xref linkend="sect-Users_Guide-Building_a_document" /> for more details and a description of the available options.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>clean</term>
-					<listitem>
+					 <listitem>
 						<para>
 							removes all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running the <command>publican build</command> command to build a document, such as <command>publican build --formats=html --langs=en-US</command>.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>clean_ids</term>
-					<listitem>
+					 <listitem>
 						<para>
-							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after running <command>make clean_ids</command>: <sgmltag>&lt;section id="Test_Book-First_Section"&gt;</sgmltag>
+							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after running <command>make clean_ids</command>: <sgmltag>&lt;section id=&quot;Test_Book-First_Section&quot;&gt;</sgmltag>
 						</para>
-						<warning>
+						 <warning>
 							<title>Warning: <command>make clean_ids</command></title>
-							<para>
+							 <para>
 								To make translation easier, <command>make clean_ids</command> uses the first four characters of the tag as a prefix for the ID. Consequently, you must check out the latest versions of the XML source and translations before running this command.
 							</para>
-							<para>
+							 <para>
 								If you do not have the current versions of the PO files checked out before running <command>make clean_ids</command>, the XML and PO files will no longer in synchrony with each other. In this case, all links in the PO files must be manually updated.
 							</para>
+
 						</warning>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>clean_set</term>
-					<listitem>
+					 <listitem>
 						<para>
 							removes local copies of remote books in a distributed set. Refer to <xref linkend="sect-Users_Guide-Using_sets-Distributed_sets" /> for details of using distributed sets.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>create</term>
-					<listitem>
+					 <listitem>
 						<para>
 							creates a new book, article, or set. Refer to <xref linkend="chap-Users_Guide-Creating_a_document" /> for details of creating a book or article, and to <xref linkend="chap-Users_Guide-Using_sets" /> for details of using sets.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>create_brand</term>
-					<listitem>
+					 <listitem>
 						<para>
 							creates a new brand. Refer to <xref linkend="sect-Users_Guide-Creating_a_brand" /> for details of creating a brand.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>help_config</term>
-					<listitem>
+					 <listitem>
 						<para>
 							displays help text for the configuration file contained in each book or brand, <filename>publican.cfg</filename>. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for more detail.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>install_brand</term>
-					<listitem>
+					 <listitem>
 						<para>
 							configures a brand for installation. Refer to <xref linkend="sect-Users_Guide-Installing_a_brand" /> for details of installing a brand.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>lang_stats --lang=<replaceable>language_code</replaceable></term>
-					<listitem>
+					 <listitem>
 						<para>
 							generates a translation report for the language specified by <replaceable>language_code</replaceable>.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>old2new</term>
-					<listitem>
+					 <listitem>
 						<para>
 							creates a <filename>publican.cfg</filename> file based on the <filename>Makefile</filename> of a book, article, or set originally created with a developmental version of <application>Publican</application> (versions up to and including <application>Publican 0.45</application>). Refer to <xref linkend="sect-Users_Guide-Building_a_document-Building_a_document_created_with_Publican_0" /> for more detail.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>package</term>
-					<listitem>
+					 <listitem>
 						<para>
 							packages a book, article, set, or brand for shipping as an RPM package. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" /> and <xref linkend="sect-Users_Guide-Packaging_a_brand" /> for more detail.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>print_banned</term>
-					<listitem>
+					 <listitem>
 						<para>
 							prints a list of DocBook tags banned by <application>Publican</application>. Refer to <xref linkend="appe-Users_Guide-Disallowed_elements_and_attributes" /> for a discussion of banned tags.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>print_known</term>
-					<listitem>
+					 <listitem>
 						<para>
 							prints a list of DocBook tags supported by <application>Publican</application>. <firstterm>Supported</firstterm> are those tags whose output has undergone at least cursory verification for quality when used in <application>Publican</application> — refer to <xref linkend="appe-Users_Guide-Disallowed_elements_and_attributes" />.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>print_tree</term>
-					<listitem>
+					 <listitem>
 						<para>
 							prints a tree of the XML files included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>print_unused</term>
-					<listitem>
+					 <listitem>
 						<para>
 							prints a list of the XML files <emphasis>not</emphasis> included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>update_po</term>
-					<listitem>
+					 <listitem>
 						<para>
 							updates the <firstterm>portable object</firstterm> (PO) files. Refer to <xref linkend="sect-Users_Guide-Preparing_a_document_for_translation" /> for more detail.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
-				<varlistentry>
+				 <varlistentry>
 					<term>update_pot</term>
-					<listitem>
+					 <listitem>
 						<para>
 							updates the <firstterm>portable object template</firstterm> (POT) files. Refer to <xref linkend="sect-Users_Guide-Preparing_a_document_for_translation" /> for more detail.
 						</para>
+
 					</listitem>
+
 				</varlistentry>
+
 			</variablelist>
+
 		</para>
+
 	</section>
+	
 
 </chapter>
 

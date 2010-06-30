@@ -5,413 +5,522 @@
 ]>
 <appendix id="appe-Users_Guide-Command_summary">
 	<title>Command summary</title>
-	<variablelist id="vari-Users_Guide-Command_summary-Command_options">
+	 <variablelist id="vari-Users_Guide-Command_summary-Command_options">
 		<title>Command options</title>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican --help</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					displays help
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican --man</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					displays the manual page
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican --help_actions</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					displays a list of <firstterm>actions</firstterm>
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican --v</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					displays the <application>Publican</application> version number.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--config <replaceable>file</replaceable></option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					specifies a config file for a document, in place of the default <filename>publican.cfg</filename>.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--nocolours</option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					disables ANSI colors in <application>Publican</application> logging.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><option>--quiet</option></term>
-			<listitem>
+			 <listitem>
 				<para>
 					disables all logging.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
+
 	</variablelist>
-	<variablelist id="vari-Users_Guide-Command_summary-Actions">
+	 <variablelist id="vari-Users_Guide-Command_summary-Actions">
 		<title>Actions</title>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican build</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					transforms XML into a document. Options:
 				</para>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--formats</term>
-						<listitem>
+						 <listitem>
 							<para>
 								comma-separated list of formats to build (mandatory).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--langs</term>
-						<listitem>
+						 <listitem>
 							<para>
 								comma-separated list of languages to build (mandatory).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--embedtoc</term>
-						<listitem>
+						 <listitem>
 							<para>
 								embeds a table of contents into HTML output.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--publish</term>
-						<listitem>
+						 <listitem>
 							<para>
 								sets up built content for publishing.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican clean</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					removes the temporary directories from a document directory.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican clean_ids</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					indents XML files neatly, and rebuilds element IDs.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican clean_set</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					removes local copies of remote books that are part of a set.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican create</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					creates a new book, article, or set. Options:
 				</para>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--name</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the name of the document (mandatory).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--product</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the documented product.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--version</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the version of the documented product.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--edition</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the edition of the document.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--brand</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the brand for the document.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--lang</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the language in which the XML will be authored.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--type</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the type of document — article, book, or set.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican create_brand</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					creates a new brand. Options:
 				</para>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--name</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the name of the document (mandatory).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
-					<varlistentry>
+					 <varlistentry>
 						<term>--lang</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the language in which the XML will be authored.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican help_config</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					displays a list of parameters for the <filename>publican.cfg</filename> file.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican install_brand</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					configures a brand for installation. Option:
 				</para>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--path</term>
-						<listitem>
+						 <listitem>
 							<para>
 								path to the <application>Publican</application> Common Content files. By default, <filename>/usr/share/publican/Common_Content</filename> on Linux operating systems and at <filename>%SystemDrive%/%ProgramFiles%/Publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/Publican/Common_Content</filename>
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican lang_stats</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					generates a translation report for a language.
 				</para>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--lang</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the language for which the report will be generated.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican old2new</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					constructs a <filename>publican.cfg</filename> file based on the <filename>Makefile</filename> of a <application>Publican 0</application> document.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican package</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					packages a document or brand for distribution. Options:
 				</para>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--lang</term>
-						<listitem>
+						 <listitem>
 							<para>
 								the language to package (mandatory for documents, meaningless for brands).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--desktop</term>
-						<listitem>
+						 <listitem>
 							<para>
 								specifies that a document RPM package should be built for desktop use (meaningless for brands).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--brew</term>
-						<listitem>
+						 <listitem>
 							<para>
 								pushes a package to the <application>Brew</application> build system (meaningless outside Red Hat).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--cvs</term>
-						<listitem>
+						 <listitem>
 							<para>
 								specifies that <application>Publican</application> should import the generated SRPM package into CVS.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--scratch</term>
-						<listitem>
+						 <listitem>
 							<para>
 								used in conjunction with <option>--brew</option> to specify a <firstterm>scratch build</firstterm> (meaningless outside Red Hat).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--short_sighted</term>
-						<listitem>
+						 <listitem>
 							<para>
 								builds the package without the product version number in the package name.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--binary</term>
-						<listitem>
+						 <listitem>
 							<para>
 								builds the package as a binary RPM package rather than a source RPM package.
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term>publican print_banned</term>
-			<listitem>
+			 <listitem>
 				<para>
 					prints a list of DocBook tags banned by <application>Publican</application>.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term>publican print_known</term>
-			<listitem>
+			 <listitem>
 				<para>
 					prints a list of DocBook tags supported by <application>Publican</application>.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican print_tree</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					displays a tree of the XML files included in a document.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term>publican print_unused</term>
-			<listitem>
+			 <listitem>
 				<para>
 					prints a list of the XML files <emphasis>not</emphasis> included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican update_pot</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					updates the POT files in a document.
 				</para>
+
 			</listitem>
+
 		</varlistentry>
-		<varlistentry>
+		 <varlistentry>
 			<term><command>publican update_po</command></term>
-			<listitem>
+			 <listitem>
 				<para>
 					updates the PO files in a document.
 				</para>
-				<variablelist>
+				 <variablelist>
 					<varlistentry>
 						<term>--langs</term>
-						<listitem>
+						 <listitem>
 							<para>
 								comma-separated list of languages to update, or &lsquo;all&rsquo; to update all (mandatory).
 							</para>
+
 						</listitem>
+
 					</varlistentry>
+
 				</variablelist>
+
 			</listitem>
+
 		</varlistentry>
+
 	</variablelist>
 </appendix>
 

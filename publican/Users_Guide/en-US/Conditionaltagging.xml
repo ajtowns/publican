@@ -5,91 +5,97 @@
 ]>
 <section id="sect-Users_Guide-Conditional_tagging">
 	<title>Conditional tagging</title>
-	<para>
+	 <para>
 		In some cases you may need to maintain multiple versions of a book; for example, a HOWTO guide for product FOO can have an upstream version and an enterprise version, with very subtle differences between them.
 	</para>
-	<para>
+	 <para>
 		<application>Publican</application> makes it easy to manage differences between multiple versions of a book by allowing you to use a single source for all versions. <firstterm>Conditional tagging</firstterm> allows you to make sure that version-specific content only appears in the correct version; that is, you <firstterm>conditionalize</firstterm> the content.
 	</para>
-	<para>
-		To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let's say the book <citetitle>How To Use Product Foo</citetitle> has an "upstream", "enterprise", and "beta" version:
+	 <para>
+		To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let&apos;s say the book <citetitle>How To Use Product Foo</citetitle> has an &quot;upstream&quot;, &quot;enterprise&quot;, and &quot;beta&quot; version:
 	</para>
-	
+	 
 <programlisting language="XML">
-&lt;para condition="upstream"&gt;
+&lt;para condition=&quot;upstream&quot;&gt;
 This paragraph will only appear in the upstream version of How To Use Product Foo.
 &lt;/para&gt;
 	
-&lt;para condition="enterprise"&gt;
+&lt;para condition=&quot;enterprise&quot;&gt;
 This paragraph will only appear in the enterprise version of How To Use Product Foo.
 &lt;/para&gt;	
 	
-&lt;para condition="beta"&gt;
+&lt;para condition=&quot;beta&quot;&gt;
 This paragraph will only appear in the beta version of How To Use Product Foo.
 &lt;/para&gt;
 	
-&lt;para condition="beta,enterprise"&gt;
+&lt;para condition=&quot;beta,enterprise&quot;&gt;
 This paragraph will only appear in the beta and enterprise versions of How To Use Product Foo.
 &lt;/para&gt;
+
 </programlisting>
-	<para>
+	 <para>
 		To build a specific version (and thereby capture all content conditionalized for that version), add the <command>condition: <replaceable>version</replaceable></command> parameter to the <filename>publican.cfg</filename> file and run the <command>publican build</command> command as normal. For example, if you add <command>condition: upstream</command> to the <filename>publican.cfg</filename> file of <citetitle>How To Use Product Foo</citetitle> and run:
 	</para>
-	
+	 
 <screen>
 publican build --formats=pdf --langs=en-US
+
 </screen>
-	<para>
-		<application>Publican</application> will capture all tags that use <command>condition="upstream"</command> attribute and build <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
+	 <para>
+		<application>Publican</application> will capture all tags that use <command>condition=&quot;upstream&quot;</command> attribute and build <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
 	</para>
-	<xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<section id="sect-Users_Guide-Conditional_tagging-Conditional_tagging_and_translation">
+	 <xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <section id="sect-Users_Guide-Conditional_tagging-Conditional_tagging_and_translation">
 		<title>Conditional tagging and translation</title>
-		<warning>
+		 <warning>
 			<title>Use conditional tagging with great caution</title>
-			<para>
+			 <para>
 				Use conditional tagging only with great caution in books that you expect to be translated, as conditional tagging creates extra difficulties for translators.
 			</para>
+
 		</warning>
-		<para>
+		 <para>
 			Conditional tagging creates difficulty for translators in two ways: it obscures context in the <firstterm>portable object</firstterm> (PO) files through which translators work, and it makes proofreading more difficult for translators who are not deeply familiar with your book and all the conditions that you have set.
 		</para>
-		<para>
+		 <para>
 			PO files do not include attributes from tags. When translators open the PO file for the example from <citetitle>How To Use Product Foo</citetitle> in <xref linkend="sect-Users_Guide-Conditional_tagging" />, they see:
 		</para>
-		
+		 
 <programlisting>
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the upstream version of How To Use Product Foo."
-msgstr ""
+msgid &quot;Content that only appears in the upstream version of How To Use Product Foo.&quot;
+msgstr &quot;&quot;
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the enterprise version of How To Use Product Foo."
-msgstr ""
+msgid &quot;Content that only appears in the enterprise version of How To Use Product Foo.&quot;
+msgstr &quot;&quot;
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the beta version of How To Use Product Foo."
-msgstr ""
+msgid &quot;Content that only appears in the beta version of How To Use Product Foo.&quot;
+msgstr &quot;&quot;
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the beta and enterprise versions of How To Use Product Foo."
-msgstr ""
+msgid &quot;Content that only appears in the beta and enterprise versions of How To Use Product Foo.&quot;
+msgstr &quot;&quot;
+
 </programlisting>
-		<para>
+		 <para>
 			In this example, the only paragraphs where the meaning flows logically from one to the next is between paragraphs three and four. Because both of these paragraphs appear in the book for the beta version of the product, they (hopefully) make sense together. Beyond that, the use of conditionals here requires translators to translate individual small chunks of content without the ability to follow the context from one paragraph to the next. When translators must work under these conditions, the quality of the translation will suffer, or the time required — and therefore the cost of translation — will increase.
 		</para>
-		<para>
-			Furthermore, unless the translators who work on your book know how to configure <application>Publican</application>'s <filename>publican.cfg</filename> file and are aware of the valid conditions for your book, they cannot proofread their work. Without that knowledge, when translators proofread a document, they will wonder why they cannot find text that they know they translated and can find easily in the PO file. If you must use conditionals in your book, you must be prepared to provide a greater degree of support to your translators than you would otherwise provide.
+		 <para>
+			Furthermore, unless the translators who work on your book know how to configure <application>Publican</application>&apos;s <filename>publican.cfg</filename> file and are aware of the valid conditions for your book, they cannot proofread their work. Without that knowledge, when translators proofread a document, they will wonder why they cannot find text that they know they translated and can find easily in the PO file. If you must use conditionals in your book, you must be prepared to provide a greater degree of support to your translators than you would otherwise provide.
 		</para>
-		<para>
+		 <para>
 			As an alternative to conditionals, consider maintaining separate versions of your book in separate branches of a version-controlled repository. You can still share XML files and even PO files between the various branches as necessary, and some version control systems allow you to share changes readily among branches.
 		</para>
+
 	</section>
+	
 
 </section>
 
