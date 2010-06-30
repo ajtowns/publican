@@ -628,9 +628,8 @@ SEARCH
     my $list2 = $self->get_hash_ref( { language => "$language" } );
     my @products = ();
 
-## BUGBUG Since the site is built in one locale al langauges will ahve the default locale
-## have to create a new Publican::Localise->get_handle($lc_lang) object for each lc_lang to
-## localise this
+## BUGBUG Since the site is built in one locale all langauges will have the current locale
+## have to create a handle for each lc_lang to localise this
 ## $lc_lang = lc($language);
 ## $lc_lang =~ s/-/_/g;
 ## $foo = Publican::Localise->get_handle($lc_lang) || die ...

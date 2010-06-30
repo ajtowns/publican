@@ -1713,6 +1713,13 @@ sub package {
     finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/icons" )
         if ( -e "$tmp_dir/tar/$tardir/icons" );
 
+    dircopy( "$xml_lang/files", "$tmp_dir/tar/$tardir/$lang/files" )
+        if ( -e "$xml_lang/files" );
+    dircopy( "$lang/files", "$tmp_dir/tar/$tardir/$lang/files" )
+        if ( -e "$lang/files" );
+    finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/$lang/files" )
+        if ( -e "$tmp_dir/tar/$tardir/files" );
+
     $self->{publican}->{config}->param( 'xml_lang', $lang );
 
     # Need to remove scm from packaged set to avoid fetching from repo
