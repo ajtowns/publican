@@ -16,7 +16,7 @@ use DateTime;
 ## allow translations to not conflict on systems
 ## with web and builder installed
 use Publican;
-use Encode qw(is_utf8 decode_utf8);
+use Encode qw(is_utf8 decode_utf8 encode_utf8);
 
 #use Publican::Translate;
 
@@ -102,7 +102,7 @@ my %tmpl_strings = (
     'Packages'        => maketext('Packages'),
     'Total_Languages' => maketext('Total Languages'),
     'Total_Packages'  => maketext('Total Packages'),
-    'Untranslated'  => maketext('Untranslated'),
+    'Untranslated'    => maketext('Untranslated'),
 );
 
 sub new {
@@ -130,7 +130,9 @@ sub new {
     my $def_lang  = $config->param('def_lang')  || $DEFAULT_LANG;
     my $db_file   = $config->param('db_file')   || croak(
         maketext(
-            "[_1] is a manadory field in a site configuration file", 'db_file'
+            "[_1] is a manadory field in a site configuration file. Check [_2] for validity.",
+            'db_file',
+            $site_config
         )
     );
 
@@ -263,7 +265,7 @@ sub update_settings {
         push( @cols, 'search' );
         push( @vals, "'$search'" );
     }
-    $sql .= '(' . join( ',', @cols ) . ') ';
+    $sql .= '(' . join( ',',        @cols ) . ') ';
     $sql .= 'values (' . join( ',', @vals ) . ') ';
 
     if ( $search || $host ) {
@@ -434,7 +436,7 @@ sub get_hash_ref {
 
     my $def_lang  = $self->{def_lang};
     my $direction = 'DESC';
-    $direction = 'ASC' if($def_lang gt $language);
+    $direction = 'ASC' if ( $def_lang gt $language );
 
     my $sql = <<GET_LIST;
         SELECT ID,
@@ -458,33 +460,33 @@ sub get_hash_ref {
 GET_LIST
 
     my $sth = $self->_dbh->prepare($sql);
-    $sth->execute($language, $def_lang );
+    $sth->execute( $language, $def_lang );
 
     my %list;
 
     while (
-        my ($id,            $lang, $product,    $version,
-            $name,          $format,     $product_label,
-            $version_label, $name_label, $update_date
+        my ($id,         $lang,   $product,       $version,
+            $name,       $format, $product_label, $version_label,
+            $name_label, $update_date
         )
         = $sth->fetchrow()
         )
     {
-        $product_label = $product unless $product_label;
-        $list{$product_label}{$version}{$name}{formats}{$format} = 1;
-        $list{$product_label}{$version}{$name}{language} = $lang;
-        $list{$product_label}{$version}{$name}{product}  = $product;
-        $list{$product_label}{$version}{$name}{version_label} = $version_label
+        $list{$product}{$version}{$name}{formats}{$format} = 1;
+        $list{$product}{$version}{$name}{language}         = $lang;
+        $list{$product}{$version}{$name}{version_label}    = $version_label
             if $version_label;
-        $list{$product_label}{$version}{$name}{name_label} = $name_label
+        $list{$product}{$version}{$name}{name_label} = $name_label
             if $name_label;
-        $list{$product_label}{$version}{$name}{update_date} = $update_date
+        $list{$product}{$version}{$name}{product_label} = $product_label
+            if $product_label;
+        $list{$product}{$version}{$name}{update_date} = $update_date
             || '2000-01-01';
     }
 
     $sth->finish();
 
-    return(\%list);
+    return ( \%list );
 }
 
 sub get_lang_list {
@@ -544,17 +546,21 @@ sub regen_all_toc {
         'Site_Map'         => $tmpl_strings{'Site_Map'},
     };
 
-    $self->{Template}
-        ->process( 'static_toc.tmpl', $vars, $self->{toc_path} . "/toc.html", binmode => ':utf8' )
-        or croak( $self->{Template}->error() );
+    $self->{Template}->process(
+        'static_toc.tmpl', $vars,
+        $self->{toc_path} . "/toc.html",
+        binmode => ':utf8'
+    ) or croak( $self->{Template}->error() );
 
     $self->stats();
 
     $vars = ();
     $vars = { urls => \@urls, };
-    $self->{Template}
-        ->process( 'Sitemap.tmpl', $vars, $self->{toc_path} . "/Sitemap", binmode => ':utf8' )
-        or croak( $self->{Template}->error() );
+    $self->{Template}->process(
+        'Sitemap.tmpl', $vars,
+        $self->{toc_path} . "/Sitemap",
+        binmode => ':utf8'
+    ) or croak( $self->{Template}->error() );
 
     return;
 }
@@ -628,24 +634,23 @@ SEARCH
     my $list2 = $self->get_hash_ref( { language => "$language" } );
     my @products = ();
 
-## BUGBUG Since the site is built in one locale all langauges will have the current locale
-## have to create a handle for each lc_lang to localise this
-## $lc_lang = lc($language);
-## $lc_lang =~ s/-/_/g;
-## $foo = Publican::Localise->get_handle($lc_lang) || die ...
-## $vars->{$string} = $foo->maketext($tmpl_strings{$string});
+    my $lc_lang = $language;
+    $lc_lang =~ s/-/_/g;
+    my $locale = Publican::Localise->get_handle($lc_lang)
+        || croak(
+        "Could not create a Publican::Localise object for language: [_1]",
+        $language );
+    $locale->encoding("UTF-8");
+    $locale->textdomain("publican");
+
     foreach my $string ( sort( keys(%tmpl_strings) ) ) {
-        $vars->{$string} = $tmpl_strings{$string};
+        $vars->{$string} = $locale->maketext( $tmpl_strings{$string} );
     }
 
     $vars->{untrans_lang} = $self->{def_lang};
 
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
-##        print("product: $product\n");
-
-        $product = decode_utf8($product) unless(is_utf8($product));
-
-        my $product_path = $product;
+        my $product_label = $product;
         my %prod_data;
         my @versions = ();
 
@@ -654,7 +659,7 @@ SEARCH
         {
             my $version_label = $version;
             my %ver_data;
-            my @books = ();
+            my @books         = ();
             my @untrans_books = ();
 
             foreach
@@ -663,7 +668,7 @@ SEARCH
                 my $book_label = $book;
                 my %book_data;
                 my @types = ();
-                my $lang = $list2->{$product}{$version}{$book}{language};
+                my $lang  = $list2->{$product}{$version}{$book}{language};
 
                 foreach my $type (
                     sort
@@ -677,7 +682,8 @@ SEARCH
                         and $list2->{$product}{$version}{$book}{name_label} ne
                         $book );
 
-                    $book_label= decode_utf8($book_label) unless(is_utf8($book_label));
+                    $book_label = decode_utf8($book_label)
+                        unless ( is_utf8($book_label) );
 
                     $version_label
                         = $list2->{$product}{$version}{$book}{version_label}
@@ -686,12 +692,16 @@ SEARCH
                         and $list2->{$product}{$version}{$book}{version_label}
                         ne $version );
 
-                    $version_label = decode_utf8($version_label) unless(is_utf8($version_label));
+##                    $version_label = decode_utf8($version_label) unless(is_utf8($version_label));
 
-                    $product_path
-                        = $list2->{$product}{$version}{$book}{product};
+                    $product_label
+                        = $list2->{$product}{$version}{$book}{product_label}
+                        if (
+                            $list2->{$product}{$version}{$book}{product_label}
+                        and $list2->{$product}{$version}{$book}{product_label}
+                        ne $product );
 
-## debug_msg( "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_path: $product_path \n" );
+## debug_msg( "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_label: $product_label \n" );
 
                     my %type_data;
                     $type_data{'type'}  = $type;
@@ -703,7 +713,7 @@ SEARCH
                             = File::Find::Rule->file->relative()
                             ->name('*.pdf')
                             ->in(
-                            "$self->{toc_path}/$lang/$product_path/$version/$type/$book"
+                            "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
                     }
@@ -712,7 +722,7 @@ SEARCH
                             = File::Find::Rule->file->relative()
                             ->name('*.epub')
                             ->in(
-                            "$self->{toc_path}/$lang/$product_path/$version/$type/$book"
+                            "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
 ## hmm epub link for safari ...
@@ -721,14 +731,13 @@ SEARCH
                     }
 
                     my $url = {
-                        url =>
-                            qq|$host/$lang/$product_path/$version/$type/$book/|
+                        url => qq|$host/$lang/$product/$version/$type/$book/|
                             . $type_data{'ext'},
                         update_date =>
                             $list2->{$product}{$version}{$book}{update_date},
                     };
                     push( @{$urls}, $url );
-                    push( @types,   \%type_data );
+                    push( @types, \%type_data );
                 }
 
                 $book_data{'book'}       = $book;
@@ -736,9 +745,10 @@ SEARCH
                 $book_data{'book_clean'} =~ s/_/ /g;
                 $book_data{'types'} = \@types;
 
-                if($lang eq $language) {
+                if ( $lang eq $language ) {
                     push( @books, \%book_data );
-                } else {
+                }
+                else {
                     push( @untrans_books, \%book_data );
                 }
             }
@@ -746,13 +756,13 @@ SEARCH
             $ver_data{'version'}       = $version;
             $ver_data{'version_label'} = $version_label;
             $ver_data{'books'}         = \@books;
-            $ver_data{'untrans_books'} = \@untrans_books if scalar @untrans_books;
+            $ver_data{'untrans_books'} = \@untrans_books
+                if scalar @untrans_books;
             push( @versions, \%ver_data );
         }
 
         $prod_data{'product'}       = $product;
-        $prod_data{'product_path'}  = $product_path;
-        $prod_data{'product_clean'} = $product;
+        $prod_data{'product_clean'} = $product_label;
         $prod_data{'product_clean'} =~ s/_/ /g;
         $prod_data{'versions'} = \@versions;
         push( @products, \%prod_data );
@@ -761,7 +771,7 @@ SEARCH
     $vars->{'products'} = \@products;
 
     $self->{Template}->process( 'toc.tmpl', $vars,
-        $self->{toc_path} . "/$language/toc.html", binmode => ':utf8' )
+        $self->{toc_path} . "/$language/toc.html" )
         or croak( $self->{Template}->error() );
 
     return \@products;
@@ -860,9 +870,11 @@ GET_COUNTS
         $vars->{$string} = $tmpl_strings{$string};
     }
 
-    $self->{Template}->process( 'stats.tmpl', $vars,
-        $self->{toc_path} . "/Site_Statistics.html", binmode => ':utf8' )
-        or croak( $self->{Template}->error() );
+    $self->{Template}->process(
+        'stats.tmpl', $vars,
+        $self->{toc_path} . "/Site_Statistics.html",
+        binmode => ':utf8'
+    ) or croak( $self->{Template}->error() );
 
     return;
 }

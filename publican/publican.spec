@@ -15,7 +15,7 @@
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t108
+Release:        0%{?dist}.t122
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -181,6 +181,14 @@ sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
 
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
+for file in po/*.po; do
+	lang=`echo "$file" | sed -e 's/po\/\(.*\)\.po/\1/'`;
+        mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES;
+	msgfmt $file -o $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.mo;
+done
+
+%find_lang %{name}
+
 %check
 %if %{TESTS}
 ./Build test
@@ -188,7 +196,7 @@ desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/ap
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc CHANGES README COPYING Artistic
 %{perl_vendorlib}/Publican.pm
