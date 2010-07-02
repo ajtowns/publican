@@ -451,14 +451,14 @@ sub get_hash_ref {
                update_date
           FROM $DB_NAME 
          WHERE (language = ? or language = ?)
-      GROUP BY product, version, name, format
+      GROUP BY language, product, version, name, format
       ORDER BY language $direction,
                product, 
                version DESC, 
                name, 
                format
 GET_LIST
-print STDERR "sql: $sql\n";
+
     my $sth = $self->_dbh->prepare($sql);
     $sth->execute( $language, $def_lang );
 
@@ -472,6 +472,9 @@ print STDERR "sql: $sql\n";
         = $sth->fetchrow()
         )
     {
+
+        next if (defined $list{$product}{$version}{$name} and $list{$product}{$version}{$name}{language} ne  $lang);
+
         $list{$product}{$version}{$name}{formats}{$format} = 1;
         $list{$product}{$version}{$name}{language}         = $lang;
         $list{$product}{$version}{$name}{version_label}    = $version_label
@@ -757,6 +760,8 @@ SEARCH
 ##                        $type_data{prep} = "epub://$host/docs/$lang/";
                         $type_data{onclick} = 0;
                     }
+
+print STDERR " host: $host, lang: $lang, prod: $product, ver: $version, type: $type, book: $book, file: " .                        . $type_data{'ext'} . "\n";
 
                     my $url = {
                         url => qq|$host/$lang/$product/$version/$type/$book/|
