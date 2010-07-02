@@ -175,7 +175,7 @@ function loadToc() {
 	if (my_select.selectedIndex > 0) {
 		var expDate = new Date();
 		expDate.setDate(expDate.getDate() + num_days);
-		setCookie(name_c + '-lang', my_select.options[my_select.selectedIndex].value, expDate, false, false, false);              
+		setCookie(name_c + '-lang', my_select.options[my_select.selectedIndex].value, expDate, '/', false, false);              
 		location.href="../" + my_select.options[my_select.selectedIndex].value + "/toc.html";
 //		parent.frames.main.location.replace("../" + my_select.options[my_select.selectedIndex].value + "/index.html");
 	}
