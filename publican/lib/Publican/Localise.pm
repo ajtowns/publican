@@ -35,6 +35,11 @@ use base qw(Locale::Maketext::Gettext);
 
 return 1;
 
+package Publican::Localise::po;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
 =head1
 package Publican::Localise::de_de;
 use base qw(Locale::Maketext::Gettext);
