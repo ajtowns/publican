@@ -30,12 +30,222 @@ use base qw(Locale::Maketext::Gettext);
 
 return 1;
 
+package Publican::Localise::as;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::bg;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::bn_in;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::bs;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::ca;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::cs;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::da;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::de;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::el;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
 package Publican::Localise::en;
 use base qw(Locale::Maketext::Gettext);
 
 return 1;
 
+package Publican::Localise::es;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::fi;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::fr;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::gu;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::he;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::hi;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::hr;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::hu;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::id;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::it;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::ja;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::kn;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::ko;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::lv;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::ml;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::mr;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::ms;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::nb;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::nl;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::or;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::pa;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
 package Publican::Localise::pl;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::pt;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::pt_br;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::ru;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::sk;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::sr_latn;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::sr;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::sv;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::ta;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::te;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::uk;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::zh_cn;
+use base qw(Locale::Maketext::Gettext);
+
+return 1;
+
+package Publican::Localise::zh_tw;
 use base qw(Locale::Maketext::Gettext);
 
 return 1;
