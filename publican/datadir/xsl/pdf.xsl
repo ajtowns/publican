@@ -190,7 +190,9 @@
 
 <xsl:param name="draft.watermark.image" select="'Common_Content/images/watermark-draft.png'"/>
 
-<!--xsl:attribute-set name="admonition.properties"></xsl:attribute-set-->
+<xsl:attribute-set name="admonition.properties">
+	<xsl:attribute name="margin-right">1em</xsl:attribute>
+</xsl:attribute-set>
 
 <xsl:attribute-set name="graphical.admonition.properties">
 	<xsl:attribute name="keep-together.within-column">always</xsl:attribute>
@@ -219,8 +221,8 @@
 	<xsl:attribute name="space-after.maximum">1em</xsl:attribute>
 	<xsl:attribute name="padding-bottom">12pt</xsl:attribute>
 	<xsl:attribute name="padding-top">12pt</xsl:attribute>
-	<!--xsl:attribute name="padding-right">12pt</xsl:attribute>
-	<xsl:attribute name="padding-left">12pt</xsl:attribute-->
+	<!--xsl:attribute name="padding-right">12pt</xsl:attribute-->
+	<xsl:attribute name="padding-left">1em</xsl:attribute>
 	<xsl:attribute name="margin-left">
 		<xsl:value-of select="$title.margin.left"/>
 	</xsl:attribute>

@@ -15,7 +15,7 @@
 
 Name:           publican
 Version:        1.99
-Release:        0%{?dist}.t122
+Release:        0%{?dist}.t123
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -241,6 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix clean_ids adding newline to verbatim. BZ #604465
 - Fix index missing ID. BZ #606418
 - Fix files dir being missed. BZ #609345
+- Adjust admonition layout.
 
 * Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.3-0
 - Disable verbatim hyphenation. BZ #577068
