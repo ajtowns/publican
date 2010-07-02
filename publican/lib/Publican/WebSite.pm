@@ -761,7 +761,7 @@ SEARCH
                         $type_data{onclick} = 0;
                     }
 
-print STDERR " host: $host, lang: $lang, prod: $product, ver: $version, type: $type, book: $book, file: " .                        . $type_data{'ext'} . "\n";
+print STDERR " host: $host, lang: $lang, prod: $product, ver: $version, type: $type, book: $book, file: " . $type_data{'ext'} . "\n";
 
                     my $url = {
                         url => qq|$host/$lang/$product/$version/$type/$book/|
