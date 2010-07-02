@@ -473,7 +473,9 @@ GET_LIST
         )
     {
 
-        next if (defined $list{$product}{$version}{$name} and $list{$product}{$version}{$name}{language} ne  $lang);
+        next
+            if ( defined $list{$product}{$version}{$name}
+            and $list{$product}{$version}{$name}{language} ne $lang );
 
         $list{$product}{$version}{$name}{formats}{$format} = 1;
         $list{$product}{$version}{$name}{language}         = $lang;
@@ -761,15 +763,23 @@ SEARCH
                         $type_data{onclick} = 0;
                     }
 
-print STDERR " host: $host, lang: $lang, prod: $product, ver: $version, type: $type, book: $book, file: " . $type_data{'ext'} . "\n";
+                    if ( defined $type_data{'ext'} and $type_data{'ext'} ) {
+                        my $url = {
+                            url =>
+                                qq|$host/$lang/$product/$version/$type/$book/|
+                                . $type_data{'ext'},
+                            update_date => $list2->{$product}{$version}{$book}
+                                {update_date},
+                        };
 
-                    my $url = {
-                        url => qq|$host/$lang/$product/$version/$type/$book/|
-                            . $type_data{'ext'},
-                        update_date =>
-                            $list2->{$product}{$version}{$book}{update_date},
-                    };
-                    push( @{$urls}, $url ) if ( $lang eq $language );
+                        push( @{$urls}, $url ) if ( $lang eq $language );
+                    }
+                    else {
+                        print( STDERR
+                                "ERROR: bogus entry found in DB: $lang/$product/$version/$type/$book\n"
+                        );
+                    }
+
                     push( @types, \%type_data );
                 }
 
@@ -896,7 +906,7 @@ GET_COUNTS
         }
     }
 
-    foreach my $lang (keys(%found_langs)) {
+    foreach my $lang ( keys(%found_langs) ) {
 
         my $vars = {
             'stat_langs'     => \@lang_stats,

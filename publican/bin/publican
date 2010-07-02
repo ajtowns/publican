@@ -562,7 +562,10 @@ if ( $action eq 'clean' || $action eq 'package' ) {
             RED
         );
     }
-    logger( maketext("Clean: Removing [_1] and publish directories.", $publican->param('tmp_dir')) . "\n",
+    logger(
+        maketext( "Clean: Removing [_1] and publish directories.",
+            $publican->param('tmp_dir') )
+            . "\n",
     );
 
     my $error;
@@ -790,6 +793,8 @@ if ( $action eq 'install_book' ) {
 
         my @formats = ( "html", "pdf", "html-single", "epub" );
         foreach my $format (@formats) {
+            next unless ( -d "publish/$lang/$format" );
+
             my $id = $ws->get_entry_id(
                 {   language => $lang,
                     product  => $product,
