@@ -526,8 +526,30 @@ sub regen_all_toc {
 
     foreach my $lang ( @{$langs} ) {
         my %toc;
-        $toc{'products'} = $self->_regen_toc(
+        my @prods = ();
+
+        my $products = $self->_regen_toc(
             { language => qq|$lang->[0]|, urls => \@urls } );
+
+        # Remove untranslated content from map page.
+        foreach my $product ( @{$products} ) {
+            my @versions = ();
+
+            foreach my $version ( @{ $product->{'versions'} } ) {
+                delete( $version->{'untrans_books'} );
+                push( @versions, $version )
+                    if defined( $version->{'books'} )
+                        && scalar @{ $version->{'books'} };
+            }
+
+            if ( scalar @versions ) {
+                $product->{'versions'} = \@versions;
+                push( @prods, $product );
+            }
+        }
+
+        $toc{'products'} = \@prods;
+
         $lang->[0] =~ m/^([^-_]*)/;
         my $lang_name = code2language($1) || "unknown $1";
         if ( $LANG_NAME{ $lang->[0] } ) {
@@ -645,6 +667,8 @@ SEARCH
 
     foreach my $string ( sort( keys(%tmpl_strings) ) ) {
         $vars->{$string} = $locale->maketext( $tmpl_strings{$string} );
+        $vars->{$string} = decode_utf8( $vars->{$string} )
+            unless ( is_utf8( $vars->{$string} ) );
     }
 
     $vars->{untrans_lang} = $self->{def_lang};
@@ -692,7 +716,8 @@ SEARCH
                         and $list2->{$product}{$version}{$book}{version_label}
                         ne $version );
 
-##                    $version_label = decode_utf8($version_label) unless(is_utf8($version_label));
+                    $version_label = decode_utf8($version_label)
+                        unless ( is_utf8($version_label) );
 
                     $product_label
                         = $list2->{$product}{$version}{$book}{product_label}
@@ -700,6 +725,9 @@ SEARCH
                             $list2->{$product}{$version}{$book}{product_label}
                         and $list2->{$product}{$version}{$book}{product_label}
                         ne $product );
+
+                    $product_label = decode_utf8($product_label)
+                        unless ( is_utf8($product_label) );
 
 ## debug_msg( "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_label: $product_label \n" );
 
@@ -736,7 +764,7 @@ SEARCH
                         update_date =>
                             $list2->{$product}{$version}{$book}{update_date},
                     };
-                    push( @{$urls}, $url );
+                    push( @{$urls}, $url ) if ( $lang eq $language );
                     push( @types, \%type_data );
                 }
 
@@ -770,9 +798,11 @@ SEARCH
 
     $vars->{'products'} = \@products;
 
-    $self->{Template}->process( 'toc.tmpl', $vars,
-        $self->{toc_path} . "/$language/toc.html" )
-        or croak( $self->{Template}->error() );
+    $self->{Template}->process(
+        'toc.tmpl', $vars,
+        $self->{toc_path} . "/$language/toc.html",
+        binmode => ':utf8'
+    ) or croak( $self->{Template}->error() );
 
     return \@products;
 }
