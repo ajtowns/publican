@@ -458,7 +458,7 @@ sub get_hash_ref {
                name, 
                format
 GET_LIST
-
+print STDERR "sql: $sql\n";
     my $sth = $self->_dbh->prepare($sql);
     $sth->execute( $language, $def_lang );
 
@@ -891,20 +891,36 @@ GET_COUNTS
         }
     }
 
-    my $vars = {
-        'stat_langs'     => \@lang_stats,
-        'total_langs'    => $total_langs,
-        'total_packages' => $total_packages
-    };
-    foreach my $string ( sort( keys(%tmpl_strings) ) ) {
-        $vars->{$string} = $tmpl_strings{$string};
-    }
+    foreach my $lang (keys(%found_langs)) {
 
-    $self->{Template}->process(
-        'stats.tmpl', $vars,
-        $self->{toc_path} . "/Site_Statistics.html",
-        binmode => ':utf8'
-    ) or croak( $self->{Template}->error() );
+        my $vars = {
+            'stat_langs'     => \@lang_stats,
+            'total_langs'    => $total_langs,
+            'total_packages' => $total_packages
+        };
+
+        my $lc_lang = $lang;
+        $lc_lang =~ s/-/_/g;
+        my $locale = Publican::Localise->get_handle($lc_lang)
+            || croak(
+            "Could not create a Publican::Localise object for language: [_1]",
+            $lang
+            );
+        $locale->encoding("UTF-8");
+        $locale->textdomain("publican");
+
+        foreach my $string ( sort( keys(%tmpl_strings) ) ) {
+            $vars->{$string} = $locale->maketext( $tmpl_strings{$string} );
+            $vars->{$string} = decode_utf8( $vars->{$string} )
+                unless ( is_utf8( $vars->{$string} ) );
+        }
+
+        $self->{Template}->process(
+            'stats.tmpl', $vars,
+            $self->{toc_path} . "/$lang/Site_Statistics.html",
+            binmode => ':utf8'
+        ) or croak( $self->{Template}->error() );
+    }
 
     return;
 }
