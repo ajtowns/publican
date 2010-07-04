@@ -230,6 +230,16 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term><parameter>def_lang</parameter></term>
+			  <listitem>
+				<para>
+					the default language for a <application>Publican</application>-managed website. Tables of contents for languages other than the default language will link to documents in the default language when translations are not available. (Default: <literal>en-US</literal> — American English)
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><parameter>doc_url</parameter></term>
 			 <listitem>
 				<para>
@@ -451,10 +461,73 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term><parameter>web_home</parameter></term>
+			  <listitem>
+				<para>
+					specifies that the document is the home page of a documentation website, not a standard document. 
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		  <varlistentry>
+			<term><parameter>web_host</parameter></term>
+			  <listitem>
+				<para>
+					specifies the host name of a documentation website.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		  <varlistentry>
+			<term><parameter>web_name_label</parameter></term>
+			  <listitem>
+				<para>
+					overrides the book name as it appears on the menu of a <application>Publican</application>-managed website.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><parameter>web_obsoletes</parameter></term>
 			 <listitem>
 				<para>
 					packages that the web RPM package obsoletes.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
+			<term><parameter>web_product_label</parameter></term>
+			  <listitem>
+				<para>
+					overrides the product name as it appears on the menu of a <application>Publican</application>-managed website.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		
+		  <varlistentry>
+			<term><parameter>web_search</parameter></term>
+			  <listitem>
+				<para>
+					overrides the default search form for a <application>Publican</application>-managed website. (Defaults: Google search; limited to a site search if <parameter>web_host</parameter> is set.)
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		
+		
+		  <varlistentry>
+			<term><parameter>web_version_label</parameter></term>
+			  <listitem>
+				<para>
+					overrides the version number as it appears on the menu of a <application>Publican</application>-managed website. 
 				</para>
 
 			</listitem>

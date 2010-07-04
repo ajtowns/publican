@@ -280,12 +280,101 @@
 			</listitem>
 
 		</varlistentry>
+		
+		<varlistentry>
+			<term>publican create_site</term>
+			  <listitem>
+				<para>
+					creates a documentation website. Options:
+				</para>
+				<variablelist>
+					<varlistentry>
+						<term>--site_config</term>
+						 <listitem>
+							<para>
+								name of the site configuration file to create (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--db_file</term>
+						 <listitem>
+							<para>
+								name of the site database file to create (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--toc_path</term>
+						 <listitem>
+							<para>
+								path to the directory in which to create the top-level <filename>toc.html</filename> file (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--tmpl_path</term>
+						 <listitem>
+							<para>
+								path to the template directory (by default, <filename>/usr/share/publican/templates</filename>).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+				</variablelist>
+
+			</listitem>
+
+		</varlistentry>
+		
+		
 		 <varlistentry>
 			<term><command>publican help_config</command></term>
 			 <listitem>
 				<para>
 					displays a list of parameters for the <filename>publican.cfg</filename> file.
 				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
+			<term>publican install_book</term>
+			  <listitem>
+				<para>
+					installs a document on a documentation website.
+				</para>
+				<variablelist>
+					<varlistentry>
+						<term>--site_config</term>
+						 <listitem>
+							<para>
+								name of the site configuration file (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--lang</term>
+						 <listitem>
+							<para>
+								the language of the document to install (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					
+				</variablelist>
+
 
 			</listitem>
 
@@ -313,6 +402,7 @@
 			</listitem>
 
 		</varlistentry>
+
 		 <varlistentry>
 			<term><command>publican lang_stats</command></term>
 			 <listitem>
@@ -488,6 +578,65 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term>publican remove_book</term>
+			  <listitem>
+				<para>
+					removes a document from a documentation website. 
+				</para>
+				<variablelist>
+					<varlistentry>
+						<term>--site_config</term>
+						 <listitem>
+							<para>
+								name of the site configuration file (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--lang</term>
+						 <listitem>
+							<para>
+								the language of the document to remove (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					
+				</variablelist>
+
+
+			</listitem>
+
+		</varlistentry>
+		
+		<varlistentry>
+			<term>publican site_stats --site_config=<replaceable>name_of_site_config_file</replaceable></term>
+			  <listitem>
+				<para>
+					generates a site report for a documentation website. Option:
+				</para>
+				<variablelist>
+					<varlistentry>
+						<term>--site_config</term>
+						 <listitem>
+							<para>
+								name of the site configuration file (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+				</variablelist>
+
+			</listitem>
+		</varlistentry>
+
+		
+		
+		 <varlistentry>
 			<term><command>publican update_pot</command></term>
 			 <listitem>
 				<para>
@@ -516,6 +665,29 @@
 					</varlistentry>
 
 				</variablelist>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
+			<term>publican update_site --site_config=<replaceable>name_of_site_config_file</replaceable>.cfg</term>
+			  <listitem>
+				<para>
+					regenerates the templated content of a documentation website. Option:
+				</para>
+				<variablelist>
+					<varlistentry>
+						<term>--site_config</term>
+						 <listitem>
+							<para>
+								name of the site configuration file (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+				</variablelist>
+
 
 			</listitem>
 

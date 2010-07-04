@@ -331,6 +331,16 @@
 
 			</varlistentry>
 			 <varlistentry>
+				<term><parameter>def_lang</parameter></term>
+				 <listitem>
+					<para>
+						sets the default language for a <application>Publican</application>-managed website. Tables of contents for languages other than the default language will link to documents in the default language when translations are not available. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
 				<term><parameter>doc_url</parameter></term>
 				 <listitem>
 					<para>
@@ -599,16 +609,78 @@
 
 			</varlistentry>
 			 <varlistentry>
-				<term><parameter>web_obsoletes</parameter></term>
+				<term><parameter>web_home</parameter></term>
 				 <listitem>
 					<para>
-						specifies packages that the web RPM obsoletes. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+						specifies that the document is the home page of a documentation website, not a standard document. Refer to <xref linkend="sect-Users_Guide-Website" />.
 					</para>
 
 				</listitem>
 
 			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_host</parameter></term>
+				 <listitem>
+					<para>
+						specifies the host name of a documentation website, used for the Sitemap and searches. Be sure to specify the protocol and the full path to the document tree, for example: <literal>http://www.example.com/docs/</literal>.  Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
 
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_name_label</parameter></term>
+				 <listitem>
+					<para>
+						overrides the book name as it appears on the menu of a <application>Publican</application>-managed website.  Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_obsoletes</parameter></term>
+				 <listitem>
+					<para>
+						specifies packages that the web RPM obsoletes. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_product_label</parameter></term>
+				 <listitem>
+					<para>
+						overrides the product name as it appears on the menu of a <application>Publican</application>-managed website. Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
+			 <varlistentry>
+				<term><parameter>web_search</parameter></term>
+				 <listitem>
+					<para>
+						overrides the default search form for a <application>Publican</application>-managed website. Defaults to a search on Google which is limited to a site search if <parameter>web_host</parameter> is set. Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
+			
+			 <varlistentry>
+				<term><parameter>web_version_label</parameter></term>
+				 <listitem>
+					<para>
+						overrides the version number as it appears on the menu of a <application>Publican</application>-managed website. Set this value to <literal>UNUSED</literal> for general documentation that does not apply to any particular version of a product. Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
 		</variablelist>
 		 <note>
 			<title>Help from the command line</title>
