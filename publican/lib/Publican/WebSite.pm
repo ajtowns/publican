@@ -596,7 +596,7 @@ sub version_sort {
     # X or X.Y
     if ( $a =~ /^(?:\d+|\d+\.\d+)$/ && $b =~ /^(?:\d+|\d+\.\d+)$/ ) {
         print("1: $a\t$b\t" . ($a <=> $b) . "\t" . ($a cmp $b) . "\n");
-        return $a cmp $b;
+        return $a <=> $b;
     }
     # X or X.Y Vs X.Y.Z
     elsif ( $a =~ /^(?:\d+|\d+\.\d+)$/ && $b =~ /^(\d+\.\d+)(.+)$/ ) {
