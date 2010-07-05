@@ -615,7 +615,7 @@ sub _regen_toc {
 	<form target="_top" method="get" action="http://www.google.com/search">
 		<div class="search">
 			<input class="searchtxt" type="text" name="q" value="" />
-			<input class="searchsub" type="submit" value="Search" />
+			<input class="searchsub" type="submit" value="###Search###" />
 SEARCH
 
     my $host = $settings->{host};
@@ -625,13 +625,14 @@ SEARCH
 			<input class="searchchk" type="hidden"  name="sitesearch" value="$host" />
 SEARCH
     }
+    else {
+        $host = '.';
+    }
 
     $default_search .= <<SEARCH;
 		</div>
 	</form>
 SEARCH
-
-    $vars->{'search'} = ( $settings->{search} || $default_search );
 
     my $langs      = $self->get_lang_list();
     my @tmpl_langs = ();
@@ -669,6 +670,11 @@ SEARCH
         $language );
     $locale->encoding("UTF-8");
     $locale->textdomain("publican");
+
+    my $search = ( $settings->{search} || $default_search );
+    my $string = $locale->maketext("Search");
+    $search =~ s/###Search###/$string/g;
+    $vars->{'search'} = $search;
 
     foreach my $string ( sort( keys(%tmpl_strings) ) ) {
         $vars->{$string} = $locale->maketext( $tmpl_strings{$string} );

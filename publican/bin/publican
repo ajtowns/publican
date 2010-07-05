@@ -19,6 +19,7 @@ use File::pushd;
 use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path);
+use File::Basename;
 
 my $VERSION      = "$Publican::VERSION";
 my $LANG_PATTERN = q|__LANG__|;
@@ -457,10 +458,14 @@ if ( $action eq 'create_site' ) {
 
     my $config = new Config::Simple();
     $config->syntax('http');
+
+    my($filename, $directories, $suffix) = fileparse($db_file);
+    mkpath($directories) unless -d $directories;
     $config->param( 'db_file', abs_path($db_file) ) if ($db_file);
+
     if ($toc_path) {
-        $config->param( 'toc_path', abs_path($toc_path) );
         mkpath($toc_path) unless -d $toc_path;
+        $config->param( 'toc_path', abs_path($toc_path) );
         rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", "$toc_path/." );
     }
 
