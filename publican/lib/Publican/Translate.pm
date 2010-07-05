@@ -480,7 +480,7 @@ sub merge_msgs {
         }
         else {
 
-            my $trans_node;
+            my $trans_node = XML::Element->new( $child->tag() );
 
             # have to recurse through children
             # pop off all children
@@ -504,19 +504,22 @@ sub merge_msgs {
                             { node => $trans_node, msgids => $msgids } );
                         $child->push_content( $trans_node->content_list() );
                         $trans_node->delete();
+                        $trans_node = XML::Element->new( $child->tag() );
                     }
                     $self->merge_msgs(
                         { out_doc => $nested, msgids => $msgids } );
                     $child->push_content($nested);
                 }
                 else {
-                    $trans_node = XML::Element->new( $child->tag() );
                     $trans_node->push_content($nested);
-                    $self->translate(
-                        { node => $trans_node, msgids => $msgids } );
-                    $child->push_content( $trans_node->content_list() );
-                    $trans_node->delete();
                 }
+            }
+
+            if ( $trans_node && !$trans_node->is_empty ) {
+                $self->translate(
+                    { node => $trans_node, msgids => $msgids } );
+                $child->push_content( $trans_node->content_list() );
+                $trans_node->delete();
             }
         }
     }
