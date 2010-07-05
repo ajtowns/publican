@@ -19,7 +19,7 @@ Requires:      publican >= 1.99
 <xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
 
 %description
-Thi is Publican Website home page using the brand: $brand
+This is Publican Website home page using the brand: <xsl:value-of select="$brand"/>
 
 %prep
 %setup -q

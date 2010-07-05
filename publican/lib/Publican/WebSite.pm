@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS $DB_NAME (
 	product_label text(255),
 	version_label text(255),
 	name_label text(255),
-        update_date text(10),
+	update_date text(10),
 	UNIQUE(language, product, version, name, format)
 )
 CREATE_TABLE
@@ -592,6 +592,41 @@ sub regen_all_toc {
     return;
 }
 
+sub version_sort {
+    # X or X.Y
+    if ( $a =~ /^(?:\d+|\d+\.\d+)$/ && $b =~ /^(?:\d+|\d+\.\d+)$/ ) {
+        print("1: $a\t$b\t" . ($a <=> $b) . "\t" . ($a cmp $b) . "\n");
+        return $a cmp $b;
+    }
+    # X or X.Y Vs X.Y.Z
+    elsif ( $a =~ /^(?:\d+|\d+\.\d+)$/ && $b =~ /^(\d+\.\d+)(.+)$/ ) {
+        if ( $a gt $1 ) {
+            print("2: $a\t$1($b)\t1\n");
+            return 1;
+        }
+        else {
+            print("2: $a\t$1($b)\t-1\n");
+            return -1;
+        }
+    }
+    # X.Y.Z Vs X or X.Y
+    elsif ( $b =~ /^(?:\d+|\d+\.\d+)$/ && $a =~ /^(\d+\.\d+)(.+)$/ ) {
+        if ( $1 ge $b ) {
+            print("3: $1($a)\t$b\t1\n");
+            return 1;
+        }
+        else {
+            print("3: $1($a)\t$b\t-1\n");
+            return -1;
+        }
+    }
+    # X.Y.Z Vs X.Y.Z
+    else {
+        print("4: $a\t$b\t" . ($a cmp $b) . "\n");
+        return $a cmp $b;
+    }
+}
+
 sub _regen_toc {
     my ( $self, $arg ) = @_;
 
@@ -690,7 +725,7 @@ SEARCH
         my @versions = ();
 
         foreach my $version (
-            reverse( sort( { $a <=> $b } keys( %{ $list2->{$product} } ) ) ) )
+            reverse( sort( version_sort keys( %{ $list2->{$product} } ) ) ) )
         {
             my $version_label = $version;
             my %ver_data;
