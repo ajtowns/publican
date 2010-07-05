@@ -90,12 +90,15 @@
 							Typically, you might give names to the site configuration file and database file that help you to recognize the site to which they belong. For example, for the <application>FooMaster</application> documentation site, you might call these files <filename>foomaster.cfg</filename> and <filename>foomaster.db</filename>.  
 						</para>
 						<para>
-							In a deployed site, the site configuration file and site database file reside in the directory above the documents themselves. Set <parameter>--toc_path</parameter> to the name of the document subdirectory. If you plan to install documentation on the webserver with  <application>Publican</application>-generated RPM packages, set <parameter>--toc_path</parameter> to <literal>docs</literal>. If you plan to build the site manually and upload it to the webserver, you can set <parameter>--toc_path</parameter> to whatever you choose.
+							Set <parameter>--toc_path</parameter> to the name of the document subdirectory. If you plan to install documentation on the webserver with  <application>Publican</application>-generated RPM packages, set <parameter>--toc_path</parameter> to <literal>/var/www/html/docs</literal>. If you plan to build the site manually and upload it to the webserver, you can set <parameter>--toc_path</parameter> to whatever you choose.
 						</para>
 						<para>
-							The following is an example of a <command>publican create_site</command> command:
+							On a computer with an operating system other than Linux, set <parameter>--temp_path</parameter> to the path to the <filename>templates/<filename> directory of your <application>Publican</application> installation. On computers with Windows operating systems, this is typically <filename><replaceable>%SystemDrive%</replaceable>\<replaceable>%ProgramFiles%</replaceable>\Publican\templates</filename>.
 						</para>
-<screen><command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path docs</command></screen>
+						<para>
+							The following is an example of a <command>publican create_site</command> command run on a machine with a Linux operating system:
+						</para>
+<screen><command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
 					</step>
 					<step>
 						<para>
@@ -138,7 +141,7 @@
 				</step>
 				<step>
 					<para>
-						Edit the <filename>Article_Info</filename> file to configure the product name and version number. As with other documents created with <application>Publican</application>, the product name and product version number appear in a banner at the top of the page when built as HTML. Unless the entire site documents only a single version of a product, you might want to suppress the version number. If so, make the  <sgmltag>&lt;productnumber&gt;</sgmltag> tag empty, thus:
+						Edit the <filename>Article_Info.xml</filename> file to configure the product name and version number. As with other documents created with <application>Publican</application>, the product name and product version number appear in a banner at the top of the page when built as HTML. Unless the entire site documents only a single version of a product, you might want to suppress the version number. If so, make the  <sgmltag>&lt;productnumber&gt;</sgmltag> tag empty, thus:
 					</para>
 <programlisting>&lt;productnumber&gt;&lt;/productnumber&gt;</programlisting>
 					<para>
@@ -264,8 +267,78 @@
 				</para>
 			</section>
 		</section>
+		<section id="sect-Users_Guide-Website-automation">
+			<title>Automating publishing</title>
+			<para>
+				Because <application>Publican</application> can generate RPM packages, you can use <application>Publican</application> together with an RPM build system like <application>Koji</application> to automate your publishing process. When a document is ready for publication, the writer or translator runs the following command:
+			</para>
+<screen><command>publican package --cvs</command></screen>
+			<para>
+				<application>Publican</application> then carries out the following actions:
+			</para>
+			<orderedlist>
+				<listitem>
+					<para>
+						generates an SRPM
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						imports the SRPM into the CVS root for the <application>Koji</application> instance specified in the document's <filename>publican.cfg</filename> file
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						runs <command>cvs up</command>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						runs <command>make build</command>
+					</para>
+				</listitem>
+			</orderedlist>
+			<para>
+				If your webserver periodically checks for updated packages in the repository in which <application>Koji</application> places built packages, the webserver can automatically install updated versions of your documents. 
+			</para>
+			<para>
+				You might also implement a system of tags where a writer or translator could run <command>koji tag-pkg</command> to apply a tag that tells the webserver to publish the document only on a staging site for proofreading and review; or a different tag that tells the webserver to publish the document publicly.
+			</para>
+			<para>
+				To prepare a document for building in a <application>Koji</application> instance, edit the <filename>publican.cfg</filename> file to specify:
+			</para>
+			<variablelist>
+				<varlistentry>
+					<term><parameter>cvs_branch</parameter></term>
+					<listitem>
+						<para>
+							the name of the <firstterm>branch</firstterm> for the package; typically, a particular software version.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><parameter>cvs_pkg</parameter></term>
+					<listitem>
+						<para>
+							the name of the package in CVS. <application>Publican</application> defaults to: <literal><replaceable>product</replaceable>-<replaceable>title</replaceable>-<replaceable>product_version</replaceable>-web-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable></literal>
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><parameter>cvs_root</parameter></term>
+					<listitem>
+						<para>
+							the CVS root into which to import the SRPM. For example, the CVS root for the Fedora Project's <application>Koji</application> instance is <literal>:ext:USERNAME@cvs.fedoraproject.org:/cvs/pkgs</literal>
+						</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+			
+			<para>
+				For more information about <application>Koji</application>, visit <ulink url="https://fedorahosted.org/koji/wiki"></ulink>.
+			</para>
 
+		</section>
 
-	 
 </chapter>
 
