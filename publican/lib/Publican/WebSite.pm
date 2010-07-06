@@ -1146,6 +1146,10 @@ Validate the database entries against the RPM database.
 
 TODO should also/instead compare entires aginst web site files?
 
+=head2 version_sort
+
+Sort version strings in to correct order, handles X, X.Y, and X.Y.Z formats.
+
 =head2 toc_path
 
 Return the full toc path.

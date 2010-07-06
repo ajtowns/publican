@@ -1,21 +1,27 @@
 
 # Track font name changes
-%define RHEL5 %(test "%{?dist}" == ".el5" && echo "1" || echo "0")
-%define RHEL6 %(test "%{?dist}" == ".el6" && echo "1" || echo "0")
-# Assume not rhel means FC11+
-%define OTHER %(test "%{RHEL5}" == "0" && "%{RHEL6}" == "0" && echo "1" || echo "0")
+%define RHEL5 %(test %{?dist} == .el5 && echo 1 || echo 0)
+%define RHEL6 %(test %{?dist} == .el6 && echo 1 || echo 0)
+# Assume not rhel means FC11+ ... ugly
+%define OTHER 1
+%if %{RHEL6}
+%define OTHER 0
+%endif
+%if %{RHEL5}
+%define OTHER 0
+%endif
 
 # who doesn't have xdg-open?
-%define HTMLVIEW %(test "%{RHEL5}" == "1" && echo "1" || echo "0")
+%define HTMLVIEW %(test %{RHEL5} == 1 && echo 1 || echo 0)
 
 # required for desktop file install
-%define my_vendor %(test "%{RHEL5}" == "1" && echo "redhat" || echo "fedora")
+%define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
 
-%define TESTS 0
+%define TESTS 1
 
 Name:           publican
-Version:        1.99
-Release:        0%{?dist}.t160
+Version:        2.0
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -214,12 +220,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Tue May 18 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
+* Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
 - Add web_*_label params for web menus.
 - Add underscores to cleanset, installbrand, and printtree. BZ #581090
-
-* Wed May 12 2010 Jeff Fearn <jfearn@redhat.com> 1.6.4-0
+- Update docs with Website content
+- Update brand license text.
 - Fix different log jar path on F14+
 - Add constraint to help_config output.
 - Fix segfault when indexterm has no leading content. BZ #592666
