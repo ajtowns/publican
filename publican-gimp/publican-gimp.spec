@@ -2,15 +2,15 @@
 
 Name:		publican-gimp
 Summary:	Common documentation files for %{brand}
-Version:	1.0
+Version:	1.1
 Release:	0%{?dist}
 License:	GFDL
 Group:		Development/Libraries
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-Requires:	publican >= 1.0
-BuildRequires:	publican >= 1.0
+Requires:	publican >= 2.0
+BuildRequires:	publican >= 2.0
 URL:		https://fedorahosted.org/publican
 
 %description
@@ -26,7 +26,7 @@ publican build --formats=xml --langs=all --publish
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
-publican installbrand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
+publican install_brand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
 
 
 %clean
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.1
+- Port to Publican 2
+
 * Fri Oct 30 2009 Jeff Fearn <jfearn@redhat.com> 1.0
 - port to publican 1.0.
 

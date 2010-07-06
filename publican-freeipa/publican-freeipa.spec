@@ -2,15 +2,15 @@
 
 Name:		publican-freeipa
 Summary:	Common documentation files for %{brand}
-Version:	1.6
+Version:	1.7
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/publican-freeipa-%{version}.tgz
-Requires:	publican >= 1.0
-BuildRequires:	publican >= 1.0
+Requires:	publican >= 2.0
+BuildRequires:	publican >= 2.0
 URL:		https://fedorahosted.org/publican
 
 %description
@@ -26,7 +26,7 @@ publican build --formats=xml --langs=all --publish
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
-publican installbrand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
+publican install_brand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.7
+- Port to Publican 2
+
 * Thu Jun 10 2010 Jeff Fearn <jfearn@redhat.com> 1.6
 - Remove HTML term color. BZ #592822
 

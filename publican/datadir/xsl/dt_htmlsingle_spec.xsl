@@ -33,7 +33,7 @@ URL:           <xsl:value-of select="$url"/>
 Source:        <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: publican >= 1.99
+BuildRequires: publican >= 2.0
 BuildRequires: desktop-file-utils
 <xsl:if test="$brand != 'publican-common'">BuildRequires:    <xsl:value-of select="$brand"/></xsl:if>
 
