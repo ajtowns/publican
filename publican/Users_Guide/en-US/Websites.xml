@@ -4,7 +4,7 @@
 %BOOK_ENTITIES;
 ]>
 <chapter id="sect-Users_Guide-Website">
-	<title>Creating and maintaining a documentation website</title>
+	<title>Building a website with Publican</title>
 	<para>
 		<application>Publican</application> not only builds documents for publication but can build and manage a documentation website as well. For a suite of documents that you maintain by yourself, you can use <application>Publican</application> to build a site on your local system; you can then upload the site to a webserver. by whatever means you choose. This approach does not scale well, however, so for team-based documentation projects, <application>Publican</application> can generate RPM packages of documentation to install on the webserver. 
 	</para>
@@ -29,7 +29,7 @@
 				</listitem>
 				<listitem>
 					<para>
-						a HTML directory for the published documents, which also contains:
+						a subdirectory for the published documents, which contains:
 					</para>
 					<itemizedlist>
 						<listitem>
@@ -49,12 +49,6 @@
 						</listitem>
 						<listitem>
 							<para>
-								<filename>Site_Statistics.html</filename> — an overview of the documentation installed on the site.
-							</para>
-						</listitem>
-						
-						<listitem>
-							<para>
 								<filename>toc.html</filename> — a static map of the documents on the site, to assist visitors to the site who do not have JavaScript enabled on their browsers.
 							</para>
 						</listitem>
@@ -63,7 +57,28 @@
 								<filename>toc.js</filename> — a JavaScript script that directs visitors to localized content based on the locale set in their browser and controls the presentation of the navigation menu.
 							</para>
 						</listitem>
-						
+						<listitem>
+							<para>
+								subdirectories for each language in which you publish. Initially, this contains: <filename>Site_Statistics.html</filename>
+							</para>
+							<itemizedlist>
+								<listitem>
+									<para>
+										<filename>Site_Statistics.html</filename> — an overview of the documentation installed on the site.
+									</para>
+								</listitem>
+								<listitem>
+									<para>
+										<filename>Site_Tech.html</filename> — an overview of the technology used to build the site.
+									</para>
+								</listitem>
+								<listitem>
+									<para>
+										<filename>toc.html</filename> — the table of contents for that language, initially empty.
+									</para>
+								</listitem>
+							</itemizedlist>
+						</listitem>
 					</itemizedlist>
 				</listitem>
 			</itemizedlist>
@@ -84,21 +99,45 @@
 					</step>
 					<step>
 						<para>
-							Run <command>publican create_site --site_config <replaceable>site_configuration_file</replaceable>.cfg --db_file <replaceable>site_database_file</replaceable>.db --toc_path <replaceable>path_to_document_root</replaceable></command>, where <filename><replaceable>site_configuration_file</replaceable>.cfg</filename> is the name of the configuration file for your site, <filename><replaceable>site_database_file</replaceable>.db</filename> is the name of the SQLite database file for your site, and <replaceable>path_to_document_root</replaceable> is the path to the directory in which you will place your documents. 
+							Run <command>publican create_site</command>, specifying the following parameters:
 						</para>
+						<itemizedlist>
+							<listitem>
+								<para>
+									<option>--site_config</option> — the name of the configuration file for your site, with the filename extension <filename>.cfg</filename>
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<option>--db_file</option> — the name of the SQLite database file for your site, with the filename extension <filename>.db</filename>
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<option>--toc_path</option> — the path to the directory in which you will place your documents
+								</para>
+							</listitem>
+						</itemizedlist>
+						<para>
+							On a computer with an operating system other than Linux, also set:
+						</para>
+						<itemizedlist>
+							<listitem>
+								<para>
+									<option>--temp_path</option> — the path to the <filename>templates/</filename> directory of your <application>Publican</application> installation. On computers with Windows operating systems, this is typically <filename><replaceable>%SystemDrive%</replaceable>\<replaceable>%ProgramFiles%</replaceable>\Publican\templates</filename>.
+								</para>
+							</listitem>
+						</itemizedlist>
+						<para>
+							For example:
+						</para>
+<screen><command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
 						<para>
 							Typically, you might give names to the site configuration file and database file that help you to recognize the site to which they belong. For example, for the <application>FooMaster</application> documentation site, you might call these files <filename>foomaster.cfg</filename> and <filename>foomaster.db</filename>.  
 						</para>
 						<para>
-							Set <parameter>--toc_path</parameter> to the name of the document subdirectory. If you plan to install documentation on the webserver with  <application>Publican</application>-generated RPM packages, set <parameter>--toc_path</parameter> to <literal>/var/www/html/docs</literal>. If you plan to build the site manually and upload it to the webserver, you can set <parameter>--toc_path</parameter> to whatever you choose.
+							If you plan to install documentation on the webserver with  <application>Publican</application>-generated RPM packages, set <parameter>--toc_path</parameter> to <literal>/var/www/html/docs</literal>. If you plan to build the site manually and upload it to the webserver, you can set <parameter>--toc_path</parameter> to whatever you choose.
 						</para>
-						<para>
-							On a computer with an operating system other than Linux, set <parameter>--temp_path</parameter> to the path to the <filename>templates/</filename> directory of your <application>Publican</application> installation. On computers with Windows operating systems, this is typically <filename><replaceable>%SystemDrive%</replaceable>\<replaceable>%ProgramFiles%</replaceable>\Publican\templates</filename>.
-						</para>
-						<para>
-							The following is an example of a <command>publican create_site</command> command run on a machine with a Linux operating system:
-						</para>
-<screen><command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
 					</step>
 					<step>
 						<para>
@@ -127,7 +166,7 @@
 					<para>
 						Change into a convenient directory and run the following <command>publican create</command> command:
 					</para>
-<screen><command>publican create --type Article --name <replaceable>title_of_page</replaceable></command></screen>
+<screen><command>publican create --type Article --name <replaceable>page_name</replaceable></command></screen>
 					<para>
 						For example:
 					</para>
@@ -146,6 +185,9 @@
 <programlisting>&lt;productnumber&gt;&lt;/productnumber&gt;</programlisting>
 					<para>
 						You might also want to remove or re-order some of the typical content of a DocBook article as rendered by <application>Publican</application>, such as the <sgmltag>&lt;abstract&gt;</sgmltag>, <sgmltag>&lt;corpauthor&gt;</sgmltag>, and the transcluded <sgmltag>&lt;authorgroup&gt;</sgmltag> and <sgmltag>&lt;legalnotice&gt;</sgmltag>.
+					</para>
+					<para>
+						Alternatively, edit the root XML file of your home page to remove the <sgmltag>&lt;xi:include&gt;</sgmltag> that links to <filename>Article_Info.xml</filename>. <application>Publican</application> still uses the information in <filename>Article_Info.xml</filename> for packaging, but does not include it on the page itself.
 					</para>
 				</step>
 				<step>
@@ -184,9 +226,12 @@
 					<para>
 						If you prefer to use a search engine other than Google, or want to customize the search, use the <parameter>web_search</parameter> parameter to specify the entire content of a HTML <sgmltag>&lt;form&gt;</sgmltag>. For example, to construct a Yahoo! search limited to <literal>docs.example.com</literal>, set:
 					</para>
-<programlisting>web_search: '&lt;form target="_top" method="get" action="http://search.yahoo.com/search"&gt; &lt;div class="search"&gt; &lt;input type="text" name="p" value="" /&gt; &lt;input type="hidden" name="vs" value="docs.example.com" /&gt; &lt;input type="submit" value="Search" /&gt; &lt;/div&gt; &lt;/form&gt;'</programlisting>
+<programlisting language="HTML">web_search: '&lt;form target="_top" method="get" action="http://search.yahoo.com/search"&gt; &lt;div class="search"&gt; &lt;input type="text" name="p" value="" /&gt; &lt;input type="hidden" name="vs" value="docs.example.com" /&gt; &lt;input type="submit" value="###Search###" /&gt; &lt;/div&gt; &lt;/form&gt;'</programlisting>
 					<para>
 						Refer to the documentation of your chosen search engine for details of how to construct custom searches.
+					</para>
+					<para>
+						If you set <literal>value="###Search###"</literal> on the code for a submit button, <application>Publican</application> uses the word <literal>Search</literal> on the button, localized into any language that <application>Publican</application> supports. 
 					</para>
 					<important>
 						<title>Important — Publican does not validate the web_search parameter</title>
@@ -197,8 +242,12 @@
 				</step>
 				<step>
 					<para>
-						Edit the content of <filename>Home_Page.xml</filename> as you would any other DocBook document.
+						Edit the content of the <filename><replaceable>page_name</replaceable>.xml</filename> file (for example, <filename>Home_Page.xml</filename>) as you would any other DocBook document.
 					</para>
+					<para>
+						If you remove the <sgmltag>&lt;xi:include&gt;</sgmltag> that links to <filename>Article_Info.xml</filename>, specify a title for your page in the following format:
+					</para>
+<programlisting language="XML">&lt;title role="producttitle"&gt;FooMaster Documentation&lt;/title&gt;</programlisting>
 				</step>
 				<step>
 					<para>
@@ -214,7 +263,7 @@
 					<para>
 						If you are building your website manually, build the home page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:
 					</para>
-<screen><command>publican build --publish --langs all --formats html-single --embedtoc</command> 
+<screen><command>publican build --publish --formats html-single --embedtoc</command> 
 <command>publican install_book --site_config ~/docsite/foomaster.cfg</command></screen>
 					<para>
 						Alternatively, to build RPM packages to install on your webserver, run the following command for each language in which you publish documentation:
