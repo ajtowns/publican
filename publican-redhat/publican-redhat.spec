@@ -1,10 +1,6 @@
 %define brand RedHat
 %define pub_name Publican
-%if %{RHEL6}
-ExclusiveArch:   i686 x86_64
-%else
-BuildArch:   noarch
-%endif
+%define RHEL6 %(test %{?dist} == .el6 && echo 1 || echo 0)
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
