@@ -17,11 +17,11 @@
 # required for desktop file install
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
 
-%define TESTS 1
+%define TESTS 0
 
 Name:           publican
 Version:        2.0
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -220,6 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.0-1
+- Fix broken web wite update.
+
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
 - Add web_*_label params for web menus.
