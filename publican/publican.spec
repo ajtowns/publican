@@ -20,8 +20,8 @@
 %define TESTS 0
 
 Name:           publican
-Version:        2.0
-Release:        1%{?dist}
+Version:        2.1
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -220,8 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.0-1
-- Fix broken web wite update.
+* Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
+- Fix broken install_book not updating DB.
+- Fix typos in docs.
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.0-0
 - Add Publican::Website.
