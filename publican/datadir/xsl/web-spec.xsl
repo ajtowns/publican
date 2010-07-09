@@ -73,6 +73,7 @@ publican build --embedtoc --formats="html,html-single,html-desktop,pdf,epub" --l
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/%{wwwdir}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{wwwdir}/.
 
 %if %{ICONS}
@@ -81,7 +82,6 @@ for icon in `ls icons/*x*.png`; do
 	mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
 	cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
 done
-mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %else
 cp images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
