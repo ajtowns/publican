@@ -3,7 +3,7 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	1.7
+Version:	1.8
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Development/Libraries
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Jul 12 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.8-0
+- Localizations for image_right.png
+
 * Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.7
 - Port to Publican 2
 
