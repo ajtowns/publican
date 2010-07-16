@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+
+<section id="sect-Users_Guide-Website-homepage-rpm">
+	<title>Creating, installing, and updating the home page</title>
+	<para>
+		The <application>Publican</application>-generated home page is the localizable page to which visitors are directed by the site JavaScript and which provides the style for the website structure. The home page is structured as a DocBook <sgmltag>&lt;article&gt;</sgmltag> with an extra <parameter>web_home</parameter> parameter in its <filename>publican.cfg</filename> file. In its structure and its presentation, the home page is the same as any other article that you produce with <application>Publican</application>. To create the home page:
+	</para>
+	<procedure>
+		<step>
+			<para>
+				Change into a convenient directory and run the following <command>publican create</command> command:
+			</para>
+<screen><command>publican create --type Article --name <replaceable>page_name</replaceable></command></screen>
+			<para>
+				For example:
+			</para>
+<screen><command>publican create --type Article --name Home_Page</command></screen>
+			<para>
+				Most brands (including the <literal>common</literal> brand) present the name of the document in large, coloured letters close to the top of the page, underneath the banner that contains the product name (the <option>--name</option> option sets the <sgmltag>&lt;title&gt;</sgmltag> tag). Therefore, by default, the value that you set with the <option>--name</option> option is presented prominently to visitors to your site; in the above example, visitors are greeted with the words <literal>Home Page</literal> underneath the product banner. 
+			</para>
+			<note>
+				<title>Note — you can suppress the title</title>
+				<para>
+					You must provide a name (and therefore, a title) for the home page. However, to prevent the title appearing on the page itself, either remove the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in the <filename><replaceable>Book_Name</replaceable>.xml</filename> file that links to <filename>Article_Info.xml</filename>, or empty the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename> file and set <parameter>docname</parameter> in the <filename>publican.cfg</filename> file. These options are outlined in greater detail later in this procedure.
+				</para>
+				<para>
+					Note that even if you suppress the title in the body of the page, it still displays in the title bars of web browsers.
+				</para>
+			</note>
+		</step>
+		<step>
+			<para>
+				Change into the article directory:
+			</para>
+<screen><command>cd <replaceable>page_name</replaceable></command></screen>
+			<para>
+				For example:
+			</para>
+<screen><command>cd Home_Page</command></screen>
+		</step>
+		<step>
+			<para>
+				Edit the <filename>Article_Info.xml</filename> file. 
+			</para>
+			<para>
+				As with other documents created with <application>Publican</application>, the product name and product version number appear in a banner at the top of the page when built as HTML. Unless the entire site documents only a single version of a product, you might want to suppress the version number. If so, make the  <sgmltag>&lt;productnumber&gt;</sgmltag> tag empty, thus:
+			</para>
+<programlisting>&lt;productnumber&gt;&lt;/productnumber&gt;</programlisting>
+			<para>
+				Similarly, to suppress displaying the title on the home page, empty the <sgmltag>&lt;title&gt;</sgmltag> tag:
+			</para>
+<programlisting>&lt;title&gt;&lt;/title&gt;</programlisting>
+			<para>
+				If you empty the <sgmltag>&lt;productnumber&gt;</sgmltag> or <sgmltag>&lt;title&gt;</sgmltag> tags, be sure to set the <parameter>version</parameter> or  <parameter>docname</parameter> parameters when you edit the <filename>publican.cfg</filename> file later in this procedure.
+			</para>
+			<para>
+				You can also remove or re-order some of the typical content of a DocBook article as rendered by <application>Publican</application>, such as the <sgmltag>&lt;abstract&gt;</sgmltag>, <sgmltag>&lt;corpauthor&gt;</sgmltag>, and the <sgmltag>&lt;authorgroup&gt;</sgmltag> and <sgmltag>&lt;legalnotice&gt;</sgmltag> included from other files. Much of this content is typically not relevant to a home page.
+			</para>
+			<note>
+				<title>Note — hiding the content of Article_Info.xml</title>
+				<para>
+					If little of the content of the <filename>Article_Info.xml</filename> file is useful for your site, you can edit the root XML file of your home page to remove the <sgmltag>&lt;xi:include&gt;</sgmltag> tag that links to <filename>Article_Info.xml</filename>. <application>Publican</application> still uses the information in <filename>Article_Info.xml</filename> for packaging, but does not include it on the page itself.
+				</para>
+			</note>
+		</step>
+		<step>
+			<para>
+				Edit the <filename>publican.cfg</filename> file.
+			</para>
+			<para>
+				At the very least, you must add the <parameter>web_home</parameter> parameter and set it to <literal>1</literal> (enabled):
+			</para>
+<programlisting>web_home: 1</programlisting>
+			<para>
+				The <parameter>web_home</parameter> parameter instructs <application>Publican</application> to process this document differently from product documentation. This is the only mandatory change to the <filename>publican.cfg</filename> file. Other optional changes to the <filename>publican.cfg</filename> file that are frequently useful for <application>Publican</application>-generated websites include:
+			</para>
+			<variablelist>
+				<varlistentry>
+					<term><parameter>brand</parameter></term>
+					<listitem>
+						<para>
+							To style your home page to match your documents, add:
+						</para>
+<programlisting>brand: <replaceable>name_of_brand</replaceable></programlisting>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><parameter>version</parameter></term>
+					<listitem>
+						<para>
+							If you emptied the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename> file, set:
+						</para>
+<programlisting>version: 0.1</programlisting>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><parameter>docname</parameter></term>
+					<term><parameter>product</parameter></term>
+					<listitem>
+						<para>
+							If the <sgmltag>&lt;title&gt;</sgmltag> or the <sgmltag>&lt;product&gt;</sgmltag> that you set in the <filename>Article_Info</filename> file included anything other than basic, unaccented Latin characters, set the <parameter>docname</parameter> and <parameter>product</parameter> as necessary.
+						</para>
+						<para>
+							If you emptied the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename> file, you must specify a <parameter>docname</parameter>.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><parameter>def_lang</parameter></term>
+					<listitem>
+						<para>
+							<application>Publican</application> creates a separate, translatable navigation menu for each language in which you publish documentation. However, if a document is not available in a particular language, <application>Publican</application> links visitors to the untranslated version of that document. To specify the default, untranslated language for the site, set <parameter>def_lang</parameter> with a language code. For example:
+						</para>
+<programlisting>def_lang: fr-FR</programlisting>
+						<para>
+							With <parameter>def_lang</parameter> set to <literal>fr-FR</literal>, visitors viewing the navigation menu in (for example) Spanish are presented with a link to the original French version of the document if the document has not yet been translated into Spanish.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><parameter>web_host</parameter></term>
+					<listitem>
+						<para>
+							The navigation menu also includes a search box that submits a query to Google. To constrain the results to only hits on your site, set the <parameter>web_host</parameter> parameter. For example, to limit the Google results to only pages on your website at <literal>http://docs.example.com</literal>, set:
+						</para>
+<programlisting>web_host: http://docs.example.com</programlisting>
+						<para>
+							<application>Publican</application> also uses the value set for <parameter>web_host</parameter> to construct the URLs in the XML <filename>Sitemap</filename> that it creates for search engine crawlers. Therefore, when you set this parameter, make sure you use the full URL, including the protocol (for example, <literal>http://</literal>).
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><parameter>web_search</parameter></term>
+					<listitem>
+						<para>
+							If you prefer to use a search engine other than Google, or want to customize the search, use the <parameter>web_search</parameter> parameter to specify the entire content of a HTML <sgmltag>&lt;form&gt;</sgmltag>. For example, to construct a Yahoo! search limited to <literal>docs.example.com</literal>, set:
+						</para>
+<programlisting language="HTML">web_search: '&lt;form target="_top" method="get" action="http://search.yahoo.com/search"&gt; &lt;div class="search"&gt; &lt;input type="text" name="p" value="" /&gt; &lt;input type="hidden" name="vs" value="docs.example.com" /&gt; &lt;input type="submit" value="###Search###" /&gt; &lt;/div&gt; &lt;/form&gt;'</programlisting>
+						<para>
+							Refer to the documentation of your chosen search engine for details of how to construct custom searches.
+						</para>
+						<para>
+							If you set <literal>value="###Search###"</literal> in the code for a submit button, <application>Publican</application> uses the word <literal>Search</literal> on the button, localized into any language that <application>Publican</application> supports. 
+						</para>
+						<important>
+							<title>Important — the web_search parameter is not validated</title>
+							<para>
+								<application>Publican</application> does not validate the <parameter>web_search</parameter> parameter, but builds the value of this parameter into the navigation menu exactly as you specify it. Be especially careful when you use this feature.
+							</para>
+						</important>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</step>
+
+		<step>
+			<para>
+				Edit the content of the <filename><replaceable>page_name</replaceable>.xml</filename> file (for example, <filename>Home_Page.xml</filename>) as you would any other DocBook document.
+			</para>
+			<para>
+				If you remove the <sgmltag>&lt;xi:include&gt;</sgmltag> that links to <filename>Article_Info.xml</filename>, specify a title for your page in the following format:
+			</para>
+<programlisting language="XML">&lt;title role="producttitle"&gt;FooMaster Documentation&lt;/title&gt;</programlisting>
+		</step>
+		<step>
+			<para>
+				If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <command>publican update_pot</command> and <command>publican update_po</command> commands.
+			</para>
+		</step>
+		<step>
+			<para>
+				To customize the logo at the top of the navigation menu that provides a link back to the home page, create a PNG image 300&nbsp;px&nbsp;×&nbsp;100&nbsp;px and name it  <filename>web_home.png</filename>. Place this image in the <filename>images/</filename> directory in the document's XML directory, for example <filename>en-US/images/</filename>.
+			</para>
+		</step>
+		<step>
+			<para>
+				Build the home page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:
+			</para>
+<screen><command>publican build --publish --formats html-single --embedtoc --langs all</command> 
+<command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Language_Code</replaceable></command></screen>
+			<para>
+				Note that you can build all languages at the same time, but must install the home page for each language with a separate <command>publican install_book</command> command. 
+			</para>
+		</step>
+	</procedure>
+	<para>
+		To update 
+	</para>
+
+</section>

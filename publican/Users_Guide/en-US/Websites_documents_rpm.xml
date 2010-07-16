@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<section  id="sect-Users_Guide-Website-structure-documents-rpm">
+	<title>Installing, updating and removing documents</title>
+	<para>
+		On your workstation, change into the directory that contains the source for the document and run: 
+	</para>
+<screen><command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
+	<para>
+		<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the document. Note that by default, <application>Publican</application> generates an RPM package to install on a server that runs Red Hat Enterprise Linux&nbsp;5. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_var</parameter> parameter in the document's <filename>publican.cfg</filename> file. 
+	</para>
+	<para>
+		Either upload the document packages to the webserver and install them with the <command>rpm -i</command> or <command>yum localinstall</command> command, or place the packages in a repository and configure the webserver to install from that repository when you run <command>yum install</command>.
+	</para>
+	<para>
+		To update a document, build a new package with a higher <sgmltag>&lt;edition&gt;</sgmltag> number or <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename>. <application>Publican</application> uses these values to set the version and release numbers for the RPM package. When you install this package on your webserver, <application>yum</application> can replace the old version with the new when you run <command>yum localinstall</command> for a local package, or <command>yum update</command> for a package fetched from a repository.
+	</para>
+	<para>
+		Remove a document from the webserver with the <command>rpm -e</command> or <command>yum erase</command> command.
+	</para>
+</section>

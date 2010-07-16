@@ -93,6 +93,16 @@
 			 <para>
 				You can build the document in all languages for which you have translations with the <option>--langs=all</option> option, but note that you must package each language individually. Refer to <xref linkend="sect-Users_Guide-Building_a_document" /> for more information on building a document, and <xref linkend="sect-Users_Guide-Packaging_a_book" /> on packaging a document.
 			</para>
+			<important>
+				<title>Important — set Project-Id-Version for packaging</title>
+				<para>
+					The release number of RPM packages for translated documents is set by the <parameter>Project-Id-Version</parameter> parameter in the <filename>Article_Info.po</filename> or  <filename>Book_Info.po</filename> file. For example, the first release of a book in Japanese would have the following set at the start of the <filename>ja-JP/Book_Info.po</filename> file:
+				</para>
+<programlisting>"Project-Id-Version: 1\n"</programlisting>
+				<para>
+					Note that the release number of a package in a particular language does not bear any relationship to the release number of the package for the same document in its original language or in any other language. The release number is specific to one particular language only.
+				</para>
+			</important>
 
 		</step>
 

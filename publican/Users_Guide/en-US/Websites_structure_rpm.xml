@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+
+<section id="sect-Users_Guide-Website-structure-cfg_and_db-rpm">
+	<title>Creating the website structure</title>
+	<warning>
+		<title>Warning — This procedure replaces files</title>
+		<para>
+			When you create the website structure, <application>Publican</application> places files in the <filename>/var/www/html/docs</filename> directory. Existing files in this directory might be overwritten by this procedure.
+		</para>
+	</warning>
+	<para>
+		Perform the following steps on your webserver. You must have an account with root privileges. 
+	</para>
+
+	<procedure>
+		<step>
+			<para>
+				Log into the webserver.
+			</para>
+		</step>
+		<step>
+			<para>
+				Become root:
+			</para>
+<screen><command>su -</command></screen>
+		</step>
+		<step>
+			<para>
+				Install <application>Publican</application>. For example, on a webserver with a Fedora operating system, run:
+			</para>
+<screen><command>yum install publican</command></screen>
+		</step>
+		<step>
+			<para>
+				Delete the default configuration file that <application>Publican</application> creates at <filename>/etc/publican-website.cfg</filename>:
+			</para>
+<screen><command>rm /etc/publican-website.cfg</command></screen>
+		</step>
+		<step>
+			<para>
+				Run <command>publican create_site</command> with the following parameters:
+			</para>
+<screen><command>publican create_site --site_config /etc/publican-website.cfg </command>
+<command>--db_file /var/lib/publican/publican-website.db --toc_path /var/www/html/docs</command></screen>
+			<para>
+				(although this command is presented here on two lines, enter it as a single line)
+			</para>
+		</step>
+	</procedure>
+	<para>
+		To make <application>Publican</application> refresh the site structure at any time, run: 
+	</para>
+<screen><command>publican update_site --site_config /etc/publican-website.cfg</command></screen>
+</section>
+			

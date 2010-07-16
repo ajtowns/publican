@@ -6,317 +6,99 @@
 <chapter id="sect-Users_Guide-Website">
 	<title>Building a website with Publican</title>
 	<para>
-		<application>Publican</application> not only builds documents for publication but can build and manage a documentation website as well. For a suite of documents that you maintain by yourself, you can use <application>Publican</application> to build a site on your local system; you can then upload the site to a webserver by whatever means you choose. This approach does not scale well, however, so for team-based documentation projects, <application>Publican</application> can generate RPM packages of documentation to install on the webserver. 
+		<application>Publican</application> not only builds documents for publication but can build and manage a documentation website as well. For a suite of documents that you maintain by yourself, you can use <application>Publican</application> to build a site on your local system; you can then upload the site to a webserver by whatever means you choose. This approach does not scale well, however, so for team-based documentation projects, <application>Publican</application> can generate RPM packages of documentation to install on the webserver. To install <application>Publican</application>-generated RPM packages on a webserver, <application>Publican</application> (version 2.1 or higher) and <application>rpm</application> must be installed on the server. If you build and maintain the website on a workstation and upload it to a webserver for publication,  <application>Publican</application> and <application>rpm</application> do not need to be installed on the webserver.
 	</para>
 	<para>
-		The websites that <application>Publican</application> creates consist of three parts: the website structure, a home page, and the documents published on the site. 
+		The websites that <application>Publican</application> creates consist of three parts: the website structure, a home page, and the documents published on the site. The website structure itself consists of:
 	</para>
-	<section id="sect-Users_Guide-Website-structure">
-		<title>The website structure</title>
+	<itemizedlist>
+		<listitem>
 			<para>
-				The website structure itself consists of:
+				a configuration file.
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				an SQLite database file.
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				a subdirectory for the published documents, which contains:
 			</para>
 			<itemizedlist>
 				<listitem>
 					<para>
-						a configuration file.
+						<filename>index.html</filename> — an index page that redirects to localized versions of a home page for the site.
 					</para>
 				</listitem>
 				<listitem>
 					<para>
-						an SQLite database file.
+						<filename>interactive.css</filename> — a CSS stylesheet that contains styles for the navigation menu, map, and site statistics page.
 					</para>
 				</listitem>
 				<listitem>
 					<para>
-						a subdirectory for the published documents, which contains:
+						<filename>Sitemap</filename> — an XML Sitemap to assist search engines to crawl the site.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<filename>toc.html</filename> — a static map of the documents on the site, to assist visitors to the site who do not have JavaScript enabled on their browsers.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<filename>toc.js</filename> — a JavaScript script that directs visitors to localized content based on the locale set in their browser and which controls the presentation of the navigation menu.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						subdirectories for each language in which you publish. Initially, this contains: <filename>Site_Statistics.html</filename>
 					</para>
 					<itemizedlist>
 						<listitem>
 							<para>
-								<filename>index.html</filename> — an index page with no content that redirects to localized versions of a home page for the site.
+								<filename>Site_Statistics.html</filename> — an overview of the documentation installed on the site.
 							</para>
 						</listitem>
 						<listitem>
 							<para>
-								<filename>interactive.css</filename> — a CSS stylesheet that contains styles for the navigation menu, map, and site statistics page.
+								<filename>Site_Tech.html</filename> — an overview of the technology used to build the site.
 							</para>
 						</listitem>
 						<listitem>
 							<para>
-								<filename>Sitemap</filename> — an XML Sitemap to assist search engines to crawl the site.
+								<filename>toc.html</filename> — the table of contents for that language, initially without links to any documents.
 							</para>
-						</listitem>
-						<listitem>
-							<para>
-								<filename>toc.html</filename> — a static map of the documents on the site, to assist visitors to the site who do not have JavaScript enabled on their browsers.
-							</para>
-						</listitem>
-						<listitem>
-							<para>
-								<filename>toc.js</filename> — a JavaScript script that directs visitors to localized content based on the locale set in their browser and controls the presentation of the navigation menu.
-							</para>
-						</listitem>
-						<listitem>
-							<para>
-								subdirectories for each language in which you publish. Initially, this contains: <filename>Site_Statistics.html</filename>
-							</para>
-							<itemizedlist>
-								<listitem>
-									<para>
-										<filename>Site_Statistics.html</filename> — an overview of the documentation installed on the site.
-									</para>
-								</listitem>
-								<listitem>
-									<para>
-										<filename>Site_Tech.html</filename> — an overview of the technology used to build the site.
-									</para>
-								</listitem>
-								<listitem>
-									<para>
-										<filename>toc.html</filename> — the table of contents for that language, initially empty.
-									</para>
-								</listitem>
-							</itemizedlist>
 						</listitem>
 					</itemizedlist>
 				</listitem>
 			</itemizedlist>
-			
-			<section id="sect-Users_Guide-Website-structure-cfg_and_db">
-				<title>Creating the website structure</title>
-			
-				<para>
-					To build the website structure:
-				</para>
-				<procedure>
-					<step>
-						<para>
-							Create a new directory and change into it. For example, on a Linux system, run:
-						</para>
-<screen><command>mkdir ~/docsite</command>
-<command>cd ~/docsite</command></screen>
-					</step>
-					<step>
-						<para>
-							Run <command>publican create_site</command>, specifying the following parameters:
-						</para>
-						<itemizedlist>
-							<listitem>
-								<para>
-									<option>--site_config</option> — the name of the configuration file for your site, with the filename extension <filename>.cfg</filename>
-								</para>
-							</listitem>
-							<listitem>
-								<para>
-									<option>--db_file</option> — the name of the SQLite database file for your site, with the filename extension <filename>.db</filename>
-								</para>
-							</listitem>
-							<listitem>
-								<para>
-									<option>--toc_path</option> — the path to the directory in which you will place your documents
-								</para>
-							</listitem>
-						</itemizedlist>
-						<para>
-							On a computer with an operating system other than Linux, also set:
-						</para>
-						<itemizedlist>
-							<listitem>
-								<para>
-									<option>--temp_path</option> — the path to the <filename>templates/</filename> directory of your <application>Publican</application> installation. On computers with Windows operating systems, this is typically <filename><replaceable>%SystemDrive%</replaceable>\<replaceable>%ProgramFiles%</replaceable>\Publican\templates</filename>.
-								</para>
-							</listitem>
-						</itemizedlist>
-						<para>
-							For example:
-						</para>
-<screen><command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
-						<para>
-							Typically, you might give names to the site configuration file and database file that help you to recognize the site to which they belong. For example, for the <application>FooMaster</application> documentation site, you might call these files <filename>foomaster.cfg</filename> and <filename>foomaster.db</filename>.  
-						</para>
-						<para>
-							If you plan to install documentation on the webserver with  <application>Publican</application>-generated RPM packages, set <parameter>--toc_path</parameter> to <literal>/var/www/html/docs</literal>. If you plan to build the site manually and upload it to the webserver, you can set <parameter>--toc_path</parameter> to whatever you choose.
-						</para>
-					</step>
-					<step>
-						<para>
-							If you plan to install <application>Publican</application>-generated RPM packages of documents on the site, transfer the site structure to the  <filename>/var/www/</filename> directory of your webserver now by whatever process you usually use, for example <application>scp</application>, <application>rsync</application>, or an FTP client. If you plan to build the site manually, you can wait until you finish building the site and then upload the complete site.
-						</para>
-					</step>
-				</procedure>
-				<para>
-					To make <application>Publican</application> refresh the site structure at any time, run: 
-				</para>
-<screen><command>publican update_site --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg</command></screen>
-			</section>
-			
-			
-		</section>
-			
-
+		</listitem>
+	</itemizedlist>
+	
+	<section id="sect-Users_Guide-Website-manual">
+		<title>Building a website manually</title>
 		
-		<section id="sect-Users_Guide-Website-structure-home_page">
-			<title>The home page</title>
-			<para>
-				The <application>Publican</application>-generated home page is the localizable page to which visitors are directed by the site JavaScript and which provides the style for the website structure. The home page is structured as a DocBook <sgmltag>&lt;article&gt;</sgmltag> with an extra <parameter>web_home</parameter> parameter in its <filename>publican.cfg</filename> file. To create the home page:
-			</para>
-			<procedure>
-				<step>
-					<para>
-						Change into a convenient directory and run the following <command>publican create</command> command:
-					</para>
-<screen><command>publican create --type Article --name <replaceable>page_name</replaceable></command></screen>
-					<para>
-						For example:
-					</para>
-<screen><command>publican create --type Article --name Home_Page</command></screen>
-				</step>
-				<step>
-					<para>
-						Change into the article directory. For example:
-					</para>
-<screen><command>cd Home_Page</command></screen>
-				</step>
-				<step>
-					<para>
-						Edit the <filename>Article_Info.xml</filename> file to configure the product name and version number. As with other documents created with <application>Publican</application>, the product name and product version number appear in a banner at the top of the page when built as HTML. Unless the entire site documents only a single version of a product, you might want to suppress the version number. If so, make the  <sgmltag>&lt;productnumber&gt;</sgmltag> tag empty, thus:
-					</para>
-<programlisting>&lt;productnumber&gt;&lt;/productnumber&gt;</programlisting>
-					<para>
-						You might also want to remove or re-order some of the typical content of a DocBook article as rendered by <application>Publican</application>, such as the <sgmltag>&lt;abstract&gt;</sgmltag>, <sgmltag>&lt;corpauthor&gt;</sgmltag>, and the transcluded <sgmltag>&lt;authorgroup&gt;</sgmltag> and <sgmltag>&lt;legalnotice&gt;</sgmltag>.
-					</para>
-					<para>
-						Alternatively, edit the root XML file of your home page to remove the <sgmltag>&lt;xi:include&gt;</sgmltag> that links to <filename>Article_Info.xml</filename>. <application>Publican</application> still uses the information in <filename>Article_Info.xml</filename> for packaging, but does not include it on the page itself.
-					</para>
-				</step>
-				<step>
-					<para>
-						Edit the <filename>publican.cfg</filename> file to add the <parameter>web_home</parameter> parameter and set it to <literal>1</literal> (enabled):
-					</para>
-<programlisting>web_home: 1</programlisting>
-					<para>
-						The <parameter>web_home</parameter> parameter instructs <application>Publican</application> to process this document differently from product documentation. This is the only mandatory change to the <filename>publican.cfg</filename> file. The rest of this step describes other parameters that might be useful but which are not required.
-					</para>
-					<para>
-						To style your home page to match your documents, add:
-					</para>
-<programlisting>brand: <replaceable>name_of_brand</replaceable></programlisting>
-					<para>
-						If you emptied the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename> file, set:
-					</para>
-<programlisting>version: 0.1</programlisting>
-					<para>
-						If the <sgmltag>&lt;title&gt;</sgmltag> or the <sgmltag>&lt;product&gt;</sgmltag> that you set in the <filename>Article_Info</filename> file included anything other than basic, unaccented Latin characters, set the <parameter>docname</parameter> and <parameter>product</parameter> as necessary.
-					</para>
-					<para>
-						<application>Publican</application> creates a separate, translatable navigation menu for each language in which you publish documentation. However, a document is not available in a particular language, <application>Publican</application> links visitors to the translated version of that document. To specify the default, untranslated language for the site, set <parameter>def_lang</parameter> with a language code. For example:
-					</para>
-<programlisting>def_lang: fr-FR</programlisting>
-					<para>
-						With <parameter>def_lang</parameter> set to <literal>fr-FR</literal>, visitors viewing the navigation menu in (for example) Spanish are presented with a link to the original French version of the document if the document has not yet been translated into Spanish.
-					</para>
-					<para>
-						The navigation menu also includes a search box that submits a query to Google. To constrain the results to only hits on your site, set the <parameter>web_host</parameter> parameter. For example, to limit the Google results to only pages on your website at <literal>http://docs.example.com</literal>, set:
-					</para>
-<programlisting>web_host: http://docs.example.com</programlisting>
-					<para>
-						<application>Publican</application> also uses the value set for <parameter>web_host</parameter> to construct the URLs in the XML <filename>Sitemap</filename> that it creates for search engine crawlers. Therefore, when you set this parameter, make sure you use the full URL, including the protocol (for example, <literal>http://</literal>).
-					</para>
-					<para>
-						If you prefer to use a search engine other than Google, or want to customize the search, use the <parameter>web_search</parameter> parameter to specify the entire content of a HTML <sgmltag>&lt;form&gt;</sgmltag>. For example, to construct a Yahoo! search limited to <literal>docs.example.com</literal>, set:
-					</para>
-<programlisting language="HTML">web_search: '&lt;form target="_top" method="get" action="http://search.yahoo.com/search"&gt; &lt;div class="search"&gt; &lt;input type="text" name="p" value="" /&gt; &lt;input type="hidden" name="vs" value="docs.example.com" /&gt; &lt;input type="submit" value="###Search###" /&gt; &lt;/div&gt; &lt;/form&gt;'</programlisting>
-					<para>
-						Refer to the documentation of your chosen search engine for details of how to construct custom searches.
-					</para>
-					<para>
-						If you set <literal>value="###Search###"</literal> on the code for a submit button, <application>Publican</application> uses the word <literal>Search</literal> on the button, localized into any language that <application>Publican</application> supports. 
-					</para>
-					<important>
-						<title>Important — Publican does not validate the web_search parameter</title>
-						<para>
-							<application>Publican</application> does not validate the <parameter>web_search</parameter> parameter, but builds the value of this parameter into the navigation menu exactly as you specify it. Be especially careful when you use this feature.
-						</para>
-					</important>
-				</step>
-				<step>
-					<para>
-						Edit the content of the <filename><replaceable>page_name</replaceable>.xml</filename> file (for example, <filename>Home_Page.xml</filename>) as you would any other DocBook document.
-					</para>
-					<para>
-						If you remove the <sgmltag>&lt;xi:include&gt;</sgmltag> that links to <filename>Article_Info.xml</filename>, specify a title for your page in the following format:
-					</para>
-<programlisting language="XML">&lt;title role="producttitle"&gt;FooMaster Documentation&lt;/title&gt;</programlisting>
-				</step>
-				<step>
-					<para>
-						If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <command>publican update_pot</command> and <command>publican update_po</command> commands.
-					</para>
-				</step>
-				<step>
-					<para>
-						To customize the logo at the top of the navigation menu that provides a link back to the home page, create a PNG image 300&nbsp;px&nbsp;×&nbsp;100&nbsp;px and name it  <filename>web_home.png</filename>. Place this image in the <filename>images/</filename> directory in the document's XML directory, for example <filename>en-US/images/</filename>.
-					</para>
-				</step>
-				<step>
-					<para>
-						If you are building your website manually, build the home page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:
-					</para>
-<screen><command>publican build --publish --formats html-single --embedtoc</command> 
-<command>publican install_book --site_config ~/docsite/foomaster.cfg</command></screen>
-					<para>
-						Alternatively, to build RPM packages to install on your webserver, run the following command for each language in which you publish documentation:
-					</para>
-<screen><command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
-				</step>
-			</procedure>
-
-		</section>
-		<section id="sect-Users_Guide-Website-structure-documents">
-			<title>Installing, updating and removing documents</title>
-			<section  id="sect-Users_Guide-Website-structure-documents-manual">
-				<title>Installing, updating and removing documents manually</title>
-				<para>
-					To install a document on a website that you are building manually, change into the directory that contains the source for the document and run: 
-				</para>
-<screen><command>publican build --embedtoc --formats=<replaceable>list_of_formats</replaceable> --langs=<replaceable>language_codes</replaceable> --publish</command> 
-<command>publican install_book --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg --lang <replaceable>language_code</replaceable></command></screen>
-				<para>
-					Note that you can run a single <command>publican build</command> command for all languages that you want to publish, but must run a separate <command>publican install_book</command> for each language. You must include <literal>html</literal> as one of the formats in the <command>publican build</command>; optionally, include any or all of the following formats in a comma-separated list: <literal>html-single</literal>, <literal>pdf</literal>, and <literal>epub</literal>.
-				</para>
-				<para>
-					To update a document, change into the directory that contains the updated source for the document and run the same commands as if you were installing the document for the first time. <application>Publican</application> replaces the old version with the new version.
-				</para>
-				<para>
-					To remove a document, change into the directory that contains the source for the document and run:
-				</para>
-<screen><command>publican remove_book --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg --lang <replaceable>language_code</replaceable></command></screen>
-				<para>
-					When you have installed the documents, the website is ready to upload to your webserver by whatever process you usually use, for example <application>scp</application>, <application>rsync</application>, or an FTP client.
-				</para>
-			</section>
-			<section  id="sect-Users_Guide-Website-structure-documents-rpm">
-				<title>Installing, updating and removing documents as RPM packages</title>
-				<para>
-					To use an RPM package to install a document on a website, change into the directory that contains the source for the document and run: 
-				</para>
-<screen><command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
-				<para>
-					<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the document. Note that by default, <application>Publican</application> generates an RPM package to install on a Red Hat Enterprise Linux 5 server. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_var</parameter> parameter in the <filename>publican.cfg</filename> file. 
-				</para>
-				<para>
-					Either upload the document packages to the webserver and install them with the <command>rpm -i</command> or <command>yum localinstall</command> command, or place the packages in a repository and configure the webserver to install from that repository when you run <command>yum install</command>.
-				</para>
-				<para>
-					To update a document, build a new package with a higher <sgmltag>&lt;edition&gt;</sgmltag> number or <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename>. <application>Publican</application> uses these values to set the version and release numbers for the RPM package. When you install this package on your webserver, <application>yum</application> can replace the old version with the new when you run <command>yum localinstall</command> for a local package, or <command>yum update</command> for a package fetched from a repository.
-				</para>
-				<para>
-					Remove a document from the webserver with the <command>rpm -e</command> or <command>yum erase</command> command.
-				</para>
-			</section>
-		</section>
-		<section id="sect-Users_Guide-Website-automation">
+		<xi:include href="Websites_structure_manual.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
+		<xi:include href="Websites_homepage_manual.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
+		<xi:include href="Websites_documents_manual.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
+	</section>
+	
+	<section id="sect-Users_Guide-Website-rpm">
+		<title>Building a website using RPM packages</title>
+		
+		<xi:include href="Websites_structure_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
+		<xi:include href="Websites_homepage_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
+		<xi:include href="Websites_documents_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
+			<section id="sect-Users_Guide-Website-automation">
 			<title>Automating publishing</title>
 			<para>
 				Because <application>Publican</application> can generate RPM packages, you can use <application>Publican</application> together with an RPM build system like <application>Koji</application> to automate your publishing process. When a document is ready for publication, the writer or translator runs the following command:
@@ -351,7 +133,7 @@
 				If your webserver periodically checks for updated packages in the repository in which <application>Koji</application> places built packages, the webserver can automatically install updated versions of your documents. 
 			</para>
 			<para>
-				You might also implement a system of tags where a writer or translator could run <command>koji tag-pkg</command> to apply a tag that tells the webserver to publish the document only on a staging site for proofreading and review; or a different tag that tells the webserver to publish the document publicly.
+				You might also implement a system of tags where a writer or translator could run <command>koji tag-pkg</command> to apply a <firstterm>tag</firstterm> to the built package. You can then have different webservers install the package, depending on which tags are applied to it. For example, you could configure a server on your intranet to install any packages tagged <literal>draft</literal> and make them available internally for proofreading and technical review. You could then configure the server that publishes documents publicly on the web to install packages only when they are tagged <literal>public</literal>.
 			</para>
 			<para>
 				To prepare a document for building in a <application>Koji</application> instance, edit the <filename>publican.cfg</filename> file to specify:
@@ -388,6 +170,9 @@
 			</para>
 
 		</section>
+
+		
+	</section>
 
 </chapter>
 
