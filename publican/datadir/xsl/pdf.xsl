@@ -2573,7 +2573,7 @@ because it has to parse lines one by one to place the gfx
 <!-- need ID in term -->
 <xsl:template match="varlistentry/term">
   <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
-  <fo:inline id="{$id}">
+  <fo:inline id="{$id}"><xsl:text>&#x200B;</xsl:text>
     <xsl:call-template name="simple.xlink">
       <xsl:with-param name="content">
         <xsl:apply-templates/>

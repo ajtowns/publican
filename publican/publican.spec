@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}
+Release:        0%{?dist}.t2
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -222,6 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Fix images/icon.svg breaking rpm build. BZ #612515
+- Fix empty term breaking PDF build. BZ #614728
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.
