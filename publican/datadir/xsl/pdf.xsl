@@ -35,7 +35,7 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
 <!-- This is required to get footnotes to format correctly due to overriding para BZ #565903 -->
-<!-- This has to use include to get the override working -->
+<!-- This has to use include to get the override working, do not change to import -->
 <xsl:include href="http://docbook.sourceforge.net/release/xsl/current/fo/footnote.xsl"/>
 <xsl:include href="defaults.xsl"/>
 <xsl:param name="alignment">
