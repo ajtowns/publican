@@ -35,8 +35,9 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"/>
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
 <!-- This is required to get footnotes to format correctly due to overriding para BZ #565903 -->
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/footnote.xsl"/>
-<xsl:import href="defaults.xsl"/>
+<!-- This has to use include to get the override working -->
+<xsl:include href="http://docbook.sourceforge.net/release/xsl/current/fo/footnote.xsl"/>
+<xsl:include href="defaults.xsl"/>
 <xsl:param name="alignment">
 	<xsl:choose>
 		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW' or $l10n.gentext.language = 'ja-JP' or $l10n.gentext.language = 'ko-KR'">
@@ -2608,6 +2609,29 @@ because it has to parse lines one by one to place the gfx
 
 <!-- do nothing -->
 <xsl:template match="primary|secondary|tertiary" mode="xref-to">
+</xsl:template>
+
+<!--
+
+copied verbatim from footnotes.xsl
+
+Not sure why it doesn't work in there.
+
+-->
+<xsl:template match="footnote/para[1]
+                     |footnote/simpara[1]
+                     |footnote/formalpara[1]"
+              priority="2">
+  <!-- this only works if the first thing in a footnote is a para, -->
+  <!-- which is ok, because it usually is. -->
+  <fo:block>
+    <xsl:call-template name="format.footnote.mark">
+      <xsl:with-param name="mark">
+        <xsl:apply-templates select="ancestor::footnote" mode="footnote.number"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:apply-templates/>
+  </fo:block>
 </xsl:template>
 
 </xsl:stylesheet>
