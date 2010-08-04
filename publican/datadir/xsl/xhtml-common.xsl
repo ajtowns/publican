@@ -115,14 +115,14 @@ Version: 1.72.0
 	</xsl:variable>
 
 	<div xmlns="http://www.w3.org/1999/xhtml">
-	 	 <xsl:apply-templates select="." mode="class.attribute"/>
-		<xsl:if test="$admon.style != ''">
-			<xsl:attribute name="style">
-				<xsl:value-of select="$admon.style"/>
-			</xsl:attribute>
-		</xsl:if>
+		<xsl:apply-templates select="." mode="class.attribute"/>
+			<xsl:if test="$admon.style != ''">
+				<xsl:attribute name="style">
+					<xsl:value-of select="$admon.style"/>
+				</xsl:attribute>
+			</xsl:if>
 
-		<xsl:call-template name="anchor"/>
+	                <xsl:call-template name="common.html.attributes"/>
 			<xsl:if test="$admon.textlabel != 0 or title">
 				<h2>
 					<xsl:apply-templates select="." mode="object.title.markup"/>
@@ -203,6 +203,7 @@ Version: 1.72.0
 	<xsl:variable name="preamble" select="*[not(self::step or self::title or self::titleabbrev)] |comment()[not(preceding-sibling::step)]	|processing-instruction()[not(preceding-sibling::step)]"/>
 	<div xmlns="http://www.w3.org/1999/xhtml">
 		<xsl:apply-templates select="." mode="class.attribute"/>
+		<xsl:call-template name="common.html.attributes"/>
 		<xsl:call-template name="anchor">
 			<xsl:with-param name="conditional">
 				<xsl:choose>
@@ -428,6 +429,7 @@ Version: 1.72.0
 -->
 <xsl:template match="itemizedlist">
   <div xmlns="http://www.w3.org/1999/xhtml">
+    <xsl:call-template name="common.html.attributes"/>
     <xsl:apply-templates select="." mode="class.attribute"/>
     <xsl:call-template name="anchor"/>
     <xsl:if test="title">
@@ -2500,6 +2502,18 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
     </xsl:otherwise>
   </xsl:choose>
 
+</xsl:template>
+
+<!-- change anchor to common.html.attributes -->
+<xsl:template match="varlistentry">
+  <dt>
+    <!--xsl:call-template name="anchor"/-->
+    <xsl:call-template name="common.html.attributes"/>
+    <xsl:apply-templates select="term"/>
+  </dt>
+  <dd>
+    <xsl:apply-templates select="listitem"/>
+  </dd>
 </xsl:template>
 
 </xsl:stylesheet>
