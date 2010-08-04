@@ -924,23 +924,6 @@ GET_COUNTS
         push( @lang_stats, \%stats );
     }
 
-    # This catches all the languages in the list without books installed.
-    foreach my $lang ( sort( keys(%LANG_NAME) ) ) {
-        if ( !defined $found_langs{$lang} ) {
-            $total_langs++;
-            my %stats;
-            $lang =~ m/^([^-_]*)/;
-            my $lang_name = code2language($1) || $lang;
-            $stats{'language'} = $lang_name;
-            $stats{'code'}     = $lang;
-            $stats{'packages'} = 0;
-            $stats{'books'}    = 0;
-            $stats{'products'} = 0;
-            $stats{'versions'} = 0;
-            push( @lang_stats, \%stats );
-        }
-    }
-
     foreach my $lang ( keys(%found_langs) ) {
 
         my $vars = {

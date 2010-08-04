@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t8
+Release:        0%{?dist}.t9
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -226,6 +226,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix footnote not catching modified para. BZ #565903
 - Fix SRPM not including web labels. BZ #621036
 - Update tocs with home page is updated. BZ #612027
+- Don't display stats for unused languages. BZ #613500
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.
