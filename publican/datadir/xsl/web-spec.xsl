@@ -6,7 +6,7 @@
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
 <xsl:template match="/">#Publican Document Specfile
-%define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
+%define HTMLVIEW %(test %{?dist} == .el5  &amp;&amp; echo 1 || echo 0)
 
 %define viewer xdg-open
 %define ICONS <xsl:value-of select="$ICONS"/>
@@ -84,7 +84,7 @@ for icon in `ls icons/*x*.png`; do
 done
 cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %else
-cp images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+cp <xsl:value-of select="$lang"/>/images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %endif
 
 
@@ -113,7 +113,7 @@ if [ "$1" = "0" ] ; then # last uninstall
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single", "epub"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format" }); } $ws->regen_all_toc();'
+%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single", "epub"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format", product_label => "<xsl:value-of select="$product_label" />", version_label => "<xsl:value-of select="$version_label" />", name_label => "<xsl:value-of select="$name_label" />" }); } $ws->regen_all_toc();'
 
 # Update Icon cache if it exists
 %post -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
@@ -140,6 +140,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc <xsl:value-of select="$tmpdir"/>/<xsl:value-of select="$lang"/>/html-desktop/*
 %if %{ICONS}
 /usr/share/icons/hicolor/*
+%else
+/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg
 %endif
 %if %{HTMLVIEW}
 %{_datadir}/applications/redhat-<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop

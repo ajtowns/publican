@@ -1210,13 +1210,13 @@ sub insertCallouts {
                     my $col = $child->getAttribute('coords')
                         || carp(
                         maketext("'area' requires a 'coords' attribute.") );
-                    if( $col =~ m/^(\d+)\s+(\d+)$/ ) {
+                    if ( $col =~ m/^(\d+)\s+(\d+)$/ ) {
                         $col = $1;
                         $pos = $2;
                     }
 
                     push( @{ $callout{$col}{lines} }, $index );
-                    $callout{$col}{'pos'} = $pos ;
+                    $callout{$col}{'pos'} = $pos;
                 }
             }
         }
@@ -1226,7 +1226,7 @@ sub insertCallouts {
             my $col = $node->getAttribute('coords')
                 || carp( maketext("'area' requires a 'coords' attribute.") );
 
-            if( $col =~ m/^(\d+)\s+(\d+)$/ ) {
+            if ( $col =~ m/^(\d+)\s+(\d+)$/ ) {
                 $col = $1;
                 $pos = $2;
             }
@@ -1321,7 +1321,7 @@ sub insertCallouts {
             # if the position requested is less than the line length,
             # use the calculated position instead
             my $pos = $callout{$count}{'pos'};
-            $pos = $position if($pos < $callout{$count}{'length'});
+            $pos = $position if ( $pos < $callout{$count}{'length'} );
 
             my $padding = $pos - ( $callout{$count}{'length'} || 0 );
             $out_string .= " " x $padding;
@@ -1747,15 +1747,20 @@ sub package {
     my $xsl_file      = $common_config . "/xsl/web-spec.xsl";
     $xsl_file = $common_config . "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
     $xsl_file =~ s/"//g;    # windows
-    my $license       = $self->{publican}->param('license');
-    my $brand         = lc( $self->{publican}->param('brand') );
-    my $doc_url       = $self->{publican}->param('doc_url');
-    my $src_url       = $self->{publican}->param('src_url');
-    my $dt_obsoletes  = $self->{publican}->param('dt_obsoletes') || "";
-    my $web_obsoletes = $self->{publican}->param('web_obsoletes') || "";
-    my $os_ver        = $self->{publican}->param('os_ver');
-    my $translation   = ( $lang ne $xml_lang );
-    my $language      = code2language( substr( $lang, 0, 2 ) );
+    my $license           = $self->{publican}->param('license');
+    my $brand             = lc( $self->{publican}->param('brand') );
+    my $doc_url           = $self->{publican}->param('doc_url');
+    my $src_url           = $self->{publican}->param('src_url');
+    my $dt_obsoletes      = $self->{publican}->param('dt_obsoletes') || "";
+    my $web_obsoletes     = $self->{publican}->param('web_obsoletes') || "";
+    my $os_ver            = $self->{publican}->param('os_ver');
+    my $translation       = ( $lang ne $xml_lang );
+    my $language          = code2language( substr( $lang, 0, 2 ) );
+    my $web_product_label = $self->{publican}->param('web_product_label')
+        || "";
+    my $web_version_label = $self->{publican}->param('web_version_label')
+        || "";
+    my $web_name_label = $self->{publican}->param('web_name_label') || "";
 
     my $log = $self->change_log();
     my $abstract = $self->abstract( { lang => $lang } );
@@ -1780,6 +1785,9 @@ sub package {
         abstract      => $abstract,
         tmpdir        => $tmp_dir,
         ICONS         => ( -e "$xml_lang/icons" ? 1 : 0 ),
+        product_label => $web_product_label,
+        version_label => $web_version_label,
+        name_label    => $web_name_label,
     );
 
     logger(
