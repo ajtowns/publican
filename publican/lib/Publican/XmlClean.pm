@@ -837,7 +837,7 @@ sub my_as_XML {
                         if ( -f $img_file ) {
                             my ( $width, $height ) = imgsize($img_file);
                             my $max_width
-                                = $self->{publican}->param('max_image_width');
+                                = $self->{publican}->param('max_image_width') || 10000;
                             my $set_width = $node->attr('width') || 0;
                             $set_width =~ s/[^\d]//g;
                             $max_width = $set_width
