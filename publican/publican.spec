@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t20
+Release:        0%{?dist}.t23
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -231,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix admonitions/varlistentry not having IDs. BZ #616112
 - Fix procedure/itemizedlist not having IDs. BZ #612817
 - Catch invalid revision in translation. BZ #621721
+- Limit index.html redirection to installed languages. BZ #612009
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.

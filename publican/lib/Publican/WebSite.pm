@@ -589,6 +589,17 @@ sub regen_all_toc {
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );
 
+    # regenerate main index.html
+    $vars = ();
+    my $locales = join(",", map(qq|"$_->[0]"|, @{$langs}));
+    $vars = { locales => $locales, };
+    $self->{Template}->process(
+        'index.tmpl', $vars,
+        $self->{toc_path} . "/index.html",
+        binmode => ':utf8'
+    ) or croak( $self->{Template}->error() );
+
+
     return;
 }
 

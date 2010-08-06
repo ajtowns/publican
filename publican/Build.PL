@@ -272,6 +272,7 @@ my $builder = $class->new(
         'web/images/arrows.png' => 'web/images/arrows.png',
     },
     templates_files => {
+        'templates/index.tmpl'      => 'templates/index.tmpl',
         'templates/static_toc.tmpl' => 'templates/static_toc.tmpl',
         'templates/toc.tmpl'        => 'templates/toc.tmpl',
         'templates/stats.tmpl'      => 'templates/stats.tmpl',
