@@ -1666,7 +1666,7 @@ sub package {
                     $line =~ /^"Project-Id-Version:\s*(.*)"$/;
                     $real_value = $1;
                     $line =~ /^"Project-Id-Version:\s*([\d.]*).*"$/;
-                    $release = $1 || undef;
+                    $release = $1;
                     last;
                 }
             }
@@ -1678,7 +1678,7 @@ sub package {
                     $real_value,
                     $po_file
                 )
-            ) unless defined $release;
+            ) unless defined $release && $release ne "";
         }
         else {
             croak(

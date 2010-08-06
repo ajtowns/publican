@@ -154,6 +154,7 @@ Version: 1.72.0
 -->
 <xsl:template match="orderedlist">
 	<div xmlns="http://www.w3.org/1999/xhtml">
+		<xsl:call-template name="common.html.attributes"/>
 		<xsl:apply-templates select="." mode="class.attribute"/>
 		<xsl:call-template name="anchor"/>
 		<xsl:if test="title">

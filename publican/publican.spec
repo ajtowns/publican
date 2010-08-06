@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t26
+Release:        0%{?dist}.t29
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -229,7 +229,7 @@ rm -rf $RPM_BUILD_ROOT
 - Update tocs with home page is updated. BZ #612027
 - Don't display stats for unused languages. BZ #613500
 - Fix admonitions/varlistentry not having IDs. BZ #616112
-- Fix procedure/itemizedlist not having IDs. BZ #612817
+- Fix procedure/itemizedlist/orderedlist not having IDs. BZ #612817
 - Catch invalid revision in translation. BZ #621721
 - Limit index.html redirection to installed languages. BZ #612009
 - Fix smaller width being overridden by max_image_width. BZ #613140
