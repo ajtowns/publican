@@ -836,6 +836,13 @@ sub my_as_XML {
                             if ($clean_id);
                         if ( -f $img_file ) {
                             my ( $width, $height ) = imgsize($img_file);
+                            my $max_width
+                                = $self->{publican}->param('max_image_width');
+                            my $set_width = $node->attr('width') || 0;
+                            $set_width =~ s/[^\d]//g;
+                            $max_width = $set_width
+                                if ( $set_width && $set_width < $max_width );
+
                             if ( $@ || !$width ) {
                                 logger(
                                     maketext(
@@ -845,13 +852,8 @@ sub my_as_XML {
                                         . "\n"
                                 );
                             }
-                            elsif ( $width
-                                > $self->{publican}->param('max_image_width')
-                                )
-                            {
-                                $node->attr( 'width',
-                                    $self->{publican}
-                                        ->param('max_image_width') );
+                            elsif ( $width > $max_width ) {
+                                $node->attr( 'width', $max_width );
                             }
                         }
                         elsif ( $img_file !~ /Common_Content/ ) {
