@@ -16,7 +16,7 @@ table after
 procedure before 
 </xsl:param>
 
-<xsl:param name="prod.url" select="'http://www.redhat.com/docs'"/>
+<xsl:param name="prod.url" select="'http://fedorahosted.org/publican'"/>
 <xsl:param name="doc.url" select="'http://fedorahosted.org/publican'"/>
 
 <xsl:param name="generate.section.toc.level" select="0"/>
@@ -211,7 +211,7 @@ Copied from fo/params.xsl
     <!-- or use the default -->
     <xsl:otherwise>
       <xsl:message>
-        <xsl:text>No localization exists for "</xsl:text>
+        <xsl:text>No DocBook localization exists for "</xsl:text>
         <xsl:value-of select="$adjusted.language"/>
         <xsl:text>" or "</xsl:text>
         <xsl:value-of select="substring-before($adjusted.language,'_')"/>

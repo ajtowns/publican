@@ -63,7 +63,7 @@ my $class = Module::Build->subclass(
         my $cwd = getcwd();
         my $dir = pushd('datadir/Common_Content/common');
         my $path = "$cwd/blib/datadir/Common_Content";
-	return if(-d $path);
+        return if(-d $path);
         die "can't chdir: $@" if $@;
 
         my $publican = Publican->new();
@@ -80,6 +80,19 @@ my $class = Module::Build->subclass(
       sub ACTION_update_pot {
         my $self = shift;
         $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
+      }
+      sub ACTION_update_po {
+        my $self = shift;
+        use File::Find::Rule;
+        my @po_files = find(
+                maxdepth  => 1,
+                file => name => "*.po",
+                in        => 'po',
+                relative  => 0,
+        );
+        foreach my $po_file (@po_files) {
+            $self->do_system("msgmerge --quiet --no-wrap --backup=none --update $po_file po/publican.pot");
+        }
       }
       sub  process_generated_files {
         my $self = shift;
@@ -99,15 +112,15 @@ my $class = Module::Build->subclass(
                 in        => 'tmp',
                 relative  => 0,
         ) );
-		foreach my $lang_dir (@lang_dirs) {
-			my $new_dir = $lang_dir;
-			$new_dir =~ s/tmp\///;
-			$new_dir = "$pwd/blib/generated/$new_dir";
-			mkpath($new_dir);
-			rcopy("$lang_dir/html-single/index.html", "$new_dir/Site_Tech.html");
-		    if ( -d "$lang_dir/html-single/images" ) {
-    			mkpath("$new_dir/images");
-			    rcopy( "$lang_dir/html-single/images/*", "$new_dir/images/.");
+        foreach my $lang_dir (@lang_dirs) {
+            my $new_dir = $lang_dir;
+            $new_dir =~ s/tmp\///;
+            $new_dir = "$pwd/blib/generated/$new_dir";
+            mkpath($new_dir);
+            rcopy("$lang_dir/html-single/index.html", "$new_dir/Site_Tech.html");
+            if ( -d "$lang_dir/html-single/images" ) {
+                mkpath("$new_dir/images");
+                rcopy( "$lang_dir/html-single/images/*", "$new_dir/images/.");
             }
         }
       }
@@ -231,11 +244,11 @@ my $builder = $class->new(
     ],
     script_files => ['bin/publican'],
     install_path => {
-        'datadir'      => '/usr/share/publican',
-        'generated'    => '/usr/share/publican/sitetemplate',
-        'web'          => '/usr/share/publican/sitetemplate',
-        'templates'    => '/usr/share/publican/templates',
-        'etc'          => '/etc',
+        'datadir'   => '/usr/share/publican',
+        'generated' => '/usr/share/publican/sitetemplate',
+        'web'       => '/usr/share/publican/sitetemplate',
+        'templates' => '/usr/share/publican/templates',
+        'etc'       => '/etc',
     },
     data_files => {
         'datadir/fop/fop.xconf' => 'datadir/fop/fop.xconf',
@@ -270,6 +283,7 @@ my $builder = $class->new(
 $builder->add_build_element('common');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
+
 #$builder->add_build_element('sitetemplate');
 $builder->add_build_element('templates');
 $builder->add_build_element('etc');

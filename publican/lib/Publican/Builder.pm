@@ -1658,11 +1658,15 @@ sub package {
 
         if ( -f $po_file ) {
             my $PO;
+            my $real_value;
             open( $PO, "<:utf8", $po_file )
                 || croak( maketext( "Can't open PO file: [_1]", $po_file ) );
-            while (<$PO>) {
-                if (/"Project-Id-Version:\s*(\d*).*"$/) {
-                    $release = $1;
+            foreach my $line (<$PO>) {
+                if ( $line =~ /^"Project-Id-Version:/ ) {
+                    $line =~ /^"Project-Id-Version:\s*(.*)"$/;
+                    $real_value = $1;
+                    $line =~ /^"Project-Id-Version:\s*([\d.]*).*"$/;
+                    $release = $1 || undef;
                     last;
                 }
             }
@@ -1670,7 +1674,8 @@ sub package {
 
             croak(
                 maketext(
-                    "Project-Id-Version in [_1] is not a valid release value.",
+                    "Project-Id-Version '[_1]' in [_2] is not a valid release value.",
+                    $real_value,
                     $po_file
                 )
             ) unless defined $release;
