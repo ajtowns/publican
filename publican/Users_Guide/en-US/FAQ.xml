@@ -96,62 +96,7 @@
 			</answer>
 
 		</qandaentry>
-		 <qandaentry>
-			<question>
-				<para>
-					I have extensive code samples for my book, how can I include them without having to XML escape everything?
-				</para>
 
-			</question>
-			 <answer>
-				<para>
-					The best way to do this is to create a directory named <filename>extras</filename> in your source language directory and use an <sgmltag>xi:include</sgmltag> to pull in the code file.
-				</para>
-				 <procedure id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
-					<title>Including code samples</title>
-					 <step>
-						<para>
-							Create the extras directory
-						</para>
-						 
-<screen><command>mkdir <filename>en-US/extras</filename></command>
-</screen>
-
-					</step>
-					 <step>
-						<para>
-							Copy the code file to the extras directory
-						</para>
-						 
-<screen><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
-</screen>
-
-					</step>
-					 <step>
-						<para>
-							<sgmltag>xi:include</sgmltag> the sample file in your xml file
-						</para>
-						 
-<programlisting language="XML">&lt;programlisting&gt;
-&lt;xi:include parse=&quot;text&quot; href=&quot;extras/foo.c&quot; xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot; /&gt;
-&lt;/programlisting&gt;
-
-</programlisting>
-
-					</step>
-					 <step>
-						<para>
-							You can now edit <filename>en-US/extras/foo.c</filename> in your favorite editor without having to be concerned about how it will affect the XML.
-						</para>
-
-					</step>
-
-				</procedure>
-				
-
-			</answer>
-
-		</qandaentry>
 		 <qandaentry>
 			<question>
 				<para>
