@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:dc="http://purl.org/dc/terms/"
+      xmlns:opds="http://opds-spec.org/2010/catalog">
+  <id>[% site_id %]</id>
+  <link rel="self"  href="/opds-catalogs/new.xml" type="application/atom+xml;type=feed;profile=opds-catalog"/>
+  <link rel="start" href="/opds-catalogs/root.xml" type="application/atom+xml;type=feed;profile=opds-catalog"/>
+  <title>[% site_title %]</title>
+  <updated>[% site_update_date %]</updated>
+  <author>
+    <name>[% site_auth_name %]</name>
+    <uri>[% site_auth_uri %]</uri>
+  </author>
+
+[%- FOREACH urls %]
+  <entry>
+    <title>[% title %]</title>
+    <id>[% id %]</id>
+    <author>
+      <name>[% auth_name %]</name>
+      <uri>[% auth_uri %]</uri>
+    </author>
+    <updated>[% update_date %]</updated>
+    <dc:language>[% lang %]</dc:language>
+    <dc:issued>[% issued %]</dc:issued>
+    <content type="text">[% abstract %]</content>
+    <link type="image/png" rel="http://opds-spec.org/cover"           href="http://opds-spec.org/covers/4561.lrg.png"/>
+    <link type="image/png" rel="http://opds-spec.org/cover-thumbnail" href="http://opds-spec.org/covers/4561.thmb.png"/>
+
+    <link type="application/epub+zip"           
+          rel="http://opds-spec.org/acquisition" 
+          href="[% url %]">
+      <dc:format>application/epub+zip</dc:format>
+    </link>      
+ </entry>
+[%- END %]
+</feed>
