@@ -12,9 +12,6 @@ use Template::Constants;
 use Locale::Language;
 use File::Find::Rule;
 use DateTime;
-## BUGBUG This requires splitting publican into 3 rpms to
-## allow translations to not conflict on systems
-## with web and builder installed
 use Publican;
 use Encode qw(is_utf8 decode_utf8 encode_utf8);
 
@@ -95,14 +92,19 @@ my %tmpl_strings = (
     'iframe'          => maketext(
         'This is an iframe, to view it upgrade your browser or enable iframe display.'
     ),
-    'Code'            => maketext('Code'),
-    'Products'        => maketext('Products'),
-    'Books'           => maketext('Books'),
-    'Versions'        => maketext('Versions'),
-    'Packages'        => maketext('Packages'),
-    'Total_Languages' => maketext('Total Languages'),
-    'Total_Packages'  => maketext('Total Packages'),
-    'Untranslated'    => maketext('Untranslated'),
+    'Code'             => maketext('Code'),
+    'Products'         => maketext('Products'),
+    'Books'            => maketext('Books'),
+    'Versions'         => maketext('Versions'),
+    'Packages'         => maketext('Packages'),
+    'Total_Languages'  => maketext('Total Languages'),
+    'Total_Packages'   => maketext('Total Packages'),
+    'Untranslated'     => maketext('Untranslated'),
+    'index_javascript' => maketext(
+        'This web site requires JavaScript and cookies to be enabled to function correctly.'
+    ),
+    'index_toc' => maketext('Click here to view a static Table of Contents'),
+    'Documentation' => maketext('Documentation'),
 );
 
 sub new {
@@ -507,8 +509,13 @@ sub get_lang_list {
     $langs = $self->_dbh->selectall_arrayref($sql);
 
     unless ( $langs->[0] ) {
-        print("No langs found, using default langs\n");
-        my @langs = ('en-US');
+        debug_msg(
+            maketext(
+                "No languages found, using default language: [_1]\n",
+                $self->{def_lang}
+            )
+        );
+        my @langs = ( $self->{def_lang} );
         $langs->[0] = \@langs;
     }
 
@@ -591,23 +598,30 @@ sub regen_all_toc {
 
     # regenerate main index.html
     $vars = ();
-    my $locales = join(",", map(qq|"$_->[0]"|, @{$langs}));
-    $vars = { locales => $locales, };
+    my $locales = join( ",", map( qq|"$_->[0]"|, @{$langs} ) );
+    $vars = {
+        locales          => $locales,
+        Documentation    => $tmpl_strings{'Documentation'},
+        def_lang         => $self->{def_lang},
+        index_javascript => $tmpl_strings{'index_javascript'},
+        index_toc        => $tmpl_strings{'index_toc'},
+    };
     $self->{Template}->process(
         'index.tmpl', $vars,
         $self->{toc_path} . "/index.html",
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );
 
-
     return;
 }
 
 sub version_sort {
+
     # X or X.Y
     if ( $a =~ /^(?:\d+|\d+\.\d+)$/ && $b =~ /^(?:\d+|\d+\.\d+)$/ ) {
         return $a <=> $b;
     }
+
     # X or X.Y Vs X.Y.Z
     elsif ( $a =~ /^(?:\d+|\d+\.\d+)$/ && $b =~ /^(\d+\.\d+)(.+)$/ ) {
         if ( $a gt $1 ) {
@@ -617,6 +631,7 @@ sub version_sort {
             return -1;
         }
     }
+
     # X.Y.Z Vs X or X.Y
     elsif ( $b =~ /^(?:\d+|\d+\.\d+)$/ && $a =~ /^(\d+\.\d+)(.+)$/ ) {
         if ( $1 ge $b ) {
@@ -626,6 +641,7 @@ sub version_sort {
             return -1;
         }
     }
+
     # X.Y.Z Vs X.Y.Z
     else {
         return $a cmp $b;

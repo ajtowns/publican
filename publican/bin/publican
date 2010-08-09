@@ -237,7 +237,8 @@ my %actions = (
 ## WebSite actions
     'create_site' => {
         'brief' => maketext('Create a new WebSite in the supplied location.'),
-        'options' => [ 'site_config', 'db_file', 'toc_path', 'tmpl_path' ],
+        'options' =>
+            [ 'site_config', 'db_file', 'toc_path', 'tmpl_path', 'lang' ],
     },
     'update_site' => {
         'brief'   => maketext('Update an existing sites templates.'),
@@ -447,6 +448,7 @@ if ( $action eq 'create_site' ) {
     my $db_file   = $opts{db_file}   || undef;
     my $toc_path  = $opts{toc_path}  || undef;
     my $tmpl_path = $opts{tmpl_path} || undef;
+    my $def_lang  = $opts{lang}      || undef;
 
     if ( -f $site_config ) {
         croak(
@@ -459,7 +461,7 @@ if ( $action eq 'create_site' ) {
     my $config = new Config::Simple();
     $config->syntax('http');
 
-    my($filename, $directories, $suffix) = fileparse($db_file);
+    my ( $filename, $directories, $suffix ) = fileparse($db_file);
     mkpath($directories) unless -d $directories;
     $config->param( 'db_file', abs_path($db_file) ) if ($db_file);
 
@@ -470,6 +472,7 @@ if ( $action eq 'create_site' ) {
     }
 
     $config->param( 'tmpl_path', abs_path($tmpl_path) ) if ($tmpl_path);
+    $config->param( 'def_lang',  $def_lang )            if ($def_lang);
     $config->write($site_config);
 
     my $ws = Publican::WebSite->new(
@@ -521,7 +524,8 @@ my $publican = Publican->new(
 );
 
 if ( $action eq 'install_brand' ) {
-    my $brand = $publican->param('brand') || croak("Can't find brand name");
+    my $brand = $publican->param('brand')
+        || croak("Can't find brand name");
 
     croak( maketext( "[_1] is a required argument", 'path' ) )
         unless ( $opts{path} );
@@ -986,7 +990,8 @@ create_site
         --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
         --db_file=<DB_FILE>       Override default database file.
         --toc_path=<TOC_PATH>     Override the default TOC path.
-        --tmpl_path=<TMPL_PATH>    Override the default template path.
+        --tmpl_path=<TMPL_PATH>   Override the default template path.
+        --lang=<LANG>             The default language of the site.
 
 
 help_config
@@ -1226,3 +1231,4 @@ L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=
 =head1 AUTHOR
 
 Jeff Fearn  C<< <jfearn@redhat.com> >>
+1231:	To save a full .LOG file rerun with -g

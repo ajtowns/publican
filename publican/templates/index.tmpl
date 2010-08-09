@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Documentation</title>
+	<title>[%- Documentation -%]</title>
 	<link rel="stylesheet" href="interactive.css" type="text/css" />
 </head>
 <body class="nojs">
-<h1>Documentation</h1>
+<h1>[%- Documentation -%]</h1>
 <script type="text/javascript">
 	var lang = "";
 	if(window.navigator.userLanguage)
@@ -42,19 +42,19 @@
 		}
 	}
 
-	// Else default to en-US
+	// Else default
 	if(match == 0) {
-		lang = 'en-US';
+		lang = '[%- def_lang -%]';
 	}
 
 	window.location = lang + "/index.html";
 </script>
 <noscript>
 <p>
-This web site requires JavaScript and cookies to be enabled to function correctly.
+[%- index_javascript -%]
 </p>
 <p>
-<a href="toc.html">Click here to view a static Table of Contents</a>
+<a href="toc.html">[%- index_toc -%]</a>
 </p>
 </noscript>
 </body>
