@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<section id="sect-Users_Guide-Adding_code_samples">
+	<title>Adding code samples</title>
+	<para>
+		If your book contains code samples, place them in a directory named <filename>extras/</filename> in your source language directory and use an <sgmltag>&lt;xi:include&gt;</sgmltag> to pull the code file into the XML structure of your document. <application>Publican</application> does not parse any files that it finds in the <filename>extras/</filename> directory as XML. 
+	</para>
+	<para>
+		Certain characters are reserved in XML, in particular, <literal>&amp;</literal> and <literal>&lt;</literal>. If you insert code samples directly into the XML of your document, you must escape these characters, either by marking them as <literal>CDATA</literal> or by replacing them with entities (&amp;amp&semi; and &amp;lt&semi; respectively).<footnote><para>Refer to section 2.4 "Character Data and Markup" in the XML&nbsp;1.0 standard, available from <ulink url="http://www.w3.org/TR/2008/REC-xml-20081126/"/>.</para></footnote> If you place these files in the <filename>extras/</filename> directory, you do not need to escape these characters. This approach saves time, reduces the chances of introducing errors into either the document XML or the code itself, and makes future maintenance of the document and the code easier. 
+	</para>
+	<para>
+		To include a code sample from the <filename>extras/</filename> directory in your document, follow this procedure: 
+	</para>
+	<procedure id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
+		<step>
+		      <para>
+			      Create the extras directory
+		      </para>
+<screen><command>mkdir <filename>en-US/extras</filename></command>
+</screen>
+		</step>
+		<step>
+		      <para>
+			      Copy the code file to the extras directory
+		      </para>
+<screen><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
+</screen>
+		</step>
+		<step>
+		      <para>
+			      <sgmltag>xi:include</sgmltag> the sample file in your xml file
+		      </para>
+<programlisting language="XML">&lt;programlisting&gt;
+&lt;xi:include parse=&quot;text&quot; href=&quot;extras/foo.c&quot; xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot; /&gt;
+&lt;/programlisting&gt;</programlisting>
+		</step>
+		<step>
+		      <para>
+			      You can now edit <filename>en-US/extras/foo.c</filename> in your favorite editor without having to be concerned about how it will affect the XML.
+		      </para>
+		</step>
+	</procedure>	
+	<para>
+		The same approach works when you want to annotate your code with callouts. For example:
+	</para>
+<programlisting language="XML">&lt;programlistingco&gt;
+	&lt;areaspec&gt;
+		&lt;area id="orbit-for-parameter" coords='4 75'/&gt;
+		&lt;area id="orbit-for-magnitude" coords='12 75'/&gt;
+	&lt;/areaspec&gt;
+	&lt;programlisting language="Fortran"&gt;&lt;xi:include parse="text" href="extras/orbit.for"
+	xmlns:xi="http://www.w3.org/2001/XInclude" /&gt;&lt;/programlisting&gt;
+	&lt;calloutlist&gt;
+		&lt;callout id="callout-for-parameter" arearefs="orbit-for-parameter"&gt;
+			&lt;para&gt;
+				The &lt;firstterm&gt;standard gravitational parameter&lt;/firstterm&gt;
+				(μ) is a derived value, the product of Newton's gravitational 
+				constant (G) and the mass of the primary body.
+			&lt;/para&gt;
+		&lt;/callout&gt;
+		&lt;callout id="callout-for-magnitude" arearefs="orbit-for-magnitude"&gt;
+			&lt;para&gt;
+				Since the mass of the orbiting body is many orders of magnitude 
+				smaller than the mass of the primary body, the mass of the 
+				orbiting body is ignored in this calculation.
+			&lt;/para&gt;
+		&lt;/callout&gt;
+	&lt;/calloutlist&gt;
+&lt;/programlistingco&gt;</programlisting>
+	<para>
+		Note the <sgmltag>&lt;area&gt;</sgmltag> elements that define the position of the callouts that will appear on the code sample. The <literal>coord</literal> attributes specify a line number and a column number separated by a space. In this example, callouts are applied to lines 4 and 12 of the code, lined up with each other in column 75. Although this approach means that you might have to adjust <literal>coord</literal> attributes if you ever modify the code to which they apply, it avoids mixing XML <sgmltag>&lt;co&gt;</sgmltag> tags into the code itself. 
+	</para>
+</section>
+
+
