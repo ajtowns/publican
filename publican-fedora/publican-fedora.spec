@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Aug 18 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.9-0
+- Pattdeustch translation from Nils-Christoph Fiedler <ncfiedler@fedoraproject.org>
+
 * Mon Jul 12 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.8-0
 - Localizations for image_right.png
 
