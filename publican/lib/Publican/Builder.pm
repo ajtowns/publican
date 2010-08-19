@@ -74,10 +74,21 @@ sub new {
     my ( $this, $args ) = @_;
     my $class = ref($this) || $this;
 
+    my $novalid = delete( $args->{novalid} ) || 0;
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
     my $self = bless {}, $class;
 
     $self->{publican}   = Publican->new();
     $self->{translator} = Publican::Translate->new();
+    $self->{validate} = !$novalid;
 
     return $self;
 }
@@ -137,7 +148,7 @@ sub build {
         logger( maketext( "Beginning work on [_1]", $lang ) . "\n" );
 
         # hmmm can't validate brand XML as it's incomplete
-        if (    ( $type ne 'brand' )
+        if (    ( $type ne 'brand' ) and $self->{validate}
             and ( $self->validate_xml( { lang => $lang } ) == $INVALID ) )
         {
             logger(

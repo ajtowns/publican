@@ -143,6 +143,7 @@ my %options = (
     'tmpl_path=s' => maketext('Override the default template path.'),
     'site_config=s' =>
         maketext('WebSite configuration file to use or create.'),
+    'novalid'   => maketext('Do not run the DTD validation'),
 );
 
 # Options all actions use
@@ -158,7 +159,7 @@ my %actions = (
         'brief' => maketext(
             'Transform XML to other formats (pdf, html, html-single, etc)'),
         'options' =>
-            [ 'formats', 'langs', 'publish', 'embedtoc', 'distributed_set' ],
+            [ 'formats', 'langs', 'publish', 'embedtoc', 'distributed_set', 'novalid' ],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
@@ -622,7 +623,7 @@ if ( $action eq 'lang_stats' ) {
 }
 
 if ( $action eq 'build' ) {
-    my $builder = Publican::Builder->new();
+    my $builder = Publican::Builder->new({novalid => $opts{novalid}});
     $builder->build(
         {   formats         => $opts{formats},
             langs           => $opts{langs},
