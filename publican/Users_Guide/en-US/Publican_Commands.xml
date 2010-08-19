@@ -170,7 +170,7 @@
 						<important>
 							<title>Important — ID conflicts can occur</title>
 							<para>
-								The <command>clean_ids</command> command is intended to facilitate building a DocBook structure around documents ported from other formats such as HTML. However, because the command works by analyzing individual XML files rather than a complete document structure, nodes of the same type that have the same title receive the same IDs. These duplicate IDs will prevent the document from building.
+								The <command>clean_ids</command> command is intended to facilitate building a DocBook structure around documents ported from other formats such as HTML. However, <command>clean_ids</command> is file-based and and only has access to information in the XML file that it is currently processing and to the document name. Therefore, nodes of the same type that have the same title receive the same IDs. These duplicate IDs will prevent the document from building.
 							</para>
 							<para>
 								Use the <command>clean_ids</command> command to assist you in laying out your document, but expect that some manual adjustment to IDs might be necessary. We recommend that you do not run <command>clean_ids</command> on an already well established document.
