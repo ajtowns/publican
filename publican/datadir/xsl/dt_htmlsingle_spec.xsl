@@ -5,8 +5,11 @@
   <xsl:output encoding="UTF-8" indent="no" method="text" omit-xml-declaration="no" standalone="no" version="1.0"/>
 <!-- Note: do not indent this file!  Any whitespace here
      will be reproduced in the output -->
-<xsl:template match="/"># Documentation Specfile
-%define HTMLVIEW %(test "%{?dist}" == ".el5" &amp;&amp; echo 1 || echo 0)
+<xsl:template match="/">#Publican Documentation Specfile
+%define RHEL5 %(test %{?dist} == .el5 &amp;&amp; echo 1 || echo 0)
+%define RHEL6 %(test %{?dist} == .el6 &amp;&amp; echo 1 || echo 0)
+%define HTMLVIEW %(test %{RHEL5} == 1 &amp;&amp; echo 1 || echo 0)
+
 %define ICONS <xsl:value-of select="$ICONS"/>
 
 %define viewer xdg-open
@@ -31,7 +34,11 @@ Group:         Documentation
 License:       <xsl:value-of select="$license"/>
 URL:           <xsl:value-of select="$url"/>
 Source:        <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
-BuildArch:     noarch
+%if %{RHEL6}
+BuildArch:      i386 x86_64
+%else
+BuildArch:      noarch
+%endif
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: publican >= 2.0
 BuildRequires: desktop-file-utils
@@ -58,6 +65,7 @@ publican build --formats="html-desktop" --langs=<xsl:value-of select="$lang"/>
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 
 %if %{ICONS}
 for icon in `ls icons/*x*.png`; do
@@ -65,10 +73,9 @@ for icon in `ls icons/*x*.png`; do
 	mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
 	cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
 done
-mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %else
-cp images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+cp <xsl:value-of select="$lang"/>/images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %endif
 
 cat > %{name}.desktop &lt;&lt;'EOF'
@@ -110,6 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
 %if %{ICONS}
 /usr/share/icons/hicolor/*
+%else
+/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg
 %endif
 %if %{HTMLVIEW}
 %{_datadir}/applications/%{?vendor}%{name}.desktop

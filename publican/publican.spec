@@ -235,6 +235,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix smaller width being overridden by max_image_width. BZ #613140
 - Fix support for def_lang for web sites. BZ #622030
 - Remove ant trails from selected links.
+- Fix RHEL6 docs not having BuildArch set. BZ #625314
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.
