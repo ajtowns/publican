@@ -7,7 +7,6 @@
      will be reproduced in the output -->
 <xsl:template match="/">#Publican Documentation Specfile
 %define RHEL5 %(test %{?dist} == .el5 &amp;&amp; echo 1 || echo 0)
-%define RHEL6 %(test %{?dist} == .el6 &amp;&amp; echo 1 || echo 0)
 %define HTMLVIEW %(test %{RHEL5} == 1 &amp;&amp; echo 1 || echo 0)
 
 %define ICONS <xsl:value-of select="$ICONS"/>
@@ -34,11 +33,7 @@ Group:         Documentation
 License:       <xsl:value-of select="$license"/>
 URL:           <xsl:value-of select="$url"/>
 Source:        <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
-%if %{RHEL6}
-BuildArch:      i386 x86_64
-%else
 BuildArch:      noarch
-%endif
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: publican >= 2.0
 BuildRequires: desktop-file-utils
