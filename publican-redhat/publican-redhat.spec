@@ -4,7 +4,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.1
+Version:	2.2
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -46,6 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.2-0
+- Note ownership of MySQL trademark per Pamela Chestek <pchestek@redhat.com>
+
 * Fri Aug 6 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.1-0
 - Update Feedback section to link to customer portal
 

@@ -3,7 +3,7 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	1.8
+Version:	1.9
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Development/Libraries
@@ -45,8 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Wed Aug 18 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.9-0
-- Pattdeustch translation from Nils-Christoph Fiedler <ncfiedler@fedoraproject.org>
+* Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.9-0
+- Note ownership of MySQL trademark per Pamela Chestek <pchestek@redhat.com>
+- Low German translation from Nils-Christoph Fiedler <ncfiedler@fedoraproject.org>
 
 * Mon Jul 12 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.8-0
 - Localizations for image_right.png
