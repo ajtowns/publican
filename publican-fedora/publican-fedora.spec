@@ -45,9 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.9-0
+* Sun Aug 29 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.9-0
 - Note ownership of MySQL trademark per Pamela Chestek <pchestek@redhat.com>
 - Low German translation from Nils-Christoph Fiedler <ncfiedler@fedoraproject.org>
+- Persian translation from Mostafa Daneshvar <info@mostafadaneshvar.com>
 
 * Mon Jul 12 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.8-0
 - Localizations for image_right.png
