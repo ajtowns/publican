@@ -747,8 +747,10 @@ sub normalise {
 ##    $norm =~ s/&#x200B; / /g;
 ##    $norm =~ s/&#60;/&lt;/g;
 ##    $norm =~ s/&#62;/&gt;/g;
-##    $norm =~ s/&#34;/"/g;
-##    $norm =~ s/&#39;/'/g;
+    $norm =~ s/&#34;/"/g;
+    $norm =~ s/&#39;/'/g;
+    $norm =~ s/&quot;/"/g;
+    $norm =~ s/&apos;/'/g;
 
 ##debug_msg("is utf8 norm: '" . utf8::is_utf8($norm) . "'\n");
 ##debug_msg("norm: $norm\n\n");
