@@ -87,6 +87,7 @@ my $help         = 0;
 my $action       = "";
 my $help_actions = 0;
 my $show_version = 0;
+my $bash_comp    = undef;
 
 #Getopt::Long::Configure("debug");
 
@@ -96,6 +97,7 @@ my %opts = (
     'man'          => \$man,
     'v'            => \$show_version,
     'help_actions' => \$help_actions,
+    'bash'         => \$bash_comp,
 );
 
 #Action options
@@ -143,7 +145,7 @@ my %options = (
     'tmpl_path=s' => maketext('Override the default template path.'),
     'site_config=s' =>
         maketext('WebSite configuration file to use or create.'),
-    'novalid'   => maketext('Do not run the DTD validation'),
+    'novalid' => maketext('Do not run the DTD validation'),
 );
 
 # Options all actions use
@@ -158,8 +160,10 @@ my %actions = (
     'build' => {
         'brief' => maketext(
             'Transform XML to other formats (pdf, html, html-single, etc)'),
-        'options' =>
-            [ 'formats', 'langs', 'publish', 'embedtoc', 'distributed_set', 'novalid' ],
+        'options' => [
+            'formats',         'langs', 'publish', 'embedtoc',
+            'distributed_set', 'novalid'
+        ],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
@@ -324,6 +328,11 @@ sub _help_actions {
     );
 
     return;
+}
+
+if ($bash_comp) {
+    _bash_completion();
+    exit(0);
 }
 
 # catch no action set
@@ -623,7 +632,7 @@ if ( $action eq 'lang_stats' ) {
 }
 
 if ( $action eq 'build' ) {
-    my $builder = Publican::Builder->new({novalid => $opts{novalid}});
+    my $builder = Publican::Builder->new( { novalid => $opts{novalid} } );
     $builder->build(
         {   formats         => $opts{formats},
             langs           => $opts{langs},
@@ -890,6 +899,97 @@ if ( $action eq 'remove_book' ) {
     }
     $ws->regen_all_toc();
 
+}
+
+# Secret action to create bash completion file.
+# Nothing special just don't want to confuse people by discussing
+# it in the general help
+
+sub _bash_completion {
+
+    my $actions = join( " ", sort( keys(%actions) ) );
+    my $util_opts = "";
+    foreach my $opto ( sort(@utility_opts) ) {
+        $opto =~ s/=.*$//g;
+        $util_opts .= "--$opto ";
+    }
+
+    my $top = <<TOP;
+# publican completion
+
+_publican()
+{
+	local cur prev commands options command
+
+	COMPREPLY=()
+	cur=`_get_cword`
+
+	commands='$actions'
+
+	if [[ \$COMP_CWORD -eq 1 ]] ; then
+		if [[ "\$cur" == -* ]]; then
+			COMPREPLY=( \$( compgen -W '--help' -- \$cur ) )
+		else
+			COMPREPLY=( \$( compgen -W "\$commands" -- \$cur ) )
+		fi
+	else
+		prev=\${COMP_WORDS[COMP_CWORD-1]}
+# TODO make config file prompt for file?
+		case \$prev in
+			--config-dir)
+				_filedir -d
+				return 0;
+				;;
+		esac
+
+		command=\${COMP_WORDS[1]}
+
+		if [[ "\$cur" == -* ]]; then
+			# possible options for the command
+			case \$command in
+TOP
+
+    my $options = "";
+
+    foreach my $action ( sort( keys(%actions) ) ) {
+        my $opt = "";
+        foreach my $option ( sort( @{ $actions{$action}{'options'} } ) ) {
+            $opt .= "--$option ";
+        }
+
+        $options .= <<EOO;
+				$action)
+					options='$opt'
+					;;
+EOO
+
+    }
+
+    my $bottom = <<BOTTOM;
+			esac
+			options="\$options $util_opts"
+			COMPREPLY=( \$( compgen -W "\$options" -- \$cur ) )
+		else
+			if [[ "\$command" == @(--help) ]]; then
+				COMPREPLY=( \$( compgen -W "\$commands" -- \$cur ) )
+			else
+				_filedir
+			fi
+		fi
+	fi
+
+	return 0
+}
+complete -F _publican publican
+BOTTOM
+
+    my $COMP_FILE;
+    open( $COMP_FILE, ">", "_publican" ) || croak("file open fail: @_");
+    print( $COMP_FILE $top );
+    print( $COMP_FILE $options );
+    print( $COMP_FILE $bottom );
+    close($COMP_FILE);
+    return;
 }
 
 exit(0);
@@ -1232,4 +1332,3 @@ L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=
 =head1 AUTHOR
 
 Jeff Fearn  C<< <jfearn@redhat.com> >>
-1231:	To save a full .LOG file rerun with -g
