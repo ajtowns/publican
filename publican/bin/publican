@@ -934,10 +934,9 @@ _publican()
 		fi
 	else
 		prev=\${COMP_WORDS[COMP_CWORD-1]}
-# TODO make config file prompt for file?
 		case \$prev in
-			--config-dir)
-				_filedir -d
+			@(--site_config|--config))
+				_filedir 'cfg'
 				return 0;
 				;;
 		esac
