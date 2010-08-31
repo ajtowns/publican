@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	2.0
+Version:	2.1
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Aug 24 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
+- Change space before cover logo to 1in. BZ #628754
+
 * Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.0-0
 - Note ownership of MySQL trademark per Pamela Chestek <pchestek@redhat.com>
 
