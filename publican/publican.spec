@@ -221,6 +221,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
+- Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
 - Make keycombo example consistent with RHEL6 behaviour. BZ #618735 <r.landmann@redhat.com>
 - Fix images/icon.svg breaking rpm build. BZ #612515
 - Fix empty term breaking PDF build. BZ #614728

@@ -3,7 +3,7 @@
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:	1.9
+Version:2.0
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Development/Libraries
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Sun Aug 29 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.0-0
+- Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
+
 * Sun Aug 29 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.9-0
 - Note ownership of MySQL trademark per Pamela Chestek <pchestek@redhat.com>
 - Low German translation from Nils-Christoph Fiedler <ncfiedler@fedoraproject.org>

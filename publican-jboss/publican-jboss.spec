@@ -2,7 +2,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	2.1
+Version:	2.2
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Aug 24 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
+- Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
+
 * Tue Aug 24 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Change space before cover logo to 1in. BZ #628754
 

@@ -2,7 +2,7 @@
 
 Name:		publican-freeipa
 Summary:	Common documentation files for %{brand}
-Version:	1.7
+Version:	1.8
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.8
+- Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
+
 * Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.7
 - Port to Publican 2
 
