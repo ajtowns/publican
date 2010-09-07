@@ -2,7 +2,7 @@
 
 Name:		publican-jboss-community-pressgang
 Summary:	Common documentation files for PressGang documents
-Version:	1.1
+Version:	1.2
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -38,6 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Sep 7 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.2-0
+- add trademark notice for MySQL per Pamela Chestek <pchestek@redhat.com>
+- Extend callout graphics to 40 -- BZ #629804 <r.landmann@redhat.com>
+
 * Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.1
 - Port to Publican 2
 
