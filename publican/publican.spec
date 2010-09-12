@@ -12,7 +12,8 @@
 %endif
 
 # who doesn't have xdg-open?
-%define HTMLVIEW %(test %{RHEL5} == 1 && echo 1 || echo 0)
+#%define HTMLVIEW %(test %{RHEL5} == 1 && echo 1 || echo 0)
+%define HTMLVIEW %{RHEL5}
 
 # required for desktop file install
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
@@ -21,7 +22,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t37
+Release:        0%{?dist}.t38
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0

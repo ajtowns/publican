@@ -210,7 +210,7 @@ my %PARAMS = (
 
     },
     os_ver => {
-        descr   => maketext('The OS for which to to build packages.'),
+        descr   => maketext('The OS for which to build packages.'),
         default => '.el5',
 
     },

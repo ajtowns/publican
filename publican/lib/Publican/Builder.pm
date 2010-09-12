@@ -783,6 +783,28 @@ sub transform {
     $parser->expand_xinclude(1);
     $parser->expand_entities(1);
     my $source    = $parser->parse_file("../xml/$docname.xml");
+    eval { $source = $parser->parse_file("$docname.xml"); };
+
+    if ($@) {
+        if ( ref($@) ) {
+
+            # handle a structured error (XML::LibXML::Error object)
+            croak(
+                maketext(
+                    "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
+                    $@->domain(),
+                    $@->code(),
+                    $@->file(),
+                    $@->line(),
+                    $@->message(),
+                )
+            );
+        }
+        else {
+            croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+        }
+    }
+
     my $style_doc = $parser->parse_file($xsl_file);
 
     if ( $^O eq 'MSWin32' ) {

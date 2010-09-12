@@ -28,6 +28,14 @@ Q: Where are the common files located?
 
 A: By default they are in /usr/share/publican
 
+Q: How do I profile publican?
+
+A: Devel::NYTProf is a good option.
+
+$ perl -d:NYTProf /usr/bin/publican build --langs en-US --formats html
+$ nytprofhtml
+$ firefox nytprof/index.html 
+
 Q: How do I build publican from source?
 
 A: It depends on your platform.
