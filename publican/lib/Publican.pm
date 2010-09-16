@@ -293,7 +293,11 @@ my %PARAMS = (
     },
     web_home => {
         descr => maketext(
-            'This is a Publican Website home page, not a standard book.'),
+            'This is a Publican Website home page, not a standard book. TODO DEPRECATED?'),
+    },
+    web_type => {
+        descr => maketext(
+            'This is a Publican Website special page, not a standard book. Valid types are home, product & version ... TODO'),
     },
     web_host => {
         descr => maketext(

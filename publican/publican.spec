@@ -22,7 +22,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t38
+Release:        0%{?dist}.t39
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -239,7 +239,8 @@ rm -rf $RPM_BUILD_ROOT
 - Remove ant trails from selected links.
 - Add --novalid option to disable validation when building. BZ #616142
 - Revert change to escaping ' & ". BZ #628266
-- Add bash completion
+- Add bash completion ...
+- Add suuport for prdouct and version splash pages. BZ #...
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.

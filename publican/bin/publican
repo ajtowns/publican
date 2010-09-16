@@ -648,7 +648,7 @@ if ( $action eq 'package' ) {
     if ( $publican->param('type') eq 'brand' ) {
         $builder->package_brand( { binary => $opts{binary} } );
     }
-    elsif ( $publican->param('web_home') ) {
+    elsif ( $publican->param('web_home') || $publican->param('web_type') ) {
         $builder->package_home( { binary => $opts{binary} } );
     }
     else {

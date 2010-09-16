@@ -88,7 +88,7 @@ sub new {
 
     $self->{publican}   = Publican->new();
     $self->{translator} = Publican::Translate->new();
-    $self->{validate} = !$novalid;
+    $self->{validate}   = !$novalid;
 
     return $self;
 }
@@ -148,7 +148,8 @@ sub build {
         logger( maketext( "Beginning work on [_1]", $lang ) . "\n" );
 
         # hmmm can't validate brand XML as it's incomplete
-        if (    ( $type ne 'brand' ) and $self->{validate}
+        if (    ( $type ne 'brand' )
+            and $self->{validate}
             and ( $self->validate_xml( { lang => $lang } ) == $INVALID ) )
         {
             logger(
@@ -186,6 +187,18 @@ sub build {
                     # but these formats are used differently
                     if ( $self->{publican}->param('web_home') ) {
                         $path = "publish/home/$lang";
+                    }
+                    elsif ( $self->{publican}->param('web_type') ) {
+                        my $web_type = $self->{publican}->param('web_type');
+                        if ( $web_type eq m/^home$/i ) {
+                            $path = "publish/home/$lang";
+                        }
+                        elsif ( $web_type eq m/^product$/i ) {
+                            $path = "publish/home/$lang/$product";
+                        }
+                        elsif ( $web_type eq m/^version$/i ) {
+                            $path = "publish/home/$lang/$product/$version";
+                        }
                     }
                     elsif ( $format eq 'html-desktop' ) {
                         $path = "publish/desktop/$lang";
@@ -710,6 +723,18 @@ sub transform {
 
     my $toc_path = '../../../..';
     $toc_path = '.' if ( $self->{publican}->param('web_home') );
+    if ( $self->{publican}->param('web_type') ) {
+        my $web_type = $self->{publican}->param('web_type');
+        if ( $web_type eq m/^home$/i ) {
+            $toc_path = '.';
+        }
+        elsif ( $web_type eq m/^product$/i ) {
+            $toc_path = '..';
+        }
+        elsif ( $web_type eq m/^version$/i ) {
+            $toc_path = '../..';
+        }
+    }
 
     if ( $format eq 'html-single' ) {
 
@@ -782,8 +807,9 @@ sub transform {
 
     $parser->expand_xinclude(1);
     $parser->expand_entities(1);
-    my $source    = $parser->parse_file("../xml/$docname.xml");
-    eval { $source = $parser->parse_file("$docname.xml"); };
+##    my $source = $parser->parse_file("../xml/$docname.xml");
+    my $source;
+    eval { $source = $parser->parse_file("../xml/$docname.xml"); };
 
     if ($@) {
         if ( ref($@) ) {
@@ -1484,9 +1510,10 @@ sub package_home {
     my $release    = $self->{publican}->param('release');
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $type       = $self->{publican}->param('type');
+    my $web_type   = $self->{publican}->param('web_type') || 'home';
 
     my $name_start = "$docname";
-    my $tardir     = "$name_start-web-home-$edition";
+    my $tardir     = "$name_start-web-$web_type-$edition";
 
     mkpath("$tmp_dir/tar/$tardir");
     mkpath("$tmp_dir/rpm");
@@ -1554,7 +1581,7 @@ sub package_home {
         XML::LibXSLT::xpath_to_string(%xslt_opts) );
 
     my $outfile;
-    my $spec_name = "$tmp_dir/rpm/$name_start-web-home.spec";
+    my $spec_name = "$tmp_dir/rpm/$name_start-web-$web_type.spec";
 
     open( $outfile, ">:utf8", "$spec_name" )
         || croak( maketext( "Can't open spec file: [_1]", $@ ) );
@@ -1562,7 +1589,7 @@ sub package_home {
     close($outfile);
 
     $self->build_rpm(
-        {   spec   => "$tmp_dir/rpm/$name_start-web-home.spec",
+        {   spec   => "$tmp_dir/rpm/$name_start-web-$web_type.spec",
             binary => $binary
         }
     );
