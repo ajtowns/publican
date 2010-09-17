@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Splash_Page.ent">
+%BOOK_ENTITIES;
+]>
+<article>
+	<title>Publican</title>
+	<subtitle>Publishing books, articles, papers, and multi-volume sets with DocBook XML.</subtitle>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" align="center" />
+			</imageobject>
+			 <textobject>
+				<phrase>Team Publican</phrase>
+			</textobject>
+
+		</mediaobject>
+	 <para>
+		 <application>Publican</application> is a tool for publishing material authored in DocBook XML. This guide explains how to create and build books and articles using <application>Publican</application>. It is not a general DocBook XML tutorial; refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner, available at <ulink url="http://www.docbook.org/tdg/en/html/docbook.html" /> for more general help with DocBook XML.
+	</para>
+	 <para>
+		<application>Publican</application> began life as an internal tool used by Red Hat&apos;s Documentation Group (now known as Engineering Content Services). On occasion, this legacy is visible.
+	</para>
+	 <formalpara id="form-Users_Guide-Introduction-Design">
+		<title>Design</title>
+		 <para>
+			<application>Publican</application> is a publication system, not just a DocBook processing tool. As well as ensuring your DocBook XML is valid, <application>Publican</application> works to ensure your XML is up to publishable standard.
+		</para>
+
+	</formalpara>
+	 <para>
+		The branding functionality allows you to create your own presentation rules and look, overriding many parts of the default style to meet your publishing needs. Choices executed in code, however, are not changeable.
+	</para>
+	 <para>
+		Entities, for example, can be validly defined in any XML file. However, to ensure the DTD declaration is present, valid and standardized, <application>Publican</application> rewrites the declaration in every XML file before it builds a book or article. Consequently, all entities declared in all XML files are lost. <application>Publican</application>, therefore, requires you define entities in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file.
+	</para>
+	 <para>
+		As publishing workflows grow, unrestrained entity definition leads to entity duplication and other practices that cause maintenance difficulties. Consolidating entity definitions in a single, predictable place alleviates these maintenance issues and helps the automation of the build process stay robust.
+	</para>
+	 <para>
+		Entities also present an essentially insurmountable obstacle to quality translation. Consequently, while we are not reducing the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file&apos;s functionality, we are no longer considering requests to add functionality or features associated with entity use.
+	</para>
+</article>
+
