@@ -338,6 +338,19 @@ Version: 1.72.0
 			</meta>
 		</xsl:if>
 	</xsl:if>
+      <xsl:if test="$embedtoc != 0 and $pop_prod != ''">
+          <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../toc.js</xsl:attribute></script>
+          <script type="text/javascript">
+              addID('<xsl:value-of select="$pop_prod"/>');
+              <xsl:if test="$pop_ver != ''">
+	      addID('<xsl:value-of select="$pop_prod"/>.<xsl:value-of select="$pop_ver"/>');
+              </xsl:if>
+              <xsl:if test="$pop_name != ''">
+              addID('<xsl:value-of select="$pop_prod"/>.<xsl:value-of select="$pop_ver"/>.books');
+	      addID('<xsl:value-of select="$pop_prod"/>.<xsl:value-of select="$pop_ver"/>.<xsl:value-of select="$pop_name"/>');
+              </xsl:if>
+</script>
+      </xsl:if>
 
 	<xsl:apply-templates select="." mode="head.keywords.content"/>
 </xsl:template>

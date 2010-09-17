@@ -190,13 +190,13 @@ sub build {
                     }
                     elsif ( $self->{publican}->param('web_type') ) {
                         my $web_type = $self->{publican}->param('web_type');
-                        if ( $web_type eq m/^home$/i ) {
+                        if ( $web_type =~ m/^home$/i ) {
                             $path = "publish/home/$lang";
                         }
-                        elsif ( $web_type eq m/^product$/i ) {
+                        elsif ( $web_type =~ m/^product$/i ) {
                             $path = "publish/home/$lang/$product";
                         }
-                        elsif ( $web_type eq m/^version$/i ) {
+                        elsif ( $web_type =~ m/^version$/i ) {
                             $path = "publish/home/$lang/$product/$version";
                         }
                     }
@@ -670,6 +670,7 @@ sub transform {
     my $ec_name             = $self->{publican}->param('ec_name');
     my $ec_id               = $self->{publican}->param('ec_id');
     my $ec_provider         = $self->{publican}->param('ec_provider');
+    my $product             = $self->{publican}->param('product');
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'
@@ -721,18 +722,26 @@ sub transform {
 
     mkdir "$tmp_dir/$lang/$format";
 
+    my $pop_prod = $self->{publican}->param('product');
+    my $pop_ver  = $self->{publican}->param('version');
+    my $pop_name = $self->{publican}->param('docname');
+
     my $toc_path = '../../../..';
     $toc_path = '.' if ( $self->{publican}->param('web_home') );
+
     if ( $self->{publican}->param('web_type') ) {
         my $web_type = $self->{publican}->param('web_type');
-        if ( $web_type eq m/^home$/i ) {
+        if ( $web_type =~ m/^home$/i ) {
             $toc_path = '.';
+            $pop_prod = undef;
         }
-        elsif ( $web_type eq m/^product$/i ) {
+        elsif ( $web_type =~ m/^product$/i ) {
             $toc_path = '..';
+            $pop_ver  = undef;
         }
-        elsif ( $web_type eq m/^version$/i ) {
+        elsif ( $web_type =~ m/^version$/i ) {
             $toc_path = '../..';
+            $pop_name = undef;
         }
     }
 
@@ -745,6 +754,9 @@ sub transform {
         $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
         $xslt_opts{'embedtoc'} = $embedtoc;
         $xslt_opts{'tocpath'}  = "'$toc_path'";
+        $xslt_opts{'pop_prod'} = "'$pop_prod'" if ($pop_prod);
+        $xslt_opts{'pop_ver'}  = "'$pop_ver'" if ($pop_ver);
+        $xslt_opts{'pop_name'} = "'$pop_name'" if ($pop_name);
     }
     elsif ( $format eq 'html-desktop' ) {
         $xsl_file = $common_config . "/xsl/html-single.xsl";
@@ -768,6 +780,9 @@ sub transform {
         $xslt_opts{'tocpath'}              = "'$toc_path'";
         $xslt_opts{'chunk.first.sections'} = $chunk_first;
         $xslt_opts{'chunk.section.depth'}  = $chunk_section_depth;
+        $xslt_opts{'pop_prod'}             = "'$pop_prod'" if ($pop_prod);
+        $xslt_opts{'pop_ver'}              = "'$pop_ver'" if ($pop_ver);
+        $xslt_opts{'pop_name'}             = "'$pop_name'" if ($pop_name);
     }
     elsif ( ( $format =~ /^pdf/ ) and ( -f $xsl_file ) ) {
         $dir = pushd("$tmp_dir/$lang/xml");

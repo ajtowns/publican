@@ -747,7 +747,7 @@ if ( $action eq 'install_book' ) {
     my $site_config = $opts{site_config} || undef;
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
-    if ( $publican->param('web_home') ) {
+    if ( $publican->param('web_home') || $publican->param('web_type') ) {
         croak( maketext("can't find 'publish' directory") )
             unless ( -d "publish/home" );
         rcopy( "publish/home/*", $ws->toc_path() . "/." );
