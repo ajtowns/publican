@@ -734,10 +734,13 @@ sub transform {
         if ( $web_type =~ m/^home$/i ) {
             $toc_path = '.';
             $pop_prod = undef;
+            $pop_ver  = undef;
+            $pop_name = undef;
         }
         elsif ( $web_type =~ m/^product$/i ) {
             $toc_path = '..';
             $pop_ver  = undef;
+            $pop_name = undef;
         }
         elsif ( $web_type =~ m/^version$/i ) {
             $toc_path = '../..';

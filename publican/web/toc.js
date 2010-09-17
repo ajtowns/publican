@@ -27,6 +27,25 @@ function addID(id) {
 		}
 	}
 
+// try to avoid having duplicate id's in the list
+	if(current_val == id) {
+		return;
+	}
+
+	if(current_val.match("," + id + ",")) {
+		return;
+	}
+
+	var rg = new RegExp("^" + id + ",");
+	if(current_val.match(rg)) {
+		return;
+	}
+
+	rg = new RegExp("," + id + "\$");
+	if(current_val.match(rg)) {
+		return;
+	}
+
 	if(current_val) {
 		current_val += "," + id;
 	} else {
