@@ -1583,6 +1583,7 @@ sub package_home {
         tmpdir       => $tmp_dir,
         web_search   => $search,
         web_host     => $host,
+        web_type     => $web_type,
     );
 
     logger(

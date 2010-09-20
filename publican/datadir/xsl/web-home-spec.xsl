@@ -4,7 +4,7 @@
 <!-- Note: do not indent this file!  Any whitespace here will be reproduced in the output -->
 <xsl:template match="/">
 %define wwwdir %{_localstatedir}/www/html/docs
-Name:          <xsl:value-of select="$book-title"/>-web-home
+Name:          <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$web_type"/>
 Version:       <xsl:value-of select="$rpmver"/>
 Release:       <xsl:value-of select="$rpmrel"/>%{?dist}
 Summary:       <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
@@ -19,7 +19,7 @@ Requires:      publican >= 2.0
 <xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
 
 %description
-This is Publican Website home page using the brand: <xsl:value-of select="$brand"/>
+This is Publican Website <xsl:value-of select="$web_type"/> page using the brand: <xsl:value-of select="$brand"/>
 
 %prep
 %setup -q
