@@ -22,7 +22,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t55
+Release:        0%{?dist}.t59
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -241,6 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 - Revert change to escaping ' & ". BZ #628266
 - Add bash completion ...
 - Add support for product and version splash pages. BZ #...
+- Fix unused version breaking product hiding.
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.
