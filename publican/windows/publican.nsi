@@ -11,7 +11,7 @@
 
 	;Name and file
 	Name "Publican"
-	OutFile "Publican-Installer-1.99.exe"
+	OutFile "Publican-Installer-2.1.exe"
 	!insertmacro MUI_DEFAULT MUI_ICON "publican.ico"
 
 	;Default installation folder
@@ -86,8 +86,8 @@ Function .onInstSuccess
 		${EnvVarUpdate} $1 "PATH" "A" "HKLM" "$0"
 nogetext:
 
-	IfFileExists $INSTDIR\fop-0.95 0 nofop
-		${EnvVarUpdate} $1 "PATH" "A" "HKLM" "$INSTDIR\fop-0.95"
+	IfFileExists $INSTDIR\fop-1.0 0 nofop
+		${EnvVarUpdate} $1 "PATH" "A" "HKLM" "$INSTDIR\fop-1.0"
 
 nofop:
 
@@ -112,7 +112,7 @@ Section "Publican" SecMain
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
 
 	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayName" "Publican"
-	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayVersion" "1.99"
+	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayVersion" "2.1"
 	WriteRegStr HKLM "${REG_UNINSTALL}" "Publisher" "Team Publican"
 	WriteRegStr HKLM "${REG_UNINSTALL}" "InstallSource" "$EXEDIR\"
 	WriteRegDWord HKLM "${REG_UNINSTALL}" "NoModify" 0
@@ -278,7 +278,7 @@ SectionEnd
 Section "FOP" SecFOP
 	; Install FOP
 	SetOutPath "$INSTDIR"
-	NSISdl::download http://www.apache.org/dist/xmlgraphics/fop/binaries/fop-0.95-bin.zip fop-0.95-bin.zip 
+	NSISdl::download http://www.apache.org/dist/xmlgraphics/fop/binaries/fop-1.0-bin.zip fop-1.0-bin.zip 
 
 	Pop $R0 ;Get the return value
 	StrCmp $R0 "success" downloaded
@@ -287,18 +287,18 @@ Section "FOP" SecFOP
 
 downloaded:
 
-	nsUnzip::Extract "fop-0.95-bin.zip" /END
+	nsUnzip::Extract "fop-1.0-bin.zip" /END
 	Pop $0
 	StrCmp $0 "0" unzipped
 	MessageBox MB_OK "Extract failed: $0"
  
 unzipped:
  
-	Delete "fop-0.95-bin.zip"
+	Delete "fop-1.0-bin.zip"
 
 SectionEnd
 
-; http://www.apache.org/dist/xmlgraphics/fop/binaries/fop-0.95-bin.zip
+; http://www.apache.org/dist/xmlgraphics/fop/binaries/fop-1.0-bin.zip
 ; http://apache.mirror.aussiehq.net.au/xmlgraphics/batik/batik-1.7.zip
 
 SectionGroupEnd
@@ -373,8 +373,8 @@ Section "Uninstall"
 	SetShellVarContext all
 	Delete "$INSTDIR\Uninstall.exe"
 	
-	IfFileExists $INSTDIR\fop-0.95 0 nofop
-	${un.EnvVarUpdate} $1 "PATH" "R" "HKLM" "$INSTDIR\fop-0.95"
+	IfFileExists $INSTDIR\fop-1.0 0 nofop
+	${un.EnvVarUpdate} $1 "PATH" "R" "HKLM" "$INSTDIR\fop-1.0"
 
 nofop:
 
