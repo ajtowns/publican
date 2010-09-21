@@ -201,7 +201,7 @@ object.toc, iframe.toc {
 
 /*product*/
 .tocnav div.product {
-	line-height: 28px;
+	line-height: 24px;
 	border-bottom: 1px solid #eee;
 	background-image: url(images/arrows.png);
 	background-repeat: no-repeat;
@@ -212,14 +212,14 @@ object.toc, iframe.toc {
 }
 
 .tocnav span.product {
+	padding: 0px;
 	padding-left: 22px;
 	font-size: 1.1em;
 	color: #494949;
 	background-color: transparent;
-	padding-top: 2px;
-	padding-bottom: 2px;
 	line-height: 1.3em;
 	cursor: pointer;
+	display: inline;
 }
 
 .product.expanded span.product {
@@ -250,6 +250,14 @@ object.toc, iframe.toc {
 	background-position: 8px -170px !important;
 }
 
+.tocnav img.product, .tocnav img.version {
+	display: inline;
+	float: right;
+	margin: 0em;
+	padding:0em;
+	margin-top:0.3em;
+	border: none;
+}
 
 .version div.untranslated {
 	margin-left: 2em;
@@ -281,6 +289,7 @@ object.toc, iframe.toc {
 	font-weight: bold;
 	color: #999;
 	cursor: pointer;
+        display: inline;
 }
 
 .tocnav span.version:hover {

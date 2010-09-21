@@ -14,6 +14,7 @@ use File::Find::Rule;
 use DateTime;
 use Publican;
 use Encode qw(is_utf8 decode_utf8 encode_utf8);
+use Time::localtime;
 
 #use Publican::Translate;
 
@@ -57,7 +58,7 @@ my %LANG_NAME = (
     'mr-IN'      => 'मराठी',
     'ms-MY'      => 'Melayu',
     'nb-NO'      => 'Norsk (bokmål)',
-    'nds-DE'      => 'Plattdüütsch',
+    'nds-DE'     => 'Plattdüütsch',
     'nl-NL'      => 'Nederlands',
     'or-IN'      => 'ଓଡ଼ିଆ',
     'pa-IN'      => 'ਪੰਜਾਬੀ',
@@ -106,7 +107,8 @@ my %tmpl_strings = (
         'This web site requires JavaScript and cookies to be enabled to function correctly.'
     ),
     'index_toc' => maketext('Click here to view a static Table of Contents'),
-    'Documentation' => maketext('Documentation'),
+    'Documentation'   => maketext('Documentation'),
+    'ProductLinkTile' => maketext('Information'),
 );
 
 sub new {
@@ -747,6 +749,20 @@ SEARCH
         my %prod_data;
         my @versions = ();
 
+        if ( -f "$self->{toc_path}/$language/$product/index.html" ) {
+            $prod_data{'product_icon'}    = 1;
+            my $url = {
+                url         => qq|$host/$language/$product/index.html|,
+                update_date => ctime(
+                    (   stat(
+                            "$self->{toc_path}/$language/$product/index.html")
+                    )[9]
+                ),
+            };
+
+            push( @{$urls}, $url );
+        }
+
         foreach my $version (
             reverse( sort( version_sort keys( %{ $list2->{$product} } ) ) ) )
         {
@@ -754,6 +770,19 @@ SEARCH
             my %ver_data;
             my @books         = ();
             my @untrans_books = ();
+            if ( -f "$self->{toc_path}/$language/$product/$version/index.html" ) {
+                $ver_data{'ver_icon'}    = 1;
+                my $url = {
+                    url         => qq|$host/$language/$product/$version/index.html|,
+                    update_date => ctime(
+                    (   stat(
+                            "$self->{toc_path}/$language/$product/$version/index.html")
+                    )[9]
+                ),
+            };
+
+            push( @{$urls}, $url );
+        }
 
             foreach
                 my $book ( sort( keys( %{ $list2->{$product}{$version} } ) ) )
@@ -868,8 +897,9 @@ SEARCH
             push( @versions, \%ver_data );
         }
 
-        $prod_data{'product'}       = $product;
-        $prod_data{'product_clean'} = $product_label;
+        $prod_data{'prod_link_title'} = $tmpl_strings{'ProductLinkTile'};
+        $prod_data{'product'}         = $product;
+        $prod_data{'product_clean'}   = $product_label;
         $prod_data{'product_clean'} =~ s/_/ /g;
         $prod_data{'versions'} = \@versions;
         push( @products, \%prod_data );

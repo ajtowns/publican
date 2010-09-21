@@ -297,15 +297,14 @@ my %PARAMS = (
     },
     web_home => {
         descr => maketext(
-            'This is a Publican Website home page, not a standard book. TODO DEPRECATED?'
+            'This is a Publican Website home page, not a standard book.'
         ),
-## TODO Handle alerts by smapping when building
         alert =>
-            'This parameter is deprecated and will be romved in the future. Use "web_type: home" instead.',
+            'web_home is deprecated and will be removed from Publican in the future. Use "web_type: home" instead.',
     },
     web_type => {
         descr => maketext(
-            'This is a Publican Website special page, not a standard book. Valid types are home, product & version ... TODO'
+            'This is a Publican Website special page, not a standard book. Valid types are home, product & version.'
         ),
     },
     web_host => {
@@ -421,6 +420,12 @@ sub _load_config {
         {
             $config->param( $def, $PARAMS{$def}->{default} );
         }
+
+       # Output alerts about a parameter
+       if( defined $PARAMS{$def}->{alert}
+            and defined( $config->param($def) )) {
+           _alert($PARAMS{$def}->{alert} . "\n");
+       }
     }
 
     $config->param( 'common_config',  $common_config )  if $common_config;
@@ -700,6 +705,13 @@ sub debug_msg {
         #        logger( "$caller: $func, $line\n\t$arg\n", RED );
         logger( "$caller: $arg", RED );
     }
+
+    return;
+}
+
+sub _alert {
+    my ($msg) = @_;
+    logger( $msg, RED );
 
     return;
 }
