@@ -1,0 +1,112 @@
+# publican completion
+
+_publican()
+{
+	local cur prev commands options command
+
+	COMPREPLY=()
+	cur=`_get_cword`
+
+	commands='build clean clean_ids clean_set create create_brand create_site help_config install_book install_brand lang_stats old2new package print_banned print_known print_tree print_unused remove_book site_stats update_po update_pot update_site'
+
+	if [[ $COMP_CWORD -eq 1 ]] ; then
+		if [[ "$cur" == -* ]]; then
+			COMPREPLY=( $( compgen -W '--help' -- $cur ) )
+		else
+			COMPREPLY=( $( compgen -W "$commands" -- $cur ) )
+		fi
+	else
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+		case $prev in
+			@(--site_config|--config))
+				_filedir 'cfg'
+				return 0;
+				;;
+		esac
+
+		command=${COMP_WORDS[1]}
+
+		if [[ "$cur" == -* ]]; then
+			# possible options for the command
+			case $command in
+				build)
+					options='--distributed_set --embedtoc --formats --langs --novalid --publish '
+					;;
+				clean)
+					options=''
+					;;
+				clean_ids)
+					options=''
+					;;
+				clean_set)
+					options=''
+					;;
+				create)
+					options='--brand --edition --lang --name --product --type --version '
+					;;
+				create_brand)
+					options='--lang --name '
+					;;
+				create_site)
+					options='--db_file --lang --site_config --tmpl_path --toc_path '
+					;;
+				help_config)
+					options=''
+					;;
+				install_book)
+					options='--lang --site_config '
+					;;
+				install_brand)
+					options='--path '
+					;;
+				lang_stats)
+					options='--lang '
+					;;
+				old2new)
+					options=''
+					;;
+				package)
+					options='--binary --brew --cvs --desktop --lang --scratch --short_sighted --wait '
+					;;
+				print_banned)
+					options=''
+					;;
+				print_known)
+					options=''
+					;;
+				print_tree)
+					options=''
+					;;
+				print_unused)
+					options=''
+					;;
+				remove_book)
+					options='--lang --site_config '
+					;;
+				site_stats)
+					options='--site_config '
+					;;
+				update_po)
+					options='--langs '
+					;;
+				update_pot)
+					options=''
+					;;
+				update_site)
+					options='--site_config '
+					;;
+			esac
+			options="$options --common_config --common_content --config --help --nocolours --quiet "
+			COMPREPLY=( $( compgen -W "$options" -- $cur ) )
+		else
+			if [[ "$command" == @(--help) ]]; then
+				COMPREPLY=( $( compgen -W "$commands" -- $cur ) )
+			else
+				_filedir
+			fi
+		fi
+	fi
+
+	return 0
+}
+complete -F _publican publican
