@@ -241,8 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 - Remove ant trails from selected links.
 - Add --novalid option to disable validation when building. BZ #616142
 - Revert change to escaping ' & ". BZ #628266
-- Add bash completion ...
-- Add support for product and version splash pages. BZ #...
+- Add support for product and version splash pages. BZ #613502
 - Fix unused version breaking product hiding.
 - Add support for alerts for parameters.
 
