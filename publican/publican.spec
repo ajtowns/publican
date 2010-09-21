@@ -24,7 +24,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t71
+Release:        0%{?dist}.t74
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -215,6 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/publican
 %{_datadir}/publican
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/publican-website.cfg
+%{_sysconfdir}/bash_completion.d/_publican
 
 %files doc
 %defattr(-,root,root,-)
@@ -244,6 +245,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add support for product and version splash pages. BZ #613502
 - Fix unused version breaking product hiding.
 - Add support for alerts for parameters.
+- Add bash completion.
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.

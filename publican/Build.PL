@@ -124,14 +124,6 @@ my $class = Module::Build->subclass(
             }
         }
       }
-#      sub  process_sitetemplate_files {
-#        my $self = shift;
-#        use Cwd;
-#        use File::Copy::Recursive qw(rcopy);
-#        my $pwd = getcwd();
-#        rcopy("$pwd/blib/generated", "$pwd/blib/sitetemplate");
-#        rcopy("$pwd/blib/web/*", "$pwd/blib/sitetemplate/.");
-#      }
   }
 );
 
@@ -244,11 +236,12 @@ my $builder = $class->new(
     ],
     script_files => ['bin/publican'],
     install_path => {
-        'datadir'   => '/usr/share/publican',
-        'generated' => '/usr/share/publican/sitetemplate',
-        'web'       => '/usr/share/publican/sitetemplate',
-        'templates' => '/usr/share/publican/templates',
-        'etc'       => '/etc',
+        'datadir'    => '/usr/share/publican',
+        'generated'  => '/usr/share/publican/sitetemplate',
+        'web'        => '/usr/share/publican/sitetemplate',
+        'templates'  => '/usr/share/publican/templates',
+        'etc'        => '/etc',
+        'completion' => '/etc/bash_completion.d',
     },
     data_files => {
         'datadir/fop/fop.xconf' => 'datadir/fop/fop.xconf',
@@ -281,13 +274,13 @@ my $builder = $class->new(
     },
     etc_files =>
         { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
+    completion_files => { 'completion/_publican' => 'completion/_publican', },
 );
 $builder->add_build_element('common');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
-
-#$builder->add_build_element('sitetemplate');
 $builder->add_build_element('templates');
 $builder->add_build_element('etc');
 $builder->add_build_element('generated');
+$builder->add_build_element('completion');
 $builder->create_build_script();
