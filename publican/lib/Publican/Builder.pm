@@ -97,9 +97,7 @@ sub new {
 
 Transform the source in to another format.
 
-FORMATS eclipse epub html html-single html-desktop pdf txt
-
-Valid formats: eclipse epub html html-single html-desktop pdf txt
+Valid formats: eclipse epub html html-single html-desktop man pdf txt
 
 =cut
 
@@ -799,6 +797,9 @@ sub transform {
         $xslt_opts{'eclipse.plugin.provider'} = "'$ec_provider'";
         $dir = pushd("$tmp_dir/$lang/$format");
     }
+    elsif ( $format eq 'man' ) {
+        $dir = pushd("$tmp_dir/$lang/$format");
+    }
     else {
         croak( maketext( "Unknown format: [_1]", $format ) );
     }
@@ -970,6 +971,9 @@ sub transform {
                 . "\n"
         );
         $dir = undef;
+    }
+    elsif ( $format eq 'man' ) {
+        # NO-OP?
     }
     else {
         $dir = undef;

@@ -27,7 +27,7 @@ _publican()
 				return 0;
 				;;
 			--formats)
-				COMPREPLY=( $( compgen -W "html pdf html-single xml eclipse" -- $cur ) )
+				COMPREPLY=( $( compgen -W "eclipse epub html html-single html-desktop man pdf txt" -- $cur ) )
 				return 0;
 				;;
 		esac
