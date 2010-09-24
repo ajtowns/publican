@@ -155,9 +155,13 @@ sub po2xml {
 ##debug_msg("is utf8  key " . utf8::is_utf8($key) . "\n");
         my $msgref = $msgids->{$key};
 ##debug_msg("is utf8 msgref " . utf8::is_utf8($msgref->msgstr()) . "\n");
-        if ( $msgref->obsolete() || $msgref->fuzzy() ) {
+        if ( $msgref->obsolete() ) {
 ##            debug_msg("Deleting obsolete msg_id: $key\n");
             delete( $msgids->{$key} );
+        }
+        if ( $msgref->fuzzy() ) {
+##            debug_msg("no fuzzy matches: $key\n");
+            $msgref->msgstr("");
         }
     }
 
@@ -604,10 +608,18 @@ sub translate {
         }
         else {
 ##        debug_msg("WARNING: Un-translated message: '$msgid'\n");
+            if($msgids->{$msgid}->fuzzy()) { # BUGBUG TEST this is still set
+                logger(maketext("WARNING: Fuzzy message in PO file."), RED);
+            } else {
+                logger(maketext("WARNING: Un-translated message in PO file."), RED);
+            }
+            logger("\n" . $msgid . "\n\n", RED);
         }
     }
     else {
 ##         debug_msg("WARNING: Missing message: '\n$msgid\n'\n");
+            logger(maketext("WARNING: Message missing from PO file, consider updating your POT and PO files."), RED);
+            logger("\n" . $msgid . "\n\n", RED);
     }
     return;
 }
