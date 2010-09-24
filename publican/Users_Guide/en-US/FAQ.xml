@@ -273,6 +273,39 @@
 		 <qandaentry>
 			<question>
 				<para>
+					How do I enable bash command line completion for Publican?
+				</para>
+
+			</question>
+			 <answer>
+				<procedure>
+					<step>
+						<para>
+							Install the bash-completion package. e.g. <command>sudo yum install bash-completion</command>
+						</para>
+					</step>
+					<step>
+						<para>
+							Add the following to your ~/.bashrc file:
+						</para>
+<programlisting language="Bash">
+# Use bash-completion, if available
+if [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+fi
+</programlisting>
+					</step>
+					<step>
+						<para>
+							Restart your terminal or run <command>source ~/.bashrc</command>
+						</para>
+					</step>
+				</procedure>
+			</answer>
+		</qandaentry>
+		 <qandaentry>
+			<question>
+				<para>
 					Why does Jeff call Isaac &lsquo;Ivan&rsquo;?
 				</para>
 

@@ -22,6 +22,14 @@ _publican()
 				_filedir 'cfg'
 				return 0;
 				;;
+			--lang)
+				_filedir -d
+				return 0;
+				;;
+			--formats)
+				COMPREPLY=( $( compgen -W "html pdf html-single xml eclipse" -- $cur ) )
+				return 0;
+				;;
 		esac
 
 		command=${COMP_WORDS[1]}
