@@ -24,7 +24,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t81
+Release:        0%{?dist}.t83
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 - Add bash completion.
 - Validate revnumber for changelog. BZ #628464
 - Add basic man page support. BZ #632027
+- Add basic support for line numbers. BZ #629463
+- Add warning messages for out of date translations.
+- Add productname to IGNOREBLOCKS. BZ #625316
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.

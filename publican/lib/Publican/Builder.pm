@@ -816,6 +816,7 @@ sub transform {
     XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
     XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts',
         \&insertCallouts );
+    XML::LibXSLT->register_function( 'urn:perl', 'numberLines', \&numberLines );
     XML::LibXSLT->max_depth(1000);
 
     my $security = XML::LibXSLT::Security->new();
@@ -1447,6 +1448,45 @@ sub insertCallouts {
     $childnode->replaceNode( $parser->parse_xml_chunk($out_string) );
     return ($verbatim);
 }
+
+
+=head2  numberLines
+
+perl_numberLines XSL function for numbering lines.
+
+Returns: Modified input tree, which is DocBook XML.
+
+=cut
+
+sub numberLines {
+    my $content = shift();
+
+    my $parser = XML::LibXML->new();
+    $parser->expand_entities(0);
+
+    my $text      =  $content->string_value();
+    my $num_lines =  () = ($text =~ /^/mg);
+    my $format    = '%' . length("$num_lines") . 's:' . chr(160);
+
+    my $out_string = $text;
+    my $count = 0;
+    $out_string =~ s/^/sprintf("$format",$count++)/egm;
+
+    # this gives an XML::LibXML::DocumentFragment
+    my $list = $parser->parse_balanced_chunk($out_string);
+
+    # remove the input node
+    $content->shift;
+
+    # append the marked-up nodes
+    foreach my $node ( $list->childNodes() ) {
+        $content->push($node);
+    }
+
+    return ($content);
+}
+
+
 
 =head2 package_brand
 

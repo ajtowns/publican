@@ -2634,4 +2634,144 @@ Not sure why it doesn't work in there.
   </fo:block>
 </xsl:template>
 
+<xsl:template name="number.rtf.lines">
+  <xsl:param name="rtf" select="''"/>
+  <xsl:param name="pi.context" select="."/>
+
+  <!-- Save the global values -->
+  <xsl:variable name="global.linenumbering.everyNth"
+                select="$linenumbering.everyNth"/>
+
+  <xsl:variable name="global.linenumbering.separator"
+                select="$linenumbering.separator"/>
+
+  <xsl:variable name="global.linenumbering.width"
+                select="$linenumbering.width"/>
+
+  <!-- Extract the <?dbfo linenumbering.*?> PI values -->
+  <xsl:variable name="pi.linenumbering.everyNth">
+    <xsl:call-template name="pi.dbfo_linenumbering.everyNth">
+      <xsl:with-param name="node" select="$pi.context"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:variable name="pi.linenumbering.separator">
+    <xsl:call-template name="pi.dbfo_linenumbering.separator">
+      <xsl:with-param name="node" select="$pi.context"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:variable name="pi.linenumbering.width">
+    <xsl:call-template name="pi.dbfo_linenumbering.width">
+      <xsl:with-param name="node" select="$pi.context"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <!-- Construct the 'in-context' values -->
+  <xsl:variable name="linenumbering.everyNth">
+    <xsl:choose>
+      <xsl:when test="$pi.linenumbering.everyNth != ''">
+        <xsl:value-of select="$pi.linenumbering.everyNth"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$global.linenumbering.everyNth"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="linenumbering.separator">
+    <xsl:choose>
+      <xsl:when test="$pi.linenumbering.separator != ''">
+        <xsl:value-of select="$pi.linenumbering.separator"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$global.linenumbering.separator"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="linenumbering.width">
+    <xsl:choose>
+      <xsl:when test="$pi.linenumbering.width != ''">
+        <xsl:value-of select="$pi.linenumbering.width"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$global.linenumbering.width"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="linenumbering.startinglinenumber">
+    <xsl:choose>
+      <xsl:when test="$pi.context/@startinglinenumber">
+        <xsl:value-of select="$pi.context/@startinglinenumber"/>
+      </xsl:when>
+      <xsl:when test="$pi.context/@continuation='continues'">
+        <xsl:variable name="lastLine">
+          <xsl:choose>
+            <xsl:when test="$pi.context/self::programlisting">
+              <xsl:call-template name="lastLineNumber">
+                <xsl:with-param name="listings"
+                     select="preceding::programlisting[@linenumbering='numbered']"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:when test="$pi.context/self::screen">
+              <xsl:call-template name="lastLineNumber">
+                <xsl:with-param name="listings"
+                     select="preceding::screen[@linenumbering='numbered']"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:when test="$pi.context/self::literallayout">
+              <xsl:call-template name="lastLineNumber">
+                <xsl:with-param name="listings"
+                     select="preceding::literallayout[@linenumbering='numbered']"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:when test="$pi.context/self::address">
+              <xsl:call-template name="lastLineNumber">
+                <xsl:with-param name="listings"
+                     select="preceding::address[@linenumbering='numbered']"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:when test="$pi.context/self::synopsis">
+              <xsl:call-template name="lastLineNumber">
+                <xsl:with-param name="listings"
+                     select="preceding::synopsis[@linenumbering='numbered']"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:message>
+                <xsl:text>Unexpected verbatim environment: </xsl:text>
+                <xsl:value-of select="local-name(.)"/>
+              </xsl:message>
+              <xsl:value-of select="0"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+
+        <xsl:value-of select="$lastLine + 1"/>
+      </xsl:when>
+      <xsl:otherwise>1</xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="function-available('sverb:numberLines')">
+      <xsl:copy-of select="sverb:numberLines($rtf)"/>
+    </xsl:when>
+    <xsl:when test="function-available('xverb:numberLines')">
+      <xsl:copy-of select="xverb:numberLines($rtf)"/>
+    </xsl:when>
+    <xsl:when test="function-available('perl:numberLines')">
+      <xsl:copy-of select="perl:numberLines($rtf)"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:message terminate="yes">
+        <xsl:text>No numberLines function available.</xsl:text>
+      </xsl:message>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+
 </xsl:stylesheet>
