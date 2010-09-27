@@ -24,7 +24,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t83
+Release:        0%{?dist}.t89
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -241,7 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix support for def_lang for web sites. BZ #622030
 - Remove ant trails from selected links.
 - Add --novalid option to disable validation when building. BZ #616142
-- Revert change to escaping ' & ". BZ #628266
+- Revert change to escaping ' and ". BZ #628266
 - Add support for product and version splash pages. BZ #613502
 - Fix unused version breaking product hiding.
 - Add support for alerts for parameters.
@@ -251,6 +251,8 @@ rm -rf $RPM_BUILD_ROOT
 - Add basic support for line numbers. BZ #629463
 - Add warning messages for out of date translations.
 - Add productname to IGNOREBLOCKS. BZ #625316
+- Add basic OPDS support. BZ #615831
+- Fix translated labels in web nav. BZ #631647
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.

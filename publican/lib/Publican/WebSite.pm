@@ -743,6 +743,7 @@ SEARCH
     }
 
     $vars->{untrans_lang} = $self->{def_lang};
+    my @odps_list;
 
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
         my $product_label = $product;
@@ -851,6 +852,16 @@ SEARCH
                             "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
+                        if($type_data{'ext'}) {
+                            my %odps_url = (
+                                'title' => "$book_label",
+                                'id' => "$lang-$product-$version-$book",
+                                'lang' => $language,
+                                'update_date' => $list2->{$product}{$version}{$book}{update_date},
+                                'url' => "$host/$lang/$product/$version/$type/$book/". $type_data{'ext'},
+                            );
+                            push(@odps_list, \%odps_url);
+                        }
 ## hmm epub link for safari ...
 ##                        $type_data{prep} = "epub://$host/docs/$lang/";
                         $type_data{onclick} = 0;
@@ -910,6 +921,18 @@ SEARCH
     $self->{Template}->process(
         'toc.tmpl', $vars,
         $self->{toc_path} . "/$language/toc.html",
+        binmode => ':utf8'
+    ) or croak( $self->{Template}->error() );
+
+    my $odps_vars;
+    $odps_vars->{urls} = \@odps_list;
+    $odps_vars->{site_update_date} = DateTime->now();
+##    $odps_vars->{} = ;
+##    $odps_vars->{} = ;
+
+    $self->{Template}->process(
+        'odps.tmpl', $odps_vars,
+        $self->{toc_path} . "/$language/opds.xml",
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );
 

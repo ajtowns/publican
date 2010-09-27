@@ -1890,6 +1890,39 @@ sub package {
         || "";
     my $web_name_label = $self->{publican}->param('web_name_label') || "";
 
+
+        if ( $lang ne $xml_lang ) {
+            my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
+            croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
+                if ( !-f $xml_file );
+
+            my $xml_doc = XML::TreeBuilder->new();
+            $xml_doc->parse_file($xml_file);
+
+            # BUGBUG can't translate overridden labels :(
+            unless ($web_product_label) {
+                $web_product_label = eval {
+                    $xml_doc->root()->look_down( "_tag", "productname" )
+                        ->as_text();
+                };
+                if ($@) {
+                    croak maketext("productname not found in Info file");
+                }
+                $web_product_label =~ s/\s/_/g;
+            }
+
+            unless ($web_name_label) {
+                $web_name_label = eval {
+                    $xml_doc->root()->look_down( "_tag", "title" )->as_text();
+                };
+                if ($@) {
+                    croak maketext("title not found in Info file");
+                }
+                $web_name_label =~ s/\s/_/g;
+            }
+        }
+
+
     my $log = $self->change_log();
     my $abstract = $self->abstract( { lang => $lang } );
 
