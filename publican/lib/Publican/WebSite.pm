@@ -536,9 +536,11 @@ sub regen_all_toc {
 
     my $langs = $self->get_lang_list();
 
-    my @fulltoc   = ();
-    my @toc_names = ();
-    my @urls      = ();
+    my @fulltoc        = ();
+    my @toc_names      = ();
+    my @urls           = ();
+    my @opds_lang_list = ();
+    my $settings = $self->get_settings();
 
     foreach my $lang ( @{$langs} ) {
         my %toc;
@@ -576,6 +578,17 @@ sub regen_all_toc {
         push( @fulltoc, \%toc );
         my %toc_name = ( 'toc_name' => $lang_name );
         push( @toc_names, \%toc_name );
+
+        my %opds_lang = (
+            url     => qq|$lang->[0]| . '/opds.xml',
+            id      => $lang_name,
+            lang    => $lang->[0],
+            title   => $lang_name,
+            content => "blurb about $lang_name",
+            update_date => DateTime->now(),
+        );
+        push( @opds_lang_list, \%opds_lang );
+
     }
 
     my $vars = {
@@ -613,6 +626,19 @@ sub regen_all_toc {
     $self->{Template}->process(
         'index.tmpl', $vars,
         $self->{toc_path} . "/index.html",
+        binmode => ':utf8'
+    ) or croak( $self->{Template}->error() );
+
+    # This file contains all the langauges.
+    my $opds_vars;
+    $opds_vars->{langs}         = \@opds_lang_list;
+    $opds_vars->{site_update_date} = DateTime->now();
+    $opds_vars->{self} = $settings->{host} . "/opds.xml";
+##    $opds_vars->{} = ;
+
+    $self->{Template}->process(
+        'opds-langs.tmpl', $opds_vars,
+        $self->{toc_path} . "/opds.xml",
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );
 
@@ -743,15 +769,16 @@ SEARCH
     }
 
     $vars->{untrans_lang} = $self->{def_lang};
-    my @odps_list;
+    my @opds_prod_list;
 
     foreach my $product ( sort( keys( %{$list2} ) ) ) {
+        my @opds_list;
         my $product_label = $product;
         my %prod_data;
         my @versions = ();
 
         if ( -f "$self->{toc_path}/$language/$product/index.html" ) {
-            $prod_data{'product_icon'}    = 1;
+            $prod_data{'product_icon'} = 1;
             my $url = {
                 url         => qq|$host/$language/$product/index.html|,
                 update_date => ctime(
@@ -762,6 +789,8 @@ SEARCH
             };
 
             push( @{$urls}, $url );
+        } else {
+            $prod_data{'product_icon'} = 0;
         }
 
         foreach my $version (
@@ -771,19 +800,28 @@ SEARCH
             my %ver_data;
             my @books         = ();
             my @untrans_books = ();
-            if ( -f "$self->{toc_path}/$language/$product/$version/index.html" ) {
-                $ver_data{'ver_icon'}    = 1;
-                my $url = {
-                    url         => qq|$host/$language/$product/$version/index.html|,
-                    update_date => ctime(
-                    (   stat(
-                            "$self->{toc_path}/$language/$product/$version/index.html")
-                    )[9]
-                ),
-            };
+            my $category      = $version_label;
 
-            push( @{$urls}, $url );
-        }
+## BUGBUG TODO labels
+## It makes more sense to do an SQL query here for the labels instead of
+## doing it in the book loop.
+
+            if ( -f "$self->{toc_path}/$language/$product/$version/index.html"
+                )
+            {
+                $ver_data{'ver_icon'} = 1;
+                my $url = {
+                    url => qq|$host/$language/$product/$version/index.html|,
+                    update_date => ctime(
+                        (   stat(
+                                "$self->{toc_path}/$language/$product/$version/index.html"
+                            )
+                        )[9]
+                    ),
+                };
+
+                push( @{$urls}, $url );
+            }
 
             foreach
                 my $book ( sort( keys( %{ $list2->{$product}{$version} } ) ) )
@@ -852,15 +890,23 @@ SEARCH
                             "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );
                         $type_data{'ext'} = pop(@filelist);
-                        if($type_data{'ext'}) {
-                            my %odps_url = (
-                                'title' => "$book_label",
-                                'id' => "$lang-$product-$version-$book",
-                                'lang' => $language,
-                                'update_date' => $list2->{$product}{$version}{$book}{update_date},
-                                'url' => "$host/$lang/$product/$version/$type/$book/". $type_data{'ext'},
+                        if ( $type_data{'ext'} ) {
+                            my %opds_url = (
+                                title => "$book_label",
+                                id    => "$lang-$product-$version-$book",
+                                lang  => $language,
+                                update_date =>
+                                    $list2->{$product}{$version}{$book}
+                                    {update_date},
+                                url =>
+                                    "$host/$lang/$product/$version/$type/$book/"
+                                    . $type_data{'ext'},
+                                category => $category,
                             );
-                            push(@odps_list, \%odps_url);
+                            $category = "";
+                            $opds_url{'title'} =~ s/_/ /g;
+
+                            push( @opds_list, \%opds_url );
                         }
 ## hmm epub link for safari ...
 ##                        $type_data{prep} = "epub://$host/docs/$lang/";
@@ -914,6 +960,28 @@ SEARCH
         $prod_data{'product_clean'} =~ s/_/ /g;
         $prod_data{'versions'} = \@versions;
         push( @products, \%prod_data );
+
+        # This file contains books for all versions of a product.
+        my $opds_vars;
+        $opds_vars->{urls}             = \@opds_list;
+        $opds_vars->{site_update_date} = DateTime->now();
+        $opds_vars->{self} = "$host/$language/opds-$product.xml";
+##        $opds_vars->{} = ;
+
+        $self->{Template}->process(
+            'opds.tmpl', $opds_vars,
+            $self->{toc_path} . "/$language/opds-$product.xml",
+            binmode => ':utf8'
+        ) or croak( $self->{Template}->error() );
+
+        my %opds_p_url = (
+            'title'       => $prod_data{'product_clean'},
+            'id'          => "$language-$product",
+            'lang'        => $language,
+            'update_date' => DateTime->now(),
+            'url'         => "opds-$product.xml",
+        );
+        push( @opds_prod_list, \%opds_p_url );
     }
 
     $vars->{'products'} = \@products;
@@ -924,14 +992,15 @@ SEARCH
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );
 
-    my $odps_vars;
-    $odps_vars->{urls} = \@odps_list;
-    $odps_vars->{site_update_date} = DateTime->now();
-##    $odps_vars->{} = ;
-##    $odps_vars->{} = ;
+    # This file contains all products for this langauge.
+    my $opds_vars;
+    $opds_vars->{products}         = \@opds_prod_list;
+    $opds_vars->{site_update_date} = DateTime->now();
+    $opds_vars->{self} = "$host/$language/opds.xml";
+##    $opds_vars->{} = ;
 
     $self->{Template}->process(
-        'odps.tmpl', $odps_vars,
+        'opds-prods.tmpl', $opds_vars,
         $self->{toc_path} . "/$language/opds.xml",
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );

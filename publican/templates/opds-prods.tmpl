@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:dc="http://purl.org/dc/terms/"
+      xmlns:opds="http://opds-spec.org/2010/catalog">
+  <link rel="self"  href="[% self %]" type="application/atom+xml;type=feed;profile=opds-catalog"/>
+  <link rel="http://opds-spec.org/crawlable" type="application/atom+xml" href="http://bookserver.archive.org/catalog/crawlable" title="Crawlable feed"/>
+  <!--id>[% site_id %]</id-->
+  <!--title>[% site_title %]</title-->
+  <updated>[% site_update_date %]</updated>
+  <!--author>
+    <name>[% site_auth_name %]</name>
+    <uri>[% site_auth_uri %]</uri>
+  </author-->
+
+[%- FOREACH products %]
+  <entry>
+    <title>[% title %]</title>
+    <id>[% id %]</id>
+    <updated>[% update_date %]</updated>
+    <dc:language>[% lang %]</dc:language>
+    <content type="text">product blurb ...</content>
+    <link type="application/atom+xml;type=feed;profile=opds-catalog" href="[% url %]"/>
+ </entry>
+[%- END %]
+</feed>

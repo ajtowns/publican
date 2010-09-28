@@ -2,9 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom"
       xmlns:dc="http://purl.org/dc/terms/"
       xmlns:opds="http://opds-spec.org/2010/catalog">
+  <link rel="self"  href="[% self %]" type="application/atom+xml;type=feed;profile=opds-catalog"/>
   <!--id>[% site_id %]</id-->
-  <link rel="self"  href="/opds-catalogs/new.xml" type="application/atom+xml;type=feed;profile=opds-catalog"/>
-  <link rel="start" href="/opds-catalogs/root.xml" type="application/atom+xml;type=feed;profile=opds-catalog"/>
   <!--title>[% site_title %]</title-->
   <updated>[% site_update_date %]</updated>
   <!--author>
@@ -22,8 +21,9 @@
     </author-->
     <updated>[% update_date %]</updated>
     <dc:language>[% lang %]</dc:language>
+    <category label="[% category %]" scheme="http://lexcycle.com/stanza/header" term="free"/>
     <!--dc:issued>[% issued %]</dc:issued-->
-    <!--content type="text">[% abstract %]</content-->
+    <content type="text">[% abstract %] blurb about ...</content>
     <!--link type="image/png" rel="http://opds-spec.org/cover"           href="http://opds-spec.org/covers/4561.lrg.png"/>
     <link type="image/png" rel="http://opds-spec.org/cover-thumbnail" href="http://opds-spec.org/covers/4561.thmb.png"/-->
 
@@ -32,6 +32,7 @@
           href="[% url %]">
       <dc:format>application/epub+zip</dc:format>
     </link>      
+    <!--link type="application/atom+xml;type=entry" href="[% full_url %]" rel="alternate" title="Full entry"/-->
  </entry>
 [%- END %]
 </feed>

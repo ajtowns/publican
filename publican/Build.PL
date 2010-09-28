@@ -268,7 +268,9 @@ my $builder = $class->new(
     },
     templates_files => {
         'templates/index.tmpl'      => 'templates/index.tmpl',
-        'templates/odps.tmpl'       => 'templates/odps.tmpl',
+        'templates/opds.tmpl'       => 'templates/opds.tmpl',
+        'templates/opds-langs.tmpl' => 'templates/opds-langs.tmpl',
+        'templates/opds-prods.tmpl' => 'templates/opds-prods.tmpl',
         'templates/static_toc.tmpl' => 'templates/static_toc.tmpl',
         'templates/toc.tmpl'        => 'templates/toc.tmpl',
         'templates/stats.tmpl'      => 'templates/stats.tmpl',
