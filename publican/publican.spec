@@ -24,7 +24,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t89
+Release:        0%{?dist}.t90
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -253,6 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add productname to IGNOREBLOCKS. BZ #625316
 - Add basic OPDS support. BZ #615831
 - Fix translated labels in web nav. BZ #631647
+- Remove highlighting from output of prompt tag in html. BZ #618902 <ryanlerch@gmail.com>
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.
