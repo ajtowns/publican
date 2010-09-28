@@ -242,7 +242,7 @@ my %PARAMS = (
     },
     scm => {
         descr => maketext(
-            'Type of repository Remote Set Books are stored in. Supported types: SVN.'
+            'Type of repository in which books that form part of a remote set are stored. Supported types: SVN.'
         ),
 
     },
@@ -297,41 +297,41 @@ my %PARAMS = (
     },
     web_home => {
         descr => maketext(
-            'This is a Publican Website home page, not a standard book.'
+            'This is a home page for a Publican-generated website, not a standard book.'
         ),
         alert =>
             'web_home is deprecated and will be removed from Publican in the future. Use "web_type: home" instead.',
     },
     web_type => {
         descr => maketext(
-            'This is a Publican Website special page, not a standard book. Valid types are home, product & version.'
+            'This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version.'
         ),
     },
     web_host => {
         descr => maketext(
-            'This is a Publican Website host name, used for searches and Sitemap.Be sure to include the full path to your document tree. e.g. if your documentas are in the docs directory: http://www.example.com/docs'
+            'This is a host name for a Publican-generated website, used for searches and the Sitemap. Be sure to include the full path to your document tree. E.g. if your documents are in the docs directory: http://www.example.com/docs'
         ),
     },
     web_obsoletes =>
         { descr => maketext('Packages to obsolete in web RPM.'), },
     web_search => {
         descr => maketext(
-            'Override the default search form for a Publican Website. By default this will use Gogle search and do a site search if web_host is set.'
+            'Override the default search form for a Publican website. By default this will use Google search and do a site search if web_host is set.'
         ),
     },
     web_name_label => {
         descr => maketext(
-            'Override the book name, bottom level, menu label on a Publican Website.'
+            'Override the book name, bottom level, menu label on a Publican website.'
         ),
     },
     web_product_label => {
         descr => maketext(
-            'Override the product, top level, menu label on a Publican Website.'
+            'Override the product, top level, menu label on a Publican website.'
         ),
     },
     web_version_label => {
         descr => maketext(
-            'Override the version, middle level, menu label on a Publican Website. To hide this meu item set this to: UNUSED'
+            'Override the version, middle level, menu label on a Publican website. To hide this menu item set this to: UNUSED'
         ),
     },
     xml_lang => {
