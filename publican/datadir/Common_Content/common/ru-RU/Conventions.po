@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-12-01T23:44:40\n"
+"POT-Creation-Date: 2010-09-28T06:49:34\n"
 "PO-Revision-Date: 2009-12-03 11:10+1100\n"
 "Last-Translator: Yulia <ypoyarko@redhat.com>\n"
 "Language-Team: \n"
@@ -105,8 +105,8 @@ msgid "Choose <menuchoice><guimenu>System</guimenu><guisubmenu>Preferences</guis
 msgstr "В главном меню выберите <menuchoice><guimenu>Система</guimenu><guisubmenu>Параметры</guisubmenu><guimenuitem> Мышь</guimenuitem></menuchoice> для запуска утилиты <application>Настройки мыши</application>. На вкладке <guilabel>Кнопки</guilabel> установите флажок <guilabel>Настроить мышь под левую руку</guilabel> и нажмите кнопку <guibutton>Закрыть</guibutton>, чтобы настроить мышь для левши."
 
 #. Tag: para
-#, no-c-format
-msgid "To insert a special character into a <application>gedit</application> file, choose <menuchoice><guimenu>Applications</guimenu><guisubmenu>Accessories</guisubmenu><guimenuitem>Character Map</guimenuitem></menuchoice> from the main menu bar. Next, choose <menuchoice><guimenu>Search</guimenu><guimenuitem>Find&hellip;</guimenuitem></menuchoice> from the <application>Character Map</application> menu bar, type the name of the character in the <guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The character you sought will be highlighted in the <guilabel>Character Table</guilabel>. Double-click this highlighted character to place it in the <guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</guibutton> button. Now switch back to your document and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice> from the <application>gedit</application> menu bar."
+#, fuzzy, no-c-format
+msgid "To insert a special character into a <application>gedit</application> file, choose <menuchoice><guimenu>Applications</guimenu><guisubmenu>Accessories</guisubmenu><guimenuitem>Character Map</guimenuitem></menuchoice> from the main menu bar. Next, choose <menuchoice><guimenu>Search</guimenu><guimenuitem>Find&amp;hellip;</guimenuitem></menuchoice> from the <application>Character Map</application> menu bar, type the name of the character in the <guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The character you sought will be highlighted in the <guilabel>Character Table</guilabel>. Double-click this highlighted character to place it in the <guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</guibutton> button. Now switch back to your document and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice> from the <application>gedit</application> menu bar."
 msgstr "Чтобы вставить специальный символ в файл <application>gedit</application>, выберите <menuchoice><guimenu>Приложения</guimenu><guisubmenu>Стандартные</guisubmenu><guimenuitem> Таблица символов</guimenuitem></menuchoice>. Затем в меню выберите <menuchoice><guimenu>Поиск</guimenu><guimenuitem>Поиск&hellip;</guimenuitem></menuchoice>, введите имя символа и нажмите кнопку <guibutton>Найти следующее</guibutton>. Найденный символ будет выделен в <guilabel>таблице символов</guilabel>. Дважды щелкните на этом символе, чтобы вставить его в поле <guilabel>Текст для копирования</guilabel> и нажмите кнопку <guibutton>Копировать</guibutton>. Теперь вернитесь к вашему документу и в меню выберите <menuchoice><guimenu>Правка</guimenu><guimenuitem>Вставить</guimenuitem></menuchoice>."
 
 #. Tag: para
@@ -140,8 +140,8 @@ msgid "To see the version of a currently installed package, use the <command>rpm
 msgstr "Чтобы просмотреть версию установленного пакета, выполните команду <command>rpm -q <replaceable>пакет</replaceable></command>. Результат команды будет представлен в формате <command><replaceable>пакет-версия-выпуск</replaceable></command>."
 
 #. Tag: para
-#, no-c-format
-msgid "Note the words in bold italics above &mdash; username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system."
+#, fuzzy, no-c-format
+msgid "Note the words in bold italics above &amp;mdash; username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system."
 msgstr "В приведенных примерах жирным курсивом выделяются имя пользователя, имя домена, файловой системы, пакет, его версия и выпуск."
 
 #. Tag: para
@@ -169,15 +169,61 @@ msgstr "Вывод экрана и листинг исходного кода б
 msgid "Output sent to a terminal is set in <computeroutput>mono-spaced roman</computeroutput> and presented thus:"
 msgstr "Для отображения текста, который вы увидите на экране, используется <computeroutput>моноширинный шрифт</computeroutput>:"
 
+#. Tag: screen
+#, no-c-format
+msgid ""
+"books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
+"books_tests  Desktop1  downloads      images  notes  scripts  svgs"
+msgstr ""
+
 #. Tag: para
 #, no-c-format
 msgid "Source-code listings are also set in <computeroutput>mono-spaced roman</computeroutput> but add syntax highlighting as follows:"
 msgstr "Для отображения содержимого исходного кода используется <computeroutput>моноширинный шрифт</computeroutput>:"
 
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"package org.jboss.book.jca.ex1;\n"
+"\n"
+"import javax.naming.InitialContext;\n"
+"\n"
+"public class ExClient\n"
+"{\n"
+"   public static void main(String args[]) \n"
+"       throws Exception\n"
+"   {\n"
+"      InitialContext iniCtx = new InitialContext();\n"
+"      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
+"      EchoHome       home   = (EchoHome) ref;\n"
+"      Echo           echo   = home.create();\n"
+"\n"
+"      System.out.println(\"Created Echo\");\n"
+"\n"
+"      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
+"   }\n"
+"}"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Notes and Warnings"
+msgstr "Примечания и предупреждения"
+
 #. Tag: para
 #, no-c-format
 msgid "Finally, we use three visual styles to draw attention to information that might otherwise be overlooked."
 msgstr "Наконец, чтобы привлечь внимание читателя к важной информации, используются три стиля."
+
+#. Tag: title
+#, no-c-format
+msgid "Note"
+msgstr "Примечание"
+
+#. Tag: para
+#, no-c-format
+msgid "Notes are tips, shortcuts or alternative approaches to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier."
+msgstr "Примечания обычно содержат дополнительную информацию. Если вы их проигнорируете, это не критично, но вы можете пропустить совет, который, возможно, поможет сэкономить время при выполнении задания."
 
 #. Tag: title
 #, no-c-format
@@ -198,18 +244,3 @@ msgstr "Предупреждение"
 #, no-c-format
 msgid "Warnings should not be ignored. Ignoring warnings will most likely cause data loss."
 msgstr "Не стоит игнорировать предупреждения, так как они содержат важную информацию, которая позволит избежать потери данных."
-
-#. Tag: title
-#, no-c-format
-msgid "Notes and Warnings"
-msgstr "Примечания и предупреждения"
-
-#. Tag: para
-#, no-c-format
-msgid "Notes are tips, shortcuts or alternative approaches to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier."
-msgstr "Примечания обычно содержат дополнительную информацию. Если вы их проигнорируете, это не критично, но вы можете пропустить совет, который, возможно, поможет сэкономить время при выполнении задания."
-
-#. Tag: title
-#, no-c-format
-msgid "Note"
-msgstr "Примечание"

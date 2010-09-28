@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-12-01T23:44:40\n"
+"POT-Creation-Date: 2010-09-28T06:49:34\n"
 "PO-Revision-Date: 2009-05-08 11:51+0100\n"
 "Last-Translator: Arnes Arnautović <arnes99@gmail.com>\n"
 "Language-Team: Bosnian (bs) <fedora-trans-bs@redhat.com>\n"
@@ -41,8 +41,28 @@ msgstr "Četiri tipografske konvencije se koriste radi skretanja pažnje na odre
 
 #. Tag: para
 #, no-c-format
+msgid "<literal>Mono-spaced Bold</literal>"
+msgstr "Podebljano istoširinski "
+
+#. Tag: para
+#, no-c-format
+msgid "Used to highlight system input, including shell commands, file names and paths. Also used to highlight keycaps and key combinations. For example:"
+msgstr "Koristi se za isticanje sistemskog unosa, uključujući naredbe ljuske, nazive datoteka i putanje. Također se koristi da istakne oznake tipki tastature i kombinacije istih. Na primjer: "
+
+#. Tag: para
+#, no-c-format
 msgid "To see the contents of the file <filename>my_next_bestselling_novel</filename> in your current working directory, enter the <command>cat my_next_bestselling_novel</command> command at the shell prompt and press <keycap>Enter</keycap> to execute the command."
 msgstr "Da biste vidjeli sadržaj datoteke <filename>moj_sljedeci_bestseler</filename> u trenutnom radnom direktoriju, unesite komandu <command>cat moj_sledeci_bestseler</command> na unosu ljuske i pritisnite <keycap>Enter</keycap> da biste izvršili naredbu."
+
+#. Tag: para
+#, no-c-format
+msgid "The above includes a file name, a shell command and a keycap, all presented in mono-spaced bold and all distinguishable thanks to context."
+msgstr "Rečenica iznad sadrži naziv datoteke, naredbu ljuske i oznaku tipke tastature, sve prikazane podebljano istoširinski i sve prepoznatljive  zahvaljujući kontekstu."
+
+#. Tag: para
+#, no-c-format
+msgid "Key combinations can be distinguished from keycaps by the hyphen connecting each part of a key combination. For example:"
+msgstr "Kombinacije tipki tastature se mogu prepoznati naspram pojedinačnih tipki tastature po crtici koja spaja svaki dio kombinacije tipki. Na primjer:"
 
 #. Tag: para
 #, no-c-format
@@ -56,13 +76,53 @@ msgstr "Pritisnite <keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F2
 
 #. Tag: para
 #, no-c-format
+msgid "The first paragraph highlights the particular keycap to press. The second highlights two key combinations (each a set of three keycaps with each set pressed simultaneously)."
+msgstr "Prva rečenica ističe određenu tipku tastature koju treba pritisnuti. Druga ističe dva skupa od po tri tipke, svaki skup se pritišće istovremeno. "
+
+#. Tag: para
+#, no-c-format
+msgid "If source code is discussed, class names, methods, functions, variable names and returned values mentioned within a paragraph will be presented as above, in <literal>mono-spaced bold</literal>. For example:"
+msgstr "Ako se raspravlja o izvornom kodu, nazivi klasa, metode, funkcije, nazivi varijabli i vraćene vrijednosti koji se spominju unutar paragrafa će biti prikazani kao iznad, <literal>podebljano istoširinski</literal>. Na primjer: "
+
+#. Tag: para
+#, no-c-format
 msgid "File-related classes include <classname>filesystem</classname> for file systems, <classname>file</classname> for files, and <classname>dir</classname> for directories. Each class has its own associated set of permissions."
 msgstr "Klase koje rade sa datotekama uključuju <classname>filesystem</classname> za sisteme datoteka, <classname>file</classname> za datoteke, i <classname>dir</classname> za direktorije. Svaka klasa ima vlastiti udruženi skup dozvola."
 
 #. Tag: para
 #, no-c-format
+msgid "<application>Proportional Bold</application>"
+msgstr "Proporcionalno podebljano"
+
+#. Tag: para
+#, no-c-format
+msgid "This denotes words or phrases encountered on a system, including application names; dialog box text; labeled buttons; check-box and radio button labels; menu titles and sub-menu titles. For example:"
+msgstr "Ovo označava riječi ili izraze koje se sreću na sistemu, uključujući nazive programa, tekst u prozoru, označenu dugmad, oznake kućica i radio dugmadi, naslove izbornika i podizbornika. Na primjer: "
+
+#. Tag: para
+#, no-c-format
+msgid "Choose <menuchoice><guimenu>System</guimenu><guisubmenu>Preferences</guisubmenu><guimenuitem>Mouse</guimenuitem></menuchoice> from the main menu bar to launch <application>Mouse Preferences</application>. In the <guilabel>Buttons</guilabel> tab, click the <guilabel>Left-handed mouse</guilabel> check box and click <guibutton>Close</guibutton> to switch the primary mouse button from the left to the right (making the mouse suitable for use in the left hand)."
+msgstr "Odaberite <guimenu>Sistem &gt; Postavke &gt; Miš</guimenu> iz trake glavnog izbornika za pokretanje <application>Postavki miša</application>. Na <guilabel>Dugmad</guilabel> tabulatoru, pritisnite na kućicu <guilabel>Ljevoruki miš</guilabel> i pritisnite <guibutton>Zatvori</guibutton> kako biste prebacili osnovno dugme miša sa lijeve strane na desnu (čineći miša pogodnim za upotrebu sa lijevom rukom). "
+
+#. Tag: para
+#, fuzzy, no-c-format
+msgid "To insert a special character into a <application>gedit</application> file, choose <menuchoice><guimenu>Applications</guimenu><guisubmenu>Accessories</guisubmenu><guimenuitem>Character Map</guimenuitem></menuchoice> from the main menu bar. Next, choose <menuchoice><guimenu>Search</guimenu><guimenuitem>Find&amp;hellip;</guimenuitem></menuchoice> from the <application>Character Map</application> menu bar, type the name of the character in the <guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The character you sought will be highlighted in the <guilabel>Character Table</guilabel>. Double-click this highlighted character to place it in the <guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</guibutton> button. Now switch back to your document and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice> from the <application>gedit</application> menu bar."
+msgstr "Da biste umetnuli poseban znak u <application>gedit</application> datoteku, odaberite <guimenu>Programi &gt; Alati &gt; Tablica znakova</guimenu> iz trake glavnog izbornika. Zatim, odaberite <guimenu>Pretraga &gt; Nađi&hellip;</guimenu> iz izbornika <application>Tablice znakova</application>, unesite naziv znaka u polju <guilabel>Pretraga</guilabel> i pritisnite <guibutton>Sljedeći</guibutton>. Znak koji ste tražili će biti istaknut u <guilabel>Tablici znakova</guilabel>. Pritisnite dvaput ovaj istaknuti znak kako biste ga smjestili u polje <guilabel>Tekst za kopiranje</guilabel> i potom pritisnite dugme <guibutton>Umnoži</guibutton>. Sada se prebacite nazad u vaš dokument i izaberite <guimenu>Uređivanje &gt; Ubaci</guimenu> iz trake <application>gedit</application> izbornika. "
+
+#. Tag: para
+#, no-c-format
+msgid "The above text includes application names; system-wide menu names and items; application-specific menu names; and buttons and text found within a GUI interface, all presented in proportional bold and all distinguishable by context."
+msgstr "Tekst iznad sadrži nazive aplikacija, nazive izbornika i stavki širom sistema, nazive izbornika vezane za specifičnu aplikaciju, i dugmad i tekst koji se nalaze unutar grafičkog korisničkog sučelja, sve prikazane podebljano proporcionalno i sve prepoznatljive po kontekstu. "
+
+#. Tag: para
+#, no-c-format
 msgid "<command><replaceable>Mono-spaced Bold Italic</replaceable></command> or <application><replaceable>Proportional Bold Italic</replaceable></application>"
 msgstr "<command><replaceable>Podebljano i kurzivno istoširinski</replaceable></command> ili <application><replaceable>Podebljano i kurzivno proporcionalno</replaceable></application>"
+
+#. Tag: para
+#, no-c-format
+msgid "Whether mono-spaced bold or proportional bold, the addition of italics indicates replaceable or variable text. Italics denotes text you do not input literally or displayed text that changes depending on circumstance. For example:"
+msgstr "Bilo da se radi od podebljanom istoširinskom ili podebljanom proprocionalnom, dodavanje kurziva ukazuje na zamjenjivi ili promenljivi tekst. Kurziv označava tekst koji ne unosite doslovno ili prikazani tekst koji se mijenja ovisno o okolnostima. Na primjer: "
 
 #. Tag: para
 #, no-c-format
@@ -80,8 +140,8 @@ msgid "To see the version of a currently installed package, use the <command>rpm
 msgstr "Da biste vidjeli verziju trenutno instaliranog paketa, koristite naredbu <command>rpm -q <replaceable>paket</replaceable></command>. Vratiće sljedeći rezultat: <command><replaceable>paket-verzija-izdanje</replaceable></command>."
 
 #. Tag: para
-#, no-c-format
-msgid "Note the words in bold italics above &mdash; username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system."
+#, fuzzy, no-c-format
+msgid "Note the words in bold italics above &amp;mdash; username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system."
 msgstr "Obratite pažnju na riječi ispisane podebljanim kurzivnim slovima iznad &mdash; korisnik, ime.domene, sistem-datoteka, paket, verzija i izdanje. Svaka riječ je čuvar mjesta, bilo za tekst koji ćete unijeti pri izdavanju naredbe ili za tekst kojeg prikazuje sistem."
 
 #. Tag: para
@@ -89,10 +149,83 @@ msgstr "Obratite pažnju na riječi ispisane podebljanim kurzivnim slovima iznad
 msgid "Aside from standard usage for presenting the title of a work, italics denotes the first use of a new and important term. For example:"
 msgstr "Pored standardne upotrebe za predstavljanje naslova djela, kurzivna slova označavaju prvu upotrebu nekog novog i važnog termina. Na primjer:"
 
+#. Tag: para
+#, no-c-format
+msgid "Publican is a <firstterm>DocBook</firstterm> publishing system."
+msgstr "Publican je prvi <firstterm>DocBook</firstterm> izdavački sistem."
+
 #. Tag: title
 #, no-c-format
 msgid "Pull-quote Conventions"
 msgstr "Konvencije izvučenih citata"
+
+#. Tag: para
+#, no-c-format
+msgid "Terminal output and source code listings are set off visually from the surrounding text."
+msgstr "Ispis podataka sa terminala i ispis izvornog koda se vizuelno razlikuju od okružujućeg teksta."
+
+#. Tag: para
+#, no-c-format
+msgid "Output sent to a terminal is set in <computeroutput>mono-spaced roman</computeroutput> and presented thus:"
+msgstr "Ispis u terminalu se vrši <computeroutput>uspravno istoširinski</computeroutput> i predstavlja se kao: "
+
+#. Tag: screen
+#, no-c-format
+msgid ""
+"books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
+"books_tests  Desktop1  downloads      images  notes  scripts  svgs"
+msgstr ""
+"knjige        Radna_Površina   dokumentacija  draftovi  mss    fotografije   stvari  svn\n"
+"knjige_testovi  Radna_Površina1  snimljeno      slike  bilješke  skripte  svg-ovi"
+
+#. Tag: para
+#, no-c-format
+msgid "Source-code listings are also set in <computeroutput>mono-spaced roman</computeroutput> but add syntax highlighting as follows:"
+msgstr "Ispis izvornog koda je također postavljen <computeroutput>uspravno istoširinski</computeroutput> ali se predstavlja i ističe na sljedeći način: "
+
+#. Tag: programlisting
+#, fuzzy, no-c-format
+msgid ""
+"package org.jboss.book.jca.ex1;\n"
+"\n"
+"import javax.naming.InitialContext;\n"
+"\n"
+"public class ExClient\n"
+"{\n"
+"   public static void main(String args[]) \n"
+"       throws Exception\n"
+"   {\n"
+"      InitialContext iniCtx = new InitialContext();\n"
+"      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
+"      EchoHome       home   = (EchoHome) ref;\n"
+"      Echo           echo   = home.create();\n"
+"\n"
+"      System.out.println(\"Created Echo\");\n"
+"\n"
+"      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
+"   }\n"
+"}"
+msgstr ""
+"package org.jboss.book.jca.ex1;\n"
+"\n"
+"import javax.naming.InitialContext;\n"
+"\n"
+"public class ExClient\n"
+"{\n"
+"   public static void main(String args[]) \n"
+"       throws Exception\n"
+"   {\n"
+"      InitialContext iniCtx = new InitialContext();\n"
+"      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
+"      EchoHome       home   = (EchoHome) ref;\n"
+"      Echo           echo   = home.create();\n"
+"\n"
+"      System.out.println(\"Eho je napravljen\");\n"
+"\n"
+"      System.out.println(\"Echo.echo(&#39;Pozdrav&#39;) = \" + echo.echo(\"Pozdrav\"));\n"
+"   }\n"
+"   \n"
+"}"
 
 #. Tag: title
 #, no-c-format
@@ -109,10 +242,20 @@ msgstr "Konačno, koristimo tri vizuelna stila da bismo privukli pažnju na info
 msgid "Note"
 msgstr "Bilješka"
 
+#. Tag: para
+#, no-c-format
+msgid "Notes are tips, shortcuts or alternative approaches to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier."
+msgstr "Bilješka je savjet ili prečica ili alternativan pristup trenutnom zadatku. Zanemarivanje bilješke ne bi trebalo da ima negativnih posljedica, ali možete propustiti neki trik koji bi vam život učinio lakšim. "
+
 #. Tag: title
 #, no-c-format
 msgid "Important"
 msgstr "Važno"
+
+#. Tag: para
+#, no-c-format
+msgid "Important boxes detail things that are easily missed: configuration changes that only apply to the current session, or services that need restarting before an update will apply. Ignoring a box labeled 'Important' will not cause data loss but may cause irritation and frustration."
+msgstr "Važni okviri detaljno opisuju stvari koje se teško primjete: izmjene u podešavanjima koje se odnose samo na tekuću sesiju, ili servise koje treba ponovo pokrenuti prije nego što ažuriranje pređe u djelovanje. Zanemarivanje važnih okvira neće izazvati gubitak podataka ali može izazvati iritaciju i frustraciju. "
 
 #. Tag: title
 #, no-c-format
@@ -124,96 +267,6 @@ msgstr "Upozorenje"
 msgid "Warnings should not be ignored. Ignoring warnings will most likely cause data loss."
 msgstr "Upozorenje se nebi smjelo zanemariti. Zanemarivanje upozorenja će vjerovatno izazvati gubitak podataka. "
 
-#. Tag: para
-#, no-c-format
-msgid "Used to highlight system input, including shell commands, file names and paths. Also used to highlight keycaps and key combinations. For example:"
-msgstr "Koristi se za isticanje sistemskog unosa, uključujući naredbe ljuske, nazive datoteka i putanje. Također se koristi da istakne oznake tipki tastature i kombinacije istih. Na primjer: "
-
-#. Tag: para
-#, no-c-format
-msgid "<literal>Mono-spaced Bold</literal>"
-msgstr "Podebljano istoširinski "
-
-#. Tag: para
-#, no-c-format
-msgid "The above includes a file name, a shell command and a keycap, all presented in mono-spaced bold and all distinguishable thanks to context."
-msgstr "Rečenica iznad sadrži naziv datoteke, naredbu ljuske i oznaku tipke tastature, sve prikazane podebljano istoširinski i sve prepoznatljive  zahvaljujući kontekstu."
-
-#. Tag: para
-#, no-c-format
-msgid "To insert a special character into a <application>gedit</application> file, choose <menuchoice><guimenu>Applications</guimenu><guisubmenu>Accessories</guisubmenu><guimenuitem>Character Map</guimenuitem></menuchoice> from the main menu bar. Next, choose <menuchoice><guimenu>Search</guimenu><guimenuitem>Find&hellip;</guimenuitem></menuchoice> from the <application>Character Map</application> menu bar, type the name of the character in the <guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The character you sought will be highlighted in the <guilabel>Character Table</guilabel>. Double-click this highlighted character to place it in the <guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</guibutton> button. Now switch back to your document and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice> from the <application>gedit</application> menu bar."
-msgstr "Da biste umetnuli poseban znak u <application>gedit</application> datoteku, odaberite <guimenu>Programi &gt; Alati &gt; Tablica znakova</guimenu> iz trake glavnog izbornika. Zatim, odaberite <guimenu>Pretraga &gt; Nađi&hellip;</guimenu> iz izbornika <application>Tablice znakova</application>, unesite naziv znaka u polju <guilabel>Pretraga</guilabel> i pritisnite <guibutton>Sljedeći</guibutton>. Znak koji ste tražili će biti istaknut u <guilabel>Tablici znakova</guilabel>. Pritisnite dvaput ovaj istaknuti znak kako biste ga smjestili u polje <guilabel>Tekst za kopiranje</guilabel> i potom pritisnite dugme <guibutton>Umnoži</guibutton>. Sada se prebacite nazad u vaš dokument i izaberite <guimenu>Uređivanje &gt; Ubaci</guimenu> iz trake <application>gedit</application> izbornika. "
-
-#. Tag: para
-#, no-c-format
-msgid "Choose <menuchoice><guimenu>System</guimenu><guisubmenu>Preferences</guisubmenu><guimenuitem>Mouse</guimenuitem></menuchoice> from the main menu bar to launch <application>Mouse Preferences</application>. In the <guilabel>Buttons</guilabel> tab, click the <guilabel>Left-handed mouse</guilabel> check box and click <guibutton>Close</guibutton> to switch the primary mouse button from the left to the right (making the mouse suitable for use in the left hand)."
-msgstr "Odaberite <guimenu>Sistem &gt; Postavke &gt; Miš</guimenu> iz trake glavnog izbornika za pokretanje <application>Postavki miša</application>. Na <guilabel>Dugmad</guilabel> tabulatoru, pritisnite na kućicu <guilabel>Ljevoruki miš</guilabel> i pritisnite <guibutton>Zatvori</guibutton> kako biste prebacili osnovno dugme miša sa lijeve strane na desnu (čineći miša pogodnim za upotrebu sa lijevom rukom). "
-
-#. Tag: para
-#, no-c-format
-msgid "Key combinations can be distinguished from keycaps by the hyphen connecting each part of a key combination. For example:"
-msgstr "Kombinacije tipki tastature se mogu prepoznati naspram pojedinačnih tipki tastature po crtici koja spaja svaki dio kombinacije tipki. Na primjer:"
-
-#. Tag: para
-#, no-c-format
-msgid "The first paragraph highlights the particular keycap to press. The second highlights two key combinations (each a set of three keycaps with each set pressed simultaneously)."
-msgstr "Prva rečenica ističe određenu tipku tastature koju treba pritisnuti. Druga ističe dva skupa od po tri tipke, svaki skup se pritišće istovremeno. "
-
-#. Tag: para
-#, no-c-format
-msgid "If source code is discussed, class names, methods, functions, variable names and returned values mentioned within a paragraph will be presented as above, in <literal>mono-spaced bold</literal>. For example:"
-msgstr "Ako se raspravlja o izvornom kodu, nazivi klasa, metode, funkcije, nazivi varijabli i vraćene vrijednosti koji se spominju unutar paragrafa će biti prikazani kao iznad, <literal>podebljano istoširinski</literal>. Na primjer: "
-
-#. Tag: para
-#, no-c-format
-msgid "This denotes words or phrases encountered on a system, including application names; dialog box text; labeled buttons; check-box and radio button labels; menu titles and sub-menu titles. For example:"
-msgstr "Ovo označava riječi ili izraze koje se sreću na sistemu, uključujući nazive programa, tekst u prozoru, označenu dugmad, oznake kućica i radio dugmadi, naslove izbornika i podizbornika. Na primjer: "
-
-#. Tag: para
-#, no-c-format
-msgid "<application>Proportional Bold</application>"
-msgstr "Proporcionalno podebljano"
-
-#. Tag: para
-#, no-c-format
-msgid "The above text includes application names; system-wide menu names and items; application-specific menu names; and buttons and text found within a GUI interface, all presented in proportional bold and all distinguishable by context."
-msgstr "Tekst iznad sadrži nazive aplikacija, nazive izbornika i stavki širom sistema, nazive izbornika vezane za specifičnu aplikaciju, i dugmad i tekst koji se nalaze unutar grafičkog korisničkog sučelja, sve prikazane podebljano proporcionalno i sve prepoznatljive po kontekstu. "
-
-#. Tag: para
-#, no-c-format
-msgid "Whether mono-spaced bold or proportional bold, the addition of italics indicates replaceable or variable text. Italics denotes text you do not input literally or displayed text that changes depending on circumstance. For example:"
-msgstr "Bilo da se radi od podebljanom istoširinskom ili podebljanom proprocionalnom, dodavanje kurziva ukazuje na zamjenjivi ili promenljivi tekst. Kurziv označava tekst koji ne unosite doslovno ili prikazani tekst koji se mijenja ovisno o okolnostima. Na primjer: "
-
-#. Tag: para
-#, no-c-format
-msgid "Publican is a <firstterm>DocBook</firstterm> publishing system."
-msgstr "Publican je prvi <firstterm>DocBook</firstterm> izdavački sistem."
-
-#. Tag: para
-#, no-c-format
-msgid "Source-code listings are also set in <computeroutput>mono-spaced roman</computeroutput> but add syntax highlighting as follows:"
-msgstr "Ispis izvornog koda je također postavljen <computeroutput>uspravno istoširinski</computeroutput> ali se predstavlja i ističe na sljedeći način: "
-
-#. Tag: para
-#, no-c-format
-msgid "Output sent to a terminal is set in <computeroutput>mono-spaced roman</computeroutput> and presented thus:"
-msgstr "Ispis u terminalu se vrši <computeroutput>uspravno istoširinski</computeroutput> i predstavlja se kao: "
-
-#. Tag: para
-#, no-c-format
-msgid "Terminal output and source code listings are set off visually from the surrounding text."
-msgstr "Ispis podataka sa terminala i ispis izvornog koda se vizuelno razlikuju od okružujućeg teksta."
-
-#. Tag: para
-#, no-c-format
-msgid "Notes are tips, shortcuts or alternative approaches to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier."
-msgstr "Bilješka je savjet ili prečica ili alternativan pristup trenutnom zadatku. Zanemarivanje bilješke ne bi trebalo da ima negativnih posljedica, ali možete propustiti neki trik koji bi vam život učinio lakšim. "
-
-#. Tag: para
-#, no-c-format
-msgid "Important boxes detail things that are easily missed: configuration changes that only apply to the current session, or services that need restarting before an update will apply. Ignoring a box labeled 'Important' will not cause data loss but may cause irritation and frustration."
-msgstr "Važni okviri detaljno opisuju stvari koje se teško primjete: izmjene u podešavanjima koje se odnose samo na tekuću sesiju, ili servise koje treba ponovo pokrenuti prije nego što ažuriranje pređe u djelovanje. Zanemarivanje važnih okvira neće izazvati gubitak podataka ali može izazvati iritaciju i frustraciju. "
-
 #~ msgid "Note the <guimenu>&#62;</guimenu> shorthand used to indicate traversal through a menu and its sub-menus. This avoids difficult-to-follow phrasing such as &#39;Select <guimenuitem>Mouse</guimenuitem> from the <guimenu>Preferences</guimenu> sub-menu in the <guimenu>System</guimenu> menu of the main menu bar&#39;."
 #~ msgstr "Obratite pažnju da se skraćenica <guimenu>&gt;</guimenu> koristi da ukaže kretanje kroz izbornik i njegove podizbornike. Ovako se izbegava pristup 'Izaberite <guimenuitem>Miš</guimenuitem> iz podizbornka <guimenu>Postavke</guimenu> u izbornku <guimenu>Sistem</guimenu> iz trake glavnog izbornika' koji je naporan za praćenje."
 
@@ -222,53 +275,3 @@ msgstr "Važni okviri detaljno opisuju stvari koje se teško primjete: izmjene u
 
 #~ msgid "Proportional Bold"
 #~ msgstr "Podebljano proporcionalno"
-
-#~ msgid ""
-#~ "books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
-#~ "books_tests  Desktop1  downloads      images  notes  scripts  svgs"
-#~ msgstr ""
-#~ "knjige        Radna_Površina   dokumentacija  draftovi  mss    fotografije   stvari  svn\n"
-#~ "knjige_testovi  Radna_Površina1  snimljeno      slike  bilješke  skripte  svg-ovi"
-
-#~ msgid ""
-#~ "package org.jboss.book.jca.ex1;\n"
-#~ "\n"
-#~ "import javax.naming.InitialContext;\n"
-#~ "\n"
-#~ "public class ExClient\n"
-#~ "{\n"
-#~ "   public static void main(String args[]) \n"
-#~ "       throws Exception\n"
-#~ "   {\n"
-#~ "      InitialContext iniCtx = new InitialContext();\n"
-#~ "      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
-#~ "      EchoHome       home   = (EchoHome) ref;\n"
-#~ "      Echo           echo   = home.create();\n"
-#~ "\n"
-#~ "      System.out.println(\"Created Echo\");\n"
-#~ "\n"
-#~ "      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
-#~ "   }\n"
-#~ "   \n"
-#~ "}"
-#~ msgstr ""
-#~ "package org.jboss.book.jca.ex1;\n"
-#~ "\n"
-#~ "import javax.naming.InitialContext;\n"
-#~ "\n"
-#~ "public class ExClient\n"
-#~ "{\n"
-#~ "   public static void main(String args[]) \n"
-#~ "       throws Exception\n"
-#~ "   {\n"
-#~ "      InitialContext iniCtx = new InitialContext();\n"
-#~ "      Object         ref    = iniCtx.lookup(\"EchoBean\");\n"
-#~ "      EchoHome       home   = (EchoHome) ref;\n"
-#~ "      Echo           echo   = home.create();\n"
-#~ "\n"
-#~ "      System.out.println(\"Eho je napravljen\");\n"
-#~ "\n"
-#~ "      System.out.println(\"Echo.echo(&#39;Pozdrav&#39;) = \" + echo.echo(\"Pozdrav\"));\n"
-#~ "   }\n"
-#~ "   \n"
-#~ "}"
