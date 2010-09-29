@@ -2773,5 +2773,28 @@ Not sure why it doesn't work in there.
   </xsl:choose>
 </xsl:template>
 
+<!-- change font size from 24.8832pt -->
+<xsl:template name="index.titlepage.recto">
+  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="index.titlepage.recto.style" margin-left="0pt" font-size="{$body.font.master * 1.8}" font-family="{$title.fontset}" font-weight="bold">
+<xsl:call-template name="component.title">
+<xsl:with-param name="node" select="ancestor-or-self::index[1]"/>
+<xsl:with-param name="pagewide" select="1"/>
+</xsl:call-template></fo:block>
+  <xsl:choose>
+    <xsl:when test="indexinfo/subtitle">
+      <xsl:apply-templates mode="index.titlepage.recto.auto.mode" select="indexinfo/subtitle"/>
+    </xsl:when>
+    <xsl:when test="docinfo/subtitle">
+      <xsl:apply-templates mode="index.titlepage.recto.auto.mode" select="docinfo/subtitle"/>
+    </xsl:when>
+    <xsl:when test="info/subtitle">
+      <xsl:apply-templates mode="index.titlepage.recto.auto.mode" select="info/subtitle"/>
+    </xsl:when>
+    <xsl:when test="subtitle">
+      <xsl:apply-templates mode="index.titlepage.recto.auto.mode" select="subtitle"/>
+    </xsl:when>
+  </xsl:choose>
+
+</xsl:template>
 
 </xsl:stylesheet>
