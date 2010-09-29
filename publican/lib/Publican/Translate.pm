@@ -177,10 +177,10 @@ sub po2xml {
 ##    $text =~ s/&#9;//g;
     $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
     $text =~ s/&#38;/&amp;/g;
-##    $text =~ s/&#60;/&lt;/g;
-##    $text =~ s/&#62;/&gt;/g;
-##    $text =~ s/&#34;/"/g;
-##    $text =~ s/&#39;/'/g;
+    $text =~ s/&#60;/&lt;/g;
+    $text =~ s/&#62;/&gt;/g;
+    $text =~ s/&#34;/"/g;
+    $text =~ s/&#39;/'/g;
     $out_doc->root()->delete();
 
     my $OUTDOC;
@@ -757,8 +757,8 @@ sub normalise {
     $norm =~ s/&amp;#x200B;/&#x200B;/g;
 ##    $norm =~ s/&#x200B; &#x200B;/ /g;
 ##    $norm =~ s/&#x200B; / /g;
-##    $norm =~ s/&#60;/&lt;/g;
-##    $norm =~ s/&#62;/&gt;/g;
+    $norm =~ s/&#60;/&lt;/g;
+    $norm =~ s/&#62;/&gt;/g;
     $norm =~ s/&#34;/"/g;
     $norm =~ s/&#39;/'/g;
     $norm =~ s/&quot;/"/g;
