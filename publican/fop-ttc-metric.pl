@@ -60,11 +60,38 @@ my %ttclist = (
         style  => [ 'normal', 'italic' ],
         weight => [ 'normal', 'bold' ],
     },
+    'IPAGothic' => {
+        path   => '/usr/share/fonts/ipa-gothic/ipag.otf',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
+    },
+    'IPAPGothic' => {
+        path   => '/usr/share/fonts/ipa-pgothic/ipagp.otf',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
+    },
+    'ZYSong18030' => {
+        path   => '/usr/share/fonts/chinese-zysong/TrueType/zysong.ttf',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
+    },
+    'AR PL ShanHeiSun Uni' => {
+        path   => '/usr/share/fonts/chinese/TrueType/uming.ttf',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
+    },
+    'Baekmuk Batang' => {
+        path =>
+            '/usr/share/fonts/korean/TrueType/batang.ttf|/usr/share/fonts/baekmuk-ttf/batang.ttf',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
+    },
 );
 
 my $log_jar = '/usr/share/java/commons-logging.jar';
 
-$log_jar = '/usr/share/java/commons-logging-1.1.1.jar' if(-f '/usr/share/java/commons-logging-1.1.1.jar') ;
+$log_jar = '/usr/share/java/commons-logging-1.1.1.jar'
+    if ( -f '/usr/share/java/commons-logging-1.1.1.jar' );
 
 my $ttfcommand
     = qq|java -cp /usr/share/java/fop.jar:/usr/share/java/avalon-framework.jar:$log_jar:/usr/share/java/commons-io.jar:/usr/share/java/xmlgraphics-commons.jar org.apache.fop.fonts.apps.TTFReader|;
@@ -78,27 +105,33 @@ sub font_metrics {
     croak("can't create metric dir: $!") if ($@);
 
     foreach my $font ( sort( keys(%ttclist) ) ) {
-        my $path                   = $ttclist{$font}{path};
+#        my $path                   = $ttclist{$font}{path};
         my $spaces_break_stupid_os = $font;
         $spaces_break_stupid_os =~ s/\s/_/g;
         my $url = qq{$share/fop/font-metrics/$spaces_break_stupid_os.xml};
+print STDERR "path: " . $ttclist{$font}{path} . "\n";
+        foreach my $path ( split( /\|/, $ttclist{$font}{path} ) ) {
+print STDERR "path 2: $path\n";
+            if ( -f $path ) {
+                my $command = qq{$ttfcommand -fn "$font"};
+                $command .= qq{ -ttcname "$font"} if ( $path =~ /\.ttc$/ );
+                $command .= qq{ $path $outdir/$spaces_break_stupid_os.xml};
 
-        if ( -f $path ) {
-            my $command
-                = qq{$ttfcommand -fn "$font" -ttcname "$font" $path $outdir/$spaces_break_stupid_os.xml};
-            print STDERR $command;
-            my $result = system($command );
-            croak("FAILED to create font metric for $font: $!")
-                if ( $@ || $result );
-            print {$conf}
-                qq{\t\t\t\t<font metrics-url="$url" kerning="yes" embed-url="$path">\n};
-            foreach my $style ( @{ $ttclist{$font}{style} } ) {
-                foreach my $weight ( @{ $ttclist{$font}{weight} } ) {
-                    print {$conf}
-                        qq{\t\t\t\t\t<font-triplet name="$font" style="$style" weight="$weight"/>\n};
+                print STDERR $command;
+                my $result = system($command );
+                croak("FAILED to create font metric for $font: $!")
+                    if ( $@ || $result );
+                print {$conf}
+                    qq{\t\t\t\t<font metrics-url="$url" kerning="yes" embed-url="$path">\n};
+                foreach my $style ( @{ $ttclist{$font}{style} } ) {
+                    foreach my $weight ( @{ $ttclist{$font}{weight} } ) {
+                        print {$conf}
+                            qq{\t\t\t\t\t<font-triplet name="$font" style="$style" weight="$weight"/>\n};
+                    }
                 }
+                print {$conf} qq{\t\t\t\t</font>\n};
+                last;
             }
-            print {$conf} qq{\t\t\t\t</font>\n};
         }
     }
 }
