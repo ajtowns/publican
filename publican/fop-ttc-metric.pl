@@ -109,15 +109,13 @@ sub font_metrics {
         my $spaces_break_stupid_os = $font;
         $spaces_break_stupid_os =~ s/\s/_/g;
         my $url = qq{$share/fop/font-metrics/$spaces_break_stupid_os.xml};
-print STDERR "path: " . $ttclist{$font}{path} . "\n";
+
         foreach my $path ( split( /\|/, $ttclist{$font}{path} ) ) {
-print STDERR "path 2: $path\n";
             if ( -f $path ) {
                 my $command = qq{$ttfcommand -fn "$font"};
                 $command .= qq{ -ttcname "$font"} if ( $path =~ /\.ttc$/ );
                 $command .= qq{ $path $outdir/$spaces_break_stupid_os.xml};
 
-                print STDERR $command;
                 my $result = system($command );
                 croak("FAILED to create font metric for $font: $!")
                     if ( $@ || $result );
