@@ -37,6 +37,9 @@ my $help      = undef;
 my $outdir    = 'font-metrics';
 my $share     = '/usr/share/publican';
 my $conf_file = 'datadir/fop/fop.xconf';
+use utf8;
+binmode(STDERR, ':utf8');
+binmode(STDOUT, ':utf8');
 
 GetOptions(
     'h|help|?'   => \$help,
@@ -86,6 +89,12 @@ my %ttclist = (
         style  => [ 'normal', 'italic' ],
         weight => [ 'normal', 'bold' ],
     },
+    'Sazanami Gothic' => {
+        path =>
+            '/usr/share/fonts/japanese/TrueType/sazanami-gothic.ttf',
+        style  => [ 'normal', 'italic' ],
+        weight => [ 'normal', 'bold' ],
+    },
 );
 
 my $log_jar = '/usr/share/java/commons-logging.jar';
@@ -105,7 +114,6 @@ sub font_metrics {
     croak("can't create metric dir: $!") if ($@);
 
     foreach my $font ( sort( keys(%ttclist) ) ) {
-#        my $path                   = $ttclist{$font}{path};
         my $spaces_break_stupid_os = $font;
         $spaces_break_stupid_os =~ s/\s/_/g;
         my $url = qq{$share/fop/font-metrics/$spaces_break_stupid_os.xml};
@@ -131,6 +139,7 @@ sub font_metrics {
                 last;
             }
         }
+        system('reset') if($font eq 'AR PL ShanHeiSun Uni'); # this font munges the bash display
     }
 }
 
