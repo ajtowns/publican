@@ -2,12 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom"
       xmlns:dc="http://purl.org/dc/terms/"
       xmlns:opds="http://opds-spec.org/2010/catalog">
-  <id>urn:[% site_id %]</id>
+  <id>urn:[% id %]</id>
   <link rel="self"  href="[% self %]" type="application/atom+xml;type=feed;profile=opds-catalog"/>
   <link rel="start" href="[% self %]" type="application/atom+xml;type=feed;profile=opds-catalog"/>
   <link rel="http://opds-spec.org/crawlable" type="application/atom+xml" href="http://bookserver.archive.org/catalog/crawlable" title="Crawlable feed"/>
-  <title>Languages</title>
-  <updated>[% site_update_date %]</updated>
+  <title>[% title %]</title>
+  <updated>[% update_date %]</updated>
   <!--author>
     <name>[% site_auth_name %]</name>
     <uri>[% site_auth_uri %]</uri>
@@ -16,11 +16,15 @@
 [%- FOREACH langs %]
   <entry>
     <title>[% title %]</title>
-    <id>[% id %]</id>
+    <id>[% url %]</id>
     <updated>[% update_date %]</updated>
     <dc:language>[% lang %]</dc:language>
     <content type="text">[% content %]</content>
     <link type="application/atom+xml" href="[% url %]"/>
+    [%- IF img %]
+    <link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="[% img %]"/>
+    <link type="image/png" rel="http://opds-spec.org/cover" href="[% img %]"/>
+    [%- END %]
  </entry>
 [%- END %]
 </feed>

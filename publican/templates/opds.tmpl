@@ -3,9 +3,10 @@
       xmlns:dc="http://purl.org/dc/terms/"
       xmlns:opds="http://opds-spec.org/2010/catalog">
   <link rel="self"  href="[% self %]" type="application/atom+xml;type=feed;profile=opds-catalog"/>
-  <!--id>[% site_id %]</id-->
-  <!--title>[% site_title %]</title-->
-  <updated>[% site_update_date %]</updated>
+  <id>[% id %]</id>
+  <title>[% title %]</title>
+  <subtitle>[% title %]</subtitle>
+  <updated>[% update_date %]</updated>
   <!--author>
     <name>[% site_auth_name %]</name>
     <uri>[% site_auth_uri %]</uri>
@@ -23,15 +24,15 @@
     <dc:language>[% lang %]</dc:language>
     <category label="[% category %]" scheme="http://lexcycle.com/stanza/header" term="free"/>
     <!--dc:issued>[% issued %]</dc:issued-->
-    <content type="text">[% abstract %] blurb about ...</content>
-    <!--link type="image/png" rel="http://opds-spec.org/cover"           href="http://opds-spec.org/covers/4561.lrg.png"/>
-    <link type="image/png" rel="http://opds-spec.org/cover-thumbnail" href="http://opds-spec.org/covers/4561.thmb.png"/-->
-
-    <link type="application/epub+zip"           
-          rel="http://opds-spec.org/acquisition" 
-          href="[% url %]">
+    <summary>[% summary %]</summary>
+    <content type="text">[% content %]</content>
+    <link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="[% url %]">
       <dc:format>application/epub+zip</dc:format>
     </link>      
+    [%- IF img %]
+    <link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="[% img %]"/>
+    <link type="image/png" rel="http://opds-spec.org/cover" href="[% img %]"/>
+    [%- END %]
     <!--link type="application/atom+xml;type=entry" href="[% full_url %]" rel="alternate" title="Full entry"/-->
  </entry>
 [%- END %]

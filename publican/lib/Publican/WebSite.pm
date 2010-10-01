@@ -107,8 +107,8 @@ my %tmpl_strings = (
         'This web site requires JavaScript and cookies to be enabled to function correctly.'
     ),
     'index_toc' => maketext('Click here to view a static Table of Contents'),
-    'Documentation'   => maketext('Documentation'),
-    'ProductLinkTile' => maketext('Information'),
+    'ProductLinkTitle' => maketext('Information'),
+    ProductList => maketext('Product List'),
 );
 
 sub new {
@@ -141,6 +141,9 @@ sub new {
             $site_config
         )
     );
+    my $host = $config->param('host') || undef;
+    my $search = $config->param('search') || undef;
+    my $title = $config->param('title') || 'Documentation';
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -152,6 +155,9 @@ sub new {
     $self->{toc_path}  = $toc_path;
     $self->{tmpl_path} = $tmpl_path;
     $self->{def_lang}  = $def_lang;
+    $self->{host}      = $host;
+    $self->{search}    = $search;
+    $self->{title}     = $title;
 
     my $conf = { INCLUDE_PATH => $tmpl_path, };
 
@@ -199,11 +205,6 @@ sub _create_db {
         return;
     }
 
-    #TODO Table design
-    # ID, product, version,name, format
-    # ID unique key
-    # unique "product, version,name, format"?
-
     $self->_dbh->do(<<CREATE_TABLE);
 CREATE TABLE IF NOT EXISTS $DB_NAME (
 	ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -216,79 +217,20 @@ CREATE TABLE IF NOT EXISTS $DB_NAME (
 	version_label text(255),
 	name_label text(255),
 	update_date text(10),
+        subtitle text,
+        abstract text,
 	UNIQUE(language, product, version, name, format)
 )
 CREATE_TABLE
 
-    $self->_create_settings();
-
     return;
 }
 
-sub _create_settings {
-    my ( $self, $args ) = @_;
-
-    if ( $args && %{$args} ) {
-        croak( "unknown args: " . join( ", ", keys %{$args} ) );
-    }
-
-    $self->_dbh->do(<<CREATE_TABLE);
-CREATE TABLE IF NOT EXISTS settings (
-	host text(255),
-	search blob
-)
-CREATE_TABLE
-
-    return;
-}
-
+## BUGBUG leave here to prevent old packages from blowing up? or force rebuild?
 sub update_settings {
     my ( $self, $args ) = @_;
 
-    my $host   = delete $args->{host};
-    my $search = delete $args->{search};
-
-    if ( $args && %{$args} ) {
-        croak( "unknown args: " . join( ", ", keys %{$args} ) );
-    }
-
-    $self->_create_settings();
-
-    my $sql = 'delete from settings ';
-    $self->_dbh()->do($sql);
-
-    $sql = 'INSERT INTO settings ';
-
-    my @cols;
-    my @vals;
-
-    if ($host) {
-        push( @cols, 'host' );
-        push( @vals, "'$host'" );
-    }
-
-    if ($search) {
-        push( @cols, 'search' );
-        push( @vals, "'$search'" );
-    }
-    $sql .= '(' . join( ',',        @cols ) . ') ';
-    $sql .= 'values (' . join( ',', @vals ) . ') ';
-
-    if ( $search || $host ) {
-        $self->_dbh()->do($sql);
-    }
-
     return;
-}
-
-sub get_settings {
-    my ( $self, $args ) = @_;
-
-    $self->_create_settings();
-
-    my $hashref = $self->_dbh()->selectrow_hashref('SELECT * FROM settings');
-
-    return ($hashref);
 }
 
 sub _load_db {
@@ -316,6 +258,8 @@ sub add_entry {
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
+    my $subtitle    = delete $arg->{subtitle};
+    my $abstract    = delete $arg->{abstract};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -327,14 +271,14 @@ sub add_entry {
 
     my $sql = <<INSERT_ENTRY;
         INSERT INTO $DB_NAME 
-               (language, product, version, name, format, product_label, version_label, name_label, update_date) 
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+               (language, product, version, name, format, product_label, version_label, name_label, update_date, subtitle, abstract) 
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 INSERT_ENTRY
 
     return $self->_dbh->do(
         $sql,           undef,       $language, $product,
         $version,       $name,       $format,   $product_label,
-        $version_label, $name_label, $update_date
+        $version_label, $name_label, $update_date, $subtitle, $abstract
     );
 }
 
@@ -423,8 +367,11 @@ sub get_entry_id {
 GET_ENTRY
 
     my $sth = $self->_dbh->prepare($sql);
+print(STDERR "$language, $product, $version, $name, $format\n");
+
     $sth->execute( $language, $product, $version, $name, $format );
     my $result = $sth->fetchrow();
+print(STDERR "$result\n");
 
     return $result;
 }
@@ -540,7 +487,6 @@ sub regen_all_toc {
     my @toc_names      = ();
     my @urls           = ();
     my @opds_lang_list = ();
-    my $settings = $self->get_settings();
 
     foreach my $lang ( @{$langs} ) {
         my %toc;
@@ -581,12 +527,16 @@ sub regen_all_toc {
 
         my %opds_lang = (
             url     => qq|$lang->[0]| . '/opds.xml',
-            id      => $lang_name,
+            id      => $self->{host} . '/' . qq|$lang->[0]| . '/opds.xml',
             lang    => $lang->[0],
             title   => $lang_name,
-            content => "blurb about $lang_name",
+            content => "",
+            img     => "",
             update_date => DateTime->now(),
         );
+
+        $opds_lang{img} = $self->{host} . '/' . qq|$lang->[0]| . '/images/cover_thumbnail.png' if(-f $self->{toc_path} .'/' . qq|$lang->[0]| . '/images/cover_thumbnail.png');
+
         push( @opds_lang_list, \%opds_lang );
 
     }
@@ -618,7 +568,7 @@ sub regen_all_toc {
     my $locales = join( ",", map( qq|"$_->[0]"|, @{$langs} ) );
     $vars = {
         locales          => $locales,
-        Documentation    => $tmpl_strings{'Documentation'},
+        title            => $self->{title},
         def_lang         => $self->{def_lang},
         index_javascript => $tmpl_strings{'index_javascript'},
         index_toc        => $tmpl_strings{'index_toc'},
@@ -631,9 +581,11 @@ sub regen_all_toc {
 
     # This file contains all the langauges.
     my $opds_vars;
-    $opds_vars->{langs}         = \@opds_lang_list;
-    $opds_vars->{site_update_date} = DateTime->now();
-    $opds_vars->{self} = $settings->{host} . "/opds.xml";
+    $opds_vars->{langs}       = \@opds_lang_list;
+    $opds_vars->{update_date} = DateTime->now();
+    $opds_vars->{self} = $self->{host} . "/opds.xml";
+    $opds_vars->{id}   = $self->{host} . "/opds.xml";
+    $opds_vars->{title} = $self->{title};
 ##    $opds_vars->{} = ;
 
     $self->{Template}->process(
@@ -695,8 +647,6 @@ sub _regen_toc {
 
     my $vars = {};
 
-    my $settings = $self->get_settings();
-
     my $default_search = <<SEARCH;
 	<form target="_top" method="get" action="http://www.google.com/search">
 		<div class="search">
@@ -704,7 +654,7 @@ sub _regen_toc {
 			<input class="searchsub" type="submit" value="###Search###" />
 SEARCH
 
-    my $host = $settings->{host};
+    my $host = $self->{host};
 
     if ($host) {
         $default_search .= <<SEARCH;
@@ -757,7 +707,7 @@ SEARCH
     $locale->encoding("UTF-8");
     $locale->textdomain("publican");
 
-    my $search = ( $settings->{search} || $default_search );
+    my $search = ( $self->{search} || $default_search );
     my $string = $locale->maketext("Search");
     $search =~ s/###Search###/$string/g;
     $vars->{'search'} = $search;
@@ -893,7 +843,7 @@ SEARCH
                         if ( $type_data{'ext'} ) {
                             my %opds_url = (
                                 title => "$book_label",
-                                id    => "$lang-$product-$version-$book",
+                                id    => "$host/$lang/$product/$version/$type/$book/" . $type_data{'ext'},
                                 lang  => $language,
                                 update_date =>
                                     $list2->{$product}{$version}{$book}
@@ -902,9 +852,13 @@ SEARCH
                                     "$host/$lang/$product/$version/$type/$book/"
                                     . $type_data{'ext'},
                                 category => $category,
+                                summary  => ($list2->{$product}{$version}{$book}{subtitle} || ""),
+                                content  => ($list2->{$product}{$version}{$book}{abstract} || ""),
                             );
                             $category = "";
-                            $opds_url{'title'} =~ s/_/ /g;
+                            $opds_url{title} =~ s/_/ /g;
+                            my $img = "/$lang/$product/$version/html/$book/images/cover_thumbnail.png";
+                            $opds_url{img} = $self->{host} . $img if(-f $self->{toc_path} . $img);
 
                             push( @opds_list, \%opds_url );
                         }
@@ -954,7 +908,7 @@ SEARCH
             push( @versions, \%ver_data );
         }
 
-        $prod_data{'prod_link_title'} = $tmpl_strings{'ProductLinkTile'};
+        $prod_data{'prod_link_title'} = $tmpl_strings{'ProductLinkTitle'};
         $prod_data{'product'}         = $product;
         $prod_data{'product_clean'}   = $product_label;
         $prod_data{'product_clean'} =~ s/_/ /g;
@@ -964,8 +918,10 @@ SEARCH
         # This file contains books for all versions of a product.
         my $opds_vars;
         $opds_vars->{urls}             = \@opds_list;
-        $opds_vars->{site_update_date} = DateTime->now();
+        $opds_vars->{update_date} = DateTime->now();
         $opds_vars->{self} = "$host/$language/opds-$product.xml";
+        $opds_vars->{id}   = "$host/$language/opds-$product.xml";
+        $opds_vars->{title} = $prod_data{'product_clean'};
 ##        $opds_vars->{} = ;
 
         $self->{Template}->process(
@@ -975,12 +931,16 @@ SEARCH
         ) or croak( $self->{Template}->error() );
 
         my %opds_p_url = (
-            'title'       => $prod_data{'product_clean'},
-            'id'          => "$language-$product",
-            'lang'        => $language,
-            'update_date' => DateTime->now(),
-            'url'         => "opds-$product.xml",
+            title       => $prod_data{'product_clean'},
+            id          => "$host/$language/$product/opds-$product.xml",
+            lang        => $language,
+            update_date => DateTime->now(),
+            url         => "opds-$product.xml",
+            content  => "",
         );
+        my $img = "/$language/$product/images/cover_thumbnail.png";
+        $opds_p_url{img} = $self->{host} . $img if(-f $self->{toc_path} . $img);
+
         push( @opds_prod_list, \%opds_p_url );
     }
 
@@ -995,8 +955,10 @@ SEARCH
     # This file contains all products for this langauge.
     my $opds_vars;
     $opds_vars->{products}         = \@opds_prod_list;
-    $opds_vars->{site_update_date} = DateTime->now();
+    $opds_vars->{update_date} = DateTime->now();
     $opds_vars->{self} = "$host/$language/opds.xml";
+    $opds_vars->{id} = "$host/$language/opds.xml";
+    $opds_vars->{title}    = $tmpl_strings{ProductList};
 ##    $opds_vars->{} = ;
 
     $self->{Template}->process(
@@ -1255,18 +1217,6 @@ Returns a string containing the current database statistics.
 =head2 stats
 
 Generate Site_Statistics.html containing the current database statistics.
-
-=head2 get_settings
-
-Get a reference to a hash for the settings for this site.
-
-=head2 update_settings
-
-Update the settings table in DB with supplied values.
-
-Values:
-	host   The host name
-    search HTML to use for navigation search.
 
 =head2 validate
 
