@@ -628,7 +628,14 @@ if ( $action eq 'update_po' ) {
 
 if ( $action eq 'lang_stats' ) {
     my $translater = Publican::Translate->new();
-    $translater->po_report( { lang => $opts{lang} } );
+    if ( $opts{lang} eq 'all' ) {
+        foreach my $lang ( split( /,/, get_all_langs() ) ) {
+            $translater->po_report( { lang => $lang } );
+        }
+    }
+    else {
+        $translater->po_report( { lang => $opts{lang} } );
+    }
 }
 
 if ( $action eq 'build' ) {
