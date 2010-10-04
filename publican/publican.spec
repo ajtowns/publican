@@ -251,7 +251,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add basic support for line numbers. BZ #629463
 - Add warning messages for out of date translations.
 - Add productname to IGNOREBLOCKS. BZ #625316
-- Add basic OPDS support. BZ #615831
+- Add OPDS support. BZ #615831
 - Fix translated labels in web nav. BZ #631647
 - Remove highlighting from output of prompt tag in html. BZ #618902 <ryanlerch@gmail.com>
 - Resize index title font to a sane size. BZ #624392
