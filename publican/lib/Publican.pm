@@ -92,6 +92,11 @@ my %PARAMS = (
         default => 'docs-5E',
 
     },
+    bridgehead_in_toc => {
+        descr => maketext(
+            'Display bridge head elements in the TOCs?'),
+        default => 0,
+    },
     chunk_first => {
         descr => maketext(
             'For HTML, should the first section be on the same page as its parent?'

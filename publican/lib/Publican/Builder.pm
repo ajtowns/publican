@@ -669,6 +669,7 @@ sub transform {
     my $ec_id               = $self->{publican}->param('ec_id');
     my $ec_provider         = $self->{publican}->param('ec_provider');
     my $product             = $self->{publican}->param('product');
+    my $bridgehead_in_toc   = $self->{publican}->param('bridgehead_in_toc');
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'
@@ -716,6 +717,7 @@ sub transform {
         'use.extensions'             => 1,
         'tablecolumns.extensions'    => 1,
         'publican.version'           => "'$Publican::VERSION'",
+        'bridgehead.in.toc'          => $bridgehead_in_toc,
     );
 
     mkdir "$tmp_dir/$lang/$format";
