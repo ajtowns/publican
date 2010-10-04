@@ -751,10 +751,6 @@ if ( $action eq 'install_book' ) {
         croak( maketext("can't find 'publish' directory") )
             unless ( -d "publish/home" );
         rcopy( "publish/home/*", $ws->toc_path() . "/." );
-
-        my $web_host   = $publican->param('web_host');
-        my $web_search = $publican->param('web_search');
-        $ws->update_settings( { host => $web_host, search => $web_search } );
     }
     else {
         my $lang = $opts{lang}
@@ -765,6 +761,9 @@ if ( $action eq 'install_book' ) {
         my $product_label = $publican->param('web_product_label');
         my $version_label = $publican->param('web_version_label');
         my $name_label    = $publican->param('web_name_label');
+
+        my $subtitle = $publican->get_subtitle({lang => $lang});
+        my $abstract = $publican->get_abstract({lang => $lang});
 
         croak( maketext( "can't find 'publish/[_1]' directory", $lang ) )
             unless ( -d "publish/$lang" );
@@ -814,45 +813,20 @@ if ( $action eq 'install_book' ) {
         foreach my $format (@formats) {
             next unless ( -d "publish/$lang/$product/$version/$format" );
 
-            my $id = $ws->get_entry_id(
-                {   language => $lang,
-                    product  => $product,
-                    version  => $version,
-                    name     => $name,
-                    format   => $format
-                }
+            $ws->update_or_add_entry(
+                language      => $lang,
+                product       => $product,
+                version       => $version,
+                name          => $name,
+                format        => $format,
+                product_label => $product_label,
+                version_label => $version_label,
+                subtitle      => $subtitle,
+                abstract      => $abstract,
             );
-
-            if ($id) {
-                $ws->update_entry(
-                    {   ID            => $id,
-                        language      => $lang,
-                        product       => $product,
-                        version       => $version,
-                        name          => $name,
-                        format        => $format,
-                        product_label => $product_label,
-                        version_label => $version_label,
-                        name_label    => $name_label,
-                    }
-                );
-            }
-            else {
-                $ws->add_entry(
-                    {   language      => $lang,
-                        product       => $product,
-                        version       => $version,
-                        name          => $name,
-                        format        => $format,
-                        product_label => $product_label,
-                        version_label => $version_label,
-                        name_label    => $name_label,
-                    }
-                );
-            }
         }
-
     }
+
     $ws->regen_all_toc();
 }
 

@@ -108,7 +108,7 @@ my %tmpl_strings = (
     ),
     'index_toc' => maketext('Click here to view a static Table of Contents'),
     'ProductLinkTitle' => maketext('Information'),
-    ProductList => maketext('Product List'),
+    ProductList        => maketext('Product List'),
 );
 
 sub new {
@@ -141,9 +141,9 @@ sub new {
             $site_config
         )
     );
-    my $host = $config->param('host') || undef;
+    my $host   = $config->param('host')   || undef;
     my $search = $config->param('search') || undef;
-    my $title = $config->param('title') || 'Documentation';
+    my $title  = $config->param('title')  || 'Documentation';
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -247,6 +247,70 @@ sub _load_db {
     return;
 }
 
+sub update_or_add_entry {
+    my ( $self, $arg ) = @_;
+
+    my $language = delete $arg->{language} || croak "language required";
+    my $product  = delete $arg->{product}  || croak "product required";
+    my $version  = delete $arg->{version}  || croak "version required";
+    my $name     = delete $arg->{name}     || croak "name required";
+    my $format   = delete $arg->{format}   || croak "format required";
+    my $product_label = delete $arg->{product_label};
+    my $version_label = delete $arg->{version_label};
+    my $name_label    = delete $arg->{name_label};
+    my $subtitle      = delete $arg->{subtitle};
+    my $abstract      = delete $arg->{abstract};
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $rc;
+
+    my $id = $self->get_entry_id(
+        {   language => $language,
+            product  => $product,
+            version  => $version,
+            name     => $name,
+            format   => $format
+        }
+    );
+
+    if ($id) {
+        $rc = $self->update_entry(
+            {   ID            => $id,
+                language      => $language,
+                product       => $product,
+                version       => $version,
+                name          => $name,
+                format        => $format,
+                product_label => $product_label,
+                version_label => $version_label,
+                name_label    => $name_label,
+                subtitle      => $subtitle,
+                abstract      => $abstract,
+            }
+        );
+    }
+    else {
+        $rc = $self->add_entry(
+            {   language      => $language,
+                product       => $product,
+                version       => $version,
+                name          => $name,
+                format        => $format,
+                product_label => $product_label,
+                version_label => $version_label,
+                name_label    => $name_label,
+                subtitle      => $subtitle,
+                abstract      => $abstract,
+            }
+        );
+    }
+
+    return ($rc);
+}
+
 sub add_entry {
     my ( $self, $arg ) = @_;
 
@@ -258,8 +322,8 @@ sub add_entry {
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
-    my $subtitle    = delete $arg->{subtitle};
-    my $abstract    = delete $arg->{abstract};
+    my $subtitle      = delete $arg->{subtitle};
+    my $abstract      = delete $arg->{abstract};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -268,6 +332,7 @@ sub add_entry {
     my $update_date = DateTime->today()->ymd();
 
     $format = lc $format;
+    $abstract =~ s/\n/ /gm;
 
     my $sql = <<INSERT_ENTRY;
         INSERT INTO $DB_NAME 
@@ -276,9 +341,10 @@ sub add_entry {
 INSERT_ENTRY
 
     return $self->_dbh->do(
-        $sql,           undef,       $language, $product,
-        $version,       $name,       $format,   $product_label,
-        $version_label, $name_label, $update_date, $subtitle, $abstract
+        $sql,           undef,       $language,    $product,
+        $version,       $name,       $format,      $product_label,
+        $version_label, $name_label, $update_date, $subtitle,
+        $abstract
     );
 }
 
@@ -294,6 +360,8 @@ sub update_entry {
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
+    my $subtitle      = delete $arg->{subtitle};
+    my $abstract      = delete $arg->{abstract};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -302,17 +370,19 @@ sub update_entry {
     my $update_date = DateTime->today()->ymd();
 
     $format = lc $format;
+    $abstract =~ s/\n/ /gm;
 
     my $sql = <<INSERT_ENTRY;
         UPDATE $DB_NAME SET
-               language = ?, product = ?, version = ?, name = ?, format = ?, product_label = ?, version_label = ?, name_label = ?, update_date = ? 
+               language = ?, product = ?, version = ?, name = ?, format = ?, product_label = ?, version_label = ?, name_label = ?, update_date = ?, subtitle = ?, abstract = ?
                WHERE ID = $ID
 INSERT_ENTRY
 
     return $self->_dbh->do(
-        $sql,           undef,       $language, $product,
-        $version,       $name,       $format,   $product_label,
-        $version_label, $name_label, $update_date
+        $sql,           undef,       $language,    $product,
+        $version,       $name,       $format,      $product_label,
+        $version_label, $name_label, $update_date, $subtitle,
+        $abstract
     );
 }
 
@@ -367,11 +437,9 @@ sub get_entry_id {
 GET_ENTRY
 
     my $sth = $self->_dbh->prepare($sql);
-print(STDERR "$language, $product, $version, $name, $format\n");
 
     $sth->execute( $language, $product, $version, $name, $format );
     my $result = $sth->fetchrow();
-print(STDERR "$result\n");
 
     return $result;
 }
@@ -401,7 +469,9 @@ sub get_hash_ref {
                product_label, 
                version_label, 
                name_label,
-               update_date
+               update_date,
+               subtitle,
+               abstract
           FROM $DB_NAME 
          WHERE (language = ? or language = ?)
       GROUP BY language, product, version, name, format
@@ -418,9 +488,9 @@ GET_LIST
     my %list;
 
     while (
-        my ($id,         $lang,   $product,       $version,
-            $name,       $format, $product_label, $version_label,
-            $name_label, $update_date
+        my ($id,         $lang,        $product,       $version,
+            $name,       $format,      $product_label, $version_label,
+            $name_label, $update_date, $subtitle,      $abstract
         )
         = $sth->fetchrow()
         )
@@ -440,6 +510,8 @@ GET_LIST
             if $product_label;
         $list{$product}{$version}{$name}{update_date} = $update_date
             || '2000-01-01';
+        $list{$product}{$version}{$name}{subtitle} = $subtitle;
+        $list{$product}{$version}{$name}{abstract} = $abstract;
     }
 
     $sth->finish();
@@ -526,16 +598,22 @@ sub regen_all_toc {
         push( @toc_names, \%toc_name );
 
         my %opds_lang = (
-            url     => qq|$lang->[0]| . '/opds.xml',
-            id      => $self->{host} . '/' . qq|$lang->[0]| . '/opds.xml',
-            lang    => $lang->[0],
-            title   => $lang_name,
-            content => "",
-            img     => "",
+            url         => qq|$lang->[0]| . '/opds.xml',
+            id          => $self->{host} . '/' . qq|$lang->[0]| . '/opds.xml',
+            lang        => $lang->[0],
+            title       => $lang_name,
+            content     => "",
+            img         => "",
             update_date => DateTime->now(),
         );
 
-        $opds_lang{img} = $self->{host} . '/' . qq|$lang->[0]| . '/images/cover_thumbnail.png' if(-f $self->{toc_path} .'/' . qq|$lang->[0]| . '/images/cover_thumbnail.png');
+        $opds_lang{img}
+            = $self->{host} . '/'
+            . qq|$lang->[0]|
+            . '/images/cover_thumbnail.png'
+            if ( -f $self->{toc_path} . '/'
+            . qq|$lang->[0]|
+            . '/images/cover_thumbnail.png' );
 
         push( @opds_lang_list, \%opds_lang );
 
@@ -583,9 +661,9 @@ sub regen_all_toc {
     my $opds_vars;
     $opds_vars->{langs}       = \@opds_lang_list;
     $opds_vars->{update_date} = DateTime->now();
-    $opds_vars->{self} = $self->{host} . "/opds.xml";
-    $opds_vars->{id}   = $self->{host} . "/opds.xml";
-    $opds_vars->{title} = $self->{title};
+    $opds_vars->{self}        = $self->{host} . "/opds.xml";
+    $opds_vars->{id}          = $self->{host} . "/opds.xml";
+    $opds_vars->{title}       = $self->{title};
 ##    $opds_vars->{} = ;
 
     $self->{Template}->process(
@@ -739,7 +817,8 @@ SEARCH
             };
 
             push( @{$urls}, $url );
-        } else {
+        }
+        else {
             $prod_data{'product_icon'} = 0;
         }
 
@@ -843,8 +922,10 @@ SEARCH
                         if ( $type_data{'ext'} ) {
                             my %opds_url = (
                                 title => "$book_label",
-                                id    => "$host/$lang/$product/$version/$type/$book/" . $type_data{'ext'},
-                                lang  => $language,
+                                id =>
+                                    "$host/$lang/$product/$version/$type/$book/"
+                                    . $type_data{'ext'},
+                                lang => $language,
                                 update_date =>
                                     $list2->{$product}{$version}{$book}
                                     {update_date},
@@ -852,13 +933,21 @@ SEARCH
                                     "$host/$lang/$product/$version/$type/$book/"
                                     . $type_data{'ext'},
                                 category => $category,
-                                summary  => ($list2->{$product}{$version}{$book}{subtitle} || ""),
-                                content  => ($list2->{$product}{$version}{$book}{abstract} || ""),
+                                summary  => (
+                                    $list2->{$product}{$version}{$book}
+                                        {subtitle} || ""
+                                ),
+                                content => (
+                                    $list2->{$product}{$version}{$book}
+                                        {abstract} || ""
+                                ),
                             );
                             $category = "";
                             $opds_url{title} =~ s/_/ /g;
-                            my $img = "/$lang/$product/$version/html/$book/images/cover_thumbnail.png";
-                            $opds_url{img} = $self->{host} . $img if(-f $self->{toc_path} . $img);
+                            my $img
+                                = "/$lang/$product/$version/html/$book/images/cover_thumbnail.png";
+                            $opds_url{img} = $self->{host} . $img
+                                if ( -f $self->{toc_path} . $img );
 
                             push( @opds_list, \%opds_url );
                         }
@@ -917,11 +1006,11 @@ SEARCH
 
         # This file contains books for all versions of a product.
         my $opds_vars;
-        $opds_vars->{urls}             = \@opds_list;
+        $opds_vars->{urls}        = \@opds_list;
         $opds_vars->{update_date} = DateTime->now();
-        $opds_vars->{self} = "$host/$language/opds-$product.xml";
-        $opds_vars->{id}   = "$host/$language/opds-$product.xml";
-        $opds_vars->{title} = $prod_data{'product_clean'};
+        $opds_vars->{self}        = "$host/$language/opds-$product.xml";
+        $opds_vars->{id}          = "$host/$language/opds-$product.xml";
+        $opds_vars->{title}       = $prod_data{'product_clean'};
 ##        $opds_vars->{} = ;
 
         $self->{Template}->process(
@@ -936,10 +1025,11 @@ SEARCH
             lang        => $language,
             update_date => DateTime->now(),
             url         => "opds-$product.xml",
-            content  => "",
+            content     => "",
         );
         my $img = "/$language/$product/images/cover_thumbnail.png";
-        $opds_p_url{img} = $self->{host} . $img if(-f $self->{toc_path} . $img);
+        $opds_p_url{img} = $self->{host} . $img
+            if ( -f $self->{toc_path} . $img );
 
         push( @opds_prod_list, \%opds_p_url );
     }
@@ -954,11 +1044,11 @@ SEARCH
 
     # This file contains all products for this langauge.
     my $opds_vars;
-    $opds_vars->{products}         = \@opds_prod_list;
+    $opds_vars->{products}    = \@opds_prod_list;
     $opds_vars->{update_date} = DateTime->now();
-    $opds_vars->{self} = "$host/$language/opds.xml";
-    $opds_vars->{id} = "$host/$language/opds.xml";
-    $opds_vars->{title}    = $tmpl_strings{ProductList};
+    $opds_vars->{self}        = "$host/$language/opds.xml";
+    $opds_vars->{id}          = "$host/$language/opds.xml";
+    $opds_vars->{title}       = $tmpl_strings{ProductList};
 ##    $opds_vars->{} = ;
 
     $self->{Template}->process(
@@ -1185,6 +1275,10 @@ Returns number of rows added. Should be 1 for success, 0 for failure.
 Update an existing entry in the current Publican::WebSite DB...
 
 Returns number of rows added. Should be 1 for success, 0 for failure.
+
+=head2 update_or_add_entry
+
+Update an existing entry if it esists, else create a new entry.
 
 =head2  del_entry
 

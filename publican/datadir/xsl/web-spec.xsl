@@ -114,7 +114,7 @@ if [ "$1" = "0" ] ; then # last uninstall
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single", "epub"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format", product_label => "<xsl:value-of select="$product_label" />", version_label => "<xsl:value-of select="$version_label" />", name_label => "<xsl:value-of select="$name_label" />", subtitle => "%{summary}", abstract => "%{description}" }); } $ws->regen_all_toc();'
+%{__perl} -e 'use Publican::WebSite; my @formats = ("html", "pdf", "html-single", "epub"); my $ws = Publican::WebSite->new(); foreach my $format (@formats) { $ws->update_or_add_entry( { language => "<xsl:value-of select="$lang"/>", product => "<xsl:value-of select="$prod" />", version => "<xsl:value-of select="$prodver" />", name => "<xsl:value-of select="$docname" />", format => "$format", product_label => "<xsl:value-of select="$product_label" />", version_label => "<xsl:value-of select="$version_label" />", name_label => "<xsl:value-of select="$name_label" />", subtitle => "%{summary}", abstract => "<xsl:value-of select="$full_abstract" />" }); } $ws->regen_all_toc();'
 
 # Update Icon cache if it exists
 %post -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>

@@ -24,7 +24,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t132
+Release:        0%{?dist}.t138
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -257,6 +257,7 @@ rm -rf $RPM_BUILD_ROOT
 - Resize index title font to a sane size. BZ #624392
 - Fix misapplied fonts fo zh, ja, and ko. BZ #628786
 - Fix attributes breaking translation merge. BZ #638816
+- Fix entities missing from RPM description. BZ #626254
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.

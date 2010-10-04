@@ -35,12 +35,6 @@ cp -rf publish/home/* $RPM_BUILD_ROOT/%{wwwdir}/.
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-<xsl:if test="$web_search != '' or $web_host != ''">%post 
-if [ "$1" -ge "1" ]; then
-%{__perl} -e 'if (eval {require Publican::WebSite}) { my $ws = Publican::WebSite->new(); $ws->update_settings({<xsl:if test="$web_search != ''"> search => q|<xsl:value-of select="$web_search"/>|, </xsl:if> <xsl:if test="$web_host != ''"> host => q|<xsl:value-of select="$web_host"/>|</xsl:if>}); $ws->regen_all_toc();}';
-
-fi</xsl:if>
-
 %files
 %defattr(-,root,root,-)
 %{wwwdir}

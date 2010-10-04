@@ -10,6 +10,8 @@ use I18N::LangTags::List;
 use Term::ANSIColor qw(:constants uncolor);
 use File::Find::Rule;
 use Makefile::Parser;
+use XML::LibXSLT;
+use XML::LibXML;
 
 use Publican::Localise;
 
@@ -311,13 +313,16 @@ my %PARAMS = (
         descr => maketext(
             'This is a host name for a Publican-generated website, used for searches and the Sitemap. Be sure to include the full path to your document tree. E.g. if your documents are in the docs directory: http://www.example.com/docs'
         ),
+        alert => 'web_host is deprecated and will be removed from Publican in the future. Use "host" in the web site configuration file instead.',
     },
     web_obsoletes =>
-        { descr => maketext('Packages to obsolete in web RPM.'), },
+        { descr => maketext('Packages to obsolete in web RPM.'),
+    },
     web_search => {
         descr => maketext(
             'Override the default search form for a Publican website. By default this will use Google search and do a site search if web_host is set.'
         ),
+        alert => 'web_search is deprecated and will be removed from Publican in the future. Use "search" in the web site configuration file instead.',
     },
     web_name_label => {
         descr => maketext(
@@ -915,6 +920,149 @@ sub old2new {
 
     return;
 }
+
+sub get_abstract {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )|| croak( maketext("lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my $tmp_dir    = $self->param('tmp_dir');
+    my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+
+    croak(maketext("abstract can not be calculated before building.")) unless (-f $info_file);
+
+    my $xsl_file = $self->param('common_config') . "/xsl/abstract.xsl";
+
+    my $abstract = $self->run_xslt({xml_file => $info_file, xsl_file => $xsl_file});
+
+    # tidy up white space
+    $abstract =~ s/^[ \t]*//gm;
+    $abstract =~ s/^\n\n+//;
+    $abstract =~ s/\n\n+$//;
+    $abstract =~ s/\n\n\n/\n\n/g;
+    $abstract =~ s/[ \t][ \t]+/ /gm;
+
+    return($abstract);
+}
+
+
+sub get_subtitle {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )|| croak( maketext("lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my $tmp_dir    = $self->param('tmp_dir');
+    my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+
+    croak(maketext("subtitle can not be calculated before building.")) unless (-f $info_file);
+
+    my $xsl_file = $self->param('common_config') . "/xsl/subtitle.xsl";
+
+    my $subtitle = $self->run_xslt({xml_file => $info_file, xsl_file => $xsl_file});
+
+    # tidy up white space
+    $subtitle =~ s/^\s*//gm;
+    $subtitle =~ s/\s+/ /;
+
+    return($subtitle);
+}
+
+sub run_xslt {
+    my ( $self, $args ) = @_;
+    my $xml_file =  delete( $args->{xml_file} )
+        || croak( maketext("xml_file is a mandatory argument") );
+    my $xsl_file =  delete( $args->{xsl_file} )
+        || croak( maketext("xsl_file is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my $parser = XML::LibXML->new();
+    my $xslt   = XML::LibXSLT->new();
+    $parser->expand_entities(1);
+    my $source;
+    eval { $source = $parser->parse_file($xml_file); };
+
+    if ($@) {
+        if ( ref($@) ) {
+
+            # handle a structured error (XML::LibXML::Error object)
+            croak(
+                maketext(
+                    "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
+                    $@->domain(),
+                    $@->code(),
+                    $@->file(),
+                    $@->line(),
+                    $@->message(),
+                )
+            );
+        }
+        else {
+            croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+        }
+    }
+
+    my $style_doc = $parser->parse_file($xsl_file);
+
+    if ( $^O eq 'MSWin32' ) {
+        eval { require Win32::TieRegistry; };
+        croak(
+            maketext(
+                "Failed to load Win32::TieRegistry module. Error: [_1]", $@
+            )
+        ) if ($@);
+
+        my $defualt_href
+            = 'http://docbook.sourceforge.net/release/xsl/current';
+        my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
+            { Delimiter => "\\" } );
+
+        my $new_href = 'file:///D:/Data/temp/Redhat/docbook-xsl-1.75.2';
+        if ( $key and $key->GetValue("xsl_path") ) {
+            $new_href = 'file:///' . $key->GetValue("xsl_path");
+            $new_href =~ s/ /%20/g;
+            $new_href =~ s/\\/\//g;
+        }
+
+        my @nodelist = $style_doc->getElementsByTagName('xsl:import');
+        foreach my $node (@nodelist) {
+            my $href = $node->getAttribute('href');
+            debug_msg("changing $defualt_href to $new_href\n");
+            $href =~ s|$defualt_href|$new_href|;
+            $node->setAttribute( 'href', $href );
+        }
+    }
+
+    my $stylesheet = $xslt->parse_stylesheet($style_doc);
+    my $results = $stylesheet->transform( $source );
+    my $value;
+    eval { $value = $stylesheet->output_string($results) };
+
+    return($value);
+}
+
 
 1;    # Magic true value required at end of module
 __END__

@@ -1608,8 +1608,6 @@ sub package_home {
     my $doc_url = $self->{publican}->param('doc_url');
     my $src_url = $self->{publican}->param('src_url');
     my $os_ver  = $self->{publican}->param('os_ver');
-    my $search  = $self->{publican}->param('web_search');
-    my $host    = $self->{publican}->param('web_host');
     my $log     = $self->change_log();
 
     my %xslt_opts = (
@@ -1625,8 +1623,6 @@ sub package_home {
         'src_url'    => $src_url,
         'log'        => $log,
         tmpdir       => $tmp_dir,
-        web_search   => $search,
-        web_host     => $host,
         web_type     => $web_type,
     );
 
@@ -1924,7 +1920,12 @@ sub package {
 
 
     my $log = $self->change_log();
-    my $abstract = $self->abstract( { lang => $lang } );
+
+    my $full_abstract = $self->{publican}->get_abstract({lang => $lang});
+    # Wrap description for RPM style requirements
+    $columns = 68;
+    my $abstract = fill( "", "", $full_abstract );
+    $columns = $DEFAULT_WRAP;
 
     my %xslt_opts = (
         'book-title'  => $name_start,
@@ -1949,6 +1950,7 @@ sub package {
         product_label => $web_product_label,
         version_label => $web_version_label,
         name_label    => $web_name_label,
+        full_abstract => $full_abstract,
     );
 
     logger(
@@ -2076,38 +2078,6 @@ sub change_log {
     }
 
     return ($log);
-}
-
-=head2 abstract
-
-Generate an RPM style description from $lang/$TYPE_Info.xml
-
-=cut
-
-sub abstract {
-    my ( $self, $args ) = @_;
-
-    my $lang = delete( $args->{lang} )
-        || croak("lang is a mandatory argument");
-
-    if ( %{$args} ) {
-        croak "unknown args: " . join( ", ", keys %{$args} );
-    }
-
-    my $tmp_dir = $self->{publican}->param('tmp_dir');
-    my $type    = $self->{publican}->param('type');
-
-    my $xml_doc = XML::TreeBuilder->new();
-    $xml_doc->parse_file( "$tmp_dir/$lang/xml/$type" . '_Info.xml' );
-
-    my $abstract = $xml_doc->root()->look_down( "_tag", "abstract" )
-        || croak( maketext( "Missing mandatory field '[_1]'.", 'abstract' ) );
-
-    $columns = 68;
-    my $text = fill( "", "", $abstract->as_text() );
-    $columns = $DEFAULT_WRAP;
-    $text =~ s/^\s*//s;
-    return ($text);
 }
 
 =head2 get_books
