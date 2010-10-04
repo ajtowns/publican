@@ -41,7 +41,7 @@
 <xsl:param name="alignment">
 	<xsl:choose>
 		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW' or $l10n.gentext.language = 'ja-JP' or $l10n.gentext.language = 'ko-KR'">
-			<xsl:text>justify</xsl:text>
+			<xsl:text>left</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:text>left</xsl:text>
@@ -60,7 +60,7 @@
 <xsl:param name="hyphenation-character">
 	<xsl:choose>
 		<xsl:when test="$l10n.gentext.language = 'zh-CN' or $l10n.gentext.language = 'zh-TW' or $l10n.gentext.language = 'ja-JP' or $l10n.gentext.language = 'ko-KR'">
-			<xsl:text></xsl:text>
+			<xsl:text>-</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:text>-</xsl:text>
