@@ -157,7 +157,7 @@ my %PARAMS = (
         descr => maketext(
             'Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml'
         ),
-        constraint => '[^a-zA-Z_\-0-9.]',
+        constraint => '[^0-9a-zA-Z_\-\.\+]',
     },
     doc_url => {
         descr => maketext(
@@ -229,7 +229,7 @@ my %PARAMS = (
         descr => maketext(
             'Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml'
         ),
-        constraint => '[^a-zA-Z_\-]',
+        constraint => '[^0-9a-zA-Z_\-\.\+]',
 
     },
     prod_url => {

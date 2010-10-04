@@ -24,7 +24,7 @@
 
 Name:           publican
 Version:        2.1
-Release:        0%{?dist}.t145
+Release:        0%{?dist}.t146
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -261,6 +261,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add bridgehead_in_toc parameter. BZ #616123
 - Support '--lang all' for lang_stats.
 - Left align CJK in PDF. BZ #639811
+- Fix constraint regex on docname and productname. BZ #640082
 
 * Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Fix broken install_book not updating DB.
