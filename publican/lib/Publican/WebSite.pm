@@ -532,12 +532,7 @@ sub get_lang_list {
     $langs = $self->_dbh->selectall_arrayref($sql);
 
     unless ( $langs->[0] ) {
-        debug_msg(
-            maketext(
-                "No languages found, using default language: [_1]\n",
-                $self->{def_lang}
-            )
-        );
+        # No languages found, using default language: [_1]\n
         my @langs = ( $self->{def_lang} );
         $langs->[0] = \@langs;
     }
@@ -721,8 +716,6 @@ sub _regen_toc {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
 
-    debug_msg("Processing lang: $language\n");
-
     my $vars = {};
 
     my $default_search = <<SEARCH;
@@ -767,7 +760,6 @@ SEARCH
         $row_data{'selected'}  = $selected;
         $row_data{'lang'}      = $lang->[0];
         $row_data{'lang_name'} = $lang_name;
-        debug_msg("lang name: $lang_name\n");
         push( @tmpl_langs, \%row_data );
     }
 
