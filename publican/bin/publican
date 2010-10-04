@@ -762,8 +762,8 @@ if ( $action eq 'install_book' ) {
         my $version_label = $publican->param('web_version_label');
         my $name_label    = $publican->param('web_name_label');
 
-        my $subtitle = $publican->get_subtitle({lang => $lang});
-        my $abstract = $publican->get_abstract({lang => $lang});
+        my $subtitle = $publican->get_subtitle( { lang => $lang } );
+        my $abstract = $publican->get_abstract( { lang => $lang } );
 
         croak( maketext( "can't find 'publish/[_1]' directory", $lang ) )
             unless ( -d "publish/$lang" );
@@ -814,15 +814,16 @@ if ( $action eq 'install_book' ) {
             next unless ( -d "publish/$lang/$product/$version/$format" );
 
             $ws->update_or_add_entry(
-                language      => $lang,
-                product       => $product,
-                version       => $version,
-                name          => $name,
-                format        => $format,
-                product_label => $product_label,
-                version_label => $version_label,
-                subtitle      => $subtitle,
-                abstract      => $abstract,
+                {   language      => $lang,
+                    product       => $product,
+                    version       => $version,
+                    name          => $name,
+                    format        => $format,
+                    product_label => $product_label,
+                    version_label => $version_label,
+                    subtitle      => $subtitle,
+                    abstract      => $abstract,
+                }
             );
         }
     }
