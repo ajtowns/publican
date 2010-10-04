@@ -141,7 +141,7 @@ sub new {
             $site_config
         )
     );
-    my $host   = $config->param('host')   || undef;
+    my $host   = $config->param('host')   || 'http://localhost/';
     my $search = $config->param('search') || undef;
     my $title  = $config->param('title')  || 'Documentation';
 
