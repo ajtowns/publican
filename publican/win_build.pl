@@ -1,8 +1,39 @@
+#!/usr/bin/perl
+
 use strict;
 use warnings;
 
 use File::pushd;
 use Cwd qw(abs_path);
+
+=head1 Description
+
+This script builds the Windows installer. The installer creates a stand alone installation that bundles the perl environment.
+
+It requires:
+
+=over
+
+=item *
+The publican source including the brands
+
+=item *
+Perl
+
+=item *
+NSIS
+
+=item *
+PP
+
+=item *
+Up to date LibXML and LibXSLT packages
+
+=back
+
+See README for more information on deps.
+
+=cut
 
 my @brands = qw{publican-fedora publican-gimp publican-jboss publican-jboss-community publican-jboss-community-hibernate publican-redhat publican-jboss-community-richfaces };
 
@@ -39,3 +70,4 @@ system('"C:\Program Files\NSIS\makensis.exe" publican.nsi');
 $dir = undef;
 
 exit(0);
+
