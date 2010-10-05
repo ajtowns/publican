@@ -2,7 +2,7 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	1.3
+Version:	1.4
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
+- Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>
+
 * Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.3
 - Port to Publican 2
 

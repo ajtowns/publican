@@ -2,7 +2,7 @@
 
 Name:		publican-gimp
 Summary:	Common documentation files for %{brand}
-Version:	1.1
+Version:	1.2
 Release:	0%{?dist}
 License:	GFDL
 Group:		Development/Libraries
@@ -39,6 +39,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Oct 5 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.2-0
+- Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>
+
 * Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.1
 - Port to Publican 2
 

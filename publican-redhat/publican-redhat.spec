@@ -48,6 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.3-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
+- Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>
 
 * Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.2-0
 - Note ownership of MySQL trademark per Pamela Chestek <pchestek@redhat.com>

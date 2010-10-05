@@ -38,8 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.8
+* Tue Oct 5 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.8-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
+- Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>
 
 * Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.7
 - Port to Publican 2
