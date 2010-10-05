@@ -926,6 +926,12 @@ sub old2new {
     return;
 }
 
+=head2 get_abstract
+
+Return the abstract for the supplied langauge with all white space truncted.
+
+=cut
+
 sub get_abstract {
     my ( $self, $args ) = @_;
 
@@ -959,6 +965,12 @@ sub get_abstract {
 }
 
 
+=head2 get_subtitle
+
+Return the subtitle for the supplied langauge with white space truncted.
+
+=cut
+
 sub get_subtitle {
     my ( $self, $args ) = @_;
 
@@ -987,6 +999,12 @@ sub get_subtitle {
 
     return($subtitle);
 }
+
+=head2 run_xslt
+
+Apply the supplied xslt file to teh supplied XML and return a string of the output.
+
+=cut
 
 sub run_xslt {
     my ( $self, $args ) = @_;

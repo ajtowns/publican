@@ -31,7 +31,7 @@ diag($e) if $e;
 
 eval { $builder->package( { lang => "en-US" } ) };
 $e = $@;
-ok( ( not $e ), "tar a book" );
+ok( ( not $e ), "package a book" );
 diag($e) if $e;
 
 $dir = undef;

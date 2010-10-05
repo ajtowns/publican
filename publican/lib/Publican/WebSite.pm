@@ -226,13 +226,6 @@ CREATE_TABLE
     return;
 }
 
-## BUGBUG leave here to prevent old packages from blowing up? or force rebuild?
-sub update_settings {
-    my ( $self, $args ) = @_;
-
-    return;
-}
-
 sub _load_db {
     my $self = shift;
 

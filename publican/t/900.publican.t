@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 13;
 use File::pushd;
 use Cwd qw(abs_path cwd);
 
@@ -25,11 +25,20 @@ $coverdb = qq|-MDevel::Cover=-db,$cover_db| if ($cover_db);
 my $common_opts
     = qq|--common_config="$common_config" --common_content="$common_content"|;
 
-is( system(qq{perl $coverdb -I $lib -c $publican $common_opts --publish}),
+is( system(qq{perl $coverdb -I $lib -c $publican $common_opts -v}),
     0, 'test sytnax OK' );
 
-is( system(qq{perl $coverdb -I $lib $publican --help}),
+is( system(qq{perl $coverdb -I $lib $publican -v --help all}),
     0, 'test help output' );
+
+is( system(qq{perl $coverdb -I $lib $publican --help_actions}),
+    0, 'all action help' );
+
+like( qx/perl $coverdb -I $lib $publican pants/,
+    qr/'pants' is an unknown action!/, 'invalid action' );
+
+is( system(qq{perl $coverdb -I $lib $publican --help build}),
+    0, 'valid action help' );
 
 is( system(qq{perl $coverdb -I $lib $publican --man}), 0, 'test man output' );
 
@@ -62,6 +71,13 @@ is( system(
     ),
     0,
     'publish a book'
+);
+
+is( system(
+        qq{perl $coverdb -I $lib $publican package --lang en-US $common_opts}
+    ),
+    0,
+    'package a book'
 );
 
 $dir = undef;
