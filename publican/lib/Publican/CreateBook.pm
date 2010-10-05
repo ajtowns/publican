@@ -257,7 +257,7 @@ sub create {
                     [   'simpara',
                         [   'revhistory',
                             [   'revision',
-                                [ 'revnumber', '0' ],
+                                [ 'revnumber', '0-0' ],
                                 [   'date',
                                     DateTime->today()->strftime("%a %b %e %Y")
                                 ],
