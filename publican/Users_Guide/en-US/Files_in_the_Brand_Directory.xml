@@ -46,7 +46,7 @@
 			</listitem>
 			 <listitem>
 				<para>
-					a subdirectory for the brand&apos;s XML files, CSS stylesheets, and default images. The subdirectory is named with the language code of the original language of the brand (for example, <filename>en-US</filename>). These files are:
+					a subdirectory for the brand's XML files, CSS stylesheets, and default images. The subdirectory is named with the language code of the original language of the brand (for example, <filename>en-US</filename>). These files are:
 				</para>
 				 <itemizedlist>
 					<listitem>
@@ -113,7 +113,7 @@
 				<term><parameter>xml_lang</parameter></term>
 				 <listitem>
 					<para>
-						specifies the language of the source XML files for the brand&apos;s Common Content, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create_brand</command>.
+						specifies the language of the source XML files for the brand's Common Content, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create_brand</command>.
 					</para>
 
 				</listitem>
@@ -157,13 +157,13 @@
 	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_defaults.cfg_file_and_overrides.cfg_file">
 		<title>The defaults.cfg file and overrides.cfg file</title>
 		 <para>
-			Every document built in <application>Publican</application> has a <filename>publican.cfg</filename> file in its root directory, which configures build options for the document. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for a full description of these options. The <filename>defaults.cfg</filename> file and <filename>overrides.cfg</filename> file in a brand supply default values for any of the parameters that you can otherwise set with a document&apos;s <filename>publican.cfg</filename> file.
+			Every document built in <application>Publican</application> has a <filename>publican.cfg</filename> file in its root directory, which configures build options for the document. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for a full description of these options. The <filename>defaults.cfg</filename> file and <filename>overrides.cfg</filename> file in a brand supply default values for any of the parameters that you can otherwise set with a document's <filename>publican.cfg</filename> file.
 		</para>
 		 <para>
-			When you build a document with a particular brand, <application>Publican</application> first applies the values in the brand&apos;s <filename>defaults.cfg</filename> file before it applies the values in the document&apos;s <filename>publican.cfg</filename> file. Values in the document&apos;s <filename>publican.cfg</filename> file therefore override those in the brand&apos;s <filename>defaults.cfg</filename> file.
+			When you build a document with a particular brand, <application>Publican</application> first applies the values in the brand's <filename>defaults.cfg</filename> file before it applies the values in the document's <filename>publican.cfg</filename> file. Values in the document's <filename>publican.cfg</filename> file therefore override those in the brand's <filename>defaults.cfg</filename> file.
 		</para>
 		 <para>
-			<application>Publican</application> next applies the values in the brand&apos;s <filename>overrides.cfg</filename> file, which therefore override any values in the brand&apos;s <filename>defaults.cfg</filename> file and the document&apos;s <filename>publican.cfg</filename> file.
+			<application>Publican</application> next applies the values in the brand's <filename>overrides.cfg</filename> file, which therefore override any values in the brand's <filename>defaults.cfg</filename> file and the document's <filename>publican.cfg</filename> file.
 		</para>
 		 <para>
 			Use the <filename>defaults.cfg</filename> file to set values that you routinely apply to your brand but want to allow writers to change in particular books; use the <filename>overrides.cfg</filename> file for values that you do not want to allow writers to change.
@@ -230,7 +230,7 @@
 		 <section id="sect-Users_Guide-The_css_subdirectory-overrides.css">
 			<title>overrides.css</title>
 			 <para>
-				The <filename>overrides.css</filename> file sets the visual style for your brand. Values in this file override those in <application>Publican</application>&apos;s <filename>Common_Content/common/<replaceable>xml_lang</replaceable>/css/common.css</filename> file.
+				The <filename>overrides.css</filename> file sets the visual style for your brand. Values in this file override those in <application>Publican</application>'s <filename>Common_Content/common/<replaceable>xml_lang</replaceable>/css/common.css</filename> file.
 			</para>
 
 		</section>
@@ -248,7 +248,7 @@
 				<term><filename>image_left</filename></term>
 				 <listitem>
 					<para>
-						is a logo for the product to which this document applies. It appears at the top left corner of HTML pages, where it contains a hyperlink to a web page for the product, as defined by <parameter>prod_url</parameter> in the <filename>publican.cfg</filename> file for the document. Consider setting <parameter>prod_url</parameter> in the brand&apos;s <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
+						is a logo for the product to which this document applies. It appears at the top left corner of HTML pages, where it contains a hyperlink to a web page for the product, as defined by <parameter>prod_url</parameter> in the <filename>publican.cfg</filename> file for the document. Consider setting <parameter>prod_url</parameter> in the brand's <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
 					</para>
 
 				</listitem>
@@ -258,7 +258,7 @@
 				<term><filename>image_right</filename></term>
 				 <listitem>
 					<para>
-						is a logo for the team that produced this documentation. It appears at the top right corner of HTML pages, where it contains a hyperlink to a web page for the documentation team, as defined by <parameter>doc_url</parameter> in the <filename>publican.cfg</filename> file for the document. If all the documentation for this brand is produced by the same team, consider setting <parameter>doc_url</parameter> in the brand&apos;s <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
+						is a logo for the team that produced this documentation. It appears at the top right corner of HTML pages, where it contains a hyperlink to a web page for the documentation team, as defined by <parameter>doc_url</parameter> in the <filename>publican.cfg</filename> file for the document. If all the documentation for this brand is produced by the same team, consider setting <parameter>doc_url</parameter> in the brand's <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file.
 					</para>
 
 				</listitem>

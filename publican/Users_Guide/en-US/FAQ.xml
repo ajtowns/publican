@@ -30,7 +30,7 @@
 			</question>
 			 <answer>
 				<para>
-					Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People&apos;s Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings.
+					Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People's Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings.
 				</para>
 
 			</answer>
@@ -54,7 +54,7 @@
 		 <qandaentry>
 			<question>
 				<para>
-					Where can I get a complete list of <application>Publican</application>&apos;s build options?
+					Where can I get a complete list of <application>Publican</application>'s build options?
 				</para>
 
 			</question>
@@ -149,7 +149,54 @@
 			</answer>
 
 		</qandaentry>
-		 <qandaentry>
+		<qandaentry>
+			<question>
+				<para>
+					I can build HTML documents fine, but when I try to build PDF documents, I get errors like <computeroutput>java.lang.NullPointerException</computeroutput> and no PDF file is produced. What is wrong?
+				</para>
+
+			</question>
+			 <answer>
+				<para>
+					Try building a PDF version of a different document — perhaps a fresh one that you create with the <command>publican create</command> command. If the problem is not just with one particular document, you probably have a mismatch between the <application>Java Runtime Environment</application> (JRE) and the <application>Java Development Kit</application> (JDK) in use on your system. <application>FOP</application> requires both a JRE and JDK of the same version, and cannot use the <application>GNU Compiler for Java</application> (GCJ).
+				</para>
+				<para>
+					Run <command>alternatives --config java</command> and <command>alternatives --config javac</command> to determine which JRE and JDK are in use, then select versions that match and which do not have <literal>gcj</literal> in their name. For example, the following Java configuration shows a matching JRE and JDK that allow PDFs to build:
+				</para>
+<screen>$ alternatives --config java
+
+There are 3 programs which provide 'java'.
+
+  Selection    Command
+-----------------------------------------------
+   1           /usr/lib/jvm/jre-1.5.0-gcj/bin/java
+*  2           /usr/lib/jvm/jre-1.6.0-openjdk/bin/java
+ + 3           /usr/lib/jvm/jre-1.6.0-openjdk.x86_64/bin/java
+
+Enter to keep the current selection[+], or type selection number:</screen>
+
+<screen>$ alternatives --config javac
+
+There are 3 programs which provide 'javac'.
+
+  Selection    Command
+-----------------------------------------------
+*+ 1           /usr/lib/jvm/java-1.6.0-openjdk.x86_64/bin/javac
+   2           /usr/lib/jvm/java-1.6.0-openjdk/bin/javac
+   3           /usr/lib/jvm/java-1.5.0-gcj/bin/javac
+
+Enter to keep the current selection[+], or type selection number: </screen>
+				<para>
+					You might need to install an extra JDK if you do not have a JDK on your system that matches any of the JREs. 
+				</para>
+				<para>
+					Some Java installations do not set up the <command>alternatives</command> environment correctly. No fix has been determined for this situation.
+				</para>
+
+			</answer>
+
+		</qandaentry>
+		<qandaentry>
 			<question>
 				<para>
 					I get an error saying <application>Batik</application> is not in the classpath but <application>Batik</application> is installed! What is wrong?
@@ -158,28 +205,22 @@
 			</question>
 			 <answer>
 				<para>
-					We believe this is due to classpath issues caused by having different JRE and JDK versions installed. Sometimes this can be fixed by upgrading your JDK to the same version of your JRE.
-				</para>
-				 <para>
-					Sometimes this issue can be revealed by running <command>alternatives --config java</command> and <command>alternatives --config javac</command>, if the versions are different then selecting the same version in both can fix this problem.
-				</para>
-				 <para>
-					Some Java installs do not set-up the <command>alternatives</command> environment correctly, no fix has been determined for this situation.
+					We believe this is due to classpath issues caused by having different JRE and JDK versions in use. Refer to the previous question in this FAQ about <computeroutput>java.lang.NullPointerException</computeroutput> errors and using the <command>alternatives</command> command to ensure that the JRE and JDK match.
 				</para>
 
 			</answer>
 
 		</qandaentry>
-		 <qandaentry>
+		<qandaentry>
 			<question>
 				<para>
-					I get an error <computeroutput>Exception in thread &quot;main&quot; java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
+					I get an error <computeroutput>Exception in thread "main" java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?
 				</para>
 
 			</question>
 			 <answer>
 				<para>
-					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>make </command> run <command>echo &quot;FOP_OPTS=&apos;-Xms50m -Xmx700m&apos;&quot; &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>publican build</command> run <command>echo "FOP_OPTS='-Xms50m -Xmx700m'" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
 				</para>
 
 			</answer>
@@ -209,7 +250,7 @@
 			</question>
 			 <answer>
 				<para>
-					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document&apos;s XML. Due to negative feedback from users, this feature was dropped.
+					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document's XML. Due to negative feedback from users, this feature was dropped.
 				</para>
 
 			</answer>
@@ -218,7 +259,7 @@
 		 <qandaentry>
 			<question>
 				<para>
-					Why don&apos;t <sgmltag>&lt;segmentedlist&gt;</sgmltag>s work when I build PDFs?
+					Why don't <sgmltag>&lt;segmentedlist&gt;</sgmltag>s work when I build PDFs?
 				</para>
 
 			</question>
@@ -248,7 +289,7 @@
 		 <qandaentry>
 			<question>
 				<para>
-					When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what&apos;s wrong?
+					When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what's wrong?
 				</para>
 
 			</question>
@@ -257,11 +298,12 @@
 					Code highlighting in <application>Publican</application> is generated with the <application>Syntax::Highlight::Engine::Kate</application> Perl module. If you specify a language in a <sgmltag>&lt;programlisting&gt;</sgmltag> tag that <application>Syntax::Highlight::Engine::Kate</application> does not recognize, you receive an error when you build your book. The first lines of the error message are similar to:
 				</para>
 				 
-<screen><computeroutput>undefined language: JAVA at /usr/lib/perl5/vendor_perl/5.10.0/Syntax/Highlight/Engine/Kate.pm line 615.</computeroutput>
-<computeroutput>cannot create plugin for language &apos;JAVA&apos;</computeroutput>
+<screen><computeroutput>undefined language: JAVA at /usr/lib/perl5/vendor_perl/5.10.0/Syntax/Highlight/Engine/Kate.pm</computeroutput>
+<computeroutput>line 615.</computeroutput>
+<computeroutput>cannot create plugin for language 'JAVA'</computeroutput>
 </screen>
 				 <para>
-					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language=&quot;Java&quot;&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language=&quot;java&quot;&gt;</sgmltag> and <sgmltag>&lt;programlisting language=&quot;JAVA&quot;&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
+					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language="Java"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language="java"&gt;</sgmltag> and <sgmltag>&lt;programlisting language="JAVA"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
 				</para>
 				 <para>
 					Refer to <ulink url="http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation.
@@ -281,12 +323,12 @@
 				<procedure>
 					<step>
 						<para>
-							Install the bash-completion package. e.g. <command>sudo yum install bash-completion</command>
+							Install the bash-completion package. For example, on Fedora, run <command>sudo yum install bash-completion</command>.
 						</para>
 					</step>
 					<step>
 						<para>
-							Add the following to your ~/.bashrc file:
+							Add the following to your <filename>~/.bashrc</filename> file:
 						</para>
 <programlisting language="Bash">
 # Use bash-completion, if available
@@ -297,7 +339,7 @@ fi
 					</step>
 					<step>
 						<para>
-							Restart your terminal or run <command>source ~/.bashrc</command>
+							Restart your terminal or run <command>source ~/.bashrc</command>.
 						</para>
 					</step>
 				</procedure>
@@ -312,7 +354,7 @@ fi
 			</question>
 			 <answer>
 				<para>
-					Because Jeff&apos;s memory is pants!
+					Because Jeff's memory is pants!
 				</para>
 
 			</answer>

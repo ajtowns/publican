@@ -25,7 +25,7 @@
 				<term><command>publican <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
 				 <listitem>
 					<para>
-						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document&apos;s XML files. The <replaceable>action_options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
+						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document's XML files. The <replaceable>action_options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
 					</para>
 
 				</listitem>
@@ -156,7 +156,7 @@
 					<term>clean_ids</term>
 					 <listitem>
 						<para>
-							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after running <command>make clean_ids</command>: <sgmltag>&lt;section id=&quot;Test_Book-First_Section&quot;&gt;</sgmltag>
+							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after running <command>make clean_ids</command>: <sgmltag>&lt;section id="Test_Book-First_Section"&gt;</sgmltag>
 						</para>
 						 <warning>
 							<title>Warning — <command>make clean_ids</command></title>
@@ -251,10 +251,10 @@
 
 				</varlistentry>
 				 <varlistentry>
-					<term>lang_stats --lang=<replaceable>language_code</replaceable></term>
+					<term>lang_stats --langs=<replaceable>language_codes</replaceable></term>
 					 <listitem>
 						<para>
-							generates a translation report for the language specified by <replaceable>language_code</replaceable>.
+							generates a translation report for the languages specified by <replaceable>language_code</replaceable>.
 						</para>
 
 					</listitem>

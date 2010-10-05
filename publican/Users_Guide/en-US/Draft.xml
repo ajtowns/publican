@@ -25,7 +25,7 @@
 		 <procedure>
 			<step>
 				<para>
-					Add the software&apos;s pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:
+					Add the software's pre-release version number, or equivalent state information, to the subtitle in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:
 				</para>
 				 
 <programlisting language="XML">&lt;subtitle&gt;Using Red Hat Enterprise Warp Drive&lt;remark&gt; Version 1.1, Beta 2&lt;/remark&gt;&lt;/subtitle&gt;
@@ -35,7 +35,7 @@
 			</step>
 			 <step>
 				<para>
-					add <varname>show_remarks</varname> to the <filename>publican.cfg</filename> file and set it to &apos;1&apos;:
+					add <varname>show_remarks</varname> to the <filename>publican.cfg</filename> file and set it to '1':
 				</para>
 				 
 <programlisting>show_remarks: 1
@@ -50,12 +50,12 @@
 			When you build your book with this <sgmltag>&lt;remark&gt;</sgmltag> tag and the <varname>show_remarks</varname> setting in place, the pre-release nature of the software is displayed clearly and unmistakably. PDF builds display the remark on their cover and title pages. HTML builds (both single-page HTML and multiple-page HTML) display the remark near the beginning of <filename>index.html</filename>.
 		</para>
 		 <para>
-			Because this approach makes no changes to the information in <filename>Book_Info.xml</filename> used to generate RPMs, it also ensures there is no ambiguity in the RPM subsystem&apos;s operation.
+			Because this approach makes no changes to the information in <filename>Book_Info.xml</filename> used to generate RPMs, it also ensures there is no ambiguity in the RPM subsystem's operation.
 		</para>
 		 <important>
 			<title>Important</title>
 			 <para>
-				It is the writer&apos;s responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>show_remarks</varname> when documentation is updated for use with the release version of the software.
+				It is the writer's responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>show_remarks</varname> when documentation is updated for use with the release version of the software.
 			</para>
 
 		</important>
@@ -70,10 +70,10 @@
 		 <procedure>
 			<step>
 				<para>
-					To add the draft watermark to your documentation add the <userinput>status=&quot;draft&quot;</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document&apos;s root node. For example:
+					To add the draft watermark to your documentation add the <userinput>status="draft"</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document's root node. For example:
 				</para>
 				 
-<programlisting language="XML">&lt;book status=&quot;draft&quot;&gt;
+<programlisting language="XML">&lt;book status="draft"&gt;
 
 </programlisting>
 
@@ -88,7 +88,7 @@
 			If you are working on an article or set, the root node is the <sgmltag>&lt;article&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in <filename><replaceable>Doc_Name</replaceable>.xml</filename>.
 		</para>
 		 <para>
-			Adding the <userinput>status=&quot;draft&quot;</userinput> attribute causes each page of the document to show the draft watermark. This is by design.
+			Adding the <userinput>status="draft"</userinput> attribute causes each page of the document to show the draft watermark. This is by design.
 		</para>
 		 <para>
 			Even if you change only a portion of a work before sending it out for review, marking every page as draft will encourage reviewers to report errors or typos they spot in passing. It will also ensure non-reviewers who encounter the work do not mistake a draft for a finished version.

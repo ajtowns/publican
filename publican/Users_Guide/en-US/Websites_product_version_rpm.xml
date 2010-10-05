@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+
+<section id="sect-Users_Guide-Website-structure-productversion">
+	<title>Creating, installing, and updating product pages and version pages</title>
+	<para>
+		<application>Publican</application>-generated product pages and version pages are the localizable pages that provide a general overview of a product or version respectively. Visitors access these pages by clicking on a product or version in the navigation menu. The pages are structured as DocBook <sgmltag>&lt;article&gt;</sgmltag>s with an extra <parameter>web_type:&nbsp;product</parameter> or <parameter>web_type:&nbsp;version</parameter> parameter in their <filename>publican.cfg</filename> files. In their structure and presentation, product pages and version pages are the same as any other article that you produce with <application>Publican</application> and are packaged the same way.
+	</para>
+	<procedure>
+		<step>
+			<para>
+				On a workstation, create a home page using the procedure described in <xref linkend="sect-Users_Guide-Website-structure-product-version-manual"/>.
+			</para>
+		</step>
+		<step>
+			<para>
+				In the directory in which you created the product page or version page, run: 
+			</para>
+<screen><command>publican package --binary</command></screen>
+			<para>
+				<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the product page or version page. Note that by default, <application>Publican</application> generates an RPM package to install on a server that runs Red Hat Enterprise Linux&nbsp;5. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_var</parameter> parameter in the <filename>publican.cfg</filename> file of the product page or version page. 
+			</para>
+		</step>
+		<step>
+			<para>
+				Either upload the package to the webserver and install it with the <command>rpm -i</command> or <command>yum localinstall</command> command, or place the package in a repository and configure the webserver to install from that repository when you run <command>yum install</command>.
+			</para>
+		</step>
+	</procedure>
+	<para>
+		To update the product page or version page, build a new package with a higher <sgmltag>&lt;edition&gt;</sgmltag> number or <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the  <filename>Article_Info.xml</filename>. <application>Publican</application> uses these values to set the version and release numbers for the RPM package. When you install this package on your webserver, <application>yum</application> can replace the old version with the new when you run <command>yum localinstall</command> for a local package, or <command>yum update</command> for a package fetched from a repository.
+	</para>
+</section>

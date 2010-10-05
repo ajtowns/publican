@@ -44,14 +44,14 @@ mkdir Book_A Book_B
 					<command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
 				</para>
 				 
-<programlisting language="XML">&lt;?xml version=&apos;1.0&apos;?&gt;
-&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook XML V4.5//EN&quot; 
-&quot;http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd&quot; [
+<programlisting language="XML">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 ]&gt;
 	  
 &lt;book&gt;
-	  &lt;xi:include href=&quot;Book_Info.xml&quot; xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;&lt;/xi:include&gt;
-	  &lt;xi:include href=&quot;Chapter_1.xml&quot; xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;&lt;/xi:include&gt;
+	  &lt;xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
+	  &lt;xi:include href="Chapter_1.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;/xi:include&gt;
 &lt;/book&gt;
 
 </programlisting>

@@ -109,6 +109,16 @@
 			</listitem>
 
 		</varlistentry>
+		<varlistentry>
+			<term><parameter>bridgehead_in_toc</parameter></term>
+			  <listitem>
+				<para>
+					whether <sgmltag>bridgehead</sgmltag>s should be included in tables of contents. (Default: <literal>0</literal> — <sgmltag>bridgehead</sgmltag>s are not included in tables of contents).
+				</para>
+
+			</listitem>
+
+		</varlistentry>
 		 <varlistentry>
 			<term><parameter>chunk_first</parameter></term>
 			 <listitem>
@@ -153,7 +163,7 @@
 			<term><parameter>common_content</parameter></term>
 			 <listitem>
 				<para>
-					the path to the <application>Publican</application>&apos;s <firstterm>Common Content</firstterm> files. (Default for Linux operating systems: <filename>/usr/share/publican/Common_Content</filename>, default for Windows operating systems: <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>)
+					the path to the <application>Publican</application>'s <firstterm>Common Content</firstterm> files. (Default for Linux operating systems: <filename>/usr/share/publican/Common_Content</filename>, default for Windows operating systems: <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>)
 				</para>
 
 			</listitem>
@@ -466,16 +476,12 @@
 				<para>
 					specifies that the document is the home page of a documentation website, not a standard document. 
 				</para>
-
-			</listitem>
-
-		</varlistentry>
-		  <varlistentry>
-			<term><parameter>web_host</parameter></term>
-			  <listitem>
-				<para>
-					specifies the host name of a documentation website.
-				</para>
+				<important>
+						<title>Important — <literal>web_home</literal> is deprecated</title>
+						<para>
+							In <application>Publican</application>&nbsp;2.2, <literal>web_home</literal> is replaced by <literal>web_type: home</literal>. Support for <literal>web_home</literal> will be removed in a future version of <application>Publican</application>.
+						</para>
+				</important>
 
 			</listitem>
 
@@ -511,11 +517,11 @@
 
 		</varlistentry>
 		
-		  <varlistentry>
-			<term><parameter>web_search</parameter></term>
+		<varlistentry>
+			<term><parameter>web_type</parameter></term>
 			  <listitem>
 				<para>
-					overrides the default search form for a <application>Publican</application>-managed website. (Defaults: Google search; limited to a site search if <parameter>web_host</parameter> is set.)
+					specifies that the document is descriptive content for a <application>Publican</application>-managed website rather than product documentation. This content includes the home page of the website (<literal>web_type:&nbsp;home</literal>), product description pages  (<literal>web_type:&nbsp;product</literal>), and version description pages  (<literal>web_type:&nbsp;version</literal>). Refer to <xref linkend="sect-Users_Guide-Website" />.
 				</para>
 
 			</listitem>

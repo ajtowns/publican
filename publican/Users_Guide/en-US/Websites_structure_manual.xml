@@ -58,6 +58,52 @@
 				You might give names to the site configuration file and database file that help you to recognize the site to which they belong. For example, for the <application>FooMaster</application> documentation site, you might call these files <filename>foomaster.cfg</filename> and <filename>foomaster.db</filename>. You can set <parameter>--toc_path</parameter> to whatever you choose.
 			</para>
 		</step>
+		<step>
+			<para>
+				Edit the site configuration file to specify the name of the site, the web host, and optionally, search parameters for the site:
+			</para>
+			<substeps>
+				<step>
+					<para>
+						Specify the title with the <parameter>title</parameter> parameter, for example:
+					</para>
+<programlisting>title: "Foomaster Documentation"</programlisting>
+					<para>
+						Normally, visitors to your website do not see this title because the site's JavaScript redirects them to a homepage. However, this title is likely to be found and indexed by search engines. 
+					</para>
+				</step>
+				<step>
+					<para>
+						Specify the web host with the <parameter>web_host</parameter> parameter as a full URL, including the protocol (for example, <literal>http://</literal>). For example:
+					</para>
+<programlisting>web_host: http://docs.example.com</programlisting>
+					<para>
+						<application>Publican</application> uses the value set for <parameter>web_host</parameter> to construct the URLs in the XML <filename>Sitemap</filename> that it creates for search engine crawlers, and to limit searches submitted through the search box in the navigation menu to results on your site only.
+					</para>
+				</step>
+				<step>
+					<para>
+						Optionally, construct a search engine query to use with the search box in the navigation menu and specify the entire content of a HTML <sgmltag>&lt;form&gt;</sgmltag> with the <parameter>web_search</parameter> parameter. If you do not specify a custom web search, <application>Publican</application> creates a Google search limited to the host that you specified in the <parameter>web_host</parameter> parameter. 
+					</para>
+					<para>
+						For example, to construct a Yahoo! search limited to <literal>docs.example.com</literal>, set:
+					</para>
+<programlisting language="HTML">web_search: '&lt;form target="_top" method="get" action="http://search.yahoo.com/search"&gt; &lt;div class="search"&gt; &lt;input type="text" name="p" value="" /&gt; &lt;input type="hidden" name="vs" value="docs.example.com" /&gt; &lt;input type="submit" value="###Search###" /&gt; &lt;/div&gt; &lt;/form&gt;'</programlisting>
+					<para>
+						Refer to the documentation of your chosen search engine for details of how to construct custom searches. 
+					</para>
+					<para>
+						If you set <literal>value="###Search###"</literal> in the code for a submit button, <application>Publican</application> uses the word <literal>Search</literal> on the button, localized into any language that <application>Publican</application> supports. 
+					</para>
+					<important>
+						<title>Important — the web_search parameter is not validated</title>
+						<para>
+							<application>Publican</application> does not validate the <parameter>web_search</parameter> parameter, but builds the value of this parameter into the navigation menu exactly as you specify it. Be especially careful when you use this feature.
+						</para>
+					</important>
+				</step>	
+			</substeps>
+		</step>
 	</procedure>
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 

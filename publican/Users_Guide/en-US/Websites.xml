@@ -9,7 +9,7 @@
 		<application>Publican</application> not only builds documents for publication but can build and manage a documentation website as well. For a suite of documents that you maintain by yourself, you can use <application>Publican</application> to build a site on your local system; you can then upload the site to a webserver by whatever means you choose. This approach does not scale well, however, so for team-based documentation projects, <application>Publican</application> can generate RPM packages of documentation to install on the webserver. To install <application>Publican</application>-generated RPM packages on a webserver, <application>Publican</application> (version 2.1 or higher) and <application>rpm</application> must be installed on the server. If you build and maintain the website on a workstation and upload it to a webserver for publication,  <application>Publican</application> and <application>rpm</application> do not need to be installed on the webserver.
 	</para>
 	<para>
-		The websites that <application>Publican</application> creates consist of three parts: the website structure, a home page, and the documents published on the site. The website structure itself consists of:
+		The websites that <application>Publican</application> creates consist of four parts: the website structure, a home page, product and version description pages, and the documents published on the site. The website structure itself consists of:
 	</para>
 	<itemizedlist>
 		<listitem>
@@ -39,6 +39,11 @@
 				</listitem>
 				<listitem>
 					<para>
+						<filename>opds.xml</filename> — an Open Publication Distribution System (OPDS) catalog to allow compliant eBook readers to find EPUB documents on your site easily.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
 						<filename>Sitemap</filename> — an XML Sitemap to assist search engines to crawl the site.
 					</para>
 				</listitem>
@@ -54,9 +59,19 @@
 				</listitem>
 				<listitem>
 					<para>
-						subdirectories for each language in which you publish. Initially, this contains: <filename>Site_Statistics.html</filename>
+						subdirectories for each language in which you publish. Initially, this contains <filename>Site_Tech.html</filename> but later contains:
 					</para>
 					<itemizedlist>
+						<listitem>
+							<para>
+								<filename>opds.xml</filename> — an OPDS catalog of EPUB documents in this language.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<filename>opds-<replaceable>product</replaceable>.xml</filename> — an OPDS catalog of EPUB documents for each product for which you publish documentation in this language. Within each product catalog, documentation is divided into <sgmltag>&lt;category&gt;</sgmltag>s for different versions of the same product.
+							</para>
+						</listitem>
 						<listitem>
 							<para>
 								<filename>Site_Statistics.html</filename> — an overview of the documentation installed on the site.
@@ -72,6 +87,11 @@
 								<filename>toc.html</filename> — the table of contents for that language, initially without links to any documents.
 							</para>
 						</listitem>
+						<listitem>
+							<para>
+								A subdirectory for each product for which you publish documentation in this language.
+							</para>
+						</listitem>
 					</itemizedlist>
 				</listitem>
 			</itemizedlist>
@@ -85,6 +105,8 @@
 		
 		<xi:include href="Websites_homepage_manual.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		
+		<xi:include href="Websites_product_version_manual.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
 		<xi:include href="Websites_documents_manual.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		
 	</section>
@@ -95,6 +117,8 @@
 		<xi:include href="Websites_structure_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		
 		<xi:include href="Websites_homepage_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+		
+		<xi:include href="Websites_product_version_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		
 		<xi:include href="Websites_documents_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		
