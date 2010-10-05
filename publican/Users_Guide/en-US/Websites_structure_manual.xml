@@ -60,7 +60,7 @@
 		</step>
 		<step>
 			<para>
-				Edit the site configuration file to specify the name of the site, the web host, and optionally, search parameters for the site:
+				Edit the site configuration file to specify the name of the site, the web host, and optionally, search parameters and default for the site:
 			</para>
 			<substeps>
 				<step>
@@ -102,6 +102,15 @@
 						</para>
 					</important>
 				</step>	
+				<step>
+					<para>
+						Optionally, set the default language of the website. <application>Publican</application> creates a separate, translatable navigation menu for each language in which you publish documentation. However, if a document is not available in a particular language, <application>Publican</application> links visitors to the untranslated version of that document. To specify the default, untranslated language for the site, set <parameter>def_lang</parameter> with a language code. For example:
+					</para>
+<programlisting>def_lang: fr-FR</programlisting>
+					<para>
+						With <parameter>def_lang</parameter> set to <literal>fr-FR</literal>, visitors viewing the navigation menu in (for example) Spanish are presented with a link to the original French version of the document if the document has not yet been translated into Spanish.
+					</para>
+				</step>
 			</substeps>
 		</step>
 	</procedure>
