@@ -20,8 +20,6 @@
 
 %define TESTS 0
 
-#TODO update sitemap with product pages
-
 Name:           publican
 Version:        2.1
 Release:        0%{?dist}.t146
@@ -231,7 +229,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix empty term breaking PDF build. BZ #614728
 - Fix footnote not catching modified para. BZ #565903
 - Fix SRPM not including web labels. BZ #621036
-- Update tocs with home page is updated. BZ #612027
+- Update tocs when home page is updated. BZ #612027
 - Don't display stats for unused languages. BZ #613500
 - Fix admonitions/varlistentry not having IDs. BZ #616112
 - Fix procedure/itemizedlist/orderedlist not having IDs. BZ #612817
@@ -255,7 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix translated labels in web nav. BZ #631647
 - Remove highlighting from output of prompt tag in html. BZ #618902 <ryanlerch@gmail.com>
 - Resize index title font to a sane size. BZ #624392
-- Fix misapplied fonts fo zh, ja, and ko. BZ #628786
+- Fix misapplied fonts for CJK. BZ #628786
 - Fix attributes breaking translation merge. BZ #638816
 - Fix entities missing from RPM description. BZ #626254
 - Add bridgehead_in_toc parameter. BZ #616123
