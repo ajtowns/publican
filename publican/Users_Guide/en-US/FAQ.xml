@@ -158,7 +158,7 @@
 			</question>
 			 <answer>
 				<para>
-					Try building a PDF version of a different document — perhaps a fresh one that you create with the <command>publican create</command> command. If the problem is not just with one particular document, you probably have a mismatch between the <application>Java Runtime Environment</application> (JRE) and the <application>Java Development Kit</application> (JDK) in use on your system. <application>FOP</application> requires both a JRE and JDK of the same version, and cannot use the <application>GNU Compiler for Java</application> (GCJ).
+					Try building a PDF version of a different document — perhaps a fresh one that you create with the <command>publican create</command> command. If the problem is not just with one particular document, you probably have a mismatch between the <application>Java Runtime Environment</application> (JRE) and the <application>Java Development Kit</application> (JDK) in use on your system. If you have a JDK installed, <application>FOP</application> requires that the JDK is of the same version as the JRE. Furthermore, <application>FOP</application> cannot use the <application>GNU Compiler for Java</application> (GCJ).
 				</para>
 				<para>
 					Run <command>alternatives --config java</command> and <command>alternatives --config javac</command> to determine which JRE and JDK are in use, then select versions that match and which do not have <literal>gcj</literal> in their name. For example, the following Java configuration shows a matching JRE and JDK that allow PDFs to build:
@@ -252,7 +252,11 @@ Enter to keep the current selection[+], or type selection number: </screen>
 				<para>
 					Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document's XML. Due to negative feedback from users, this feature was dropped.
 				</para>
-
+				<para>
+					Run the following bash script in the root directory of your document to check spellings in your XML files with the <application>aspell</application> command-line spell checker. 
+				</para>
+<programlisting language="Bash"><xi:include href="extras/proof.sh" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</programlisting>
 			</answer>
 
 		</qandaentry>
@@ -320,6 +324,9 @@ Enter to keep the current selection[+], or type selection number: </screen>
 
 			</question>
 			 <answer>
+				<para>
+					Support for bash command line completion is a new feature in <application>Publican&nbsp;2.2</application>. To enable this feature:
+				</para>
 				<procedure>
 					<step>
 						<para>

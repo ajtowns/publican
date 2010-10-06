@@ -36,28 +36,11 @@
 		</step>
 		<step>
 			<para>
-				Edit the <filename>Article_Info.xml</filename> file. 
+				Unlink the <filename>Article_Info.xml</filename> file from your root XML file.
 			</para>
 			<para>
-				As with other documents created with <application>Publican</application>, the product name and product version number appear in a banner at the top of the page when built as HTML. On a product page, you might want to suppress the version number. If so, make the  <sgmltag>&lt;productnumber&gt;</sgmltag> tag empty, thus:
+				Little of the content of the <filename>Article_Info.xml</filename> file is likely to be useful for product pages or version pages. Therefore, edit the root XML file of your page to remove the <sgmltag>&lt;xi:include&gt;</sgmltag> tag that links to <filename>Article_Info.xml</filename>. <application>Publican</application> still uses the information in <filename>Article_Info.xml</filename> for packaging, but does not include it on the page itself.
 			</para>
-<programlisting>&lt;productnumber&gt;&lt;/productnumber&gt;</programlisting>
-			<para>
-				Similarly, to suppress displaying the title on a product page or version page, empty the <sgmltag>&lt;title&gt;</sgmltag> tag:
-			</para>
-<programlisting>&lt;title&gt;&lt;/title&gt;</programlisting>
-			<para>
-				If you empty the <sgmltag>&lt;productnumber&gt;</sgmltag> or <sgmltag>&lt;title&gt;</sgmltag> tags, be sure to set the <parameter>version</parameter> or  <parameter>docname</parameter> parameters when you edit the <filename>publican.cfg</filename> file later in this procedure.
-			</para>
-			<para>
-				You can also remove or re-order some of the typical content of a DocBook article as rendered by <application>Publican</application>, such as the <sgmltag>&lt;abstract&gt;</sgmltag>, <sgmltag>&lt;corpauthor&gt;</sgmltag>, and the <sgmltag>&lt;authorgroup&gt;</sgmltag> and <sgmltag>&lt;legalnotice&gt;</sgmltag> included from other files. Much of this content is typically not relevant to a product page or version page.
-			</para>
-			<note>
-				<title>Note — hiding the content of Article_Info.xml</title>
-				<para>
-					If little of the content of the <filename>Article_Info.xml</filename> file is useful for your site, you can edit the root XML file of your product page or version page to remove the <sgmltag>&lt;xi:include&gt;</sgmltag> tag that links to <filename>Article_Info.xml</filename>. <application>Publican</application> still uses the information in <filename>Article_Info.xml</filename> for packaging, but does not include it on the page itself.
-				</para>
-			</note>
 		</step>
 		<step>
 			<para>
@@ -85,23 +68,11 @@
 					</listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><parameter>version</parameter></term>
-					<listitem>
-						<para>
-							If you emptied the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename> file of a product page, set:
-						</para>
-<programlisting>version: 0.1</programlisting>
-					</listitem>
-				</varlistentry>
-				<varlistentry>
 					<term><parameter>docname</parameter></term>
 					<term><parameter>product</parameter></term>
 					<listitem>
 						<para>
 							If the <sgmltag>&lt;title&gt;</sgmltag> or the <sgmltag>&lt;product&gt;</sgmltag> that you set in the <filename>Article_Info</filename> file included anything other than basic, unaccented Latin characters, set the <parameter>docname</parameter> and <parameter>product</parameter> as necessary.
-						</para>
-						<para>
-							If you emptied the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename> file, you must specify a <parameter>docname</parameter>.
 						</para>
 					</listitem>
 				</varlistentry>
