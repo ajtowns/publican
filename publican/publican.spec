@@ -21,8 +21,8 @@
 %define TESTS 0
 
 Name:           publican
-Version:        2.1
-Release:        0%{?dist}.t146
+Version:        2.2
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -222,7 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Tue Jul 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
+* Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
 - Make keycombo example consistent with RHEL6 behaviour. BZ #618735 <r.landmann@redhat.com>
 - Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>

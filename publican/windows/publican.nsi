@@ -11,7 +11,7 @@
 
 	;Name and file
 	Name "Publican"
-	OutFile "Publican-Installer-2.1.exe"
+	OutFile "Publican-Installer-2.2.exe"
 	!insertmacro MUI_DEFAULT MUI_ICON "publican.ico"
 
 	;Default installation folder
@@ -112,7 +112,7 @@ Section "Publican" SecMain
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
 
 	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayName" "Publican"
-	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayVersion" "2.1"
+	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayVersion" "2.2"
 	WriteRegStr HKLM "${REG_UNINSTALL}" "Publisher" "Team Publican"
 	WriteRegStr HKLM "${REG_UNINSTALL}" "InstallSource" "$EXEDIR\"
 	WriteRegDWord HKLM "${REG_UNINSTALL}" "NoModify" 0
