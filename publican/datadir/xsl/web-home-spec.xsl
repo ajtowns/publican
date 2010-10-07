@@ -35,6 +35,9 @@ cp -rf publish/home/* $RPM_BUILD_ROOT/%{wwwdir}/.
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+publican update_site
+
 %files
 %defattr(-,root,root,-)
 %{wwwdir}

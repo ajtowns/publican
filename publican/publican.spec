@@ -227,6 +227,7 @@ rm -rf $RPM_BUILD_ROOT
 - Prepend product name to product/version splash pages.
 - Fix bash completion for --brand and --type.
 - Use --nocolours in spec files.
+- Update tocs when home/product/version pages are updated. BZ #612027
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
