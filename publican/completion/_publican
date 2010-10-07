@@ -6,6 +6,7 @@ _publican()
 
 	COMPREPLY=()
 	cur=`_get_cword`
+        brands=`ls /usr/share/publican/Common_Content`
 
 	commands='build clean clean_ids clean_set create create_brand create_site help_config install_book install_brand lang_stats old2new package print_banned print_known print_tree print_unused remove_book site_stats update_po update_pot update_site'
 
@@ -28,6 +29,14 @@ _publican()
 				;;
 			--formats)
 				COMPREPLY=( $( compgen -W "eclipse epub html html-single html-desktop man pdf txt xml" -- $cur ) )
+				return 0;
+				;;
+			--type)
+				COMPREPLY=( $( compgen -W "Article Book Set" -- $cur ) )
+				return 0;
+				;;
+			--brand)
+				COMPREPLY=( $( compgen -W "$brands" -- $cur ) )
 				return 0;
 				;;
 		esac

@@ -818,7 +818,8 @@ sub transform {
     XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
     XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts',
         \&insertCallouts );
-    XML::LibXSLT->register_function( 'urn:perl', 'numberLines', \&numberLines );
+    XML::LibXSLT->register_function( 'urn:perl', 'numberLines',
+        \&numberLines );
     XML::LibXSLT->max_depth(1000);
 
     my $security = XML::LibXSLT::Security->new();
@@ -976,6 +977,7 @@ sub transform {
         $dir = undef;
     }
     elsif ( $format eq 'man' ) {
+
         # NO-OP?
     }
     else {
@@ -1451,7 +1453,6 @@ sub insertCallouts {
     return ($verbatim);
 }
 
-
 =head2  numberLines
 
 perl_numberLines XSL function for numbering lines.
@@ -1466,12 +1467,12 @@ sub numberLines {
     my $parser = XML::LibXML->new();
     $parser->expand_entities(0);
 
-    my $text      =  $content->string_value();
-    my $num_lines =  () = ($text =~ /^/mg);
+    my $text      = $content->string_value();
+    my $num_lines = () = ( $text =~ /^/mg );
     my $format    = '%' . length("$num_lines") . 's:' . chr(160);
 
     my $out_string = $text;
-    my $count = 0;
+    my $count      = 0;
     $out_string =~ s/^/sprintf("$format",$count++)/egm;
 
     # this gives an XML::LibXML::DocumentFragment
@@ -1487,8 +1488,6 @@ sub numberLines {
 
     return ($content);
 }
-
-
 
 =head2 package_brand
 
@@ -1577,7 +1576,10 @@ sub package_home {
     my $web_type   = $self->{publican}->param('web_type') || 'home';
 
     my $name_start = "$docname";
-    my $tardir     = "$name_start-web-$web_type-$edition";
+    $name_start = "$product-$docname"          if ( $web_type eq 'product' );
+    $name_start = "$product-$docname-$version" if ( $web_type eq 'version' );
+
+    my $tardir = "$name_start-web-$web_type-$edition";
 
     mkpath("$tmp_dir/tar/$tardir");
     mkpath("$tmp_dir/rpm");
@@ -1888,42 +1890,41 @@ sub package {
         || "";
     my $web_name_label = $self->{publican}->param('web_name_label') || "";
 
+    if ( $lang ne $xml_lang ) {
+        my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
+        croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
+            if ( !-f $xml_file );
 
-        if ( $lang ne $xml_lang ) {
-            my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
-            croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
-                if ( !-f $xml_file );
+        my $xml_doc = XML::TreeBuilder->new();
+        $xml_doc->parse_file($xml_file);
 
-            my $xml_doc = XML::TreeBuilder->new();
-            $xml_doc->parse_file($xml_file);
-
-            # BUGBUG can't translate overridden labels :(
-            unless ($web_product_label) {
-                $web_product_label = eval {
-                    $xml_doc->root()->look_down( "_tag", "productname" )
-                        ->as_text();
-                };
-                if ($@) {
-                    croak maketext("productname not found in Info file");
-                }
-                $web_product_label =~ s/\s/_/g;
+        # BUGBUG can't translate overridden labels :(
+        unless ($web_product_label) {
+            $web_product_label = eval {
+                $xml_doc->root()->look_down( "_tag", "productname" )
+                    ->as_text();
+            };
+            if ($@) {
+                croak maketext("productname not found in Info file");
             }
-
-            unless ($web_name_label) {
-                $web_name_label = eval {
-                    $xml_doc->root()->look_down( "_tag", "title" )->as_text();
-                };
-                if ($@) {
-                    croak maketext("title not found in Info file");
-                }
-                $web_name_label =~ s/\s/_/g;
-            }
+            $web_product_label =~ s/\s/_/g;
         }
 
+        unless ($web_name_label) {
+            $web_name_label = eval {
+                $xml_doc->root()->look_down( "_tag", "title" )->as_text();
+            };
+            if ($@) {
+                croak maketext("title not found in Info file");
+            }
+            $web_name_label =~ s/\s/_/g;
+        }
+    }
 
     my $log = $self->change_log();
 
-    my $full_abstract = $self->{publican}->get_abstract({lang => $lang});
+    my $full_abstract = $self->{publican}->get_abstract( { lang => $lang } );
+
     # Wrap description for RPM style requirements
     $columns = 68;
     my $abstract = fill( "", "", $full_abstract );
@@ -2058,8 +2059,14 @@ sub change_log {
 
         my $revnumber = $node->as_trimmed_text();
 
-        unless($revnumber =~ m/-\d/) {
-            logger(maketext("WARNING: revnumber '[_1]' does not match required format '(\\d.)*-(\\d.)*'. e.g. '[_1]-0'.\nWARNING: Appending '-0' to revnumber for change log use to avoid creating invalid change log entries.\nWARNING: This automated handling is deprecated and will be removed from Publican in a future version, you should correct your revnumber's before this or your future builds will fail.\n\n", $revnumber), RED );
+        unless ( $revnumber =~ m/-\d/ ) {
+            logger(
+                maketext(
+                    "WARNING: revnumber '[_1]' does not match required format '(\\d.)*-(\\d.)*'. e.g. '[_1]-0'.\nWARNING: Appending '-0' to revnumber for change log use to avoid creating invalid change log entries.\nWARNING: This automated handling is deprecated and will be removed from Publican in a future version, you should correct your revnumber's before this or your future builds will fail.\n\n",
+                    $revnumber
+                ),
+                RED
+            );
             $revnumber .= '-0';
         }
 

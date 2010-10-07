@@ -905,6 +905,7 @@ _publican()
 
 	COMPREPLY=()
 	cur=`_get_cword`
+        brands=`ls /usr/share/publican/Common_Content`
 
 	commands='$actions'
 
@@ -927,6 +928,14 @@ _publican()
 				;;
 			--formats)
 				COMPREPLY=( \$( compgen -W "eclipse epub html html-single html-desktop man pdf txt xml" -- \$cur ) )
+				return 0;
+				;;
+			--type)
+				COMPREPLY=( \$( compgen -W "Article Book Set" -- \$cur ) )
+				return 0;
+				;;
+			--brand)
+				COMPREPLY=( \$( compgen -W "\$brands" -- \$cur ) )
 				return 0;
 				;;
 		esac

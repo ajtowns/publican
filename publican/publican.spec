@@ -22,7 +22,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}
+Release:        0%{?dist}.t1
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -200,6 +200,7 @@ done
 %if %{TESTS}
 ./Build test
 %endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -222,6 +223,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Thu Oct 07 2010 Jeff Fearn <jfearn@redhat.com> 2.3-0
+- Prepend product name to product/version splash pages.
+- Fix bash completion for --brand and --type.
+
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
 - Make keycombo example consistent with RHEL6 behaviour. BZ #618735 <r.landmann@redhat.com>
