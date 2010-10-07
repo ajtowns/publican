@@ -55,7 +55,7 @@ Requires:    xdg-utils
 %setup -q
 
 %build
-publican build --formats="html-desktop" --langs=<xsl:value-of select="$lang"/>
+publican build --nocolours --formats="html-desktop" --langs=<xsl:value-of select="$lang"/>
 
 %install
 rm -rf $RPM_BUILD_ROOT

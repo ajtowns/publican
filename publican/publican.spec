@@ -22,7 +22,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}.t1
+Release:        0%{?dist}.t2
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -226,6 +226,7 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Oct 07 2010 Jeff Fearn <jfearn@redhat.com> 2.3-0
 - Prepend product name to product/version splash pages.
 - Fix bash completion for --brand and --type.
+- Use --nocolours in spec files.
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
