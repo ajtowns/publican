@@ -1,6 +1,7 @@
 var work = 1;
 var name_c = window.location.hostname + '-publican';
 var num_days = 7;
+var name_cp = window.location.hostname + '-publican-current_page';
 
 function setCookie(name, value, expires, path, domain, secure) { 
 	var curCookie = name + "=" + value + 
@@ -15,6 +16,8 @@ function setCookie(name, value, expires, path, domain, secure) {
 
 function addID(id) {
 	var current_val = "";
+	var expDate = new Date();
+	expDate.setDate(expDate.getDate() + num_days);
 
 	if(document.cookie) {
 		var cookies = document.cookie.split(/ *; */);
@@ -25,6 +28,10 @@ function addID(id) {
 				break;
 			}
 		}
+	}
+
+	if(id != 'test_nocookie') {
+		setCookie(name_cp, id, expDate, '/', false, false);
 	}
 
 // try to avoid having duplicate id's in the list
@@ -52,8 +59,6 @@ function addID(id) {
 		current_val = id;
 	}
 
-	var expDate = new Date();
-	expDate.setDate(expDate.getDate() + num_days);
 	setCookie(name_c, current_val, expDate, '/', false, false);
 }
 
@@ -160,9 +165,29 @@ function getCookie() {
 				entity.className = my_class.replace(/hidden/,"visible");
 				my_parent.className = my_parent.className.replace(/collapsed/,"expanded");
 			}
+                        entity.className = entity.className.replace(/current/,"");
 		}
 	}
 
+// Scroll nav iframe to current doc
+	if(document.cookie) {
+		var cookies = document.cookie.split(/ *; */);
+		for(var i=0; i < cookies.length; i++) {
+			var current_c = cookies[i].split("=");
+			if(current_c[0] == name_cp) {
+				current_page = current_c[1];
+				var entity = document.getElementById(current_page);
+				if(entity) {
+					var anchorPos = entity.offsetTop;
+					document.body.scrollTop = anchorPos; // IE
+					document.documentElement.scrollTop = anchorPos; // FF
+					entity.className = entity.className + " current";
+				}
+				break;
+			}
+		}
+
+	}
 }
 
 function toggle(e, id) {
