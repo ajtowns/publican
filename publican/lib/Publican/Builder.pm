@@ -33,7 +33,7 @@ use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
 $VERSION = '0.2';
 @ISA     = qw(Exporter AutoLoader);
-@EXPORT  = qw(new_tree dtd_string);
+@EXPORT  = qw(dtd_string);
 
 my $INVALID = 1;
 
@@ -2222,33 +2222,6 @@ sub build_set_books {
     }
 
     return;
-}
-
-=head2 new_tree
-
-Create a new XML::TreeBuilder object with the required attributes for DocBook.
-
-TODO: Make XmlClean use this.
-
-=cut
-
-sub new_tree {
-
-    my $store_comments = ( shift() || 0 );
-
-    my $xml_doc = XML::TreeBuilder->new(
-        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
-    my $empty_element_map = $xml_doc->_empty_element_map;
-    $empty_element_map->{'xref'}       = 1;
-    $empty_element_map->{'index'}      = 1;
-    $empty_element_map->{'imagedata'}  = 1;
-    $empty_element_map->{'area'}       = 1;
-    $empty_element_map->{'ulink'}      = 1;
-    $empty_element_map->{'xi:include'} = 1;
-
-    $xml_doc->store_comments(1) if ($store_comments);
-
-    return ($xml_doc);
 }
 
 =head2 dtd_string

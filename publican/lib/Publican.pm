@@ -21,7 +21,7 @@ $VERSION = '2.2';
 @ISA     = qw(Exporter AutoLoader);
 
 @EXPORT
-    = qw(dir_list debug_msg get_all_langs logger help_config maketext old2new);
+    = qw(dir_list debug_msg get_all_langs logger help_config maketext old2new new_tree);
 
 my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
@@ -1086,6 +1086,32 @@ sub run_xslt {
     return($value);
 }
 
+=head2 new_tree
+
+Create a new XML::TreeBuilder object with the required attributes for DocBook.
+
+TODO: Make XmlClean use this.
+
+=cut
+
+sub new_tree {
+
+    my $store_comments = ( shift() || 0 );
+
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $empty_element_map = $xml_doc->_empty_element_map;
+    $empty_element_map->{'xref'}       = 1;
+    $empty_element_map->{'index'}      = 1;
+    $empty_element_map->{'imagedata'}  = 1;
+    $empty_element_map->{'area'}       = 1;
+    $empty_element_map->{'ulink'}      = 1;
+    $empty_element_map->{'xi:include'} = 1;
+
+    $xml_doc->store_comments(1) if ($store_comments);
+
+    return ($xml_doc);
+}
 
 1;    # Magic true value required at end of module
 __END__
