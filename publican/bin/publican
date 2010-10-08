@@ -666,6 +666,9 @@ if ( $action eq 'bump_n_brew' ) {
     my $docname = $publican->param('docname');
     my $type    = $publican->param('type');
 
+## TODO maybe do this later?
+    croak(maketext("Can't bump_n_build brands!")) if($type eq 'brand');
+
     my $xml_doc = new_tree(1);
 
     my $file = "$xml_lang/$type" . '_Info.xml';
