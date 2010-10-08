@@ -48,6 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Oct 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.4-0
 - Updated Italian translation Francesco Valente <fvalen@redhat.com>
+- rm fuzzies caused by BZ #628266 previously"
 
 * Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.3-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
