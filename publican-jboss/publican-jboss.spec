@@ -42,6 +42,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Oct 5 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
 - Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>
+- import Russian translation from Red Hat brand
 
 * Tue Aug 24 2010 Jeff Fearn <jfearn@redhat.com> 2.1-0
 - Change space before cover logo to 1in. BZ #628754
