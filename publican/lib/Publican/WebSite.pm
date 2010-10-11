@@ -217,8 +217,8 @@ CREATE TABLE IF NOT EXISTS $DB_NAME (
 	version_label text(255),
 	name_label text(255),
 	update_date text(10),
-        subtitle text,
-        abstract text,
+	subtitle text,
+	abstract text,
 	UNIQUE(language, product, version, name, format)
 )
 CREATE_TABLE

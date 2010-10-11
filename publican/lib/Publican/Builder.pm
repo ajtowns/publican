@@ -1930,6 +1930,9 @@ sub package {
     my $abstract = fill( "", "", $full_abstract );
     $columns = $DEFAULT_WRAP;
 
+    # Escape single quotes to prevent bash breaking
+    $full_abstract =~ s/'/\\'/g;
+
     my %xslt_opts = (
         'book-title'  => $name_start,
         'lang'        => $lang,

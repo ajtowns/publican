@@ -3,6 +3,8 @@ use warnings;
 use Module::Build;
 use File::Spec;
 
+# my $path = install_path('datadir');
+
 my $class = Module::Build->subclass(
     class => 'My::Builder',
     code  => q{
@@ -227,12 +229,15 @@ my $builder = $class->new(
         'Test_*',
         'Users_Guide/build',
         'Users_Guide/publish',
+        'Users_Guide/tmp',
         'datadir/Common_Content/common/tmp',
         'datadir/Common_Content/common/publish',
         'MANIFEST.bak',
         'Site_Tech/tmp',
         'Site_Tech/publish',
         'META.yml',
+        'Splash_Page/tmp/tmp',
+        'Splash_Page/tmp/publish',
     ],
     script_files => ['bin/publican'],
     install_path => {
@@ -244,6 +249,7 @@ my $builder = $class->new(
         'completion' => '/etc/bash_completion.d',
     },
     data_files => {
+        'datadir/default.db'    => 'datadir/default.db',
         'datadir/fop/fop.xconf' => 'datadir/fop/fop.xconf',
         'datadir/xsl/dt_htmlsingle_spec.xsl' =>
             'datadir/xsl/dt_htmlsingle_spec.xsl',
@@ -258,8 +264,8 @@ my $builder = $class->new(
         'datadir/xsl/epub.xsl'          => 'datadir/xsl/epub.xsl',
         'datadir/xsl/eclipse.xsl'       => 'datadir/xsl/eclipse.xsl',
         'datadir/xsl/man.xsl'           => 'datadir/xsl/man.xsl',
-        'datadir/xsl/abstract.xsl'           => 'datadir/xsl/abstract.xsl',
-        'datadir/xsl/subtitle.xsl'           => 'datadir/xsl/subtitle.xsl',
+        'datadir/xsl/abstract.xsl'      => 'datadir/xsl/abstract.xsl',
+        'datadir/xsl/subtitle.xsl'      => 'datadir/xsl/subtitle.xsl',
     },
     web_files => {
         'web/index.html'        => 'web/index.html',

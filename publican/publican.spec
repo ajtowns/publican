@@ -12,7 +12,6 @@
 %endif
 
 # who doesn't have xdg-open?
-#%define HTMLVIEW %(test %{RHEL5} == 1 && echo 1 || echo 0)
 %define HTMLVIEW %{RHEL5}
 
 # required for desktop file install
@@ -22,7 +21,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}.t10
+Release:        0%{?dist}.t16
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -165,9 +164,9 @@ solely on using the publican tools.
 %{__perl} Build.PL installdirs=vendor
 ./Build
 dir=`pwd` && cd Users_Guide && perl -I $dir/blib/lib $dir/blib/script/publican build \
-        --formats=html-desktop --publish --langs=all \
-        --common_config="$dir/blib/datadir" \
-        --common_content="$dir/blib/datadir/Common_Content"
+    --formats=html-desktop --publish --langs=all \
+    --common_config="$dir/blib/datadir" \
+    --common_content="$dir/blib/datadir/Common_Content"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -189,9 +188,9 @@ sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
 for file in po/*.po; do
-	lang=`echo "$file" | sed -e 's/po\/\(.*\)\.po/\1/'`;
-        mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES;
-	msgfmt $file -o $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.mo;
+    lang=`echo "$file" | sed -e 's/po\/\(.*\)\.po/\1/'`;
+    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES;
+    msgfmt $file -o $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.mo;
 done
 
 %find_lang %{name}
@@ -213,8 +212,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %{_bindir}/publican
 %{_datadir}/publican
+%config(noreplace) %{_datadir}/publican/default.db
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/publican-website.cfg
-%{_sysconfdir}/bash_completion.d/_publican
+%config(noreplace) %{_sysconfdir}/bash_completion.d/_publican
 
 %files doc
 %defattr(-,root,root,-)
@@ -230,6 +230,8 @@ rm -rf $RPM_BUILD_ROOT
 - Update tocs when home/product/version pages are updated. BZ #612027
 - Scroll to current entry in navigation menu.
 - Highlight current book in navigation menu.
+- Fix single quote in abstract breaking RPM install. BZ #642088
+- Fix RPM website not installing cleanly.
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
