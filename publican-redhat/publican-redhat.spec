@@ -5,7 +5,7 @@
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
 Version:	2.4
-Release:	0%{?dist}
+Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -46,9 +46,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Oct 12 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.4-1
+- respin to catch English string not replaced in translated languages.
+
 * Fri Oct 8 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.4-0
 - Updated Italian translation Francesco Valente <fvalen@redhat.com>
-- rm fuzzies caused by BZ #628266 previously"
+- rm fuzzies caused by BZ #628266 previously
 
 * Tue Aug 24 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.3-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
