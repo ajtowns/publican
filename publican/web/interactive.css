@@ -201,10 +201,12 @@ object.toc, iframe.toc {
 
 /*product*/
 .tocnav div.product {
-	line-height: 24px;
 	border-bottom: 1px solid #eee;
 	background-image: url(images/arrows.png);
 	background-repeat: no-repeat;
+	padding-right: 20px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }
 
 .tocnav div.product:hover span.product {
@@ -250,12 +252,19 @@ object.toc, iframe.toc {
 	background-position: 8px -170px !important;
 }
 
-.tocnav img.product, .tocnav img.version {
-	display: inline;
-	float: right;
+
+.tocnav a.product,
+.tocnav a.version {
+	right: 0px;
+	position: absolute;
+	text-decoration: none;
+}
+
+.tocnav img.product,
+.tocnav img.version {
 	margin: 0em;
-	padding:0em;
-	margin-top:0.3em;
+	padding: 0em;
+	margin-top: 0.15em;
 	border: none;
 }
 
@@ -283,6 +292,7 @@ object.toc, iframe.toc {
 .tocnav div.version {
 	background-color: white;
 	line-height: 20px;
+	padding-right: 20px;
 }
 
 .tocnav span.version {

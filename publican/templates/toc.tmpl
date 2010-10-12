@@ -29,12 +29,12 @@
 	</div>
 	[%- FOREACH products %]
 	<div class="product collapsed" onclick="toggle(event, '[% product %]');work=1;">
-		<span class="product">[% product_clean %]</span>[%- IF product_icon -%]<a class="product" title="[% prod_link_title %]" href="[% product %]/index.html" onclick="window.top.location='./[% product %]/index.html'"><img class="product" src="../images/page.png" /></a>[%- END %]
+		<span class="product">[% product_clean %][%- IF product_icon -%]<a class="product" title="[% prod_link_title %]" href="[% product %]/index.html" onclick="window.top.location='./[% product %]/index.html'"><img class="product" src="../images/page.png" /></a>[%- END %]</span>
 		<div id='[% product %]' class="versions hidden">
 		[%- FOREACH versions %]
 			<div id='[% product %].[% version %]' class="version collapsed" onclick="toggle(event, '[% product %].[% version %].books');">
 		    [%- IF version_label != 'UNUSED' %]
-				<span class="version">[% version_label %]</span>[%- IF ver_icon -%]<a class="version" title="[% ver_link_title %]" href="[% product %]/[% version %]/index.html" onclick="window.top.location='./[% product %]/[% version %]/index.html'"><img class="version" src="../../images/page.png" /></a>[%- END %]
+				<span class="version">[% version_label %][%- IF ver_icon -%]<a class="version" title="[% ver_link_title %]" href="[% product %]/[% version %]/index.html" onclick="window.top.location='./[% product %]/[% version %]/index.html'"><img class="version" src="../../images/page.png" /></a>[%- END %]</span>
 				<div id='[% product %].[% version %].books' class="books hidden">
 		    [%- ELSE -%]
 				<div id='[% product %].[% version %].books' class="books">
