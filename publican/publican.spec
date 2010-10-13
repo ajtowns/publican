@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}.t19
+Release:        0%{?dist}.t21
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -233,6 +233,9 @@ rm -rf $RPM_BUILD_ROOT
 - Fix single quote in abstract breaking RPM install. BZ #642088
 - Fix RPM website not installing cleanly.
 - Fix splash page icon wrap. BZ #642109
+- Moved titles before: example, equation, table. BZ #638787
+- Change html and PDF style for verbatim & example. BZ #638787
+
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>

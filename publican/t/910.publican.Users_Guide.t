@@ -41,7 +41,7 @@ is( system(
 );
 
 is( system(
-        qq{perl -I $lib $coverdb $publican build --formats=eclipse,epub,html,html-single,html-desktop,pdf,txt --langs=en-US $common_opts}
+        qq{perl -I $lib $coverdb $publican build --formats=html,html-single,html-desktop,pdf,txt,eclipse,epub --langs=en-US $common_opts}
     ),
     0,
     'build the Users Guide'

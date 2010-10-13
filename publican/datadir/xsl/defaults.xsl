@@ -10,9 +10,9 @@
 <!-- titles after all elements -->
 <xsl:param name="formal.title.placement">
 figure after
-example after
-equation after
-table after
+example before
+equation before
+table before
 procedure before 
 </xsl:param>
 

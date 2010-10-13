@@ -668,17 +668,30 @@ img {
 }
 
 .guibutton, .guilabel {
-	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
-	font-weight:bold;
-	white-space:nowrap;
+	font-family: "liberation mono", "bitstream vera mono", "dejavu mono", monospace;
+	font-weight: bold;
+	white-space: nowrap;
 }
 
 .example {
-	background-color:#dc9f2e;
-	padding:5px;
-	margin-bottom:10px;
+	background-color: #ffffff;
+	border-left: 3px solid #aaaaaa;
+	padding-top: 1em;
+	padding-bottom: 0.1em;
 }
 
+.example h6 {
+	padding-left: 10px;
+}
+
+.example-contents {
+	padding-left: 10px;
+	background-color: #ffffff;
+}
+
+.example-contents .para {
+/*	 padding: 10px;*/
+}
 
 /*terminal/console text*/
 .computeroutput, 
@@ -705,7 +718,9 @@ img {
 pre {
 	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
 	display:block;
-	background-color:#eeeeee;
+	background-color: #f5f5f5;
+	color: #000000;
+	border: 1px solid #aaaaaa;
 	margin-bottom: 0.3em;
 	padding:.5em 1em;
 	white-space: pre-wrap; /* css-3 */
@@ -746,9 +761,8 @@ div.note, div.important, div.warning {
 	background-position:1em 1em;
 }
 
+
 div.note pre, div.important pre, div.warning pre {
-	background-color: #333;
-	color: white;
 	margin-left: 4.5em;
 }
 

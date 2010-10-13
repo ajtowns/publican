@@ -114,25 +114,25 @@
   <xsl:attribute name="background-color">
 	<xsl:choose>
 		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>#333333</xsl:text>
+			<xsl:text>#f5f5f5</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
-			<xsl:text>#eeeeee</xsl:text>
+			<xsl:text>#f5f5f5</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
   <xsl:attribute name="color">
 	<xsl:choose>
 		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>white</xsl:text>
+			<xsl:text>black</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:text>black</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
   </xsl:attribute>
-  <!--xsl:attribute name="padding-left">12pt</xsl:attribute>
-  <xsl:attribute name="padding-right">12pt</xsl:attribute-->
+  <xsl:attribute name="padding-left">6pt</xsl:attribute>
+  <!--xsl:attribute name="padding-right">12pt</xsl:attribute-->
   <xsl:attribute name="padding-top">6pt</xsl:attribute>
   <xsl:attribute name="padding-bottom">6pt</xsl:attribute>
   <xsl:attribute name="margin-left">
@@ -142,6 +142,9 @@
     <xsl:value-of select="$body.font.master * 0.8"/>
     <xsl:text>pt</xsl:text>
   </xsl:attribute>
+  <xsl:attribute name="border-width">1pt</xsl:attribute>
+  <xsl:attribute name="border-style">solid</xsl:attribute>
+  <xsl:attribute name="border-color">#aaaaaa</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="hidden.properties">
@@ -407,11 +410,17 @@ part nop
 </xsl:attribute-set>
 
 <xsl:attribute-set name="example.properties" use-attribute-sets="formal.object.properties">
-	<xsl:attribute name="background-color">#eeeeee</xsl:attribute>
-<!--
-     BZ 531685 program listing in example renders badly because example is constrained to a single page
--->
+	<xsl:attribute name="border-left-width">3pt</xsl:attribute>
+	<xsl:attribute name="border-left-style">solid</xsl:attribute>
+	<xsl:attribute name="border-left-color">#aaaaaa</xsl:attribute>
 	<xsl:attribute name="keep-together.within-column"></xsl:attribute>
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+	<xsl:attribute name="padding-left">0.8em</xsl:attribute>
+	<xsl:attribute name="padding-top">0em</xsl:attribute>
+	<xsl:attribute name="margin-top">1.5em</xsl:attribute>
+  <xsl:attribute name="space-after.minimum">2em</xsl:attribute>
+  <xsl:attribute name="space-after.optimum">2em</xsl:attribute>
+  <xsl:attribute name="space-after.maximum">2em</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="table.properties">
@@ -442,8 +451,8 @@ part nop
 		<xsl:value-of select="$body.font.master"/>
 		<xsl:text>pt</xsl:text>
 	</xsl:attribute>
-	<xsl:attribute name="space-before.optimum"><xsl:text>2em</xsl:text></xsl:attribute>
-	<xsl:attribute name="space-before.minimum"><xsl:text>2em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.optimum"><xsl:text>1em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.minimum"><xsl:text>0.5em</xsl:text></xsl:attribute>
 	<xsl:attribute name="space-before.maximum"><xsl:text>2em</xsl:text></xsl:attribute>
 	<xsl:attribute name="space-after.optimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
 	<xsl:attribute name="space-after.minimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
