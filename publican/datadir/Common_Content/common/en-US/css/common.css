@@ -225,10 +225,6 @@ hr {
 	margin-top: 3em;
 }
 
-sup {
-	color:#999;
-}
-
 /* web site rules */
 ul.languages, .languages li {
 	display:inline;
@@ -664,7 +660,6 @@ img {
 
 /*user interface styles*/
 .screen .replaceable {
-	color:#444;
 }
 
 .guibutton, .guilabel {
@@ -733,7 +728,6 @@ pre {
 
 pre .replaceable, 
 pre .keycap {
-	color:white;
 }
 
 code {
@@ -752,91 +746,90 @@ code {
 }
 
 /*Notifications*/
-div.note, div.important, div.warning {
-	padding:1em;
-	padding-bottom:20px;
-	margin-top:.5em;
-	margin-bottom:1.5em;
-	background-repeat:no-repeat;
-	background-position:1em 1em;
+div.warning:before {
+	content:url(../images/warning.png);
+	padding-left: 5px;
+}
+
+div.note:before {
+	content:url(../images/note.png);
+	padding-left: 5px;
+}
+
+div.important:before {
+	content:url(../images/important.png);
+	padding-left: 5px;
+}
+
+div.warning, div.note, div.important {
+	color: black;
+	margin: 0em;
+	padding: 0em;
+	background: none;
+	background-color: white;
+	margin-bottom: 1em;
+	border-bottom: 1px solid #aaaaaa;
+}
+
+div.warning h2, div.note h2,div.important h2 {
+	margin: 0em;
+	padding: 0em;
+	padding-left: 58px;
+	color: #eeeeec;
+	font-size: large;
+	margin-top: -2.4em;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 26px;
+	line-height: 1.4em;
+	font-size: 1.4em;
+}
+
+div.warning h2 {
+	background-color: #9e0000;
+	background-image: url(../images/red.png);
+}
+
+div.note h2 {
+	background-color: #8e9f00;
+	background-image: url(../images/green.png);
+}
+
+div.important h2 {
+	background-color: #d08e13;
+	background-image: url(../images/yellow.png);
 }
 
 
-div.note pre, div.important pre, div.warning pre {
-	margin-left: 4.5em;
+div.warning p, div.warning div.para,
+div.note p, div.note div.para,
+div.important p, div.important div.para {
+	padding: 0em;
+	margin: 0em;
+/*	padding-left: 2em;
+	padding-right: 1em;
+	background-color: #eeeeec;
+	padding-top: 1.5em;
+	padding-bottom: 1em;
+	border-left: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
+*/
 }
 
-
-div.note {
-	background-image:url(../images/note.png);
-	background-color:#8e9f00;
-	color:white;
-}
-
-div.important  {
-	background-color:#d08e13;
-	color:white;
-	background-image:url(../images/important.png);
-}
-
-div.warning {
-	background-color:#9e292b;
-	color:white;
-	background-image:url(../images/warning.png);
-}
-
-
-/* Admonition Headings */
-div.note h2, div.important h2, div.warning h2 {
-	height:32px;
-	font-size:1.3em;
-}
-
-div.note h2, div.important h2, div.warning h2 {
-	color:white;
-}
-
-/* Admonition Inlines */
-div.note .replaceable, div.important .replaceable,  div.warning .replaceable {
-	color:#e3dcc0;
-}
-
-pre .replaceable, tt .replaceable {
-	color:#444;
-}
-
-div.note .guilabel, div.important .guilabel, div.warning .guilabel {
-	color:#e3dcc0;
-}
-
-
-/* Admonition Lists ... really? */
-div.note li, div.warning li, div.important li {
-	padding-left:10px;
-	margin:0em;
-}
-
-div.note ul, div.warning ul, div.important ul {
-	padding-left:40px;
-	margin:0em;
-}
-
-/* Admonition links in verbatim ... *really* */
-div.note pre pre a:visited, div.important pre pre a:visited, 
- div.warning pre pre a:visited, div.note pre a:link, div.important pre a:link, div.warning pre a:link {
-	color:#0066cc;
-}
-
-/* Admonition links */
-div.note a:visited, div.important a:visited, div.warning a:visited, div.note a:link , div.important a:link , div.warning a:link {
-	color:#f7f2d0;
-}
-
-/*notification icons*/
-div.note h2, div.note p, div.note div.para, div.warning h2, div.warning p, div.warning div.para, div.important h2, .important p, .important div.para {
+div.admonition {
+	border: none;
+	border-left: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
 	padding:0em;
 	margin:0em;
-	padding-left:56px;
+	padding-top: 1.5em;
+	padding-bottom: 1em;
+	padding-left: 2em;
+	padding-right: 1em;
+	background-color: #eeeeec;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
 }
 
 /*Page Title*/
@@ -1043,20 +1036,20 @@ table.simplelist td, .calloutlist table td {
 
 /*changes*/
 .footnote {
-	padding:.2em 1em;
-	background-color:#c8c5ac;
 	font-size: .7em;
 	margin:0em;
-	margin-bottom:.5em;
 	color:#222;
 }
 
 table .footnote {
-	margin:1em .5em;
 }
 
 sup {
-	padding:0em .3em;
+	color:#999;
+	margin:0em;
+	padding:0em;
+	line-height: .4em;
+	font-size: 1em;
 	padding-left:0em;
 }
 
@@ -1077,12 +1070,11 @@ sup {
 }
 
 .footnote:hover sup a {
-	color:#fff;
 	text-decoration:none;
 }
 
 .footnote p,.footnote div.para {
-	padding-left:5em;
+	padding-left:2em;
 }
 
 .footnote a:link, 
@@ -1091,7 +1083,6 @@ sup {
 }
 
 .footnote a:hover {
-	color:white;
 }
 
 /**/
@@ -1110,7 +1101,6 @@ div.note .keycap,
 div.important .keycap, 
 div.warning .keycap
 {
-	color:white;
 }
 
 ul li p:last-child, ul li div.para:last-child {
@@ -1361,7 +1351,7 @@ div.progress span.fuzzy {
 	padding-right:.5em;
 }
 
-.results h2, .results h3{
+.results h2, .results h3 {
 	display:inline;
 	padding-right:.5em;
 	font-size:10pt;
@@ -1387,9 +1377,9 @@ pre {
 }
 
 .example {
-	-moz-border-radius:15px;
-	-webkit-border-radius:15px;
-	border-radius: 15px;
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+	border-radius: 0px;
 }
 
 .package, .citetitle {

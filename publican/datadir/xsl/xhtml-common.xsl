@@ -128,7 +128,9 @@ Version: 1.72.0
 					<xsl:apply-templates select="." mode="object.title.markup"/>
 				</h2>
 			</xsl:if>
+		<div class="admonition">
 		<xsl:apply-templates/>
+		</div>
 	</div>
 </xsl:template>
 

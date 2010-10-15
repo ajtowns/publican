@@ -639,10 +639,10 @@ sub print_xml {
 ##        $text =~ s/&amp;#x200B;/&#x200B;/g;
 ##        $text =~ s/&#x200B; &#x200B;/ /g;
 ##        $text =~ s/&#x200B; / /g;
-##        $text =~ s/&#60;/&lt;/g;
-##        $text =~ s/&#62;/&gt;/g;
-##        $text =~ s/&#34;/"/g;
-##        $text =~ s/&#39;/'/g;
+        $text =~ s/&#60;/&lt;/g;
+        $text =~ s/&#62;/&gt;/g;
+        $text =~ s/&#34;/"/g;
+        $text =~ s/&#39;/'/g;
         $xml_doc->root()->delete();
 
         my $OUTDOC;

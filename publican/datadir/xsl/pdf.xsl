@@ -82,16 +82,7 @@
 
 <xsl:attribute-set name="xref.properties">
   <xsl:attribute name="font-style">italic</xsl:attribute>
-  <xsl:attribute name="color">
-	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::important or ancestor::warning">
-			<xsl:text>#aee6ff</xsl:text>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:text>#0066cc</xsl:text>
-		</xsl:otherwise>
-	</xsl:choose>
-  </xsl:attribute>
+  <xsl:attribute name="color">#0066cc</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="monospace.properties">
@@ -111,26 +102,8 @@
 <xsl:attribute-set name="shade.verbatim.style">
   <xsl:attribute name="wrap-option">wrap</xsl:attribute>
   <xsl:attribute name="hyphenation-character">\</xsl:attribute>
-  <xsl:attribute name="background-color">
-	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>#f5f5f5</xsl:text>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:text>#f5f5f5</xsl:text>
-		</xsl:otherwise>
-	</xsl:choose>
-  </xsl:attribute>
-  <xsl:attribute name="color">
-	<xsl:choose>
-		<xsl:when test="ancestor::note or ancestor::caution or ancestor::important or ancestor::warning or ancestor::tip">
-			<xsl:text>black</xsl:text>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:text>black</xsl:text>
-		</xsl:otherwise>
-	</xsl:choose>
-  </xsl:attribute>
+  <xsl:attribute name="background-color">#f5f5f5</xsl:attribute>
+  <xsl:attribute name="color">black</xsl:attribute>
   <xsl:attribute name="padding-left">6pt</xsl:attribute>
   <!--xsl:attribute name="padding-right">12pt</xsl:attribute-->
   <xsl:attribute name="padding-top">6pt</xsl:attribute>
@@ -185,22 +158,16 @@
 </xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 <xsl:attribute-set name="admonition.title.properties">
+	<xsl:attribute name="padding-left">0em</xsl:attribute>
+	<xsl:attribute name="padding-bottom">0em</xsl:attribute>
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+	<xsl:attribute name="margin-bottom">0em</xsl:attribute>
+	<xsl:attribute name="text-indent">3em</xsl:attribute>
 	<xsl:attribute name="font-size">13pt</xsl:attribute>
-	<xsl:attribute name="color">white</xsl:attribute>
+	<xsl:attribute name="color">#eeeeec</xsl:attribute>
 	<xsl:attribute name="font-weight">bold</xsl:attribute>
 	<xsl:attribute name="hyphenate">true</xsl:attribute>
 	<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
-</xsl:attribute-set>
-
-<xsl:param name="draft.watermark.image" select="'Common_Content/images/watermark-draft.png'"/>
-
-<xsl:attribute-set name="admonition.properties">
-	<xsl:attribute name="margin-right">1em</xsl:attribute>
-</xsl:attribute-set>
-
-<xsl:attribute-set name="graphical.admonition.properties">
-	<xsl:attribute name="keep-together.within-column">always</xsl:attribute>
-	<xsl:attribute name="color">white</xsl:attribute>
 	<xsl:attribute name="background-color">
 	  <xsl:choose>
 		<xsl:when test="local-name(.)='note'">
@@ -210,23 +177,45 @@
 			<xsl:text>#d08e13</xsl:text>
 		</xsl:when>
 		<xsl:when test="local-name(.)='warning'">
-			<xsl:text>#9e292b</xsl:text>
+			<xsl:text>#9e0000</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:text>#dddddd</xsl:text>
 		</xsl:otherwise>
 	  </xsl:choose>
 	</xsl:attribute>
-	<xsl:attribute name="space-before.optimum">1em</xsl:attribute>
-	<xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
-	<xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>
-	<xsl:attribute name="space-after.optimum">1em</xsl:attribute>
-	<xsl:attribute name="space-after.minimum">0.8em</xsl:attribute>
-	<xsl:attribute name="space-after.maximum">1em</xsl:attribute>
-	<xsl:attribute name="padding-bottom">12pt</xsl:attribute>
-	<xsl:attribute name="padding-top">12pt</xsl:attribute>
-	<!--xsl:attribute name="padding-right">12pt</xsl:attribute-->
+</xsl:attribute-set>
+
+<xsl:param name="draft.watermark.image" select="'Common_Content/images/watermark-draft.png'"/>
+
+<xsl:attribute-set name="admonition.properties">
+	<xsl:attribute name="margin-right">0em</xsl:attribute>
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+	<xsl:attribute name="background-color">#eeeeec</xsl:attribute>
+	<xsl:attribute name="border-left-width">1pt</xsl:attribute>
+	<xsl:attribute name="border-left-style">solid</xsl:attribute>
+	<xsl:attribute name="border-left-color">#aaaaaa</xsl:attribute>
+	<xsl:attribute name="border-right-width">1pt</xsl:attribute>
+	<xsl:attribute name="border-right-style">solid</xsl:attribute>
+	<xsl:attribute name="border-right-color">#aaaaaa</xsl:attribute>
+	<xsl:attribute name="border-bottom-width">1pt</xsl:attribute>
+	<xsl:attribute name="border-bottom-style">solid</xsl:attribute>
+	<xsl:attribute name="border-bottom-color">#aaaaaa</xsl:attribute>
+	<xsl:attribute name="padding-top">1.5em</xsl:attribute>
 	<xsl:attribute name="padding-left">1em</xsl:attribute>
+	<xsl:attribute name="padding-right">1em</xsl:attribute>
+	<xsl:attribute name="margin-top">0em</xsl:attribute>
+	<xsl:attribute name="margin-bottom">0em</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="graphical.admonition.properties">
+	<xsl:attribute name="keep-together.within-column">always</xsl:attribute>
+	<xsl:attribute name="color">black</xsl:attribute>
+	<xsl:attribute name="background-color">white</xsl:attribute>
+	<xsl:attribute name="padding-bottom">0pt</xsl:attribute>
+	<xsl:attribute name="padding-top">0pt</xsl:attribute>
+	<!--xsl:attribute name="padding-right">12pt</xsl:attribute-->
+	<xsl:attribute name="padding-left">0em</xsl:attribute>
 	<xsl:attribute name="margin-left">
 		<xsl:value-of select="$title.margin.left"/>
 	</xsl:attribute>
@@ -2806,4 +2795,53 @@ Not sure why it doesn't work in there.
 
 </xsl:template>
 
+<xsl:template name="graphical.admonition">
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+  <xsl:variable name="graphic.width">
+     <xsl:apply-templates select="." mode="admon.graphic.width"/>
+  </xsl:variable>
+<xsl:variable name="src">
+         <xsl:call-template name="admon.graphic"/>
+  </xsl:variable>
+
+<fo:block id="{$id}"
+            xsl:use-attribute-sets="graphical.admonition.properties">
+	<xsl:attribute name="padding-bottom">-3em</xsl:attribute>
+	<xsl:attribute name="margin-bottom">2em</xsl:attribute>
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+  <fo:block-container>
+	<xsl:attribute name="margin-left">body-start()</xsl:attribute>
+    <fo:block-container>
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+      <fo:block xsl:use-attribute-sets="admonition.title.properties">
+        <xsl:apply-templates select="." mode="object.title.markup">
+          <xsl:with-param name="allow-anchors" select="1"/>
+        </xsl:apply-templates>
+      </fo:block>
+    </fo:block-container>
+    <fo:block-container>
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+      <fo:block xsl:use-attribute-sets="admonition.properties">
+        <xsl:apply-templates/>
+      </fo:block>
+    </fo:block-container>
+    <fo:block-container position="absolute" top="-12px" left="1px">
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+      <fo:block>
+        <fo:external-graphic width="auto" height="auto"
+                                   content-width="{$graphic.width}" >
+          <xsl:attribute name="src">
+            <xsl:call-template name="admon.graphic"/>
+          </xsl:attribute>
+        </fo:external-graphic>
+      </fo:block>
+    </fo:block-container>
+  </fo:block-container>
+</fo:block>
+
+</xsl:template>
+
 </xsl:stylesheet>
+
