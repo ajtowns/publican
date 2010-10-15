@@ -459,7 +459,32 @@ sub merge_msgs {
         $out_doc->look_down(
             '_tag',
             qr/$TRANSTAGS/,
-            sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
+##            sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
+            sub {
+                my $inner = $_[0];
+## an index term NOT in a translatable tag should be translated as a block.
+## An indexterm in a translatable tag should be translated inline
+                if ( $inner->tag() eq 'indexterm' ) {
+                    not defined(
+                        $inner->look_up(
+                            '_tag',
+                            qr/$IGNOREBLOCKS/,
+                            sub {
+                                $_[0]->tag() =~ /$TRANSTAGS/
+                                    && $inner->parent()
+                                    && $inner->parent()->tag()
+                                    =~ /$TRANSTAGS/;
+                            },
+                        )
+                    );
+                }
+                else {
+## Other IGNOREBLOCKS tags are completely ignored for translation structure.
+                    not defined(
+                        $inner->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
+
+                }
+            }
         )
         )
     {
@@ -608,18 +633,27 @@ sub translate {
         }
         else {
 ##        debug_msg("WARNING: Un-translated message: '$msgid'\n");
-            if($msgids->{$msgid}->fuzzy()) { # BUGBUG TEST this is still set
-                logger(maketext("WARNING: Fuzzy message in PO file."), RED);
-            } else {
-                logger(maketext("WARNING: Un-translated message in PO file."), RED);
+            if ( $msgids->{$msgid}->fuzzy() )
+            {    # BUGBUG TEST this is still set
+                logger( maketext("WARNING: Fuzzy message in PO file."), RED );
             }
-            logger("\n" . $msgid . "\n\n", RED);
+            else {
+                logger(
+                    maketext("WARNING: Un-translated message in PO file."),
+                    RED );
+            }
+            logger( "\n" . $msgid . "\n\n", RED );
         }
     }
     else {
 ##         debug_msg("WARNING: Missing message: '\n$msgid\n'\n");
-            logger(maketext("WARNING: Message missing from PO file, consider updating your POT and PO files."), RED);
-            logger("\n" . $msgid . "\n\n", RED);
+        logger(
+            maketext(
+                "WARNING: Message missing from PO file, consider updating your POT and PO files."
+            ),
+            RED
+        );
+        logger( "\n" . $msgid . "\n\n", RED );
     }
     return;
 }
