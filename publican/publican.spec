@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}.t28
+Release:        0%{?dist}.t29
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -239,6 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix HTML footer style and layout.
 - Add bump_n_brew action.
 - Fix indexterm merge missing nested nodes. BZ #643275
+- Add phrase to translatable tag list. BZ #643287
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
