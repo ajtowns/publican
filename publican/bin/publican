@@ -166,11 +166,9 @@ my %actions = (
         ],
     },
     'bump_n_brew' => {
-        'brief' => maketext(
-            'bump the pubs number and brew the updated package.'),
-        'options' => [
-            'scratch', 'lang', 'wait', 'cvs'
-        ],
+        'brief' =>
+            maketext('bump the pubs number and brew the updated package.'),
+        'options' => [ 'scratch', 'lang', 'wait', 'cvs' ],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
@@ -578,7 +576,8 @@ if ( $action eq 'print_unused' ) {
     exit(0);
 }
 
-if ( $action eq 'clean' || $action eq 'package' || $action eq 'bump_n_brew' ) {
+if ( $action eq 'clean' || $action eq 'package' || $action eq 'bump_n_brew' )
+{
     if ( $action eq 'package' || $action eq 'bump_n_brew' ) {
         logger(
             maketext(
@@ -662,32 +661,31 @@ if ( $action eq 'bump_n_brew' ) {
     $opts{brew} = 1;
 
     my $xml_lang = $publican->param('xml_lang');
-    my $dtdver  = $publican->param('dtdver');
-    my $docname = $publican->param('docname');
-    my $type    = $publican->param('type');
+    my $dtdver   = $publican->param('dtdver');
+    my $docname  = $publican->param('docname');
+    my $type     = $publican->param('type');
 
 ## TODO maybe do this later?
-    croak(maketext("Can't bump_n_build brands!")) if($type eq 'brand');
+    croak( maketext("Can't bump_n_build brands!") ) if ( $type eq 'brand' );
 
     my $xml_doc = new_tree(1);
 
     my $file = "$xml_lang/$type" . '_Info.xml';
-    $xml_doc->parse_file( $file );
+    $xml_doc->parse_file($file);
     my $tag = $xml_doc->attr("_tag");
 
     my $node = $xml_doc->root()->look_down( "_tag", "pubsnumber" );
-    my $release  = $node->as_text();
+    my $release = $node->as_text();
     $release++;
     $node->delete_content();
     $node->push_content("$release");
-    $publican->param('release', $release);
-    $publican->{config}->param('release', $release);
+    $publican->param( 'release', $release );
+    $publican->{config}->param( 'release', $release );
 
     my $OUTDOC;
 
     open( $OUTDOC, ">:utf8", "$file" )
-        || croak(
-        maketext( "Could not open [_1] for output!", $file ) );
+        || croak( maketext( "Could not open [_1] for output!", $file ) );
 
     my $ent_file = undef;
 
@@ -707,7 +705,7 @@ if ( $action eq 'bump_n_brew' ) {
 
 }
 
-if ( ($action eq 'package') || ($action eq 'bump_n_brew') ) {
+if ( ( $action eq 'package' ) || ( $action eq 'bump_n_brew' ) ) {
     my $builder = Publican::Builder->new();
     if ( $publican->param('type') eq 'brand' ) {
         $builder->package_brand( { binary => $opts{binary} } );
@@ -885,6 +883,7 @@ if ( $action eq 'install_book' ) {
                     format        => $format,
                     product_label => $product_label,
                     version_label => $version_label,
+                    name_label    => $name_label,
                     subtitle      => $subtitle,
                     abstract      => $abstract,
                 }
