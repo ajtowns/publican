@@ -52,7 +52,7 @@ BuildRequires:  perl(Test::Perl::Critic)
 BuildRequires:  perl(Archive::Tar)
 BuildRequires:  perl(Archive::Zip)
 BuildRequires:  perl(Carp)
-BuildRequires:  perl(Config::Simple)
+BuildRequires:  perl(Config::Simple) { 'NoExpand' => "1", 'ErrorContext' => "2" }
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(DateTime)
@@ -240,6 +240,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add bump_n_brew action.
 - Fix indexterm merge missing nested nodes. BZ #643275
 - Add phrase to translatable tag list. BZ #643287
+- Fix POT files breaking when using HTML::Tree 4.0.
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>

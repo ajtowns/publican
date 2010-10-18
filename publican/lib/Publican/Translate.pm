@@ -325,7 +325,7 @@ sub get_msgs {
         );
     }
 
-    my $trans_tree = XML::TreeBuilder->new();
+    my $trans_tree = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" });
 
     my $trans_node;
 
