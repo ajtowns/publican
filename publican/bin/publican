@@ -700,8 +700,19 @@ if ( $action eq 'bump_n_brew' ) {
 
 ## TODO BUGBUG move traverse code to Publican.pm and call from
 ## Builder, XmlClean, and here
+    my $text = $xml_doc->root()->as_XML();
+    $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
+    $text =~ s/&#38;/&amp;/g;
+    $text =~ s/&#60;/&lt;/g;
+    $text =~ s/&#62;/&gt;/g;
+    $text =~ s/&#34;/"/g;
+    $text =~ s/&#39;/'/g;
+    $text =~ s/&quot;/"/g;
+    $text =~ s/&apos;/'/g;
+
     print( $OUTDOC $xml_doc->root()->as_XML() );
     close($OUTDOC);
+    $xml_doc->root()->delete();
 
 }
 
@@ -854,6 +865,8 @@ if ( $action eq 'install_book' ) {
                     croak maketext("productname not found in Info file");
                 }
                 $product_label =~ s/\s/_/g;
+
+                $product_label = undef if($product_label eq $product);
             }
 
             unless ($name_label) {
@@ -864,6 +877,7 @@ if ( $action eq 'install_book' ) {
                     croak maketext("title not found in Info file");
                 }
                 $name_label =~ s/\s/_/g;
+                $name_label = undef if($name_label eq $name);
             }
         }
 

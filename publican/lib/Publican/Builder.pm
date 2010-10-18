@@ -1933,6 +1933,10 @@ sub package {
     # Escape single quotes to prevent bash breaking
     $full_abstract =~ s/'/\\'/g;
 
+    my $full_subtitle = $self->{publican}->get_subtitle( { lang => $lang } );
+    $full_subtitle =~ s/'/\\'/g;
+    chomp($full_subtitle);
+
     my %xslt_opts = (
         'book-title'  => $name_start,
         'lang'        => $lang,
@@ -1957,6 +1961,7 @@ sub package {
         version_label => $web_version_label,
         name_label    => $web_name_label,
         full_abstract => $full_abstract,
+        full_subtitle => $full_subtitle,
     );
 
     logger(

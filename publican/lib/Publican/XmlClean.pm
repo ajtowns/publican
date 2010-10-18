@@ -643,6 +643,9 @@ sub print_xml {
         $text =~ s/&#62;/&gt;/g;
         $text =~ s/&#34;/"/g;
         $text =~ s/&#39;/'/g;
+        $text =~ s/&quot;/"/g;
+        $text =~ s/&apos;/'/g;
+
         $xml_doc->root()->delete();
 
         my $OUTDOC;
