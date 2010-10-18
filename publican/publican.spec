@@ -52,7 +52,7 @@ BuildRequires:  perl(Test::Perl::Critic)
 BuildRequires:  perl(Archive::Tar)
 BuildRequires:  perl(Archive::Zip)
 BuildRequires:  perl(Carp)
-BuildRequires:  perl(Config::Simple) { 'NoExpand' => "1", 'ErrorContext' => "2" }
+BuildRequires:  perl(Config::Simple)
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(DateTime)
