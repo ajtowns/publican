@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}.t36
+Release:        0%{?dist}.t37
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -243,6 +243,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix POT files breaking when using HTML::Tree 4.0.
 - Fix translated label missing from manually installed book. BZ #643781
 - Add icon.svg to Create Book. BZ #644105
+- Move HTML image limit from XSL to CSS, increase to 55em.
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>

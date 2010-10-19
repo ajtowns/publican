@@ -26,6 +26,8 @@
 
 <xsl:param name="package" select="''"/>
 
+<xsl:param name="ignore.image.scaling" select="1"/>
+
 <xsl:param name="chunker.output.doctype-public" select="'-//W3C//DTD XHTML 1.0 Strict//EN'"/>
 <xsl:param name="chunker.output.doctype-system" select="'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'"/>
 <xsl:param name="chunker.output.encoding" select="'UTF-8'"/>
