@@ -9,7 +9,7 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	publican >= 2.2
+Requires:	publican >= 2.3
 BuildRequires:	publican >= 2.0
 URL:		https://publican.fedorahosted.org/
 
@@ -39,7 +39,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Oct 19 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
-- Update CSS to accommodate changes in Publican 2.3 common brand
+- Update CSS and pdf.xsl to accommodate changes in Publican 2.3 common brand
 
 * Tue Sep 7 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3-0
 - add trademark notice for MySQL per Pamela Chestek <pchestek@redhat.com>

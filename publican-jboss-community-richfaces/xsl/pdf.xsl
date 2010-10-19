@@ -37,16 +37,38 @@
     <xsl:when test="self::tip">white</xsl:when>
     <xsl:otherwise>white</xsl:otherwise>
   </xsl:choose>
-        </xsl:attribute>
+  </xsl:attribute>
 
   <xsl:attribute name="font-weight">bold</xsl:attribute>
   <xsl:attribute name="hyphenate">false</xsl:attribute>
   <xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
-
+  	<xsl:attribute name="background-color">
+	  <xsl:choose>
+		<xsl:when test="local-name(.)='note'">
+			<xsl:text>#B5BCBD</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='important'">
+			<xsl:text>#4A5D75</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='warning'">
+			<xsl:text>#7B1E1E</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='tip'">
+			<xsl:text>#7E917F</xsl:text>
+		</xsl:when>
+		<xsl:when test="local-name(.)='caution'">
+			<xsl:text>#E3A835</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>#dddddd</xsl:text>
+		</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="graphical.admonition.properties">
 
+  <xsl:attribute name="keep-together.within-column">always</xsl:attribute>
   <xsl:attribute name="color">
   <xsl:choose>
     <xsl:when test="self::note">#4C5253</xsl:when>
@@ -85,10 +107,19 @@
 
 <xsl:attribute-set name="example.properties" use-attribute-sets="formal.object.properties">
 	<xsl:attribute name="background-color">#dad6b9</xsl:attribute> 
+	<xsl:attribute name="border-left-width">0pt</xsl:attribute>
 <!--
      BZ 531685 program listing in example renders badly because example is constrained to a single page
 -->
 	<xsl:attribute name="keep-together.within-column"></xsl:attribute>
+	<xsl:attribute name="padding-left">0.8em</xsl:attribute>
+	<xsl:attribute name="padding-right">0.8em</xsl:attribute>
+	<xsl:attribute name="padding-top">0em</xsl:attribute>
+	<xsl:attribute name="margin-top">0em</xsl:attribute>
+  <xsl:attribute name="space-after.minimum">2em</xsl:attribute>
+  <xsl:attribute name="space-after.optimum">2em</xsl:attribute>
+  <xsl:attribute name="space-after.maximum">2em</xsl:attribute>
+
 </xsl:attribute-set>
 
 <xsl:param name="shade.verbatim" select="1"/>
@@ -156,6 +187,57 @@
 
 <xsl:param name="table.cell.border.color">#5c5c4f</xsl:param>
 <xsl:param name="table.frame.border.color">#5c5c4f</xsl:param>
+
+<!-- overrides for admonitions and examples for Publican>=2.3 -->
+
+<xsl:attribute-set name="xref.properties">
+  <xsl:attribute name="font-style">italic</xsl:attribute>
+  <xsl:attribute name="color">
+	<xsl:choose>
+		<xsl:when test="ancestor::note or ancestor::important or ancestor::warning">
+			<xsl:text>#aee6ff</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:text>#0066cc</xsl:text>
+		</xsl:otherwise>
+	</xsl:choose>
+  </xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="admonition.properties">
+	<xsl:attribute name="margin-right">0em</xsl:attribute>
+	<xsl:attribute name="margin-left">0em</xsl:attribute>
+	  <xsl:attribute name="background-color"></xsl:attribute>
+	 <xsl:attribute name="border-left-width">0pt</xsl:attribute>
+	<xsl:attribute name="border-right-width">0pt</xsl:attribute>
+	<xsl:attribute name="border-bottom-width">0pt</xsl:attribute>
+	<xsl:attribute name="padding-top">1.5em</xsl:attribute>
+	<xsl:attribute name="padding-left">1em</xsl:attribute>
+	<xsl:attribute name="padding-right">1em</xsl:attribute>
+	<xsl:attribute name="padding-bottom">-1em</xsl:attribute>
+	<xsl:attribute name="margin-top">0em</xsl:attribute>
+	<xsl:attribute name="margin-bottom">0em</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="formal.title.properties" use-attribute-sets="normal.para.spacing">
+	<xsl:attribute name="color"><xsl:value-of select="$title.color"/></xsl:attribute>
+	<xsl:attribute name="background-color"></xsl:attribute>
+</xsl:attribute-set>
+
+<!-- xsl:attribute-set name="above.title.properties" use-attribute-sets="formal.title.properties">
+	<xsl:attribute name="font-weight">normal</xsl:attribute>
+	<xsl:attribute name="font-size">
+		<xsl:value-of select="$body.font.master"/>
+		<xsl:text>pt</xsl:text>
+	</xsl:attribute>
+	<xsl:attribute name="space-before.optimum"><xsl:text>2em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.minimum"><xsl:text>2em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-before.maximum"><xsl:text>2em</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-after.optimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-after.minimum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+	<xsl:attribute name="space-after.maximum"><xsl:text>0.1pt</xsl:text></xsl:attribute>
+</xsl:attribute-set -->
+
 
 </xsl:stylesheet>
 
