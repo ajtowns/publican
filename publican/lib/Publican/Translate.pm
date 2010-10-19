@@ -11,6 +11,7 @@ use File::Path;
 use Term::ANSIColor qw(:constants);
 use DateTime;
 use Locale::PO;
+use XML::TreeBuilder;
 
 use vars qw($VERSION);
 
