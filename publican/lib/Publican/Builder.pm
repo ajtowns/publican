@@ -1921,6 +1921,10 @@ sub package {
         }
     }
 
+    $web_product_label =~ s/'/\\'/g;
+    $web_name_label =~ s/'/\\'/g;
+    $web_version_label =~ s/'/\\'/g;
+
     my $log = $self->change_log();
 
     my $full_abstract = $self->{publican}->get_abstract( { lang => $lang } );
