@@ -60,7 +60,12 @@ h2 {font-size:1.6em;}
     
 }
 
+.titlepage .edition {
+	color: #4a5d75;
+}
+
 h3 {
+
     font-size:1.3em;
     padding-top:0em;
     padding-bottom:0em;
@@ -84,6 +89,11 @@ h5.formalpara {
 }
 
 #title a.left img {
+	margin-top: 0em;
+
+}
+
+#title a.right img {
 	margin-top: 0em;
 
 }
@@ -171,6 +181,16 @@ pre, code, .guibutton, .keycap, .guilabel {
     background-color:#dad6b9;
     padding:15px;
     margin-bottom:10px;
+    border-left:0px;
+}
+
+.example h6 {
+    padding-left: 0px;
+}
+
+.example-contents {
+    padding-left: 0px;
+    background-color:#dad6b9;
 }
 
 /* Terminal/Console text */
@@ -201,6 +221,38 @@ code {
 /* Admonitions */
 
 /* Set basic colors and spacing */
+
+
+div.admonition {
+	border: none;
+	border-left: 0px solid #aaaaaa;
+	border-right: 0px solid #aaaaaa;
+	padding:0em;
+	margin:0em;
+	padding-top: 0em;
+	padding-bottom: 0em;
+	padding-left: 2em;
+	padding-right: 1em;
+	background-color: transparent;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+
+div.warning:before, div.note:before, div.important:before, div.tip:before, div.caution:before {
+	content:none;
+	padding-left: 0px;
+	display: none;
+}
+
+div.note, div.important, div.warning, div.tip, div.caution {
+	padding:0px;
+	padding-bottom:0px;
+	margin-top:0em;
+	margin-bottom:1.5em;
+	background-repeat:no-repeat;
+	background-color:transparent;
+}
 
 div.note {
     background:#b5bcbd;
@@ -257,36 +309,76 @@ div.warning {
     padding-bottom:20px;
 }
 
+
+div.warning h2, div.note h2, div.important h2, div.tip h2, div.caution h2 {
+	margin: 0em;
+	padding: 0em;
+	padding-left: 58px;
+	color: white;
+	font-size: large;
+	margin-top: -2.4em;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 26px;
+	line-height: 1.4em;
+	font-size: 1.4em;
+	background-color: transparent;
+	background-image: none;
+}
+
+div.warning p, div.warning div.para,
+div.note p, div.note div.para,
+div.important p, div.important div.para,
+div.tip p, div.tip div.para,
+div.caution p, div.caution div.para {
+	padding: 0em;
+	margin: 0em;
+	padding-left:33px;
+/*	padding-left: 2em;
+	padding-right: 1em;
+	background-color: #eeeeec;
+	padding-top: 1.5em;
+	padding-bottom: 1em;
+	border-left: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
+*/
+}
+
 /* Pre tag color settings */
 
 div.note pre {
     background-color:#d6dee0;
     color:#334558;
     border:1px solid #e1e9eb;
+    margin-left:33px;
 }
 
 div.tip pre {
     background-color:#d5e1d5;
     color:#334558;
     border:1px solid #e1e9eb;
+    margin-left:33px;
 }
 
 div.important pre {
     background-color:#e1eef4;
     color:#334558;
     border:1px solid #e1e9eb;
+    margin-left:33px;
 }
 
 div.caution pre {
     background-color:#faf8ed;
     color:#334558;
     border:1px solid #e1e9eb;
+    margin-left:33px;
 }
 
 div.warning pre {
     background-color:#faf8ed;
     color:#334558;
     border:1px solid #e1e9eb;
+    margin-left:33px;
 }
 
 /* Background images and margin */

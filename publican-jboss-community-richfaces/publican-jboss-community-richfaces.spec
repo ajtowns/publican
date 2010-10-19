@@ -2,14 +2,14 @@
 
 Name:		publican-jboss-community-richfaces
 Summary:	Common documentation files for RichFaces community documents
-Version:	1.3
+Version:	1.4
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	publican >= 2.0
+Requires:	publican >= 2.2
 BuildRequires:	publican >= 2.0
 URL:		https://publican.fedorahosted.org/
 
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Tue Oct 19 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
+- Update CSS to accommodate changes in Publican 2.3 common brand
+
 * Tue Sep 7 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.3-0
 - add trademark notice for MySQL per Pamela Chestek <pchestek@redhat.com>
 - Extend callout graphics to 40 -- BZ #629804 <r.landmann@redhat.com>

@@ -2,14 +2,14 @@
 
 Name:		publican-jboss-community-hibernate
 Summary:	Common documentation files for Hibernate community documents
-Version:	1.3
+Version:	1.4
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	publican >= 2.0
+Requires:	publican >= 2.2
 BuildRequires:	publican >= 2.0
 URL:		https://publican.fedorahosted.org/
 
