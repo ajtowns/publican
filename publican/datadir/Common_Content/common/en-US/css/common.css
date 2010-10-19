@@ -775,46 +775,45 @@ div.warning, div.note, div.important {
 div.warning h2, div.note h2,div.important h2 {
 	margin: 0em;
 	padding: 0em;
-	padding-left: 58px;
 	color: #eeeeec;
-	font-size: large;
-	margin-top: -2.4em;
 	padding-top: 0px;
 	padding-bottom: 0px;
-	height: 26px;
+	height: 1.4em;
 	line-height: 1.4em;
 	font-size: 1.4em;
+	display:inline;
 }
 
-div.warning h2 {
-	background-color: #9e0000;
-	background-image: url(../images/red.png);
+div.admonition_header {
+	clear: both;
+	margin: 0em;
+	padding: 0em;
+	margin-top: -3.3em;
+	padding-left: 58px;
+	line-height: 1.0em;
+	font-size: 1.0em;
 }
 
-div.note h2 {
-	background-color: #8e9f00;
-	background-image: url(../images/green.png);
+div.warning div.admonition_header {
+	background: url(../images/red.png) top left repeat-x;
+	background-color: #590000;
 }
 
-div.important h2 {
-	background-color: #d08e13;
-	background-image: url(../images/yellow.png);
+div.note div.admonition_header {
+	background: url(../images/green.png) top right repeat-x;
+	background-color: #597800;
 }
 
+div.important div.admonition_header {
+	background: url(../images/yellow.png) top right repeat-x;
+	background-color: #a6710f;
+}
 
 div.warning p, div.warning div.para,
 div.note p, div.note div.para,
 div.important p, div.important div.para {
 	padding: 0em;
 	margin: 0em;
-/*	padding-left: 2em;
-	padding-right: 1em;
-	background-color: #eeeeec;
-	padding-top: 1.5em;
-	padding-bottom: 1em;
-	border-left: 1px solid #aaaaaa;
-	border-right: 1px solid #aaaaaa;
-*/
 }
 
 div.admonition {
@@ -1472,4 +1471,5 @@ div.toc > dl > dt {
 	list-style-image: none;
 	list-style-type: none;
 }
+
 

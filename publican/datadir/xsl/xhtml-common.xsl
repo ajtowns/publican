@@ -126,9 +126,11 @@ Version: 1.72.0
 
 	                <xsl:call-template name="common.html.attributes"/>
 			<xsl:if test="$admon.textlabel != 0 or title">
+				<div class="admonition_header">
 				<h2>
 					<xsl:apply-templates select="." mode="object.title.markup"/>
 				</h2>
+				</div>
 			</xsl:if>
 		<div class="admonition">
 		<xsl:apply-templates/>
