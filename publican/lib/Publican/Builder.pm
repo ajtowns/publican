@@ -2020,7 +2020,7 @@ sub change_log {
 
     $xml_doc->root()->look_down( "_tag", "revision" ) || croak(
         maketext(
-            "Missing mandatory field '[_1]' in revision histroy.", 'revision'
+            "Missing mandatory field '[_1]' in revision history.", 'revision'
         )
     );
 
@@ -2029,19 +2029,19 @@ sub change_log {
 
         my $node = $revision->look_down( '_tag', 'date' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.", 'date'
+                "Missing mandatory field '[_1]' in revision history.", 'date'
             )
         );
         my $in_date = $node->as_trimmed_text();
         my $dt      = DateTime::Format::DateParse->parse_datetime($in_date)
             || croak(
-            maketext( "Invalid date: '[_1]' in revision histroy.", $in_date )
+            maketext( "Invalid date: '[_1]' in revision history.", $in_date )
             );
         my $date = $dt->strftime("%a %b %e %Y");
 
         $node = $revision->look_down( '_tag', 'firstname' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.",
+                "Missing mandatory field '[_1]' in revision history.",
                 'firstname'
             )
         );
@@ -2049,7 +2049,7 @@ sub change_log {
 
         $node = $revision->look_down( '_tag', 'surname' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.",
+                "Missing mandatory field '[_1]' in revision history.",
                 'surname'
             )
         );
@@ -2057,14 +2057,14 @@ sub change_log {
 
         $node = $revision->look_down( '_tag', 'email' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.", 'email'
+                "Missing mandatory field '[_1]' in revision history.", 'email'
             )
         );
         my $email = $node->as_trimmed_text();
 
         $node = $revision->look_down( '_tag', 'revnumber' ) || croak(
             maketext(
-                "Missing mandatory field '[_1]' in revision histroy.",
+                "Missing mandatory field '[_1]' in revision history.",
                 'revnumber'
             )
         );
