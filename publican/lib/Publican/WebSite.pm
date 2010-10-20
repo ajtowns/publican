@@ -15,8 +15,8 @@ use DateTime;
 use Publican;
 use Encode qw(is_utf8 decode_utf8 encode_utf8);
 use Time::localtime;
-
-#use Publican::Translate;
+use XML::Simple;
+use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
 
 our $VERSION = '1.3';
 
@@ -24,6 +24,7 @@ my $DB_NAME             = 'books';
 my $DEFAULT_LANG        = 'en-US';
 my $DEFAULT_TMPL_PATH   = '/usr/share/publican/templates';
 my $DEFAULT_CONFIG_FILE = '/etc/publican-website.cfg';
+my $DEFAULT_DUMP_FILE   = '/var/www/html/DUMP.xml';
 
 my %LANG_NAME = (
     'ar-SA'      => 'العربية',
@@ -141,9 +142,12 @@ sub new {
             $site_config
         )
     );
-    my $host   = $config->param('host')   || 'http://localhost/';
-    my $search = $config->param('search') || undef;
-    my $title  = $config->param('title')  || 'Documentation';
+    my $host      = $config->param('host')      || 'http://localhost/';
+    my $search    = $config->param('search')    || undef;
+    my $title     = $config->param('title')     || 'Documentation';
+    my $dump      = $config->param('dump')      || undef;
+    my $dump_file = $config->param('dump_file') || $DEFAULT_DUMP_FILE;
+    my $zip_dump  = $config->param('zip_dump')  || undef;
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -158,6 +162,9 @@ sub new {
     $self->{host}      = $host;
     $self->{search}    = $search;
     $self->{title}     = $title;
+    $self->{dump}      = $dump;
+    $self->{dump_file} = $dump_file;
+    $self->{zip_dump}  = $zip_dump;
 
     my $conf = { INCLUDE_PATH => $tmpl_path, };
 
@@ -525,6 +532,7 @@ sub get_lang_list {
     $langs = $self->_dbh->selectall_arrayref($sql);
 
     unless ( $langs->[0] ) {
+
         # No languages found, using default language: [_1]\n
         my @langs = ( $self->{def_lang} );
         $langs->[0] = \@langs;
@@ -660,6 +668,7 @@ sub regen_all_toc {
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );
 
+    $self->xml_dump() if ( $self->{dump} );
     return;
 }
 
@@ -1200,6 +1209,46 @@ GET_COUNT
     return;
 }
 
+sub xml_dump {
+    my ( $self, $arg ) = @_;
+
+    if ( $arg && %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $results = $self->_dbh->selectall_arrayref( 'SELECT * FROM books',
+        { Columns => {} } );
+
+    my %site = (
+        host     => $self->{host},
+        def_lang => $self->{def_lang},
+    );
+
+    my $xml = XMLout( { site => \%site, record => $results }, NoAttr => 1 );
+
+    my $OUT_FILE;
+    open( $OUT_FILE, '>', $self->{dump_file} )
+        || croak(
+        maketext( "Could not open dump file for output: [_1]", $@ ) );
+
+    print( $OUT_FILE "<?xml version='1.0' encoding='utf-8' ?>\n" );
+    print( $OUT_FILE $xml );
+    close($OUT_FILE);
+
+    my $zip_file = $self->{dump_file} . '.zip';
+    unlink $zip_file if ( -f $zip_file );
+
+    if ( $self->{zip_dump} ) {
+        my $zip    = Archive::Zip->new();
+        my $member = $zip->addFile( $self->{dump_file} );
+        $member->desiredCompressionLevel(9);
+        $zip->writeToFileNamed($zip_file) == AZ_OK
+            || croak( maketext("dump file zip creation failed.") );
+    }
+
+    return;
+}
+
 1;    # Magic true value required at end of module
 __END__
 
@@ -1310,6 +1359,10 @@ Sort version strings in to correct order, handles X, X.Y, and X.Y.Z formats.
 =head2 toc_path
 
 Return the full toc path.
+
+=head2 xml_dump
+
+Generate an XML dump, and a zip of the dump if required, of the Database.
 
 =head1 DIAGNOSTICS
 
