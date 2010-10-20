@@ -60,7 +60,7 @@
 		</step>
 		<step>
 			<para>
-				Edit the site configuration file to specify the name of the site, the web host, and optionally, search parameters and default language for the site:
+				Edit the site configuration file to specify the name of the site, the web host, and optionally, search parameters, default language, and dump file settings for the site:
 			</para>
 			<substeps>
 				<step>
@@ -109,6 +109,40 @@
 <programlisting>def_lang: fr-FR</programlisting>
 					<para>
 						With <parameter>def_lang</parameter> set to <literal>fr-FR</literal>, visitors viewing the navigation menu in (for example) Spanish are presented with a link to the original French version of the document if the document has not yet been translated into Spanish.
+					</para>
+				</step>
+				<step>
+					<para>
+						Optionally, configure a <firstterm>dump file</firstterm> for the website. <application>Publican</application> can output an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The file is updated whenever a book is installed or removed from the site, or the <command>publican update_site</command> command is run. Configure the <parameter>dump</parameter>, <parameter>dump_file</parameter>, and <parameter>zip_dump</parameter> parameters as follows:
+					</para>
+					<variablelist>
+						<varlistentry>
+							<term><parameter>dump</parameter></term>
+							<listitem>
+								<para>
+									Set <literal>dump: 1</literal> to enable the dump file function. This parameter defaults to <literal>0</literal> (off).
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><parameter>dump_file</parameter></term>
+							<listitem>
+								<para>
+									Set <literal>dump_file: <replaceable>name</replaceable></literal> to specify the name of the dump file and the directory in which <application>Publican</application> stores it. This parameter defaults to <literal>/var/www/html/DUMP.xml</literal>.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><parameter>zip_dump</parameter></term>
+							<listitem>
+								<para>
+									Set <literal>zip_dump: 1</literal> to specify that <application>Publican</application> should create a zipped version of the XML file together with the XML version. This parameter defaults to <literal>0</literal> (off).
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+					<para>
+						Refer to <xref linkend="dump_file"/> for a description of the contents of the dump file.
 					</para>
 				</step>
 			</substeps>
