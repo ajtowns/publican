@@ -687,7 +687,7 @@ sub transform {
         $dir = pushd("$tmp_dir/$lang");
         mkdir 'txt';
         my $TXT_FILE;
-        open( $TXT_FILE, ">:utf8", "txt/$docname.txt" )
+        open( $TXT_FILE, ">", "txt/$docname.txt" )
             || croak( maketext("Can't open file for text output!") );
         my $tree
             = HTML::TreeBuilder->new->parse_file("html-single/index.html");

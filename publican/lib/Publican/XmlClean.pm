@@ -840,23 +840,34 @@ sub my_as_XML {
                         if ( -f $img_file ) {
                             my ( $width, $height ) = imgsize($img_file);
                             my $max_width
-                                = $self->{publican}->param('max_image_width') || 10000;
+                                = $self->{publican}->param('max_image_width')
+                                || 10000;
                             my $set_width = $node->attr('width') || 0;
                             $set_width =~ s/[^\d]//g;
-                            $max_width = $set_width
-                                if ( $set_width && $set_width < $max_width );
 
-                            if ( $@ || !$width ) {
-                                logger(
-                                    maketext(
-                                        "Can't calculate image size, image may render badly. Image File: [_1]. Error Message: [_2]",
-                                        $img_file, $@
-                                        )
-                                        . "\n"
-                                );
+                            if ( $set_width == 444 ) {
+                                $node->attr( 'width', undef );
+                                $set_width = 0;
                             }
-                            elsif ( $width > $max_width ) {
-                                $node->attr( 'width', $max_width );
+
+                            # Do not override user settings
+                            if ($set_width == 0) {
+                                $max_width = $set_width
+                                    if ( $set_width
+                                    && $set_width < $max_width );
+
+                                if ( $@ || !$width ) {
+                                    logger(
+                                        maketext(
+                                            "Can't calculate image size, image may render badly. Image File: [_1]. Error Message: [_2]",
+                                            $img_file, $@
+                                            )
+                                            . "\n"
+                                    );
+                                }
+                                elsif ( $width > $max_width ) {
+                                    $node->attr( 'width', $max_width );
+                                }
                             }
                         }
                         elsif ( $img_file !~ /Common_Content/ ) {

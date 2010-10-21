@@ -346,11 +346,11 @@ part nop
 
 <!-- Space between paper border and content (chaotic stuff, don't touch) -->
 <xsl:param name="page.margin.top">15mm</xsl:param>
-<xsl:param name="region.before.extent">10mm</xsl:param>
-<xsl:param name="body.margin.top">15mm</xsl:param>
+<xsl:param name="region.before.extent">9mm</xsl:param>
+<xsl:param name="body.margin.top">11mm</xsl:param>
 
-<xsl:param name="body.margin.bottom">15mm</xsl:param>
-<xsl:param name="region.after.extent">10mm</xsl:param>
+<xsl:param name="body.margin.bottom">8mm</xsl:param>
+<xsl:param name="region.after.extent">5mm</xsl:param>
 <xsl:param name="page.margin.bottom">15mm</xsl:param>
 
 <xsl:param name="page.margin.outer">19mm</xsl:param>
@@ -2812,7 +2812,6 @@ Not sure why it doesn't work in there.
 	<xsl:attribute name="margin-bottom">2em</xsl:attribute>
 	<xsl:attribute name="margin-left">0em</xsl:attribute>
   <fo:block-container>
-	<xsl:attribute name="margin-left">body-start()</xsl:attribute>
     <fo:block-container>
 	<xsl:attribute name="margin-left">0em</xsl:attribute>
       <fo:block xsl:use-attribute-sets="admonition.title.properties">
@@ -2841,6 +2840,16 @@ Not sure why it doesn't work in there.
   </fo:block-container>
 </fo:block>
 
+</xsl:template>
+
+<!-- add a 2em top margin -->
+<xsl:template name="footnote-separator">
+  <fo:static-content flow-name="xsl-footnote-separator">
+    <fo:block>
+	<xsl:attribute name="margin-top">2em</xsl:attribute>
+      <fo:leader xsl:use-attribute-sets="footnote.sep.leader.properties"/>
+    </fo:block>
+  </fo:static-content>
 </xsl:template>
 
 </xsl:stylesheet>
