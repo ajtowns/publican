@@ -165,10 +165,9 @@ my %actions = (
             'distributed_set', 'novalid'
         ],
     },
-    'bump_n_brew' => {
-        'brief' =>
-            maketext('bump the pubs number and brew the updated package.'),
-        'options' => [ 'scratch', 'lang', 'wait', 'cvs' ],
+    'bump' => {
+        'brief' => 'TECH PREVIEW: bump the pubsnumber [revision]. This feature is intended to have an additional argument to add a revision history entry and message. This feature is UNTESTED',
+        'options' => ['lang'],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
@@ -576,9 +575,8 @@ if ( $action eq 'print_unused' ) {
     exit(0);
 }
 
-if ( $action eq 'clean' || $action eq 'package' || $action eq 'bump_n_brew' )
-{
-    if ( $action eq 'package' || $action eq 'bump_n_brew' ) {
+if ( $action eq 'clean' || $action eq 'package' ) {
+    if ( $action eq 'package' ) {
         logger(
             maketext(
                 "Running clean process to ensure stale content is not bundled in packages."
@@ -656,67 +654,81 @@ if ( $action eq 'build' ) {
     );
 }
 
-if ( $action eq 'bump_n_brew' ) {
-
-    $opts{brew} = 1;
+## TODO handle Revision History entry
+## Handle translations
+if ( $action eq 'bump' ) {
 
     my $xml_lang = $publican->param('xml_lang');
     my $dtdver   = $publican->param('dtdver');
     my $docname  = $publican->param('docname');
     my $type     = $publican->param('type');
 
-## TODO maybe do this later?
-    croak( maketext("Can't bump_n_build brands!") ) if ( $type eq 'brand' );
+    my $lang = $opts{lang};
 
-    my $xml_doc = new_tree(1);
-
-    my $file = "$xml_lang/$type" . '_Info.xml';
-    $xml_doc->parse_file($file);
-    my $tag = $xml_doc->attr("_tag");
-
-    my $node = $xml_doc->root()->look_down( "_tag", "pubsnumber" );
-    my $release = $node->as_text();
-    $release++;
-    $node->delete_content();
-    $node->push_content("$release");
-    $publican->param( 'release', $release );
-    $publican->{config}->param( 'release', $release );
-
-    my $OUTDOC;
-
-    open( $OUTDOC, ">:utf8", "$file" )
-        || croak( maketext( "Could not open [_1] for output!", $file ) );
-
-    my $ent_file = undef;
-
-    if ( -e "$xml_lang/$docname.ent" ) {
-        $ent_file = "$xml_lang/$docname.ent";
+## TODO do this later
+    if ( $type eq 'brand' ) {
+        logger( "bump does not support brands yet!" );
+        exit;
     }
 
-    print( $OUTDOC Publican::Builder::dtd_string(
-            { tag => $tag, dtdver => $dtdver, ent_file => $ent_file }
-        )
-    );
+    if ( $lang eq $xml_lang ) {
+
+        my $xml_doc = new_tree(1);
+
+        my $file = "$xml_lang/$type" . '_Info.xml';
+        $xml_doc->parse_file($file);
+        my $tag = $xml_doc->attr("_tag");
+
+        my $node = $xml_doc->root()->look_down( "_tag", "pubsnumber" );
+        my $release = $node->as_text();
+        $release++;
+        $node->delete_content();
+        $node->push_content("$release");
+        $publican->param( 'release', $release );
+        $publican->{config}->param( 'release', $release );
+
+        my $OUTDOC;
+
+        open( $OUTDOC, ">:utf8", "$file" )
+            || croak( maketext( "Could not open [_1] for output!", $file ) );
+
+        my $ent_file = undef;
+
+        if ( -e "$xml_lang/$docname.ent" ) {
+            $ent_file = "$xml_lang/$docname.ent";
+        }
+
+        print( $OUTDOC Publican::Builder::dtd_string(
+                { tag => $tag, dtdver => $dtdver, ent_file => $ent_file }
+            )
+        );
 
 ## TODO BUGBUG move traverse code to Publican.pm and call from
 ## Builder, XmlClean, and here
-    my $text = $xml_doc->root()->as_XML();
-    $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
-    $text =~ s/&#38;/&amp;/g;
-    $text =~ s/&#60;/&lt;/g;
-    $text =~ s/&#62;/&gt;/g;
-    $text =~ s/&#34;/"/g;
-    $text =~ s/&#39;/'/g;
-    $text =~ s/&quot;/"/g;
-    $text =~ s/&apos;/'/g;
+        my $text = $xml_doc->root()->as_XML();
+        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
+        $text =~ s/&#38;/&amp;/g;
+        $text =~ s/&#60;/&lt;/g;
+        $text =~ s/&#62;/&gt;/g;
+        $text =~ s/&#34;/"/g;
+        $text =~ s/&#39;/'/g;
+        $text =~ s/&quot;/"/g;
+        $text =~ s/&apos;/'/g;
 
-    print( $OUTDOC $xml_doc->root()->as_XML() );
-    close($OUTDOC);
-    $xml_doc->root()->delete();
+        print( $OUTDOC $xml_doc->root()->as_XML() );
+        close($OUTDOC);
+        $xml_doc->root()->delete();
+
+    }
+    else {
+## TODO do this later
+        logger( "bump does not support translations yet!" );
+        exit;
+    }
 
 }
 
-if ( ( $action eq 'package' ) || ( $action eq 'bump_n_brew' ) ) {
+if ( $action eq 'package' ) {
     my $builder = Publican::Builder->new();
     if ( $publican->param('type') eq 'brand' ) {
         $builder->package_brand( { binary => $opts{binary} } );
@@ -866,7 +878,7 @@ if ( $action eq 'install_book' ) {
                 }
                 $product_label =~ s/\s/_/g;
 
-                $product_label = undef if($product_label eq $product);
+                $product_label = undef if ( $product_label eq $product );
             }
 
             unless ($name_label) {
@@ -877,7 +889,7 @@ if ( $action eq 'install_book' ) {
                     croak maketext("title not found in Info file");
                 }
                 $name_label =~ s/\s/_/g;
-                $name_label = undef if($name_label eq $name);
+                $name_label = undef if ( $name_label eq $name );
             }
         }
 

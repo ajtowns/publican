@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}.t52
+Release:        0%{?dist}.t53
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -238,13 +238,12 @@ rm -rf $RPM_BUILD_ROOT
 - Change html and PDF style for verbatim & example. BZ #638787
 - Change html and PDF style for admonitions. BZ #638787
 - Fix HTML footer style and layout.
-- Add bump_n_brew action.
+- Add bump action Tech Preview.
 - Fix indexterm merge missing nested nodes. BZ #643275
 - Add phrase to translatable tag list. BZ #643287
 - Fix POT files breaking when using HTML::Tree 4.0.
 - Fix translated label missing from manually installed book. BZ #643781
 - Add icon.svg to Create Book. BZ #644105
-- Move HTML image limit from XSL to CSS, increase to 55em.
 - Add XML dump options for site config.
 - Fix histroy typo
 - Stop max_image_width overriding XML width settings.

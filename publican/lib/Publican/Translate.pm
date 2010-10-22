@@ -22,7 +22,7 @@ my $TRANSTAGS
     = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|indexterm|jobtitle|keyword|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|phrase|productname|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondaryie|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiaryie|title|titleabbrev|screen|programlisting|literallayout)$/;
 
 # Blocks that contain translatable tags that need to be kept inline
-my $IGNOREBLOCKS = qr/^(?:footnote|citerefentry|indexterm|productname)$/;
+my $IGNOREBLOCKS = qr/^(?:footnote|citerefentry|indexterm|productname|phrase)$/;
 
 # Preserve white space in these tags
 my $VERBATIM = qr/^(?:screen|programlisting|literallayout)$/;
@@ -344,7 +344,7 @@ sub get_msgs {
                 my $inner = $_[0];
 ## an index term NOT in a translatable tag should be translated as a block.
 ## An indexterm in a translatable tag should be translated inline
-                if ( $inner->tag() eq 'indexterm' ) {
+                if ( $inner->tag() =~ /indexterm|productname|phrase/ ) {
                     not defined(
                         $inner->look_up(
                             '_tag',
@@ -468,7 +468,7 @@ sub merge_msgs {
                 my $inner = $_[0];
 ## an index term NOT in a translatable tag should be translated as a block.
 ## An indexterm in a translatable tag should be translated inline
-                if ( $inner->tag() eq 'indexterm' ) {
+                if ( $inner->tag() =~ /indexterm|productname|phrase/ ) {
                     not defined(
                         $inner->look_up(
                             '_tag',
