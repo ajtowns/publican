@@ -2,6 +2,7 @@ package Publican::CreateBrand;
 
 use strict;
 use warnings;
+use 5.008;
 use Carp;
 use Config::Simple;
 use File::Path;

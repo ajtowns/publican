@@ -2,6 +2,7 @@ package Publican::XmlClean;
 
 use strict;
 use warnings;
+use 5.008;
 use Carp;
 use XML::TreeBuilder;
 use Config::Simple;

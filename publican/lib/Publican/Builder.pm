@@ -3,6 +3,7 @@ package Publican::Builder;
 use utf8;
 use strict;
 use warnings;
+use 5.008;
 use Carp;
 use Config::Simple;
 use Publican;

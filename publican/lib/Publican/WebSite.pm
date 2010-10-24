@@ -3,6 +3,7 @@ package Publican::WebSite;
 use utf8;
 use warnings;
 use strict;
+use 5.008;
 
 use Carp qw(cluck croak);
 use Config::Simple;

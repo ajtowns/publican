@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Module::Build;
 use File::Spec;
+use 5.008;
 
 # my $path = install_path('datadir');
 
@@ -209,6 +210,7 @@ my $builder = $class->new(
         'Locale::Language'                => 0,
         'Locale::PO'                      => 0,
         'Makefile::Parser'                => 0,
+        'perl'                            => '5.8.0',
         'Syntax::Highlight::Engine::Kate' => 0,
         'Term::ANSIColor'                 => 0,
         'Text::Wrap'                      => 0,

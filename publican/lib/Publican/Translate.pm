@@ -3,6 +3,7 @@ package Publican::Translate;
 use utf8;
 use strict;
 use warnings;
+use 5.008;
 use Carp;
 use Publican;
 use Publican::Builder;
