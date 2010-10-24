@@ -8,7 +8,7 @@ _publican()
 	cur=`_get_cword`
         brands=`ls /usr/share/publican/Common_Content`
 
-	commands='build bump_n_brew clean clean_ids clean_set create create_brand create_site help_config install_book install_brand lang_stats old2new package print_banned print_known print_tree print_unused remove_book site_stats update_po update_pot update_site'
+	commands='build bump clean clean_ids clean_set create create_brand create_site help_config install_book install_brand lang_stats old2new package print_banned print_known print_tree print_unused remove_book site_stats update_po update_pot update_site'
 
 	if [[ $COMP_CWORD -eq 1 ]] ; then
 		if [[ "$cur" == -* ]]; then
@@ -49,8 +49,8 @@ _publican()
 				build)
 					options='--distributed_set --embedtoc --formats --langs --novalid --publish '
 					;;
-				bump_n_brew)
-					options='--cvs --lang --scratch --wait '
+				bump)
+					options='--lang '
 					;;
 				clean)
 					options=''
