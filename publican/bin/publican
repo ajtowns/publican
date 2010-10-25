@@ -658,13 +658,12 @@ if ( $action eq 'build' ) {
 ## TODO handle Revision History entry
 ## Handle translations
 if ( $action eq 'bump' ) {
+    my $lang =  $opts{lang} || croak maketext( "--lang is a required option for bump" );
 
     my $xml_lang = $publican->param('xml_lang');
     my $dtdver   = $publican->param('dtdver');
     my $docname  = $publican->param('docname');
     my $type     = $publican->param('type');
-
-    my $lang = $opts{lang};
 
 ## TODO do this later
     if ( $type eq 'brand' ) {

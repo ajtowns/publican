@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.2
-Release:        0%{?dist}.t54
+Release:        0%{?dist}.t56
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -248,6 +248,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix histroy typo
 - Stop max_image_width overriding XML width settings.
 - Decrease white space at top and bottom of PDF.
+- Fix toc links to refentry in chunked HTML. BZ #645602
 
 * Wed Oct 06 2010 Jeff Fearn <jfearn@redhat.com> 2.2-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
