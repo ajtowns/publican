@@ -29,6 +29,13 @@
 	 <para>
 		Large images present poorly in HTML because they often go beyond the right margin of the text. Similarly, images wider than 444 pixels often go beyond the right margin of PDF pages and are cropped so that only the left side of the image is visible. Therefore, by default, <application>Publican</application> creates HTML and PDF output that instructs web browsers and PDF viewers to scale down any images larger than 444 pixels wide. Note, however, that images lose quality significantly when scaled in this way. For best results, scale or crop your images in image editing software so that they are no more than 444 pixels wide before you place them in a document.
 	</para>
+	<para>
+		To override <application>Publican</application> limiting the image width to 444&nbsp;px, specify an image width in the <sgmltag>&lt;imagedata&gt;</sgmltag> tag. For example, to set an image width to 670 pixels:
+	</para>
+<programlisting language="XML">&lt;imagedata fileref=".images/image.png" width="670px"&gt;</programlisting>
+	<para>
+		If you override the default maximum image width, take care to review your output to ensure that quality standards are met.
+	</para>
 	 <important>
 		<title>Image file locations</title>
 		 <para>
