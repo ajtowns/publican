@@ -4,7 +4,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.5
+Version:	2.6
 Release:	0%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -46,6 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Oct 27 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.6-0
+- Change docs URL to docs.redhat.com per Mike Hideo-Smith <mhideo@redhat.com>
+
 * Fri Oct 15 2010 Jeff Fearn <jfearn@redhat.com> 2.5-0
 - Remove example override.
 
