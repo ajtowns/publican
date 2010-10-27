@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.3
-Release:        0%{?dist}
+Release:        0%{?dist}.t1
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -224,6 +224,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Wed Oct 27 2010 Jeff Fearn <jfearn@redhat.com> 2.4-0
+- Add de.po to MANIFEST
+
 * Tue Oct 26 2010 Jeff Fearn <jfearn@redhat.com> 2.3-0
 - Prepend product name to product/version splash pages.
 - Fix bash completion for --brand and --type.
