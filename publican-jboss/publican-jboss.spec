@@ -8,11 +8,12 @@ License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
-Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
+Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
 Requires:	publican >= 2.0
 BuildRequires:	publican >= 2.0
 URL:		https://publican.fedorahosted.org
-Obsoletes:	documentation-devel-%{brand}
+Provides:	documentation-devel-%{brand} = %{version}-%{release}
+Obsoletes:	Obsoletes: documentation-devel-%{brand} < %{version}-%{release}
 
 %description
 This package provides common files and templates needed to build documentation
