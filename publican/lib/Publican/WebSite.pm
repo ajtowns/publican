@@ -111,6 +111,8 @@ my %tmpl_strings = (
     'index_toc' => maketext('Click here to view a static Table of Contents'),
     'ProductLinkTitle' => maketext('Information'),
     ProductList        => maketext('Product List'),
+    'Hide_Menu'   => maketext('Hide Menu'),
+    'Show_Menu'   => maketext('Show Menu'),
 );
 
 sub new {
