@@ -276,6 +276,8 @@ my $builder = $class->new(
         'web/toc.js'            => 'web/toc.js',
         'web/interactive.css'   => 'web/interactive.css',
         'web/images/arrows.png' => 'web/images/arrows.png',
+        'web/images/close.png'   => 'web/images/close.png',
+        'web/images/open.png'   => 'web/images/open.png',
         'web/images/page.png'   => 'web/images/page.png',
     },
     templates_files => {

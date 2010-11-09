@@ -7,7 +7,14 @@
 	<script type="text/javascript" src="../toc.js"></script>
 	<title>[% toc_nav %]</title>
 </head>
-<body class="tocnav" onload="hideNoJS();getCookie();checkCookie();">
+<body class="tocnav" onload="hideNoJS();getCookie();checkCookie();checkMenu();">
+<div id="closemenu" class="closemenu visible">
+	<a href="#" title="Hide Menu" onclick="hideMenu();" ><img src="../images/close.png"/></a>
+</div>
+<div id="openmenu" class="openmenu hidden">
+	<a href="#" title="Show Menu" onclick="showMenu();"><img src="../images/open.png"/></a>
+</div>
+<div id="outer" class="outer visible">
 <h1>
 	<a style="background-image:url(images/web_logo.png)" href="index.html" onclick="window.top.location='index.html'" ><span>[% Welcome %]</span></a>
 </h1>
@@ -80,6 +87,7 @@
 		<a href="./Site_Statistics.html" onclick="window.top.location='./Site_Statistics.html'" >[% Site_Statistics %]</a>
 		<a href="./Site_Tech.html" onclick="window.top.location='./Site_Tech.html'" >[% Site_Tech %]</a>
 	</div>
+</div>					
 </div>					
 </body>
 </html>

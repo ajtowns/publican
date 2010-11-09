@@ -2,6 +2,7 @@ var work = 1;
 var name_c = window.location.hostname + '-publican';
 var num_days = 7;
 var name_cp = window.location.hostname + '-publican-current_page';
+var name_menu = window.location.hostname + '-publican-menu';
 
 function setCookie(name, value, expires, path, domain, secure) { 
 	var curCookie = name + "=" + value + 
@@ -219,7 +220,7 @@ function loadToc() {
 	if (my_select.selectedIndex > 0) {
 		var expDate = new Date();
 		expDate.setDate(expDate.getDate() + num_days);
-		setCookie(name_c + '-lang', my_select.options[my_select.selectedIndex].value, expDate, '/', false, false);              
+		setCookie(name_c + '-lang', my_select.options[my_select.selectedIndex].value, expDate, '/', false, false);            
 		location.href="../" + my_select.options[my_select.selectedIndex].value + "/toc.html";
 //		parent.frames.main.location.replace("../" + my_select.options[my_select.selectedIndex].value + "/index.html");
 	}
@@ -261,5 +262,74 @@ function checkCookie() {
 function hideNoJS() {
 	var entity = document.getElementById('nojs');
 	entity.className = 'hidden';
+}
+
+function checkMenu() {
+	if(document.cookie) {
+		var cookies = document.cookie.split(/ *; */);
+		for(var i=0; i < cookies.length; i++) {
+			var current_c = cookies[i].split("=");
+			if(current_c[0] == name_menu) {
+				var menu_status = current_c[1];
+				if(menu_status == "closed") {
+					hideMenu();				}
+				break;
+			}
+		}
+
+	}
+}
+
+function hideMenu() {
+	parent.document.body.className = parent.document.body.className = "notoc";
+	var entity = parent.document.getElementById('tocframe');
+	if(entity) {
+		entity.className = "notoc";
+	}
+
+        document.body.className = "notocnav";
+
+	entity = document.getElementById('closemenu');
+	if(entity) {
+		entity.className = entity.className.replace(/visible/,"hidden");
+	}
+	entity = document.getElementById('outer');
+	if(entity) {
+		entity.className = entity.className.replace(/visible/,"hidden");
+	}
+	entity = document.getElementById('openmenu');
+	if(entity) {
+		entity.className = entity.className.replace(/hidden/,"visible");
+	}
+
+	var expDate = new Date();
+	expDate.setDate(expDate.getDate() + num_days);
+	setCookie(name_menu, 'closed', expDate, '/', false, false);
+}
+
+function showMenu() {
+	parent.document.body.className = parent.document.body.className = "toc_embeded";
+	var entity = parent.document.getElementById('tocframe');
+	if(entity) {
+		entity.className = "toc";
+	}
+
+        document.body.className = "tocnav";
+
+	entity = document.getElementById('closemenu');
+	if(entity) {
+		entity.className = entity.className.replace(/hidden/,"visible");
+	}
+	entity = document.getElementById('outer');
+	if(entity) {
+		entity.className = entity.className.replace(/hidden/,"visible");
+	}
+	entity = document.getElementById('openmenu');
+	if(entity) {
+		entity.className = entity.className.replace(/visible/,"hidden");
+	}
+	var expDate = new Date();
+	expDate.setDate(expDate.getDate() + num_days);
+	setCookie(name_menu, 'open', expDate, '/', false, false);
 }
 
