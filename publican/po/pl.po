@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-09 23:49+0200\n"
+"PO-Revision-Date: 2010-11-13 11:19+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <trans-pl@lists.fedoraproject.org>\n"
 "Language: pl\n"
@@ -150,9 +150,8 @@ msgid "--cvs requires cvs_root to be set in the cfg file"
 msgstr "--cvs wymaga ustawienia cvs_root w pliku konfiguracji"
 
 #: bin/publican:661
-#, fuzzy
 msgid "--lang is a required option for bump"
-msgstr "lang jest wymaganym parametrem"
+msgstr "--lang jest wymaganą opcją dla zrzutu"
 
 #: bin/publican:135
 msgid "/path/to/install/to"
@@ -388,15 +387,13 @@ msgstr "Nie można otworzyć %1 dla wyjścia: %2"
 
 #. ($@)
 #: lib/Publican/WebSite.pm:1235
-#, fuzzy
 msgid "Could not open dump file for output: %1"
-msgstr "Nie można otworzyć pliku %1 dla wyjścia."
+msgstr "Nie można otworzyć pliku zrzutu dla wyjścia: %1"
 
 #. ($@)
 #: lib/Publican/CreateBook.pm:403
-#, fuzzy
 msgid "Could not open entity file. %1"
-msgstr "Nie można otworzyć pliku %1 dla wyjścia."
+msgstr "Nie można otworzyć pliku jednostek. %1"
 
 #. ($out_file)
 #: lib/Publican/CreateBrand.pm:246 lib/Publican/CreateBrand.pm:313
@@ -413,9 +410,8 @@ msgstr "Nie można otworzyć pliku README dla wyjścia."
 
 #. ($@)
 #: lib/Publican/CreateBook.pm:414
-#, fuzzy
 msgid "Could not open icon file. %1"
-msgstr "Nie można otworzyć pliku %1 dla wyjścia."
+msgstr "Nie można otworzyć pliku ikony. %1"
 
 #: bin/publican:249
 msgid "Create a new WebSite in the supplied location."
@@ -464,7 +460,7 @@ msgstr "Wyłącza wszystkie dzienniki komunikatów."
 
 #: lib/Publican.pm:97
 msgid "Display bridge head elements in the TOCs?"
-msgstr ""
+msgstr "Wyświetlać elementy nagłówka mostku w spisach treści?"
 
 #: bin/publican:107
 msgid "Display full man page"
@@ -626,7 +622,7 @@ msgstr "Tworzy spis treści do podanej głębokości sekcji."
 
 #: lib/Publican/WebSite.pm:114
 msgid "Hide Menu"
-msgstr ""
+msgstr "Ukryj menu"
 
 #: bin/publican:140
 msgid "Import the SRPM in to CVS, the run make tag and make build."
@@ -837,9 +833,8 @@ msgid "Processing file %1 -> %2"
 msgstr "Przetwarzanie pliku %1 -> %2"
 
 #: lib/Publican/WebSite.pm:113
-#, fuzzy
 msgid "Product List"
-msgstr "Produkty"
+msgstr "Lista produktów"
 
 #: lib/Publican.pm:230
 msgid "Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml"
@@ -942,7 +937,7 @@ msgstr "Skrócone pakiety mogą być używane tylko do tworzenia pakietów RPM p
 
 #: lib/Publican/WebSite.pm:115
 msgid "Show Menu"
-msgstr ""
+msgstr "Wyświetl menu"
 
 #. ($dir)
 #: lib/Publican.pm:825
@@ -1256,7 +1251,7 @@ msgstr "Zapisano archiwum EPUB: %1"
 
 #: lib/Publican.pm:951
 msgid "abstract can not be calculated before building."
-msgstr ""
+msgstr "nie można obliczyć abstraktu przed zbudowaniem."
 
 #: bin/publican:836
 msgid "can't find 'publish' directory"
@@ -1307,9 +1302,8 @@ msgid "dtdver is a mandatory argument"
 msgstr "dtdver jest parametrem obowiązkowym"
 
 #: lib/Publican/WebSite.pm:1249
-#, fuzzy
 msgid "dump file zip creation failed."
-msgstr "utworzenie pliku EPUB nie powiodło się."
+msgstr "utworzenie pliku zrzutu zip nie powiodło się."
 
 #: lib/Publican.pm:490
 msgid "edition not found in Info file"
@@ -1402,7 +1396,7 @@ msgstr "spec jest parametrem obowiązkowym"
 
 #: lib/Publican.pm:990
 msgid "subtitle can not be calculated before building."
-msgstr ""
+msgstr "nie można obliczyć napisów przez zbudowaniem."
 
 #: lib/Publican/Builder.pm:2254
 msgid "tag is a mandatory argument"
@@ -1455,9 +1449,8 @@ msgid "xreflabel hides data from translators and, consequently, causes translati
 msgstr "xreflabel ukrywa dane przed tłumaczami, i w efekcie powoduje błędy tłumaczenia."
 
 #: lib/Publican.pm:1014
-#, fuzzy
 msgid "xsl_file is a mandatory argument"
-msgstr "xml_file jest parametrem obowiązkowym"
+msgstr "xsl_file jest parametrem obowiązkowym"
 
 #: lib/Publican/CreateBrand.pm:490
 msgid "y is a mandatory argument"
@@ -1466,12 +1459,3 @@ msgstr "y jest parametrem obowiązkowym"
 #: bin/publican:547
 msgid "you need to publish the brand first"
 msgstr "należy najpierw opublikować markę"
-
-#~ msgid "Documentation"
-#~ msgstr "Dokumentacja"
-
-#~ msgid "Missing mandatory field '%1'."
-#~ msgstr "Brak obowiązkowego pola \"%1\"."
-
-#~ msgid "No languages found, using default language: %1\n"
-#~ msgstr "Nie odnaleziono żadnych języków. Używanie domyślnego języka: %1\n"
