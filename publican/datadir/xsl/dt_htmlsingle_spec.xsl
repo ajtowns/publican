@@ -64,9 +64,9 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 
 %if %{ICONS}
 for icon in `ls icons/*x*.png`; do
-	size=`echo "$icon" | sed -e 's/icons\/\(.*\)\.png/\1/'`;
-	mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
-	cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
+  size=`echo "$icon" | sed -e 's/icons\/\(.*\)\.png/\1/'`;
+  mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
+  cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
 done
 cp icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %else
