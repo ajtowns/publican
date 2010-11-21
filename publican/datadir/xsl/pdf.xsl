@@ -751,7 +751,7 @@ Version:1.72
 				<xsl:text>Lohit Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'mr-IN' or $l10n.gentext.language = 'mr'">
-				<xsl:text>Lohit Marathi,Lohit Hindi,</xsl:text>
+				<xsl:text>Lohit Devanagari,Lohit Marathi,Lohit Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN' or $l10n.gentext.language = 'gu'">
 				<xsl:text>Lohit Gujarati,</xsl:text>
@@ -822,7 +822,7 @@ Version:1.72
 				<xsl:text>Lohit Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'mr-IN' or $l10n.gentext.language = 'mr'">
-				<xsl:text>Lohit Marathi,Lohit Hindi,</xsl:text>
+				<xsl:text>Lohit Devanagari,Lohit Marathi,Lohit Hindi,</xsl:text>
 			</xsl:when>
 			<xsl:when test="$l10n.gentext.language = 'gu-IN' or $l10n.gentext.language = 'gu'">
 				<xsl:text>Lohit Gujarati,</xsl:text>
