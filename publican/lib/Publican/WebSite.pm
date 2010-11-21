@@ -111,8 +111,8 @@ my %tmpl_strings = (
     'index_toc' => maketext('Click here to view a static Table of Contents'),
     'ProductLinkTitle' => maketext('Information'),
     ProductList        => maketext('Product List'),
-    'Hide_Menu'   => maketext('Hide Menu'),
-    'Show_Menu'   => maketext('Show Menu'),
+    'Hide_Menu'        => maketext('Hide Menu'),
+    'Show_Menu'        => maketext('Show Menu'),
 );
 
 sub new {
@@ -903,6 +903,15 @@ SEARCH
                         my @filelist
                             = File::Find::Rule->file->relative()
                             ->name('*.pdf')
+                            ->in(
+                            "$self->{toc_path}/$lang/$product/$version/$type/$book"
+                            );
+                        $type_data{'ext'} = pop(@filelist);
+                    }
+                    elsif ( $type eq 'txt' ) {
+                        my @filelist
+                            = File::Find::Rule->file->relative()
+                            ->name('*.txt')
                             ->in(
                             "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );

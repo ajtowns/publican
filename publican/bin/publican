@@ -897,7 +897,8 @@ if ( $action eq 'install_book' ) {
             unless ( -d $ws->toc_path() . "/$lang" );
         rcopy( "publish/$lang/*", $ws->toc_path() . "/$lang/." );
 
-        my @formats = ( "html", "pdf", "html-single", "epub" );
+        my @formats = split(/,/, $publican->param('web_formats'));
+
         foreach my $format (@formats) {
             next unless ( -d "publish/$lang/$product/$version/$format" );
 
@@ -930,7 +931,7 @@ if ( $action eq 'remove_book' ) {
     my $version = $publican->param('version');
     my $name    = $publican->param('docname');
 
-    my @formats = ( "html", "pdf", "html-single", "epub" );
+    my @formats = split(/,/, $publican->param('web_formats'));
     foreach my $format (@formats) {
 
         # BUGBUG get these the normal way

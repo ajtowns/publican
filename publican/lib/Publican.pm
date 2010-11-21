@@ -302,6 +302,10 @@ my %PARAMS = (
         descr   => maketext('The brew dist to use for building the web rpm.'),
         default => 'docs-5E',
     },
+    web_formats => {
+        descr   => maketext('A comma seperated loist of the formats to use for the web packages.'),
+        default => 'html,pdf,html-single,epub',
+    },
     web_home => {
         descr => maketext(
             'This is a home page for a Publican-generated website, not a standard book.'

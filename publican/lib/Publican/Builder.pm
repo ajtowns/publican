@@ -1775,6 +1775,9 @@ sub package {
     my $release    = $self->{publican}->param('release');
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $type       = $self->{publican}->param('type');
+    my $web_formats_comma = $self->{publican}->param('web_formats');
+    my $web_formats = $web_formats_comma;
+    $web_formats =~ s/,/ /g;
 
     if ( $lang ne $xml_lang ) {
         $release = undef;
@@ -1967,6 +1970,8 @@ sub package {
         name_label    => $web_name_label,
         full_abstract => $full_abstract,
         full_subtitle => $full_subtitle,
+        web_formats => $web_formats,
+        web_formats_comma => $web_formats_comma,
     );
 
     logger(
