@@ -827,12 +827,6 @@ sub my_as_XML {
                     }
 
                     if ( $tag eq 'imagedata' ) {
-                        $node->attr('fileref') =~ m/(...)$/;
-                        my $format = uc($1);
-                        if ($format) {
-                            $node->attr( 'format', $format );
-                        }
-
                         my $img_file = "$path" . $node->attr('fileref');
                         $img_file
                             = $self->{publican}->param('xml_lang') . "/"
