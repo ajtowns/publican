@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.3
-Release:        0%{?dist}.t21
+Release:        0%{?dist}.t26
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -233,6 +233,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add web_formats option. BZ #647360
 - Add Lohit Devanagari to Marathi font list. BZ #654554
 - Stop publican setting imagedata format. BZ #654939
+- Fix DocBook 5 DTD string format change. BZ #655621
 
 * Tue Oct 26 2010 Jeff Fearn <jfearn@redhat.com> 2.3-0
 - Prepend product name to product/version splash pages.

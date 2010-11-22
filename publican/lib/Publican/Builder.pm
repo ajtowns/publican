@@ -215,6 +215,11 @@ sub build {
                             "$path/." );
                     }
                     else {
+## TODO BUGBUG BZ #648126
+# for some reason the UTF8 file name is getting munged dep inside rcopy
+# works fron from the command line though O_O
+# perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
+#
                         rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
                             if ( -d "$tmp_dir/$lang/$format" );
                     }
@@ -507,6 +512,14 @@ sub del_unwanted_xml {
 
 Ensure the XML validates against the DTD.
 
+To debug the XML catalogs
+
+export XML_DEBUG_CATALOG=1
+
+test...
+
+unset XML_DEBUG_CATALOG
+
 =cut
 
 sub validate_xml {
@@ -585,6 +598,13 @@ sub validate_xml {
     my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
     my $dtd_path
         = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
+
+    if ( $dtdver >= 5 ) {
+        $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
+        $dtd_path
+            = qq|http://docbook.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
+
+    }
 
     if ( 0 && $TEST_MML ) {
         $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
@@ -1766,17 +1786,17 @@ sub package {
         )
     ) if ( $short_sighted and not $desktop );
 
-    my $tmp_dir    = $self->{publican}->param('tmp_dir');
-    my $product    = $self->{publican}->param('product');
-    my $version    = $self->{publican}->param('version');
-    my $docname    = $self->{publican}->param('docname');
-    my $edition    = $self->{publican}->param('edition');
-    my $configfile = $self->{publican}->param('configfile');
-    my $release    = $self->{publican}->param('release');
-    my $xml_lang   = $self->{publican}->param('xml_lang');
-    my $type       = $self->{publican}->param('type');
+    my $tmp_dir           = $self->{publican}->param('tmp_dir');
+    my $product           = $self->{publican}->param('product');
+    my $version           = $self->{publican}->param('version');
+    my $docname           = $self->{publican}->param('docname');
+    my $edition           = $self->{publican}->param('edition');
+    my $configfile        = $self->{publican}->param('configfile');
+    my $release           = $self->{publican}->param('release');
+    my $xml_lang          = $self->{publican}->param('xml_lang');
+    my $type              = $self->{publican}->param('type');
     my $web_formats_comma = $self->{publican}->param('web_formats');
-    my $web_formats = $web_formats_comma;
+    my $web_formats       = $web_formats_comma;
     $web_formats =~ s/,/ /g;
 
     if ( $lang ne $xml_lang ) {
@@ -1926,7 +1946,7 @@ sub package {
     }
 
     $web_product_label =~ s/'/\\'/g;
-    $web_name_label =~ s/'/\\'/g;
+    $web_name_label    =~ s/'/\\'/g;
     $web_version_label =~ s/'/\\'/g;
 
     my $log = $self->change_log();
@@ -1946,31 +1966,31 @@ sub package {
     chomp($full_subtitle);
 
     my %xslt_opts = (
-        'book-title'  => $name_start,
-        'lang'        => $lang,
-        'prod'        => $product,
-        'prodver'     => $version,
-        'rpmver'      => $edition,
-        'rpmrel'      => $release,
-        'docname'     => $docname,
-        'license'     => $license,
-        'brand'       => "publican-$brand",
-        'url'         => $doc_url,
-        'src_url'     => $src_url,
-        'log'         => $log,
-        dt_obsoletes  => $dt_obsoletes,
-        web_obsoletes => $web_obsoletes,
-        translation   => $translation,
-        language      => $language,
-        abstract      => $abstract,
-        tmpdir        => $tmp_dir,
-        ICONS         => ( -e "$xml_lang/icons" ? 1 : 0 ),
-        product_label => $web_product_label,
-        version_label => $web_version_label,
-        name_label    => $web_name_label,
-        full_abstract => $full_abstract,
-        full_subtitle => $full_subtitle,
-        web_formats => $web_formats,
+        'book-title'      => $name_start,
+        'lang'            => $lang,
+        'prod'            => $product,
+        'prodver'         => $version,
+        'rpmver'          => $edition,
+        'rpmrel'          => $release,
+        'docname'         => $docname,
+        'license'         => $license,
+        'brand'           => "publican-$brand",
+        'url'             => $doc_url,
+        'src_url'         => $src_url,
+        'log'             => $log,
+        dt_obsoletes      => $dt_obsoletes,
+        web_obsoletes     => $web_obsoletes,
+        translation       => $translation,
+        language          => $language,
+        abstract          => $abstract,
+        tmpdir            => $tmp_dir,
+        ICONS             => ( -e "$xml_lang/icons" ? 1 : 0 ),
+        product_label     => $web_product_label,
+        version_label     => $web_version_label,
+        name_label        => $web_name_label,
+        full_abstract     => $full_abstract,
+        full_subtitle     => $full_subtitle,
+        web_formats       => $web_formats,
         web_formats_comma => $web_formats_comma,
     );
 
@@ -2272,6 +2292,11 @@ sub dtd_string {
     my $uri = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
     my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
 
+    if ( $dtdver >= 5 ) {
+        $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
+        $uri = qq|http://docbook.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
+    }
+
     if ( 0 && $TEST_MML ) {
         $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
         $uri
@@ -2304,6 +2329,18 @@ sub dtd_string {
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE $tag PUBLIC "$dtd_type" "$uri" [
 DTDHEAD
+
+    # Include some DocBook 4 entities to reduce migration issues
+    if ( $dtdver >= 5 ) {
+        $dtd .= <<DB5;
+<!-- import a bunch of DocBook 4 entities -->
+<!ENTITY % sgml.features "IGNORE">
+<!ENTITY % xml.features "INCLUDE">
+<!ENTITY euro "&#8364;">
+<!ENTITY % dbcent PUBLIC "-//OASIS//ENTITIES DocBook Character Entities V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/dbcentx.mod">
+%dbcent;
+DB5
+    }
 
     if ($TEST_MML) {
         $dtd .= <<MML;
