@@ -80,39 +80,48 @@ my %LANG_NAME = (
     'zh-TW'      => '繁體中文',
 );
 
+# This is required to ensure that the correct localised strings are found when running
+# the commands on an non en-US command line
+my $locale = Publican::Localise->get_handle('en-US')
+    || croak(
+    "Could not create a Publican::Localise object for language: en-US");
+$locale->encoding("UTF-8");
+$locale->textdomain("publican");
+
 my %tmpl_strings = (
-    'toc_nav'      => maketext('toc nav'),
-    'Welcome'      => maketext('Welcome'),
-    'collapse_all' => maketext('collapse all'),
-    'Language'     => maketext('Language'),
-    'nocookie'     => maketext(
+    'toc_nav'      => $locale->maketext('toc nav'),
+    'Welcome'      => $locale->maketext('Welcome'),
+    'collapse_all' => $locale->maketext('collapse all'),
+    'Language'     => $locale->maketext('Language'),
+    'nocookie'     => $locale->maketext(
         'The Navigation Menu below will automatically collapse when pages are loaded. Enable cookies to fix the Navigation Menu functionality.'
     ),
-    'nojs' => maketext(
+    'nojs' => $locale->maketext(
         '<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to view the Navigation options without JavaScript enabled</p>'
     ),
-    'Site_Map'        => maketext('Map'),
-    'Site_Statistics' => maketext('Statistics'),
-    'Site_Tech'       => maketext('Tech'),
-    'iframe'          => maketext(
+    'Site_Map'        => $locale->maketext('Map'),
+    'Site_Statistics' => $locale->maketext('Statistics'),
+    'Site_Tech'       => $locale->maketext('Tech'),
+    'iframe'          => $locale->maketext(
         'This is an iframe, to view it upgrade your browser or enable iframe display.'
     ),
-    'Code'             => maketext('Code'),
-    'Products'         => maketext('Products'),
-    'Books'            => maketext('Books'),
-    'Versions'         => maketext('Versions'),
-    'Packages'         => maketext('Packages'),
-    'Total_Languages'  => maketext('Total Languages'),
-    'Total_Packages'   => maketext('Total Packages'),
-    'Untranslated'     => maketext('Untranslated'),
-    'index_javascript' => maketext(
+    'Code'             => $locale->maketext('Code'),
+    'Products'         => $locale->maketext('Products'),
+    'Books'            => $locale->maketext('Books'),
+    'Versions'         => $locale->maketext('Versions'),
+    'Packages'         => $locale->maketext('Packages'),
+    'Total_Languages'  => $locale->maketext('Total Languages'),
+    'Total_Packages'   => $locale->maketext('Total Packages'),
+    'Untranslated'     => $locale->maketext('Untranslated'),
+    'index_javascript' => $locale->maketext(
         'This web site requires JavaScript and cookies to be enabled to function correctly.'
     ),
-    'index_toc' => maketext('Click here to view a static Table of Contents'),
-    'ProductLinkTitle' => maketext('Information'),
-    ProductList        => maketext('Product List'),
-    'Hide_Menu'        => maketext('Hide Menu'),
-    'Show_Menu'        => maketext('Show Menu'),
+    'index_toc' =>
+        $locale->maketext('Click here to view a static Table of Contents'),
+    'ProductLinkTitle' => $locale->maketext('Information'),
+    ProductList        => $locale->maketext('Product List'),
+    'Hide_Menu'        => $locale->maketext('Hide Menu'),
+    'Show_Menu'        => $locale->maketext('Show Menu'),
 );
 
 sub new {

@@ -221,6 +221,7 @@ sub build {
 # perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
 #
 ## Work around BZ #648126 ... gonna need to do an UTF8 audit maybe ...
+##  Check, UTF8 file names, UTF8 output from XmlClean, Translate, WebSite.
 #                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
                         system(qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|)
                             if ( -d "$tmp_dir/$lang/$format" );
