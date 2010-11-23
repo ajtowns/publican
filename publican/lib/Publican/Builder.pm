@@ -220,7 +220,9 @@ sub build {
 # works fron from the command line though O_O
 # perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
 #
-                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
+## Work around BZ #648126 ... gonna need to do an UTF8 audit maybe ...
+#                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
+                        system(qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|)
                             if ( -d "$tmp_dir/$lang/$format" );
                     }
                 }
