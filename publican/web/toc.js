@@ -25,7 +25,9 @@ function addID(id) {
 		for(var i=0; i < cookies.length; i++) {
 			var current_c = cookies[i].split("=");
 			if(current_c[0] == name_c) {
-				current_val = current_c[1];
+				if(typeof(current_c[1]) !== 'undefined') {
+					current_val = current_c[1];
+				}
 				break;
 			}
 		}
@@ -140,17 +142,19 @@ function getCookie() {
 	for(var i=0; i < cookies.length; i++) {
 		var current_c = cookies[i].split("=");
 		if(current_c[0] == name_c) {
-			current_val = current_c[1];
+			if(typeof(current_c[1]) !== 'undefined') {
+				current_val = current_c[1];
+			}
 			break;
 		}
-                else if(current_c[0] == name_c + '-lang') {
+		else if(current_c[0] == name_c + '-lang') {
 			var lang = current_c[1];
-           		var loc = location.href;
-                        var rg = new RegExp("/" + lang + "/");
-                        if(loc.match(rg) == null) {
+	   		var loc = location.href;
+			var rg = new RegExp("/" + lang + "/");
+			if(loc.match(rg) == null) {
 				location.href="../" + lang + "/toc.html";
-			}                        
-                }
+			}			
+		}
 	}
 
 	if(current_val.length <= 0) { return;}
@@ -166,7 +170,7 @@ function getCookie() {
 				entity.className = my_class.replace(/hidden/,"visible");
 				my_parent.className = my_parent.className.replace(/collapsed/,"expanded");
 			}
-                        entity.className = entity.className.replace(/current/,"");
+			entity.className = entity.className.replace(/current/,"");
 		}
 	}
 
@@ -220,7 +224,7 @@ function loadToc() {
 	if (my_select.selectedIndex > 0) {
 		var expDate = new Date();
 		expDate.setDate(expDate.getDate() + num_days);
-		setCookie(name_c + '-lang', my_select.options[my_select.selectedIndex].value, expDate, '/', false, false);            
+		setCookie(name_c + '-lang', my_select.options[my_select.selectedIndex].value, expDate, '/', false, false);	    
 		location.href="../" + my_select.options[my_select.selectedIndex].value + "/toc.html";
 //		parent.frames.main.location.replace("../" + my_select.options[my_select.selectedIndex].value + "/index.html");
 	}
@@ -287,7 +291,7 @@ function hideMenu() {
 		entity.className = "notoc";
 	}
 
-        document.body.className = "notocnav";
+	document.body.className = "notocnav";
 
 	entity = document.getElementById('closemenu');
 	if(entity) {
@@ -314,7 +318,7 @@ function showMenu() {
 		entity.className = "toc";
 	}
 
-        document.body.className = "tocnav";
+	document.body.className = "tocnav";
 
 	entity = document.getElementById('closemenu');
 	if(entity) {
