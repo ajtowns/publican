@@ -1797,6 +1797,7 @@ sub package {
     my $type              = $self->{publican}->param('type');
     my $web_formats_comma = $self->{publican}->param('web_formats');
     my $web_formats       = $web_formats_comma;
+
     $web_formats =~ s/,/ /g;
 
     if ( $lang ne $xml_lang ) {
@@ -1904,6 +1905,7 @@ sub package {
     my $doc_url           = $self->{publican}->param('doc_url');
     my $src_url           = $self->{publican}->param('src_url');
     my $dt_obsoletes      = $self->{publican}->param('dt_obsoletes') || "";
+    my $dt_requires       = $self->{publican}->param('dt_requires') || "";
     my $web_obsoletes     = $self->{publican}->param('web_obsoletes') || "";
     my $os_ver            = $self->{publican}->param('os_ver');
     my $translation       = ( $lang ne $xml_lang );
@@ -1913,6 +1915,9 @@ sub package {
     my $web_version_label = $self->{publican}->param('web_version_label')
         || "";
     my $web_name_label = $self->{publican}->param('web_name_label') || "";
+
+    my $menu_category    = $self->{publican}->param('menu_category') || "X-Red-Hat-Base;";
+    $menu_category.= ';' if($menu_category !~ /;\s*$/);
 
     if ( $lang ne $xml_lang ) {
         my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
@@ -1967,18 +1972,19 @@ sub package {
 
     my %xslt_opts = (
         'book-title'      => $name_start,
-        'lang'            => $lang,
-        'prod'            => $product,
-        'prodver'         => $version,
-        'rpmver'          => $edition,
-        'rpmrel'          => $release,
-        'docname'         => $docname,
-        'license'         => $license,
-        'brand'           => "publican-$brand",
-        'url'             => $doc_url,
-        'src_url'         => $src_url,
-        'log'             => $log,
+        lang            => $lang,
+        prod            => $product,
+        prodver         => $version,
+        rpmver          => $edition,
+        rpmrel          => $release,
+        docname         => $docname,
+        license         => $license,
+        brand           => "publican-$brand",
+        url             => $doc_url,
+        src_url         => $src_url,
+        log             => $log,
         dt_obsoletes      => $dt_obsoletes,
+        dt_requires       => $dt_requires,
         web_obsoletes     => $web_obsoletes,
         translation       => $translation,
         language          => $language,
@@ -1992,6 +1998,7 @@ sub package {
         full_subtitle     => $full_subtitle,
         web_formats       => $web_formats,
         web_formats_comma => $web_formats_comma,
+        menu_category       => $menu_category,
     );
 
     logger(

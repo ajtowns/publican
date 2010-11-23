@@ -173,7 +173,11 @@ my %PARAMS = (
 
     },
     dt_obsoletes => {
-        descr => maketext('List of desktop packages this package obsoletes.'),
+        descr => maketext('Space seperated list of packages the desktop package obsoletes.'),
+
+    },
+    dt_requires => {
+        descr => maketext('Space seperated list of packages the desktop package requires.'),
 
     },
     'ec_id' => {
@@ -220,10 +224,12 @@ my %PARAMS = (
         default => '444',
 
     },
+    menu_category => {
+        descr   => maketext('Semi colon seperated list of menu categories for thedesktop package.'),
+    },
     os_ver => {
         descr   => maketext('The OS for which to build packages.'),
         default => '.el5',
-
     },
     product => {
         descr => maketext(

@@ -56,6 +56,7 @@ Requires:    htmlview
 Requires:    xdg-utils
 %endif
 <xsl:if test="$dt_obsoletes != ''">Obsoletes:    <xsl:value-of select="$dt_obsoletes"/></xsl:if>
+<xsl:if test="$dt_requires != ''">Requires:    <xsl:value-of select="$dt_requires"/></xsl:if>
 
 %description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
@@ -95,7 +96,7 @@ Name=<xsl:value-of select="/bookinfo/productname" /><xsl:value-of select="/setin
 Comment=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
 Exec=%{viewer} %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
 Icon=<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-Categories=Documentation;X-Red-Hat-Base;
+Categories=Documentation;<xsl:value-of select="$menu_category"/>
 Type=Application
 Encoding=UTF-8
 Terminal=false
