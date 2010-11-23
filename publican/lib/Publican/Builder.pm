@@ -1800,6 +1800,13 @@ sub package {
 
     $web_formats =~ s/,/ /g;
 
+    # No PDF for Indic packages. BZ #655713
+    if( $lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/ || $xml_lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/) {
+         $web_formats_comma =~ s/pdf,//g;
+         $web_formats_comma =~ s/,pdf//g;
+         $web_formats =~ s/\s*pdf\s*/ /g;
+    }
+
     if ( $lang ne $xml_lang ) {
         $release = undef;
         my $po_file = "$lang/$type" . '_Info.po';

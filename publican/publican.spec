@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.3
-Release:        0%{?dist}.t45
+Release:        0%{?dist}.t47
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -235,6 +235,7 @@ rm -rf $RPM_BUILD_ROOT
 - Stop publican setting imagedata format. BZ #654939
 - Fix DocBook 5 DTD string format change. BZ #655621
 - Add dt_reuires and menu_category options. BZ #647352
+- Remove web PDF from Indic + ar-SA,fa-IR,he-IL. BZ #655713
 
 * Tue Oct 26 2010 Jeff Fearn <jfearn@redhat.com> 2.3-0
 - Prepend product name to product/version splash pages.
