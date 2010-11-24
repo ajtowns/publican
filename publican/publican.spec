@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.3
-Release:        0%{?dist}.t51
+Release:        0%{?dist}.t52
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -239,6 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix publish breaking UTF8 file names. BZ #648126
 - Fix non-en lang breaking website strings. BZ #656139
 - Fix IE8 javascript and layout issues. BZ #656531
+- Remove Red elements from interactive.css. BZ #650950 <r.landmann@redhat.com>
 
 * Tue Oct 26 2010 Jeff Fearn <jfearn@redhat.com> 2.3-0
 - Prepend product name to product/version splash pages.
