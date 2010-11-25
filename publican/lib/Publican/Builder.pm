@@ -222,9 +222,10 @@ sub build {
 #
 ## Work around BZ #648126 ... gonna need to do an UTF8 audit maybe ...
 ##  Check, UTF8 file names, UTF8 output from XmlClean, Translate, WebSite.
-#                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
-                        system(qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|)
-                            if ( -d "$tmp_dir/$lang/$format" );
+##                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
+                        system(
+                            qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|
+                        ) if ( -d "$tmp_dir/$lang/$format" );
                     }
                 }
             }
@@ -1804,10 +1805,12 @@ sub package {
     $web_formats =~ s/,/ /g;
 
     # No PDF for Indic packages. BZ #655713
-    if( $lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/ || $xml_lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/) {
-         $web_formats_comma =~ s/pdf,//g;
-         $web_formats_comma =~ s/,pdf//g;
-         $web_formats =~ s/\s*pdf\s*/ /g;
+    if (   $lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/
+        || $xml_lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/ )
+    {
+        $web_formats_comma =~ s/pdf,//g;
+        $web_formats_comma =~ s/,pdf//g;
+        $web_formats       =~ s/\s*pdf\s*/ /g;
     }
 
     if ( $lang ne $xml_lang ) {
@@ -1926,8 +1929,9 @@ sub package {
         || "";
     my $web_name_label = $self->{publican}->param('web_name_label') || "";
 
-    my $menu_category    = $self->{publican}->param('menu_category') || "X-Red-Hat-Base;";
-    $menu_category.= ';' if($menu_category !~ /;\s*$/);
+    my $menu_category = $self->{publican}->param('menu_category')
+        || "X-Red-Hat-Base;";
+    $menu_category .= ';' if ( $menu_category !~ /;\s*$/ );
 
     if ( $lang ne $xml_lang ) {
         my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
@@ -1982,17 +1986,17 @@ sub package {
 
     my %xslt_opts = (
         'book-title'      => $name_start,
-        lang            => $lang,
-        prod            => $product,
-        prodver         => $version,
-        rpmver          => $edition,
-        rpmrel          => $release,
-        docname         => $docname,
-        license         => $license,
-        brand           => "publican-$brand",
-        url             => $doc_url,
-        src_url         => $src_url,
-        log             => $log,
+        lang              => $lang,
+        prod              => $product,
+        prodver           => $version,
+        rpmver            => $edition,
+        rpmrel            => $release,
+        docname           => $docname,
+        license           => $license,
+        brand             => "publican-$brand",
+        url               => $doc_url,
+        src_url           => $src_url,
+        'log'             => $log,
         dt_obsoletes      => $dt_obsoletes,
         dt_requires       => $dt_requires,
         web_obsoletes     => $web_obsoletes,
@@ -2008,7 +2012,8 @@ sub package {
         full_subtitle     => $full_subtitle,
         web_formats       => $web_formats,
         web_formats_comma => $web_formats_comma,
-        menu_category       => $menu_category,
+        menu_category     => $menu_category,
+        spec_version      => $Publican::SPEC_VERSION,
     );
 
     logger(

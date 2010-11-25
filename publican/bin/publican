@@ -28,6 +28,29 @@ my $LANG_PATTERN = q|__LANG__|;
 my $IMPORT_SCRIPT     = '../common/cvs-import.sh';
 my $WEB_TEMPLATE_PATH = '/usr/share/publican';
 
+# Try to catch SRPMS created using outdated versions of publican in brew/koji
+if (   ( $ENV{RPM_BUILD_DIR} )
+    && ( $ENV{RPM_BUILD_DIR}  ne "" )
+    && ( $ENV{RPM_PACKAGE_NAME} ne "publican" )
+    && (-f "/builddir/build/originals/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm"
+    )
+    )
+{
+
+    my $req_version
+        = qx|rpm --requires -qp /builddir/build/originals/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm \| grep publican \| sed -e 's/^[^0-9]*//'|;
+
+    chomp($req_version);
+    if (   !$req_version
+        || $req_version eq ""
+        || $req_version < $Publican::SPEC_VERSION )
+    {
+        croak(
+            "The version of publican used to create the SRPM is too old to use with this version of publican. Upgrade publican on your local machine to at least version $Publican::SPEC_VERSION and try again."
+        );
+    }
+}
+
 =head1 NAME
 
 publican - a DocBook XML publishing tool.
@@ -167,7 +190,8 @@ my %actions = (
         ],
     },
     'bump' => {
-        'brief' => 'TECH PREVIEW: bump the pubsnumber [revision]. This feature is intended to have an additional argument to add a revision history entry and message. This feature is UNTESTED',
+        'brief' =>
+            'TECH PREVIEW: bump the pubsnumber [revision]. This feature is intended to have an additional argument to add a revision history entry and message. This feature is UNTESTED',
         'options' => ['lang'],
     },
     'clean' => {
@@ -658,7 +682,8 @@ if ( $action eq 'build' ) {
 ## TODO handle Revision History entry
 ## Handle translations
 if ( $action eq 'bump' ) {
-    my $lang =  $opts{lang} || croak maketext( "--lang is a required option for bump" );
+    my $lang = $opts{lang}
+        || croak maketext("--lang is a required option for bump");
 
     my $xml_lang = $publican->param('xml_lang');
     my $dtdver   = $publican->param('dtdver');
@@ -667,7 +692,7 @@ if ( $action eq 'bump' ) {
 
 ## TODO do this later
     if ( $type eq 'brand' ) {
-        logger( "bump does not support brands yet!" );
+        logger("bump does not support brands yet!");
         exit;
     }
 
@@ -722,7 +747,7 @@ if ( $action eq 'bump' ) {
     }
     else {
 ## TODO do this later
-        logger( "bump does not support translations yet!" );
+        logger("bump does not support translations yet!");
         exit;
     }
 
@@ -897,7 +922,7 @@ if ( $action eq 'install_book' ) {
             unless ( -d $ws->toc_path() . "/$lang" );
         rcopy( "publish/$lang/*", $ws->toc_path() . "/$lang/." );
 
-        my @formats = split(/,/, $publican->param('web_formats'));
+        my @formats = split( /,/, $publican->param('web_formats') );
 
         foreach my $format (@formats) {
             next unless ( -d "publish/$lang/$product/$version/$format" );
@@ -931,7 +956,7 @@ if ( $action eq 'remove_book' ) {
     my $version = $publican->param('version');
     my $name    = $publican->param('docname');
 
-    my @formats = split(/,/, $publican->param('web_formats'));
+    my @formats = split( /,/, $publican->param('web_formats') );
     foreach my $format (@formats) {
 
         # BUGBUG get these the normal way

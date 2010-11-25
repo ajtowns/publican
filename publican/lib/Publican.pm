@@ -15,13 +15,16 @@ use XML::LibXML;
 
 use Publican::Localise;
 
-use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE);
+use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
 $VERSION = '2.3';
 @ISA     = qw(Exporter AutoLoader);
 
 @EXPORT
     = qw(dir_list debug_msg get_all_langs logger help_config maketext old2new new_tree);
+
+# Track when the SPEC file generation is incompatible.
+$SPEC_VERSION = '2.3';
 
 my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
