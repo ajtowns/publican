@@ -38,7 +38,7 @@ if (   ( $ENV{RPM_BUILD_DIR} )
 {
 
     my $req_version
-        = qx|rpm --requires -qp /builddir/build/originals/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm \| grep publican \| sed -e 's/^[^0-9]*//'|;
+        = qx|rpm --requires -qp /builddir/build/originals/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm \| grep 'publican ' \| sed -e 's/^[^0-9]*//'|;
 
     chomp($req_version);
     if (   !$req_version
