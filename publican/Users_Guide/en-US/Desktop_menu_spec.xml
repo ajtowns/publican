@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<appendix id="desktop_menu_spec">
+	<title>Sample spec file for desktop menu package</title>
+	<para>
+	  The following spec file is an example of how you could package a <firstterm>desktop entry</firstterm> (<filename>.directory</filename>) file and a <firstterm>desktop menu</firstterm> (<filename>.menu</filename>) file in an RPM package for shipping. Refer to <xref linkend="desktop_menus"/> for the structure of these files.
+	</para>
+	<para>
+	  This example assumes a desktop entry file named <filename>menu-example.directory</filename>, a desktop menu file named <filename>menu-example.menu</filename>, and a readme file named <filename>README</filename> are located in a directory named <filename>menu-example-0</filename> that is archived as <filename>menu-example-0.tgz</filename>.
+	</para>
+	<para>
+	  When built, this results in a package named <package>menu-example</package>.
+	</para>
+<programlisting><xi:include parse="text" href="extras/menu-example.spec" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+</appendix>
+

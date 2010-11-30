@@ -263,7 +263,17 @@
 			<term><parameter>dt_obsoletes</parameter></term>
 			 <listitem>
 				<para>
-					the desktop packages that this package obsoletes.
+					a package that a desktop package obsoletes.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
+			<term><parameter>dt_requires</parameter></term>
+			 <listitem>
+				<para>
+				  a package that the desktop package requires, for example, a documentation menu package. Refer to <xref linkend="desktop_menus"/>.
 				</para>
 
 			</listitem>
@@ -350,7 +360,18 @@
 			</listitem>
 
 		</varlistentry>
-		 <varlistentry>
+		<varlistentry>
+		<term><parameter>menu_category</parameter></term>
+				<listitem>
+					<para>
+					  the desktop menu category (as defined by a corresponding <filename>.menu</filename> file) in which a document should appear when installed from a desktop RPM package. Refer to <xref linkend="desktop_menus"/>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+		<varlistentry>
+
 			<term><parameter>os_ver</parameter></term>
 			 <listitem>
 				<para>
@@ -470,7 +491,19 @@
 			</listitem>
 
 		</varlistentry>
-		 <varlistentry>
+		
+		<varlistentry>
+			<term><parameter>web_formats</parameter></term>
+			  <listitem>
+				<para>
+					a comma-separated list of formats to include in the web RPM package. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book-The_publican_package_command" />.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		
+		<varlistentry>
 			<term><parameter>web_home</parameter></term>
 			  <listitem>
 				<para>

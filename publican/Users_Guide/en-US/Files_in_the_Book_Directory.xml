@@ -262,7 +262,7 @@
 				<term><parameter>common_content</parameter></term>
 				 <listitem>
 					<para>
-						sets the path to the <application>Publican</application> <firstterm>Common Content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>.
+						sets the path to the <application>Publican</application> <firstterm>common content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>.
 					</para>
 
 				</listitem>
@@ -364,17 +364,27 @@
 				<term><parameter>docname</parameter></term>
 				 <listitem>
 					<para>
-						specifies the document name. If set, this value overrides the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
+						specifies the document name. If set, this value overrides the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must contain only upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
 					</para>
 
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			<varlistentry>
 				<term><parameter>dt_obsoletes</parameter></term>
-				 <listitem>
+				<listitem>
 					<para>
-						specifies the desktop packages that this package obsoletes. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+						a package that a desktop package obsoletes.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>dt_requires</parameter></term>
+				<listitem>
+					<para>
+					  a package that the desktop package requires, for example, a documentation menu package. Refer to <xref linkend="desktop_menus"/>.
 					</para>
 
 				</listitem>
@@ -479,6 +489,16 @@
 
 			</varlistentry>
 			 <varlistentry>
+				<term><parameter>menu_category</parameter></term>
+				<listitem>
+					<para>
+					  the desktop menu category (as defined by a corresponding <filename>.menu</filename> file) in which a document should appear when installed from a desktop RPM package. Refer to <xref linkend="desktop_menus"/>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
 				<term><parameter>os_ver</parameter></term>
 				 <listitem>
 					<para>
@@ -618,7 +638,18 @@
 				</listitem>
 
 			</varlistentry>
-			 <varlistentry>
+			<varlistentry>
+				<term><parameter>web_formats</parameter></term>
+				  <listitem>
+					<para>
+						a comma-separated list of formats to include in the web RPM package. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book-The_publican_package_command" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
+			<varlistentry>
 				<term><parameter>web_home</parameter></term>
 				 <listitem>
 					<para>
@@ -905,7 +936,7 @@
 				As noted above, the default <filename>Book_Info.xml</filename> used by <application>Publican</application> includes an <parameter>&lt;edition&gt;</parameter> tag.
 			</para>
 			 <para>
-				If you distribute a book as an RPM package, the data placed within this tag sets 'the first two digits of the version number in the RPM file name.
+				If you distribute a book as an RPM package, the data placed within this tag sets the first two digits of the version number in the RPM file name.
 			</para>
 			 <para>
 				So, an edition of '1.0' becomes a version of '1.0'.

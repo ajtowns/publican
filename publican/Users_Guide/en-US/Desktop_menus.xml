@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<section id="desktop_menus">
+	<title>Desktop menu entries for documents</title>
+	<para>
+	  By default, RPM packages of <application>Publican</application> documents for desktop use appear on the GNOME desktop under the <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice> menu. When users have large numbers of documents installed on their systems, this menu becomes very cluttered and difficult to navigate. Documentation for many different products and perhaps different languages becomes intermixed, adding to the confusion.
+	 </para>
+	 <para>
+	    To group documentation for your product under a separate submenu within the GNOME <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice> menu, you must:
+	 </para>
+	 <itemizedlist>
+	   <listitem>
+	     <para>
+	       create and distribute a desktop menu package that creates the new submenu.
+	     </para>
+	   </listitem>
+	   <listitem>
+	     <para>
+	       specify the menu <firstterm>category</firstterm> in the document, and optionally, have the documentation package <firstterm>require</firstterm> the desktop menu package.
+	     </para>
+	   </listitem>
+	 </itemizedlist>
+	 <para>
+	   Note that GNOME does not group documents under a submenu until two or more documents are installed that belong on that submenu. The first document appears under <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice>.
+	 </para>
+	 <section id="menu_package">
+	   <title>Creating an desktop menu package</title>
+	   <para>A desktop menu package consists of:</para>
+	   <itemizedlist>
+	     <listitem>
+	       <para>
+		 a <firstterm>desktop entry</firstterm> (<filename>.directory</filename>) file that provides metadata about the new submenu.
+	       </para>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 a <firstterm>desktop menu</firstterm> (<filename>.menu</filename>) file that defines the position of the new submenu within the <guimenu>Documentation</guimenu> menu. 
+	       </para>
+	     </listitem>
+	   </itemizedlist>
+	   <para>
+	     The structure for the <filename>.directory</filename> file for <application>Publican</application>-generated documentation is as follows:
+	   </para>
+	   <itemizedlist>
+	     <listitem>
+	       <para>
+		 the <firstterm>group header</firstterm> <literal>[Desktop Entry]</literal>
+	       </para>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 the <parameter>Name</parameter> parameter, set to the name of the submenu that you want to place under the <guimenu>Documentation</guimenu> menu. 
+	       </para>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 optionally, localisations of the <parameter>Name</parameter> parameter, in the format <parameter>Name[<replaceable>language_code</replaceable>]</parameter> where <replaceable>language_code</replaceable> is a language code in glibc format, <emphasis>not</emphasis> the XML format that <application>Publican</application> uses for language codes.
+	       </para>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 the <parameter>Comment</parameter> parameter, set to a description of the new submenu. 
+	       </para>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 optionally, localisations of the <parameter>Comment</parameter> parameter, in the format <parameter>Name[<replaceable>language_code</replaceable>]</parameter> where <replaceable>language_code</replaceable> is a language code in glibc format, <emphasis>not</emphasis> the XML format that <application>Publican</application> uses for language codes.
+	       </para>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 the <parameter>Type</parameter> parameter, set to <literal>Directory</literal>. 
+	       </para>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 the <parameter>Encoding</parameter> parameter, set to <literal>UTF-8</literal>. 
+	       </para>
+	     </listitem>
+	   </itemizedlist>
+	   <example><title>Example .directory file</title><para>
+	     The following file, <filename>menu-example.directory</filename> illustrates the structure of a desktop entry file.
+	   </para>
+<programlisting><xi:include parse="text" href="extras/menu-example.directory" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+</example>
+<para>
+  The desktop entry file is placed in <filename>/usr/share/desktop-directories/</filename>
+</para>
+<para>
+  For a full description of how desktop entries work, refer to the <citetitle>Desktop Entry Specification</citetitle>, available from <ulink url="http://standards.freedesktop.org/entry-spec/latest/"/>
+	   </para>
+	   <para>
+	     A desktop menu file is an XML file that contains:
+	   </para>
+	   <itemizedlist>
+	     <listitem>
+	       <para>
+		 a document type declaration for the freedesktop.org Desktop Menu Specification:
+	       </para>
+<programlisting language="XML">&lt;!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+"http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd"&gt;</programlisting>
+	     </listitem>
+	     <listitem>
+	       <para>
+		 a <firstterm>root element</firstterm>, <sgmltag>&lt;Menu&gt;</sgmltag>, that contains: 
+	       </para>
+	       <itemizedlist>
+		 <listitem>
+		   <para>
+		     a <sgmltag>&lt;Name&gt;</sgmltag> element with the content <literal>Documentation</literal>
+		   </para>
+		 </listitem><listitem>
+		   <para>
+		     another <sgmltag>&lt;Menu&gt;</sgmltag> element that in turn contains:
+		   </para>
+		   <itemizedlist>
+		     <listitem>
+		       <para>
+			 a <sgmltag>&lt;Name&gt;</sgmltag> element with the content <literal>Documentation</literal> (just like the root element)
+		       </para>
+		     </listitem>
+		     <listitem>
+		       <para>
+			 a <sgmltag>&lt;Directory&gt;</sgmltag> element with its content the name of the desktop entry file you created, for example:
+		       </para>
+<programlisting language="XML">&lt;Directory&gt;menu-example.directory&lt;/Directory&gt;</programlisting>
+		     </listitem>
+		   <listitem>
+		       <para>
+			 an <sgmltag>&lt;Includes&gt;</sgmltag> element with the content <literal>X-<replaceable>category_name</replaceable></literal>, where <replaceable>category_name</replaceable> is an identifier for the documents that will be grouped together under this menu entry. For example:
+		       </para>
+<programlisting language="XML">&lt;Includes&gt;X-Example-Docs&lt;/Includes&gt;</programlisting>
+		     </listitem>
+		   </itemizedlist>
+		 </listitem>
+	       </itemizedlist>
+	     </listitem>
+	   </itemizedlist>
+	   <example><title>Example .menu file</title><para>
+	     The following file, <filename>menu-example.menu</filename> illustrates the structure of a desktop menu file.
+	   </para>
+<programlisting><xi:include parse="text" href="extras/menu-example.menu" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting></example>
+<para>
+  The desktop menu file is placed in <filename>/etc/xdg/menus/settings-merged/</filename>
+</para>
+<para>
+	     For a full description of how desktop menus work, refer to the <citetitle>Desktop Menu Specification</citetitle>, available from <ulink url="http://standards.freedesktop.org/desktop-menu-spec/latest/"/>
+	   </para>
+	 </section>
+	 <section id="menu_categories">
+	   <title>Setting a desktop menu category</title>
+	   <para>To place a document in a submenu of <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice>, set the <parameter>menu_category</parameter> parameter in its <filename>publican.cfg</filename> file to match the content of the <sgmltag>&lt;Includes&gt;</sgmltag> element in the corresponding desktop menu file. For example, consider a desktop menu file that contains the element:</para>
+<programlisting language="XML">&lt;Includes&gt;X-Example-Docs&lt;/Includes&gt;</programlisting>
+<para>
+  To place a document in the submenu defined by this desktop menu file, the document's <filename>publican.cfg</filename> file should contain:
+</para>
+<programlisting>menu_category: X-Example-Docs</programlisting>
+<para>
+  Note that you can include this parameter in the <filename>defaults.cfg</filename> file or <filename>overrides.cfg</filename> file of a brand so that all documents built with that brand are grouped into this submenu automatically without you having to set the <parameter>menu_category</parameter> parameter in each document.
+</para>
+<para>
+  If you ship the desktop menu and desktop entry files in an RPM package, you can make RPM packages of documentation <firstterm>require</firstterm> the desktop menu package. With this dependency set, the desktop menu package is installed automatically on users' systems when they install a documentation package, which ensures that the documentation appears under the submenu you have created for your project. Set the dependency with the <parameter>dt_requires</parameter> parameter in the document's <filename>publican.cfg</filename> file. For example, if you ship a desktop menu package named <package>foodocs-menu</package>, set:
+</para>
+<programlisting>dt_requires: foodocs-menu</programlisting>
+<para>
+  Note that you can include this parameter in the <filename>defaults.cfg</filename> file or <filename>overrides.cfg</filename> file of a brand so that all documents built with that brand require the same desktop menu package.
+</para>
+	 </section>
+</section>
+

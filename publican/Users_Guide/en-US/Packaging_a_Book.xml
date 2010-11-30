@@ -4,7 +4,7 @@
 %BOOK_ENTITIES;
 ]>
 <section id="sect-Users_Guide-Packaging_a_book">
-	<title>Packaging a book</title>
+	<title>Packaging a document</title>
 	 <xi:include href="Applicable_to_RPM_only.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	 <note>
 		<title>Note — Customizing output</title>
@@ -20,7 +20,7 @@
 
 	</note>
 	 <para>
-		<application>Publican</application> not only builds documentation as HTML and PDF files, but it can package these files for distribution to individual workstations and to web servers as <firstterm>RPM packages</firstterm>. RPM packages are used to distribute software to computers with Linux operating systems that use the <application>RPM Package Manager</application>. These operating systems include Red Hat Enterprise Linux, Fedora, Mandriva Linux, SUSE Linux Enterprise, openSUSE, Turbolinux, and Yellow Dog Linux, to name just a few.
+		<application>Publican</application> not only builds documentation, but it can package built content for distribution to individual workstations and to web servers as <firstterm>RPM packages</firstterm>. RPM packages are used to distribute software to computers with Linux operating systems that use the <application>RPM Package Manager</application>. These operating systems include Red Hat Enterprise Linux, Fedora, Mandriva Linux, SUSE Linux Enterprise, openSUSE, Turbolinux, and Yellow Dog Linux, to name just a few.
 	</para>
 	 <section id="sect-Users_Guide-Packaging_a_book-Types_of_RPM_packages">
 		<title>Types of RPM packages</title>
@@ -41,19 +41,35 @@
 		 <section id="sect-Users_Guide-Types_of_RPM_packages-Desktop_packages_and_web_packages">
 			<title>Desktop packages and web packages</title>
 			 <para>
-				<application>Publican</application> can package documents for reading on a computer workstation (a <firstterm>desktop RPM package</firstterm>) or to install on a web server and publish on the world-wide web (a <firstterm>web RPM package</firstterm>). The desktop RPM package of a <application>Publican</application> document and the web RPM package of the same document differ in that the desktop RPM package installs documentation only for local use on a computer, while the web RPM installs documentation for local use, but also to be served to the World Wide Web.
+				<application>Publican</application> can package documents for reading on a computer workstation (a <firstterm>desktop RPM package</firstterm>) or to install on a web server and publish on the World Wide Web (a <firstterm>web RPM package</firstterm>). The desktop RPM package of a <application>Publican</application> document and the web RPM package of the same document differ in that the desktop RPM package installs documentation only for local use on a computer, while the web RPM installs documentation for local use, but also to be served to the World Wide Web.
 			</para>
 			 <para>
 				Desktop RPM packages of <application>Publican</application> documents contain the documentation in single-page HTML format. Documents distributed in these packages are installed in a subdirectory of <filename>/usr/share/doc/</filename>, the location specified by the <citetitle>Filesystem Hierarchy Standard</citetitle> (<citetitle>FHS</citetitle>) for &lsquo;Miscellaneous documentation&rsquo;.<footnote> <para>
 					Refer to <ulink url="http://www.pathname.com/fhs/pub/fhs-2.3.html#USRSHAREARCHITECTUREINDEPENDENTDATA">http://www.pathname.com/fhs/pub/fhs-2.3.html#USRSHAREARCHITECTUREINDEPENDENTDATA</ulink>
 				</para>
-				 </footnote> The desktop RPM package also contains a <firstterm>desktop file</firstterm>, to be placed in <filename>/usr/share/applications/</filename>. This file enables <firstterm>desktop environments</firstterm> such as GNOME and KDE to add the installed document to their menus for ease of reference by users.
+			      </footnote> The desktop RPM package also contains a <firstterm>desktop file</firstterm>, to be placed in <filename>/usr/share/applications/</filename>. This file enables <firstterm>desktop environments</firstterm> to add the installed document to their menus for ease of reference by users. By default, the menu item appears under <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice> on the GNOME desktop. To customize the placement of the menu item, create a documentation menu package to supply <filename>.directory</filename> and <filename>.menu</filename> files and set the <parameter>dt_requires</parameter> and <parameter>menu_category</parameter> parameters in the <filename>publican.cfg</filename> file to require this package and supply the appropriate menu category. Refer to <xref linkend="desktop_menus"/>
 			</para>
 			 <para>
-				Web RPM packages of <application>Publican</application> documents contain the documentation in single-page HTML, multi-page HTML, and PDF formats. They are installed in a subdirectory of <filename>/var/www/html/</filename>, a common <firstterm>document root</firstterm> for web servers. Note that the web SRPM package generates both a web binary RPM package and desktop binary RPM package.
+				By default, web RPM packages of <application>Publican</application> documents contain the documentation in single-page HTML, multi-page HTML, EPUB, and PDF formats. The formats included vary if:
+			</para>
+			<itemizedlist>
+				<listitem>
+					<para>
+						you publish documentation in a language in which PDF output is not currently supported. <application>Publican</application> relies on <application>FOP</application> to generate PDF output. <application>FOP</application> does not presently support right-to-left text (for example, Arabic, Persian, or Hebrew). Furthermore, because <application>FOP</application> cannot presently specify fonts on a character-by-character basis, a lack of available fonts in Indic scripts that also include Latin glyphs prevents <application>Publican</application> from reliably generating PDF output in Indic languages. By default, <application>Publican</application> does not include PDF files in web RPM packages generated in Arabic, Persian, Hebrew, or any Indic language.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						your book or your brand contains the <parameter>web_formats</parameter> parameter. The value of this parameter overrides the default formats that <application>Publican</application> packages. For example, to publish the document only as single-page HTML, PDF, and text, set <literal>web_formats: html-single,pdf,txt</literal>
+					</para>
+				</listitem>
+			</itemizedlist>
+			<para>
+				Built content is installed in subdirectories of <filename>/var/www/html/</filename>, a common <firstterm>document root</firstterm> for web servers. Note that the web SRPM package generates both a web binary RPM package and desktop binary RPM package.
 			</para>
 
 		</section>
+		<xi:include href="Desktop_menus.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 		
 
 	</section>
@@ -118,7 +134,7 @@
 				<term><option>--scratch</option></term>
 				 <listitem>
 					<para>
-						when used together with the <option>--brew</option> and <option>--desktop</option> options, specifies that a SRPM package should be built as a <firstterm>scratch build</firstterm> when sent to <application>Brew</application>. Scratch builds are used to verify that an SRPM package is structured correctly, without updating the package database to use the resulting package.
+						when used together with the <option>--brew</option> and <option>--desktop</option> options, specifies that an SRPM package should be built as a <firstterm>scratch build</firstterm> when sent to <application>Brew</application>. Scratch builds are used to verify that an SRPM package is structured correctly, without updating the package database to use the resulting package.
 					</para>
 
 				</listitem>
