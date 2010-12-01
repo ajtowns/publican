@@ -35,12 +35,12 @@ msgstr ""
 "Немає невикористаних файлів XML"
 
 #. ($rpmbuild,WTERMSIG($?))
-#: lib/Publican/Builder.pm:1744
+#: lib/Publican/Builder.pm:1747
 msgid "%1 died with signal %2"
 msgstr "%1 завершила роботу з сигналом %2"
 
 #. ($rpmbuild,WEXITSTATUS($?))
-#: lib/Publican/Builder.pm:1749
+#: lib/Publican/Builder.pm:1752
 msgid "%1 exited with value %2"
 msgstr "%1 завершила роботу з виведенням значення %2"
 
@@ -51,49 +51,43 @@ msgstr "%1 є обов’язковим полем у файлі налашту�
 
 #. ('db_file',$site_config)
 #: lib/Publican/WebSite.pm:152
-msgid ""
-"%1 is a manadory field in a site configuration file. Check %2 for validity."
-msgstr ""
-"%1 є обов’язковим полем у файлі налаштування сайта. Перевірте коректність %2."
+msgid "%1 is a manadory field in a site configuration file. Check %2 for validity."
+msgstr "%1 є обов’язковим полем у файлі налаштування сайта. Перевірте коректність %2."
 
 #. ('cmd')
 #. ('site_config')
 #. ('path')
 #. ('lang')
-#: bin/publican:372 bin/publican:462 bin/publican:545 bin/publican:842
-#: bin/publican:929
+#: bin/publican:396 bin/publican:486 bin/publican:569 bin/publican:867
+#: bin/publican:954
 msgid "%1 is a required argument"
 msgstr "%1 є обов’язковим аргументом"
 
 #. ($var)
-#: lib/Publican.pm:921
+#: lib/Publican.pm:924
 msgid "%1 is not handled yet."
 msgstr "Обробки %1 ще не передбачено."
 
 #. ($var)
-#: lib/Publican.pm:925
+#: lib/Publican.pm:928
 msgid "%1 is not used anymore."
 msgstr "%1 вже не використовується."
 
 #. ($action)
-#: bin/publican:364
+#: bin/publican:388
 msgid "'%1' is an unknown action!"
 msgstr "«%1» є невідомою дією!"
 
 #. ($language)
-#: lib/Publican/Builder.pm:1237
-msgid ""
-"'%1' is not a valid language for highlighting. Language names are case "
-"sensitive."
-msgstr ""
-"«%1» не є коректною мовою для підсвічування. Назви мов слід вказувати з "
-"врахуванням регістру."
+#: lib/Publican/Builder.pm:1240
+msgid "'%1' is not a valid language for highlighting. Language names are case sensitive."
+msgstr "«%1» не є коректною мовою для підсвічування. Назви мов слід вказувати з врахуванням регістру."
 
-#: lib/Publican/Builder.pm:1321 lib/Publican/Builder.pm:1336
+#: lib/Publican/Builder.pm:1324 lib/Publican/Builder.pm:1339
 msgid "'area' requires a 'coords' attribute."
 msgstr "«area» потрібен атрибут «coords»."
 
-#: lib/Publican/Builder.pm:2176 lib/Publican/Builder.pm:2228
+#: lib/Publican/Builder.pm:2183 lib/Publican/Builder.pm:2235
 msgid "'books' is a required configuration parameter for a remote set"
 msgstr "«books» є обов’язковим параметром налаштування для віддаленого набору"
 
@@ -105,7 +99,7 @@ msgstr "«lang» є обов’язковим параметром"
 msgid "'path' is a mandatory argument"
 msgstr "«path» є обов’язковим параметром"
 
-#: lib/Publican/Builder.pm:2182
+#: lib/Publican/Builder.pm:2189
 msgid "'repo' is a required configuration parameter for a remote set"
 msgstr "«repo» є обов’язковим параметром налаштування для віддаленого набору"
 
@@ -143,57 +137,42 @@ msgstr "*ПОПЕРЕДЖЕННЯ: виявлено сумнівний теґ: %
 
 #. ($tag)
 #: lib/Publican/XmlClean.pm:801
-msgid ""
-"*WARNING: Unvalidated tag: '%1'. This tag may not be displayed correctly, "
-"may generate invalid xhtml, or may breach Section 508 Accessibility "
-"standards."
-msgstr ""
-"*ПОПЕРЕДЖЕННЯ: неперевірений прапорець: «%1». Цей теґ ймовірно не буде "
-"показано належним чином, він може призвести до створення некоректного xhtml "
-"або порушити Розділ 508 стандартів доступності."
+msgid "*WARNING: Unvalidated tag: '%1'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards."
+msgstr "*ПОПЕРЕДЖЕННЯ: неперевірений прапорець: «%1». Цей теґ ймовірно не буде показано належним чином, він може призвести до створення некоректного xhtml або порушити Розділ 508 стандартів доступності."
 
-#: bin/publican:801
+#: bin/publican:826
 msgid "--cvs requires cvs_branch to be set in the cfg file"
 msgstr "Для використання --cvs слід встановити значення cvs_branch у файлі cfg"
 
-#: bin/publican:796
+#: bin/publican:821
 msgid "--cvs requires cvs_pkg to be set in the cfg file"
 msgstr "Для використання --cvs слід встановити значення cvs_pkg у файлі cfg"
 
-#: bin/publican:792
+#: bin/publican:817
 msgid "--cvs requires cvs_root to be set in the cfg file"
 msgstr "Для використання --cvs слід встановити значення cvs_root у файлі cfg"
 
-#: bin/publican:661
+#: bin/publican:686
 msgid "--lang is a required option for bump"
 msgstr "--lang є обов’язковим параметром для bump"
 
-#: bin/publican:135
+#: bin/publican:158
 msgid "/path/to/install/to"
 msgstr "/шлях/для/встановлення"
 
-#: lib/Publican/WebSite.pm:101
-msgid ""
-"<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable "
-"JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to "
-"view the Navigation options without JavaScript enabled</p>"
-msgstr ""
-"<p>Для того, щоб можна було скористатися меню навігації, слід увімкнути "
-"JavaScript.</p><p>Увімкніть JavaScript, якщо бажаєте користуватися меню "
-"навігації.</p><p>Вимкніть CSS, щоб переглянути пункти меню навігації без "
-"вмикання JavaScript.</p>"
+#: lib/Publican/WebSite.pm:100
+msgid "<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to view the Navigation options without JavaScript enabled</p>"
+msgstr "<p>Для того, щоб можна було скористатися меню навігації, слід увімкнути JavaScript.</p><p>Увімкніть JavaScript, якщо бажаєте користуватися меню навігації.</p><p>Вимкніть CSS, щоб переглянути пункти меню навігації без вмикання JavaScript.</p>"
 
-#: lib/Publican.pm:312
+#: lib/Publican.pm:315
 msgid "A comma seperated loist of the formats to use for the web packages."
-msgstr ""
-"Список відокремлених комами форматів, які слід використовувати для "
-"веб-пакунків."
+msgstr "Список відокремлених комами форматів, які слід використовувати для веб-пакунків."
 
-#: lib/Publican.pm:81
+#: lib/Publican.pm:84
 msgid "A space-separated list of books used in this remote set."
 msgstr "Список відокремлених пробілами назв книг для цього віддаленого набору."
 
-#: bin/publican:354
+#: bin/publican:378
 msgid "Action required!"
 msgstr "Потрібна дія!"
 
@@ -202,7 +181,7 @@ msgstr "Потрібна дія!"
 msgid "All build formats will be skipped for language: %1"
 msgstr "Всі формати збирання для вказаної мови буде пропущено: %1"
 
-#: lib/Publican.pm:76
+#: lib/Publican.pm:79
 msgid "Arch to filter output on."
 msgstr "Архітектура для фільтрування виведених даних."
 
@@ -219,52 +198,46 @@ msgstr "Заблоковані теґи:"
 msgid "Beginning work on %1"
 msgstr "Розпочинаємо роботу над %1"
 
-#: lib/Publican/WebSite.pm:111
+#: lib/Publican/WebSite.pm:110
 msgid "Books"
 msgstr "Книги"
 
 #. ($brand)
-#: lib/Publican/Builder.pm:402
+#: lib/Publican/Builder.pm:405
 msgid "Brand '%1' had no content to copy."
 msgstr "Для позначки «%1» не виявлено даних для копіювання."
 
-#: bin/publican:110
+#: bin/publican:133
 msgid "Build binary rpm when running package"
 msgstr "Збирання бінарного rpm під час запуску пакунка"
 
 #. ($spec,$rpmbuild,$dir)
-#: lib/Publican/Builder.pm:1723
+#: lib/Publican/Builder.pm:1726
 msgid "Building rpms from %1 using %2 in %3"
 msgstr "Збирання rpms з %1 за допомогою %2 у %3"
 
 #. ($lang)
-#: lib/Publican/Builder.pm:547
+#: lib/Publican/Builder.pm:550
 msgid "Bypassing test for language: %1"
 msgstr "Тест для вказаної мови пропущено: %1"
 
 #. ($lang)
-#: lib/Publican/Builder.pm:292
+#: lib/Publican/Builder.pm:295
 msgid "Bypassing translation for %1"
 msgstr "Пропущено переклад %1"
 
-#: lib/Publican.pm:142
+#: lib/Publican.pm:145
 msgid "CONFIDENTIAL"
 msgstr "НЕ ДЛЯ РОЗГОЛОШЕННЯ"
 
-#: lib/Publican.pm:146
+#: lib/Publican.pm:149
 msgid "CVS root to import SRPM into. e.g. :ext:@cvs.fedoraproject.org:/cvs/pkgs"
-msgstr ""
-"Коренева тека CVS для імпортування SRPM. Приклад: :ext:@cvs.fedoraproject."
-"org:/cvs/pkgs"
+msgstr "Коренева тека CVS для імпортування SRPM. Приклад: :ext:@cvs.fedoraproject.org:/cvs/pkgs"
 
 #. ($img_file,$@)
 #: lib/Publican/XmlClean.pm:857
-msgid ""
-"Can't calculate image size, image may render badly. Image File: %1. Error "
-"Message: %2"
-msgstr ""
-"Не вдалося обчислити розміри зображення. Зображення може бути показано з "
-"помилками. Файл зображення: %1. Повідомлення про помилку: %2"
+msgid "Can't calculate image size, image may render badly. Image File: %1. Error Message: %2"
+msgstr "Не вдалося обчислити розміри зображення. Зображення може бути показано з помилками. Файл зображення: %1. Повідомлення про помилку: %2"
 
 #. ($name)
 #: lib/Publican/CreateBrand.pm:109
@@ -278,20 +251,20 @@ msgstr "Не вдалося створити каталог: %1"
 
 #. ("$xml_lang/$type".'_Info.xml')
 #. ($xml_file)
-#: bin/publican:864 lib/Publican.pm:465 lib/Publican/Builder.pm:1933
+#: bin/publican:889 lib/Publican.pm:468 lib/Publican/Builder.pm:1939
 msgid "Can't locate required file: %1"
 msgstr "Не вдалося виявити потрібний файл: %1"
 
-#: bin/publican:786
+#: bin/publican:811
 msgid "Can't locate srpm, CVS import aborted"
 msgstr "Не вдалося виявити srpm, імпортування CVS перервано"
 
-#: bin/publican:771
+#: bin/publican:796
 msgid "Can't locate srpm, packaging aborted"
 msgstr "Не вдалося виявити srpm, пакування перервано"
 
 #. ($po_file)
-#: lib/Publican/Builder.pm:1820
+#: lib/Publican/Builder.pm:1825
 msgid "Can't open PO file: %1"
 msgstr "Не вдалося відкрити файл PO: %1"
 
@@ -302,7 +275,7 @@ msgid "Can't open SVG file %1: %2"
 msgstr "Не вдалося відкрити файл SVG %1: %2"
 
 #. ($@)
-#: lib/Publican.pm:821
+#: lib/Publican.pm:824
 msgid "Can't open directory: %1"
 msgstr "Не вдалося відкрити каталог: %1"
 
@@ -316,7 +289,7 @@ msgstr "Не вдалося відкрити файл %1. Помилка: %2"
 msgid "Can't open file '%1' %2"
 msgstr "Не вдалося відкрити файл «%1» %2"
 
-#: lib/Publican/Builder.pm:714
+#: lib/Publican/Builder.pm:717
 msgid "Can't open file for text output!"
 msgstr "Не вдалося відкрити файл для виведення текстових даних!"
 
@@ -325,12 +298,12 @@ msgstr "Не вдалося відкрити файл для виведення 
 msgid "Can't open file: %1: %2"
 msgstr "Не вдалося відкрити файл: %1: %2"
 
-#: lib/Publican/Builder.pm:968
+#: lib/Publican/Builder.pm:971
 msgid "Can't open mimetype file: "
 msgstr "Не вдалося відкрити файл типу mime: "
 
 #. ($@)
-#: lib/Publican/Builder.pm:1673 lib/Publican/Builder.pm:2033
+#: lib/Publican/Builder.pm:1676 lib/Publican/Builder.pm:2040
 msgid "Can't open spec file: %1"
 msgstr "Не вдалося відкрити файл spec: %1"
 
@@ -350,12 +323,12 @@ msgid "Can't write to overrides.cfg: %1"
 msgstr "Не вдалося виконати запис до overrides.cfg: %1"
 
 #. ("$docname.xml")
-#: lib/Publican/Builder.pm:573
+#: lib/Publican/Builder.pm:576
 msgid "Cannot locate main XML file: '%1'"
 msgstr "Не вдалося виявити основний файл XML: «%1»"
 
 #. ($publican->param('tmp_dir'))
-#: bin/publican:590
+#: bin/publican:614
 msgid "Clean: Removing %1 and publish directories."
 msgstr "Очищення: вилучення %1 та каталогу «publish»."
 
@@ -363,43 +336,34 @@ msgstr "Очищення: вилучення %1 та каталогу «publish�
 msgid "Click here to view a static Table of Contents"
 msgstr "Натисніть, щоб переглянути статичний зміст"
 
-#: lib/Publican/WebSite.pm:109
+#: lib/Publican/WebSite.pm:108
 msgid "Code"
 msgstr "Код"
 
-#: bin/publican:118
-msgid ""
-"Comma-separated list of formats, for example: html,pdf,html-single,html-"
-"desktop,txt,epub"
-msgstr ""
-"Список назв форматів, відокремлених комами. Приклад: html,pdf,html-single,"
-"html-desktop,txt,epub"
+#: bin/publican:141
+msgid "Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub"
+msgstr "Список назв форматів, відокремлених комами. Приклад: html,pdf,html-single,html-desktop,txt,epub"
 
-#: bin/publican:121
+#: bin/publican:144
 msgid "Comma-separated list of languages, for example: en-US,de-DE,all"
 msgstr "Список мов, відокремлених комами. Приклад: en-US,de-DE,all"
 
-#: lib/Publican.pm:132
+#: lib/Publican.pm:135
 msgid "Conditions on which to prune XML before transformation."
 msgstr "Умови, за яких слід пропускати XML перед перетворенням."
 
-#: bin/publican:471
+#: bin/publican:495
 msgid "Config file exists, you must supply a non-existent filename."
-msgstr ""
-"Файл налаштувань вже існує, вам слід вказати назву, яку ще не було "
-"використано."
+msgstr "Файл налаштувань вже існує, вам слід вказати назву, яку ще не було використано."
 
 #. ($configfile)
-#: lib/Publican.pm:425
+#: lib/Publican.pm:428
 msgid "Config file not found: %1. Perhaps you need to run 'publican old2new'"
-msgstr ""
-"Не вдалося знайти файл налаштувань: %1. Ймовірно, вам слід віддати команду "
-"«publican old2new»"
+msgstr "Не вдалося знайти файл налаштувань: %1. Ймовірно, вам слід віддати команду «publican old2new»"
 
-#: lib/Publican/Builder.pm:2162
+#: lib/Publican/Builder.pm:2169
 msgid "Config parameter 'scm' not found; treating set as standalone."
-msgstr ""
-"Не виявлено параметра налаштування «scm». Набір вважатиметься автономним."
+msgstr "Не виявлено параметра налаштування «scm». Набір вважатиметься автономним."
 
 #: lib/Publican/XmlClean.pm:781
 msgid "Consider not using this attribute."
@@ -411,14 +375,14 @@ msgid "Consider not using this tag"
 msgstr "Вам не варто використовувати цей теґ"
 
 #. ($PARAMS{$param}->{constraint})
-#: lib/Publican.pm:775
+#: lib/Publican.pm:778
 msgid "Constraint: %1"
 msgstr "Обмеження: %1"
 
 #. ($out_file,$@)
 #. ($out_file)
 #. ($file)
-#: bin/publican:693 lib/Publican/CreateBook.pm:377
+#: bin/publican:718 lib/Publican/CreateBook.pm:377
 #: lib/Publican/Translate.pm:194 lib/Publican/XmlClean.pm:655
 msgid "Could not open %1 for output!"
 msgstr "Не вдалося відкрити %1 для виведення даних!"
@@ -456,210 +420,180 @@ msgstr "Не вдалося відкрити файл README для виведе
 msgid "Could not open icon file. %1"
 msgstr "Не вдалося відкрити файл піктограми. %1"
 
-#: bin/publican:249
+#: bin/publican:273
 msgid "Create a new WebSite in the supplied location."
 msgstr "Створити веб-сайт за вказаною адресою."
 
-#: bin/publican:210
+#: bin/publican:234
 msgid "Create a new book, set, or article"
 msgstr "Створити нову книгу, набір або статтю"
 
-#: bin/publican:217
+#: bin/publican:241
 msgid "Create a new brand"
 msgstr "Створити нову позначку"
 
-#: bin/publican:189
-msgid ""
-"Create a publican.cfg file from the Makefile of an old book, set, or article"
-msgstr ""
-"Створити файл publican.cfg на основі файла Makefile старої книги, набору або "
-"статті"
+#: bin/publican:213
+msgid "Create a publican.cfg file from the Makefile of an old book, set, or article"
+msgstr "Створити файл publican.cfg на основі файла Makefile старої книги, набору або статті"
 
-#: bin/publican:132
+#: bin/publican:155
 msgid "Create desktop instead of web package"
 msgstr "Створити пакунок desktop замість пакунка web"
 
-#: bin/publican:134
+#: bin/publican:157
 msgid "Create package without using version in package name"
 msgstr "Створити пакунок без використання номера версії у назві"
 
 #. ($PARAMS{$param}->{default})
-#: lib/Publican.pm:771
+#: lib/Publican.pm:774
 msgid "Default: %1"
 msgstr "Типовий: %1"
 
-#: lib/Publican.pm:290
+#: lib/Publican.pm:293
 msgid "Depth of sections to include in the main table of contents."
-msgstr ""
-"Мінімальний рівень розділу у ієрархії для включення до основного списку "
-"змісту."
+msgstr "Мінімальний рівень розділу у ієрархії для включення до основного списку змісту."
 
-#: lib/Publican.pm:284
+#: lib/Publican.pm:287
 msgid "Directory to use for building."
 msgstr "Каталог, який слід використовувати для збирання."
 
-#: bin/publican:141
+#: bin/publican:164
 msgid "Disable ANSI colourisation of logging."
 msgstr "Вимкнути розфарбування ANSI журнальних записів."
 
-#: bin/publican:142
+#: bin/publican:165
 msgid "Disable all logging."
 msgstr "Вимкнути запис до журналу."
 
-#: lib/Publican.pm:97
+#: lib/Publican.pm:100
 msgid "Display bridge head elements in the TOCs?"
 msgstr "Показувати елементи перехідного заголовка у «Змісті»?"
 
-#: bin/publican:107
+#: bin/publican:130
 msgid "Display full man page"
 msgstr "Показати сторінку man повністю"
 
-#: bin/publican:106
+#: bin/publican:129
 msgid "Display help message"
 msgstr "Показати довідкове повідомленняяяяяяяяяяяяяяяяя"
 
-#: bin/publican:240
+#: bin/publican:264
 msgid "Display help text for the configuration file"
 msgstr "Показати довідкове повідомлення для файла налаштувань"
 
-#: lib/Publican.pm:263
+#: lib/Publican.pm:266
 msgid "Display remarks in transformed output."
 msgstr "Показати зауваження у перетворених даних."
 
-#: bin/publican:108
+#: bin/publican:131
 msgid "Display the version of Publican"
 msgstr "Показати версію Publican"
 
-#: bin/publican:149
+#: bin/publican:172
 msgid "Do not run the DTD validation"
 msgstr "Не виконувати перевірки DTD"
 
-#: lib/Publican.pm:185
+#: lib/Publican.pm:188
 msgid "Eclipse plugin ID. Defaults to \"$product.$docname\""
 msgstr "Ідентифікатор додатка Eclipse. Типове значення — \"$product.$docname\""
 
-#: lib/Publican.pm:189
+#: lib/Publican.pm:192
 msgid "Eclipse plugin name. Defaults to \"$product $docname\""
 msgstr "Назва додатка Eclipse. Типове значення — \"$product $docname\""
 
 #. ($VERSION)
-#: lib/Publican.pm:193
+#: lib/Publican.pm:196
 msgid "Eclipse plugin provider. Defaults to \"Publican-%1\""
-msgstr ""
-"Вміст поля розробника додатка Eclipse. Типове значення — \"Publican-%1\""
+msgstr "Вміст поля розробника додатка Eclipse. Типове значення — \"Publican-%1\""
 
-#: lib/Publican.pm:198
-msgid ""
-"Edition of this package. Fetched from edition tag in xml_lang/TYPE_Info.xml"
-msgstr ""
-"Версія цього пакунка. Значення буде отримано з теґу edition файла xml_lang/"
-"TYPE_Info.xml"
+#: lib/Publican.pm:201
+msgid "Edition of this package. Fetched from edition tag in xml_lang/TYPE_Info.xml"
+msgstr "Версія цього пакунка. Значення буде отримано з теґу edition файла xml_lang/TYPE_Info.xml"
 
-#: bin/publican:123
+#: bin/publican:146
 msgid "Embed the web site TOC object in the generated HTML"
 msgstr "Вбудувати об’єкт TOC веб-сайта до створеного коду HTML"
 
 #. ($@)
-#: lib/Publican.pm:1056 lib/Publican/Builder.pm:595
-#: lib/Publican/Builder.pm:876
+#: lib/Publican.pm:1059 lib/Publican/Builder.pm:598
+#: lib/Publican/Builder.pm:879
 msgid "FATAL ERROR: %1"
 msgstr "КРИТИЧНА ПОМИЛКА: %1"
 
 #. ($@->domain(),$@->code(),$@->file(),$@->line(),$@->message(),)
-#: lib/Publican.pm:1046 lib/Publican/Builder.pm:585
-#: lib/Publican/Builder.pm:866
+#: lib/Publican.pm:1049 lib/Publican/Builder.pm:588
+#: lib/Publican/Builder.pm:869
 msgid "FATAL ERROR: %1:%2 in %3 on line %4: %5"
 msgstr "КРИТИЧНА ПОМИЛКА: %1:%2 у %3, рядок %4: %5"
 
 #: lib/Publican/XmlClean.pm:480
-msgid ""
-"FATAL ERROR: arch profiling would prune root node. Do NOT set arch in a root "
-"node."
-msgstr ""
-"КРИТИЧНА ПОМИЛКА: профілювання за архітектурою (arch) призведе до пропуску "
-"кореневого вузла (root). НЕ ВСТАНОВЛЮЙТЕ arch у кореневому вузлі."
+msgid "FATAL ERROR: arch profiling would prune root node. Do NOT set arch in a root node."
+msgstr "КРИТИЧНА ПОМИЛКА: профілювання за архітектурою (arch) призведе до пропуску кореневого вузла (root). НЕ ВСТАНОВЛЮЙТЕ arch у кореневому вузлі."
 
 #: lib/Publican/XmlClean.pm:501
-msgid ""
-"FATAL ERROR: condition profiling would prune root node. Do NOT set condition "
-"in a root node."
-msgstr ""
-"КРИТИЧНА ПОМИЛКА: профілювання за умовою (condition) призведе до пропуску "
-"кореневого вузла (root). НЕ ВСТАНОВЛЮЙТЕ condition у кореневому вузлі."
+msgid "FATAL ERROR: condition profiling would prune root node. Do NOT set condition in a root node."
+msgstr "КРИТИЧНА ПОМИЛКА: профілювання за умовою (condition) призведе до пропуску кореневого вузла (root). НЕ ВСТАНОВЛЮЙТЕ condition у кореневому вузлі."
 
 #: lib/Publican/XmlClean.pm:460
-msgid ""
-"FATAL ERROR: language profiling would prune root node. Do NOT set lang in a "
-"root node."
-msgstr ""
-"КРИТИЧНА ПОМИЛКА: профілювання за мовою (lang) призведе до пропуску "
-"кореневого вузла (root). НЕ ВСТАНОВЛЮЙТЕ lang у кореневому вузлі."
+msgid "FATAL ERROR: language profiling would prune root node. Do NOT set lang in a root node."
+msgstr "КРИТИЧНА ПОМИЛКА: профілювання за мовою (lang) призведе до пропуску кореневого вузла (root). НЕ ВСТАНОВЛЮЙТЕ lang у кореневому вузлі."
 
 #. ($rpmbuild,$!)
-#: lib/Publican/Builder.pm:1739
+#: lib/Publican/Builder.pm:1742
 msgid "Failed to execute %1, error number: %2"
 msgstr "Не вдалося виконати %1, номер помилки: %2"
 
 #. ($@)
-#: lib/Publican.pm:1066 lib/Publican.pm:648 lib/Publican/Builder.pm:2327
-#: lib/Publican/Builder.pm:621 lib/Publican/Builder.pm:886
+#: lib/Publican.pm:1069 lib/Publican.pm:651 lib/Publican/Builder.pm:2334
+#: lib/Publican/Builder.pm:624 lib/Publican/Builder.pm:889
 msgid "Failed to load Win32::TieRegistry module. Error: %1"
-msgstr ""
-"Не вдалося завантажити модуль Win32::TieRegistry. Повідомлення про помилку: %"
-"1"
+msgstr "Не вдалося завантажити модуль Win32::TieRegistry. Повідомлення про помилку: %1"
 
-#: lib/Publican.pm:523
+#: lib/Publican.pm:526
 msgid "Failed to load brand defaults.cfg file"
 msgstr "Не вдалося створити файл позначки defaults.cfg"
 
 #. ("$path/publican.cfg")
-#: lib/Publican.pm:554
+#: lib/Publican.pm:557
 msgid "Failed to load brand file: %1"
 msgstr "Не вдалося завантажити файл позначки: %1"
 
-#: lib/Publican.pm:543
+#: lib/Publican.pm:546
 msgid "Failed to load brand overrides.cfg file"
 msgstr "Не вдалося завантажити файл позначки overrides.cfg"
 
 #. ($configfile)
-#: lib/Publican.pm:435
+#: lib/Publican.pm:438
 msgid "Failed to load config file: %1"
 msgstr "Не вдалося завантажити файл налаштувань: %1"
 
 #. ($pot_file,$@)
 #: lib/Publican/Translate.pm:692
 msgid "Failed to open output file %1. Error: %2"
-msgstr ""
-"Не вдалося відкрити файл для виведення даних %1. Повідомлення про помилку: %2"
+msgstr "Не вдалося відкрити файл для виведення даних %1. Повідомлення про помилку: %2"
 
 #. ($book,$?)
-#: lib/Publican/Builder.pm:2196
+#: lib/Publican/Builder.pm:2203
 msgid "Fatal Error: SVN export failed. Book: %1. Error Number: %2"
-msgstr ""
-"Критична помилка: експорт до SVN зазнав невдачі. Книга: %1. Номер помилки: %2"
+msgstr "Критична помилка: експорт до SVN зазнав невдачі. Книга: %1. Номер помилки: %2"
 
 #. ($pot_file,$po_file)
 #: lib/Publican/Translate.pm:272
 msgid "Fatal Error: msgmerge failed to merge updates. POT File: %1. Po File: %2"
-msgstr ""
-"Критична помилка: msgmerge не вдалося вбудувати оновлені дані. Файл POT: %1. "
-"Файл Po: %2"
+msgstr "Критична помилка: msgmerge не вдалося вбудувати оновлені дані. Файл POT: %1. Файл Po: %2"
 
 #. ($book,$?)
-#: lib/Publican/Builder.pm:2259
+#: lib/Publican/Builder.pm:2266
 msgid "Fatal error: Book failed to build! Book: %1. Error Number: %2"
-msgstr ""
-"Критична помилка: не вдалося зібрати книгу! Книга: %1. Номер помилки: %2"
+msgstr "Критична помилка: не вдалося зібрати книгу! Книга: %1. Номер помилки: %2"
 
 #. ($book,$?)
-#: lib/Publican/Builder.pm:2243
+#: lib/Publican/Builder.pm:2250
 msgid "Fatal error: Book failed to run clean_ids! Book: %1. Error Number: %2"
-msgstr ""
-"Критична помилка: не вдалося запустити clean_ids для книги! Книга: %1. Номер "
-"помилки: %2"
+msgstr "Критична помилка: не вдалося запустити clean_ids для книги! Книга: %1. Номер помилки: %2"
 
 #. ($book)
-#: lib/Publican/Builder.pm:2188
+#: lib/Publican/Builder.pm:2195
 msgid "Fetching %1 from scm"
 msgstr "Отримання %1 з scm"
 
@@ -668,34 +602,28 @@ msgid "File Name"
 msgstr "Назва файла"
 
 #. ($book)
-#: lib/Publican/Builder.pm:2275
+#: lib/Publican/Builder.pm:2282
 msgid "Finish building %1"
 msgstr "Завершення збирання %1"
 
 #. ($format)
-#: lib/Publican/Builder.pm:167 lib/Publican/Builder.pm:230
+#: lib/Publican/Builder.pm:167 lib/Publican/Builder.pm:233
 msgid "Finished %1"
 msgstr "Завершено %1"
 
-#: lib/Publican.pm:102
+#: lib/Publican.pm:105
 msgid "For HTML, should the first section be on the same page as its parent?"
-msgstr ""
-"Чи має перший розділ у форматі HTML міститися на одній сторінці з "
-"батьківським розділом?"
+msgstr "Чи має перший розділ у форматі HTML міститися на одній сторінці з батьківським розділом?"
 
-#: lib/Publican.pm:109
-msgid ""
-"For HTML, what is the deepest level of nesting at which a section should be "
-"split onto its own page?"
-msgstr ""
-"До якого рівня у ієрархії розділів слід розбивати на окремі сторінки вміст "
-"документа HTML?"
+#: lib/Publican.pm:112
+msgid "For HTML, what is the deepest level of nesting at which a section should be split onto its own page?"
+msgstr "До якого рівня у ієрархії розділів слід розбивати на окремі сторінки вміст документа HTML?"
 
 #: lib/Publican/Translate.pm:909
 msgid "Fuzzy"
 msgstr "Неточно"
 
-#: lib/Publican.pm:205
+#: lib/Publican.pm:208
 msgid "Generate table of contents down to the given section depth."
 msgstr "Створити зміст до вказаної глибини у ієрархії розділів."
 
@@ -703,7 +631,7 @@ msgstr "Створити зміст до вказаної глибини у іє
 msgid "Hide Menu"
 msgstr "Сховати меню"
 
-#: bin/publican:140
+#: bin/publican:163
 msgid "Import the SRPM in to CVS, the run make tag and make build."
 msgstr "Імпорт SRPM до CVS, запуск make tag і make build."
 
@@ -711,31 +639,31 @@ msgstr "Імпорт SRPM до CVS, запуск make tag і make build."
 msgid "Information"
 msgstr "Відомості"
 
-#: bin/publican:258
+#: bin/publican:282
 msgid "Install a book in to a WebSite."
 msgstr "Встановити книгу на веб-сайт."
 
-#: bin/publican:236
+#: bin/publican:260
 msgid "Install a brand to the supplied location"
 msgstr "Встановити позначку за вказаною адресою"
 
 #. ($lang)
-#: lib/Publican/Builder.pm:276
+#: lib/Publican/Builder.pm:279
 msgid "Invalid build request: language directory %1 does not exist."
 msgstr "Некоректний запит щодо збирання: каталогу з перекладами, %1, не існує."
 
 #. ($lang)
-#: lib/Publican/Builder.pm:303
+#: lib/Publican/Builder.pm:306
 msgid "Invalid build request: no PO files exist for language %1"
 msgstr "Некоректний запит щодо збирання: не знайдено файлів PO для мови %1"
 
 #. ($in_date)
-#: lib/Publican/Builder.pm:2080
+#: lib/Publican/Builder.pm:2087
 msgid "Invalid date: '%1' in revision history."
 msgstr "Некоректна дата, «%1», у журналі версій."
 
 #. ($key,$value,$constraint)
-#: lib/Publican.pm:589
+#: lib/Publican.pm:592
 msgid "Invalid format for %1. Value (%2) does not conform to constraint (%3)"
 msgstr "Некоректний формат для %1. Значення (%2) не відповідає обмеженням (%3)"
 
@@ -745,31 +673,31 @@ msgid "Invalid language supplied: %1"
 msgstr "Вказано некоректну мову: %1"
 
 #. ($opt)
-#: bin/publican:294
+#: bin/publican:318
 msgid "Invalid option '%1' in $actions{$action}->{options}"
 msgstr "Некоректний параметр «%1» у $actions{$action}->{options}"
 
-#: lib/Publican.pm:136
+#: lib/Publican.pm:139
 msgid "Is the content confidential?"
 msgstr "Чи є вміст конфіденційним?"
 
-#: lib/Publican/WebSite.pm:96
+#: lib/Publican/WebSite.pm:95
 msgid "Language"
 msgstr "Мова"
 
-#: lib/Publican.pm:358
+#: lib/Publican.pm:361
 msgid "Language in which XML is authored."
 msgstr "Мова, якою написано цей файл XML."
 
-#: lib/Publican.pm:211
+#: lib/Publican.pm:214
 msgid "Languages to replace with xml_lang regardless of translation status."
 msgstr "Мови, на які слід замінити xml_lang, незалежно від стану перекладу."
 
-#: lib/Publican.pm:216
+#: lib/Publican.pm:219
 msgid "License this package uses."
 msgstr "Умови ліцензування цього пакунка."
 
-#: lib/Publican/WebSite.pm:103
+#: lib/Publican/WebSite.pm:102
 msgid "Map"
 msgstr "Карта"
 
@@ -784,131 +712,115 @@ msgstr "Об’єднання %1 >> %2 -> %3"
 #. ('surname')
 #. ('email')
 #. ('revnumber')
-#: lib/Publican/Builder.pm:2065 lib/Publican/Builder.pm:2074
-#: lib/Publican/Builder.pm:2086 lib/Publican/Builder.pm:2094
-#: lib/Publican/Builder.pm:2102 lib/Publican/Builder.pm:2109
+#: lib/Publican/Builder.pm:2072 lib/Publican/Builder.pm:2081
+#: lib/Publican/Builder.pm:2093 lib/Publican/Builder.pm:2101
+#: lib/Publican/Builder.pm:2109 lib/Publican/Builder.pm:2116
 msgid "Missing mandatory field '%1' in revision history."
 msgstr "Пропущено обов’язкове поле «%1» у журналі версій."
 
 #. ('member')
-#: lib/Publican/Builder.pm:2133
+#: lib/Publican/Builder.pm:2140
 msgid "Missing mandatory field '%1' in revision."
 msgstr "Пропущено обов’язкове поле «%1» у полі версії."
 
-#: lib/Publican.pm:158
+#: lib/Publican.pm:161
 msgid "Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml"
-msgstr ""
-"Назва цього пакунка. Значення буде отримано з теґу title файла xml_lang/"
-"TYPE_Info.xml"
+msgstr "Назва цього пакунка. Значення буде отримано з теґу title файла xml_lang/TYPE_Info.xml"
 
 #: lib/Publican/XmlClean.pm:306
 msgid "Nested tables break pdf generation -- reconsider your data structure."
-msgstr ""
-"Вкладені таблиці неможливо обробити під час створення файла pdf. Змініть "
-"структуру даних."
+msgstr "Вкладені таблиці неможливо обробити під час створення файла pdf. Змініть структуру даних."
 
-#: bin/publican:375
+#: bin/publican:399
 msgid "Options:"
 msgstr "Параметри:"
 
-#: bin/publican:144
+#: bin/publican:167
 msgid "Override default database file."
 msgstr "Перевизначити назву типового файла бази даних."
 
-#: bin/publican:114
+#: bin/publican:137
 msgid "Override path to Common_Config directory"
 msgstr "Перевизначити шлях до каталогу Common_Config"
 
-#: bin/publican:116
+#: bin/publican:139
 msgid "Override path to Common_Content directory"
 msgstr "Перевизначити шлях до каталогу Common_Content"
 
-#: lib/Publican.pm:344
+#: lib/Publican.pm:347
 msgid "Override the book name, bottom level, menu label on a Publican website."
-msgstr ""
-"Перевизначити назву книги, нижній рівень, мітку меню на веб-сайті Publican."
+msgstr "Перевизначити назву книги, нижній рівень, мітку меню на веб-сайті Publican."
 
-#: bin/publican:145
+#: bin/publican:168
 msgid "Override the default TOC path."
 msgstr "Перевизначити типовий шлях до даних щодо змісту."
 
-#: lib/Publican.pm:338
-msgid ""
-"Override the default search form for a Publican website. By default this "
-"will use Google search and do a site search if web_host is set."
-msgstr ""
-"Перевизначити типову пошукову форму для веб-сайта Publican. Типово, буде "
-"використано пошук Google та пошук за сайтом, якщо встановлено значення "
-"web_host."
+#: lib/Publican.pm:341
+msgid "Override the default search form for a Publican website. By default this will use Google search and do a site search if web_host is set."
+msgstr "Перевизначити типову пошукову форму для веб-сайта Publican. Типово, буде використано пошук Google та пошук за сайтом, якщо встановлено значення web_host."
 
-#: bin/publican:146
+#: bin/publican:169
 msgid "Override the default template path."
 msgstr "Перевизначити типовий шлях до шаблонів."
 
-#: lib/Publican.pm:349
+#: lib/Publican.pm:352
 msgid "Override the product, top level, menu label on a Publican website."
-msgstr ""
-"Перевизначити назву продукту, верхній рівень, мітку меню на веб-сайті "
-"Publican."
+msgstr "Перевизначити назву продукту, верхній рівень, мітку меню на веб-сайті Publican."
 
-#: lib/Publican.pm:354
-msgid ""
-"Override the version, middle level, menu label on a Publican website. To "
-"hide this menu item set this to: UNUSED"
-msgstr ""
-"Перевизначити номер версії, середній рівень, мітку меню на веб-сайті "
-"Publican. Щоб сховати цей пункт меню, встановіть значення UNUSED"
+#: lib/Publican.pm:357
+msgid "Override the version, middle level, menu label on a Publican website. To hide this menu item set this to: UNUSED"
+msgstr "Перевизначити номер версії, середній рівень, мітку меню на веб-сайті Publican. Щоб сховати цей пункт меню, встановіть значення UNUSED"
 
 #. ($po_file)
-#: lib/Publican/Builder.pm:330
+#: lib/Publican/Builder.pm:333
 msgid "PO file '%1' not found! Using base XML!"
 msgstr "Не знайдено файла PO «%1»! Використання базового XML!"
 
-#: bin/publican:221
+#: bin/publican:245
 msgid "Package a language for shipping"
 msgstr "Запакувати мову для поширення"
 
-#: lib/Publican/WebSite.pm:113
+#: lib/Publican/WebSite.pm:112
 msgid "Packages"
 msgstr "Пакунки"
 
-#: lib/Publican.pm:334
+#: lib/Publican.pm:337
 msgid "Packages to obsolete in web RPM."
 msgstr "Пакунки, які застаріють у web-RPM."
 
-#: lib/Publican.pm:766
+#: lib/Publican.pm:769
 msgid "Parameters used in the config file:"
 msgstr "Параметри, використані у файлі налаштувань:"
 
-#: lib/Publican.pm:115
+#: lib/Publican.pm:118
 msgid "Path to jar files for FOP."
 msgstr "Шлях до файлів jar для FOP."
 
-#: lib/Publican.pm:126
+#: lib/Publican.pm:129
 msgid "Path to publican common content."
 msgstr "Шлях до загальних даних Publican."
 
-#: lib/Publican.pm:121
+#: lib/Publican.pm:124
 msgid "Path to publican content."
 msgstr "Шлях до даних Publican."
 
-#: bin/publican:202
+#: bin/publican:226
 msgid "Print a list of QA'd DocBook tags"
 msgstr "Вивести список перевірених теґів DocBook"
 
-#: bin/publican:198
+#: bin/publican:222
 msgid "Print a list of banned DocBook tags"
 msgstr "Вивести список заблокованих теґів DocBook"
 
-#: bin/publican:206
+#: bin/publican:230
 msgid "Print a list of unused XML files"
 msgstr "Вивести список невикористаних файлів XML"
 
-#: bin/publican:194
+#: bin/publican:218
 msgid "Print a tree of the xi:includes"
 msgstr "Вивести ієрархію xi:includes"
 
-#: lib/Publican.pm:152
+#: lib/Publican.pm:155
 msgid "Print out extra messages?"
 msgstr "Виводити додаткові повідомлення?"
 
@@ -917,8 +829,8 @@ msgstr "Виводити додаткові повідомлення?"
 msgid "Processing file %1"
 msgstr "Обробка файла %1"
 
-#. ($pot_file,$po_file)
 #. ($file,$out_file)
+#. ($pot_file,$po_file)
 #: lib/Publican/Translate.pm:252 lib/Publican/XmlClean.pm:1126
 msgid "Processing file %1 -> %2"
 msgstr "Обробка файла %1 -> %2"
@@ -927,157 +839,128 @@ msgstr "Обробка файла %1 -> %2"
 msgid "Product List"
 msgstr "Список продуктів"
 
-#: lib/Publican.pm:236
-msgid ""
-"Product this package covers. Fetched from productname tag in xml_lang/"
-"TYPE_Info.xml"
-msgstr ""
-"Продукт, який пов’язано з цим пакунком. Визначається за теґом productname у "
-"xml_lang/TYPE_Info.xml"
+#: lib/Publican.pm:239
+msgid "Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml"
+msgstr "Продукт, який пов’язано з цим пакунком. Визначається за теґом productname у xml_lang/TYPE_Info.xml"
 
-#: lib/Publican/WebSite.pm:110
+#: lib/Publican/WebSite.pm:109
 msgid "Products"
 msgstr "Продукти"
 
 #. ($real_value,$po_file)
-#: lib/Publican/Builder.pm:1834
+#: lib/Publican/Builder.pm:1839
 msgid "Project-Id-Version '%1' in %2 is not a valid release value."
 msgstr "Project-Id-Version «%1» у %2 не є коректним номером випуску."
 
-#: bin/publican:111
+#: bin/publican:134
 msgid "Push SRPM to brew"
 msgstr "Перенести SRPM до brew"
 
 #. ($attr)
 #: lib/Publican/XmlClean.pm:789
-msgid ""
-"Questionable attributes are not permitted in STRICT mode. Remove all '%1' "
-"attributes before attempting to build."
-msgstr ""
-"Сумнівні атрибути не можна використовувати у строгому (STRICT) режимі. Перед "
-"збиранням вилучіть всі атрибути «%1»."
+msgid "Questionable attributes are not permitted in STRICT mode. Remove all '%1' attributes before attempting to build."
+msgstr "Сумнівні атрибути не можна використовувати у строгому (STRICT) режимі. Перед збиранням вилучіть всі атрибути «%1»."
 
 #. ($tag)
 #: lib/Publican/XmlClean.pm:755
-msgid ""
-"Questionable tags are not permitted in STRICT mode. Remove all '%1' tags "
-"before attempting to build."
-msgstr ""
-"Сумнівні теґи не можна використовувати у строгому (STRICT) режимі. Перед "
-"збиранням вилучіть всі теґи «%1»."
+msgid "Questionable tags are not permitted in STRICT mode. Remove all '%1' tags before attempting to build."
+msgstr "Сумнівні теґи не можна використовувати у строгому (STRICT) режимі. Перед збиранням вилучіть всі теґи «%1»."
 
-#: lib/Publican.pm:249
-msgid ""
-"Release of this package. For xml_lang fetched from title tag in xml_lang/"
-"TYPE_Info.xml. For translations it is fetched from Project-Id-Version in "
-"lang/TYPE_Info.po"
-msgstr ""
-"Випуск цього пакунка. Для xml_lang визначається на основі теґу title у "
-"xml_lang/TYPE_Info.xml. Для перекладів визначається на основі Project-Id-"
-"Version у lang/TYPE_Info.po"
+#: lib/Publican.pm:252
+msgid "Release of this package. For xml_lang fetched from title tag in xml_lang/TYPE_Info.xml. For translations it is fetched from Project-Id-Version in lang/TYPE_Info.po"
+msgstr "Випуск цього пакунка. Для xml_lang визначається на основі теґу title у xml_lang/TYPE_Info.xml. Для перекладів визначається на основі Project-Id-Version у lang/TYPE_Info.po"
 
 #. ($lang)
 #: lib/Publican/Translate.pm:987
 msgid "Remaining hours for %1"
 msgstr "Залишилося годин для %1"
 
-#: bin/publican:262
+#: bin/publican:286
 msgid "Remove a book from a WebSite."
 msgstr "Вилучити книгу з веб-сайта."
 
-#: bin/publican:174
+#: bin/publican:198
 msgid "Remove all temporary files and directories"
 msgstr "Вилучити всі тимчасові файли і каталоги"
 
-#: bin/publican:179
+#: bin/publican:203
 msgid "Remove local copies of remote set books"
 msgstr "Вилучити локальні копії віддаленого набору книг"
 
-#: bin/publican:266
+#: bin/publican:290
 msgid "Report on the contents of a WebSite"
 msgstr "Вивести звіт щодо вмісту веб-сайта"
 
-#: lib/Publican.pm:268
+#: lib/Publican.pm:271
 msgid "Report unknown tags when processing XML."
 msgstr "Вивести звіт щодо невідомих теґів під час обробки XML."
 
-#: lib/Publican.pm:254
+#: lib/Publican.pm:257
 msgid "Repository from which to fetch remote set books."
 msgstr "Сховище, з якого слід звантажувати віддалені набори книг."
 
 #. ($po_file)
-#: lib/Publican/Builder.pm:1843
+#: lib/Publican/Builder.pm:1848
 msgid "Required PO file missing. Could not locate %1."
 msgstr "Не виявлено потрібного файла PO. Не вдалося виявити %1."
 
-#: bin/publican:184
+#: bin/publican:208
 msgid "Run clean ids for source XML"
 msgstr "Виконати вилучення ідентифікаторів з початкового XML"
 
 #. ($0)
-#: bin/publican:330
+#: bin/publican:354
 msgid "Run: '%1 <action> --help' for details on action usage"
-msgstr ""
-"Відайте команду «%1 <дія> --help», що дізнатися більше про використання дії"
+msgstr "Відайте команду «%1 <дія> --help», що дізнатися більше про використання дії"
 
-#: bin/publican:583
-msgid ""
-"Running clean process to ensure stale content is not bundled in packages."
+#: bin/publican:607
+msgid "Running clean process to ensure stale content is not bundled in packages."
 msgstr "Запуск процесу очищення з метою вилучення непотрібних даних з пакунків."
 
-#: lib/Publican/Builder.pm:2237
+#: lib/Publican/Builder.pm:2244
 msgid "Running clean_ids to prevent inter-book ID clashes."
-msgstr ""
-"Запуск clean_ids для запобігання повторенню ідентифікаторів у різних книгах."
+msgstr "Запуск clean_ids для запобігання повторенню ідентифікаторів у різних книгах."
 
 #: lib/Publican/WebSite.pm:795
 msgid "Search"
 msgstr "Пошук"
 
-#: lib/Publican.pm:228
+#: lib/Publican.pm:231
 msgid "Semi colon seperated list of menu categories for thedesktop package."
 msgstr "Список відокремлених двокрапкою категорій меню стільничного пакунка."
 
-#: bin/publican:131
+#: bin/publican:154
 msgid "Set up built content for publishing"
 msgstr "Налаштувати список збирання для публікації"
 
 #. ($lang)
-#: lib/Publican/Builder.pm:272
+#: lib/Publican/Builder.pm:275
 msgid "Setting up %1"
 msgstr "Налаштування %1"
 
-#: lib/Publican/Builder.pm:1787
-msgid ""
-"Short-sighted packages can only be used to make desktop rpms. Add --desktop "
-"to your argument list."
-msgstr ""
-"Короткотерміновими пакунками можна скористатися лише для створення desktop-"
-"rpm. Додайте --desktop до вашого списку параметрів."
+#: lib/Publican/Builder.pm:1790
+msgid "Short-sighted packages can only be used to make desktop rpms. Add --desktop to your argument list."
+msgstr "Короткотерміновими пакунками можна скористатися лише для створення desktop-rpm. Додайте --desktop до вашого списку параметрів."
 
 #: lib/Publican/WebSite.pm:124
 msgid "Show Menu"
 msgstr "Показати меню"
 
 #. ($dir)
-#: lib/Publican.pm:835
+#: lib/Publican.pm:838
 msgid "Skipping unknown language: %1"
 msgstr "Пропущено невідому мову: %1"
 
-#: lib/Publican.pm:176
+#: lib/Publican.pm:179
 msgid "Space seperated list of packages the desktop package obsoletes."
-msgstr ""
-"Список відокремлених пробілами пакунків, які застарівають після встановлення "
-"стільничного пакунка."
+msgstr "Список відокремлених пробілами пакунків, які застарівають після встановлення стільничного пакунка."
 
-#: lib/Publican.pm:180
+#: lib/Publican.pm:183
 msgid "Space seperated list of packages the desktop package requires."
-msgstr ""
-"Список відокремлених пробілами пакунків, які потрібні для роботи стільничного "
-"пакунка."
+msgstr "Список відокремлених пробілами пакунків, які потрібні для роботи стільничного пакунка."
 
 #. ($book)
-#: lib/Publican/Builder.pm:2233
+#: lib/Publican/Builder.pm:2240
 msgid "Start building %1"
 msgstr "Розпочато збирання %1"
 
@@ -1086,134 +969,100 @@ msgstr "Розпочато збирання %1"
 msgid "Starting %1"
 msgstr "Запуск %1"
 
-#: lib/Publican/WebSite.pm:104
+#: lib/Publican/WebSite.pm:103
 msgid "Statistics"
 msgstr "Статистика"
 
-#: lib/Publican/WebSite.pm:105
+#: lib/Publican/WebSite.pm:104
 msgid "Tech"
 msgstr "Технологія"
 
-#: lib/Publican.pm:150
+#: lib/Publican.pm:153
 msgid "The Branch of the package in CVS."
 msgstr "Гілка пакунка у CVS."
 
-#: lib/Publican/WebSite.pm:98
-msgid ""
-"The Navigation Menu below will automatically collapse when pages are loaded. "
-"Enable cookies to fix the Navigation Menu functionality."
-msgstr ""
-"Після завантаження сторінок навігаційне меню буде автоматично згортатися. "
-"Увімкніть використання кук у переглядачі, щоб виправити роботу навігаційного "
-"меню."
+#: lib/Publican/WebSite.pm:97
+msgid "The Navigation Menu below will automatically collapse when pages are loaded. Enable cookies to fix the Navigation Menu functionality."
+msgstr "Після завантаження сторінок навігаційне меню буде автоматично згортатися. Увімкніть використання кук у переглядачі, щоб виправити роботу навігаційного меню."
 
-#: lib/Publican.pm:231
+#: lib/Publican.pm:234
 msgid "The OS for which to build packages."
 msgstr "Операційна система, для якої слід зібрати пакунки."
 
-#: bin/publican:128
+#: bin/publican:151
 msgid "The brand to use"
 msgstr "Позначка, яку слід використовувати"
 
-#: lib/Publican.pm:85
+#: lib/Publican.pm:88
 msgid "The brand to use when building this package."
 msgstr "Позначка, яку слід використовувати для збирання цього пакунка."
 
-#: lib/Publican.pm:91
+#: lib/Publican.pm:94
 msgid "The brew dist to use for building the standalone desktop rpm."
-msgstr ""
-"Назва дистрибутива, яку слід використати для збирання автономних desktop-rpm."
+msgstr "Назва дистрибутива, яку слід використати для збирання автономних desktop-rpm."
 
-#: lib/Publican.pm:308
+#: lib/Publican.pm:311
 msgid "The brew dist to use for building the web rpm."
 msgstr "Назва дистрибутива, яку слід використати для збирання web-rpm."
 
-#: bin/publican:126
+#: bin/publican:149
 msgid "The edition of the book, article, or set"
 msgstr "Редакція книги, статті або набору книг"
 
-#: bin/publican:129
+#: bin/publican:152
 msgid "The language the XML will be written in"
 msgstr "Мова, якою буде записано XML"
 
-#: lib/Publican.pm:222
+#: lib/Publican.pm:225
 msgid "The maximum pixel width an image can be before it will be scaled."
 msgstr "Максимальна ширина у пікселях для зображення перед зміною масштабу."
 
-#: bin/publican:124
+#: bin/publican:147
 msgid "The name of the book, article, set, or brand"
 msgstr "Назва книги, статті, набору або позначки"
 
-#: lib/Publican.pm:149
+#: lib/Publican.pm:152
 msgid "The name of the package in CVS."
 msgstr "Назва пакунка у CVS."
 
-#: bin/publican:127
+#: bin/publican:150
 msgid "The name of the product"
 msgstr "Назва продукту"
 
-#: lib/Publican.pm:141
+#: lib/Publican.pm:144
 msgid "The text used to indicate content is confidential."
 msgstr "Текст, який буде використано для позначення конфіденційності вмісту."
 
-#: bin/publican:130
+#: bin/publican:153
 msgid "The type (book, article, or set)"
 msgstr "Тип (книга, стаття чи набір книг)"
 
-#: bin/publican:125
+#: bin/publican:148
 msgid "The version of the product"
 msgstr "Версія продукту"
 
-#: bin/publican:137
-msgid ""
-"This flag tells publican the data being processed is a distributed set. "
-"Note: do not use distributed_set on the command line. Publican uses this "
-"flag when calling itself to process distributed sets. This is the only safe "
-"way this flag can be used."
-msgstr ""
-"За допомогою цього прапорця можна наказати publican обробити дані як "
-"розподілений набір. Зауваження: не використовуйте параметр distributed_set у "
-"командному рядку. Publican використовує цей параметр для внутрішнього вжитку "
-"під час обробки розподілених наборів. Встановлення прапорця є єдиним "
-"безпечним способом виконання відповідного завдання."
+#: bin/publican:160
+msgid "This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used."
+msgstr "За допомогою цього прапорця можна наказати publican обробити дані як розподілений набір. Зауваження: не використовуйте параметр distributed_set у командному рядку. Publican використовує цей параметр для внутрішнього вжитку під час обробки розподілених наборів. Встановлення прапорця є єдиним безпечним способом виконання відповідного завдання."
 
-#: lib/Publican.pm:317
-msgid ""
-"This is a home page for a Publican-generated website, not a standard book."
-msgstr ""
-"Це домашня сторінка створеного за допомогою Publican веб-сайта, а не "
-"стандартна книга."
+#: lib/Publican.pm:320
+msgid "This is a home page for a Publican-generated website, not a standard book."
+msgstr "Це домашня сторінка створеного за допомогою Publican веб-сайта, а не стандартна книга."
 
-#: lib/Publican.pm:329
-msgid ""
-"This is a host name for a Publican-generated website, used for searches and "
-"the Sitemap. Be sure to include the full path to your document tree. E.g. if "
-"your documents are in the docs directory: http://www.example.com/docs"
-msgstr ""
-"Це назва вузла веб-сайта, створеного за допомогою Publican, яку буде "
-"використано для пошуку створення карти сайта. Не забудьте включити шлях "
-"ієрархії документа повністю. Наприклад, якщо ваші документи зберігаються у "
-"каталозі docs, слід вказати: http://www.example.com/docs"
+#: lib/Publican.pm:332
+msgid "This is a host name for a Publican-generated website, used for searches and the Sitemap. Be sure to include the full path to your document tree. E.g. if your documents are in the docs directory: http://www.example.com/docs"
+msgstr "Це назва вузла веб-сайта, створеного за допомогою Publican, яку буде використано для пошуку створення карти сайта. Не забудьте включити шлях ієрархії документа повністю. Наприклад, якщо ваші документи зберігаються у каталозі docs, слід вказати: http://www.example.com/docs"
 
-#: lib/Publican.pm:324
-msgid ""
-"This is a special page for a Publican-generated website, not a standard "
-"book. Valid types are home, product, and version."
-msgstr ""
-"Це особлива сторінка створеного за допомогою Publican веб-сайта, а не "
-"стандартна книга. Коректними типами є home, product і version."
+#: lib/Publican.pm:327
+msgid "This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version."
+msgstr "Це особлива сторінка створеного за допомогою Publican веб-сайта, а не стандартна книга. Коректними типами є home, product і version."
 
-#: lib/Publican/WebSite.pm:107
-msgid ""
-"This is an iframe, to view it upgrade your browser or enable iframe display."
-msgstr ""
-"Використано iframe. Щоб переглянути вміст цього блоку, вам слід скористатися "
-"новішою версією переглядача Інтернету, або увімкнути показ iframe."
+#: lib/Publican/WebSite.pm:106
+msgid "This is an iframe, to view it upgrade your browser or enable iframe display."
+msgstr "Використано iframe. Щоб переглянути вміст цього блоку, вам слід скористатися новішою версією переглядача Інтернету, або увімкнути показ iframe."
 
 #: lib/Publican/XmlClean.pm:321
-msgid ""
-"This tag breaks section 508 accessibility standards and makes translation "
-"extremely difficult."
+msgid "This tag breaks section 508 accessibility standards and makes translation extremely difficult."
 msgstr "Цей теґ порушує умови розділу 508 стандартів і дуже ускладнює переклад."
 
 #: lib/Publican/XmlClean.pm:330
@@ -1228,26 +1077,18 @@ msgstr "Цей теґ є непотрібним. Використовуйте т
 #: lib/Publican/XmlClean.pm:275 lib/Publican/XmlClean.pm:280
 #: lib/Publican/XmlClean.pm:285 lib/Publican/XmlClean.pm:296
 #: lib/Publican/XmlClean.pm:301
-msgid ""
-"This tag set imposes English-language order on glossaries, making them "
-"useless when translated."
-msgstr ""
-"Цей набір теґів передбачає впорядкування за англійськими термінами у "
-"глосаріях, що робить глосарії непридатними для перекладу."
+msgid "This tag set imposes English-language order on glossaries, making them useless when translated."
+msgstr "Цей набір теґів передбачає впорядкування за англійськими термінами у глосаріях, що робить глосарії непридатними для перекладу."
 
-#: lib/Publican/WebSite.pm:118
-msgid ""
-"This web site requires JavaScript and cookies to be enabled to function "
-"correctly."
-msgstr ""
-"Для належної роботи цього сайта слід увімкнути використання JavaScript та "
-"кук."
+#: lib/Publican/WebSite.pm:117
+msgid "This web site requires JavaScript and cookies to be enabled to function correctly."
+msgstr "Для належної роботи цього сайта слід увімкнути використання JavaScript та кук."
 
-#: lib/Publican/WebSite.pm:114
+#: lib/Publican/WebSite.pm:113
 msgid "Total Languages"
 msgstr "Загалом мов"
 
-#: lib/Publican/WebSite.pm:115
+#: lib/Publican/WebSite.pm:114
 msgid "Total Packages"
 msgstr "Загалом пакунків"
 
@@ -1256,12 +1097,12 @@ msgstr "Загалом пакунків"
 msgid "Total for %1"
 msgstr "Загалом для %1"
 
-#: bin/publican:163
+#: bin/publican:186
 msgid "Transform XML to other formats (pdf, html, html-single, etc)"
 msgstr "Перетворити дані XML у інший формат (pdf, html, html-single тощо)"
 
 #. ($!,$@)
-#: lib/Publican/Builder.pm:924
+#: lib/Publican/Builder.pm:927
 msgid "Transformation error '%1' : %2"
 msgstr "Помилка перетворення «%1»: %2"
 
@@ -1269,120 +1110,96 @@ msgstr "Помилка перетворення «%1»: %2"
 msgid "Translated"
 msgstr "Перекладено"
 
-#: lib/Publican.pm:296
-msgid ""
-"Type of content this package contains. Supported: set, book, article, brand"
-msgstr ""
-"Тип даних, які містяться у цьому пакунку. Підтримуються такі типи: набір "
-"(set), книга (book), стаття (article), позначка (brand)"
+#: lib/Publican.pm:299
+msgid "Type of content this package contains. Supported: set, book, article, brand"
+msgstr "Тип даних, які містяться у цьому пакунку. Підтримуються такі типи: набір (set), книга (book), стаття (article), позначка (brand)"
 
-#: lib/Publican.pm:258
-msgid ""
-"Type of repository in which books that form part of a remote set are stored. "
-"Supported types: SVN."
-msgstr ""
-"Тип сховища, у якому зберігаються книги, які формують частину віддаленого "
-"набору. Підтримувані типи: SVN."
+#: lib/Publican.pm:261
+msgid "Type of repository in which books that form part of a remote set are stored. Supported types: SVN."
+msgstr "Тип сховища, у якому зберігаються книги, які формують частину віддаленого набору. Підтримувані типи: SVN."
 
-#: lib/Publican.pm:164
-msgid ""
-"URL for the documentation team for this package. Used for top right URL on "
-"HTML."
-msgstr ""
-"Адреса URL команди з документування цього пакунка. Буде використано як "
-"верхню праву адресу у HTML."
+#: lib/Publican.pm:167
+msgid "URL for the documentation team for this package. Used for top right URL on HTML."
+msgstr "Адреса URL команди з документування цього пакунка. Буде використано як верхню праву адресу у HTML."
 
-#: lib/Publican.pm:243
+#: lib/Publican.pm:246
 msgid "URL for the product. Used in top left URL in HTML."
 msgstr "Адреса сторінки продукту. Буде викорисано як верхню ліву адресу у HTML."
 
-#: lib/Publican.pm:274
+#: lib/Publican.pm:277
 msgid "URL to find tar of source files. Used in RPM Spec files."
-msgstr ""
-"Адреса, за якою зберігаються архіви файлів початкових кодів. Буде "
-"використано у файлах spec RPM."
+msgstr "Адреса, за якою зберігаються архіви файлів початкових кодів. Буде використано у файлах spec RPM."
 
 #: lib/Publican/XmlClean.pm:311 lib/Publican/XmlClean.pm:316
-msgid ""
-"Undesirable tag -- use xref for internal links or ulink for external links."
-msgstr ""
-"Небажаний теґ. Використовуйте xref для внутрішніх посилань або ulink для "
-"зовнішніх посилань."
+msgid "Undesirable tag -- use xref for internal links or ulink for external links."
+msgstr "Небажаний теґ. Використовуйте xref для внутрішніх посилань або ulink для зовнішніх посилань."
 
 #. ($format)
-#: lib/Publican/Builder.pm:829
+#: lib/Publican/Builder.pm:832
 msgid "Unknown format: %1"
 msgstr "Невідомий формат: %1"
 
 #. ($scm)
-#: lib/Publican/Builder.pm:2170
+#: lib/Publican/Builder.pm:2177
 msgid "Unknown set SCM: %1"
 msgstr "Невідомий набір SCM: %1"
 
 #. ($width)
-#: lib/Publican/Builder.pm:1146
+#: lib/Publican/Builder.pm:1149
 msgid "Unknown width format will be ignored: %1"
 msgstr "Невідомий формат ширини, який буде проігноровано: %1"
 
-#: lib/Publican/Translate.pm:908 lib/Publican/WebSite.pm:116
+#: lib/Publican/Translate.pm:908 lib/Publican/WebSite.pm:115
 msgid "Untranslated"
 msgstr "Не перекладено"
 
-#: bin/publican:254
+#: bin/publican:278
 msgid "Update an existing sites templates."
 msgstr "Оновити вже створені шаблони сайтів."
 
-#: bin/publican:232
+#: bin/publican:256
 msgid "Update the PO files"
 msgstr "Оновити файли PO"
 
-#: bin/publican:228
+#: bin/publican:252
 msgid "Update the POT files"
 msgstr "Оновити файли POT"
 
-#: bin/publican:109
+#: bin/publican:132
 msgid "Use a nonstandard config file"
 msgstr "Використовувати нестандартний файл налаштувань"
 
-#: bin/publican:112
+#: bin/publican:135
 msgid "Use scratch instead of tag build"
 msgstr "Зібрати з нуля замість послідовного збирання"
 
-#: lib/Publican.pm:278
-msgid ""
-"Use strict mode, which prevents the use of tags considered unusable for "
-"professional output and translation."
-msgstr ""
-"Використовувати строгий режим, який запобігатиме використанню теґів, "
-"непридатних для професійних документів та перекладу."
+#: lib/Publican.pm:281
+msgid "Use strict mode, which prevents the use of tags considered unusable for professional output and translation."
+msgstr "Використовувати строгий режим, який запобігатиме використанню теґів, непридатних для професійних документів та перекладу."
 
 #. ($xsl_file)
-#: lib/Publican/Builder.pm:1657 lib/Publican/Builder.pm:2014
-#: lib/Publican/Builder.pm:836
+#: lib/Publican/Builder.pm:1660 lib/Publican/Builder.pm:2021
+#: lib/Publican/Builder.pm:839
 msgid "Using XML::LibXSLT on %1"
 msgstr "Використання XML::LibXSLT для %1"
 
-#: bin/publican:323
+#: bin/publican:347
 msgid "Valid actions are:"
 msgstr "Можливі дії:"
 
-#: lib/Publican/Builder.pm:640
+#: lib/Publican/Builder.pm:643
 msgid "Validation failed: "
 msgstr "Спроба перевірки зазнала невдачі: "
 
-#: lib/Publican.pm:171
+#: lib/Publican.pm:174
 msgid "Version of the DocBook DTD on which this project is based."
 msgstr "Версія DocBook DTD, на якій засновано цей проект."
 
-#: lib/Publican.pm:303
-msgid ""
-"Version of this package. Fetched from productnumber tag in xml_lang/"
-"TYPE_Info.xml"
-msgstr ""
-"Версія цього пакунка. Визначається на основі теґу productnumber з xml_lang/"
-"TYPE_Info.xml"
+#: lib/Publican.pm:306
+msgid "Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml"
+msgstr "Версія цього пакунка. Визначається на основі теґу productnumber з xml_lang/TYPE_Info.xml"
 
-#: lib/Publican/WebSite.pm:112
+#: lib/Publican/WebSite.pm:111
 msgid "Versions"
 msgstr "Версії"
 
@@ -1396,12 +1213,8 @@ msgid "WARNING: Image missing: %1"
 msgstr "ПОПЕРЕДЖЕННЯ: не знайдено зображення: %1"
 
 #: lib/Publican/Translate.pm:657
-msgid ""
-"WARNING: Message missing from PO file, consider updating your POT and PO "
-"files."
-msgstr ""
-"ПОПЕРЕДЖЕННЯ: у файлі PO немає повідомлення, варто оновити ваші файли POT і "
-"PO ."
+msgid "WARNING: Message missing from PO file, consider updating your POT and PO files."
+msgstr "ПОПЕРЕДЖЕННЯ: у файлі PO немає повідомлення, варто оновити ваші файли POT і PO ."
 
 #. ($pot_file)
 #: lib/Publican/Translate.pm:285
@@ -1418,92 +1231,79 @@ msgid "WARNING: Un-translated message in PO file."
 msgstr "ПОПЕРЕДЖЕННЯ: неперекладене повідомлення у файлі PO."
 
 #. ($revnumber)
-#: lib/Publican/Builder.pm:2119
+#: lib/Publican/Builder.pm:2126
 msgid ""
-"WARNING: revnumber '%1' does not match required format '(\\d.)*-(\\d.)*'. e."
-"g. '%1-0'.\n"
-"WARNING: Appending '-0' to revnumber for change log use to avoid creating "
-"invalid change log entries.\n"
-"WARNING: This automated handling is deprecated and will be removed from "
-"Publican in a future version, you should correct your revnumber's before "
-"this or your future builds will fail.\n"
+"WARNING: revnumber '%1' does not match required format '(\\d.)*-(\\d.)*'. e.g. '%1-0'.\n"
+"WARNING: Appending '-0' to revnumber for change log use to avoid creating invalid change log entries.\n"
+"WARNING: This automated handling is deprecated and will be removed from Publican in a future version, you should correct your revnumber's before this or your future builds will fail.\n"
 "\n"
 msgstr ""
-"ПОПЕРЕДЖЕННЯ: номер версії «%1» не відповідає обов’язковому формату «(\\d.)*-"
-"(\\d.)*». Приклад: «%1-0».\n"
-"ПОПЕРЕДЖЕННЯ: до номера версій буде додано «-0» для журналу змін з метою "
-"уникнення некоректних записів журналу змін.\n"
-"ПОПЕРЕДЖЕННЯ: така автоматична обробка вважається застарілою, її буде "
-"вилучено з Publican у наступних версіях, вам слід виправити номер версії до "
-"того, як ви не зможете зібрати книгу у майбутніх версіях.\n"
+"ПОПЕРЕДЖЕННЯ: номер версії «%1» не відповідає обов’язковому формату «(\\d.)*-(\\d.)*». Приклад: «%1-0».\n"
+"ПОПЕРЕДЖЕННЯ: до номера версій буде додано «-0» для журналу змін з метою уникнення некоректних записів журналу змін.\n"
+"ПОПЕРЕДЖЕННЯ: така автоматична обробка вважається застарілою, її буде вилучено з Publican у наступних версіях, вам слід виправити номер версії до того, як ви не зможете зібрати книгу у майбутніх версіях.\n"
 "\n"
 
 #: lib/Publican/XmlClean.pm:1036
-msgid ""
-"WARNING: table validation failed. Could not determine table for tgroup, "
-"column numbers cannot be validated"
-msgstr ""
-"ПОПЕРЕДЖЕННЯ: помилка під час перевірки коректності таблиці. Не вдалося "
-"визначити таблицю для tgroup, кількість стовпчиків неможливо перевірити"
+msgid "WARNING: table validation failed. Could not determine table for tgroup, column numbers cannot be validated"
+msgstr "ПОПЕРЕДЖЕННЯ: помилка під час перевірки коректності таблиці. Не вдалося визначити таблицю для tgroup, кількість стовпчиків неможливо перевірити"
 
-#: bin/publican:113
+#: bin/publican:136
 msgid "Wait for brew to finish building"
 msgstr "Зачекайте на завершення збирання"
 
-#: bin/publican:148
+#: bin/publican:171
 msgid "WebSite configuration file to use or create."
 msgstr "Файл налаштувань веб-сата який слід використати або створити."
 
-#: lib/Publican/WebSite.pm:94
+#: lib/Publican/WebSite.pm:93
 msgid "Welcome"
 msgstr "Вітаємо"
 
 #. ("$tmp_dir/$lang/$epub_name")
-#: lib/Publican/Builder.pm:996
+#: lib/Publican/Builder.pm:999
 msgid "Wrote epub archive: %1"
 msgstr "Записано архів epub: %1"
 
-#: lib/Publican.pm:961
+#: lib/Publican.pm:964
 msgid "abstract can not be calculated before building."
 msgstr "неможливо визначити резюме до побудови документа."
 
-#: bin/publican:836
+#: bin/publican:861
 msgid "can't find 'publish' directory"
 msgstr "не вдалося знайти каталог «publish»"
 
 #. ($lang)
-#: bin/publican:853
+#: bin/publican:878
 msgid "can't find 'publish/%1' directory"
 msgstr "не вдалося знайти каталогу «publish/%1»"
 
-#: lib/Publican/WebSite.pm:95
+#: lib/Publican/WebSite.pm:94
 msgid "collapse all"
 msgstr "згорнути всі"
 
-#: lib/Publican.pm:678
+#: lib/Publican.pm:681
 msgid "config loaded"
 msgstr "налаштування завантажено"
 
-#: lib/Publican.pm:410
+#: lib/Publican.pm:413
 msgid "configfile is a mandatory argument"
 msgstr "configfile є обов’язковим параметром"
 
 #. ($_,$@)
-#: lib/Publican/Builder.pm:485
+#: lib/Publican/Builder.pm:488
 msgid "couldn't remove unwanted dir '%1', error: %2"
-msgstr ""
-"не вдалося вилучити небажаний каталог «%1», повідомлення про помилку: %2"
+msgstr "не вдалося вилучити небажаний каталог «%1», повідомлення про помилку: %2"
 
 #. ($_,$@)
-#: lib/Publican/Builder.pm:505
+#: lib/Publican/Builder.pm:508
 msgid "couldn't unlink xml file '%1', error: %2"
 msgstr "не вдалося від’єднати файл xml «%1», повідомлення про помилку: %2"
 
-#: bin/publican:549
+#: bin/publican:573
 msgid "destination must exist"
 msgstr "адреса призначення має існувати"
 
-#: lib/Publican.pm:794
+#: lib/Publican.pm:797
 msgid "dir is a required argument"
 msgstr "dir є обов’язковим параметром"
 
@@ -1512,7 +1312,7 @@ msgstr "dir є обов’язковим параметром"
 msgid "directory %1 exists!"
 msgstr "каталог з назвою %1 вже існує!"
 
-#: lib/Publican/Builder.pm:2297
+#: lib/Publican/Builder.pm:2304
 msgid "dtdver is a mandatory argument"
 msgstr "dtdver є обов’язковим параметром"
 
@@ -1520,19 +1320,15 @@ msgstr "dtdver є обов’язковим параметром"
 msgid "dump file zip creation failed."
 msgstr "помилка під час створення архіву zip дампа."
 
-#: lib/Publican.pm:500
+#: lib/Publican.pm:503
 msgid "edition not found in Info file"
 msgstr "у файлі Info не знайдено даних щодо редакції (edition)"
 
 #: lib/Publican/XmlClean.pm:342
-msgid ""
-"endterm hides data from translators and, consequently, causes translation "
-"errors."
-msgstr ""
-"endterm приховує дані від перекладачів, а отже спричиняє помилки під час "
-"перекладу."
+msgid "endterm hides data from translators and, consequently, causes translation errors."
+msgstr "endterm приховує дані від перекладачів, а отже спричиняє помилки під час перекладу."
 
-#: lib/Publican/Builder.pm:994
+#: lib/Publican/Builder.pm:997
 msgid "epub creation failed."
 msgstr "Помилка під час створення epub."
 
@@ -1540,7 +1336,7 @@ msgstr "Помилка під час створення epub."
 msgid "file is a mandatory argument"
 msgstr "file є обов’язковим параметром"
 
-#: lib/Publican/Builder.pm:660
+#: lib/Publican/Builder.pm:663
 msgid "format is a mandatory argument"
 msgstr "format є обов’язковим параметром"
 
@@ -1548,8 +1344,8 @@ msgstr "format є обов’язковим параметром"
 msgid "formats is a mandatory argument"
 msgstr "formats є обов’язковим параметром"
 
-#: lib/Publican.pm:948 lib/Publican.pm:987 lib/Publican/Builder.pm:1772
-#: lib/Publican/Builder.pm:530 lib/Publican/Builder.pm:658
+#: lib/Publican.pm:951 lib/Publican.pm:990 lib/Publican/Builder.pm:1775
+#: lib/Publican/Builder.pm:533 lib/Publican/Builder.pm:661
 msgid "lang is a mandatory argument"
 msgstr "«lang» є обов’язковим параметром"
 
@@ -1557,12 +1353,12 @@ msgstr "«lang» є обов’язковим параметром"
 msgid "lang is a required parameter"
 msgstr "«lang» є обов’язковим параметром"
 
-#: lib/Publican/Builder.pm:109 lib/Publican/Builder.pm:2219
-#: lib/Publican/Builder.pm:260 lib/Publican/Translate.pm:214
+#: lib/Publican/Builder.pm:109 lib/Publican/Builder.pm:2226
+#: lib/Publican/Builder.pm:263 lib/Publican/Translate.pm:214
 msgid "langs is a mandatory argument"
 msgstr "«langs» є обов’язковим параметром"
 
-#: bin/publican:410 lib/Publican/CreateBook.pm:90
+#: bin/publican:434 lib/Publican/CreateBook.pm:90
 #: lib/Publican/CreateBrand.pm:69
 msgid "name is a required parameter"
 msgstr "«name» є обов’язковим параметром"
@@ -1580,53 +1376,52 @@ msgstr "po_file є обов’язковим параметром"
 msgid "pot_file is a mandatory argument"
 msgstr "pot_file є обов’язковим параметром"
 
-#: bin/publican:877 lib/Publican.pm:484 lib/Publican/Builder.pm:1946
+#: bin/publican:902 lib/Publican.pm:487 lib/Publican/Builder.pm:1952
 msgid "productname not found in Info file"
 msgstr "У файлі Info не виявлено даних щодо назви продукту (productname)"
 
-#: lib/Publican.pm:492
+#: lib/Publican.pm:495
 msgid "productnumber not found in Info file"
-msgstr ""
-"У файлі Info не виявлено даних щодо номера версії продукту (productnumber)"
+msgstr "У файлі Info не виявлено даних щодо номера версії продукту (productnumber)"
 
-#: lib/Publican.pm:507
+#: lib/Publican.pm:510
 msgid "pubsnumber not found in Info file"
 msgstr "У файлі Info не виявлено pubsnumber"
 
-#: lib/Publican.pm:801
+#: lib/Publican.pm:804
 msgid "regex is a required argument"
 msgstr "regex є обов’язковим параметром"
 
-#: bin/publican:244
+#: bin/publican:268
 msgid "report PO statistics"
 msgstr "вивести звіт щодо статистики PO"
 
-#: lib/Publican/Builder.pm:1717
+#: lib/Publican/Builder.pm:1720
 msgid "rpmbuild not found, rpm creation aborted."
 msgstr "rpmbuild не виявлено, створення rpm перервано."
 
 #. ($dir)
-#: lib/Publican.pm:797
+#: lib/Publican.pm:800
 msgid "skiping non existant directory: %1"
 msgstr "пропущено неіснуючий каталог: %1"
 
-#: lib/Publican/Builder.pm:1696
+#: lib/Publican/Builder.pm:1699
 msgid "spec is a mandatory argument"
 msgstr "spec є обов’язковим параметром"
 
-#: lib/Publican.pm:1000
+#: lib/Publican.pm:1003
 msgid "subtitle can not be calculated before building."
 msgstr "неможливо визначити підзаголовок до побудови документа."
 
-#: lib/Publican/Builder.pm:2295
+#: lib/Publican/Builder.pm:2302
 msgid "tag is a mandatory argument"
 msgstr "tag є обов’язковим параметром"
 
-#: bin/publican:889 lib/Publican.pm:476 lib/Publican/Builder.pm:1956
+#: bin/publican:914 lib/Publican.pm:479 lib/Publican/Builder.pm:1962
 msgid "title not found in Info file"
 msgstr "у файлі Info не знайдено даних щодо заголовка (title)"
 
-#: lib/Publican/WebSite.pm:93
+#: lib/Publican/WebSite.pm:92
 msgid "toc nav"
 msgstr "нав. змістом"
 
@@ -1635,12 +1430,12 @@ msgid "type must be book, set, or article"
 msgstr "типом має бути book, set або article"
 
 #. (join( ", ", keys %{$args} ))
-#: lib/Publican.pm:1029 lib/Publican.pm:417 lib/Publican.pm:635
-#: lib/Publican.pm:953 lib/Publican.pm:992 lib/Publican/Builder.pm:119
-#: lib/Publican/Builder.pm:1528 lib/Publican/Builder.pm:1585
-#: lib/Publican/Builder.pm:1702 lib/Publican/Builder.pm:1780
-#: lib/Publican/Builder.pm:2303 lib/Publican/Builder.pm:266
-#: lib/Publican/Builder.pm:535 lib/Publican/Builder.pm:666
+#: lib/Publican.pm:1032 lib/Publican.pm:420 lib/Publican.pm:638
+#: lib/Publican.pm:956 lib/Publican.pm:995 lib/Publican/Builder.pm:119
+#: lib/Publican/Builder.pm:1531 lib/Publican/Builder.pm:1588
+#: lib/Publican/Builder.pm:1705 lib/Publican/Builder.pm:1783
+#: lib/Publican/Builder.pm:2310 lib/Publican/Builder.pm:269
+#: lib/Publican/Builder.pm:538 lib/Publican/Builder.pm:669
 #: lib/Publican/Builder.pm:83 lib/Publican/CreateBook.pm:102
 #: lib/Publican/CreateBrand.pm:494 lib/Publican/CreateBrand.pm:76
 #: lib/Publican/Translate.pm:135 lib/Publican/Translate.pm:219
@@ -1660,19 +1455,15 @@ msgstr "x є обов’язковим параметром"
 msgid "xml_doc is a mandatory argument"
 msgstr "xml_doc є обов’язковим параметром"
 
-#: lib/Publican.pm:1022 lib/Publican/Translate.pm:126
+#: lib/Publican.pm:1025 lib/Publican/Translate.pm:126
 msgid "xml_file is a mandatory argument"
 msgstr "xml_file є обов’язковим параметром"
 
 #: lib/Publican/XmlClean.pm:337
-msgid ""
-"xreflabel hides data from translators and, consequently, causes translation "
-"errors."
-msgstr ""
-"xreflabel приховує дані від перекладачів, а отже спричиняє помилки під час "
-"перекладу."
+msgid "xreflabel hides data from translators and, consequently, causes translation errors."
+msgstr "xreflabel приховує дані від перекладачів, а отже спричиняє помилки під час перекладу."
 
-#: lib/Publican.pm:1024
+#: lib/Publican.pm:1027
 msgid "xsl_file is a mandatory argument"
 msgstr "xsl_file є обов’язковим параметром"
 
@@ -1680,7 +1471,7 @@ msgstr "xsl_file є обов’язковим параметром"
 msgid "y is a mandatory argument"
 msgstr "y є обов’язковим параметром"
 
-#: bin/publican:547
+#: bin/publican:571
 msgid "you need to publish the brand first"
 msgstr "спочатку вам слід оприлюднити позначку"
 

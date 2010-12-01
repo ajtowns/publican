@@ -20,8 +20,8 @@
 %define TESTS 0
 
 Name:           publican
-Version:        2.3
-Release:        0%{?dist}.t59
+Version:        2.4
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -243,7 +243,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix non-en lang breaking website strings. BZ #656139
 - Fix IE8 javascript and layout issues. BZ #656531
 - Remove Red elements from interactive.css. BZ #650950
-- Added support for home page overrides.css file.  BZ #650950
+- Added support for home page site_overrides.css file.  BZ #650950
 - Add check for outdated SRPMS.
 
 * Tue Oct 26 2010 Jeff Fearn <jfearn@redhat.com> 2.3-0
@@ -1076,5 +1076,6 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Feb 07 2007 Jeff Fearn <jfearn@redhat.com> 0.0
 - Initial creation
+
 
 
