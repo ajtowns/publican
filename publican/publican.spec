@@ -39,8 +39,9 @@ BuildArch:      noarch
 # Get rid of the old packages
 Obsoletes:      perl-Publican-WebSite < 1.5
 Obsoletes:      publican-WebSite-obsoletes < 1.21
-Provides:       perl-Publican-WebSite = 1.5
-Provides:       publican-WebSite-obsoletes = 1.21
+# Do NOT support very old packages
+#Provides:       perl-Publican-WebSite = 1.5
+#Provides:       publican-WebSite-obsoletes = 1.21
 
 BuildRequires:  perl(Devel::Cover)
 BuildRequires:  perl(Module::Build)
@@ -134,7 +135,8 @@ BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 %endif
 
 Obsoletes:      Publican < 1.0
-Provides:       Publican = 1.0
+# Do NOT support very old packages
+#Provides:       Publican = 1.0
 
 %description
 Publican is a DocBook publication system, not just a DocBook processing tool.
@@ -150,7 +152,8 @@ Requires:       htmlview
 Requires:       xdg-utils
 %endif
 Obsoletes:      Publican-doc < 1.0
-Provides:       Publican-doc = 1.0
+# Do NOT support very old packages
+#Provides:       Publican-doc = 1.0
 
 %description doc
 Publican is a tool for publishing material authored in DocBook XML.
