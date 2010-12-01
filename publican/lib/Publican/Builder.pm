@@ -191,7 +191,7 @@ sub build {
                         my $web_type = $self->{publican}->param('web_type');
                         if ( $web_type =~ m/^home$/i ) {
                             $path = "publish/home/$lang";
-							fcopy('overrides.css', 'publish/home/overrides.css') if(-f 'overrides.css');
+							fcopy('site_overrides.css', 'publish/home/site_overrides.css') if(-f 'site_overrides.css');
                         }
                         elsif ( $web_type =~ m/^product$/i ) {
                             $path = "publish/home/$lang/$product";
@@ -1611,7 +1611,7 @@ sub package_home {
     mkpath("$tmp_dir/rpm");
 
     my $langs     = get_all_langs();
-    my @file_list = qw(publican.cfg overrides.css);
+    my @file_list = qw(publican.cfg site_overrides.css);
 
     foreach my $file (@file_list) {
         rcopy( $file, "$tmp_dir/tar/$tardir/." ) if ( -f $file );
