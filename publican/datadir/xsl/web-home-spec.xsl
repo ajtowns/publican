@@ -40,7 +40,7 @@ publican update_site
 
 %files
 %defattr(-,root,root,-)
-%{wwwdir}
+%{wwwdir}/*
 
 %changelog
 <xsl:value-of select="$log"/>
