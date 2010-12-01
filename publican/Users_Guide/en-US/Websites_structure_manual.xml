@@ -147,6 +147,12 @@
 				</step>
 			</substeps>
 		</step>
+		<step>
+			<para>
+			  Create an empty file named <filename>site_overrides.css</filename> in the directory that you specified with <option>doc_path</option> (the directory that contains <filename>interactive.css</filename> and the various language directories). If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend="sect-Users_Guide-Website-homepage-manual"/>. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, change into the directory that you specified with <option>doc_path</option> and run: 
+			</para>
+<screen><command>touch site_overrides.css</command></screen>
+		</step>
 	</procedure>
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 

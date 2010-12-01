@@ -124,6 +124,12 @@
 				</step>
 			</substeps>
 		</step>
+		<step>
+			<para>
+			  Create an empty file named <filename>site_overrides.css</filename>. If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend="sect-Users_Guide-Website-homepage-rpm"/>. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, run: 
+			</para>
+<screen><command>touch /var/www/html/docs/site_overrides.css</command></screen>
+		</step>
 	</procedure>
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 

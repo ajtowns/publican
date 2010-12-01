@@ -97,6 +97,11 @@
 		</step>
 		<step>
 			<para>
+			  To specify site-specific styles to override the styles set in the website's <filename>interactive.css</filename> file, add styles to a file named <filename>site_overrides.css</filename> and place it in the root of your document source (the same directory that contains <filename>publican.cfg</filename> and the language directories). 
+			</para>
+		</step>
+		<step>
+			<para>
 				Build the home page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:
 			</para>
 <screen><command>publican build --publish --formats html-single --embedtoc --langs all</command> 
