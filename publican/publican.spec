@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.4
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -37,8 +37,10 @@ BuildArch:      noarch
 %endif
 
 # Get rid of the old packages
-Obsoletes:      perl-Publican-WebSite < 1.5
-Obsoletes:      publican-WebSite-obsoletes < 1.21
+Obsoletes:      perl-Publican-WebSite
+Obsoletes:      publican-WebSite-obsoletes
+Conflicts: perl-Publican-WebSite
+Conflicts: publican-WebSite-obsoletes
 # Do NOT support very old packages
 #Provides:       perl-Publican-WebSite = 1.5
 #Provides:       publican-WebSite-obsoletes = 1.21
@@ -227,7 +229,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Oct 27 2010 Jeff Fearn <jfearn@redhat.com> 2.4-0
+* Wed Oct 27 2010 Jeff Fearn <jfearn@redhat.com> 2.4-1
+- Force removal of old packages
+
+* Thu Dec 02 2010 Jeff Fearn <jfearn@redhat.com> 2.4-0
 - Add de.po to MANIFEST
 - Add menu hide option. BZ #650037
 - Only set title attribute in HTMl if alt text is set. BZ #651247
