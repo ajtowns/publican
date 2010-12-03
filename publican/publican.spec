@@ -20,7 +20,7 @@
 %define TESTS 0
 
 Name:           publican
-Version:        2.4
+Version:        2.5
 Release:        1%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
@@ -229,7 +229,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
-* Wed Oct 27 2010 Jeff Fearn <jfearn@redhat.com> 2.4-1
+* Fri Dec 02 2010 Jeff Fearn <jfearn@redhat.com> 2.5-1
+- Use SPEC_VERSION for splash page spec files.
+
+* Thu Dec 02 2010 Jeff Fearn <jfearn@redhat.com> 2.4-1
 - Force removal of old packages
 
 * Thu Dec 02 2010 Jeff Fearn <jfearn@redhat.com> 2.4-0

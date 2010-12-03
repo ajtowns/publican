@@ -191,7 +191,9 @@ sub build {
                         my $web_type = $self->{publican}->param('web_type');
                         if ( $web_type =~ m/^home$/i ) {
                             $path = "publish/home/$lang";
-							fcopy('site_overrides.css', 'publish/home/site_overrides.css') if(-f 'site_overrides.css');
+                            fcopy( 'site_overrides.css',
+                                'publish/home/site_overrides.css' )
+                                if ( -f 'site_overrides.css' );
                         }
                         elsif ( $web_type =~ m/^product$/i ) {
                             $path = "publish/home/$lang/$product";
@@ -1654,6 +1656,7 @@ sub package_home {
         'log'        => $log,
         tmpdir       => $tmp_dir,
         web_type     => $web_type,
+        spec_version => $Publican::SPEC_VERSION,
     );
 
     logger(
