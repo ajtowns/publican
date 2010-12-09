@@ -211,7 +211,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc CHANGES README COPYING Artistic
+%doc Changes README COPYING Artistic
 %{perl_vendorlib}/Publican.pm
 %{perl_vendorlib}/Publican/*
 %{_mandir}/man3/Publican*
