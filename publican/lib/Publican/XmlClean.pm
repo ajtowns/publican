@@ -1153,7 +1153,7 @@ sub process_file {
 
     if ($clean_id) {
         debug_msg(
-            "\nTODO: process_file: need to switch from back-ticks to perl. Maybe use PO2XML::load_po as a base fo direct PO manipulation?\n\n"
+            "\nTODO: process_file: need to switch from back-ticks to perl. Look in to File::Inplace\n\n"
         );
 
         # Update links in xml

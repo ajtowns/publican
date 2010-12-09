@@ -944,7 +944,13 @@ sub transform {
                 = qq|fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
         }
 
-        system($fop_command);
+        if ( system($fop_command) != 0 ) {
+            croak( "\n", 
+                maketext(
+                    "FOP error, PDF generation fialed. Check log for details."
+                ), "\n"
+            );
+        }
 
         $dir = undef;
     }

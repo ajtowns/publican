@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.5
-Release:        1%{?dist}
+Release:        1%{?dist}.t2
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -229,6 +229,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc fdl.txt
 
 %changelog
+* Thu Dec 09 2010 Jeff Fearn <jfearn@redhat.com> 2.6-1
+- Catch FOP failing. BZ #661551
+
 * Fri Dec 02 2010 Jeff Fearn <jfearn@redhat.com> 2.5-1
 - Use SPEC_VERSION for splash page spec files.
 
