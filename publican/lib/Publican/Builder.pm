@@ -947,7 +947,7 @@ sub transform {
         if ( system($fop_command) != 0 ) {
             croak( "\n", 
                 maketext(
-                    "FOP error, PDF generation fialed. Check log for details."
+                    "FOP error, PDF generation failed. Check log for details."
                 ), "\n"
             );
         }
