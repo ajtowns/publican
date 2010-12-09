@@ -1,13 +1,4 @@
-# BUGBUG 2.2 web site changes
-
-1: rebuild home pages!
-2:
-
-ALTER TABLE main.books ADD COLUMN subtitle text;
-ALTER TABLE main.books ADD COLUMN abstract text;
-drop table settings;
-
-Common files and scripts for building Red Hat documentation.
+README for Publican
 
 Assumptions: DocBook xml, *nix, en-US source language.
 
@@ -51,25 +42,28 @@ A: It depends on your platform.
 
 Get the source: svn co http://svn.fedorahosted.org/svn/publican/trunk/publican
 
-Perl
+CPAN
     cd publican
-TODO: deps
-    perl Build.PL
-    ./Build
-    ./Build test
-    ./Build install
+    Currently you have to manually install File::pushd from CPAN first
+    $ perl Build.PL
+        if this complains about missing deps run
+        $ ./Build installdeps
+    $ ./Build
+    $ ./Build test
+    $ ./Build install
 
 RHEL/Fedora
     cd publican
-TODO: deps
-    perl Build.PL
-    ./Build rpm
+    $ perl Build.PL
+        if this complains about missing deps,  on Fedora 10+, and RHEL 6, run
+        $ yum-builddep publican 
+    $ ./Build rpm
 
 Debian
     The publican package deb files are in the debian package repo
     http://packages.debian.org/search?keywords=publican
-    cd publican
-    sudo apt-get install \
+    $ cd publican
+    $ sudo apt-get install \
 libfile-pushd-perl \
 libconfig-simple-perl \
 libxml-treebuilder-perl \
@@ -90,23 +84,21 @@ libdbd-sqlite-perl \
 libdevel-cover-perl \
 libdbd-sqlite3-perl
 
-    ./Build dist
+    $ ./Build dist
 TODO: put the tgz where?
-    debuild
+    $ debuild
 
 Windows
     Install Perl http://www.activestate.com/activeperl/
 TODO: deps
-    Install NSIS http://nsis.sourceforge.net/Download
-    Install http://nsis.sourceforge.net/Environmental_Variables:_append,_prepend,_and_remove_entries
-    http://nsis.sourceforge.net/NsUnzip_plugin
+
+    Install NSIS
+        http://nsis.sourceforge.net/Download
+        http://nsis.sourceforge.net/Environmental_Variables:_append,_prepend,_and_remove_entries
+        http://nsis.sourceforge.net/NsUnzip_plugin
     
-    cd publican
-    perl Build.PL
-    Build
-    Build test
-    perl win_build.pl
-    compile publican.nsi in NSIS
+    $ cd publican
+    $ perl win_build.pl
 
     C:\Perl\lib\HTML\Element.pm patch from cpan
     XML-TreeBuilder patch
@@ -131,8 +123,14 @@ TODO: Complete details on building required LibXML and LibXSLT modules
     nmake install
 
     
-TODO: what about a real list of valid langauges?
+TODO:
 
-	wget http://www.iana.org/assignments/language-subtag-registry
+what about a real list of valid langauges?
 
-	grep -A 1 -B 0 -P '^Type: (language|redundant)' language-subtag-registry | grep -P '^(Subtag|Tag)' | perl -p -e 's/^(Subtag|Tag):\s*//gi' | wc -l
+    wget http://www.iana.org/assignments/language-subtag-registry
+
+    grep -A 1 -B 0 -P '^Type: (language|redundant)' language-subtag-registry | grep -P '^(Subtag|Tag)' | perl -p -e 's/^(Subtag|Tag):\s*//gi' | wc -l
+
+    sub valid_lang looks good
+        http://cpansearch.perl.org/src/TOBYINK/XRD-Parser-0.101/lib/XRD/Parser.pm
+
