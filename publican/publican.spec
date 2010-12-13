@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.5
-Release:        1%{?dist}.t4
+Release:        1%{?dist}.t8
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -84,6 +84,7 @@ BuildRequires:  perl(XML::LibXML)  >=  1.67
 BuildRequires:  perl(XML::LibXSLT) >=  1.67
 BuildRequires:  perl(XML::Simple)
 BuildRequires:  perl(XML::TreeBuilder) >= 3.09-15
+#BuildRequires:  perl(XML::TreeBuilder) >= 4.0
 BuildRequires:  fop >= 0.95
 BuildRequires:  batik
 BuildRequires:  docbook-style-xsl >= 1.75.2-5
@@ -100,10 +101,14 @@ Requires:       batik rpm-build
 Requires:       docbook-style-xsl >= 1.75.2-5
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
-Requires:       perl(XML::TreeBuilder) >= 3.09-15
+Requires:  perl(XML::TreeBuilder) >= 3.09-15
+#Requires:       perl(XML::TreeBuilder) >= 4.0
 Requires:       gettext cvs
 Requires:       perl-Template-Toolkit
 Requires:       perl(DBD::SQLite)
+
+# Lets validate some basics
+Requires:       rpmlint
 
 # Pull in the fonts for all languages, else you can't build translated PDF in brew/koji
 %if %{RHEL5}

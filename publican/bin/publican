@@ -28,25 +28,34 @@ my $LANG_PATTERN = q|__LANG__|;
 my $IMPORT_SCRIPT     = '../common/cvs-import.sh';
 my $WEB_TEMPLATE_PATH = '/usr/share/publican';
 
-# Try to catch SRPMS created using outdated versions of publican in brew/koji
+# Try to catch SRPMS created using outdated versions of publican in brew/koji/mock
 if (   ( $ENV{RPM_BUILD_DIR} )
-    && ( $ENV{RPM_BUILD_DIR}  ne "" )
+    && ( $ENV{RPM_BUILD_DIR}    ne "" )
     && ( $ENV{RPM_PACKAGE_NAME} ne "publican" )
-    && (-f "/builddir/build/originals/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm"
+    && (-f "/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm"
     )
     )
 {
 
+    my $pkg
+        = qq|/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm|;
     my $req_version
-        = qx|rpm --requires -qp /builddir/build/originals/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm \| grep 'publican ' \| sed -e 's/^[^0-9]*//'|;
+        = qx|rpm --requires -qp $pkg \| grep 'publican ' \| sed -e 's/^[^0-9]*//'|;
 
     chomp($req_version);
-    if (   !$req_version
+    if (  !$req_version
         || $req_version eq ""
         || $req_version < $Publican::SPEC_VERSION )
     {
         croak(
-            "The version of publican used to create the SRPM is too old to use with this version of publican. Upgrade publican on your local machine to at least version $Publican::SPEC_VERSION and try again."
+            "\n\nERROR: The version of publican used to create the SRPM is too old to use with this version of publican. Upgrade publican on your local machine to at least version $Publican::SPEC_VERSION and try again."
+        );
+    }
+
+    # sad we need to do this kind of thing
+    if ( system( "rpmlint", "-i", $pkg ) != 0 ) {
+        croak(
+            "\n\nERROR: Package failed rpmlint validation. Fix errors and retry."
         );
     }
 }

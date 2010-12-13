@@ -181,6 +181,7 @@ my $builder = $class->new(
         'XML::LibXSLT'                    => 1.67,
         'XML::Simple'                     => 0,
         'XML::TreeBuilder'                => 3.09,
+#        'XML::TreeBuilder'                => 4.0,
         'Locale::Maketext::Gettext'       => 0,
     },
     requires => {
@@ -219,6 +220,7 @@ my $builder = $class->new(
         'XML::LibXSLT'                    => 1.67,
         'XML::Simple'                     => 0,
         'XML::TreeBuilder'                => 3.09,
+#        'XML::TreeBuilder'                => 4.0,
         'Locale::Maketext::Gettext'       => 0,
         'DBI'                             => 0,
         'DBD::SQLite'                     => 0,

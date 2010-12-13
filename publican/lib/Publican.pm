@@ -973,7 +973,8 @@ sub get_abstract {
     $abstract =~ s/\n\n+$//;
     $abstract =~ s/\n\n\n/\n\n/g;
     $abstract =~ s/[ \t][ \t]+/ /gm;
-
+    # RPM doesn't like non-breaking-space
+    $abstract =~ s/\x{A0}/ /gm;
     return($abstract);
 }
 
@@ -1009,6 +1010,8 @@ sub get_subtitle {
     # tidy up white space
     $subtitle =~ s/^\s*//gm;
     $subtitle =~ s/\s+/ /;
+    # RPM doesn't like non-breaking-space
+    $subtitle =~ s/\x{A0}/ /gm;
 
     return($subtitle);
 }

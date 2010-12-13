@@ -24,10 +24,10 @@ Version:      <xsl:value-of select="$rpmver"/>
 Release:      <xsl:value-of select="$rpmrel"/>%{?dist}
 <xsl:if test="$translation = '1'">
 Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
-Summary(<xsl:value-of select="$lang"/>):    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+Summary(<xsl:value-of select="$lang"/>):    <xsl:value-of select="$full_subtitle"/>
 </xsl:if>
 <xsl:if test="$translation != '1'">
-Summary:       <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+Summary:       <xsl:value-of select="$full_subtitle"/>
 </xsl:if>
 Group:         Documentation
 License:       <xsl:value-of select="$license"/>

@@ -2026,6 +2026,18 @@ sub package {
         spec_version      => $Publican::SPEC_VERSION,
     );
 
+    # \p{Z} is unicode white space, which is a super set of ascii white space.
+    if($full_abstract  !~ /[^\p{Z}]/) {
+        logger(maketext("WARNING: You can not create RPM packages with a blank abstract. Skipping RPM creation.\n"), RED);
+        return;
+    }
+
+    if($full_subtitle  !~ /[^\p{Z}]/) {
+        logger(maketext("WARNING: You can not create RPM packages with a blank subtitle. Skipping RPM creation.\n"), RED);
+        return;
+    }
+
+
     logger(
         "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
 
