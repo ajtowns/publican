@@ -696,8 +696,8 @@ sub my_as_XML {
     my @xml               = ();
     my $empty_element_map = $tree->_empty_element_map;
 
-    my $STRICT = 0;    # $self->{publican}->param('strict');
-    my $show_unknown = $self->{config}->param('show_unknown');
+    my $STRICT       = $self->{publican}->param('strict');
+    my $show_unknown = $self->{publican}->param('show_unknown');
     my $clean_id     = $self->{config}->param('clean_id');
     my $lang         = $self->{config}->param('lang');
 

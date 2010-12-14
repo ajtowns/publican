@@ -107,6 +107,7 @@ Valid actions are:
     update_po     Update the PO files
     update_pot    Update the POT files
     update_site   Update an existing sites templates.
+    update_db     Add or remove database entries for books
 
 =head1 DESCRIPTION
 
@@ -178,7 +179,14 @@ my %options = (
     'tmpl_path=s' => maketext('Override the default template path.'),
     'site_config=s' =>
         maketext('WebSite configuration file to use or create.'),
-    'novalid' => maketext('Do not run the DTD validation'),
+    'novalid'         => maketext('Do not run the DTD validation'),
+    add               => maketext('Add a database enrty'),
+    del               => maketext('Delete a database entry'),
+    'subtitle=s'      => maketext('Sub title for a book'),
+    'abstract=s'      => maketext('Abstract for a book'),
+    'product_label=s' => maketext('product label for a book'),
+    'version_label=s' => maketext('version label for a book'),
+    'name_label=s'    => maketext('name label for a book'),
 );
 
 # Options all actions use
@@ -298,6 +306,20 @@ my %actions = (
     'site_stats' => {
         'brief'   => maketext('Report on the contents of a WebSite'),
         'options' => ['site_config'],
+    },
+    'update_db' => {
+        'brief' => maketext(
+            'Add or remove database entries. Used for processing pre-build books, such as when building packages.'
+        ),
+        'options' => [
+            'site_config',   'add',
+            'del',           'lang',
+            'product',       'version',
+            'name',          'formats',
+            'subtitle',      'abstract',
+            'product_label', 'version_label',
+            'name_label'
+        ],
     },
 );
 
@@ -545,6 +567,82 @@ if ( $action eq 'site_stats' ) {
     my $site_config = $opts{site_config} || undef;
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
     print( $ws->report() );
+
+    exit(0);
+}
+
+# install/remove book for pre-build content (RPM, DEB, etc)
+if ( $action eq 'update_db' ) {
+    my $site_config = $opts{site_config} || undef;
+    my $ws = Publican::WebSite->new( { site_config => $site_config } );
+
+    my $add = $opts{add} || undef;
+    my $del = $opts{del} || undef;
+
+    croak(
+        maketext("One of add or del is required when updating the database") )
+        unless ( $add || $del );
+
+    my $lang = $opts{lang}
+        || croak( maketext( "[_1] is a required argument", 'lang' ) );
+    my $product = $opts{product}
+        || croak( maketext( "[_1] is a required argument", 'product' ) );
+    my $version = $opts{version}
+        || croak( maketext( "[_1] is a required argument", 'version' ) );
+    my $name = $opts{name}
+        || croak( maketext( "[_1] is a required argument", 'name' ) );
+    my $formats = $opts{formats}
+        || croak( maketext( "[_1] is a required argument", 'formats' ) );
+
+    # required for add
+    my $subtitle = $opts{subtitle} || undef;
+    my $abstract = $opts{abstract} || undef;
+
+    if ($add) {
+        croak( maketext( "[_1] is a required argument", 'subtitle' ) )
+            unless ($subtitle);
+        croak( maketext( "[_1] is a required argument", 'abstract' ) )
+            unless ($abstract);
+    }
+
+    # optional for add
+    my $product_label = $opts{product_label} || undef;
+    my $version_label = $opts{version_label} || undef;
+    my $name_label    = $opts{name_label}    || undef;
+
+    if ($add) {
+        foreach my $format ( split( /,/, $formats ) ) {
+            $ws->update_or_add_entry(
+                {   language      => $lang,
+                    product       => $product,
+                    version       => $version,
+                    name          => $name,
+                    format        => $format,
+                    product_label => $product_label,
+                    version_label => $version_label,
+                    name_label    => $name_label,
+                    subtitle      => $subtitle,
+                    abstract      => $abstract,
+                }
+            );
+        }
+    }
+    else {
+        foreach my $format ( split( /,/, $formats ) ) {
+
+            $ws->del_entry(
+                {   language => $lang,
+                    product  => $product,
+                    version  => $version,
+                    name     => $name,
+                    format   => "$format"
+                }
+            );
+        }
+
+    }
+
+    $ws->regen_all_toc();
 
     exit(0);
 }
