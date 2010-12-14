@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.5
-Release:        1%{?dist}.t19
+Release:        1%{?dist}.t23
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -64,6 +64,7 @@ BuildRequires:  perl(Encode)
 BuildRequires:  perl(File::Copy::Recursive)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(File::Find::Rule)
+BuildRequires:  perl(File::Inplace)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::pushd)
 BuildRequires:  perl(HTML::FormatText)

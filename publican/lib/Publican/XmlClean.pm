@@ -12,6 +12,7 @@ use Image::Magick;
 use Image::Size;
 use Term::ANSIColor qw(:constants);
 use Publican::Builder;
+use File::Inplace;
 
 ## Testing collation
 my $test_collate = undef;
@@ -846,7 +847,7 @@ sub my_as_XML {
                             }
 
                             # Do not override user settings
-                            if ($set_width == 0) {
+                            if ( $set_width == 0 ) {
                                 $max_width = $set_width
                                     if ( $set_width
                                     && $set_width < $max_width );
@@ -1152,85 +1153,48 @@ sub process_file {
     $self->print_xml( { xml_doc => $xml_doc, out_file => $out_file } );
 
     if ($clean_id) {
-        debug_msg(
-            "\nTODO: process_file: need to switch from back-ticks to perl. Look in to File::Inplace\n\n"
-        );
 
         # Update links in xml
         foreach my $xml_file ( dir_list( $xml_lang, '*.xml' ) ) {
-            foreach my $key ( keys(%UPDATED_IDS) ) {
-
-                # xml usage
-                my $count = `grep -c 'linkend="$key"' $xml_file`;
-                chomp($count);
-                if ($count) {
-                    logger(
-                        maketext( "\t\tUpdating link '[_1]' in XML file [_2]",
-                            $key, $xml_file )
-                            . "\n"
-                    );
-                    my $cmd
-                        = q{sed -i -e 's/linkend="} 
-                        . $key
-                        . '"/linkend="'
-                        . $UPDATED_IDS{$key}
-                        . q|"/g' |
-                        . $xml_file;
-                    `$cmd`;
+            my $editor = new File::Inplace( file => $xml_file );
+            while ( my ($line) = $editor->next_line ) {
+                foreach my $key ( keys(%UPDATED_IDS) ) {
+                    $line =~ s/linkend="$key"/linkend="$UPDATED_IDS{$key}"/g;
                 }
+                $editor->replace_line($line);
             }
+
+            $editor->commit;
         }
 
         # update links in PO files
         foreach my $dir ( split( /,/, get_all_langs() ) ) {
             next if ( $dir eq $xml_lang );
             foreach my $po_file ( dir_list( $dir, '*.po' ) ) {
-                foreach my $key ( keys(%UPDATED_IDS) ) {
-                    my $count = `grep -c '"$key"' $po_file`;
-                    chomp($count);
-                    if ($count) {
-                        logger(
-                            maketext(
-                                "\t\tUpdating link '[_1]' in PO file [_2]",
-                                $key, $po_file )
-                                . "\n"
-                        );
-## TODO could probably do this in a single command with option groups on the slashes
-## since the slashes are missing if the line is wrapped at the start or the end of the ID
+                my $editor = new File::Inplace( file => $po_file );
+                while ( my ($line) = $editor->next_line ) {
+                    foreach my $key ( keys(%UPDATED_IDS) ) {
 
                         # all of string on one line
-                        my $cmd
-                            = q{sed -i -e 's/=\\\\"} 
-                            . $key
-                            . '\\\\"/=\\\\"'
-                            . $UPDATED_IDS{$key}
-                            . q|\\\\"/g' |
-                            . $po_file;
-                        `$cmd`;
+                        $line
+                            =~ s/=\\"$key\\"/=\\"$UPDATED_IDS{$key}\\"/g;
 
                         # tail of string line wrapped
-                        $cmd
-                            = q{sed -i -e 's/=\\\\"} 
-                            . $key
-                            . '"/=\\\\"'
-                            . $UPDATED_IDS{$key}
-                            . q|"/g' |
-                            . $po_file;
-                        `$cmd`;
+                        $line =~ s/=\\"$key"/=\\"$UPDATED_IDS{$key}"/g;
 
                         # string line wrapped after '='
-                        $cmd
-                            = q{sed -i -e 's/\\\\"} 
-                            . $key
-                            . '\\\\"/\\\\"'
-                            . $UPDATED_IDS{$key}
-                            . q|\\\\"/g' |
-                            . $po_file;
-                        `$cmd`;
+                        $line
+                            =~ s/\\"$key\\"/\\"$UPDATED_IDS{$key}\\"/g;
                     }
+                    $editor->replace_line($line);
                 }
+
+                $editor->commit;
             }
         }
+
+        # clear out changes ... might be better to save them up and do a single pass...
+        %UPDATED_IDS = ();
     }
 
     return;
