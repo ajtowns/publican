@@ -1825,6 +1825,7 @@ sub package {
         $web_formats       =~ s/\s*pdf\s*/ /g;
     }
 
+## BUGBUG delete this when lang Revision_History.xml files are in place.
     if ( $lang ne $xml_lang ) {
         $release = undef;
         my $po_file = "$lang/$type" . '_Info.po';
@@ -1979,22 +1980,22 @@ sub package {
     }
     $self->{publican}->{config}->param( 'web_name_label', $web_name_label );
 
-    $self->{publican}->{config}->param( 'release', $release );
-
     # don't override these
     $self->{publican}->{config}->delete('common_config');
     my $common_content = $self->{publican}->param('common_content');
     $self->{publican}->{config}->delete('common_content');
     $self->{publican}->{config}->delete('strict');
+    $self->{publican}->{config}->delete('release');
+    $self->{publican}->{config}->delete('edition');
 
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
 
     $self->{publican}->{config}->param( 'common_config',  $common_config );
     $self->{publican}->{config}->param( 'common_content', $common_content );
-
-    $self->{publican}->{config}->delete('release');
-    $self->{publican}->{config}->param( 'xml_lang', $xml_lang );
-    $self->{publican}->{config}->param( 'scm', $tmp_scm ) if ($tmp_scm);
+    $self->{publican}->{config}->param( 'xml_lang',       $xml_lang );
+    $self->{publican}->{config}->param( 'scm',     $tmp_scm ) if ($tmp_scm);
+    $self->{publican}->{config}->param( 'release', $release );
+    $self->{publican}->{config}->param( 'edition', $edition );
 
     my $dir = pushd("$tmp_dir/tar");
     my @files = dir_list( $tardir, '*' );

@@ -208,13 +208,6 @@ my %PARAMS = (
             'Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION
         ),
     },
-    edition => {
-        descr => maketext(
-            'Edition of this package. Fetched from edition tag in xml_lang/TYPE_Info.xml'
-        ),
-        constraint => '[^0-9.]',
-
-    },
     generate_section_toc_level => {
         descr => maketext(
             'Generate table of contents down to the given section depth.'),
@@ -261,12 +254,6 @@ my %PARAMS = (
         default => 'https://fedorahosted.org/publican',
 
     },
-    release => {
-        descr => maketext(
-            'Release of this package. For xml_lang fetched from title tag in xml_lang/TYPE_Info.xml. For translations it is fetched from Project-Id-Version in lang/TYPE_Info.po'
-        ),
-        constraint => '[^0-9.]',
-    },
     repo => {
         descr => maketext('Repository from which to fetch remote set books.'),
     },
@@ -274,7 +261,6 @@ my %PARAMS = (
         descr => maketext(
             'Type of repository in which books that form part of a remote set are stored. Supported types: SVN.'
         ),
-
     },
     show_remarks => {
         descr   => maketext('Display remarks in transformed output.'),
@@ -506,20 +492,29 @@ sub _load_config {
             croak maketext("productnumber not found in Info file");
         }
 
-        my $edition = $config->param('edition')
-            || eval {
-            $xml_doc->root()->look_down( "_tag", "edition" )->as_text();
-            };
-        if ($@) {
-            croak maketext("edition not found in Info file");
-        }
+        my $rev_file = "$xml_lang/Revision_History.xml";
+        croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
+            if ( !-f $rev_file );
 
-        my $release = $config->param('release') || eval {
-            $xml_doc->root()->look_down( "_tag", "pubsnumber" )->as_text();
+        my $rev_doc = XML::TreeBuilder->new();
+        $rev_doc->parse_file($rev_file);
+        my $VR = eval {
+            $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text();
         };
         if ($@) {
-            croak maketext("pubsnumber not found in Info file");
+            croak( maketext( "revnumber not found in [_1]", $rev_file ) );
         }
+
+        $VR =~ /^([0-9.]*)-([0-9.]*)$/ || croak(
+            maketext(
+                "revnumber ([_1]) does not match the required format of '[_2]'",
+                $VR,
+                '^([0-9.]*)-([0-9.]*)$/'
+            )
+        );
+
+        my $edition = $1;
+        my $release = $2;
 
         $self->{config}->param( 'docname', $docname );
         $self->{config}->param( 'product', $product );
@@ -1218,10 +1213,6 @@ The <type>_Info.xml file does not contain a productname tag.
 =item C<< productnumber not found in Info file >>
 
 The <type>_Info.xml file does not contain a productnumber tag.
-
-=item C<< edition not found in Info file >>
-
-The <type>_Info.xml file does not contain a edition tag.
 
 =item C<< pubsnumber not found in Info file >>
 
