@@ -15,7 +15,8 @@ use XML::LibXML;
 
 use Publican::Localise;
 
-use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
+use vars
+    qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
 $VERSION = '2.5';
 @ISA     = qw(Exporter AutoLoader);
@@ -62,7 +63,6 @@ my %PARAM_OLD = (
     SHOW_REMARKS               => 'show_remarks',
     SOURCE                     => '',                             # l10n
     SRC_URL                    => 'src_url',
-    STRICT                     => 'strict',
     TRANSLATIONS               => '',
     TOC_SECTION_DEPTH          => 'toc_section_depth',
     WEB_BREW_DIST              => 'web_brew_dist',
@@ -84,6 +84,16 @@ my %PARAMS = (
             'A space-separated list of books used in this remote set.'),
 
     },
+    banned_attrs => {
+        descr => maketext(
+            'A comma-separated list of XML attributes that are not permitted in the source.'
+        ),
+    },
+    banned_tags => {
+        descr => maketext(
+            'A comma-separated list of XML tags that are not permitted in the source.'
+        ),
+    },
     brand => {
         descr   => maketext('The brand to use when building this package.'),
         default => 'common',
@@ -96,8 +106,7 @@ my %PARAMS = (
 
     },
     bridgehead_in_toc => {
-        descr => maketext(
-            'Display bridge head elements in the TOCs?'),
+        descr   => maketext('Display bridge head elements in the TOCs?'),
         default => 0,
     },
     chunk_first => {
@@ -176,11 +185,14 @@ my %PARAMS = (
 
     },
     dt_obsoletes => {
-        descr => maketext('Space seperated list of packages the desktop package obsoletes.'),
+        descr => maketext(
+            'Space seperated list of packages the desktop package obsoletes.'
+        ),
 
     },
     dt_requires => {
-        descr => maketext('Space seperated list of packages the desktop package requires.'),
+        descr => maketext(
+            'Space seperated list of packages the desktop package requires.'),
 
     },
     'ec_id' => {
@@ -228,7 +240,9 @@ my %PARAMS = (
 
     },
     menu_category => {
-        descr   => maketext('Semi colon seperated list of menu categories for thedesktop package.'),
+        descr => maketext(
+            'Semi colon seperated list of menu categories for thedesktop package.'
+        ),
     },
     os_ver => {
         descr   => maketext('The OS for which to build packages.'),
@@ -276,13 +290,6 @@ my %PARAMS = (
         descr => maketext(
             'URL to find tar of source files. Used in RPM Spec files.'),
     },
-    strict => {
-        descr => maketext(
-            'Use strict mode, which prevents the use of tags considered unusable for professional output and translation.'
-        ),
-        default => 0,
-
-    },
     tmp_dir => {
         descr   => maketext('Directory to use for building.'),
         default => 'tmp',
@@ -312,7 +319,9 @@ my %PARAMS = (
         default => 'docs-5E',
     },
     web_formats => {
-        descr   => maketext('A comma seperated loist of the formats to use for the web packages.'),
+        descr => maketext(
+            'A comma seperated loist of the formats to use for the web packages.'
+        ),
         default => 'html,pdf,html-single,epub',
     },
     web_home => {
@@ -331,16 +340,17 @@ my %PARAMS = (
         descr => maketext(
             'This is a host name for a Publican-generated website, used for searches and the Sitemap. Be sure to include the full path to your document tree. E.g. if your documents are in the docs directory: http://www.example.com/docs'
         ),
-        alert => 'web_host is deprecated and will be removed from Publican in the future. Use "host" in the web site configuration file instead.',
+        alert =>
+            'web_host is deprecated and will be removed from Publican in the future. Use "host" in the web site configuration file instead.',
     },
     web_obsoletes =>
-        { descr => maketext('Packages to obsolete in web RPM.'),
-    },
+        { descr => maketext('Packages to obsolete in web RPM.'), },
     web_search => {
         descr => maketext(
             'Override the default search form for a Publican website. By default this will use Google search and do a site search if web_host is set.'
         ),
-        alert => 'web_search is deprecated and will be removed from Publican in the future. Use "search" in the web site configuration file instead.',
+        alert =>
+            'web_search is deprecated and will be removed from Publican in the future. Use "search" in the web site configuration file instead.',
     },
     web_name_label => {
         descr => maketext(
@@ -444,11 +454,12 @@ sub _load_config {
             $config->param( $def, $PARAMS{$def}->{default} );
         }
 
-       # Output alerts about a parameter
-       if( defined $PARAMS{$def}->{alert}
-            and defined( $config->param($def) )) {
-           _alert($PARAMS{$def}->{alert} . "\n");
-       }
+        # Output alerts about a parameter
+        if (    defined $PARAMS{$def}->{alert}
+            and defined( $config->param($def) ) )
+        {
+            _alert( $PARAMS{$def}->{alert} . "\n" );
+        }
     }
 
     $config->param( 'common_config',  $common_config )  if $common_config;
@@ -948,7 +959,8 @@ Return the abstract for the supplied langauge with all white space truncted.
 sub get_abstract {
     my ( $self, $args ) = @_;
 
-    my $lang = delete( $args->{lang} )|| croak( maketext("lang is a mandatory argument") );
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
@@ -958,14 +970,17 @@ sub get_abstract {
         );
     }
 
-    my $tmp_dir    = $self->param('tmp_dir');
-    my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    my $tmp_dir = $self->param('tmp_dir');
+    my $info_file
+        = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
 
-    croak(maketext("abstract can not be calculated before building.")) unless (-f $info_file);
+    croak( maketext("abstract can not be calculated before building.") )
+        unless ( -f $info_file );
 
     my $xsl_file = $self->param('common_config') . "/xsl/abstract.xsl";
 
-    my $abstract = $self->run_xslt({xml_file => $info_file, xsl_file => $xsl_file});
+    my $abstract = $self->run_xslt(
+        { xml_file => $info_file, xsl_file => $xsl_file } );
 
     # tidy up white space
     $abstract =~ s/^[ \t]*//gm;
@@ -973,11 +988,11 @@ sub get_abstract {
     $abstract =~ s/\n\n+$//;
     $abstract =~ s/\n\n\n/\n\n/g;
     $abstract =~ s/[ \t][ \t]+/ /gm;
+
     # RPM doesn't like non-breaking-space
     $abstract =~ s/\x{A0}/ /gm;
-    return($abstract);
+    return ($abstract);
 }
-
 
 =head2 get_subtitle
 
@@ -988,7 +1003,8 @@ Return the subtitle for the supplied langauge with white space truncted.
 sub get_subtitle {
     my ( $self, $args ) = @_;
 
-    my $lang = delete( $args->{lang} )|| croak( maketext("lang is a mandatory argument") );
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
@@ -998,22 +1014,26 @@ sub get_subtitle {
         );
     }
 
-    my $tmp_dir    = $self->param('tmp_dir');
-    my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    my $tmp_dir = $self->param('tmp_dir');
+    my $info_file
+        = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
 
-    croak(maketext("subtitle can not be calculated before building.")) unless (-f $info_file);
+    croak( maketext("subtitle can not be calculated before building.") )
+        unless ( -f $info_file );
 
     my $xsl_file = $self->param('common_config') . "/xsl/subtitle.xsl";
 
-    my $subtitle = $self->run_xslt({xml_file => $info_file, xsl_file => $xsl_file});
+    my $subtitle = $self->run_xslt(
+        { xml_file => $info_file, xsl_file => $xsl_file } );
 
     # tidy up white space
     $subtitle =~ s/^\s*//gm;
     $subtitle =~ s/\s+/ /;
+
     # RPM doesn't like non-breaking-space
     $subtitle =~ s/\x{A0}/ /gm;
 
-    return($subtitle);
+    return ($subtitle);
 }
 
 =head2 run_xslt
@@ -1024,9 +1044,9 @@ Apply the supplied xslt file to teh supplied XML and return a string of the outp
 
 sub run_xslt {
     my ( $self, $args ) = @_;
-    my $xml_file =  delete( $args->{xml_file} )
+    my $xml_file = delete( $args->{xml_file} )
         || croak( maketext("xml_file is a mandatory argument") );
-    my $xsl_file =  delete( $args->{xsl_file} )
+    my $xsl_file = delete( $args->{xsl_file} )
         || croak( maketext("xsl_file is a mandatory argument") );
 
     if ( %{$args} ) {
@@ -1095,11 +1115,11 @@ sub run_xslt {
     }
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
-    my $results = $stylesheet->transform( $source );
+    my $results    = $stylesheet->transform($source);
     my $value;
     eval { $value = $stylesheet->output_string($results) };
 
-    return($value);
+    return ($value);
 }
 
 =head2 new_tree
@@ -1127,6 +1147,41 @@ sub new_tree {
     $xml_doc->store_comments(1) if ($store_comments);
 
     return ($xml_doc);
+}
+
+=head2  print_banned_tags
+
+Print a list of tags that are not supported.
+
+=cut
+
+sub print_banned_tags {
+    my $self = shift();
+    print "\n"
+        . maketext(
+        "NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
+        ) . "\n\n";
+
+    print "\n" . maketext("Banned tags:") . "\n";
+    foreach my $key (
+        sort(
+            split( /,/, ( $self->param('banned_tags') || "" ) ) )
+        )
+    {
+        print("\t$key\n");
+    }
+
+    print "\n" . maketext("Banned attributes:") . "\n";
+    foreach my $attr (
+        sort(
+            split( /,/, ( $self->param('banned_attrs') || "" ) ) )
+        )
+    {
+        print("\t$attr\n");
+    }
+    print "\n";
+
+    return;
 }
 
 1;    # Magic true value required at end of module

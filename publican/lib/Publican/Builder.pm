@@ -2142,14 +2142,12 @@ sub change_log {
         my $revnumber = $node->as_trimmed_text();
 
         unless ( $revnumber =~ m/-\d/ ) {
-            logger(
+            croak(
                 maketext(
-                    "WARNING: revnumber '[_1]' does not match required format '(\\d.)*-(\\d.)*'. e.g. '[_1]-0'.\nWARNING: Appending '-0' to revnumber for change log use to avoid creating invalid change log entries.\nWARNING: This automated handling is deprecated and will be removed from Publican in a future version, you should correct your revnumber's before this or your future builds will fail.\n\n",
+                    "ERROR: revnumber '[_1]' does not match required format '(\\d.)*-(\\d.)*'. e.g. '[_1]-0'.\n",
                     $revnumber
-                ),
-                RED
+                )
             );
-            $revnumber .= '-0';
         }
 
         $log .= sprintf( "* %s %s %s <%s> - %s\n",

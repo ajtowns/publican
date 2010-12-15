@@ -652,12 +652,6 @@ if ( $action eq 'print_known' ) {
     Publican::XmlClean::print_known_tags();
     exit(0);
 }
-
-if ( $action eq 'print_banned' ) {
-    Publican::XmlClean::print_banned_tags();
-    exit(0);
-}
-
 my %args = ( 'configfile' => $opts{config} );
 
 my $publican = Publican->new(
@@ -668,6 +662,11 @@ my $publican = Publican->new(
         NOCOLOURS      => $opts{nocolours},
     }
 );
+
+if ( $action eq 'print_banned' ) {
+    $publican->print_banned_tags();
+    exit(0);
+}
 
 if ( $action eq 'install_brand' ) {
     my $brand = $publican->param('brand')

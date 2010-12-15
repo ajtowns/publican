@@ -260,91 +260,6 @@ my %MAP_OUT = (
     'subjectterm'      => { 'newline_after' => 1 },
 );
 
-my %BANNED_TAGS = (
-    'glosslist' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
-    'glossdiv' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
-    'glossary' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
-    'glossentry' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
-    'glossdef' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
-
-#    'glossterm' => {
-#        'reason' => maketext(
-#            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-#        ),
-#    },
-    'glosssee' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
-    'glossseealso' => {
-        'reason' => maketext(
-            'This tag set imposes English-language order on glossaries, making them useless when translated.'
-        ),
-    },
-    'entrytbl' => {
-        'reason' => maketext(
-            'Nested tables break pdf generation -- reconsider your data structure.'
-        ),
-    },
-    'link' => {
-        'reason' => maketext(
-            'Undesirable tag -- use xref for internal links or ulink for external links.'
-        ),
-    },
-    'olink' => {
-        'reason' => maketext(
-            'Undesirable tag -- use xref for internal links or ulink for external links.'
-        ),
-    },
-    'inlinegraphic' => {
-        'reason' => maketext(
-            'This tag breaks section 508 accessibility standards and makes translation extremely difficult.'
-        ),
-    },
-    'tip' => {
-        'reason' =>
-            maketext('This tag is unnecessary. Use note or important.'),
-    },
-    'caution' => {
-        'reason' =>
-            maketext('This tag is unnecessary. Use important or warning.'),
-    },
-);
-
-my %BANNED_ATTRS = (
-    'xreflabel' => {
-        'reason' => maketext(
-            'xreflabel hides data from translators and, consequently, causes translation errors.'
-        ),
-    },
-    'endterm' => {
-        'reason' => maketext(
-            'endterm hides data from translators and, consequently, causes translation errors.'
-        ),
-    },
-);
-
 =head2 new
 
 Create a new Publican::XmlClean object.
@@ -396,31 +311,6 @@ sub print_known_tags {
     my $self = shift();
     foreach my $key ( sort( keys(%MAP_OUT) ) ) {
         print("$key\n");
-    }
-
-    return;
-}
-
-=head2  print_banned_tags
-
-Print a list of tags that are not supported.
-
-=cut
-
-sub print_banned_tags {
-    my $self = shift();
-    print "\n" . maketext("Banned tags:") . "\n\n";
-    foreach my $key ( sort( keys(%BANNED_TAGS) ) ) {
-        my $tabs = "\t";
-
-        # Line up output since linegraphic is bigger than 8
-        $tabs .= "\t" if ( length($key) < 8 );
-        print( "$key:$tabs" . $BANNED_TAGS{$key}{'reason'} . "\n" );
-    }
-
-    print "\n\n" . maketext("Banned attributes:") . "\n\n";
-    foreach my $attr ( sort( keys(%BANNED_ATTRS) ) ) {
-        print( "$attr:\t" . $BANNED_ATTRS{$attr}{'reason'} . "\n" );
     }
 
     return;
@@ -697,7 +587,19 @@ sub my_as_XML {
     my @xml               = ();
     my $empty_element_map = $tree->_empty_element_map;
 
-    my $STRICT       = $self->{publican}->param('strict');
+    my %banned_tags = ();
+    foreach my $btag ( split( /,/, ($self->{publican}->param('banned_tags') || "") ) )
+    {
+        $banned_tags{$btag} = 1;
+    }
+
+    my %banned_attrs = ();
+    foreach
+        my $battr ( split( /,/, ($self->{publican}->param('banned_attrs') || "" ) ) )
+    {
+        $banned_attrs{$battr} = 1;
+    }
+
     my $show_unknown = $self->{publican}->param('show_unknown');
     my $clean_id     = $self->{config}->param('clean_id');
     my $lang         = $self->{config}->param('lang');
@@ -733,70 +635,29 @@ sub my_as_XML {
                 $tag = $node->{'_tag'};
 
                 if ($start) {      # on the way in
-                    if ( $BANNED_TAGS{$tag} ) {
-                        logger(
+                    if ( $banned_tags{$tag} ) {
+                        croak(
                             maketext(
-                                "*WARNING: Questionable tag found: [_1]",
-                                $tag )
-                                . "\n",
-                            RED
-                        );
-                        logger( "\t" . $BANNED_TAGS{$tag}->{'reason'} . "\n",
-                            RED );
-                        logger(
-                            "\t"
-                                . maketext(
-                                "Consider not using this tag", RED
+                                "ERROR: Banned tag ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
+                                $tag
                                 )
-                                . "\n\n"
+                                . "\n"
                         );
-                        if ($STRICT) {
+                    }
+
+                    foreach my $attr ( keys(%banned_attrs) ) {
+                        if ( $node->attr($attr) ) {
                             croak(
                                 maketext(
-                                    "Questionable tags are not permitted in STRICT mode. Remove all '[_1]' tags before attempting to build.",
-                                    $tag
+                                    "ERROR: Banned attribute ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
+                                    $attr
                                     )
                                     . "\n\n"
                             );
                         }
                     }
 
-                    foreach my $attr ( keys(%BANNED_ATTRS) ) {
-                        if ( $node->attr($attr) ) {
-                            logger(
-                                maketext(
-                                    "*WARNING: Questionable attribute found: [_1]",
-                                    $attr
-                                    )
-                                    . "\n",
-                                RED
-                            );
-                            logger(
-                                "\t"
-                                    . $BANNED_ATTRS{$attr}->{'reason'} . "\n",
-                                RED
-                            );
-                            logger(
-                                "\t"
-                                    . maketext(
-                                    "Consider not using this attribute.")
-                                    . "\n\n",
-                                RED
-                            );
-
-                            if ($STRICT) {
-                                croak(
-                                    maketext(
-                                        "Questionable attributes are not permitted in STRICT mode. Remove all '[_1]' attributes before attempting to build.",
-                                        $attr
-                                        )
-                                        . "\n\n"
-                                );
-                            }
-                        }
-                    }
-
-                    if ( ( $show_unknown || $STRICT ) && !$MAP_OUT{$tag} ) {
+                    if ( $show_unknown && !$MAP_OUT{$tag} ) {
                         logger(
                             maketext(
                                 "*WARNING: Unvalidated tag: '[_1]'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.",
@@ -1176,15 +1037,13 @@ sub process_file {
                     foreach my $key ( keys(%UPDATED_IDS) ) {
 
                         # all of string on one line
-                        $line
-                            =~ s/=\\"$key\\"/=\\"$UPDATED_IDS{$key}\\"/g;
+                        $line =~ s/=\\"$key\\"/=\\"$UPDATED_IDS{$key}\\"/g;
 
                         # tail of string line wrapped
                         $line =~ s/=\\"$key"/=\\"$UPDATED_IDS{$key}"/g;
 
                         # string line wrapped after '='
-                        $line
-                            =~ s/\\"$key\\"/\\"$UPDATED_IDS{$key}\\"/g;
+                        $line =~ s/\\"$key\\"/\\"$UPDATED_IDS{$key}\\"/g;
                     }
                     $editor->replace_line($line);
                 }
@@ -1193,7 +1052,7 @@ sub process_file {
             }
         }
 
-        # clear out changes ... might be better to save them up and do a single pass...
+# clear out changes ... might be better to save them up and do a single pass...
         %UPDATED_IDS = ();
     }
 
