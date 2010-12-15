@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use 5.008;
 use Carp;
-use Config::Simple;
+use Config::Simple '-strict';
 use File::Path;
 use File::pushd;
 use DateTime;

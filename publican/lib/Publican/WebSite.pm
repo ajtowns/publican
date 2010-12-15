@@ -6,7 +6,7 @@ use strict;
 use 5.008;
 
 use Carp qw(cluck croak);
-use Config::Simple;
+use Config::Simple '-strict';
 use DBI;
 use Template;
 use Template::Constants;

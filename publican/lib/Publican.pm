@@ -4,7 +4,7 @@ use utf8;
 use warnings;
 use strict;
 use Carp;
-use Config::Simple;
+use Config::Simple '-strict';
 use XML::TreeBuilder;
 use I18N::LangTags::List;
 use Term::ANSIColor qw(:constants uncolor);
@@ -1164,18 +1164,14 @@ sub print_banned_tags {
 
     print "\n" . maketext("Banned tags:") . "\n";
     foreach my $key (
-        sort(
-            split( /,/, ( $self->param('banned_tags') || "" ) ) )
-        )
+        sort( split( /,/, ( $self->param('banned_tags') || "" ) ) ) )
     {
         print("\t$key\n");
     }
 
     print "\n" . maketext("Banned attributes:") . "\n";
     foreach my $attr (
-        sort(
-            split( /,/, ( $self->param('banned_attrs') || "" ) ) )
-        )
+        sort( split( /,/, ( $self->param('banned_attrs') || "" ) ) ) )
     {
         print("\t$attr\n");
     }

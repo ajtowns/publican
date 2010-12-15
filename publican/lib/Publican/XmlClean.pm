@@ -5,7 +5,7 @@ use warnings;
 use 5.008;
 use Carp;
 use XML::TreeBuilder;
-use Config::Simple;
+use Config::Simple '-strict';
 use Publican;
 use File::Path;
 use Image::Magick;

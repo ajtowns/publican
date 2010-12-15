@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use 5.008;
 use Carp;
-use Config::Simple;
+use Config::Simple '-strict';
 use Publican;
 use Publican::XmlClean;
 use Publican::Translate;
@@ -945,10 +945,12 @@ sub transform {
         }
 
         if ( system($fop_command) != 0 ) {
-            croak( "\n", 
+            croak(
+                "\n",
                 maketext(
                     "FOP error, PDF generation failed. Check log for details."
-                ), "\n"
+                ),
+                "\n"
             );
         }
 
@@ -1906,19 +1908,6 @@ sub package {
         $self->{publican}->{config}->delete('scm');
     }
 
-    $self->{publican}->{config}->param( 'release', $release );
-
-    $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
-    $self->{publican}->{config}->delete('release');
-    $self->{publican}->{config}->param( 'xml_lang', $xml_lang );
-    $self->{publican}->{config}->param( 'scm', $tmp_scm ) if ($tmp_scm);
-
-    my $dir = pushd("$tmp_dir/tar");
-    my @files = dir_list( $tardir, '*' );
-    Archive::Tar->create_archive( "../rpm/$tardir-$release.tgz", 9, @files );
-
-    $dir = undef;
-
     my $common_config = $self->{publican}->param('common_config');
     my $xsl_file      = $common_config . "/xsl/web-spec.xsl";
     $xsl_file = $common_config . "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
@@ -1978,6 +1967,41 @@ sub package {
     $web_name_label    =~ s/'/\\'/g;
     $web_version_label =~ s/'/\\'/g;
 
+    # store lables for rebuilding translated content
+    if ( $web_product_label eq $product ) {
+        $web_product_label = undef;
+    }
+    $self->{publican}->{config}
+        ->param( 'web_product_label', $web_product_label );
+
+    if ( $web_name_label eq $docname ) {
+        $web_name_label = undef;
+    }
+    $self->{publican}->{config}->param( 'web_name_label', $web_name_label );
+
+    $self->{publican}->{config}->param( 'release', $release );
+
+    # don't override these
+    $self->{publican}->{config}->delete('common_config');
+    my $common_content = $self->{publican}->param('common_content');
+    $self->{publican}->{config}->delete('common_content');
+    $self->{publican}->{config}->delete('strict');
+
+    $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
+
+    $self->{publican}->{config}->param( 'common_config',  $common_config );
+    $self->{publican}->{config}->param( 'common_content', $common_content );
+
+    $self->{publican}->{config}->delete('release');
+    $self->{publican}->{config}->param( 'xml_lang', $xml_lang );
+    $self->{publican}->{config}->param( 'scm', $tmp_scm ) if ($tmp_scm);
+
+    my $dir = pushd("$tmp_dir/tar");
+    my @files = dir_list( $tardir, '*' );
+    Archive::Tar->create_archive( "../rpm/$tardir-$release.tgz", 9, @files );
+
+    $dir = undef;
+
     my $log = $self->change_log();
 
     my $full_abstract = $self->{publican}->get_abstract( { lang => $lang } );
@@ -2027,16 +2051,25 @@ sub package {
     );
 
     # \p{Z} is unicode white space, which is a super set of ascii white space.
-    if($full_abstract  !~ /[^\p{Z}]/) {
-        logger(maketext("WARNING: You can not create RPM packages with a blank abstract. Skipping RPM creation.\n"), RED);
+    if ( $full_abstract !~ /[^\p{Z}]/ ) {
+        logger(
+            maketext(
+                "WARNING: You can not create RPM packages with a blank abstract. Skipping RPM creation.\n"
+            ),
+            RED
+        );
         return;
     }
 
-    if($full_subtitle  !~ /[^\p{Z}]/) {
-        logger(maketext("WARNING: You can not create RPM packages with a blank subtitle. Skipping RPM creation.\n"), RED);
+    if ( $full_subtitle !~ /[^\p{Z}]/ ) {
+        logger(
+            maketext(
+                "WARNING: You can not create RPM packages with a blank subtitle. Skipping RPM creation.\n"
+            ),
+            RED
+        );
         return;
     }
-
 
     logger(
         "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
