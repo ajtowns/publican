@@ -348,6 +348,53 @@ sub setup_xml {
                     );
                 }
             }
+
+            if ( -f "$lang/Revision_History.xml" ) {
+                my $common_config = $self->{publican}->param('common_config');
+                my $xsl_file = $common_config . "/xsl/merge_revisions.xsl";
+                $xsl_file =~ s/"//g;    # windows
+                my $style_doc = XML::LibXML->load_xml(
+                    location => $xsl_file,
+                    no_cdata => 1
+                );
+                my $xslt       = XML::LibXSLT->new();
+                my $stylesheet = $xslt->parse_stylesheet($style_doc);
+                my %opts
+                    = ( trans_rev => abs_path("$lang/Revision_History.xml") );
+                my $result = $stylesheet->transform_file(
+                    "$tmp_dir/$lang/xml_tmp/Revision_History.xml",
+                    XML::LibXSLT::xpath_to_string(%opts)
+                );
+                eval {
+                    $stylesheet->output_file( $result,
+                        "$tmp_dir/$lang/xml_tmp/Revision_History.xml.tmp" );
+                };
+
+                if ($@) {
+                    if ( ref($@) ) {
+
+                       # handle a structured error (XML::LibXML::Error object)
+                        croak(
+                            maketext(
+                                "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
+                                $@->domain(),
+                                $@->code(),
+                                $@->file(),
+                                $@->line(),
+                                $@->message(),
+                            )
+                        );
+                    }
+                    else {
+                        croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+                    }
+                }
+
+                fmove(
+                    "$tmp_dir/$lang/xml_tmp/Revision_History.xml.tmp",
+                    "$tmp_dir/$lang/xml_tmp/Revision_History.xml"
+                );
+            }
         }
 
         # clean XML
@@ -1825,44 +1872,32 @@ sub package {
         $web_formats       =~ s/\s*pdf\s*/ /g;
     }
 
-## BUGBUG delete this when lang Revision_History.xml files are in place.
     if ( $lang ne $xml_lang ) {
         $release = undef;
-        my $po_file = "$lang/$type" . '_Info.po';
+ 
+        my $rev_file = "$lang/Revision_History.xml";
+        croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
+            if ( !-f $rev_file );
 
-        if ( -f $po_file ) {
-            my $PO;
-            my $real_value;
-            open( $PO, "<:utf8", $po_file )
-                || croak( maketext( "Can't open PO file: [_1]", $po_file ) );
-            foreach my $line (<$PO>) {
-                if ( $line =~ /^"Project-Id-Version:/ ) {
-                    $line =~ /^"Project-Id-Version:\s*(.*)"$/;
-                    $real_value = $1;
-                    $line =~ /^"Project-Id-Version:\s*([\d.]*).*"$/;
-                    $release = $1;
-                    last;
-                }
-            }
-            close($PO);
-
-            croak(
-                maketext(
-                    "Project-Id-Version '[_1]' in [_2] is not a valid release value.",
-                    $real_value,
-                    $po_file
-                )
-            ) unless defined $release && $release ne "";
-        }
-        else {
-            croak(
-                maketext(
-                    "Required PO file missing. Could not locate [_1].",
-                    $po_file
-                )
-            );
+        my $rev_doc = XML::TreeBuilder->new();
+        $rev_doc->parse_file($rev_file);
+        my $VR = eval {
+            $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text();
+        };
+        if ($@) {
+            croak( maketext( "revnumber not found in [_1]", $rev_file ) );
         }
 
+        $VR =~ /^([0-9.]*)-([0-9.]*)$/ || croak(
+            maketext(
+                "revnumber ([_1]) does not match the required format of '[_2]'",
+                $VR,
+                '^([0-9.]*)-([0-9.]*)$/'
+            )
+        );
+
+        $edition = $1;
+        $release = $2;
     }
 
     my $name_start = "$product-$docname-$version";

@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 13;
+use Test::More tests => 14;
 use File::pushd;
 use Cwd qw(abs_path cwd);
 
@@ -78,6 +78,13 @@ is( system(
     ),
     0,
     'package a book'
+);
+
+is( system(
+        qq{perl $coverdb -I $lib $publican print_banned $common_opts}
+    ),
+    0,
+    'print banned tags'
 );
 
 $dir = undef;

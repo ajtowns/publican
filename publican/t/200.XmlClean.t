@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 5;
 use File::pushd;
 use Cwd qw(abs_path);
 
@@ -37,11 +37,6 @@ diag($e) if $e;
 eval { $cleaner->print_known_tags() };
 $e = $@;
 ok( ( not $e ), "print_known_tags" );
-diag($e) if $e;
-
-eval { $cleaner->print_banned_tags() };
-$e = $@;
-ok( ( not $e ), "print_banned_tags" );
 diag($e) if $e;
 
 $dir = undef;

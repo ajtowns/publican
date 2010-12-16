@@ -108,6 +108,7 @@ Valid actions are:
     update_pot    Update the POT files
     update_site   Update an existing sites templates.
     update_db     Add or remove database entries for books
+    add_revision  Add a new revision to the Revision History.
 
 =head1 DESCRIPTION
 
@@ -187,6 +188,12 @@ my %options = (
     'product_label=s' => maketext('product label for a book'),
     'version_label=s' => maketext('version label for a book'),
     'name_label=s'    => maketext('name label for a book'),
+    'revnumber=s'     =>maketext('Revision number to use for a revision.'),
+    'date=s'          =>maketext('Date to use for a revision.'),
+    'member=s@'       =>maketext('An entry to be added to the revision.'),
+    'firstname=s'          =>maketext('firstname to use for a revision.'),
+    'surname=s'          =>maketext('surname to use for a revision.'),
+    'email=s'          =>maketext('email to use for a revision.'),
 );
 
 # Options all actions use
@@ -205,11 +212,6 @@ my %actions = (
             'formats',         'langs', 'publish', 'embedtoc',
             'distributed_set', 'novalid'
         ],
-    },
-    'bump' => {
-        'brief' =>
-            'TECH PREVIEW: bump the pubsnumber [revision]. This feature is intended to have an additional argument to add a revision history entry and message. This feature is UNTESTED',
-        'options' => ['lang'],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
@@ -321,6 +323,10 @@ my %actions = (
             'name_label'
         ],
     },
+    'add_revision' => {
+        'brief'   => maketext('Add an entry to the revision hsitory'),
+        'options' => ['lang', 'revnumber', 'date', 'member', 'firstname', 'surname', 'email'],
+    },
 );
 
 # Grab to limit options to the valid ones for this action
@@ -340,6 +346,9 @@ if ( defined $actions{$action} ) {
         # this will need to be exapnded if other types are used
         elsif ( $options{"$opt=s"} ) {
             push( @optns, "$opt=s" );
+        }
+        elsif ( $options{"$opt=s@"} ) {
+            push( @optns, "$opt=s@" );
         }
         else {
 
@@ -427,7 +436,7 @@ sub _help_action {
     my $cmd = shift || croak maketext( "[_1] is a required argument", 'cmd' );
 
     print( "$cmd\n    " . $actions{$cmd}->{brief} );
-    print( "\n\n\t", maketext("Options:"), "\n" );
+    print( "\n\n    ", maketext("Options:"), "\n" );
     foreach my $option ( @utility_opts, @{ $actions{$cmd}->{options} } ) {
         debug_msg("TODO: does printf work for right to left languages?\n");
         if ( $options{$option} ) {
@@ -437,7 +446,7 @@ sub _help_action {
             printf(
                 "        --%-20s    %s\n",
                 "$option=<" . uc($option) . ">",
-                $options{"$option=s"}
+                ($options{"$option=s"} || $options{"$option=s@"})
             );
         }
     }
@@ -785,78 +794,13 @@ if ( $action eq 'build' ) {
     );
 }
 
-## TODO handle Revision History entry
-## Handle translations
-if ( $action eq 'bump' ) {
-    my $lang = $opts{lang}
-        || croak maketext("--lang is a required option for bump");
+if ( $action eq 'add_revision' ) {
 
-    my $xml_lang = $publican->param('xml_lang');
-    my $dtdver   = $publican->param('dtdver');
-    my $docname  = $publican->param('docname');
-    my $type     = $publican->param('type');
-
-## TODO do this later
-    if ( $type eq 'brand' ) {
-        logger("bump does not support brands yet!");
-        exit;
+    if ( $publican->param('type') eq 'brand' ) {
+        croak(maketext("add_revision does not work for brands."));
     }
 
-    if ( $lang eq $xml_lang ) {
-
-        my $xml_doc = new_tree(1);
-
-        my $file = "$xml_lang/$type" . '_Info.xml';
-        $xml_doc->parse_file($file);
-        my $tag = $xml_doc->attr("_tag");
-
-        my $node = $xml_doc->root()->look_down( "_tag", "pubsnumber" );
-        my $release = $node->as_text();
-        $release++;
-        $node->delete_content();
-        $node->push_content("$release");
-        $publican->param( 'release', $release );
-        $publican->{config}->param( 'release', $release );
-
-        my $OUTDOC;
-
-        open( $OUTDOC, ">:utf8", "$file" )
-            || croak( maketext( "Could not open [_1] for output!", $file ) );
-
-        my $ent_file = undef;
-
-        if ( -e "$xml_lang/$docname.ent" ) {
-            $ent_file = "$xml_lang/$docname.ent";
-        }
-
-        print( $OUTDOC Publican::Builder::dtd_string(
-                { tag => $tag, dtdver => $dtdver, ent_file => $ent_file }
-            )
-        );
-
-## TODO BUGBUG move traverse code to Publican.pm and call from
-## Builder, XmlClean, and here
-        my $text = $xml_doc->root()->as_XML();
-        $text =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
-        $text =~ s/&#38;/&amp;/g;
-        $text =~ s/&#60;/&lt;/g;
-        $text =~ s/&#62;/&gt;/g;
-        $text =~ s/&#34;/"/g;
-        $text =~ s/&#39;/'/g;
-        $text =~ s/&quot;/"/g;
-        $text =~ s/&apos;/'/g;
-
-        print( $OUTDOC $xml_doc->root()->as_XML() );
-        close($OUTDOC);
-        $xml_doc->root()->delete();
-
-    }
-    else {
-## TODO do this later
-        logger("bump does not support translations yet!");
-        exit;
-    }
-
+     $publican->add_revision({lang => $opts{lang}, revnumber => $opts{revnumber}, date => $opts{date}, members => $opts{member},  email => $opts{email}, firstname => $opts{firstname}, surname => $opts{surname},});
 }
 
 if ( $action eq 'package' ) {

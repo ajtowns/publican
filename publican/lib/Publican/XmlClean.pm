@@ -280,7 +280,7 @@ sub new {
     $config->param( 'show_unknown', delete( $args->{show_unknown} ) )
         if ( $args->{show_unknown} );
     $config->param( 'donotset_lang',
-        ( delete( $args->{donotset_lang} ) ) || 0 );
+        ( delete( $args->{donotset_lang} ) ) || 1 );
     $config->param( 'distributed_set',
         ( delete( $args->{distributed_set} ) ) || 0 );
 

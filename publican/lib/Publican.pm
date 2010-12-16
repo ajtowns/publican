@@ -12,7 +12,7 @@ use File::Find::Rule;
 use Makefile::Parser;
 use XML::LibXSLT;
 use XML::LibXML;
-
+use File::HomeDir;
 use Publican::Localise;
 
 use vars
@@ -1171,6 +1171,94 @@ sub print_banned_tags {
         print("\t$attr\n");
     }
     print "\n";
+
+    return;
+}
+
+=head2 add_revision
+
+Add a full entry in to the revision history.
+
+TODO
+	auto set date
+	bump release
+	stop xmlclean from adding entity file to translated rev_hist xml file
+
+=cut
+
+sub add_revision {
+    my ( $self, $args ) = @_;
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("--lang is a required option for add_revision") );
+    my $revnumber = delete( $args->{revnumber} )
+        || croak(
+        maketext("--revnumber is a required option for add_revision") );
+    my $date = delete( $args->{date} )
+        || croak( maketext("--date is a required option for add_revision") );
+    my $members = delete( $args->{members} )
+        || croak(
+        maketext("--member is a required option for add_revision") );
+
+    my $firstname = delete( $args->{firstname} );
+    my $surname   = delete( $args->{surname} );
+    my $email     = delete( $args->{email} );
+
+    my $configfile = File::HomeDir->my_home() . "/.publican.cfg";
+    my $user_cfg   = new Config::Simple();
+    $user_cfg->syntax('http');
+    $user_cfg->read($configfile)
+        || croak(
+        maketext( "Failed to load user config file: [_1]", $configfile ) );
+
+    $firstname = $user_cfg->param('firstname')
+        || croak("firstname is a required field in the user config file")
+        unless ($firstname);
+    $surname = $user_cfg->param('surname')
+        || croak("surname is a required field in the user config file")
+        unless ($surname);
+    $email = $user_cfg->param('email')
+        || croak("email is a required field in the user config file")
+        unless ($email);
+
+    my $revision = XML::Element->new_from_lol(
+        [   'revision',
+            [ 'revnumber', $revnumber ],
+            [ 'date',      $date ],
+            [   'author',
+                [ 'firstname', $firstname ],
+                [ 'surname',   $surname ],
+                [ 'email',     $email ],
+            ],
+            [   'revdescription',
+                [ 'simplelist', map { [ 'member', $_ ] } @{$members}, ],
+            ],
+        ],
+    );
+
+    my $rev_file = "$lang/Revision_History.xml";
+    croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
+        if ( !-f $rev_file );
+
+    my $rev_doc = new_tree();
+    $rev_doc->parse_file($rev_file);
+
+    my $node;
+    eval { $node = $rev_doc->root()->look_down( "_tag", "revhistory" ); };
+    if ($@) {
+        croak( maketext( "revhistory not found in [_1]", $rev_file ) );
+    }
+
+    $node->unshift_content($revision);
+
+    my $OUTDOC;
+    open( $OUTDOC, ">:utf8", "$rev_file" )
+        || croak( maketext( "Could not open [_1] for output!", $rev_file ) );
+    print( $OUTDOC $rev_doc->root()->as_XML() );
+    close($OUTDOC);
+    $rev_doc->root()->delete();
+
+    my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
+    $cleaner->process_file( { file => $rev_file, out_file => $rev_file } );
 
     return;
 }

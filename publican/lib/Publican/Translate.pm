@@ -288,6 +288,11 @@ sub update_po {
                 CYAN
             ) unless ( -f $xml_file );
         }
+
+## TODO FINISH ME - grab xml_lang revnumber and add .1
+        my @members = (maketext("PO files updated to source lang ..."));
+
+        $self->{publican}->add_revision({lang => $lang, revnumber => "", date => "", members => \@members});
     }
 
     return;
