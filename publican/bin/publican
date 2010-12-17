@@ -174,13 +174,14 @@ my %options = (
         'Import the SRPM in to CVS, the run make tag and make build.'),
     'nocolours' => maketext('Disable ANSI colourisation of logging.'),
     'quiet'     => maketext('Disable all logging.'),
+    'novalid'   => maketext('Do not run the DTD validation'),
 ## WebSite options
     'db_file=s'   => maketext('Override default database file.'),
     'toc_path=s'  => maketext('Override the default TOC path.'),
     'tmpl_path=s' => maketext('Override the default template path.'),
     'site_config=s' =>
         maketext('WebSite configuration file to use or create.'),
-    'novalid'         => maketext('Do not run the DTD validation'),
+## database
     add               => maketext('Add a database enrty'),
     del               => maketext('Delete a database entry'),
     'subtitle=s'      => maketext('Sub title for a book'),
@@ -188,12 +189,13 @@ my %options = (
     'product_label=s' => maketext('product label for a book'),
     'version_label=s' => maketext('version label for a book'),
     'name_label=s'    => maketext('name label for a book'),
-    'revnumber=s'     =>maketext('Revision number to use for a revision.'),
-    'date=s'          =>maketext('Date to use for a revision.'),
-    'member=s@'       =>maketext('An entry to be added to the revision.'),
-    'firstname=s'          =>maketext('firstname to use for a revision.'),
-    'surname=s'          =>maketext('surname to use for a revision.'),
-    'email=s'          =>maketext('email to use for a revision.'),
+## Revisions
+    'revnumber=s' => maketext('Revision number to use for a revision.'),
+    'date=s'      => maketext('Date to use for a revision.'),
+    'member=s@'   => maketext('An entry to be added to the revision. Can be specified multiple times.'),
+    'firstname=s' => maketext('firstname to use for a revision.'),
+    'surname=s'   => maketext('surname to use for a revision.'),
+    'email=s'     => maketext('email to use for a revision.'),
 );
 
 # Options all actions use
@@ -325,7 +327,10 @@ my %actions = (
     },
     'add_revision' => {
         'brief'   => maketext('Add an entry to the revision hsitory'),
-        'options' => ['lang', 'revnumber', 'date', 'member', 'firstname', 'surname', 'email'],
+        'options' => [
+            'lang',      'revnumber', 'date', 'member',
+            'firstname', 'surname',   'email'
+        ],
     },
 );
 
@@ -446,7 +451,7 @@ sub _help_action {
             printf(
                 "        --%-20s    %s\n",
                 "$option=<" . uc($option) . ">",
-                ($options{"$option=s"} || $options{"$option=s@"})
+                ( $options{"$option=s"} || $options{"$option=s@"} )
             );
         }
     }
@@ -797,10 +802,19 @@ if ( $action eq 'build' ) {
 if ( $action eq 'add_revision' ) {
 
     if ( $publican->param('type') eq 'brand' ) {
-        croak(maketext("add_revision does not work for brands."));
+        croak( maketext("add_revision does not work for brands.") );
     }
 
-     $publican->add_revision({lang => $opts{lang}, revnumber => $opts{revnumber}, date => $opts{date}, members => $opts{member},  email => $opts{email}, firstname => $opts{firstname}, surname => $opts{surname},});
+    $publican->add_revision(
+        {   lang      => $opts{lang},
+            revnumber => $opts{revnumber},
+            date      => $opts{date},
+            members   => $opts{member},
+            email     => $opts{email},
+            firstname => $opts{firstname},
+            surname   => $opts{surname},
+        }
+    );
 }
 
 if ( $action eq 'package' ) {

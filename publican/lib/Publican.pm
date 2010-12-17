@@ -18,14 +18,14 @@ use Publican::Localise;
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
-$VERSION = '2.5';
+$VERSION = '2.99';
 @ISA     = qw(Exporter AutoLoader);
 
 @EXPORT
     = qw(dir_list debug_msg get_all_langs logger help_config maketext old2new new_tree);
 
 # Track when the SPEC file generation is incompatible.
-$SPEC_VERSION = '2.5';
+$SPEC_VERSION = '2.99';
 
 my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
@@ -1158,9 +1158,6 @@ sub print_banned_tags {
 
 Add a full entry in to the revision history.
 
-TODO
-	stop xmlclean from adding entity file to translated rev_hist xml file
-
 =cut
 
 sub add_revision {
@@ -1219,13 +1216,27 @@ sub add_revision {
     );
 
     my $rev_file = "$lang/Revision_History.xml";
-    croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
-        if ( !-f $rev_file );
-
-    my $rev_doc = new_tree();
-    $rev_doc->parse_file($rev_file);
-
     my $node;
+    my $rev_doc = new_tree();
+
+    if ( -f $rev_file ) {
+        $rev_doc->parse_file($rev_file);
+    }
+    else {
+        $rev_doc->root()->tag('appendix');
+        my $rev_hist
+            = XML::Element->new_from_lol(
+            [ 'title', maketext('Revision History') ],
+            );
+
+        $rev_doc->root()->push_content($rev_hist);
+
+        $rev_hist
+            = XML::Element->new_from_lol( [ 'simpara', ['revhistory'], ], );
+
+        $rev_doc->root()->push_content($rev_hist);
+    }
+
     eval { $node = $rev_doc->root()->look_down( "_tag", "revhistory" ); };
     if ($@) {
         croak( maketext( "revhistory not found in [_1]", $rev_file ) );
