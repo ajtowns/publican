@@ -23,7 +23,8 @@ my $TRANSTAGS
     = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|indexterm|jobtitle|keyword|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|phrase|productname|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondaryie|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiaryie|title|titleabbrev|screen|programlisting|literallayout)$/;
 
 # Blocks that contain translatable tags that need to be kept inline
-my $IGNOREBLOCKS = qr/^(?:footnote|citerefentry|indexterm|productname|phrase)$/;
+my $IGNOREBLOCKS
+    = qr/^(?:footnote|citerefentry|indexterm|productname|phrase)$/;
 
 # Preserve white space in these tags
 my $VERBATIM = qr/^(?:screen|programlisting|literallayout)$/;
@@ -289,10 +290,16 @@ sub update_po {
             ) unless ( -f $xml_file );
         }
 
-## TODO FINISH ME - grab xml_lang revnumber and add .1
-        my @members = (maketext("PO files updated to source lang ..."));
+        my @members = ( maketext("PO files updated to source lang ...") );
+        my ( $edition, $release )
+            = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
 
-        $self->{publican}->add_revision({lang => $lang, revnumber => "", date => "", members => \@members});
+        $self->{publican}->add_revision(
+            {   lang      => $lang,
+                revnumber => "$edition-$release.1",
+                members   => \@members
+            }
+        );
     }
 
     return;
@@ -335,7 +342,8 @@ sub get_msgs {
         );
     }
 
-    my $trans_tree = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" });
+    my $trans_tree = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
 
     my $trans_node;
 
