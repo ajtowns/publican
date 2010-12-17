@@ -283,6 +283,7 @@ sub new {
         ( delete( $args->{donotset_lang} ) ) || 1 );
     $config->param( 'distributed_set',
         ( delete( $args->{distributed_set} ) ) || 0 );
+    $config->param( 'exclude_ent', ( delete( $args->{exclude_ent} ) ) || 0 );
 
     if ( %{$args} ) {
         croak(
@@ -548,7 +549,7 @@ sub print_xml {
         my $ent_file = undef;
 
         # Will be unset when processing common files outside books
-        if ($docname) {
+        if ( $docname && !$self->{config}->param('exclude_ent') ) {
             my $xml_lang = $self->{publican}->param('xml_lang');
             if ( -e "$xml_lang/$docname" . '.ent' ) {
                 $ent_file = "$path$docname.ent";
@@ -588,14 +589,15 @@ sub my_as_XML {
     my $empty_element_map = $tree->_empty_element_map;
 
     my %banned_tags = ();
-    foreach my $btag ( split( /,/, ($self->{publican}->param('banned_tags') || "") ) )
+    foreach my $btag (
+        split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) )
     {
         $banned_tags{$btag} = 1;
     }
 
     my %banned_attrs = ();
-    foreach
-        my $battr ( split( /,/, ($self->{publican}->param('banned_attrs') || "" ) ) )
+    foreach my $battr (
+        split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) )
     {
         $banned_attrs{$battr} = 1;
     }

@@ -1695,7 +1695,7 @@ sub package_home {
     my $doc_url = $self->{publican}->param('doc_url');
     my $src_url = $self->{publican}->param('src_url');
     my $os_ver  = $self->{publican}->param('os_ver');
-    my $log     = $self->change_log();
+    my $log     = $self->change_log( { lang => $xml_lang } );
 
     my %xslt_opts = (
         'book-title' => $name_start,
@@ -1874,7 +1874,7 @@ sub package {
 
     if ( $lang ne $xml_lang ) {
         $release = undef;
- 
+
         my $rev_file = "$lang/Revision_History.xml";
         croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
             if ( !-f $rev_file );
@@ -2038,7 +2038,7 @@ sub package {
 
     $dir = undef;
 
-    my $log = $self->change_log();
+    my $log = $self->change_log( { lang => $lang } );
 
     my $full_abstract = $self->{publican}->get_abstract( { lang => $lang } );
 
@@ -2145,17 +2145,18 @@ Generate an RPM style change log from $xml_lang/Revision_History.xml
 sub change_log {
     my ( $self, $args ) = @_;
 
-#    my $lang = delete( $args->{lang} ) || croak("lang is a mandatory argument");
-#
-#    if ( %{$args} ) {
-#        croak "unknown args: " . join( ", ", keys %{$args} );
-#    }
+    my $lang = delete( $args->{lang} )
+        || croak("lang is a mandatory argument");
 
-    my $xml_lang = $self->{publican}->param('xml_lang');
-    my $log      = "";
+    if ( %{$args} ) {
+        croak "unknown args: " . join( ", ", keys %{$args} );
+    }
+
+    my $log     = "";
+    my $tmp_dir = $self->{publican}->param('tmp_dir');
 
     my $xml_doc = XML::TreeBuilder->new();
-    $xml_doc->parse_file("$xml_lang/Revision_History.xml");
+    $xml_doc->parse_file("$tmp_dir/$lang/xml/Revision_History.xml");
 
     $xml_doc->root()->look_down( "_tag", "revision" ) || croak(
         maketext(

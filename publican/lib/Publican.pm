@@ -492,7 +492,8 @@ sub _load_config {
             croak maketext("productnumber not found in Info file");
         }
 
-        my($edition, $release) = $self->get_ed_rev({lang => $xml_lang});
+        my ( $edition, $release )
+            = $self->get_ed_rev( { lang => $xml_lang } );
 
         $self->{config}->param( 'docname', $docname );
         $self->{config}->param( 'product', $product );
@@ -1167,21 +1168,21 @@ sub add_revision {
     my $lang = delete( $args->{lang} )
         || croak( maketext("lang is a required option for add_revision") );
     my $members = delete( $args->{members} )
-        || croak(
-        maketext("member is a required option for add_revision") );
+        || croak( maketext("member is a required option for add_revision") );
 
     my $revnumber = delete( $args->{revnumber} );
-    my $date = delete( $args->{date} );
+    my $date      = delete( $args->{date} );
     my $firstname = delete( $args->{firstname} );
     my $surname   = delete( $args->{surname} );
     my $email     = delete( $args->{email} );
 
-    unless($revnumber) {
-        my($edition, $release) = $self->get_ed_rev({lang => $lang, bump => 1});
+    unless ($revnumber) {
+        my ( $edition, $release )
+            = $self->get_ed_rev( { lang => $lang, bump => 1 } );
         $revnumber = "$edition-$release";
     }
 
-    unless($date) {
+    unless ($date) {
         $date = DateTime->now()->strftime("%a %b %e %Y");
     }
 
@@ -1239,7 +1240,7 @@ sub add_revision {
     close($OUTDOC);
     $rev_doc->root()->delete();
 
-    my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
+    my $cleaner = Publican::XmlClean->new( { exclude_ent => 1 } );
     $cleaner->process_file( { file => $rev_file, out_file => $rev_file } );
 
     return;
@@ -1252,32 +1253,31 @@ sub get_ed_rev {
         || croak( maketext("'lang' is a required option for get_ed_rev") );
     my $bump = delete( $args->{bump} );
 
-        my $rev_file = "$lang/Revision_History.xml";
-        croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
-            if ( !-f $rev_file );
+    my $rev_file = "$lang/Revision_History.xml";
+    croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
+        if ( !-f $rev_file );
 
-        my $rev_doc = XML::TreeBuilder->new();
-        $rev_doc->parse_file($rev_file);
-        my $VR = eval {
-            $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text();
-        };
-        if ($@) {
-            croak( maketext( "revnumber not found in [_1]", $rev_file ) );
-        }
+    my $rev_doc = XML::TreeBuilder->new();
+    $rev_doc->parse_file($rev_file);
+    my $VR = eval {
+        $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text();
+    };
+    if ($@) {
+        croak( maketext( "revnumber not found in [_1]", $rev_file ) );
+    }
 
-        $VR =~ /^([0-9.]*)-([0-9.]*)$/ || croak(
-            maketext(
-                "revnumber ([_1]) does not match the required format of '[_2]'",
-                $VR,
-                '^([0-9.]*)-([0-9.]*)$/'
-            )
-        );
+    $VR =~ /^([0-9.]*)-([0-9.]*)$/ || croak(
+        maketext(
+            "revnumber ([_1]) does not match the required format of '[_2]'",
+            $VR, '^([0-9.]*)-([0-9.]*)$/'
+        )
+    );
 
     my $edition = $1;
     my $release = $2;
-    $release =~ s/(\d+)$/(1+$1)/e if($bump);
+    $release =~ s/(\d+)$/(1+$1)/e if ($bump);
 
-    return(($edition,$release));
+    return ( ( $edition, $release ) );
 }
 
 1;    # Magic true value required at end of module
