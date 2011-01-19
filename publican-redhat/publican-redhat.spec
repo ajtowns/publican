@@ -4,8 +4,8 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.6
-Release:	0%{?dist}
+Version:	2.7
+Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -16,10 +16,11 @@ ExclusiveArch:   i686 x86_64
 BuildArch:   noarch
 %endif
 Source:		https://fedorahosted.org/releases/p/u/publican/publican-redhat-%{version}.tgz
-BuildRequires:	publican >= 2.0
-Requires:	publican >= 2.0
+BuildRequires:	publican >= 2.5
+Requires:	publican >= 2.5
 URL:		https://fedorahosted.org/publican
-Obsoletes:	documentation-devel-%{brand}
+Provides:	documentation-devel-%{brand} = %{version}-%{release}
+Obsoletes:	Obsoletes: documentation-devel-%{brand} < %{version}-%{release}
 
 %description
 This package provides common files and templates needed to build documentation
@@ -46,6 +47,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Jan 19 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.7-1
+- correct Requires: and BuildRequires:
+
+* Wed Jan 19 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.7-0
+- rm max_image_width override per BZ#662584
+
 * Wed Oct 27 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.6-0
 - Change docs URL to docs.redhat.com per Mike Hideo-Smith <mhideo@redhat.com>
 
