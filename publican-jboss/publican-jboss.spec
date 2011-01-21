@@ -2,15 +2,15 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	2.3
+Version:	2.4
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
-Requires:	publican >= 2.0
-BuildRequires:	publican >= 2.0
+Requires:	publican >= 2.5
+BuildRequires:	publican >= 2.5
 URL:		https://fedorahosted.org/publican/
 Provides:	documentation-devel-%{brand} = %{version}-%{release}
 Obsoletes:	documentation-devel-%{brand} < %{version}-%{release}
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Jan 21 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.4-1
+- remove max_image_width
+
 * Tue Nov 2 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.3-1
 - Correct URL
 
