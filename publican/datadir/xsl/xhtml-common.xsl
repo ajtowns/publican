@@ -2726,4 +2726,40 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
   </xsl:choose>
 </xsl:template>
 
+<!-- set id BZ #672439 -->
+<xsl:template match="task">
+  <xsl:variable name="param.placement" select="substring-after(normalize-space($formal.title.placement),                                         concat(local-name(.), ' '))"/>
+
+  <xsl:variable name="placement">
+    <xsl:choose>
+      <xsl:when test="contains($param.placement, ' ')">
+        <xsl:value-of select="substring-before($param.placement, ' ')"/>
+      </xsl:when>
+      <xsl:when test="$param.placement = ''">before</xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$param.placement"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+
+  <xsl:variable name="preamble" select="*[not(self::title or self::titleabbrev)]"/>
+
+  <div id="{$id}">
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:call-template name="anchor"/>
+
+    <xsl:if test="title and $placement = 'before'">
+      <xsl:call-template name="formal.object.heading"/>
+    </xsl:if>
+
+    <xsl:apply-templates select="$preamble"/>
+
+    <xsl:if test="title and $placement != 'before'">
+      <xsl:call-template name="formal.object.heading"/>
+    </xsl:if>
+  </div>
+</xsl:template>
+
 </xsl:stylesheet>
