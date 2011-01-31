@@ -762,10 +762,12 @@ sub transform {
         $dir = pushd("$tmp_dir/$lang");
         mkdir 'txt';
         my $TXT_FILE;
-        open( $TXT_FILE, ">", "txt/$docname.txt" )
+        open( $TXT_FILE, ">:utf8", "txt/$docname.txt" )
             || croak( maketext("Can't open file for text output!") );
-        my $tree
-            = HTML::TreeBuilder->new->parse_file("html-single/index.html");
+        my $tree = HTML::TreeBuilder->new();
+        my $fh;
+        open( $fh, "<:utf8", "html-single/index.html" );
+        $tree->parse_file($fh);
         my $formatter
             = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
         print( $TXT_FILE $formatter->format($tree) );
