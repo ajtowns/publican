@@ -35,7 +35,7 @@ URL:           <xsl:value-of select="$url"/>
 Source:        <xsl:value-of select="$src_url"/>%{name}-%{version}-<xsl:value-of select="$rpmrel"/>.tgz
 BuildArch:      noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: publican >= 2.0
+BuildRequires: publican >= <xsl:value-of select="$spec_version"/>
 BuildRequires: desktop-file-utils
 <xsl:if test="$brand != 'publican-common'">BuildRequires:    <xsl:value-of select="$brand"/></xsl:if>
 
@@ -111,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc tmp/<xsl:value-of select="$lang"/>/html-desktop/*
+%doc <xsl:value-of select="$tmpdir"/>/<xsl:value-of select="$lang"/>/html-desktop/*
 %if %{ICONS}
 /usr/share/icons/hicolor/*
 %else
