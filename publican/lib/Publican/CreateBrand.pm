@@ -106,7 +106,7 @@ sub create {
         unless ( Publican::valid_lang($lang) );
 
     croak(
-        maketext( "Can't create brand, dirctory 'publican-[_1]' exists!", $name )
+        maketext( "Can't create brand, directory 'publican-[_1]' exists!", $name )
     ) if ( -d "publican-$name" );
 
     mkpath("publican-$name")
@@ -555,7 +555,7 @@ All subs with named parameters will return this error when unexpected named argu
 
 Any sub with a mandatory parameter will return this error if the parameter is undef.
 
-=item C<< "Can't create brand, dirctory %s exists! >>
+=item C<< "Can't create brand, directory %s exists! >>
 
 When creating a Brand a directory is created with the same name as the
 brand. If a directory with that name is in the current directory the

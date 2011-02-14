@@ -186,13 +186,13 @@ my %PARAMS = (
     },
     dt_obsoletes => {
         descr => maketext(
-            'Space seperated list of packages the desktop package obsoletes.'
+            'Space-separated list of packages the desktop package obsoletes.'
         ),
 
     },
     dt_requires => {
         descr => maketext(
-            'Space seperated list of packages the desktop package requires.'),
+            'Space-separated list of packages the desktop package requires.'),
 
     },
     'ec_id' => {
@@ -234,7 +234,7 @@ my %PARAMS = (
     },
     menu_category => {
         descr => maketext(
-            'Semi colon seperated list of menu categories for thedesktop package.'
+            'Semicolon-separated list of menu categories for the desktop package.'
         ),
     },
     os_ver => {
@@ -306,7 +306,7 @@ my %PARAMS = (
     },
     web_formats => {
         descr => maketext(
-            'A comma seperated loist of the formats to use for the web packages.'
+            'A comma-separated list of the formats to use for the web packages.'
         ),
         default => 'html,pdf,html-single,epub',
     },

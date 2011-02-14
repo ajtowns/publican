@@ -141,7 +141,7 @@ sub new {
 
     my $toc_path = $config->param('toc_path') || croak(
         maketext(
-            "[_1] is a manadory field in a site configuration file",
+            "[_1] is a mandatory field in a site configuration file",
             'toc_path'
         )
     );
@@ -149,7 +149,7 @@ sub new {
     my $def_lang  = $config->param('def_lang')  || $DEFAULT_LANG;
     my $db_file   = $config->param('db_file')   || croak(
         maketext(
-            "[_1] is a manadory field in a site configuration file. Check [_2] for validity.",
+            "[_1] is a mandatory field in a site configuration file. Check [_2] for validity.",
             'db_file',
             $site_config
         )

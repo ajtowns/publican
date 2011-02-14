@@ -290,7 +290,7 @@ sub update_po {
             ) unless ( -f $xml_file );
         }
 
-        my @members = ( maketext("Translation files syncronised with XML sources.") );
+        my @members = ( maketext("Translation files synchronised with XML sources.") );
         my ( $edition, $release )
             = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
 
