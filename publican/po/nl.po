@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2011-01-11 16:09+0200\n"
 "Last-Translator: Geert Warrink <geert.warrink@onsnet.nu>\n"
 "Language-Team: Fedora\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Virtaal 0.6.1\n"
 
@@ -165,6 +165,10 @@ msgstr "Een door komma's gescheiden lijst van XML tags die niet toegestaan zijn 
 #, fuzzy
 msgid "A comma-separated list of the formats to use for the web packages."
 msgstr "Een door komma's gescheiden lijst van te gebruiken formaten voor de web pakketten."
+
+#: lib/Publican/CreateBook.pm:247
+msgid "A short overview and summary of the book's subject and purpose, traditionally no more than one paragraph long. Note: the abstract will appear in the front matter of your book and will also be placed in the description field of the book's RPM spec file."
+msgstr ""
 
 #: lib/Publican.pm:84
 msgid "A space-separated list of books used in this remote set."
@@ -425,7 +429,7 @@ msgid "Could not open file README for output!"
 msgstr "Kan bestand README niet openen voor output!"
 
 #. ($@)
-#: lib/Publican/CreateBook.pm:414
+#: lib/Publican/CreateBook.pm:415
 msgid "Could not open icon file. %1"
 msgstr "Kan icoon bestand niet openen. %1"
 
@@ -541,6 +545,30 @@ msgstr "Eclipse plug-in aanbieder. Standaard is \"Publican-%1\""
 #: bin/publican:157
 msgid "Embed the web site TOC object in the generated HTML"
 msgstr "Insluiten van de website inhoudsopgave in de gegenereerde HTML"
+
+#: lib/Publican/CreateBook.pm:240
+msgid "Enter a short description here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:158 lib/Publican/CreateBook.pm:290
+msgid "Enter your email address here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:152 lib/Publican/CreateBook.pm:288
+msgid "Enter your first name here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:155
+msgid "Enter your organisation's name here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:156
+msgid "Enter your organisational division here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:153 lib/Publican/CreateBook.pm:289
+msgid "Enter your surname here."
+msgstr ""
 
 #. ($@)
 #: lib/Publican.pm:1056 lib/Publican/Builder.pm:389
@@ -676,6 +704,10 @@ msgstr "Importeer de SRPM naar CVS, de run make tag en make bouw."
 msgid "Information"
 msgstr "Informatie"
 
+#: lib/Publican/CreateBook.pm:295
+msgid "Initial creation by publican"
+msgstr ""
+
 #: bin/publican:303
 msgid "Install a book in to a WebSite."
 msgstr "Installeer een boek op een website."
@@ -764,6 +796,10 @@ msgstr "Verplicht veld '%1' ontbreekt in herziening."
 msgid "NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
 msgstr "OPMERKING: Deze lijsten van tags en attributen zijn merk specifiek en zijn geen onderdeel van Publican zelf."
 
+#: lib/Publican/CreateBook.pm:220
+msgid "NOTE: the href does not contain a language! This is CORRECT!"
+msgstr ""
+
 #: lib/Publican.pm:170
 msgid "Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml"
 msgstr "Naam van dit pakket. Opgehaald van de titel tag in xml_lang/TYPE_Info.xml"
@@ -845,6 +881,10 @@ msgstr "Pad naar publican algemene inhoud."
 msgid "Path to publican content."
 msgstr "Pad naar publican inhoud."
 
+#: lib/Publican/CreateBook.pm:331
+msgid "Preface"
+msgstr ""
+
 #: bin/publican:247
 msgid "Print a list of QA'd DocBook tags"
 msgstr "Print een lijst van QA'd DocBook tags"
@@ -921,7 +961,7 @@ msgstr "Rapporteer onbekende tags tijdens het verwerken van XML."
 msgid "Repository from which to fetch remote set books."
 msgstr "Repository waaruit boeken sets op afstand opgehaald worden."
 
-#: lib/Publican.pm:1229
+#: lib/Publican.pm:1229 lib/Publican/CreateBook.pm:279
 msgid "Revision History"
 msgstr "Herzieningsgeschiedenis"
 
@@ -1009,6 +1049,18 @@ msgstr "Subtitel voor een boek"
 msgid "Tech"
 msgstr "Tech"
 
+#: lib/Publican/CreateBook.pm:309
+msgid "Test Chapter"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:312
+msgid "Test Section 1"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:316
+msgid "Test Section 2"
+msgstr ""
+
 #: lib/Publican.pm:162
 msgid "The Branch of the package in CVS."
 msgstr "De tak van het pakket in CVS."
@@ -1088,6 +1140,22 @@ msgstr "Dit is een host naam voor een met Publican gegenereerde website, gebruik
 #: lib/Publican.pm:322
 msgid "This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version."
 msgstr "Dit is een speciale pagina voor een met Publican gegenereerde website, niet een standaard boek. Geldige types zijn home, product en versie."
+
+#: lib/Publican/CreateBook.pm:320
+msgid "This is a test listitem."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:200 lib/Publican/CreateBook.pm:310
+msgid "This is a test paragraph"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:318
+msgid "This is a test paragraph in Section 2"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:313
+msgid "This is a test paragraph in a section"
+msgstr ""
 
 #: lib/Publican/WebSite.pm:106
 msgid "This is an iframe, to view it upgrade your browser or enable iframe display."
@@ -1268,6 +1336,11 @@ msgstr "Welkom"
 #: lib/Publican/Builder.pm:1058
 msgid "Wrote epub archive: %1"
 msgstr "Epub archief geschreven: %1"
+
+#. ($lang,$name)
+#: lib/Publican/CreateBook.pm:404
+msgid "You need to change the HOLDER entity in the %1/%2.ent file"
+msgstr ""
 
 #: lib/Publican.pm:951
 msgid "abstract can not be calculated before building."

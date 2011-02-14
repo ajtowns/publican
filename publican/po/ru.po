@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-11-15 12:20\n"
 "Last-Translator: Yulia <ypoyarko@redhat.com>\n"
 "Language-Team: Russian\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -158,6 +158,10 @@ msgstr ""
 
 #: lib/Publican.pm:309
 msgid "A comma-separated list of the formats to use for the web packages."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:247
+msgid "A short overview and summary of the book's subject and purpose, traditionally no more than one paragraph long. Note: the abstract will appear in the front matter of your book and will also be placed in the description field of the book's RPM spec file."
 msgstr ""
 
 #: lib/Publican.pm:84
@@ -416,7 +420,7 @@ msgid "Could not open file README for output!"
 msgstr ""
 
 #. ($@)
-#: lib/Publican/CreateBook.pm:414
+#: lib/Publican/CreateBook.pm:415
 msgid "Could not open icon file. %1"
 msgstr ""
 
@@ -531,6 +535,30 @@ msgstr ""
 
 #: bin/publican:157
 msgid "Embed the web site TOC object in the generated HTML"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:240
+msgid "Enter a short description here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:158 lib/Publican/CreateBook.pm:290
+msgid "Enter your email address here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:152 lib/Publican/CreateBook.pm:288
+msgid "Enter your first name here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:155
+msgid "Enter your organisation's name here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:156
+msgid "Enter your organisational division here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:153 lib/Publican/CreateBook.pm:289
+msgid "Enter your surname here."
 msgstr ""
 
 #. ($@)
@@ -667,6 +695,10 @@ msgstr ""
 msgid "Information"
 msgstr ""
 
+#: lib/Publican/CreateBook.pm:295
+msgid "Initial creation by publican"
+msgstr ""
+
 #: bin/publican:303
 msgid "Install a book in to a WebSite."
 msgstr ""
@@ -755,6 +787,10 @@ msgstr ""
 msgid "NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
 msgstr ""
 
+#: lib/Publican/CreateBook.pm:220
+msgid "NOTE: the href does not contain a language! This is CORRECT!"
+msgstr ""
+
 #: lib/Publican.pm:170
 msgid "Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml"
 msgstr ""
@@ -836,6 +872,10 @@ msgstr ""
 msgid "Path to publican content."
 msgstr ""
 
+#: lib/Publican/CreateBook.pm:331
+msgid "Preface"
+msgstr ""
+
 #: bin/publican:247
 msgid "Print a list of QA'd DocBook tags"
 msgstr ""
@@ -912,7 +952,7 @@ msgstr ""
 msgid "Repository from which to fetch remote set books."
 msgstr ""
 
-#: lib/Publican.pm:1229
+#: lib/Publican.pm:1229 lib/Publican/CreateBook.pm:279
 msgid "Revision History"
 msgstr ""
 
@@ -997,6 +1037,18 @@ msgstr ""
 msgid "Tech"
 msgstr "Тех."
 
+#: lib/Publican/CreateBook.pm:309
+msgid "Test Chapter"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:312
+msgid "Test Section 1"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:316
+msgid "Test Section 2"
+msgstr ""
+
 #: lib/Publican.pm:162
 msgid "The Branch of the package in CVS."
 msgstr "Ветвь пакета в CVS."
@@ -1075,6 +1127,22 @@ msgstr ""
 
 #: lib/Publican.pm:322
 msgid "This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:320
+msgid "This is a test listitem."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:200 lib/Publican/CreateBook.pm:310
+msgid "This is a test paragraph"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:318
+msgid "This is a test paragraph in Section 2"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:313
+msgid "This is a test paragraph in a section"
 msgstr ""
 
 #: lib/Publican/WebSite.pm:106
@@ -1254,6 +1322,11 @@ msgstr "Добро пожаловать"
 #. ("$tmp_dir/$lang/$epub_name")
 #: lib/Publican/Builder.pm:1058
 msgid "Wrote epub archive: %1"
+msgstr ""
+
+#. ($lang,$name)
+#: lib/Publican/CreateBook.pm:404
+msgid "You need to change the HOLDER entity in the %1/%2.ent file"
 msgstr ""
 
 #: lib/Publican.pm:951

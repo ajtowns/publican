@@ -172,6 +172,7 @@ my $builder = $class->new(
         'Image::Size'                     => 0,
         'IO::String'                      => 0,
         'Locale::Language'                => 0,
+        'Locale::Maketext::Lexicon'       => 0,
         'Locale::PO'                      => 0,
         'Makefile::Parser'                => 0,
         'Syntax::Highlight::Engine::Kate' => 0,

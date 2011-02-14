@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-01 17:51-0300\n"
 "Last-Translator: Héctor Daniel Cabrera <logan@fedoraproject.org>\n"
 "Language-Team: Fedora Spanish <trans-es@lists.fedoraproject.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: ARGENTINA\n"
 
@@ -167,6 +167,10 @@ msgstr ""
 #, fuzzy
 msgid "A comma-separated list of the formats to use for the web packages."
 msgstr "Una lista separada por espacios de los libros utilizados en este conjunto remoto"
+
+#: lib/Publican/CreateBook.pm:247
+msgid "A short overview and summary of the book's subject and purpose, traditionally no more than one paragraph long. Note: the abstract will appear in the front matter of your book and will also be placed in the description field of the book's RPM spec file."
+msgstr ""
 
 #: lib/Publican.pm:84
 msgid "A space-separated list of books used in this remote set."
@@ -428,7 +432,7 @@ msgid "Could not open file README for output!"
 msgstr "¡No se pudo abrir el archivo README para la salida!"
 
 #. ($@)
-#: lib/Publican/CreateBook.pm:414
+#: lib/Publican/CreateBook.pm:415
 #, fuzzy
 msgid "Could not open icon file. %1"
 msgstr "¡No se pudo abrir el archivo %1 para la salida!"
@@ -546,6 +550,30 @@ msgstr "Proveedor del complemento Eclipse. Predeterminado a \"Publican-%1\""
 #: bin/publican:157
 msgid "Embed the web site TOC object in the generated HTML"
 msgstr "Incrustar el objeto tabla de contenidos del sitio web en el HTML generado"
+
+#: lib/Publican/CreateBook.pm:240
+msgid "Enter a short description here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:158 lib/Publican/CreateBook.pm:290
+msgid "Enter your email address here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:152 lib/Publican/CreateBook.pm:288
+msgid "Enter your first name here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:155
+msgid "Enter your organisation's name here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:156
+msgid "Enter your organisational division here."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:153 lib/Publican/CreateBook.pm:289
+msgid "Enter your surname here."
+msgstr ""
 
 #. ($@)
 #: lib/Publican.pm:1056 lib/Publican/Builder.pm:389
@@ -682,6 +710,10 @@ msgstr "Importar el SRPM al CVS, la etiqueta 'run make' y realizar la construcci
 msgid "Information"
 msgstr "Información"
 
+#: lib/Publican/CreateBook.pm:295
+msgid "Initial creation by publican"
+msgstr ""
+
 #: bin/publican:303
 msgid "Install a book in to a WebSite."
 msgstr "Instalar un libro en un sitio web."
@@ -770,6 +802,10 @@ msgstr "No se encuentra el campo obligatorio '%1' en las revisiones."
 msgid "NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
 msgstr ""
 
+#: lib/Publican/CreateBook.pm:220
+msgid "NOTE: the href does not contain a language! This is CORRECT!"
+msgstr ""
+
 #: lib/Publican.pm:170
 msgid "Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml"
 msgstr "Nombre de este paquete. Obtenido desde la etiqueta título en xml_lang/TYPE_Info.xml"
@@ -851,6 +887,10 @@ msgstr "Ruta a los contenidos comunes de Publican."
 msgid "Path to publican content."
 msgstr "Ruta a los contenidos de publican."
 
+#: lib/Publican/CreateBook.pm:331
+msgid "Preface"
+msgstr ""
+
 #: bin/publican:247
 msgid "Print a list of QA'd DocBook tags"
 msgstr "Imprime una lista de las etiquetas QA'd DocBook"
@@ -928,7 +968,7 @@ msgstr "Informa etiquetas desconocidas cuando se procesa un XML."
 msgid "Repository from which to fetch remote set books."
 msgstr "Repositorio desde donde poder obtener conjuntos de libros remotos."
 
-#: lib/Publican.pm:1229
+#: lib/Publican.pm:1229 lib/Publican/CreateBook.pm:279
 msgid "Revision History"
 msgstr ""
 
@@ -1016,6 +1056,18 @@ msgstr ""
 msgid "Tech"
 msgstr "Tecnología"
 
+#: lib/Publican/CreateBook.pm:309
+msgid "Test Chapter"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:312
+msgid "Test Section 1"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:316
+msgid "Test Section 2"
+msgstr ""
+
 #: lib/Publican.pm:162
 msgid "The Branch of the package in CVS."
 msgstr "La rama del paquete en CVS."
@@ -1095,6 +1147,22 @@ msgstr "Este es el nombre del host de un sitio web creado por Publican, utilizad
 #: lib/Publican.pm:322
 msgid "This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version."
 msgstr "Este no es un documento estándar, sino que es la página especial de un sitio web creado por Publican. Los tipos válidos son home, producto y versión, "
+
+#: lib/Publican/CreateBook.pm:320
+msgid "This is a test listitem."
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:200 lib/Publican/CreateBook.pm:310
+msgid "This is a test paragraph"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:318
+msgid "This is a test paragraph in Section 2"
+msgstr ""
+
+#: lib/Publican/CreateBook.pm:313
+msgid "This is a test paragraph in a section"
+msgstr ""
 
 #: lib/Publican/WebSite.pm:106
 msgid "This is an iframe, to view it upgrade your browser or enable iframe display."
@@ -1274,6 +1342,11 @@ msgstr "Bienvenido"
 #: lib/Publican/Builder.pm:1058
 msgid "Wrote epub archive: %1"
 msgstr "Archivo epub escrito: %1"
+
+#. ($lang,$name)
+#: lib/Publican/CreateBook.pm:404
+msgid "You need to change the HOLDER entity in the %1/%2.ent file"
+msgstr ""
 
 #: lib/Publican.pm:951
 msgid "abstract can not be calculated before building."
