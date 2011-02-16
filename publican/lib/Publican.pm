@@ -1193,9 +1193,11 @@ sub add_revision {
     $firstname = $user_cfg->param('firstname')
         || croak("firstname is a required field in the user config file")
         unless ($firstname);
+
     $surname = $user_cfg->param('surname')
         || croak("surname is a required field in the user config file")
         unless ($surname);
+
     $email = $user_cfg->param('email')
         || croak("email is a required field in the user config file")
         unless ($email);

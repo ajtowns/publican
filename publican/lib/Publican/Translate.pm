@@ -13,6 +13,7 @@ use Term::ANSIColor qw(:constants);
 use DateTime;
 use Locale::PO;
 use XML::TreeBuilder;
+use String::Similarity;
 
 use vars qw($VERSION);
 
@@ -214,6 +215,8 @@ sub update_po {
     my $langs = delete( $args->{langs} )
         || croak( maketext("langs is a mandatory argument") );
 
+    my $TEST_PO_MERGE = delete( $args->{TEST_PO_MERGE} );
+
     if ( %{$args} ) {
         croak(
             maketext(
@@ -263,8 +266,15 @@ sub update_po {
                 fcopy( $pot_file, $po_file );
             }
             else {
-                if (system(
-                        "msgmerge --no-wrap --quiet --backup=none --update $po_file $pot_file"
+                if ($TEST_PO_MERGE) {
+                    $self->merge_po(
+                        { po_file => $po_file, pot_file => $pot_file } );
+                }
+                elsif (
+                    system(
+                        "msgmerge",      "--no-wrap", "--quiet",
+                        "--backup=none", "--update",  $po_file,
+                        $pot_file
                     ) != 0
                     )
                 {
@@ -290,9 +300,15 @@ sub update_po {
             ) unless ( -f $xml_file );
         }
 
-        my @members = ( maketext("Translation files synchronised with XML sources.") );
         my ( $edition, $release )
             = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
+
+        my @members = (
+            maketext(
+                "Translation files synchronised with XML sources [_1]-[_2]",
+                $edition, $release
+            )
+        );
 
         $self->{publican}->add_revision(
             {   lang      => $lang,
@@ -305,6 +321,108 @@ sub update_po {
     return;
 }
 
+=head2 merge_po
+
+Merge updated POT files in to existing PO files.
+
+TODO Impliment this...
+
+=cut
+
+sub merge_po {
+    my ( $self, $args ) = @_;
+
+    my $po_file = delete( $args->{po_file} )
+        || croak( maketext("po_file is a mandatory argument") );
+    my $pot_file = delete( $args->{pot_file} )
+        || croak( maketext("pot_file is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my $pot_arry      = Locale::PO->load_file_asarray($pot_file);
+    my $po_hash       = Locale::PO->load_file_ashash($po_file);
+    my @po_keys       = keys( %{$po_hash} );
+    my %po_start_keys = map { $_ => 1 } @po_keys;
+
+POT:
+    foreach my $pot ( @{$pot_arry} ) {
+        my $pot_id  = $pot->msgid();
+        my $matched = 0;
+        my %highest = ();
+        foreach my $po_id (@po_keys) {
+            my $match = $self->match_strings( $pot_id, $po_id );
+            if ( $match >= 1 ) {
+                delete( $po_start_keys{$po_id} );
+                $po_hash->{$po_id}->obsolete(0)
+                    if ( $po_hash->{$po_id}->obsolete() );
+                $po_hash->{$po_id}->fuzzy(0)
+                    if ( $po_hash->{$po_id}->fuzzy() );
+                next POT;
+            }
+            elsif ( $match >= 0.8 ) {
+                $matched = 1;
+                delete( $po_start_keys{$po_id} );
+                if (   ( !defined( $highest{match} ) )
+                    || ( $match > $highest{match} ) )
+                {
+                    $highest{match}  = $match;
+                    $highest{pot_id} = $pot_id;
+                    $highest{po_id}  = $po_id;
+                }
+            }
+        }
+
+        if ( !$matched ) {
+            my $po = new Locale::PO( -msgid => $pot_id, -msgstr => '' );
+            $po_hash->{$pot_id} = $po;
+        }
+        else {
+            my $id = $highest{po_id};
+            $po_hash->{$id}->fuzzy(1) unless ( $po_hash->{$id}->fuzzy() );
+            $po_hash->{$id}->obsolete(0) if ( $po_hash->{$id}->obsolete() );
+            $po_hash->{$id}->msgid( $highest{pot_id} );
+        }
+    }
+
+    foreach my $obsolete ( keys(%po_start_keys) ) {
+        $po_hash->{$obsolete}->obsolete(1);
+    }
+
+    Locale::PO->save_file_fromhash( $po_file, $po_hash );
+
+    return;
+}
+
+=head2 match_strings
+
+Compare 2 strings and return how closely they match.
+
+Returns a vlaue between 0 and 1, weighted for string length.
+
+=cut
+
+sub match_strings {
+    my ( $self, $s1, $s2 ) = @_;
+
+    croak(
+        maketext(
+            "match_strings requires 2 arguments [_1], [_2].", $s1, $s2
+        )
+    ) unless ( ($s1) && ($s2) && ( $s1 ne "" ) && ( $s2 ne "" ) );
+
+    my $similarity = similarity( $s1, $s2 );
+
+## TODO factor string length in to similarity?
+
+    return ($similarity);
+}
+
 =head2 update_po_all
 
 Update the PO files for all languages
@@ -314,13 +432,17 @@ Update the PO files for all languages
 sub update_po_all {
     my ( $self, $args ) = @_;
 
-#    my $lang = delete( $args->{lang} ) || croak("lang is a mandatory argument");
-#
-#    if ( %{$args} ) {
-#        croak( maketext("unknown arguments: [_1]", join( ", ", keys %{$args}) ));
-#    }
+    my $test = delete( $args->{TEST_PO_MERGE} );
 
-    $self->update_po( { langs => get_all_langs() } );
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    $self->update_po( { langs => get_all_langs(), TEST_PO_MERGE => $test } );
     return;
 }
 
@@ -1054,9 +1176,10 @@ No bugs have been reported.
 
 Please report any bugs or feature requests to
 C<publican-list@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican>.
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&amp;component=publican>.
 
 
 =head1 AUTHOR
 
 Jeff Fearn  C<< <jfearn@redhat.com> >>
+

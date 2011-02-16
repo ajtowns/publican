@@ -192,10 +192,14 @@ my %options = (
 ## Revisions
     'revnumber=s' => maketext('Revision number to use for a revision.'),
     'date=s'      => maketext('Date to use for a revision.'),
-    'member=s@'   => maketext('An entry to be added to the revision. Can be specified multiple times.'),
+    'member=s@'   => maketext(
+        'An entry to be added to the revision. Can be specified multiple times.'
+    ),
     'firstname=s' => maketext('firstname to use for a revision.'),
     'surname=s'   => maketext('surname to use for a revision.'),
     'email=s'     => maketext('email to use for a revision.'),
+## Testing options
+    'TEST_PO_MERGE' => maketext('Test Publican POT/PO merging'),
 );
 
 # Options all actions use
@@ -275,7 +279,7 @@ my %actions = (
     },
     'update_po' => {
         'brief'   => maketext('Update the PO files'),
-        'options' => ['langs'],
+        'options' => [ 'langs', 'TEST_PO_MERGE' ],
     },
     'install_brand' => {
         'brief'   => maketext('Install a brand to the supplied location'),
@@ -768,10 +772,13 @@ if ( $action eq 'update_pot' ) {
 if ( $action eq 'update_po' ) {
     my $translater = Publican::Translate->new();
     if ( $opts{langs} eq 'all' ) {
-        $translater->update_po_all();
+        $translater->update_po_all(
+            { TEST_PO_MERGE => $opts{TEST_PO_MERGE} } );
     }
     else {
-        $translater->update_po( { langs => $opts{langs} } );
+        $translater->update_po(
+            { langs => $opts{langs}, TEST_PO_MERGE => $opts{TEST_PO_MERGE} }
+        );
     }
 }
 
@@ -1055,6 +1062,8 @@ if ( $action eq 'remove_book' ) {
 
 }
 
+exit(0);
+
 # Secret action to create bash completion file.
 # Nothing special just don't want to confuse people by discussing
 # it in the general help
@@ -1161,8 +1170,6 @@ BOTTOM
     close($COMP_FILE);
     return;
 }
-
-exit(0);
 
 __END__
 
