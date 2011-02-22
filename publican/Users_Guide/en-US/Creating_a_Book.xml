@@ -49,7 +49,7 @@
 			<term><option>--version<replaceable> version</replaceable></option></term>
 			 <listitem>
 				<para>
-					set <replaceable>version</replaceable> as the version number of the product that the book describes. For example, for Red Hat Enterprise Linux&nbsp;5.1 you would use <literal>5.1</literal>. The default version is <literal>0.1</literal>. The <option>--version</option> option sets the <sgmltag>&lt;pubsnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml" />.
+					set <replaceable>version</replaceable> as the version number of the product that the book describes. For example, for Red Hat Enterprise Linux&nbsp;5.1 you would use <literal>5.1</literal>. The default version is <literal>0.1</literal>. The <option>--version</option> option sets the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml" />.
 				</para>
 
 			</listitem>
@@ -69,7 +69,7 @@
 			<term><option>--product<replaceable> Product_Name</replaceable></option></term>
 			 <listitem>
 				<para>
-					set <replaceable>Product_Name</replaceable> as the name of the product that the book describes. This variable must not contain any spaces. For example, set this to <literal>Fedora</literal> for core Fedora documentation, and the name of the product for other products, for example, <literal>Fedora_Directory_Server</literal>. The <option>--product</option> option sets the <sgmltag>&lt;product name&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> and the <parameter>PRODUCT</parameter> in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file.
+					set <replaceable>Product_Name</replaceable> as the name of the product that the book describes. This variable must not contain any spaces. For example, set this to <literal>Fedora</literal> for core Fedora documentation, and the name of the product for other products, for example, <literal>Fedora_Directory_Server</literal>. The default value is <literal>Documentation</literal>. The <option>--product</option> option sets the <sgmltag>&lt;product name&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file or <filename>Article_Info.xml</filename> file and the <parameter>PRODUCT</parameter> entity in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file.
 				</para>
 
 			</listitem>
@@ -99,7 +99,7 @@
 			<term><option>--brand <replaceable>brand</replaceable></option></term>
 			 <listitem>
 				<para>
-				  set <replaceable>brand</replaceable> as the <firstterm>brand</firstterm> to use to style the output of this document, for example, <literal>RedHat</literal>, <literal>fedora</literal>, <literal>JBoss</literal>, <literal>oVirt</literal>, or <literal>GIMP</literal>. The <option>--brand</option> option sets the <parameter>brand</parameter> parameter in the <filename>publican.cfg</filename> file. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for more information on <filename>publican.cfg</filename> parameters. This option requires the appropriate <application>Publican</application> brand package to be installed. For example, to build Red Hat branded books, you must install the <package>publican-redhat</package> package. Refer to <xref linkend="sect-Users_Guide-Installing_a_brand" /> for instructions on installing brand packages for <application>Publican</application>. If you do not specify a brand, <application>Publican</application> uses its built-in, default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
+				  set <replaceable>brand</replaceable> as the <firstterm>brand</firstterm> to use to style the output of this document, for example, <literal>RedHat</literal>, <literal>fedora</literal>, <literal>JBoss</literal>, <literal>oVirt</literal>, or <literal>GIMP</literal>. The default value is <literal>common</literal>, a default brand shipped with <application>Publican</application>. The <option>--brand</option> option sets the <parameter>brand</parameter> parameter in the <filename>publican.cfg</filename> file. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for more information on <filename>publican.cfg</filename> parameters. This option requires the appropriate <application>Publican</application> brand package to be installed. For example, to build Red Hat branded books, you must install the <package>publican-redhat</package> package. Refer to <xref linkend="sect-Users_Guide-Installing_a_brand" /> for instructions on installing brand packages for <application>Publican</application>. If you do not specify a brand, <application>Publican</application> uses its built-in, default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
 				</para>
 
 			</listitem>

@@ -100,7 +100,7 @@
 				<term><parameter>version</parameter></term>
 				 <listitem>
 					<para>
-						specifies the version number for the brand. When you create the brand with <command>publican create_brand</command>, the version number is set to <literal>1.0</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the brand <filename>publican.spec</filename> file when you prepare a new version of the brand.
+					  specifies the version number for the brand. When you create the brand with <command>publican create_brand</command>, the version number is set to <literal>0.1</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the <filename>publican-<replaceable>brand</replaceable>.spec</filename> file when you prepare a new version of the brand.
 					</para>
 					 <para>
 						Note that this parameter is unrelated to the version number of documents built with this brand. For example, the <citetitle>Fedora 12 Installation Guide</citetitle> has its version set as <literal>12</literal> in its <filename>publican.cfg</filename> file, but might be built with version 1.0 of the <package>publican-fedora</package> brand.
@@ -123,7 +123,7 @@
 				<term><parameter>release</parameter></term>
 				 <listitem>
 					<para>
-						specifies the release number for the brand. When you create the brand with <command>publican create_brand</command>, the release number is set to <literal>0</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the brand <filename>publican.spec</filename> file when you prepare a new release of an existing version of the brand.
+						specifies the release number for the brand. When you create the brand with <command>publican create_brand</command>, the release number is set to <literal>0</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the <filename>publican-<replaceable>brand</replaceable>.spec</filename> file when you prepare a new release of an existing version of the brand.
 					</para>
 
 				</listitem>
@@ -133,7 +133,7 @@
 				<term><parameter>type</parameter></term>
 				 <listitem>
 					<para>
-						when set to <literal>type=brand</literal>, this parameter identifies the contents of this directory as a brand, rather than a book, article, or set.
+						when set to <literal>type: brand</literal>, this parameter identifies the contents of this directory as a brand, rather than a book, article, or set.
 					</para>
 
 				</listitem>
@@ -185,7 +185,7 @@
 	 <section id="sect-Users_Guide-Files_in_the_brand_directory-README">
 		<title>README</title>
 		 <para>
-			The <filename>README</filename> file in an SRPM package includes a brief description of the package.
+			The <filename>README</filename> file contains a brief description of the brand package.
 		</para>
 
 	</section>
@@ -193,7 +193,7 @@
 	 <section id="sect-Users_Guide-Files_in_the_brand_directory-COPYING">
 		<title>COPYING</title>
 		 <para>
-			The <filename>COPYING</filename> file in an SRPM package contains details of the copyright license for the package.
+			The <filename>COPYING</filename> file contains details of the copyright license for the package and perhaps the text of the license itself.
 		</para>
 
 	</section>

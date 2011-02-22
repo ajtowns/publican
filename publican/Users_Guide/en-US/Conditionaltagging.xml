@@ -15,26 +15,23 @@
 		To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let's say the book <citetitle>How To Use Product Foo</citetitle> has an "upstream", "enterprise", and "beta" version:
 	</para>
 	 
-<programlisting language="XML">
-&lt;para condition="upstream"&gt;
-This paragraph will only appear in the upstream version of How To Use Product Foo.
+<programlisting language="XML">&lt;para condition="upstream"&gt;
+	&lt;application&gt;Foo&lt;/application&gt; starts automatically when you boot the system.
 &lt;/para&gt;
 	
 &lt;para condition="enterprise"&gt;
-This paragraph will only appear in the enterprise version of How To Use Product Foo.
+	&lt;application&gt;Foo&lt;/application&gt; only starts automatically when you boot the system when installed together with &lt;application&gt;Bar&lt;/application&gt;.
 &lt;/para&gt;	
 	
 &lt;para condition="beta"&gt;
-This paragraph will only appear in the beta version of How To Use Product Foo.
+	&lt;application&gt;Foo&lt;/application&gt; does not start automatically when you boot the system.
 &lt;/para&gt;
 	
 &lt;para condition="beta,enterprise"&gt;
-This paragraph will only appear in the beta and enterprise versions of How To Use Product Foo.
-&lt;/para&gt;
-
-</programlisting>
+	To make &lt;application&gt;Foo&lt;/application&gt; start automatically at boot time, edit the &lt;filename&gt;/etc/init.d/foo&lt;/filename&gt; file.
+&lt;/para&gt;</programlisting>
 	 <para>
-		To build a specific version (and thereby capture all content conditionalized for that version), add the <command>condition: <replaceable>version</replaceable></command> parameter to the <filename>publican.cfg</filename> file and run the <command>publican build</command> command as normal. For example, if you add <command>condition: upstream</command> to the <filename>publican.cfg</filename> file of <citetitle>How To Use Product Foo</citetitle> and run:
+		To build a specific version (and thereby capture all content conditionalized for that version), add the <command>condition: <replaceable>version</replaceable></command> parameter to the <filename>publican.cfg</filename> file and run the <command>publican build</command> command as normal. For example, if you add <literal>condition: upstream</literal> to the <filename>publican.cfg</filename> file of <citetitle>How To Use Product Foo</citetitle> and run:
 	</para>
 	 
 <screen>
@@ -42,7 +39,7 @@ publican build --formats=pdf --langs=en-US
 
 </screen>
 	 <para>
-		<application>Publican</application> will capture all tags that use <command>condition="upstream"</command> attribute and build <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
+		<application>Publican</application> filters out all tags with condition attributes other than <literal>condition="upstream"</literal> and builds <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
 	</para>
 	 <xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	 <xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -58,33 +55,32 @@ publican build --formats=pdf --langs=en-US
 		 <para>
 			Conditional tagging creates difficulty for translators in two ways: it obscures context in the <firstterm>portable object</firstterm> (PO) files through which translators work, and it makes proofreading more difficult for translators who are not deeply familiar with your book and all the conditions that you have set.
 		</para>
-		 <para>
-			PO files do not include attributes from tags. When translators open the PO file for the example from <citetitle>How To Use Product Foo</citetitle> in <xref linkend="sect-Users_Guide-Conditional_tagging" />, they see:
+		<para>
+		  The PO files for the document contain the full set of tags from the XML files, regardless of any conditions set. When translators open the PO file for the example from <citetitle>How To Use Product Foo</citetitle> in <xref linkend="sect-Users_Guide-Conditional_tagging" />, they see:
 		</para>
-		 
-<programlisting>
-#. Tag: para
+<programlisting>#. Tag: para
 #, no-c-format
-msgid "Content that only appears in the upstream version of How To Use Product Foo."
+msgid "&lt;application&gt;Foo&lt;/application&gt; starts automatically when you boot the system."
 msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the enterprise version of How To Use Product Foo."
+msgid "&lt;application&gt;Foo&lt;/application&gt; only starts automatically when you boot the system when installed together with &lt;application&gt;Bar&lt;/application&gt;."
 msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the beta version of How To Use Product Foo."
+msgid "&lt;application&gt;Foo&lt;/application&gt; does not start automatically when you boot the system."
 msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "Content that only appears in the beta and enterprise versions of How To Use Product Foo."
-msgstr ""
-
-</programlisting>
-		 <para>
+msgid "To make &lt;application&gt;Foo&lt;/application&gt; start automatically at boot time, edit the &lt;filename&gt;/etc/init.d/foo&lt;/filename&gt; file."
+msgstr ""</programlisting>
+		<para>
+			Because PO files include do not include attributes from tags, there is nothing obvious here to show translators that these paragraphs are alternatives to each other and that the writer does not intend that meaning should flow from one paragraph to the next.
+		</para>
+		<para>
 			In this example, the only paragraphs where the meaning flows logically from one to the next is between paragraphs three and four. Because both of these paragraphs appear in the book for the beta version of the product, they (hopefully) make sense together. Beyond that, the use of conditionals here requires translators to translate individual small chunks of content without the ability to follow the context from one paragraph to the next. When translators must work under these conditions, the quality of the translation will suffer, or the time required — and therefore the cost of translation — will increase.
 		</para>
 		 <para>
