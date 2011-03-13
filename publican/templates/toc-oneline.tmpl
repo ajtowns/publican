@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="../interactive.css" type="text/css" />
+	<script type="text/javascript" src="../toc.js"></script>
+	<title>[% toc_nav %]</title>
+</head>
+<body class="tocnav" onload="hideNoJS();getCookie();checkCookie();checkMenu();">
+<div id="closemenu" class="closemenu visible">
+	<a href="#" title="[% Hide_Menu %]" onclick="hideMenu();" ><img src="../images/close.png"/></a>
+</div>
+<div id="openmenu" class="openmenu hidden">
+	<a href="#" title="[% Show_Menu %]" onclick="showMenu();"><img src="../images/open.png"/></a>
+</div>
+<div id="outer" class="outer visible">
+<div class="tocnavwrap">
+	<div class="lang">
+		<div class="reset">
+			<a href="#" title="collapse document navigation" onclick="clearCookie();">[% collapse_all %]</a>
+		</div>
+		<select id="langselect" class="langselect"  onchange="loadToc();">
+			<option disabled="disabled" value="">[% Language %]</option>
+        	[%- FOREACH langs %]
+			<option [% selected %] value="[% lang %]">[% lang_name %]</option>
+	        [%- END %]
+		</select>
+	</div>
+	<div class="hidden" id="nocookie">
+		[% nocookie %]
+	</div>
+	[%- FOREACH products %]
+	<div class="product collapsed">
+		<span class="product" onclick="toggle(event, '[% product %]');work=1;">[% product_clean %][%- IF product_icon -%]<a class="product" title="[% prod_link_title %]" href="[% product %]/index.html" onclick="window.top.location='./[% product %]/index.html'"><img class="product" src="../images/page.png" /></a>[%- END %]</span>
+		<div id='[% product %]' class="versions hidden">
+		[%- FOREACH versions %]
+			<div id='[% product %].[% version %]' class="version collapsed">
+		    [%- IF version_label != 'UNUSED' %]
+				<span class="version" onclick="toggle(event, '[% product %].[% version %].books');">[% version_label %][%- IF ver_icon -%]<a class="version" title="[% ver_link_title %]" href="[% product %]/[% version %]/index.html" onclick="window.top.location='./[% product %]/[% version %]/index.html'"><img class="version" src="../images/page.png" /></a>[%- END %]</span>
+				<div id='[% product %].[% version %].books' class="books hidden">
+		    [%- ELSE -%]
+				<div id='[% product %].[% version %].books' class="books">
+		    [%- END %]
+				[%- FOREACH books %]
+					<div id='[% product %].[% version %].[% book %]' class="book collapsed">
+						<a href="[% product %]/[% version %]/html/[% book %]/index.html" onclick="window.top.location='./[% product %]/[% version %]/html/[% book %]/index.html'"><span class="book">[% book_clean %]</span></a>
+						<span id='[% product %].[% version %].[% book %].types' class="types">
+						[%- FOREACH types %]
+							<a href="[% prep %][% product %]/[% version %]/[% type %]/[% book %]/[% ext %]" [% IF onclick %]onclick="window.top.location='./[% product %]/[% version %]/[% type %]/[% book %]/[% ext %]';return false;"[% END %]><img src="../images/[% type %].png" /></a>
+			        		[%- END %]
+						</span>
+					</div>
+	        		[%- END %]
+                                [%- IF untrans_books %]
+					<div id='[% product %].[% version %]' class="version collapsed untranslated" onclick="toggle(event, '[% product %].[% version %].untrans_books');">
+						<span class="version">[% Untranslated %]</span>
+						<div id='[% product %].[% version %].untrans_books' class="books hidden">
+						[%- FOREACH untrans_books %]
+							<div id='[% product %].[% version %].[% book %]' class="book collapsed" onclick="toggle(event, '[% product %].[% version %].[% book %].types');">
+								<a href="../[% untrans_lang %]/[% product %]/[% version %]/html/[% book %]/index.html" onclick="window.top.location='../[% untrans_lang %]/[% product %]/[% version %]/html/[% book %]/index.html'"><span class="book">[% book_clean %]</span></a> 
+								<span id='[% product %].[% version %].[% book %].types' class="types">
+								[%- FOREACH types %]
+									<a href="../[% untrans_lang %]/[% prep %][% product %]/[% version %]/[% type %]/[% book %]/[% ext %]" [% IF onclick %]onclick="window.top.location='../[% untrans_lang %]/[% prep %][% product %]/[% version %]/[% type %]/[% book %]/[% ext %]';return false;"[% END %]><img src="../images/[% type %].png" /></a>
+			        				[%- END %]
+								</span>
+							</div>
+		        			[%- END %]
+						</div>
+					</div>
+	        		[%- END %]
+				</div>
+			</div>					
+       		[%- END %]
+		</div>					
+	</div>					
+       	[%- END %]
+	<div class="nocookie" id="nojs">
+		[% nojs %]
+	</div>
+	[% search %] 
+</div>					
+</div>					
+</body>
+</html>
+

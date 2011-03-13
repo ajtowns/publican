@@ -160,6 +160,7 @@ sub new {
     my $dump      = $config->param('dump')      || undef;
     my $dump_file = $config->param('dump_file') || $DEFAULT_DUMP_FILE;
     my $zip_dump  = $config->param('zip_dump')  || undef;
+    my $toc_type  = $config->param('toc_type')  || 'toc';
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -177,6 +178,7 @@ sub new {
     $self->{dump}      = $dump;
     $self->{dump_file} = $dump_file;
     $self->{zip_dump}  = $zip_dump;
+    $self->{toc_type}  = $toc_type;
 
     my $conf = { INCLUDE_PATH => $tmpl_path, };
 
@@ -634,8 +636,8 @@ sub regen_all_toc {
     };
 
     $self->{Template}->process(
-        'static_toc.tmpl', $vars,
-        $self->{toc_path} . "/toc.html",
+        $self->{toc_type} . '.tmpl', $vars,
+        $self->{toc_path} . '/toc.html',
         binmode => ':utf8'
     ) or croak( $self->{Template}->error() );
 
