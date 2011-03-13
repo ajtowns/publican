@@ -94,6 +94,11 @@ my %PARAMS = (
             'A comma-separated list of XML tags that are not permitted in the source.'
         ),
     },
+    base_brand => {
+        descr   => maketext('The base brand to use for this brand.'),
+        default => 'common',
+
+    },
     brand => {
         descr   => maketext('The brand to use when building this package.'),
         default => 'common',

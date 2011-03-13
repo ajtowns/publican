@@ -426,17 +426,19 @@ sub setup_xml {
             # copy common files
             my $common_content = $self->{publican}->param('common_content');
             my $brand          = $self->{publican}->param('brand');
-
+            my $base_brand
+                = ( $self->{publican}->{brand_config}->param('base_brand')
+                    || 'common' );
             if ( $common_content =~ m/\"/ & $common_content !~ m/\s/ ) {
                 $common_content =~ s/\"//g;
             }
 
             File::Copy::Recursive::rcopy_glob(
-                $common_content . "/common/en-US/*",
+                $common_content . "/$base_brand/en-US/*",
                 "$tmp_dir/$lang/xml/Common_Content"
             );
             File::Copy::Recursive::rcopy_glob(
-                $common_content . "/common/$lang/*",
+                $common_content . "/$base_brand/$lang/*",
                 "$tmp_dir/$lang/xml/Common_Content"
             ) if ( $lang ne 'en-US' );
 
@@ -1547,6 +1549,8 @@ Returns: Modified input tree, which is DocBook XML.
 =cut
 
 sub numberLines {
+    # BUGBUG testing BZ #653432
+    my $count   = shift()->string_value();
     my $content = shift();
 
     my $parser = XML::LibXML->new();
@@ -1561,15 +1565,19 @@ sub numberLines {
     $out_string =~ s/^/sprintf("$format",$count++)/egm;
 
     # this gives an XML::LibXML::DocumentFragment
-    my $list = $parser->parse_balanced_chunk($out_string);
+    # BUGBUG testing BZ #653432
+    # my $list = $parser->parse_balanced_chunk($out_string);
+    my $list = XML::LibXML::Text->new($out_string);
 
     # remove the input node
     $content->shift;
 
+    # BUGBUG testing BZ #653432
+    $content->push($list);
     # append the marked-up nodes
-    foreach my $node ( $list->childNodes() ) {
-        $content->push($node);
-    }
+    #    foreach my $node ( $list->childNodes() ) {
+    #        $content->push($node);
+    #    }
 
     return ($content);
 }

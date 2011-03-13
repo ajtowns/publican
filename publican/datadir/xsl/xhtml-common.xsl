@@ -2656,7 +2656,7 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
       <xsl:copy-of select="xverb:numberLines($rtf)"/>
     </xsl:when>
     <xsl:when test="function-available('perl:numberLines')">
-      <xsl:copy-of select="perl:numberLines($rtf)"/>
+      <xsl:copy-of select="perl:numberLines($linenumbering.startinglinenumber, $rtf)"/>
     </xsl:when>
     <xsl:otherwise>
       <xsl:message terminate="yes">
