@@ -1561,7 +1561,6 @@ sub numberLines {
     my $format    = '%' . length("$num_lines") . 's:' . chr(160);
 
     my $out_string = $text;
-    my $count      = 0;
     $out_string =~ s/^/sprintf("$format",$count++)/egm;
 
     # this gives an XML::LibXML::DocumentFragment
