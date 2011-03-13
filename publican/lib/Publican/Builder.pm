@@ -442,7 +442,7 @@ sub setup_xml {
                 "$tmp_dir/$lang/xml/Common_Content"
             ) if ( $lang ne 'en-US' );
 
-            if ( $brand ne 'common' ) {
+            if ( $brand ne $base_brand ) {
                 my $brand_lang
                     = $self->{publican}->{brand_config}->param('xml_lang');
 
