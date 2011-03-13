@@ -9,125 +9,139 @@ use 5.008;
 my $class = Module::Build->subclass(
     class => 'My::Builder',
     code  => q{
-       use File::pushd;
-       use Cwd;
-       my $dir = cwd() . '/tmp/rpm';
-      sub ACTION_srpm {
-        my $self = shift;
-        my $os_ver = $self->args('os_ver');
-        $self->SUPER::ACTION_clean;
-        $self->SUPER::ACTION_dist;
-        $self->do_system("mkdir -p $dir");
-        $self->do_system("cp Publican*.tar.gz $dir/.");
-        if($os_ver) {
-            $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
-            "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
-            "_rpmdir $dir", "-bs", "--nodeps", "--define",
-            "dist $os_ver", "publican.spec");
+        use File::pushd;
+        use Cwd;
+        my $dir = cwd() . '/tmp/rpm';
+        sub ACTION_srpm {
+            my $self = shift;
+            my $os_ver = $self->args('os_ver');
+            $self->SUPER::ACTION_clean;
+            $self->SUPER::ACTION_dist;
+            $self->do_system("mkdir -p $dir");
+            $self->do_system("cp Publican*.tar.gz $dir/.");
+            if($os_ver) {
+                $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
+                "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
+                "_rpmdir $dir", "-bs", "--nodeps", "--define",
+                "dist $os_ver", "publican.spec");
+            }
+            else {
+                $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
+                "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
+                "_rpmdir $dir", "-bs", "--nodeps", "publican.spec");
+            }
         }
-        else {
-            $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
-            "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
-            "_rpmdir $dir", "-bs", "--nodeps", "publican.spec");
+        sub ACTION_rpm {
+            my $self = shift;
+            $self->ACTION_srpm || die;
+            my $os_ver = $self->args('os_ver');
+            my $srpm = `find $dir -name '*.src.rpm'`;
+            chomp($srpm);
+            if($os_ver) {
+                $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
+                "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
+                "_rpmdir $dir",  "--rebuild",        "--define",
+                "dist $os_ver",   $srpm);
+            }
+            else {
+                $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
+                "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
+                "_rpmdir $dir",  "--rebuild", $srpm);
+            }
         }
-      }
-      sub ACTION_rpm {
-        my $self = shift;
-        $self->ACTION_srpm || die;
-        my $os_ver = $self->args('os_ver');
-        my $srpm = `find $dir -name '*.src.rpm'`;
-        chomp($srpm);
-        if($os_ver) {
-          $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
-            "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
-            "_rpmdir $dir",  "--rebuild",        "--define",
-            "dist $os_ver",   $srpm);
+        sub ACTION_local {
+            my $self = shift;
+            $self->ACTION_rpm || die;
+            $self->do_system("sudo yum -y localinstall --nogpg $dir/noarch/*.rpm");
         }
-        else {
-          $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
-            "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
-            "_rpmdir $dir",  "--rebuild", $srpm);
-        }
+        sub  process_common_files {
+            my $self = shift;
+            # This is how to self host
+            use lib File::Spec->catdir('lib'); 
+            use Publican;
+            use Publican::Builder;
+            use File::Path;
+            use File::Copy::Recursive qw(rcopy);
+            my $cwd = getcwd();
+            my $dir = pushd('datadir/Common_Content/common');
+            my $path = "$cwd/blib/datadir/Common_Content";
+            return if(-d $path);
+            die "can't chdir: $@" if $@;
 
-      }
-      sub ACTION_local {
-        my $self = shift;
-        $self->ACTION_rpm || die;
-        $self->do_system("sudo yum -y localinstall --nogpg $dir/noarch/*.rpm");
-      }
-      sub  process_common_files {
-        my $self = shift;
-        # This is how to self host
-        use lib File::Spec->catdir('lib'); 
-        use Publican;
-        use Publican::Builder;
-        use File::Path;
-        use File::Copy::Recursive qw(rcopy);
-        my $cwd = getcwd();
-        my $dir = pushd('datadir/Common_Content/common');
-        my $path = "$cwd/blib/datadir/Common_Content";
-        return if(-d $path);
-        die "can't chdir: $@" if $@;
-
-        my $publican = Publican->new();
-        my $builder = Publican::Builder->new();
-        $builder->build(
-        { formats => 'xml', langs => 'all', publish => 1 } );
-        mkpath("$path");
-        rcopy( "publish/*", "$path/.");
-        rcopy('publican.cfg', "$path/common/.");
-        $dir = undef;
-        $builder = undef;
-        $publican = undef;
-      }
-      sub ACTION_update_pot {
-        my $self = shift;
-        $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
-      }
-      sub ACTION_update_po {
-        my $self = shift;
-        use File::Find::Rule;
-        my @po_files = find(
+            my $publican = Publican->new();
+            my $builder = Publican::Builder->new();
+            $builder->build(
+                { formats => 'xml', langs => 'all', publish => 1 } );
+            mkpath("$path");
+            rcopy( "publish/*", "$path/.");
+            rcopy('publican.cfg', "$path/common/.");
+            $dir = undef;
+            $builder = undef;
+            $publican = undef;
+        }
+        sub ACTION_update_pot {
+            my $self = shift;
+            $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
+        }
+        sub ACTION_update_po {
+            my $self = shift;
+            use File::Find::Rule;
+            my @po_files = find(
                 maxdepth  => 1,
                 file => name => "*.po",
                 in        => 'po',
                 relative  => 0,
-        );
-        foreach my $po_file (@po_files) {
-            $self->do_system("msgmerge --quiet --no-wrap --backup=none --update $po_file po/publican.pot");
+            );
+            foreach my $po_file (@po_files) {
+                $self->do_system("msgmerge --quiet --no-wrap --backup=none --update $po_file po/publican.pot");
+            }
         }
-      }
-      sub  process_generated_files {
-        my $self = shift;
-        use Cwd qw(abs_path);
-        use File::Path;
-        use File::Copy::Recursive qw(rcopy);
-        use File::Find::Rule;
-        my $pwd = getcwd();
-        return if(-d "$pwd/blib/generated");
-        my $dir = pushd('Site_Tech');
-        die "can't chdir: $@" if $@;
-        $self->do_system(qq|perl -I $pwd/blib/lib $pwd/blib/script/publican build --formats=html-single --publish --embedtoc --langs=all --common_config="$pwd/blib/datadir" --common_content="$pwd/blib/datadir/Common_Content"|);
+        sub  process_generated_files {
+            my $self = shift;
+            use Cwd qw(abs_path);
+            use File::Path;
+            use File::Copy::Recursive qw(rcopy);
+            use File::Find::Rule;
+            my $pwd = getcwd();
+            return if(-d "$pwd/blib/generated");
+            my $dir = pushd('Site_Tech');
+            die "can't chdir: $@" if $@;
+            $self->do_system(qq|perl -I $pwd/blib/lib $pwd/blib/script/publican build --formats=html-single --publish --embedtoc --langs=all --common_config="$pwd/blib/datadir" --common_content="$pwd/blib/datadir/Common_Content"|);
 
-        my @lang_dirs = sort( { $b cmp $a } find(
+            my @lang_dirs = sort( { $b cmp $a } find(
                 maxdepth  => 1,
                 directory => name => "*-*",
                 in        => 'tmp',
                 relative  => 0,
-        ) );
-        foreach my $lang_dir (@lang_dirs) {
-            my $new_dir = $lang_dir;
-            $new_dir =~ s/tmp\///;
-            $new_dir = "$pwd/blib/generated/$new_dir";
-            mkpath($new_dir);
-            rcopy("$lang_dir/html-single/index.html", "$new_dir/Site_Tech.html");
-            if ( -d "$lang_dir/html-single/images" ) {
-                mkpath("$new_dir/images");
-                rcopy( "$lang_dir/html-single/images/*", "$new_dir/images/.");
+            ) );
+            foreach my $lang_dir (@lang_dirs) {
+                my $new_dir = $lang_dir;
+                $new_dir =~ s/tmp\///;
+                $new_dir = "$pwd/blib/generated/$new_dir";
+                mkpath($new_dir);
+                rcopy("$lang_dir/html-single/index.html", "$new_dir/Site_Tech.html");
+                if ( -d "$lang_dir/html-single/images" ) {
+                    mkpath("$new_dir/images");
+                    rcopy( "$lang_dir/html-single/images/*", "$new_dir/images/.");
+                }
             }
         }
-      }
-  }
+        sub ACTION_authortest {
+            my ($self) = @_;
+            $self->depends_on('build');
+            $self->depends_on('manifest');
+            $self->depends_on('distmeta');
+            $self->test_files( qw< t xt/author > );
+            $self->recursive_test_files(1);
+            $self->depends_on('test');
+            return;
+        }
+        sub ACTION_distdir {
+            my ($self) = @_;
+            $self->depends_on('authortest');
+            return $self->SUPER::ACTION_distdir();
+        }
+    }
 );
 
 my $builder = $class->new(
