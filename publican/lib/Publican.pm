@@ -1264,6 +1264,16 @@ sub add_revision {
     return;
 }
 
+=head2 
+
+Get the current edition (version) and release from the Revision History file.
+
+Parameters: language, bump.
+
+If bump is set the returned revision will increment before it's returned.
+
+=cut
+
 sub get_ed_rev {
     my ( $self, $args ) = @_;
 
