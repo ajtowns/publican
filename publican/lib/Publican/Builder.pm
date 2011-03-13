@@ -764,11 +764,11 @@ sub transform {
         $dir = pushd("$tmp_dir/$lang");
         mkdir 'txt';
         my $TXT_FILE;
-        open( $TXT_FILE, ">:utf8", "txt/$docname.txt" )
+        open( $TXT_FILE, ">:encoding(UTF-8)", "txt/$docname.txt" )
             || croak( maketext("Can't open file for text output!") );
         my $tree = HTML::TreeBuilder->new();
         my $fh;
-        open( $fh, "<:utf8", "html-single/index.html" );
+        open( $fh, "<:encoding(UTF-8)", "html-single/index.html" );
         $tree->parse_file($fh);
         my $formatter
             = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
@@ -1739,7 +1739,7 @@ sub package_home {
     my $outfile;
     my $spec_name = "$tmp_dir/rpm/$name_start-web-$web_type.spec";
 
-    open( $outfile, ">:utf8", "$spec_name" )
+    open( $outfile, ">:encoding(UTF-8)", "$spec_name" )
         || croak( maketext( "Can't open spec file: [_1]", $@ ) );
     print( $outfile $stylesheet->output_string($results) );
     close($outfile);
@@ -2135,7 +2135,7 @@ sub package {
     $spec_name = "$tmp_dir/rpm/$name_start-$lang.spec"
         if ( $desktop or $short_sighted );
 
-    open( $outfile, ">:utf8", "$spec_name" )
+    open( $outfile, ">:encoding(UTF-8)", "$spec_name" )
         || croak( maketext( "Can't open spec file: [_1]", $@ ) );
     print( $outfile $stylesheet->output_string($results) );
     close($outfile);

@@ -541,7 +541,7 @@ sub print_xml {
         $xml_doc->root()->delete();
 
         my $OUTDOC;
-        open( $OUTDOC, ">:utf8", "$out_file" )
+        open( $OUTDOC, ">:encoding(UTF-8)", "$out_file" )
             || croak(
             maketext( "Could not open [_1] for output!", $out_file ) );
 

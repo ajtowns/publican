@@ -638,7 +638,7 @@ sub regen_all_toc {
     $self->{Template}->process(
         $self->{toc_type} . '.tmpl', $vars,
         $self->{toc_path} . '/toc.html',
-        binmode => ':utf8'
+        binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
     $self->stats();
@@ -648,7 +648,7 @@ sub regen_all_toc {
     $self->{Template}->process(
         'Sitemap.tmpl', $vars,
         $self->{toc_path} . "/Sitemap",
-        binmode => ':utf8'
+        binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
     # regenerate main index.html
@@ -664,7 +664,7 @@ sub regen_all_toc {
     $self->{Template}->process(
         'index.tmpl', $vars,
         $self->{toc_path} . "/index.html",
-        binmode => ':utf8'
+        binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
     # This file contains all the langauges.
@@ -679,7 +679,7 @@ sub regen_all_toc {
     $self->{Template}->process(
         'opds-langs.tmpl', $opds_vars,
         $self->{toc_path} . "/opds.xml",
-        binmode => ':utf8'
+        binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
     $self->xml_dump() if ( $self->{dump} );
@@ -1033,7 +1033,7 @@ SEARCH
         $self->{Template}->process(
             'opds.tmpl', $opds_vars,
             $self->{toc_path} . "/$language/opds-$product.xml",
-            binmode => ':utf8'
+            binmode => ':encoding(UTF-8)'
         ) or croak( $self->{Template}->error() );
 
         my %opds_p_url = (
@@ -1056,7 +1056,7 @@ SEARCH
     $self->{Template}->process(
         'toc.tmpl', $vars,
         $self->{toc_path} . "/$language/toc.html",
-        binmode => ':utf8'
+        binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
     # This file contains all products for this langauge.
@@ -1071,7 +1071,7 @@ SEARCH
     $self->{Template}->process(
         'opds-prods.tmpl', $opds_vars,
         $self->{toc_path} . "/$language/opds.xml",
-        binmode => ':utf8'
+        binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
     return \@products;
@@ -1171,7 +1171,7 @@ GET_COUNTS
         $self->{Template}->process(
             'stats.tmpl', $vars,
             $self->{toc_path} . "/$lang/Site_Statistics.html",
-            binmode => ':utf8'
+            binmode => ':encoding(UTF-8)'
         ) or croak( $self->{Template}->error() );
     }
 

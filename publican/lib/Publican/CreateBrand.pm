@@ -123,7 +123,7 @@ sub create {
 
     $out_file = "$lang/css/overrides.css";
 
-    open( $OUT, ">:utf8", $out_file )
+    open( $OUT, ">:encoding(UTF-8)", $out_file )
         || croak(
         maketext( "Could not open [_1] for output: [_2]", $out_file, $@ ) );
 
@@ -241,7 +241,7 @@ sub xml_files {
         my $text     = $xml_doc->as_XML($xml_doc);
         my $out_file = "$lang/$file" . ".xml";
         my $OUTDOC;
-        open( $OUTDOC, ">:utf8", $out_file )
+        open( $OUTDOC, ">:encoding(UTF-8)", $out_file )
             || croak(
             maketext( "Could not open file [_1] for output!", $out_file ) );
 
@@ -309,7 +309,7 @@ sub conf_files {
     my $date = DateTime->today()->strftime("%a %b %e %Y");
     $out_file = "publican-$lcbrand.spec";
 
-    open( $OUT, ">:utf8", $out_file )
+    open( $OUT, ">:encoding(UTF-8)", $out_file )
         || croak( maketext( "Could not open file [_1] for output!", $out_file ) );
 
     print $OUT <<SPEC;
@@ -360,13 +360,13 @@ SPEC
 
     close($OUT);
 
-    open( $OUT, ">:utf8", 'README' )
+    open( $OUT, ">:encoding(UTF-8)", 'README' )
         || croak( maketext( "Could not open file README for output!" ) );
 
     print($OUT "SETUP This file should be a short description of your project");
     close($OUT);
 
-    open( $OUT, ">:utf8", 'COPYING' )
+    open( $OUT, ">:encoding(UTF-8)", 'COPYING' )
         || croak( maketext( "Could not open file COPYING for output!" ) );
 
     print($OUT "SETUP This file should contain your COPYRIGHT License");
@@ -420,7 +420,7 @@ sub images {
 </svg>
 SVG
 
-        open( $OUT, ">:utf8", "$lang/images/$count.svg" )
+        open( $OUT, ">:encoding(UTF-8)", "$lang/images/$count.svg" )
             || croak(
             maketext(
                 "Can't open SVG file [_1]: [_2]", "$lang/images/$count.svg",
@@ -526,7 +526,7 @@ sub default_images {
 </svg>
 SVG
 
-    open( $OUT, ">:utf8", "$lang/images/$file.svg" )
+    open( $OUT, ">:encoding(UTF-8)", "$lang/images/$file.svg" )
         || croak(
         maketext(
             "Can't open SVG file [_1]: [_2]", "$lang/images/$file.svg", $@

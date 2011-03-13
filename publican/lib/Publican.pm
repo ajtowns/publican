@@ -1252,7 +1252,7 @@ sub add_revision {
     $node->unshift_content($revision);
 
     my $OUTDOC;
-    open( $OUTDOC, ">:utf8", "$rev_file" )
+    open( $OUTDOC, ">:encoding(UTF-8)", "$rev_file" )
         || croak( maketext( "Could not open [_1] for output!", $rev_file ) );
     print( $OUTDOC $rev_doc->root()->as_XML() );
     close($OUTDOC);

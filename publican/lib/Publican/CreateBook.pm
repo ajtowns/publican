@@ -372,7 +372,7 @@ sub create {
             $out_file = "$name/$lang/$name" . ".xml";
         }
         my $OUTDOC;
-        open( $OUTDOC, ">:utf8", $out_file )
+        open( $OUTDOC, ">:encoding(UTF-8)", $out_file )
             || croak(
             maketext( "Could not open [_1] for output!", $out_file, $@ ) );
 
@@ -399,7 +399,7 @@ sub create {
     my $year = DateTime->today()->year();
 
     my $OUTDOC;
-    open( $OUTDOC, ">:utf8", "$name/$lang/$name" . ".ent" )
+    open( $OUTDOC, ">:encoding(UTF-8)", "$name/$lang/$name" . ".ent" )
         || croak( maketext( "Could not open entity file. [_1]", $@ ) );
     my $holder_text = maketext('You need to change the HOLDER entity in the [_1]/[_2].ent file', $lang, $name);
     print $OUTDOC <<EOL;
@@ -411,7 +411,7 @@ EOL
 
     close($OUTDOC);
 
-    open( $OUTDOC, ">:utf8", "$name/$lang/images/icon.svg" )
+    open( $OUTDOC, ">:encoding(UTF-8)", "$name/$lang/images/icon.svg" )
         || croak( maketext( "Could not open icon file. [_1]", $@ ) );
     print( $OUTDOC $icon );
     close($OUTDOC);

@@ -192,7 +192,7 @@ sub po2xml {
 
     my $OUTDOC;
 
-    open( $OUTDOC, ">:utf8", "$out_file" )
+    open( $OUTDOC, ">:encoding(UTF-8)", "$out_file" )
         || croak( maketext( "Could not open [_1] for output!", $out_file ) );
     print $OUTDOC Publican::Builder::dtd_string(
         { tag => $type, dtdver => $dtdver } );
@@ -821,7 +821,7 @@ sub print_msgs {
 
     my $fh;
 
-    open( $fh, ">:utf8", $pot_file )
+    open( $fh, ">:encoding(UTF-8)", $pot_file )
         or croak(
         maketext(
             "Failed to open output file [_1]. Error: [_2]",
