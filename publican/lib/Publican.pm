@@ -1264,7 +1264,7 @@ sub add_revision {
     return;
 }
 
-=head2 
+=head2 get_ed_rev
 
 Get the current edition (version) and release from the Revision History file.
 
