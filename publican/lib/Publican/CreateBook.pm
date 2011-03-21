@@ -222,12 +222,7 @@ sub create {
                     [   'remark',
                         '<xi:include href="My_Other_Book/My_Other_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude">'
                     ],
-                    [   'xi:include',
-                        {   href       => 'Revision_History.xml',
-                            'xmlns:xi' => 'http://www.w3.org/2001/XInclude'
-                        }
-                    ],
-                    ['index'],
+                    ['setindex'],
                 ],
             ),
         },
