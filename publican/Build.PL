@@ -81,6 +81,10 @@ my $class = Module::Build->subclass(
         }
         sub ACTION_update_pot {
             my $self = shift;
+			# BUGBUG TODO call Locale::Maketext::Extract::Run directly
+			# use Locale::Maketext::Extract::Run 'xgettext';
+			# my @args = qw(-d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* -o po/publican.pot);
+			# xgettext(@ARGV);
             $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
         }
         sub ACTION_update_po {
@@ -92,6 +96,7 @@ my $class = Module::Build->subclass(
                 in        => 'po',
                 relative  => 0,
             );
+			# BUGBUG TODO switch to internal merge code
             foreach my $po_file (@po_files) {
                 $self->do_system("msgmerge --quiet --no-wrap --backup=none --update $po_file po/publican.pot");
             }
