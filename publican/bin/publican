@@ -198,8 +198,7 @@ my %options = (
     'firstname=s' => maketext('firstname to use for a revision.'),
     'surname=s'   => maketext('surname to use for a revision.'),
     'email=s'     => maketext('email to use for a revision.'),
-## Testing options
-    'TEST_PO_MERGE' => maketext('Test Publican POT/PO merging'),
+    'msgmerge' => maketext(q|Use gettext's msgmerge for POT/PO merging.|),
 );
 
 # Options all actions use
@@ -279,7 +278,7 @@ my %actions = (
     },
     'update_po' => {
         'brief'   => maketext('Update the PO files'),
-        'options' => [ 'langs', 'TEST_PO_MERGE' ],
+        'options' => [ 'langs', 'msgmerge' ],
     },
     'install_brand' => {
         'brief'   => maketext('Install a brand to the supplied location'),
@@ -773,11 +772,11 @@ if ( $action eq 'update_po' ) {
     my $translater = Publican::Translate->new();
     if ( $opts{langs} eq 'all' ) {
         $translater->update_po_all(
-            { TEST_PO_MERGE => $opts{TEST_PO_MERGE} } );
+            { msgmerge => $opts{msgmerge} } );
     }
     else {
         $translater->update_po(
-            { langs => $opts{langs}, TEST_PO_MERGE => $opts{TEST_PO_MERGE} }
+            { langs => $opts{langs}, msgmerge => $opts{msgmerge} }
         );
     }
 }

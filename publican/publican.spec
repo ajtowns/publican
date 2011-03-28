@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.99
-Release:        0%{?dist}.t21
+Release:        0%{?dist}.t22
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -90,7 +90,6 @@ BuildRequires:  fop >= 0.95
 BuildRequires:  batik
 BuildRequires:  docbook-style-xsl >= 1.75.2-5
 BuildRequires:  desktop-file-utils
-BuildRequires:  gettext
 BuildRequires:  perl-Template-Toolkit
 BuildRequires:  perl(DBD::SQLite)
 
@@ -103,7 +102,7 @@ Requires:       docbook-style-xsl >= 1.75.2-5
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 4.0
-Requires:       gettext cvs
+Requires:       cvs
 Requires:       perl-Template-Toolkit
 Requires:       perl(DBD::SQLite)
 

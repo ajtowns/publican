@@ -205,7 +205,7 @@ sub po2xml {
 
 =head2 update_po
 
-Update the PO files using msgmerge
+Update the PO files using internal process or msgmerge
 
 =cut
 
@@ -215,7 +215,7 @@ sub update_po {
     my $langs = delete( $args->{langs} )
         || croak( maketext("langs is a mandatory argument") );
 
-    my $TEST_PO_MERGE = delete( $args->{TEST_PO_MERGE} );
+    my $msgmerge = delete( $args->{msgmerge} );
 
     if ( %{$args} ) {
         croak(
@@ -266,7 +266,7 @@ sub update_po {
                 fcopy( $pot_file, $po_file );
             }
             else {
-                if ($TEST_PO_MERGE) {
+                if (!$msgmerge) {
                     $self->merge_po(
                         { po_file => $po_file, pot_file => $pot_file } );
                 }
@@ -432,7 +432,7 @@ Update the PO files for all languages
 sub update_po_all {
     my ( $self, $args ) = @_;
 
-    my $test = delete( $args->{TEST_PO_MERGE} );
+    my $msgmerge = delete( $args->{msgmerge} );
 
     if ( %{$args} ) {
         croak(
@@ -442,7 +442,7 @@ sub update_po_all {
         );
     }
 
-    $self->update_po( { langs => get_all_langs(), TEST_PO_MERGE => $test } );
+    $self->update_po( { langs => get_all_langs(), msgmerge => $msgmerge } );
     return;
 }
 
