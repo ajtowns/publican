@@ -128,7 +128,8 @@ sub build {
     my $type    = $self->{publican}->param('type');
     my $brand   = $self->{publican}->param('brand');
 
-    if ( $type eq 'Set' && $self->{publican}->{config}->param('scm') ) {
+    if ( ( $type eq 'Set' ) && ( $self->{publican}->{config}->param('scm') ) )
+    {
         $self->get_books();
         $self->build_set_books( { langs => $langs } );
     }
@@ -1963,7 +1964,8 @@ sub package {
     $tardir = "$name_start-$lang-$edition" if ($short_sighted);
 
     # distributed sets need to be collected before packaging
-    if ( $type eq 'Set' ) {
+    if ( ( $type eq 'Set' ) && ( $self->{publican}->{config}->param('scm') ) )
+    {
         $self->get_books();
         $self->build_set_books( { langs => $lang } );
     }
