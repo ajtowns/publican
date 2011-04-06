@@ -266,7 +266,7 @@ sub update_po {
                 fcopy( $pot_file, $po_file );
             }
             else {
-                if (!$msgmerge) {
+                if ( !$msgmerge ) {
                     $self->merge_po(
                         { po_file => $po_file, pot_file => $pot_file } );
                 }
@@ -782,7 +782,11 @@ sub translate {
                     maketext("WARNING: Un-translated message in PO file."),
                     RED );
             }
-            logger( "\n" . $msgid . "\n\n", RED );
+            my $str = $msgid;
+            $str = substr( $str, 0, 64 ) . '...' if ( length($str) > 64 );
+            logger(
+                "\n" . $msgids->{$msgid}->loaded_line_number . ": $str\n\n",
+                RED );
         }
     }
     else {
