@@ -101,36 +101,6 @@ my $class = Module::Build->subclass(
                 $self->do_system("msgmerge --quiet --no-wrap --backup=none --update $po_file po/publican.pot");
             }
         }
-        sub  process_generated_files {
-            my $self = shift;
-            use Cwd qw(abs_path);
-            use File::Path;
-            use File::Copy::Recursive qw(rcopy);
-            use File::Find::Rule;
-            my $pwd = getcwd();
-            return if(-d "$pwd/blib/generated");
-            my $dir = pushd('Site_Tech');
-            die "can't chdir: $@" if $@;
-            $self->do_system(qq|perl -I $pwd/blib/lib $pwd/blib/script/publican build --formats=html-single --publish --embedtoc --langs=all --common_config="$pwd/blib/datadir" --common_content="$pwd/blib/datadir/Common_Content"|);
-
-            my @lang_dirs = sort( { $b cmp $a } find(
-                maxdepth  => 1,
-                directory => name => "*-*",
-                in        => 'tmp',
-                relative  => 0,
-            ) );
-            foreach my $lang_dir (@lang_dirs) {
-                my $new_dir = $lang_dir;
-                $new_dir =~ s/tmp\///;
-                $new_dir = "$pwd/blib/generated/$new_dir";
-                mkpath($new_dir);
-                rcopy("$lang_dir/html-single/index.html", "$new_dir/Site_Tech.html");
-                if ( -d "$lang_dir/html-single/images" ) {
-                    mkpath("$new_dir/images");
-                    rcopy( "$lang_dir/html-single/images/*", "$new_dir/images/.");
-                }
-            }
-        }
         sub ACTION_authortest {
             my ($self) = @_;
             $self->depends_on('build');
@@ -313,10 +283,8 @@ my $builder = $class->new(
         'templates/opds.tmpl'        => 'templates/opds.tmpl',
         'templates/opds-langs.tmpl'  => 'templates/opds-langs.tmpl',
         'templates/opds-prods.tmpl'  => 'templates/opds-prods.tmpl',
-        'templates/static_toc.tmpl'  => 'templates/static_toc.tmpl',
         'templates/toc.tmpl'         => 'templates/toc.tmpl',
         'templates/toc-oneline.tmpl' => 'templates/toc-oneline.tmpl',
-        'templates/stats.tmpl'       => 'templates/stats.tmpl',
         'templates/Sitemap.tmpl'     => 'templates/Sitemap.tmpl',
     },
     etc_files =>
@@ -328,6 +296,5 @@ $builder->add_build_element('data');
 $builder->add_build_element('web');
 $builder->add_build_element('templates');
 $builder->add_build_element('etc');
-$builder->add_build_element('generated');
 $builder->add_build_element('completion');
 $builder->create_build_script();

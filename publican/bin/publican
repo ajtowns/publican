@@ -659,6 +659,8 @@ if ( $action eq 'update_db' ) {
 
     }
 
+## BUGBUG TODO only update langauges that have been updated
+# make sure OPDS is correct...
     $ws->regen_all_toc();
 
     exit(0);

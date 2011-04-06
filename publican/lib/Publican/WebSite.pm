@@ -99,9 +99,6 @@ my %tmpl_strings = (
     'nojs' => $locale->maketext(
         '<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to view the Navigation options without JavaScript enabled</p>'
     ),
-    'Site_Map'        => $locale->maketext('Map'),
-    'Site_Statistics' => $locale->maketext('Statistics'),
-    'Site_Tech'       => $locale->maketext('Tech'),
     'iframe'          => $locale->maketext(
         'This is an iframe, to view it upgrade your browser or enable iframe display.'
     ),
@@ -632,7 +629,6 @@ sub regen_all_toc {
     my $vars = {
         'static_langs'     => \@fulltoc,
         'static_langs_toc' => \@toc_names,
-        'Site_Map'         => $tmpl_strings{'Site_Map'},
     };
 
     $self->{Template}->process(
@@ -640,8 +636,6 @@ sub regen_all_toc {
         $self->{toc_path} . '/toc.html',
         binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
-
-    $self->stats();
 
     $vars = ();
     $vars = { urls => \@urls, };
@@ -1101,83 +1095,6 @@ GET_COUNTS
     return ($report);
 }
 
-sub stats {
-    my ( $self, $arg ) = @_;
-
-    if ( $arg && %{$arg} ) {
-        croak "unknown args: " . join( ", ", keys %{$arg} );
-    }
-    my $langs = $self->get_lang_list();
-
-    my $sql = <<GET_COUNTS;
-    SELECT COUNT(*) as total,
-        count(DISTINCT name),
-        count(DISTINCT product),
-        count(DISTINCT version),
-        language
-    FROM $DB_NAME
-    WHERE format = "html"
-    GROUP BY language
-    ORDER BY total desc, language
-GET_COUNTS
-
-    my %found_langs;
-    my @lang_stats;
-    my $total_langs    = 0;
-    my $total_packages = 0;
-
-    foreach my $counts ( @{ $self->_dbh->selectall_arrayref($sql) } ) {
-        $total_langs++;
-        $total_packages += $counts->[0];
-        my %stats;
-        my $lang = $counts->[4];
-        $found_langs{$lang} = '1';
-        $lang =~ m/^([^-_]*)/;
-        my $lang_name = code2language($1) || $lang;
-
-        $stats{'language'} = $lang_name;
-        $stats{'code'}     = $lang;
-        $stats{'packages'} = $counts->[0];
-        $stats{'books'}    = $counts->[1];
-        $stats{'products'} = $counts->[2];
-        $stats{'versions'} = $counts->[3];
-        push( @lang_stats, \%stats );
-    }
-
-    foreach my $lang ( keys(%found_langs) ) {
-
-        my $vars = {
-            'stat_langs'     => \@lang_stats,
-            'total_langs'    => $total_langs,
-            'total_packages' => $total_packages
-        };
-
-        my $lc_lang = $lang;
-        $lc_lang =~ s/-/_/g;
-        my $locale = Publican::Localise->get_handle($lc_lang)
-            || croak(
-            "Could not create a Publican::Localise object for language: [_1]",
-            $lang
-            );
-        $locale->encoding("UTF-8");
-        $locale->textdomain("publican");
-
-        foreach my $string ( sort( keys(%tmpl_strings) ) ) {
-            $vars->{$string} = $locale->maketext( $tmpl_strings{$string} );
-            $vars->{$string} = decode_utf8( $vars->{$string} )
-                unless ( is_utf8( $vars->{$string} ) );
-        }
-
-        $self->{Template}->process(
-            'stats.tmpl', $vars,
-            $self->{toc_path} . "/$lang/Site_Statistics.html",
-            binmode => ':encoding(UTF-8)'
-        ) or croak( $self->{Template}->error() );
-    }
-
-    return;
-}
-
 sub validate {
     my ( $self, $arg ) = @_;
 
@@ -1364,10 +1281,6 @@ Update the toc html files for every language.
 =head2 report
 
 Returns a string containing the current database statistics.
-
-=head2 stats
-
-Generate Site_Statistics.html containing the current database statistics.
 
 =head2 validate
 
