@@ -232,7 +232,7 @@ my %MAP_OUT = (
     'property'      => {},
     'see'              => { 'newline_after' => 1, },
     'seealso'          => { 'newline_after' => 1, },
-    'step'             => { 'block'         => 1 },
+    'step'             => { 'block'         => 1, 'keep_id' => 1 },
     'substeps'         => { 'block'         => 1 },
     'stepalternatives' => { 'block'         => 1 },
     'systemitem'       => {},

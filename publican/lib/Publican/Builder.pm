@@ -395,6 +395,50 @@ sub setup_xml {
                     "$tmp_dir/$lang/xml_tmp/Revision_History.xml"
                 );
             }
+
+            my $trans_file = "$lang/Author_Group.xml";
+            if ( -f $trans_file ) {
+                my $auth_file = "$tmp_dir/$lang/xml_tmp/Author_Group.xml";
+
+                my $auth_doc = XML::TreeBuilder->new();
+                $auth_doc->parse_file($auth_file);
+                my $auth_node = eval {
+                    $auth_doc->root()->look_down( "_tag", "authorgroup" );
+                };
+                if ($@) {
+                    croak(
+                        maketext(
+                            "authorgroup not found in [_1]", $auth_file
+                        )
+                    );
+                }
+                my $trans_doc = XML::TreeBuilder->new();
+                $trans_doc->parse_file($trans_file);
+                my $trans_node = eval {
+                    $trans_doc->root()->look_down( "_tag", "authorgroup" );
+                };
+                if ($@) {
+                    croak(
+                        maketext(
+                            "authorgroup not found in [_1]", $trans_file
+                        )
+                    );
+                }
+
+                $auth_doc->push_content( $trans_doc->detach_content() );
+                my $text = $auth_doc->as_XML();
+
+                my $OUTDOC;
+                open( $OUTDOC, ">:encoding(UTF-8)", $auth_file )
+                    || croak(
+                    maketext( "Could not open [_1] for output!", $auth_file )
+                    );
+                print( $OUTDOC $text );
+                close($OUTDOC);
+                $auth_doc->root()->delete();
+                $trans_node->root()->delete();
+            }
+
         }
 
         # clean XML
@@ -1549,6 +1593,7 @@ Returns: Modified input tree, which is DocBook XML.
 =cut
 
 sub numberLines {
+
     # BUGBUG testing BZ #653432
     my $count   = shift()->string_value();
     my $content = shift();
@@ -1573,6 +1618,7 @@ sub numberLines {
 
     # BUGBUG testing BZ #653432
     $content->push($list);
+
     # append the marked-up nodes
     #    foreach my $node ( $list->childNodes() ) {
     #        $content->push($node);
