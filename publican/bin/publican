@@ -862,11 +862,13 @@ if ( $action eq 'package' ) {
         push( @brew_args, $publican->param('brew_dist') );
 
         if ( -f "$srpm" ) {
-            system( @brew_args, "$srpm" );
+            my $result = system( @brew_args, "$srpm" );
+            if($result) {
+                croak( maketext("Brew died, error $result") . "\n" );
+            }
         }
         else {
-            croak( maketext("Can't locate srpm, packaging aborted") . "\n",
-                RED );
+            croak( maketext("Can't locate srpm, packaging aborted") . "\n" );
         }
     }
 
@@ -904,22 +906,30 @@ if ( $action eq 'package' ) {
         push( @cvs_args, ( "co", $cvs_dir ) );
 
         print( "cvs command: " . join( " ", @cvs_args ), "\n" );
-        system(@cvs_args);
-        croak($@) if ($@);
+        my $result = system(@cvs_args);
+        if($result) {
+            croak( maketext("cvs died, error $result") . "\n" );
+        }
 
         print(qq|pushd("$cvs_dir/$cvs_pkg"\n|);
         ## BUGBUG this breaks if you undef $dir first ...
         $dir = undef;
         $dir = pushd( $publican->param('tmp_dir') . "/$cvs_dir/$cvs_pkg" );
 
-        system("$IMPORT_SCRIPT $srpm");
-        croak($@) if ($@);
+        $result = system("$IMPORT_SCRIPT $srpm");
+        if($result) {
+            croak( maketext("cvs import died, error $result") . "\n" );
+        }
 
-        system("cvs up");
-        croak($@) if ($@);
+        $result = system("cvs up");
+        if($result) {
+            croak( maketext("cvs up died, error $result") . "\n" );
+        }
 
-        system("make build");
-        croak($@) if ($@);
+        $result = system("make build");
+        if($result) {
+            croak( maketext("make died, error $result") . "\n" );
+        }
 
         $dir = undef;
     }

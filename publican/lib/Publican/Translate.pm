@@ -288,7 +288,6 @@ sub update_po {
                 }
             }
 
-##            system("msgfmt -c -f --statistics $po_file");
             my $xml_file = $pot_file;
             $xml_file =~ s/^pot/$xml_lang/;
             $xml_file =~ s/pot$/xml/;

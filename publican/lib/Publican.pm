@@ -31,6 +31,7 @@ my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
 my $NOCOLOURS           = undef;
 my $QUIET               = undef;
+my $LOG                 = *STDOUT;
 
 my %PARAM_OLD = (
     ARCH                       => 'arch',
@@ -372,6 +373,7 @@ BEGIN {
             || croak("Could not create a Publican::Localise object");
         $LOCALISE->encoding("UTF-8");
         $LOCALISE->textdomain("publican");
+        open( $LOG, '>', 'publican.log' ) or croak("Can't open log file: $@");
     }
 }
 
@@ -836,7 +838,7 @@ sub get_all_langs {
 
 =head2 logger
 
-Log something, currently emits to STDERR
+Log something, currently emits to STDOUT
 
 TODO: consider using Log::Dispatch or similar
 
@@ -847,12 +849,14 @@ sub logger {
 
     return if ($QUIET);
 
-    if ( $colour && !$NOCOLOURS ) {
-        print( STDERR $colour, $msg, RESET );
-    }
-    else {
-        print( STDERR $msg );
-    }
+    print( $LOG $msg );
+
+    #    if ( $colour && !$NOCOLOURS ) {
+    #        print( STDOUT $colour, $msg, RESET );
+    #    }
+    #    else {
+    #        print( STDOUT $msg );
+    #    }
 
     return;
 }
@@ -903,9 +907,7 @@ sub old2new {
     $parser->parse('Makefile') or croak( Makefile::Parser->error() );
 
     # get all the variable names defined in the Makefile:
-    my @vars = $parser->vars();
-    print( STDERR "found: " . join( ' ', sort @vars ) . "\n" );
-
+    my @vars   = $parser->vars();
     my $config = new Config::Simple();
     $config->syntax('http');
 
@@ -1189,23 +1191,32 @@ sub add_revision {
     }
 
     my $configfile = File::HomeDir->my_home() . "/.publican.cfg";
-    my $user_cfg   = new Config::Simple();
-    $user_cfg->syntax('http');
-    $user_cfg->read($configfile)
-        || croak(
-        maketext( "Failed to load user config file: [_1]", $configfile ) );
+    if ( -f $configfile ) {
+        my $user_cfg = new Config::Simple();
+        $user_cfg->syntax('http');
+        $user_cfg->read($configfile)
+            || croak(
+            maketext( "Failed to load user config file: [_1]", $configfile )
+            );
 
-    $firstname = $user_cfg->param('firstname')
-        || croak("firstname is a required field in the user config file")
+        $firstname = $user_cfg->param('firstname')
+            || croak("firstname is a required field in the user config file")
+            unless ($firstname);
+
+        $surname = $user_cfg->param('surname')
+            || croak("surname is a required field in the user config file")
+            unless ($surname);
+
+        $email = $user_cfg->param('email')
+            || croak("email is a required field in the user config file")
+            unless ($email);
+    }
+
+    croak("firstname is a required field")
         unless ($firstname);
-
-    $surname = $user_cfg->param('surname')
-        || croak("surname is a required field in the user config file")
+    croak("surname is a required field")
         unless ($surname);
-
-    $email = $user_cfg->param('email')
-        || croak("email is a required field in the user config file")
-        unless ($email);
+    croak("email is a required field") unless ($email);
 
     my $revision = XML::Element->new_from_lol(
         [   'revision',
