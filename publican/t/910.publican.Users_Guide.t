@@ -16,7 +16,7 @@ $coverdb = qq|-MDevel::Cover=-db,$cover_db| if ($cover_db);
 my $lib      = abs_path('blib/lib');
 my $publican = abs_path('blib/script/publican');
 my $common_opts =
-  qq|--common_config="$common_config" --common_content="$common_content"|;
+  qq|--common_config="$common_config" --common_content="$common_content" --nocolours|;
 
 my $dir = pushd('Users_Guide');
 

@@ -18,7 +18,8 @@ my $publican = Publican->new(
     {   debug          => 1,
         configfile     => 'publican.cfg',
         common_config  => abs_path('../blib/datadir'),
-        common_content => abs_path('../blib/datadir/Common_Content')
+        common_content => abs_path('../blib/datadir/Common_Content'),
+        NOCOLOURS      => 1,
     }
 );
 

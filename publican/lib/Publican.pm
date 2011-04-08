@@ -31,7 +31,6 @@ my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
 my $NOCOLOURS           = undef;
 my $QUIET               = undef;
-my $LOG                 = *STDOUT;
 
 my %PARAM_OLD = (
     ARCH                       => 'arch',
@@ -369,7 +368,6 @@ BEGIN {
           || croak("Could not create a Publican::Localise object");
         $LOCALISE->encoding("UTF-8");
         $LOCALISE->textdomain("publican");
-        open( $LOG, '>', 'publican.log' ) or croak("Can't open log file: $@");
     }
 }
 
@@ -836,14 +834,12 @@ sub logger {
 
     return if ($QUIET);
 
-    print( $LOG $msg );
-
-    #    if ( $colour && !$NOCOLOURS ) {
-    #        print( STDOUT $colour, $msg, RESET );
-    #    }
-    #    else {
-    #        print( STDOUT $msg );
-    #    }
+    if ( $colour && !$NOCOLOURS ) {
+        print( STDOUT $colour, $msg, RESET );
+    }
+    else {
+        print( STDOUT $msg );
+    }
 
     return;
 }
