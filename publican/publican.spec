@@ -88,7 +88,7 @@ BuildRequires:  perl(XML::Simple)
 BuildRequires:  perl(XML::TreeBuilder) >= 4.0
 BuildRequires:  fop >= 0.95
 BuildRequires:  batik
-BuildRequires:  docbook-style-xsl >= 1.75.2-5
+BuildRequires:  docbook-style-xsl >= 1.76.1
 BuildRequires:  desktop-file-utils
 BuildRequires:  perl-Template-Toolkit
 BuildRequires:  perl(DBD::SQLite)
@@ -98,7 +98,7 @@ Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versi
 Requires:       perl(Locale::Maketext::Gettext)
 Requires:       fop >= 0.95
 Requires:       batik rpm-build
-Requires:       docbook-style-xsl >= 1.75.2-5
+Requires:       docbook-style-xsl >= 1.76.1
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 4.0

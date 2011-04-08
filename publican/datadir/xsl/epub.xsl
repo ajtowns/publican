@@ -79,24 +79,22 @@ part nop
         </xsl:element>
       </xsl:if>  
 
-     <xsl:if test="$epub.embedded.font != ''">
-        <xsl:element namespace="http://www.idpf.org/2007/opf" name="item">
-          <xsl:attribute name="id">epub.embedded.font</xsl:attribute>
-          <xsl:attribute name="href"><xsl:value-of select="$epub.embedded.font"/></xsl:attribute>
-          <xsl:choose>
-            <xsl:when test="contains($epub.embedded.font, 'otf')">
-              <xsl:attribute name="media-type">font/opentype</xsl:attribute>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:message>
-                <xsl:text>WARNING: OpenType fonts should be supplied! (</xsl:text>
-                <xsl:value-of select="$epub.embedded.font"/>
-                <xsl:text>)</xsl:text>
-              </xsl:message>
-            </xsl:otherwise>  
-            </xsl:choose>
-        </xsl:element>
-     </xsl:if>
+      <xsl:choose>
+        <xsl:when test="$epub.embedded.fonts != '' and not(contains($epub.embedded.fonts, ','))">
+          <xsl:call-template name="embedded-font-item">
+            <xsl:with-param name="font.file" select="$epub.embedded.fonts"/> <!-- There is just one -->
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:when test="$epub.embedded.fonts != ''">
+          <xsl:variable name="font.file.tokens" select="str:tokenize($epub.embedded.fonts, ',')"/>
+          <xsl:for-each select="exsl:node-set($font.file.tokens)">
+            <xsl:call-template name="embedded-font-item">
+              <xsl:with-param name="font.file" select="."/>
+              <xsl:with-param name="font.order" select="position()"/>
+            </xsl:call-template>
+          </xsl:for-each>
+        </xsl:when>
+      </xsl:choose>
 
       <!-- TODO: be nice to have a id="titlepage" here -->
       <xsl:apply-templates select="//part|
