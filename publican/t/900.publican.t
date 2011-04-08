@@ -5,11 +5,6 @@ use Test::More tests => 14;
 use File::pushd;
 use Cwd qw(abs_path cwd);
 
-#BEGIN {
-#use_ok( 'Publican::XmlClean' );
-#}
-#
-#
 diag("\nTesting blib/script/publican\n");
 
 my $cover_db = undef;
@@ -22,8 +17,8 @@ my $publican       = abs_path('blib/script/publican');
 my $coverdb        = '';
 $coverdb = qq|-MDevel::Cover=-db,$cover_db| if ($cover_db);
 
-my $common_opts
-    = qq|--common_config="$common_config" --common_content="$common_content"|;
+my $common_opts =
+  qq|--common_config="$common_config" --common_content="$common_content"|;
 
 is( system(qq{perl $coverdb -I $lib -c $publican $common_opts -v}),
     0, 'test sytnax OK' );
@@ -34,18 +29,20 @@ is( system(qq{perl $coverdb -I $lib $publican -v --help all}),
 is( system(qq{perl $coverdb -I $lib $publican --help_actions}),
     0, 'all action help' );
 
-like( qx/perl $coverdb -I $lib $publican pants/,
-    qr/'pants' is an unknown action!/, 'invalid action' );
+like(
+    qx/perl $coverdb -I $lib $publican pants/,
+    qr/'pants' is an unknown action!/,
+    'invalid action'
+);
 
 is( system(qq{perl $coverdb -I $lib $publican --help build}),
     0, 'valid action help' );
 
 is( system(qq{perl $coverdb -I $lib $publican --man}), 0, 'test man output' );
 
-is( system(
-        qq{perl $coverdb -I $lib $publican create --name foo2 $common_opts}),
-    0,
-    'create a book'
+is(
+    system(qq{perl $coverdb -I $lib $publican create --name foo2 $common_opts}),
+    0, 'create a book'
 );
 
 my $dir = pushd("foo2");
@@ -59,33 +56,32 @@ is( system(qq{perl $coverdb -I $lib $publican clean_ids $common_opts}),
 is( system(qq{perl $coverdb -I $lib $publican update_pot $common_opts}),
     0, 'Run update_pot' );
 
-is( system(
-        qq{perl $coverdb -I $lib $publican update_po --langs=de-DE $common_opts}
+is(
+    system(
+qq{perl $coverdb -I $lib $publican update_po --langs=de-DE --email 'test\@example.com' --firstname 'Simple' --surname 'Simon' $common_opts}
     ),
     0,
     'Run update_po doe de-DE'
 );
 
-is( system(
-        qq{perl $coverdb -I $lib $publican build --formats=html,pdf --langs=en-US $common_opts --publish}
+is(
+    system(
+qq{perl $coverdb -I $lib $publican build --formats=html,pdf --langs=en-US $common_opts --publish}
     ),
     0,
     'publish a book'
 );
 
-is( system(
+is(
+    system(
         qq{perl $coverdb -I $lib $publican package --lang en-US $common_opts}
     ),
     0,
     'package a book'
 );
 
-is( system(
-        qq{perl $coverdb -I $lib $publican print_banned $common_opts}
-    ),
-    0,
-    'print banned tags'
-);
+is( system( qq{perl $coverdb -I $lib $publican print_banned $common_opts} ),
+    0, 'print banned tags' );
 
 $dir = undef;
 
