@@ -884,11 +884,11 @@ if ( $action eq 'package' ) {
         if ( -f "$srpm" ) {
             my $result = system( @brew_args, "$srpm" );
             if ($result) {
-                croak( maketext("Brew died, error $result") . "\n" );
+                croak( maketext("Brew died, error $result: '$!'") );
             }
         }
         else {
-            croak( maketext("Can't locate srpm, packaging aborted") . "\n" );
+            croak( maketext("Can't locate srpm, packaging aborted") );
         }
     }
 
@@ -902,7 +902,7 @@ if ( $action eq 'package' ) {
         my $srpm = abs_path( pop(@filelist) );
 
         unless ( -f "$srpm" ) {
-            croak( maketext("Can't locate srpm, CVS import aborted") . "\n" );
+            croak( maketext("Can't locate srpm, CVS import aborted") );
         }
 
         # TODO consider making this optional?
@@ -928,7 +928,7 @@ if ( $action eq 'package' ) {
         print( "cvs command: " . join( " ", @cvs_args ), "\n" );
         my $result = system(@cvs_args);
         if ($result) {
-            croak( maketext("cvs died, error $result") . "\n" );
+            croak( maketext("cvs died, error $result: '$!'") );
         }
 
         print(qq|pushd("$cvs_dir/$cvs_pkg"\n|);
@@ -938,17 +938,17 @@ if ( $action eq 'package' ) {
 
         $result = system("$IMPORT_SCRIPT $srpm");
         if ($result) {
-            croak( maketext("cvs import died, error $result") . "\n" );
+            croak( maketext("cvs import died, error $result: '$!'") );
         }
 
         $result = system("cvs up");
         if ($result) {
-            croak( maketext("cvs up died, error $result") . "\n" );
+            croak( maketext("cvs up died, error $result: '$!'") );
         }
 
         $result = system("make build");
         if ($result) {
-            croak( maketext("make died, error $result") . "\n" );
+            croak( maketext("make died, error $result: '$!'") );
         }
 
         $dir = undef;
