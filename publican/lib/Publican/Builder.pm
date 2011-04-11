@@ -498,12 +498,12 @@ sub setup_xml {
                 ) if ( $lang ne $brand_lang );
             }
 
-            my $ent_file =
-              "$xml_lang/" . $self->{publican}->param('docname') . ".ent";
+            my $main_file = $self->{publican}->param('mainfile');
+
+            my $ent_file = "$xml_lang/$main_file.ent";
             rcopy( $ent_file, "$tmp_dir/$lang/xml/." ) if ( -e $ent_file );
 
-            $ent_file =
-              $lang . "/" . $self->{publican}->param('docname') . ".ent";
+            $ent_file = "$lang/$main_file.ent";
             rcopy( $ent_file, "$tmp_dir/$lang/xml/." ) if ( -e $ent_file );
 
             dircopy( "$xml_lang/extras", "$tmp_dir/$lang/xml/extras" )
@@ -622,8 +622,9 @@ sub validate_xml {
         );
     }
 
-    my $docname = $self->{publican}->param('docname');
-    my $dtdver  = $self->{publican}->param('dtdver');
+    my $docname   = $self->{publican}->param('docname');
+    my $dtdver    = $self->{publican}->param('dtdver');
+    my $main_file = $self->{publican}->param('mainfile');
 
     if (   ( $self->{publican}->param('ignored_translations') )
         && ( $self->{publican}->param('ignored_translations') =~ m/$lang/ ) )
@@ -655,11 +656,11 @@ sub validate_xml {
         $parser->expand_xinclude(1);
     }
 
-    croak( maketext( "Cannot locate main XML file: '[_1]'", "$docname.xml" ) )
-      unless ( -f "$docname.xml" );
+    croak( maketext( "Cannot locate main XML file: '[_1]'", "$main_file.xml" ) )
+      unless ( -f "$main_file.xml" );
 
     my $source;
-    eval { $source = $parser->parse_file("$docname.xml"); };
+    eval { $source = $parser->parse_file("$main_file.xml"); };
 
     if ($@) {
         if ( ref($@) ) {
@@ -775,6 +776,7 @@ sub transform {
     my $ec_provider         = $self->{publican}->param('ec_provider');
     my $product             = $self->{publican}->param('product');
     my $bridgehead_in_toc   = $self->{publican}->param('bridgehead_in_toc');
+    my $main_file           = $self->{publican}->param('mainfile');
 
     my $TAR_NAME =
         $self->{publican}->param('product') . '-'
@@ -935,9 +937,9 @@ sub transform {
 
     $parser->expand_xinclude(1);
     $parser->expand_entities(1);
-##    my $source = $parser->parse_file("../xml/$docname.xml");
+
     my $source;
-    eval { $source = $parser->parse_file("../xml/$docname.xml"); };
+    eval { $source = $parser->parse_file("../xml/$main_file.xml"); };
 
     if ($@) {
         if ( ref($@) ) {

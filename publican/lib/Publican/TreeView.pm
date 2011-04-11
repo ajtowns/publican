@@ -61,41 +61,40 @@ Print out a tree view of xi:includes
 sub print_tree {
     my ( $self, $args ) = @_;
     my $dir;
-    my $in_file = ( delete $args->{'in_file'}
-            || ( $self->{publican}->param('docname') ) . '.xml' );
+    my $in_file =
+      ( delete $args->{'in_file'}
+          || ( $self->{publican}->param('mainfile') ) . '.xml' );
 
     my $indent = ( delete $args->{'indent'} || 1 );
 
     if ( %{$args} ) {
         croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
+            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
         );
     }
 
-    if ( $in_file eq $self->{publican}->param('docname') . '.xml' ) {
+    if ( $in_file eq $self->{publican}->param('mainfile') . '.xml' ) {
         $dir = pushd( $self->{publican}->param('xml_lang') );
         logger("$in_file\n");
     }
 
     my $xml_doc = XML::TreeBuilder->new();
     $xml_doc->parse_file($in_file)
-        || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
+      || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
 
     my @nodes = $xml_doc->look_down( "_tag", "xi:include" );
     foreach my $node (@nodes) {
         my $filename = $node->attr('href');
         if ( -f $filename ) {
             if ( $filename =~ /\.xml$/ ) {
-                if ( $node->attr('parse') && $node->attr('parse') eq 'text' )
-                {
+                if ( $node->attr('parse') && $node->attr('parse') eq 'text' ) {
                     logger( "   " x $indent . "$filename\n", GREEN );
                 }
                 else {
                     logger( "   " x $indent . "$filename\n" );
                     $self->print_tree(
-                        {   'in_file' => $filename,
+                        {
+                            'in_file' => $filename,
                             'indent'  => ( $indent + 1 )
                         }
                     );
@@ -122,14 +121,13 @@ Print out a list of XML files that are not xi:included
 sub print_unused {
     my ( $self, $args ) = @_;
     my $dir;
-    my $in_file = ( delete $args->{'in_file'}
-            || ( $self->{publican}->param('docname') ) . '.xml' );
+    my $in_file =
+      ( delete $args->{'in_file'}
+          || ( $self->{publican}->param('mainfile') ) . '.xml' );
 
     if ( %{$args} ) {
         croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
+            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
         );
     }
 
@@ -142,13 +140,13 @@ sub print_unused {
 
     my $xml_lang = $self->{publican}->param('xml_lang');
 
-    if ( $in_file eq $self->{publican}->param('docname') . '.xml' ) {
+    if ( $in_file eq $self->{publican}->param('mainfile') . '.xml' ) {
         $dir = pushd($xml_lang);
     }
 
     my $xml_doc = XML::TreeBuilder->new();
     $xml_doc->parse_file($in_file)
-        || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
+      || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
 
     my @nodes = $xml_doc->look_down( "_tag", "xi:include" );
     foreach my $node (@nodes) {
@@ -168,14 +166,12 @@ sub print_unused {
         foreach my $xml_file ( sort(@xml_files) ) {
             $xml_file =~ s/^$xml_lang\///;
             next
-                if (
-                $xml_file eq $self->{publican}->param('docname') . '.xml' );
+              if ( $xml_file eq $self->{publican}->param('mainfile') . '.xml' );
 
             unless ( defined $self->{used_files}->{qq|'$xml_file'|} ) {
                 if ($first) {
-                    logger(
-                        maketext("\nList of unused XML files in $xml_lang")
-                            . "\n" );
+                    logger( maketext("\nList of unused XML files in $xml_lang")
+                          . "\n" );
                     $first = 0;
                 }
                 logger( "   " . "$xml_file\n", RED );

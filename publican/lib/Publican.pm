@@ -126,13 +126,11 @@ my %PARAMS = (
 'For HTML, what is the deepest level of nesting at which a section should be split onto its own page?'
         ),
         default => 4,
-
     },
     classpath => {
         descr => maketext('Path to jar files for FOP.'),
         default =>
 '/usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar',
-
     },
     common_config => {
         descr   => maketext('Path to publican content.'),
@@ -171,7 +169,7 @@ my %PARAMS = (
     },
     docname => {
         descr => maketext(
-'Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml'
+'Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml if not set in cfg file.'
         ),
         constraint => '[^0-9a-zA-Z_\-\.\+]',
     },
@@ -227,6 +225,11 @@ my %PARAMS = (
         descr   => maketext('License this package uses.'),
         default => 'GFDL',
 
+    },
+    mainfile => {
+        descr => maketext(
+'The name of the main xml and ent files for this books, sans file extension and language. Fetched from docname if not set.'
+        ),
     },
     max_image_width => {
         descr => maketext(
@@ -492,6 +495,10 @@ sub _load_config {
         }
 
         my ( $edition, $release ) = $self->get_ed_rev( { lang => $xml_lang } );
+
+        if ( not defined( $self->{config}->param('mainfile') ) ) {
+            $self->{config}->param( 'mainfile', $docname );
+        }
 
         $self->{config}->param( 'docname', $docname );
         $self->{config}->param( 'product', $product );
