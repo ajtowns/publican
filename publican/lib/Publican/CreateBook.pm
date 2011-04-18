@@ -460,8 +460,7 @@ No bugs have been reported.
 
 Please report any bugs or feature requests to
 C<publican-list@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican>.
-
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&component=publican>.
 
 =head1 AUTHOR
 

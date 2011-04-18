@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.99
-Release:        0%{?dist}.t29
+Release:        0%{?dist}.t30
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -39,8 +39,8 @@ BuildArch:      noarch
 # Get rid of the old packages
 Obsoletes:      perl-Publican-WebSite
 Obsoletes:      publican-WebSite-obsoletes
-Conflicts: perl-Publican-WebSite
-Conflicts: publican-WebSite-obsoletes
+Conflicts:      perl-Publican-WebSite
+Conflicts:      publican-WebSite-obsoletes
 # Do NOT support very old packages
 #Provides:       perl-Publican-WebSite = 1.5
 #Provides:       publican-WebSite-obsoletes = 1.21
