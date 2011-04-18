@@ -8,7 +8,7 @@
   - Add update_db action to allow more robust packaging. BZ #661948
   - Fix show_unknown not working. BZ #662162
   - Make XmlClean use File::Inplace instead of grep & sed. BZ #661567
-  - Removed auto addition of '-0' to invalid revnumber.
+  - Removed auto addition of '-0' to invalid revnumber. BZ #628464
   - Deleted STRICT mode. Added banned_tags and banned_attrs configurations. BZ #663202
   - Fix command example in PUG. BZ #663211
   - Fix web menu localisation being lost on rebuild from package. BZ #662897
@@ -21,19 +21,19 @@
   - Fix wrong BuildRequires and path for desktop packages. BZ #676472
   - Correct typos. Yuri Chornoivan <yurchor@ukr.net> BZ #676997
   - Fix CreateBook texts missing from pot file. BZ #677119
-  - Add --msgmerge to update_po to override using internal POT/PO merging.
-  - Added base_brand config option for brands to allow multiple base brands.
+  - Add --msgmerge to update_po to override using internal POT/PO merging. BZ #661569
+  - Added base_brand config option for brands to allow multiple base brands. BZ #697367
   - Fix startinglinenumber ignored & XML entites not being escaped. BZ #653432
-  - Added site config toc_type to allow selecting TOC styles.
+  - Added site config toc_type to allow selecting TOC styles. BZ #697375
   - Fix perl critic encoding cheack failing. BZ #684509
   - Added authortest target for author tests.
   - Fix some set validation errors. BZ #673402
-  - Purge Site statistics, site tech and HTML site map.
-  - Truncate PO Fuzzy/Un-transtaled message, added PO line number.
-  - Add keep_id to steps.
-  - Add Author_Group.xml handling for translations.
+  - Purge Site statistics, site tech and HTML site map. BZ #697376
+  - Truncate PO Fuzzy/Un-transtaled message, added PO line number. BZ #697380
+  - Add keep_id to steps. BZ #697370
+  - Add Author_Group.xml handling for translations. BZ #697371
   - Fix packaging of stand alone sets. BZ #689347
-  - Update docbook-style-xsl req to 1.76.1 for epub change.
+  - Update docbook-style-xsl req to 1.76.1 for epub change. BZ #697382
   - Switch normal output to STDOUT, added croak call. BZ #688447
   - Added mainfile parameter. BZ #688585
 
