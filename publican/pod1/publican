@@ -1,0 +1,475 @@
+=head1 NAME
+
+publican - a DocBook XML publishing tool.
+
+=head1 VERSION
+
+This document describes publican version 1.0
+
+=head1 SYNOPSIS
+
+publican <command options>
+
+publican <action> <action options>
+
+Command Options
+
+    --help 		Display help message
+    --man		Display the man page
+    --help_actions	Display a list of valid actions
+    -v			Display the version of Publican
+
+Valid actions are:
+
+    add_revision  Add an entry to the revision history
+    build         Transform XML to other formats (pdf, html, html-single, etc)
+    clean         Remove all temporary files and directories
+    clean_ids     Run clean ids for source XML
+    clean_set     Remove local copies of remote set books
+    create        Create a new book, set, or article
+    create_brand  Create a new brand
+    create_site   Create a new WebSite in the supplied location.
+    help_config   Display help text for the configuration file
+    install_book  Install a book in to a WebSite.
+    install_brand  Install a brand to the supplied location
+    lang_stats    report PO statistics
+    old2new       Create a publican.cfg file from the Makefile of an old book, set, or article
+    package       Package a language for shipping
+    print_banned  Print a list of banned DocBook tags
+    print_known   Print a list of QA'd DocBook tags
+    print_tree    Print a tree of the xi:includes
+    print_unused  Print a list of unused XML files
+    remove_book   Remove a book from a WebSite.
+    site_stats    Report on the contents of a WebSite
+    update_db     Add or remove database entries. Used for processing pre-build books, such as when building packages.
+    update_po     Update the PO files
+    update_pot    Update the POT files
+    update_site   Update an existing sites templates.
+
+
+Run: 'bin/publican <action> --help' for details on action usage
+
+=head1 INTERFACE 
+
+add_revision
+    Add an entry to the revision history
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --lang=<LANG>             The language the XML will be written in
+        --revnumber=<REVNUMBER>    Revision number to use for a revision.
+        --date=<DATE>             Date to use for a revision.
+        --member=<MEMBER>         An entry to be added to the revision. Can be specified multiple times.
+        --firstname=<FIRSTNAME>    firstname to use for a revision.
+        --surname=<SURNAME>       surname to use for a revision.
+        --email=<EMAIL>           email to use for a revision.
+
+
+build
+    Transform XML to other formats (pdf, html, html-single, etc)
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --formats=<FORMATS>       Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub
+        --langs=<LANGS>           Comma-separated list of languages, for example: en-US,de-DE,all
+        --publish                 Set up built content for publishing
+        --embedtoc                Embed the web site TOC object in the generated HTML
+        --distributed_set         This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.
+        --novalid                 Do not run the DTD validation
+
+
+clean
+    Remove all temporary files and directories
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+clean_ids
+    Run clean ids for source XML
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+clean_set
+    Remove local copies of remote set books
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+create
+    Create a new book, set, or article
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --name=<NAME>             The name of the book, article, set, or brand
+        --version=<VERSION>       The version of the product
+        --edition=<EDITION>       The edition of the book, article, or set
+        --product=<PRODUCT>       The name of the product
+        --brand=<BRAND>           The brand to use
+        --lang=<LANG>             The language the XML will be written in
+        --type=<TYPE>             The type (book, article, or set)
+
+
+create_brand
+    Create a new brand
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --name=<NAME>             The name of the book, article, set, or brand
+        --lang=<LANG>             The language the XML will be written in
+
+
+create_site
+    Create a new WebSite in the supplied location.
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+        --db_file=<DB_FILE>       Override default database file.
+        --toc_path=<TOC_PATH>     Override the default TOC path.
+        --tmpl_path=<TMPL_PATH>    Override the default template path.
+        --lang=<LANG>             The language the XML will be written in
+
+
+help_config
+    Display help text for the configuration file
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+install_book
+    Install a book in to a WebSite.
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+        --lang=<LANG>             The language the XML will be written in
+
+
+install_brand
+    Install a brand to the supplied location
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --path=<PATH>             /path/to/install/to
+
+
+lang_stats
+    report PO statistics
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --lang=<LANG>             The language the XML will be written in
+
+
+old2new
+    Create a publican.cfg file from the Makefile of an old book, set, or article
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+package
+    Package a language for shipping
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --lang=<LANG>             The language the XML will be written in
+        --desktop                 Create desktop instead of web package
+        --brew                    Push SRPM to brew
+        --scratch                 Use scratch instead of tag build
+        --short_sighted           Create package without using version in package name
+        --binary                  Build binary rpm when running package
+        --wait                    Wait for brew to finish building
+        --cvs                     Import the SRPM in to CVS, the run make tag and make build.
+
+
+print_banned
+    Print a list of banned DocBook tags
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+print_known
+    Print a list of QA'd DocBook tags
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+print_tree
+    Print a tree of the xi:includes
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+print_unused
+    Print a list of unused XML files
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+remove_book
+    Remove a book from a WebSite.
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+        --lang=<LANG>             The language the XML will be written in
+
+
+site_stats
+    Report on the contents of a WebSite
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+
+
+update_db
+    Add or remove database entries. Used for processing pre-build books, such as when building packages.
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+        --add                     Add a database entry
+        --del                     Delete a database entry
+        --lang=<LANG>             The language the XML will be written in
+        --product=<PRODUCT>       The name of the product
+        --version=<VERSION>       The version of the product
+        --name=<NAME>             The name of the book, article, set, or brand
+        --formats=<FORMATS>       Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub
+        --subtitle=<SUBTITLE>     Sub title for a book
+        --abstract=<ABSTRACT>     Abstract for a book
+        --product_label=<PRODUCT_LABEL>    product label for a book
+        --version_label=<VERSION_LABEL>    version label for a book
+        --name_label=<NAME_LABEL>    name label for a book
+
+
+update_po
+    Update the PO files
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --langs=<LANGS>           Comma-separated list of languages, for example: en-US,de-DE,all
+        --msgmerge                Use gettext's msgmerge for POT/PO merging.
+        --firstname=<FIRSTNAME>    firstname to use for a revision.
+        --surname=<SURNAME>       surname to use for a revision.
+        --email=<EMAIL>           email to use for a revision.
+
+
+update_pot
+    Update the POT files
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+
+
+update_site
+    Update an existing sites templates.
+
+    Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+
+
+
+
+=head1 CONFIGURATION AND ENVIRONMENT
+
+Publican requires access to Apache FOP for creating PDF files.
+
+=head1 DEPENDENCIES
+
+Archive::Tar
+Archive::Zip
+Carp
+Config::Simple
+Cwd
+DBD::SQLite
+DBI
+Data::Dumper
+DateTime
+DateTime::Format::DateParse
+Devel::Cover
+Encode
+File::Basename
+File::Copy::Recursive
+File::Find
+File::Find::Rule
+File::HomeDir
+File::Inplace
+File::Path
+File::Spec
+File::pushd
+Getopt::Long
+HTML::FormatText
+HTML::TreeBuilder
+I18N::LangTags::List
+IO::String
+Image::Magick
+Image::Size
+Locale::Language
+Locale::Maketext::Gettext
+Locale::Maketext::Lexicon
+Locale::PO
+Makefile::Parser
+Module::Build
+String::Similarity
+Syntax::Highlight::Engine::Kate
+Template
+Term::ANSIColor
+Test::Exception
+Test::More
+Test::Perl::Critic
+Test::Pod
+Test::Pod::Coverage
+Text::Wrap
+XML::LibXML
+XML::LibXSLT
+XML::Simple
+XML::TreeBuilder
+perl
+
+=head1 INCOMPATIBILITIES
+
+None reported.
+
+=head1 BUGS AND LIMITATIONS
+
+No bugs have been reported.
+
+Please report any bugs or feature requests to
+C<publican-list@redhat.com>, or through the web interface at
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican>.
+
+=head1 AUTHOR
+
+Jeff Fearn  C<< <jfearn@redhat.com> >>

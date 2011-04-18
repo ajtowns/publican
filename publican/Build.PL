@@ -116,6 +116,84 @@ my $class = Module::Build->subclass(
             $self->depends_on('authortest');
             return $self->SUPER::ACTION_distdir();
         }
+        sub ACTION_update_pod {
+            my ($self) = @_;
+            use List::MoreUtils qw|uniq|;
+            $self->depends_on('build');
+            my $POD_FILE;
+            open($POD_FILE, '>', 'bin/publican.pod') || die("can't open POD file");
+            print($POD_FILE <<EOL);
+=head1 NAME
+
+publican - a DocBook XML publishing tool.
+
+=head1 VERSION
+
+This document describes publican version 1.0
+
+=head1 SYNOPSIS
+
+publican <command options>
+
+publican <action> <action options>
+
+Command Options
+
+    --help 		Display help message
+    --man		Display the man page
+    --help_actions	Display a list of valid actions
+    -v			Display the version of Publican
+EOL
+
+            my $pod = qx|perl -I blib/lib bin/publican --help_actions|;
+            print($POD_FILE $pod);
+            print($POD_FILE <<EOL);
+=head1 INTERFACE 
+
+EOL
+
+            $pod = qx|perl -I blib/lib bin/publican --help all|;
+            print($POD_FILE $pod, "\n");
+            print($POD_FILE <<EOL);
+
+=head1 CONFIGURATION AND ENVIRONMENT
+
+Publican requires access to Apache FOP for creating PDF files.
+
+=head1 DEPENDENCIES
+
+EOL
+
+            my $deps = $self->build_requires();
+            my $reqs = $self->requires();
+            foreach my $dep (sort(uniq(keys(%{$deps}), keys(%{$reqs})))) {
+                print($POD_FILE "$dep\n");
+            }
+
+            print($POD_FILE <<EOL);
+
+=head1 INCOMPATIBILITIES
+
+None reported.
+
+=head1 BUGS AND LIMITATIONS
+
+No bugs have been reported.
+
+Please report any bugs or feature requests to
+C<publican-list\@redhat.com>, or through the web interface at
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican>.
+
+=head1 AUTHOR
+
+Jeff Fearn  C<< <jfearn\@redhat.com> >>
+EOL
+
+            close($POD_FILE);
+
+            $self->do_system('perl -I blib/lib bin/publican --bash');
+            return;
+        }
     }
 );
 
@@ -169,7 +247,6 @@ my $builder = $class->new(
         'Template'                        => 0,
         'Term::ANSIColor'                 => 0,
         'Text::Wrap'                      => 0,
-        'version'                         => 0,
         'XML::LibXML'                     => 1.67,
         'XML::LibXSLT'                    => 1.67,
         'XML::Simple'                     => 0,
@@ -210,7 +287,6 @@ my $builder = $class->new(
         'Syntax::Highlight::Engine::Kate' => 0,
         'Term::ANSIColor'                 => 0,
         'Text::Wrap'                      => 0,
-        'version'                         => 0,
         'XML::LibXML'                     => 1.67,
         'XML::LibXSLT'                    => 1.67,
         'XML::Simple'                     => 0,
@@ -240,6 +316,7 @@ my $builder = $class->new(
         'Splash_Page/tmp/publish',
     ],
     script_files => ['bin/publican'],
+    bindoc_dirs  => ['pod1'],
     install_path => {
         'datadir'    => '/usr/share/publican',
         'generated'  => '/usr/share/publican/sitetemplate',
