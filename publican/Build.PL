@@ -121,7 +121,7 @@ my $class = Module::Build->subclass(
             use List::MoreUtils qw|uniq|;
             $self->depends_on('build');
             my $POD_FILE;
-            open($POD_FILE, '>', 'bin/publican.pod') || die("can't open POD file");
+            open($POD_FILE, '>', 'pod1/publican') || die("can't open POD file");
             print($POD_FILE <<EOL);
 =head1 NAME
 
@@ -153,6 +153,7 @@ EOL
 EOL
 
             $pod = qx|perl -I blib/lib bin/publican --help all|;
+            my $version = $self->dist_version;
             print($POD_FILE $pod, "\n");
             print($POD_FILE <<EOL);
 
@@ -182,7 +183,7 @@ No bugs have been reported.
 
 Please report any bugs or feature requests to
 C<publican-list\@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Fedora&amp;version=rawhide&amp;component=publican>.
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&component=publican&version=$version>.
 
 =head1 AUTHOR
 
