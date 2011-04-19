@@ -21,7 +21,7 @@
 
 Name:           publican
 Version:        2.99
-Release:        0%{?dist}.t32
+Release:        0%{?dist}.t33
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -215,7 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc Changes README COPYING Artistic
+%doc Changes README COPYING Artistic pod1/publican
 %{perl_vendorlib}/Publican.pm
 %{perl_vendorlib}/Publican/*
 %{_mandir}/man3/Publican*

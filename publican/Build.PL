@@ -35,24 +35,33 @@ my $class = Module::Build->subclass(
             my $self = shift;
             $self->ACTION_srpm || die;
             my $os_ver = $self->args('os_ver');
-            my $srpm = `find $dir -name '*.src.rpm'`;
-            chomp($srpm);
+            use File::Find::Rule;
+            my $rule = File::Find::Rule->new;
+            $rule->file->name("*.src.rpm");
+            my @rpm_files = $rule->relative(1)->in('.');
             if($os_ver) {
                 $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
-                "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
-                "_rpmdir $dir",  "--rebuild",        "--define",
-                "dist $os_ver",   $srpm);
+                    "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
+                    "_rpmdir $dir", "--rebuild",        "--define",
+                    "dist $os_ver", $rpm_files[0]
+                );
             }
             else {
                 $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
-                "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
-                "_rpmdir $dir",  "--rebuild", $srpm);
+                    "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
+                    "_rpmdir $dir",  "--rebuild", $rpm_files[0]
+                );
             }
         }
         sub ACTION_local {
             my $self = shift;
             $self->ACTION_rpm || die;
-            $self->do_system("sudo yum -y localinstall --nogpg $dir/noarch/*.rpm");
+            use File::Find::Rule;
+            my $rule = File::Find::Rule->new;
+            $rule->file->name("*.rpm");
+            $rule->file->not_name("*.src.rpm");
+            my @rpm_files = $rule->relative(1)->in('.');
+            $self->do_system("sudo", "yum", "-y", "localinstall",  "--nogpg", @rpm_files);
         }
         sub  process_common_files {
             my $self = shift;

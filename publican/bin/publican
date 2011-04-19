@@ -72,6 +72,9 @@ my $bash_comp    = undef;
 
 #Getopt::Long::Configure("debug");
 
+## BUGBUG how do we get this after install?
+my @pod_paths = ('./pod1', "/usr/share/doc/publican-$VERSION");
+
 # Global options
 my %opts = (
     'help'         => \$help,
@@ -318,7 +321,7 @@ if ( defined $actions{$action} ) {
 }
 
 GetOptions( \%opts, @optns, )
-  or pod2usage( -msg => "\n", -verbose => 1, -exit => 1 );
+  or pod2usage( -verbose => 1, -exit => 1, -input => 'publican', -pathlist => \@pod_paths );
 
 # Getopt will remove the options leaving only the action
 $action = ( $ARGV[0] || "" );
@@ -360,8 +363,8 @@ if ($bash_comp) {
 
 # catch no action set
 if ( $action eq "" ) {
-    pod2usage( -msg => "\n", -verbose => 1, -exit => 0 ) if $help;
-    pod2usage( -verbose => 2, -exit => 0 ) if $man;
+    pod2usage( -verbose => 1, -exit => 0, -input => 'publican', -pathlist => \@pod_paths ) if $help;
+    pod2usage( -verbose => 2, -exit => 0, -input => 'publican', -pathlist => \@pod_paths ) if $man;
 
     if ($help_actions) {
         _help_actions();
@@ -371,7 +374,9 @@ if ( $action eq "" ) {
     pod2usage(
         -msg     => "\n" . maketext("Action required!") . "\n",
         -verbose => 1,
-        -exit    => 1
+        -exit    => 1,
+        -input => 'publican',
+        -pathlist => \@pod_paths
     );
 
     exit(1);
