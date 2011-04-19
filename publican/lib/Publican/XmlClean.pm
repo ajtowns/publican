@@ -54,209 +54,209 @@ Publican::XmlClean tidies XML formatting and filters structure based on input ru
 my %UPDATED_IDS;
 
 my %MAP_OUT = (
-    'section'    => { 'block' => 1, 'newline_after' => 1 },
-    'refsection' => { 'block' => 1, 'newline_after' => 1, no_id => 1 },
-    'chapter'       => { 'block'         => 1 },
-    'preface'       => { 'block'         => 1 },
-    'bibliography'  => { 'block'         => 1 },
-    'bibliodiv'     => { 'block'         => 1 },
-    'biblioentry'   => { 'block'         => 1 },
-    'othercredit'   => { 'block'         => 1 },
-    'legalnotice'   => { 'block'         => 1 },
-    'address'       => { 'block'         => 1, 'verbatim' => 1 },
-    'book'          => { 'block'         => 1 },
-    'article'       => { 'block'         => 1 },
-    'part'          => { 'block'         => 1 },
-    'partintro'     => { 'block'         => 1 },
-    'para'          => { 'block'         => 1 },
-    'formalpara'    => { 'block'         => 1 },
-    'simpara'       => { 'block'         => 1 },
-    'itemizedlist'  => { 'block'         => 1 },
-    'orderedlist'   => { 'block'         => 1 },
-    'variablelist'  => { 'block'         => 1 },
-    'seglistitem'   => { 'block'         => 1 },
-    'segtitle'      => { 'newline_after' => 1 },
-    'seg'           => { 'newline_after' => 1 },
-    'segmentedlist' => { 'block'         => 1 },
-    'simplelist'    => { 'block'         => 1 },
-    'qandaset'      => { 'block'         => 1 },
-    'qandaentry'    => { 'block'         => 1 },
-    'question'      => { 'block'         => 1 },
-    'answer'        => { 'block'         => 1 },
-    'member'        => { 'newline_after' => 1 },
-    'remark'        => { 'newline_after' => 1 },
-    'userinput' => {},
-    'listitem'  => { 'block' => 1, 'keep_id' => 1 },
-    'title'         => { 'newline_after' => 1 },
-    'refentrytitle' => { 'newline_after' => 1 },
-    'refpurpose'    => { 'newline_after' => 1 },
-    'refname'       => { 'newline_after' => 1 },
-    'refnamediv'    => { 'block'         => 1, 'id_node' => 'refname' },
-    'manvolnum'     => { 'newline_after' => 1 },
-    'street'           => {},
-    'city'             => {},
-    'state'            => {},
-    'postcode'         => {},
-    'country'          => {},
-    'phone'            => {},
-    'fax'              => {},
-    'pob'              => {},
-    'subtitle'         => { 'newline_after' => 1 },
-    'screen'           => { 'block' => 1, 'verbatim' => 1 },
-    'programlisting'   => { 'block' => 1, 'verbatim' => 1 },
-    'programlistingco' => { 'block' => 1, 'newline_after' => 1 },
-    'xref'        => { 'force_empty' => 1 },
-    'footnoteref' => { 'force_empty' => 1 },
-    'important'   => { 'block'       => 1, 'no_id' => 1 },
-    'note'        => { 'block'       => 1, 'no_id' => 1 },
-    'warning'     => { 'block'       => 1, 'no_id' => 1 },
-    'figure'      => { 'block'       => 1 },
-    'mediaobject' => { 'block'       => 1 },
-    'imageobject' => { 'block'       => 1 },
-    'imagedata'   => {},
-    'xi:include'  => { 'newline_after' => 1 },
-    'xi:fallback' => { 'newline_after' => 1 },
+    section    => { block => 1, newline_after => 1 },
+    refsection => { block => 1, newline_after => 1, no_id => 1 },
+    chapter       => { block         => 1 },
+    preface       => { block         => 1 },
+    bibliography  => { block         => 1 },
+    bibliodiv     => { block         => 1 },
+    biblioentry   => { block         => 1 },
+    othercredit   => { block         => 1 },
+    legalnotice   => { block         => 1 },
+    address       => { block         => 1, verbatim => 1 },
+    book          => { block         => 1 },
+    article       => { block         => 1 },
+    part          => { block         => 1 },
+    partintro     => { block         => 1 },
+    para          => { block         => 1 },
+    formalpara    => { block         => 1 },
+    simpara       => { block         => 1 },
+    itemizedlist  => { block         => 1 },
+    orderedlist   => { block         => 1 },
+    variablelist  => { block         => 1 },
+    seglistitem   => { block         => 1 },
+    segtitle      => { newline_after => 1 },
+    seg           => { newline_after => 1 },
+    segmentedlist => { block         => 1 },
+    simplelist    => { block         => 1 },
+    qandaset      => { block         => 1 },
+    qandaentry    => { block         => 1 },
+    question      => { block         => 1 },
+    answer        => { block         => 1 },
+    member        => { newline_after => 1 },
+    remark        => { newline_after => 1 },
+    userinput => {},
+    listitem  => { block => 1, keep_id => 1 },
+    title         => { newline_after => 1 },
+    refentrytitle => { newline_after => 1 },
+    refpurpose    => { newline_after => 1 },
+    refname       => { newline_after => 1 },
+    refnamediv    => { block         => 1, id_node => 'refname' },
+    manvolnum     => { newline_after => 1 },
+    street           => {},
+    city             => {},
+    state            => {},
+    postcode         => {},
+    country          => {},
+    phone            => {},
+    fax              => {},
+    pob              => {},
+    subtitle         => { newline_after => 1 },
+    screen           => { block => 1, verbatim => 1 },
+    programlisting   => { block => 1, verbatim => 1 },
+    programlistingco => { block => 1, newline_after => 1 },
+    xref        => { force_empty => 1 },
+    footnoteref => { force_empty => 1 },
+    important   => { block       => 1, no_id => 1 },
+    note        => { block       => 1, no_id => 1 },
+    warning     => { block       => 1, no_id => 1 },
+    figure      => { block       => 1 },
+    mediaobject => { block       => 1 },
+    imageobject => { block       => 1 },
+    imagedata     => {},
+    'xi:include'  => { newline_after => 1 },
+    'xi:fallback' => { newline_after => 1 },
 
- #    'glossary'          => { 'block'         => 1 },
- #    'glossentry'        => { 'block'         => 1, 'id_node' => 'glossterm' },
- #    'glossdiv'          => { 'block'         => 1 },
- #    'glossdef'          => { 'block'         => 1 },
- #    'glossterm'         => { 'newline_after' => 1 },
- #    'glosssee'          => { 'newline_after' => 1 },
- #    'glossseealso'      => { 'newline_after' => 1 },
-    'table'             => { 'block'         => 1 },
-    'informaltable'     => { 'block'         => 1 },
-    'thead'             => { 'block'         => 1 },
-    'tgroup'            => { 'block'         => 1 },
-    'tbody'             => { 'block'         => 1 },
-    'tr'                => { 'block'         => 1 },
-    'td'                => { 'block'         => 1 },
-    'row'               => { 'block'         => 1 },
-    'entry'             => { 'block'         => 1 },
-    'refentry'          => { 'block'         => 1 },
-    'refmeta'           => { 'block'         => 1 },
-    'refentryinfo'      => { 'block'         => 1, no_id => 1 },
-    'reference'         => { 'block'         => 1 },
-    'indexterm'         => { 'block'         => 1 },
-    'primary'           => { 'newline_after' => 1 },
-    'secondary'         => { 'newline_after' => 1 },
-    'tertiary'          => { 'newline_after' => 1 },
-    'bookinfo'          => { 'block'         => 1 },
-    'articleinfo'       => { 'block'         => 1 },
-    'abstract'          => { 'block'         => 1 },
-    'inlinemediaobject' => { 'block'         => 1 },
-    'publisher'         => { 'block'         => 1 },
-    'copyright'         => { 'block'         => 1 },
-    'authorgroup'       => { 'block'         => 1 },
-    'author'            => { 'block'         => 1 },
-    'editor'            => { 'block'         => 1 },
-    'corpauthor'        => { 'block'         => 1 },
-    'revision'          => { 'block'         => 1 },
-    'revhistory'        => { 'block'         => 1 },
-    'revdescription'    => { 'block'         => 1 },
-    'publishername'     => { 'block'         => 1 },
-    'affiliation'       => { 'block'         => 1 },
-    'year'              => { 'newline_after' => 1 },
-    'holder'            => { 'newline_after' => 1 },
-    'revnumber'         => { 'newline_after' => 1 },
-    'date'              => { 'newline_after' => 1 },
-    'honorific'         => { 'newline_after' => 1 },
-    'firstname'         => { 'newline_after' => 1 },
-    'surname'           => { 'newline_after' => 1 },
-    'email'             => { 'newline_after' => 1 },
-    'isbn'              => { 'newline_after' => 1 },
-    'issuenum'          => { 'newline_after' => 1 },
-    'edition'           => { 'newline_after' => 1 },
-    'pubdate'           => { 'newline_after' => 1 },
-    'productname'       => { 'newline_after' => 1 },
-    'productnumber'     => { 'newline_after' => 1 },
-    'pubsnumber'        => { 'newline_after' => 1 },
-    'contrib'           => { 'newline_after' => 1 },
-    'shortaffil'        => { 'newline_after' => 1 },
-    'jobtitle'          => { 'newline_after' => 1 },
-    'orgname'           => { 'newline_after' => 1 },
-    'orgdiv'            => { 'newline_after' => 1 },
-    'citetitle'      => {},
-    'trademark'      => {},
-    'ulink'          => {},
-    'firstterm'      => {},
-    'menuchoice'     => {},
-    'acronym'        => {},
-    'abbrev'         => {},
-    'command'        => {},
-    'filename'       => {},
-    'index'          => {},
-    'application'    => {},
-    'package'        => {},
-    'guimenu'        => {},
-    'sgmltag'        => {},
-    'guilabel'       => {},
-    'guibutton'      => {},
-    'emphasis'       => {},
-    'phrase'         => {},
-    'replaceable'    => {},
-    'computeroutput' => {},
-    'guimenuitem'    => {},
-    'textobject'     => { 'block' => 1 },
-    'varlistentry'   => { 'block' => 1 },
-    'term'           => { 'newline_after' => 1 },
-    'colspec'        => { 'newline_after' => 1 },
-    'areaspec'       => { 'block' => 1 },
-    'areaset'        => { 'block' => 1, 'keep_id' => 1 },
-    'area'           => { 'newline_after' => 1, 'keep_id' => 1 },
-    'calloutlist'  => { 'block' => 1 },
-    'callout'      => { 'block' => 1 },
-    'procedure'    => { 'block' => 1, 'newline_after' => 1 },
-    'appendix'     => { 'block' => 1 },
-    'appendixinfo' => { 'block' => 1 },
-    'cmdsynopsis'  => { 'block' => 1 },
-    'arg'          => { 'block' => 1 },
-    'group'        => { 'block' => 1 },
-    'accel'         => {},
-    'blockquote'    => { 'block' => 1 },
-    'classname'     => {},
-    'code'          => {},
-    'colophon'      => { 'block' => 1 },
-    'envar'         => {},
-    'example'       => { 'block' => 1 },
-    'footnote'      => { 'keep_id' => 1 },
-    'guisubmenu'    => {},
-    'interface'     => {},
-    'keycap'        => {},
-    'keycombo'      => {},
-    'literal'       => {},
-    'literallayout' => { 'block' => 1, 'verbatim' => 1 },
-    'option'        => {},
-    'parameter'     => {},
-    'prompt'        => {},
-    'property'      => {},
-    'see'              => { 'newline_after' => 1, },
-    'seealso'          => { 'newline_after' => 1, },
-    'step'             => { 'block'         => 1, 'keep_id' => 1 },
-    'substeps'         => { 'block'         => 1 },
-    'stepalternatives' => { 'block'         => 1 },
-    'systemitem'    => {},
-    'wordasword'    => {},
-    'citerefentry'  => {},
-    'manvolnum'     => {},
-    'function'      => {},
-    'uri'           => {},
-    'mousebutton'   => {},
-    'hardware'      => {},
-    'type'          => {},
-    'methodname'    => {},
-    'exceptionname' => {},
-    'varname'       => {},
-    'interfacename' => {},
-    'othername'     => { 'newline_after' => 1 },
-    '~comment'      => {},
-    'foreignphrase' => {},
-    'chapterinfo'   => { 'block' => 1 },
-    'keywordset'    => { 'block' => 1 },
-    'keyword'       => { 'newline_after' => 1 },
-    'subjectset'    => { 'block' => 1 },
-    'subject'       => { 'block' => 1 },
-    'subjectterm'   => { 'newline_after' => 1 },
+    #    glossary          => { block         => 1 },
+    #    glossentry        => { block         => 1, id_node => 'glossterm' },
+    #    glossdiv          => { block         => 1 },
+    #    glossdef          => { block         => 1 },
+    #    glossterm         => { newline_after => 1 },
+    #    glosssee          => { newline_after => 1 },
+    #    glossseealso      => { newline_after => 1 },
+    table             => { block         => 1 },
+    informaltable     => { block         => 1 },
+    thead             => { block         => 1 },
+    tgroup            => { block         => 1 },
+    tbody             => { block         => 1 },
+    tr                => { block         => 1 },
+    td                => { block         => 1 },
+    row               => { block         => 1 },
+    entry             => { block         => 1 },
+    refentry          => { block         => 1 },
+    refmeta           => { block         => 1 },
+    refentryinfo      => { block         => 1, no_id => 1 },
+    reference         => { block         => 1 },
+    indexterm         => { block         => 1 },
+    primary           => { newline_after => 1 },
+    secondary         => { newline_after => 1 },
+    tertiary          => { newline_after => 1 },
+    bookinfo          => { block         => 1 },
+    articleinfo       => { block         => 1 },
+    abstract          => { block         => 1 },
+    inlinemediaobject => { block         => 1 },
+    publisher         => { block         => 1 },
+    copyright         => { block         => 1 },
+    authorgroup       => { block         => 1 },
+    author            => { block         => 1 },
+    editor            => { block         => 1 },
+    corpauthor        => { block         => 1 },
+    revision          => { block         => 1 },
+    revhistory        => { block         => 1 },
+    revdescription    => { block         => 1 },
+    publishername     => { block         => 1 },
+    affiliation       => { block         => 1 },
+    year              => { newline_after => 1 },
+    holder            => { newline_after => 1 },
+    revnumber         => { newline_after => 1 },
+    date              => { newline_after => 1 },
+    honorific         => { newline_after => 1 },
+    firstname         => { newline_after => 1 },
+    surname           => { newline_after => 1 },
+    email             => { newline_after => 1 },
+    isbn              => { newline_after => 1 },
+    issuenum          => { newline_after => 1 },
+    edition           => { newline_after => 1 },
+    pubdate           => { newline_after => 1 },
+    productname       => { mixed_mode    => 1, newline_after => 1 },
+    productnumber     => { newline_after => 1 },
+    pubsnumber        => { newline_after => 1 },
+    contrib           => { newline_after => 1 },
+    shortaffil        => { newline_after => 1 },
+    jobtitle          => { newline_after => 1 },
+    orgname           => { newline_after => 1 },
+    orgdiv            => { newline_after => 1 },
+    citetitle      => {},
+    trademark      => {},
+    ulink          => {},
+    firstterm      => {},
+    menuchoice     => {},
+    acronym        => {},
+    abbrev         => {},
+    command        => {},
+    filename       => {},
+    'index'        => {},
+    application    => {},
+    'package'      => {},
+    guimenu        => {},
+    sgmltag        => {},
+    guilabel       => {},
+    guibutton      => {},
+    emphasis       => {},
+    phrase         => {},
+    replaceable    => {},
+    computeroutput => {},
+    guimenuitem    => {},
+    textobject     => { block => 1 },
+    varlistentry   => { block => 1 },
+    term           => { newline_after => 1 },
+    colspec        => { newline_after => 1 },
+    areaspec       => { block => 1 },
+    areaset        => { block => 1, keep_id => 1 },
+    area           => { newline_after => 1, keep_id => 1 },
+    calloutlist  => { block => 1 },
+    callout      => { block => 1 },
+    procedure    => { block => 1, newline_after => 1 },
+    appendix     => { block => 1 },
+    appendixinfo => { block => 1 },
+    cmdsynopsis  => { block => 1 },
+    arg          => { block => 1 },
+    group        => { block => 1 },
+    accel         => {},
+    blockquote    => { block => 1 },
+    classname     => {},
+    code          => {},
+    colophon      => { block => 1 },
+    envar         => {},
+    example       => { block => 1 },
+    footnote      => { keep_id => 1 },
+    guisubmenu    => {},
+    interface     => {},
+    keycap        => {},
+    keycombo      => {},
+    literal       => {},
+    literallayout => { block => 1, verbatim => 1 },
+    option        => {},
+    parameter     => {},
+    prompt        => {},
+    property      => {},
+    see              => { newline_after => 1, },
+    seealso          => { newline_after => 1, },
+    step             => { block         => 1, keep_id => 1 },
+    substeps         => { block         => 1 },
+    stepalternatives => { block         => 1 },
+    systemitem    => {},
+    wordasword    => {},
+    citerefentry  => {},
+    manvolnum     => {},
+    function      => {},
+    uri           => {},
+    mousebutton   => {},
+    hardware      => {},
+    type          => {},
+    methodname    => {},
+    exceptionname => {},
+    varname       => {},
+    interfacename => {},
+    othername     => { newline_after => 1 },
+    '~comment'    => {},
+    foreignphrase => {},
+    chapterinfo   => { block => 1 },
+    keywordset    => { block => 1 },
+    keyword       => { newline_after => 1 },
+    subjectset    => { block => 1 },
+    subject       => { block => 1 },
+    subjectterm   => { newline_after => 1 },
 );
 
 =head2 new
@@ -415,14 +415,14 @@ sub Clean_ID {
         my $tag = $node->{'_tag'};
 
         # keep_id means keep the current ID without modification.
-        if ( $MAP_OUT{$tag}->{'keep_id'} ) {
+        if ( $MAP_OUT{$tag}->{keep_id} ) {
             $my_id = $node->id() || "";
         }
-        elsif ( !$MAP_OUT{$tag}->{'no_id'} ) {
+        elsif ( !$MAP_OUT{$tag}->{no_id} ) {
             foreach my $child ( $node->content_refs_list() ) {
                 if ( ref $$child
                     && $$child->{'_tag'} eq
-                    ( $MAP_OUT{$tag}->{'id_node'} || 'title' ) )
+                    ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
                 {
                     $my_id = $$child->as_text;
                     $my_id =~ s/[- ]/_/g;
@@ -673,10 +673,10 @@ sub my_as_XML {
                         push( @xml, "\n", $indent x $depth );
                     }
 
-                    if ( $MAP_OUT{$tag}->{'verbatim'} ) {
+                    if ( $MAP_OUT{$tag}->{verbatim} ) {
                         push( @xml, "\n" );
                     }
-                    elsif ( $MAP_OUT{$tag}->{'block'} ) {
+                    elsif ( $MAP_OUT{$tag}->{block} ) {
 
                      # Check to make sure the block is starting on it's own line
                      # If not add a new line and indent
@@ -751,7 +751,13 @@ sub my_as_XML {
                         and !@{ $node->content_array_ref() } )
                     {
                         push( @xml, $node->starttag_XML( undef, 1 ) );
-                        if ( $MAP_OUT{$tag}->{'newline_after'} ) {
+                        if (
+                            $MAP_OUT{$tag}->{newline_after}
+                            && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                                || ( not $MAP_OUT{$tag}->{mixed_mode} )
+                                || ( not $node->look_up( '_tag', 'para' ) ) )
+                          )
+                        {
                             push( @xml, "\n", $indent x $depth );
                         }
                     }
@@ -759,20 +765,20 @@ sub my_as_XML {
                         push( @xml, $node->starttag_XML(undef) );
                     }
 
-                    if ( $MAP_OUT{$tag}->{'block'} ) {
+                    if ( $MAP_OUT{$tag}->{block} ) {
                         if (   $node->parent()
                             && $MAP_OUT{ $node->parent()->{'_tag'} }
                             ->{'line_wrap'} )
                         {
                             push( @xml, "\n" );
                         }
-                        elsif ( not $MAP_OUT{$tag}->{'verbatim'} ) {
+                        elsif ( not $MAP_OUT{$tag}->{verbatim} ) {
                             push( @xml, "\n", $indent x $depth );
                         }
                     }
                 }
                 else {    # on the way out
-                    if ( $MAP_OUT{$tag}->{'block'} ) {
+                    if ( $MAP_OUT{$tag}->{block} ) {
 
                         # remove empty lines
                         if ( $xml[$#xml] =~ /^[\t ]*$/s ) {
@@ -788,8 +794,8 @@ sub my_as_XML {
                             $xml[$#xml] =~ s/[\t ]*$//;
                         }
 
-                        if ( $MAP_OUT{$tag}->{'block'} ) {
-                            if ( $MAP_OUT{$tag}->{'verbatim'} ) {
+                        if ( $MAP_OUT{$tag}->{block} ) {
+                            if ( $MAP_OUT{$tag}->{verbatim} ) {
 ## BZ #604465 don't add trailing newline.
 ##                                push( @xml, "\n" );
                             }
@@ -813,21 +819,27 @@ sub my_as_XML {
                         push( @xml, $node->endtag_XML() );
                     }    # otherwise it will have been an <... /> tag.
 
-                    if ( $MAP_OUT{$tag}->{'newline_after'} ) {
+                    if (
+                        $MAP_OUT{$tag}->{newline_after}
+                        && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                            || ( not $MAP_OUT{$tag}->{mixed_mode} )
+                            || ( not $node->look_up( '_tag', 'para' ) ) )
+                      )
+                    {
                         push( @xml, "\n", $indent x $depth );
                     }
 
-                    if ( ( $MAP_OUT{$tag}->{'block'} ) ) {
+                    if ( ( $MAP_OUT{$tag}->{block} ) ) {
                         push( @xml, "\n", $indent x $depth );
                     }
                 }
             }
-            else {       # it's just text
+            else {    # it's just text
                 my $parent = $_[3];
 
                 # Remove extra space from non-verbatim tags
                 if ( $parent
-                    && !( $MAP_OUT{ $parent->{'_tag'} }->{'verbatim'} ) )
+                    && !( $MAP_OUT{ $parent->{'_tag'} }->{verbatim} ) )
                 {
 
                     # Don't out put empty tags
@@ -837,7 +849,7 @@ sub my_as_XML {
                         # Truncate leading space
                         $node =~ s/[\n\r\f\t ]+/ /g;
 
-                        if ( $MAP_OUT{ $parent->{'_tag'} }->{'block'} ) {
+                        if ( $MAP_OUT{ $parent->{'_tag'} }->{block} ) {
 
                        # for the first child, remove leading space and indent it
                             if ( $_[4] == 0 ) {
