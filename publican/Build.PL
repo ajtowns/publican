@@ -38,7 +38,7 @@ my $class = Module::Build->subclass(
             use File::Find::Rule;
             my $rule = File::Find::Rule->new;
             $rule->file->name("*.src.rpm");
-            my @rpm_files = $rule->relative(1)->in('.');
+            my @rpm_files = $rule->in($dir);
             if($os_ver) {
                 $self->do_system( 'rpmbuild', "--define", "_sourcedir $dir", "--define",
                     "_builddir $dir", "--define", "_srcrpmdir $dir", "--define",
@@ -60,7 +60,7 @@ my $class = Module::Build->subclass(
             my $rule = File::Find::Rule->new;
             $rule->file->name("*.rpm");
             $rule->file->not_name("*.src.rpm");
-            my @rpm_files = $rule->relative(1)->in('.');
+            my @rpm_files = $rule->in($dir);
             $self->do_system("sudo", "yum", "-y", "localinstall",  "--nogpg", @rpm_files);
         }
         sub  process_common_files {
