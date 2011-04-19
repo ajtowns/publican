@@ -307,6 +307,8 @@ my $builder = $class->new(
         'Users_Guide/build',
         'Users_Guide/publish',
         'Users_Guide/tmp',
+        'Users_Guide/de-DE',
+        'Users_Guide/pot',
         'datadir/Common_Content/common/tmp',
         'datadir/Common_Content/common/publish',
         'MANIFEST.bak',
