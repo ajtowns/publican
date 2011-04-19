@@ -62,7 +62,6 @@ qq|/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{R
     }
 }
 
-
 ### Code goes here
 my $man          = 0;
 my $help         = 0;
@@ -278,6 +277,10 @@ my %actions = (
             'firstname', 'surname',   'email'
         ],
     },
+    'rename' => {
+        'brief'   => maketext('Rename a publican book'),
+        'options' => [ 'name', 'product', 'version' ],
+    },
 );
 
 # Grab to limit options to the valid ones for this action
@@ -442,7 +445,7 @@ if ( $action eq 'create' ) {
 
     my $publican = Publican->new(
         {
-            'configfile'   => $opts{config},
+            configfile     => $opts{config},
             common_config  => $opts{common_config},
             common_content => $opts{common_content},
             QUIET          => $opts{quiet},
@@ -1039,6 +1042,69 @@ if ( $action eq 'remove_book' ) {
 
 }
 
+if ( $action eq 'rename' ) {
+
+    my $new_docname = $opts{name}
+      || croak( maketext("name is a required parameter") );
+
+    my $conf_file = ( $opts{config} || 'publican.cfg' );
+    my $config = new Config::Simple($conf_file);
+
+    $config->syntax('http');
+
+    # set mainfile in publican.cfg if it's not set
+    unless ( $config->param('mainfile') ) {
+        $config->param( 'mainfile', $publican->{config}->param('docname') );
+    }
+
+    # delete docname
+    $config->delete('docname');
+
+    # load in $type_Info.xml
+    my $file =
+        $config->param('xml_lang') . '/'
+      . ( $config->param('type') || 'Book' )
+      . '_Info.xml';
+
+    my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
+
+    my $xml_doc =
+      XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    $xml_doc->store_comments(1);
+    $xml_doc->parse_file($file)
+      || croak( maketext( "Can't open file '[_1]' [_2]", $file, $@ ) );
+
+    # Change Title
+    my $title = $xml_doc->root()->look_down( "_tag", "title" )
+      || croak( maketext('Cannot locate title tag in Info file!') );
+    $title->delete_content();
+    $title->push_content($new_docname);
+
+    # Change Product Name
+    if ( $opts{product} ) {
+        my $prod = $xml_doc->root()->look_down( "_tag", "productname" )
+          || croak( maketext('Cannot locate productname tag in Info file!') );
+        $prod->delete_content();
+        $prod->push_content( $opts{product} );
+    }
+
+    # Change Product Number
+    if ( $opts{version} ) {
+        my $prod_num = $xml_doc->root()->look_down( "_tag", "productnumber" )
+          || croak( maketext('Cannot locate productnumber tag in Info file!') );
+        $prod_num->delete_content();
+        $prod_num->push_content( $opts{version} );
+    }
+
+    # write out new files
+    $config->write($conf_file);
+    $cleaner->print_xml( { xml_doc => $xml_doc, out_file => $file } );
+
+    # clean up memory
+    $title->delete();
+    $xml_doc->root()->delete();
+}
+
 exit(0);
 
 # Secret action to create bash completion file.
@@ -1140,7 +1206,8 @@ complete -F _publican publican
 BOTTOM
 
     my $COMP_FILE;
-    open( $COMP_FILE, ">", "completion/_publican" ) || croak("file open fail: @_");
+    open( $COMP_FILE, ">", "completion/_publican" )
+      || croak("file open fail: @_");
     print( $COMP_FILE $top );
     print( $COMP_FILE $options );
     print( $COMP_FILE $bottom );
