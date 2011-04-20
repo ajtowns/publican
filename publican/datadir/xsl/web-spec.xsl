@@ -11,7 +11,7 @@
 
 %define viewer xdg-open
 %define ICONS <xsl:value-of select="$ICONS"/>
-%define wwwdir %{_localstatedir}/www/html/docs
+%define wwwdir <xsl:value-of select="$web_dir"/>
 
 %if %{HTMLVIEW}
 %define viewer htmlview
@@ -34,6 +34,7 @@ BuildRequires: desktop-file-utils
 Requires:      publican >= <xsl:value-of select="$spec_version"/>
 <xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
 <xsl:if test="$web_obsoletes != ''">Obsoletes:    <xsl:value-of select="$web_obsoletes"/></xsl:if>
+<xsl:if test="$web_req != ''">Requires:    <xsl:value-of select="$web_req"/></xsl:if>
 
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
@@ -111,11 +112,11 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-
 
 %preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 if [ "$1" = "0" ] ; then # last uninstall
-publican update_db --del --lang="<xsl:value-of select="$lang"/>" --formats=<xsl:value-of select="$web_formats_comma" /> --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />"
+publican update_db --site_config="<xsl:value-of select="$web_cfg"/>" --del --lang="<xsl:value-of select="$lang"/>" --formats=<xsl:value-of select="$web_formats_comma" /> --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />"
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-publican update_db --add --lang="<xsl:value-of select="$lang"/>" --formats="<xsl:value-of select="$web_formats_comma" />" --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --subtitle="<xsl:value-of select="$full_subtitle"/>" --abstract="<xsl:value-of select="$full_abstract" />" <xsl:if test="$name_label != ''">--name_label="<xsl:value-of select="$name_label" />"</xsl:if> <xsl:if test="$version_label != ''">--version_label="<xsl:value-of select="$version_label" />"</xsl:if> <xsl:if test="$product_label != ''">--product_label="<xsl:value-of select="$product_label" />"</xsl:if>
+publican update_db --site_config="<xsl:value-of select="$web_cfg"/>" --add --lang="<xsl:value-of select="$lang"/>" --formats="<xsl:value-of select="$web_formats_comma" />" --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --subtitle="<xsl:value-of select="$full_subtitle"/>" --abstract="<xsl:value-of select="$full_abstract" />" <xsl:if test="$name_label != ''">--name_label="<xsl:value-of select="$name_label" />"</xsl:if> <xsl:if test="$version_label != ''">--version_label="<xsl:value-of select="$version_label" />"</xsl:if> <xsl:if test="$product_label != ''">--product_label="<xsl:value-of select="$product_label" />"</xsl:if>
 
 # Update Icon cache if it exists
 %post -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>

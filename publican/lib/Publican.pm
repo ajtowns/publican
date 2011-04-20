@@ -88,16 +88,18 @@ my %PARAMS = (
         descr => maketext(
 'A comma-separated list of XML attributes that are not permitted in the source.'
         ),
+        limit_to => 'brand',
     },
     banned_tags => {
         descr => maketext(
 'A comma-separated list of XML tags that are not permitted in the source.'
         ),
+        limit_to => 'brand',
     },
     base_brand => {
-        descr   => maketext('The base brand to use for this brand.'),
-        default => 'common',
-
+        descr    => maketext('The base brand to use for this brand.'),
+        default  => 'common',
+        limit_to => 'brand',
     },
     brand => {
         descr   => maketext('The brand to use when building this package.'),
@@ -357,6 +359,22 @@ my %PARAMS = (
 'Override the version, middle level, menu label on a Publican website. To hide this menu item set this to: UNUSED'
         ),
     },
+    web_cfg => {
+        descr => maketext(
+'Full path for the publican site configuration file for non standard RPM websites.'
+        ),
+        limit_to => 'brand',
+    },
+    web_dir => {
+        descr    => maketext('Install path for non standard RPM websites.'),
+        limit_to => 'brand',
+    },
+    web_req => {
+        descr => maketext(
+'Name of site package for non standard RPM websites. Required to ensure the site is installed.'
+        ),
+        limit_to => 'brand',
+    },
     xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
         default => 'en-US',
@@ -436,6 +454,20 @@ sub _load_config {
       || croak( maketext( "Failed to load config file: [_1]", $configfile ) );
 
     foreach my $def ( keys(%PARAMS) ) {
+        if (
+            defined $PARAMS{$def}->{limit_to}
+            && (
+                defined $PARAMS{$def}->{limit_to}
+                && (
+                    lc( ( $config->param('type') || 'book' ) ) ne
+                    lc( $PARAMS{$def}->{limit_to} ) )
+            )
+          )
+        {
+            $config->delete($def);
+            next;
+        }
+
         if ( defined $PARAMS{$def}->{default}
             and not defined( $config->param($def) ) )
         {

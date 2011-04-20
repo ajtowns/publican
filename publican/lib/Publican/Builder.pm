@@ -1989,6 +1989,11 @@ sub package {
     my $web_version_label = $self->{publican}->param('web_version_label')
       || "";
     my $web_name_label = $self->{publican}->param('web_name_label') || "";
+    my $web_dir = $self->{publican}->param('web_dir')
+      || '%{_localstatedir}/www/html/docs';
+    my $web_cfg = $self->{publican}->param('web_cfg')
+      || '/etc/publican-website.cfg';
+    my $web_req = $self->{publican}->param('web_req') || '';
 
     my $menu_category = $self->{publican}->param('menu_category')
       || "X-Red-Hat-Base;";
@@ -2103,6 +2108,9 @@ sub package {
         product_label     => $web_product_label,
         version_label     => $web_version_label,
         name_label        => $web_name_label,
+        web_dir           => $web_dir,
+        web_cfg           => $web_cfg,
+        web_req           => $web_cfg,
         full_abstract     => $full_abstract,
         full_subtitle     => $full_subtitle,
         web_formats       => $web_formats,
