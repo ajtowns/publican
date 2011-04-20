@@ -734,6 +734,7 @@ sub validate_xml {
     }
     else {
 ## BUGBUG how does this get localised?
+## BUGBUG also need to change header ... entities?
 # wget http://www.docbook.org/xml/5.1b2/rng/docbook.rng
 # http://www.docbook.org/xml/5.0/rng/docbook.rng
     my $rngschema = XML::LibXML::RelaxNG->new( location => 'docbook.rng' );
