@@ -722,12 +722,30 @@ sub validate_xml {
             $dtd_path = 'file:///D:/Data/temp/Redhat/DTD/docbookx.dtd';
         }
     }
+
+    if(1) {
     my $dtd = XML::LibXML::Dtd->new( $dtd_type, $dtd_path );
 
     unless ( $source->is_valid($dtd) ) {
-        logger( maketext("Validation failed: ") . "\n", RED );
+        logger( maketext("DTD Validation failed: ") . "\n", RED );
         croak( $source->validate($dtd) );
     }
+    logger("DTD Validation OK\n");
+    }
+    else {
+## BUGBUG how does this get localised?
+# wget http://www.docbook.org/xml/5.1b2/rng/docbook.rng
+# http://www.docbook.org/xml/5.0/rng/docbook.rng
+    my $rngschema = XML::LibXML::RelaxNG->new( location => 'docbook.rng' );
+    eval { $rngschema->validate($source); };
+    if ($@) {
+        logger( maketext("RelaxNG Validation failed: ") . "\n", RED );
+        croak($@);
+    }
+    logger("RelaxNG Validation OK\n");
+    }
+
+
     $dir = undef;
 
     return (0);
