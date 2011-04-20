@@ -687,10 +687,13 @@ sub validate_xml {
     my $dtd_path =
       qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
 
-    if ( $dtdver >= 5 ) {
+    if ( $dtdver =~ m/^5/ ) {
         $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
-        $dtd_path = qq|http://docbook.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
-
+        if ( $dtdver =~ m/[a-z]/ ) {
+            $dtd_path = qq|http://docbook.org/xml/$dtdver/dtd/docbook.dtd|;
+        } else {
+            $dtd_path = qq|http://www.oasis-open.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
+        }
     }
 
     if ( 0 && $TEST_MML ) {
@@ -2430,9 +2433,13 @@ sub dtd_string {
     my $uri = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
     my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
 
-    if ( $dtdver >= 5 ) {
+    if ( $dtdver =~ m/^5/ ) {
         $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
-        $uri      = qq|http://docbook.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
+        if ( $dtdver =~ m/[a-z]/ ) {
+            $uri = qq|http://docbook.org/xml/$dtdver/dtd/docbook.dtd|;
+        } else {
+            $uri = qq|http://www.oasis-open.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
+        }
     }
 
     if ( 0 && $TEST_MML ) {
@@ -2468,7 +2475,7 @@ sub dtd_string {
 DTDHEAD
 
     # Include some DocBook 4 entities to reduce migration issues
-    if ( $dtdver >= 5 ) {
+    if ( $dtdver =~ m/^5/ ) {
         $dtd .= <<DB5;
 <!-- import a bunch of DocBook 4 entities -->
 <!ENTITY % sgml.features "IGNORE">
