@@ -692,7 +692,7 @@ sub validate_xml {
         if ( $dtdver =~ m/[a-z]/ ) {
             $dtd_path = qq|http://docbook.org/xml/$dtdver/dtd/docbook.dtd|;
         } else {
-            $dtd_path = qq|http://www.oasis-open.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
+            $dtd_path = qq|http://docbook.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
         }
     }
 
