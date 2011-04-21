@@ -77,7 +77,7 @@ my $class = Module::Build->subclass(
             return if(-d $path);
             die "can't chdir: $@" if $@;
 
-            my $publican = Publican->new();
+            my $publican = Publican->new({NOCOLOURS => $self->args('nocolours')});
             my $builder = Publican::Builder->new();
             $builder->build(
                 { formats => 'xml', langs => 'all', publish => 1 } );
@@ -341,22 +341,21 @@ my $builder = $class->new(
         'datadir/default.db'    => 'datadir/default.db',
         'datadir/fop/fop.xconf' => 'datadir/fop/fop.xconf',
         'datadir/xsl/dt_htmlsingle_spec.xsl' =>
-            'datadir/xsl/dt_htmlsingle_spec.xsl',
-        'datadir/xsl/xhtml-common.xsl'  => 'datadir/xsl/xhtml-common.xsl',
-        'datadir/xsl/html.xsl'          => 'datadir/xsl/html.xsl',
-        'datadir/xsl/txt.xsl'           => 'datadir/xsl/txt.xsl',
-        'datadir/xsl/web-spec.xsl'      => 'datadir/xsl/web-spec.xsl',
-        'datadir/xsl/web-home-spec.xsl' => 'datadir/xsl/web-home-spec.xsl',
-        'datadir/xsl/defaults.xsl'      => 'datadir/xsl/defaults.xsl',
-        'datadir/xsl/html-single.xsl'   => 'datadir/xsl/html-single.xsl',
-        'datadir/xsl/pdf.xsl'           => 'datadir/xsl/pdf.xsl',
-        'datadir/xsl/epub.xsl'          => 'datadir/xsl/epub.xsl',
-        'datadir/xsl/eclipse.xsl'       => 'datadir/xsl/eclipse.xsl',
-        'datadir/xsl/man.xsl'           => 'datadir/xsl/man.xsl',
-        'datadir/xsl/abstract.xsl'      => 'datadir/xsl/abstract.xsl',
-        'datadir/xsl/subtitle.xsl'      => 'datadir/xsl/subtitle.xsl',
-        'datadir/xsl/merge_revisions.xsl' =>
-            'datadir/xsl/merge_revisions.xsl',
+          'datadir/xsl/dt_htmlsingle_spec.xsl',
+        'datadir/xsl/xhtml-common.xsl'    => 'datadir/xsl/xhtml-common.xsl',
+        'datadir/xsl/html.xsl'            => 'datadir/xsl/html.xsl',
+        'datadir/xsl/txt.xsl'             => 'datadir/xsl/txt.xsl',
+        'datadir/xsl/web-spec.xsl'        => 'datadir/xsl/web-spec.xsl',
+        'datadir/xsl/web-home-spec.xsl'   => 'datadir/xsl/web-home-spec.xsl',
+        'datadir/xsl/defaults.xsl'        => 'datadir/xsl/defaults.xsl',
+        'datadir/xsl/html-single.xsl'     => 'datadir/xsl/html-single.xsl',
+        'datadir/xsl/pdf.xsl'             => 'datadir/xsl/pdf.xsl',
+        'datadir/xsl/epub.xsl'            => 'datadir/xsl/epub.xsl',
+        'datadir/xsl/eclipse.xsl'         => 'datadir/xsl/eclipse.xsl',
+        'datadir/xsl/man.xsl'             => 'datadir/xsl/man.xsl',
+        'datadir/xsl/abstract.xsl'        => 'datadir/xsl/abstract.xsl',
+        'datadir/xsl/subtitle.xsl'        => 'datadir/xsl/subtitle.xsl',
+        'datadir/xsl/merge_revisions.xsl' => 'datadir/xsl/merge_revisions.xsl',
     },
     web_files => {
         'web/index.html'        => 'web/index.html',
@@ -376,8 +375,7 @@ my $builder = $class->new(
         'templates/toc-oneline.tmpl' => 'templates/toc-oneline.tmpl',
         'templates/Sitemap.tmpl'     => 'templates/Sitemap.tmpl',
     },
-    etc_files =>
-        { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
+    etc_files => { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
     completion_files => { 'completion/_publican' => 'completion/_publican', },
 );
 $builder->add_build_element('common');

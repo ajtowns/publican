@@ -171,12 +171,12 @@ solely on using the publican tools.
 %setup -q -n Publican-%{version}
 
 %build
-%{__perl} Build.PL installdirs=vendor
+%{__perl} Build.PL installdirs=vendor --nocolours=1
 ./Build
 dir=`pwd` && cd Users_Guide && perl -I $dir/blib/lib $dir/blib/script/publican build \
     --formats=html-desktop --publish --langs=all \
     --common_config="$dir/blib/datadir" \
-    --common_content="$dir/blib/datadir/Common_Content"
+    --common_content="$dir/blib/datadir/Common_Content" --nocolours
 
 %install
 rm -rf $RPM_BUILD_ROOT
