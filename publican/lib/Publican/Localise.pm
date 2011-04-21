@@ -3,6 +3,9 @@ use warnings;
 
 package Publican::Localise;
 use base qw(Locale::Maketext::Gettext);
+use vars qw($VERSION);
+
+$VERSION = '0.2';
 
 =head1 NAME
 
