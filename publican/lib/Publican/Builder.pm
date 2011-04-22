@@ -754,8 +754,10 @@ sub validate_xml {
 # e.g. even though /usr/share/xml/docbook5/schema/rng/5.0/catalog.xml contains a local link
 # setting location = http://docbook.org/xml/5.0/rng/docbook.rng still does a web look up :(
 ## BUGBUG also need to change header ... entities?
-        # http://www.docbook.org/xml/5.1b2/rng/docbook.rng
-        # http://www.docbook.org/xml/5.0/rng/docbook.rng
+# http://www.docbook.org/xml/5.1b2/rng/docbook.rng
+# http://www.docbook.org/xml/5.0/rng/docbook.rng
+# wget http://docbook.org/xml/5.1b2/tools/db4-upgrade.xsl
+# for file in *.xml; do xsltproc /usr/share/xml/docbook5/stylesheet/upgrade/db4-upgrade.xsl $file > $file.tmp;mv $file.tmp $file;done
         my $rngschema = XML::LibXML::RelaxNG->new(
             location => 'http://docbook.org/xml/5.1b2/rng/docbook.rng' );
         eval { $rngschema->validate($source); };
