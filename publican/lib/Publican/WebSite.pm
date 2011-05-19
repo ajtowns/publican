@@ -99,7 +99,7 @@ my %tmpl_strings = (
     'nojs' => $locale->maketext(
         '<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to view the Navigation options without JavaScript enabled</p>'
     ),
-    'iframe'          => $locale->maketext(
+    'iframe' => $locale->maketext(
         'This is an iframe, to view it upgrade your browser or enable iframe display.'
     ),
     'Code'             => $locale->maketext('Code'),
@@ -263,9 +263,12 @@ sub update_or_add_entry {
 
     my $language = delete $arg->{language} || croak "language required";
     my $product  = delete $arg->{product}  || croak "product required";
-    my $version  = delete $arg->{version}  || croak "version required";
-    my $name     = delete $arg->{name}     || croak "name required";
-    my $format   = delete $arg->{format}   || croak "format required";
+    my $version
+        = defined $arg->{version}
+        ? delete $arg->{version}
+        : croak "update_or_add_entry: version required";
+    my $name   = delete $arg->{name}   || croak "name required";
+    my $format = delete $arg->{format} || croak "format required";
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
@@ -327,9 +330,12 @@ sub add_entry {
 
     my $language = delete $arg->{language} || croak "language required";
     my $product  = delete $arg->{product}  || croak "product required";
-    my $version  = delete $arg->{version}  || croak "version required";
-    my $name     = delete $arg->{name}     || croak "name required";
-    my $format   = delete $arg->{format}   || croak "format required";
+    my $version
+        = defined $arg->{version}
+        ? delete $arg->{version}
+        : croak "add_entry: version required";
+    my $name   = delete $arg->{name}   || croak "name required";
+    my $format = delete $arg->{format} || croak "format required";
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
@@ -365,9 +371,12 @@ sub update_entry {
     my $ID       = delete $arg->{ID}       || croak "ID required";
     my $language = delete $arg->{language} || croak "language required";
     my $product  = delete $arg->{product}  || croak "product required";
-    my $version  = delete $arg->{version}  || croak "version required";
-    my $name     = delete $arg->{name}     || croak "name required";
-    my $format   = delete $arg->{format}   || croak "format required";
+    my $version
+        = defined $arg->{version}
+        ? delete $arg->{version}
+        : croak "update_entry: version required";
+    my $name   = delete $arg->{name}   || croak "name required";
+    my $format = delete $arg->{format} || croak "format required";
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
@@ -402,9 +411,12 @@ sub del_entry {
 
     my $language = delete $arg->{language} || croak "language required";
     my $product  = delete $arg->{product}  || croak "product required";
-    my $version  = delete $arg->{version}  || croak "version required";
-    my $name     = delete $arg->{name}     || croak "name required";
-    my $format   = delete $arg->{format}   || croak "format required";
+    my $version
+        = defined $arg->{version}
+        ? delete $arg->{version}
+        : croak "del_entry: version required";
+    my $name   = delete $arg->{name}   || croak "name required";
+    my $format = delete $arg->{format} || croak "format required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -430,9 +442,12 @@ sub get_entry_id {
 
     my $language = delete $arg->{language} || croak "language required";
     my $product  = delete $arg->{product}  || croak "product required";
-    my $version  = delete $arg->{version}  || croak "version required";
-    my $name     = delete $arg->{name}     || croak "name required";
-    my $format   = delete $arg->{format}   || croak "format required";
+    my $version
+        = defined $arg->{version}
+        ? delete $arg->{version}
+        : croak "get_entry_id version required";
+    my $name   = delete $arg->{name}   || croak "name required";
+    my $format = delete $arg->{format} || croak "format required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -632,7 +647,8 @@ sub regen_all_toc {
     };
 
     $self->{Template}->process(
-        $self->{toc_type} . '.tmpl', $vars,
+        $self->{toc_type} . '.tmpl',
+        $vars,
         $self->{toc_path} . '/toc.html',
         binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
@@ -1411,4 +1427,3 @@ RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
 FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
-

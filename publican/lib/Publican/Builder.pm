@@ -757,7 +757,7 @@ sub validate_xml {
 # http://www.docbook.org/xml/5.1b2/rng/docbook.rng
 # http://www.docbook.org/xml/5.0/rng/docbook.rng
 # wget http://docbook.org/xml/5.1b2/tools/db4-upgrade.xsl
-# for file in *.xml; do xsltproc /usr/share/xml/docbook5/stylesheet/upgrade/db4-upgrade.xsl $file > $file.tmp;mv $file.tmp $file;done
+# for file in `ls *.xml`; do echo "$file"; xsltproc ../../db4-upgrade-publican.xsl $file > $file.tmp;mv $file.tmp $file; echo; done
         my $rngschema = XML::LibXML::RelaxNG->new(
             location => 'http://docbook.org/xml/5.1b2/rng/docbook.rng' );
         eval { $rngschema->validate($source); };

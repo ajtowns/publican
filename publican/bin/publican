@@ -29,20 +29,18 @@ my $IMPORT_SCRIPT     = '../common/cvs-import.sh';
 my $WEB_TEMPLATE_PATH = '/usr/share/publican';
 
 # Try to catch SRPMS created using outdated versions of publican in brew/koji/mock
-if (
-       ( $ENV{RPM_BUILD_DIR} )
+if (   ( $ENV{RPM_BUILD_DIR} )
     && ( $ENV{RPM_BUILD_DIR}    ne "" )
     && ( $ENV{RPM_PACKAGE_NAME} ne "publican" )
-    && (
-        -f "/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm"
+    && (-f "/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm"
     )
-  )
+    )
 {
 
-    my $pkg =
-qq|/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm|;
-    my $req_version =
-      qx|rpm --requires -qp $pkg \| grep 'publican ' \| sed -e 's/^[^0-9]*//'|;
+    my $pkg
+        = qq|/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm|;
+    my $req_version
+        = qx|rpm --requires -qp $pkg \| grep 'publican ' \| sed -e 's/^[^0-9]*//'|;
 
     chomp($req_version);
     if (  !$req_version
@@ -50,14 +48,14 @@ qq|/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{R
         || $req_version < $Publican::SPEC_VERSION )
     {
         croak(
-"\n\nERROR: The version of publican used to create the SRPM is too old to use with this version of publican. Upgrade publican on your local machine to at least version $Publican::SPEC_VERSION and try again."
+            "\n\nERROR: The version of publican used to create the SRPM is too old to use with this version of publican. Upgrade publican on your local machine to at least version $Publican::SPEC_VERSION and try again."
         );
     }
 
     # sad we need to do this kind of thing
     if ( system( "rpmlint", "-i", $pkg ) != 0 ) {
         croak(
-"\n\nERROR: Package failed rpmlint validation. Fix errors and retry."
+            "\n\nERROR: Package failed rpmlint validation. Fix errors and retry."
         );
     }
 }
@@ -73,7 +71,7 @@ my $bash_comp    = undef;
 #Getopt::Long::Configure("debug");
 
 ## BUGBUG how do we get this after install?
-my @pod_paths = ('./pod1', "/usr/share/doc/publican-$VERSION");
+my @pod_paths = ( './pod1', "/usr/share/doc/publican-$VERSION" );
 
 # Global options
 my %opts = (
@@ -86,23 +84,24 @@ my %opts = (
 
 #Action options
 my %options = (
-    'help'             => maketext('Display help message'),
-    'man'              => maketext('Display full man page'),
-    'v'                => maketext('Display the version of Publican'),
-    'config=s'         => maketext('Use a nonstandard config file'),
-    'binary'           => maketext('Build binary rpm when running package'),
-    'brew'             => maketext('Push SRPM to brew'),
-    'scratch'          => maketext('Use scratch instead of tag build'),
-    'wait'             => maketext('Wait for brew to finish building'),
-    'common_config=s'  => maketext('Override path to Common_Config directory'),
-    'common_content=s' => maketext('Override path to Common_Content directory'),
-    'formats=s'        => maketext(
-'Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub'
+    'help'            => maketext('Display help message'),
+    'man'             => maketext('Display full man page'),
+    'v'               => maketext('Display the version of Publican'),
+    'config=s'        => maketext('Use a nonstandard config file'),
+    'binary'          => maketext('Build binary rpm when running package'),
+    'brew'            => maketext('Push SRPM to brew'),
+    'scratch'         => maketext('Use scratch instead of tag build'),
+    'wait'            => maketext('Wait for brew to finish building'),
+    'common_config=s' => maketext('Override path to Common_Config directory'),
+    'common_content=s' =>
+        maketext('Override path to Common_Content directory'),
+    'formats=s' => maketext(
+        'Comma-separated list of formats, for example: html,pdf,html-single,html-desktop,txt,epub'
     ),
     'langs=s' => maketext(
         'Comma-separated list of languages, for example: en-US,de-DE,all'),
     'embedtoc' =>
-      maketext('Embed the web site TOC object in the generated HTML'),
+        maketext('Embed the web site TOC object in the generated HTML'),
     'name=s'    => maketext('The name of the book, article, set, or brand'),
     'version=s' => maketext('The version of the product'),
     'edition=s' => maketext('The edition of the book, article, or set'),
@@ -113,21 +112,22 @@ my %options = (
     'publish'   => maketext('Set up built content for publishing'),
     'desktop'   => maketext('Create desktop instead of web package'),
     'short_sighted' =>
-      maketext('Create package without using version in package name'),
+        maketext('Create package without using version in package name'),
     'path=s'          => maketext('/path/to/install/to'),
     'distributed_set' => maketext(
-qq|This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.|
+        qq|This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.|
     ),
-    'cvs' =>
-      maketext('Import the SRPM in to CVS, the run make tag and make build.'),
+    'cvs' => maketext(
+        'Import the SRPM in to CVS, the run make tag and make build.'),
     'nocolours' => maketext('Disable ANSI colourisation of logging.'),
     'quiet'     => maketext('Disable all logging.'),
     'novalid'   => maketext('Do not run the DTD validation'),
 ## WebSite options
-    'db_file=s'     => maketext('Override default database file.'),
-    'toc_path=s'    => maketext('Override the default TOC path.'),
-    'tmpl_path=s'   => maketext('Override the default template path.'),
-    'site_config=s' => maketext('WebSite configuration file to use or create.'),
+    'db_file=s'   => maketext('Override default database file.'),
+    'toc_path=s'  => maketext('Override the default TOC path.'),
+    'tmpl_path=s' => maketext('Override the default template path.'),
+    'site_config=s' =>
+        maketext('WebSite configuration file to use or create.'),
 ## database
     add               => maketext('Add a database entry'),
     del               => maketext('Delete a database entry'),
@@ -181,7 +181,7 @@ my %actions = (
     },
     'old2new' => {
         'brief' => maketext(
-'Create a publican.cfg file from the Makefile of an old book, set, or article'
+            'Create a publican.cfg file from the Makefile of an old book, set, or article'
         ),
         'options' => [],
     },
@@ -202,9 +202,11 @@ my %actions = (
         'options' => [],
     },
     'create' => {
-        'brief' => maketext('Create a new book, set, or article'),
-        'options' =>
-          [ 'name', 'version', 'edition', 'product', 'brand', 'lang', 'type' ],
+        'brief'   => maketext('Create a new book, set, or article'),
+        'options' => [
+            'name',  'version', 'edition', 'product',
+            'brand', 'lang',    'type'
+        ],
     },
     'create_brand' => {
         'brief'   => maketext('Create a new brand'),
@@ -241,7 +243,7 @@ my %actions = (
     'create_site' => {
         'brief' => maketext('Create a new WebSite in the supplied location.'),
         'options' =>
-          [ 'site_config', 'db_file', 'toc_path', 'tmpl_path', 'lang' ],
+            [ 'site_config', 'db_file', 'toc_path', 'tmpl_path', 'lang' ],
     },
     'update_site' => {
         'brief'   => maketext('Update an existing sites templates.'),
@@ -261,7 +263,7 @@ my %actions = (
     },
     'update_db' => {
         'brief' => maketext(
-'Add or remove database entries. Used for processing pre-build books, such as when building packages.'
+            'Add or remove database entries. Used for processing pre-build books, such as when building packages.'
         ),
         'options' => [
             'site_config',   'add',
@@ -321,7 +323,12 @@ if ( defined $actions{$action} ) {
 }
 
 GetOptions( \%opts, @optns, )
-  or pod2usage( -verbose => 1, -exit => 1, -input => 'publican', -pathlist => \@pod_paths );
+    or pod2usage(
+    -verbose  => 1,
+    -exit     => 1,
+    -input    => 'publican',
+    -pathlist => \@pod_paths
+    );
 
 # Getopt will remove the options leaving only the action
 $action = ( $ARGV[0] || "" );
@@ -363,8 +370,18 @@ if ($bash_comp) {
 
 # catch no action set
 if ( $action eq "" ) {
-    pod2usage( -verbose => 1, -exit => 0, -input => 'publican', -pathlist => \@pod_paths ) if $help;
-    pod2usage( -verbose => 2, -exit => 0, -input => 'publican', -pathlist => \@pod_paths ) if $man;
+    pod2usage(
+        -verbose  => 1,
+        -exit     => 0,
+        -input    => 'publican',
+        -pathlist => \@pod_paths
+    ) if $help;
+    pod2usage(
+        -verbose  => 2,
+        -exit     => 0,
+        -input    => 'publican',
+        -pathlist => \@pod_paths
+    ) if $man;
 
     if ($help_actions) {
         _help_actions();
@@ -372,10 +389,10 @@ if ( $action eq "" ) {
     }
 
     pod2usage(
-        -msg     => "\n" . maketext("Action required!") . "\n",
-        -verbose => 1,
-        -exit    => 1,
-        -input => 'publican',
+        -msg      => "\n" . maketext("Action required!") . "\n",
+        -verbose  => 1,
+        -exit     => 1,
+        -input    => 'publican',
         -pathlist => \@pod_paths
     );
 
@@ -430,12 +447,11 @@ if ($help) {
 if ( $action eq 'create' ) {
 
     my $docname = $opts{name}
-      || croak( maketext("name is a required parameter") );
+        || croak( maketext("name is a required parameter") );
     $docname =~ s/\s/_/g;
 
     my $creator = Publican::CreateBook->new(
-        {
-            name    => $docname,
+        {   name    => $docname,
             version => $opts{version},
             edition => $opts{edition},
             product => $opts{product},
@@ -449,8 +465,7 @@ if ( $action eq 'create' ) {
     my $dir = pushd($docname);
 
     my $publican = Publican->new(
-        {
-            configfile     => $opts{config},
+        {   configfile     => $opts{config},
             common_config  => $opts{common_config},
             common_content => $opts{common_content},
             QUIET          => $opts{quiet},
@@ -468,8 +483,7 @@ if ( $action eq 'create' ) {
 
 if ( $action eq 'create_brand' ) {
     my $creator = Publican::CreateBrand->new(
-        {
-            name => $opts{name},
+        {   name => $opts{name},
             lang => $opts{lang},
         }
     );
@@ -485,7 +499,7 @@ if ( $action eq 'old2new' ) {
 
 if ( $action eq 'create_site' ) {
     my $site_config = $opts{site_config}
-      || croak( maketext( "[_1] is a required argument", 'site_config' ) );
+        || croak( maketext( "[_1] is a required argument", 'site_config' ) );
     my $db_file   = $opts{db_file}   || undef;
     my $toc_path  = $opts{toc_path}  || undef;
     my $tmpl_path = $opts{tmpl_path} || undef;
@@ -516,8 +530,8 @@ if ( $action eq 'create_site' ) {
     $config->param( 'def_lang',  $def_lang )            if ($def_lang);
     $config->write($site_config);
 
-    my $ws =
-      Publican::WebSite->new( { create => 1, site_config => $site_config } );
+    my $ws = Publican::WebSite->new(
+        { create => 1, site_config => $site_config } );
     $ws->regen_all_toc();
 
     exit(0);
@@ -552,18 +566,22 @@ if ( $action eq 'update_db' ) {
 
     croak(
         maketext("One of add or del is required when updating the database") )
-      unless ( $add || $del );
+        unless ( $add || $del );
 
     my $lang = $opts{lang}
-      || croak( maketext( "[_1] is a required argument", 'lang' ) );
+        || croak( maketext( "[_1] is a required argument", 'lang' ) );
     my $product = $opts{product}
-      || croak( maketext( "[_1] is a required argument", 'product' ) );
-    my $version = $opts{version}
-      || croak( maketext( "[_1] is a required argument", 'version' ) );
+        || croak( maketext( "[_1] is a required argument", 'product' ) );
+
+    my $version
+        = defined $opts{version}
+        ? $opts{version}
+        : croak( maketext( "[_1] is a required argument", 'version' ) );
+
     my $name = $opts{name}
-      || croak( maketext( "[_1] is a required argument", 'name' ) );
+        || croak( maketext( "[_1] is a required argument", 'name' ) );
     my $formats = $opts{formats}
-      || croak( maketext( "[_1] is a required argument", 'formats' ) );
+        || croak( maketext( "[_1] is a required argument", 'formats' ) );
 
     # required for add
     my $subtitle = $opts{subtitle} || undef;
@@ -571,9 +589,9 @@ if ( $action eq 'update_db' ) {
 
     if ($add) {
         croak( maketext( "[_1] is a required argument", 'subtitle' ) )
-          unless ($subtitle);
+            unless ($subtitle);
         croak( maketext( "[_1] is a required argument", 'abstract' ) )
-          unless ($abstract);
+            unless ($abstract);
     }
 
     # optional for add
@@ -584,8 +602,7 @@ if ( $action eq 'update_db' ) {
     if ($add) {
         foreach my $format ( split( /,/, $formats ) ) {
             $ws->update_or_add_entry(
-                {
-                    language      => $lang,
+                {   language      => $lang,
                     product       => $product,
                     version       => $version,
                     name          => $name,
@@ -603,8 +620,7 @@ if ( $action eq 'update_db' ) {
         foreach my $format ( split( /,/, $formats ) ) {
 
             $ws->del_entry(
-                {
-                    language => $lang,
+                {   language => $lang,
                     product  => $product,
                     version  => $version,
                     name     => $name,
@@ -630,8 +646,7 @@ if ( $action eq 'print_known' ) {
 my %args = ( 'configfile' => $opts{config} );
 
 my $publican = Publican->new(
-    {
-        'configfile'   => $opts{config},
+    {   'configfile'   => $opts{config},
         common_config  => $opts{common_config},
         common_content => $opts{common_content},
         QUIET          => $opts{quiet},
@@ -646,20 +661,20 @@ if ( $action eq 'print_banned' ) {
 
 if ( $action eq 'install_brand' ) {
     my $brand = $publican->param('brand')
-      || croak("Can't find brand name");
+        || croak("Can't find brand name");
 
     croak( maketext( "[_1] is a required argument", 'path' ) )
-      unless ( $opts{path} );
+        unless ( $opts{path} );
     croak( maketext("you need to publish the brand first") )
-      unless ( -d "publish" );
+        unless ( -d "publish" );
     croak( maketext("destination must exist") ) unless ( -d $opts{path} );
 
     rcopy( "publish/*",    "$opts{path}/." );
     rcopy( "publican.cfg", "$opts{path}/$brand/." );
     rcopy( "defaults.cfg", "$opts{path}/$brand/." )
-      if ( -f "defaults.cfg" );
+        if ( -f "defaults.cfg" );
     rcopy( "overrides.cfg", "$opts{path}/$brand/." )
-      if ( -f "overrides.cfg" );
+        if ( -f "overrides.cfg" );
 
     exit(0);
 }
@@ -686,16 +701,16 @@ if ( $action eq 'clean' || $action eq 'package' ) {
     if ( $action eq 'package' ) {
         logger(
             maketext(
-"Running clean process to ensure stale content is not bundled in packages."
-              )
-              . "\n",
+                "Running clean process to ensure stale content is not bundled in packages."
+                )
+                . "\n",
             RED
         );
     }
     logger(
         maketext( "Clean: Removing [_1] and publish directories.",
             $publican->param('tmp_dir') )
-          . "\n",
+            . "\n",
     );
 
     my $error;
@@ -731,8 +746,7 @@ if ( $action eq 'update_po' ) {
     my $translater = Publican::Translate->new();
     if ( $opts{langs} eq 'all' ) {
         $translater->update_po_all(
-            {
-                msgmerge  => $opts{msgmerge},
+            {   msgmerge  => $opts{msgmerge},
                 email     => $opts{email},
                 firstname => $opts{firstname},
                 surname   => $opts{surname}
@@ -741,8 +755,7 @@ if ( $action eq 'update_po' ) {
     }
     else {
         $translater->update_po(
-            {
-                langs     => $opts{langs},
+            {   langs     => $opts{langs},
                 msgmerge  => $opts{msgmerge},
                 email     => $opts{email},
                 firstname => $opts{firstname},
@@ -767,8 +780,7 @@ if ( $action eq 'lang_stats' ) {
 if ( $action eq 'build' ) {
     my $builder = Publican::Builder->new( { novalid => $opts{novalid} } );
     $builder->build(
-        {
-            formats         => $opts{formats},
+        {   formats         => $opts{formats},
             langs           => $opts{langs},
             publish         => $opts{publish},
             embedtoc        => $opts{embedtoc},
@@ -784,8 +796,7 @@ if ( $action eq 'add_revision' ) {
     }
 
     $publican->add_revision(
-        {
-            lang      => $opts{lang},
+        {   lang      => $opts{lang},
             revnumber => $opts{revnumber},
             date      => $opts{date},
             members   => $opts{member},
@@ -806,8 +817,7 @@ if ( $action eq 'package' ) {
     }
     else {
         $builder->package(
-            {
-                lang          => $opts{lang},
+            {   lang          => $opts{lang},
                 desktop       => $opts{desktop},
                 short_sighted => $opts{short_sighted},
                 binary        => $opts{binary}
@@ -817,9 +827,8 @@ if ( $action eq 'package' ) {
 
     if ( $opts{brew} ) {
 
-        my @filelist =
-          File::Find::Rule->file->name('*.src.rpm')
-          ->in( $publican->param('tmp_dir') );
+        my @filelist = File::Find::Rule->file->name('*.src.rpm')
+            ->in( $publican->param('tmp_dir') );
 
         my $srpm = pop(@filelist);
 
@@ -860,16 +869,16 @@ if ( $action eq 'package' ) {
 
         # TODO consider making this optional?
         my $cvs_root = $publican->param('cvs_root')
-          || croak(
+            || croak(
             maketext("--cvs requires cvs_root to be set in the cfg file") );
 
         my $cvs_pkg = $publican->param('cvs_pkg')
-          || croak(
+            || croak(
             maketext("--cvs requires cvs_pkg to be set in the cfg file") );
         $cvs_pkg =~ s/$LANG_PATTERN/$opts{lang}/g;
 
         my $cvs_branch = $publican->param('cvs_branch')
-          || croak(
+            || croak(
             maketext("--cvs requires cvs_branch to be set in the cfg file") );
 
         my $cvs_dir = "$cvs_pkg-$cvs_branch";
@@ -914,12 +923,12 @@ if ( $action eq 'install_book' ) {
 
     if ( $publican->param('web_home') || $publican->param('web_type') ) {
         croak( maketext("can't find 'publish' directory") )
-          unless ( -d "publish/home" );
+            unless ( -d "publish/home" );
         rcopy( "publish/home/*", $ws->toc_path() . "/." );
     }
     else {
         my $lang = $opts{lang}
-          || croak( maketext( "[_1] is a required argument", 'lang' ) );
+            || croak( maketext( "[_1] is a required argument", 'lang' ) );
         my $product       = $publican->param('product');
         my $version       = $publican->param('version');
         my $name          = $publican->param('docname');
@@ -931,7 +940,7 @@ if ( $action eq 'install_book' ) {
         my $abstract = $publican->get_abstract( { lang => $lang } );
 
         croak( maketext( "can't find 'publish/[_1]' directory", $lang ) )
-          unless ( -d "publish/$lang" );
+            unless ( -d "publish/$lang" );
 
         my $type     = $publican->param('type');
         my $xml_lang = $publican->param('xml_lang');
@@ -942,7 +951,7 @@ if ( $action eq 'install_book' ) {
         if ( $lang ne $xml_lang ) {
             my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
             croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
-              if ( !-f $xml_file );
+                if ( !-f $xml_file );
 
             my $xml_doc = XML::TreeBuilder->new();
             $xml_doc->parse_file($xml_file);
@@ -951,7 +960,7 @@ if ( $action eq 'install_book' ) {
             unless ($product_label) {
                 $product_label = eval {
                     $xml_doc->root()->look_down( "_tag", "productname" )
-                      ->as_text();
+                        ->as_text();
                 };
                 if ($@) {
                     croak maketext("productname not found in Info file");
@@ -974,7 +983,7 @@ if ( $action eq 'install_book' ) {
         }
 
         mkpath( $ws->toc_path() . "/$lang" )
-          unless ( -d $ws->toc_path() . "/$lang" );
+            unless ( -d $ws->toc_path() . "/$lang" );
         rcopy( "publish/$lang/*", $ws->toc_path() . "/$lang/." );
 
         my @formats = split( /,/, $publican->param('web_formats') );
@@ -983,8 +992,7 @@ if ( $action eq 'install_book' ) {
             next unless ( -d "publish/$lang/$product/$version/$format" );
 
             $ws->update_or_add_entry(
-                {
-                    language      => $lang,
+                {   language      => $lang,
                     product       => $product,
                     version       => $version,
                     name          => $name,
@@ -1007,7 +1015,7 @@ if ( $action eq 'remove_book' ) {
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
     my $lang = $opts{lang}
-      || croak( maketext( "[_1] is a required argument", 'lang' ) );
+        || croak( maketext( "[_1] is a required argument", 'lang' ) );
     my $product = $publican->param('product');
     my $version = $publican->param('version');
     my $name    = $publican->param('docname');
@@ -1017,8 +1025,7 @@ if ( $action eq 'remove_book' ) {
 
         # BUGBUG get these the normal way
         $ws->del_entry(
-            {
-                language => $lang,
+            {   language => $lang,
                 product  => $product,
                 version  => $version,
                 name     => $name,
@@ -1037,7 +1044,8 @@ if ( $action eq 'remove_book' ) {
             unless ( File::Find::Rule->not_name(qr/(\.|\.\.)/)->in($dir) ) {
                 rmtree($dir);
                 $dir = "$ws->{toc_path}/$lang/$product";
-                unless ( File::Find::Rule->not_name(qr/(\.|\.\.)/)->in($dir) ) {
+                unless ( File::Find::Rule->not_name(qr/(\.|\.\.)/)->in($dir) )
+                {
                     rmtree($dir);
                 }
             }
@@ -1050,7 +1058,7 @@ if ( $action eq 'remove_book' ) {
 if ( $action eq 'rename' ) {
 
     my $new_docname = $opts{name}
-      || croak( maketext("name is a required parameter") );
+        || croak( maketext("name is a required parameter") );
 
     my $conf_file = ( $opts{config} || 'publican.cfg' );
     my $config = new Config::Simple($conf_file);
@@ -1066,29 +1074,30 @@ if ( $action eq 'rename' ) {
     $config->delete('docname');
 
     # load in $type_Info.xml
-    my $file =
-        $config->param('xml_lang') . '/'
-      . ( $config->param('type') || 'Book' )
-      . '_Info.xml';
+    my $file
+        = $config->param('xml_lang') . '/'
+        . ( $config->param('type') || 'Book' )
+        . '_Info.xml';
 
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
-    my $xml_doc =
-      XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
     $xml_doc->parse_file($file)
-      || croak( maketext( "Can't open file '[_1]' [_2]", $file, $@ ) );
+        || croak( maketext( "Can't open file '[_1]' [_2]", $file, $@ ) );
 
     # Change Title
     my $title = $xml_doc->root()->look_down( "_tag", "title" )
-      || croak( maketext('Cannot locate title tag in Info file!') );
+        || croak( maketext('Cannot locate title tag in Info file!') );
     $title->delete_content();
     $title->push_content($new_docname);
 
     # Change Product Name
     if ( $opts{product} ) {
         my $prod = $xml_doc->root()->look_down( "_tag", "productname" )
-          || croak( maketext('Cannot locate productname tag in Info file!') );
+            || croak(
+            maketext('Cannot locate productname tag in Info file!') );
         $prod->delete_content();
         $prod->push_content( $opts{product} );
     }
@@ -1096,7 +1105,8 @@ if ( $action eq 'rename' ) {
     # Change Product Number
     if ( $opts{version} ) {
         my $prod_num = $xml_doc->root()->look_down( "_tag", "productnumber" )
-          || croak( maketext('Cannot locate productnumber tag in Info file!') );
+            || croak(
+            maketext('Cannot locate productnumber tag in Info file!') );
         $prod_num->delete_content();
         $prod_num->push_content( $opts{version} );
     }
@@ -1212,7 +1222,7 @@ BOTTOM
 
     my $COMP_FILE;
     open( $COMP_FILE, ">", "completion/_publican" )
-      || croak("file open fail: @_");
+        || croak("file open fail: @_");
     print( $COMP_FILE $top );
     print( $COMP_FILE $options );
     print( $COMP_FILE $bottom );
