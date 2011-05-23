@@ -1,4 +1,6 @@
 %define brand JBoss
+%define pub_name Publican
+%define RHEL6 %(test %{?dist} == .el6 && echo 1 || echo 0)
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
@@ -7,7 +9,12 @@ Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Buildarch:	noarch
+# Limited to these arches on RHEL 6 due to PDF + Java limitations
+%if %{RHEL6}
+ExclusiveArch:   i686 x86_64
+%else
+BuildArch:   noarch
+%endif
 Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
 Requires:	publican >= 2.5
 BuildRequires:	publican >= 2.5
