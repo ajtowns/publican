@@ -4,7 +4,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.2
+Version:	0.3
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -45,10 +45,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Fri May 25 2011  David O'Brien <davido@redhat.com> 0.2
+* Thu May 26 2011  Rüdiger Landmann <r.landmann@redhat.com> 0.3
+- Adjust styles and graphics
+
+* Wed May 25 2011  David O'Brien <davido@redhat.com> 0.2
 - Updated bug reporting options
 
-* Wed May 20 2011 David O'Brien <davido@redhat.com> 0.1
+* Fri May 20 2011 David O'Brien <davido@redhat.com> 0.1
 - Created Brand
 - Added common files for express and flex
 - Updated support options

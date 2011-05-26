@@ -23,7 +23,7 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/fo/graphics.xsl"/>
 <xsl:import href="../../../xsl/pdf.xsl"/>
 
-<xsl:param name="title.color">#000000</xsl:param>
+<xsl:param name="title.color">#333333</xsl:param>
 <xsl:param name="admon.graphics.extension" select="'.svg'"/>
 
 <xsl:attribute-set name="remark.properties">
