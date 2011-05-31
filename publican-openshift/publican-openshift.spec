@@ -45,13 +45,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Thu May 26 2011  Rüdiger Landmann <r.landmann@redhat.com> 0.3
+* Thu May 26 2011  Rüdiger Landmann <r.landmann@redhat.com> 0.3-1
 - Adjust styles and graphics
 
-* Wed May 25 2011  David O'Brien <davido@redhat.com> 0.2
+* Wed May 25 2011  David O'Brien <davido@redhat.com> 0.2-1
 - Updated bug reporting options
 
-* Fri May 20 2011 David O'Brien <davido@redhat.com> 0.1
+* Fri May 20 2011 David O'Brien <davido@redhat.com> 0.1-1
 - Created Brand
 - Added common files for express and flex
 - Updated support options
