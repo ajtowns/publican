@@ -4,7 +4,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.3
+Version:	0.4
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Jun 1 2011 David O'Brien <davido@redhat.com> 0.4-1
+- Update OpenShift terminology
+- Adjust Overview structure
+
 * Thu May 26 2011  Rüdiger Landmann <r.landmann@redhat.com> 0.3-1
 - Adjust styles and graphics
 
