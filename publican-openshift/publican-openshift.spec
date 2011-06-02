@@ -5,15 +5,15 @@
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
 Version:	0.4
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # Limited to these arches on RHEL 6 due to PDF + Java limitations
 %if %{RHEL6}
-ExclusiveArch:   i686 x86_64
+ExclusiveArch:	i686 x86_64
 %else
-BuildArch:   noarch
+BuildArch:	noarch
 %endif
 Source:		https://fedorahosted.org/releases/p/u/publican/publican-openshift-%{version}.tgz
 BuildRequires:	publican >= 2.5
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Jun 2 2011 David O'Brien <davido@redhat.com> 0.4-3
+- Replace spaces with tabs as field label separators
+
 * Wed Jun 1 2011 David O'Brien <davido@redhat.com> 0.4-1
 - Update OpenShift terminology
 - Adjust Overview structure
