@@ -26,7 +26,9 @@
 	<para>
 		<trademark class="registered">MySQL</trademark> is a registered trademark of MySQL AB in the United States, the European Union and other countries.
 	</para>
-	<xi:include condition="EXTRA_TRADEMARKS" href="Legal_Notice_Extra.xml"/>
+	<xi:include href="Legal_Notice_Extra.xml"  xmlns:xi="http://www.w3.org/2001/XInclude">
+		<xi:fallback></xi:fallback>
+	</xi:include>
 	<para>
 		All other trademarks are the property of their respective owners.
 	</para>
