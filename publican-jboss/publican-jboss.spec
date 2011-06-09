@@ -4,7 +4,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	2.4
+Version:	2.5
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -47,6 +47,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Jun 9 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.5-1
+- add "getting help" section
+- update "giving feedback" section -- BZ#706302
+- add support for extra trademarks -- BZ#708259
+
 * Fri Jan 21 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.4-1
 - remove max_image_width
 
