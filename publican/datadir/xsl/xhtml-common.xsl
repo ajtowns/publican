@@ -609,7 +609,7 @@ Version: 1.72.0
   <xsl:param name="object" select="."/>
   <xsl:param name="title">
     <xsl:apply-templates select="$object" mode="object.title.markup">
-      <xsl:with-param name="allow-anchors" select="1"/>
+      <xsl:with-param name="allow-anchors" select="0"/>
     </xsl:apply-templates>
   </xsl:param>
   <h6><xsl:copy-of select="$title"/></h6>
@@ -941,7 +941,7 @@ because it has to parse lines one by one to place the gfx
       <xsl:with-param name="object" select="$node"/>
     </xsl:call-template>
   </xsl:variable>
-  <xsl:if test="(self::title or self::bridgehead) and substring($id,1,2) = 'id'">
+  <xsl:if test="(self::title and substring($id,1,2) = 'id') or self::bridgehead">
     <xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
   </xsl:if>
 </xsl:template>

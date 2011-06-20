@@ -23,6 +23,8 @@ use DateTime::Format::DateParse;
 use Syntax::Highlight::Engine::Kate;
 use HTML::TreeBuilder;
 use HTML::FormatText;
+## BUGBUG test for BZ #697363
+#use HTML::FormatText::WithLinks::AndTables;
 use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
@@ -843,11 +845,18 @@ sub transform {
             || croak( maketext("Can't open file for text output!") );
         my $tree = HTML::TreeBuilder->new();
         my $fh;
-        open( $fh, "<:encoding(UTF-8)", "html-single/index.html" );
+        open( $fh, "<:encoding(UTF-8)", "html-single/index.html" ) || croak( maketext("Can't open file for html input!") );
         $tree->parse_file($fh);
         my $formatter
             = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
         print( $TXT_FILE $formatter->format($tree) );
+
+## BUGBUG test for BZ #697363
+##        binmode $fh;
+##        my $html = <$fh>;
+##        close($fh);
+##        print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert($html) );
+
         close($TXT_FILE);
         $dir = undef;
         return;
@@ -1084,16 +1093,22 @@ sub transform {
     }
     elsif ( $format eq 'epub' ) {
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/OEBPS/images" );
-        dircopy(
-            "$tmp_dir/$lang/xml/Common_Content",
-            "$tmp_dir/$lang/$format/OEBPS/Common_Content"
-        );
-        dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
-            if ( -e "$xml_lang/files" );
-        dircopy( "$lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
-            if ( -e "$lang/files" );
+##        dircopy( "$tmp_dir/$lang/xml/images",
+##            "$tmp_dir/$lang/$format/OEBPS/images" );
+##        dircopy(
+##            "$tmp_dir/$lang/xml/Common_Content",
+##            "$tmp_dir/$lang/$format/OEBPS/Common_Content"
+##        );
+##        dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
+##            if ( -e "$xml_lang/files" );
+##        dircopy( "$lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
+##            if ( -e "$lang/files" );
+
+        mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/css");
+        fcopy("$tmp_dir/$lang/xml/Common_Content/css/print.css", "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/print.css");
+        mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/images");
+        fcopy("$tmp_dir/$lang/xml/Common_Content/", "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg");
+        unlink("$tmp_dir/$lang/$format/OEBPS/icon.svg");
 
         # remove any RCS from the output
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );

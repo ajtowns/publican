@@ -122,7 +122,7 @@ my $class = Module::Build->subclass(
         }
         sub ACTION_distdir {
             my ($self) = @_;
-            $self->depends_on('authortest');
+#            $self->depends_on('authortest');
             return $self->SUPER::ACTION_distdir();
         }
         sub ACTION_update_pod {
