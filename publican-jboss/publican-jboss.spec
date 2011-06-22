@@ -1,10 +1,10 @@
 %define brand JBoss
 %define pub_name Publican
-%define RHEL6 %(test %{?dist} == .el6 && echo 1 || echo 0)
+%define RHEL6 %([[ %{?dist}x == .el6[a-z]* ]] && echo 1 || echo 0)
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	2.7
+Version:	2.8
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -47,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Jun 22 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.8-1
+- Updated translations
+
 * Wed Jun 15 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.7-1
 - format simplelist for extra trademarks -- BZ#708259
 
