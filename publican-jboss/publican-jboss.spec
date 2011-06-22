@@ -4,7 +4,7 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
-Version:	2.6
+Version:	2.7
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -47,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Jun 15 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.7-1
+- format simplelist for extra trademarks -- BZ#708259
+
 * Thu Jun 9 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.6-1
 - fix support for extra trademarks -- BZ#708259
 
