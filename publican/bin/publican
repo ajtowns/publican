@@ -146,6 +146,7 @@ my %options = (
     'surname=s'   => maketext('surname to use for a revision.'),
     'email=s'     => maketext('email to use for a revision.'),
     'msgmerge'    => maketext(q|Use gettext's msgmerge for POT/PO merging.|),
+    'NEW_TXT'     => q|Test alternate TXT output, BZ #697363.|,
 );
 
 # Options all actions use
@@ -162,7 +163,7 @@ my %actions = (
             'Transform XML to other formats (pdf, html, html-single, etc)'),
         'options' => [
             'formats',         'langs', 'publish', 'embedtoc',
-            'distributed_set', 'novalid'
+            'distributed_set', 'novalid', 'NEW_TXT'
         ],
     },
     'clean' => {
@@ -778,6 +779,7 @@ if ( $action eq 'lang_stats' ) {
 }
 
 if ( $action eq 'build' ) {
+    $publican->{config}->param( 'NEW_TXT', 1 ) if $opts{NEW_TXT};
     my $builder = Publican::Builder->new( { novalid => $opts{novalid} } );
     $builder->build(
         {   formats         => $opts{formats},
@@ -787,6 +789,7 @@ if ( $action eq 'build' ) {
             distributed_set => $opts{distributed_set},
         }
     );
+
 }
 
 if ( $action eq 'add_revision' ) {

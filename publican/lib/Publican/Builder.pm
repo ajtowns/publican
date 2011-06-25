@@ -24,7 +24,10 @@ use Syntax::Highlight::Engine::Kate;
 use HTML::TreeBuilder;
 use HTML::FormatText;
 ## BUGBUG test for BZ #697363
-#use HTML::FormatText::WithLinks::AndTables;
+## BUGBUG HTML::FormatText::WithLinks::AndTables requires patches from
+# https://rt.cpan.org/Public/Bug/Display.html?id=63555
+# https://rt.cpan.org/Public/Bug/Display.html?id=55919
+use HTML::FormatText::WithLinks::AndTables;
 use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
@@ -845,17 +848,21 @@ sub transform {
             || croak( maketext("Can't open file for text output!") );
         my $tree = HTML::TreeBuilder->new();
         my $fh;
-        open( $fh, "<:encoding(UTF-8)", "html-single/index.html" ) || croak( maketext("Can't open file for html input!") );
+        open( $fh, "<:encoding(UTF-8)", "html-single/index.html" )
+            || croak( maketext("Can't open file for html input!") );
         $tree->parse_file($fh);
-        my $formatter
-            = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
-        print( $TXT_FILE $formatter->format($tree) );
-
 ## BUGBUG test for BZ #697363
-##        binmode $fh;
-##        my $html = <$fh>;
-##        close($fh);
-##        print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert($html) );
+        if ($self->{publican}->param('NEW_TXT')) {
+            print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert(
+                    $tree->as_HTML, { leftmargin => 0, rightmargin => 72, anchor_links => 0, before_link => ' [%n] ' }
+                )
+            );
+        }
+        else {
+            my $formatter
+                = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
+            print( $TXT_FILE $formatter->format($tree) );
+        }
 
         close($TXT_FILE);
         $dir = undef;
@@ -1105,9 +1112,14 @@ sub transform {
 ##            if ( -e "$lang/files" );
 
         mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/css");
-        fcopy("$tmp_dir/$lang/xml/Common_Content/css/print.css", "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/print.css");
+        fcopy(
+            "$tmp_dir/$lang/xml/Common_Content/css/print.css",
+            "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/print.css"
+        );
         mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/images");
-        fcopy("$tmp_dir/$lang/xml/Common_Content/", "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg");
+        fcopy( "$tmp_dir/$lang/xml/Common_Content/",
+            "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg"
+        );
         unlink("$tmp_dir/$lang/$format/OEBPS/icon.svg");
 
         # remove any RCS from the output
