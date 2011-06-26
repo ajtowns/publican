@@ -2808,8 +2808,9 @@ Not sure why it doesn't work in there.
 
 <fo:block id="{$id}"
             xsl:use-attribute-sets="graphical.admonition.properties">
+	<xsl:attribute name="margin-top">1em</xsl:attribute>
 	<xsl:attribute name="padding-bottom">-3em</xsl:attribute>
-	<xsl:attribute name="margin-bottom">2em</xsl:attribute>
+	<xsl:attribute name="margin-bottom">4em</xsl:attribute>
 	<xsl:attribute name="margin-left">0em</xsl:attribute>
   <fo:block-container>
     <fo:block-container>
