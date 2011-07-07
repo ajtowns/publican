@@ -2333,10 +2333,10 @@ sub change_log {
 
         my $revnumber = $node->as_trimmed_text();
 
-        unless ( $revnumber =~ m/-\d/ ) {
+        unless ( $revnumber =~ m/\d(\d.)+-\d(\d.)+/ ) {
             croak(
                 maketext(
-                    "ERROR: revnumber '[_1]' does not match required format '(\\d.)*-(\\d.)*'. e.g. '[_1]-0'.\n",
+                    "ERROR: revnumber '[_1]' does not match required format '\\d(\\d.)*-\\d(\\d.)*'. e.g. '1-1'.\n",
                     $revnumber
                 )
             );

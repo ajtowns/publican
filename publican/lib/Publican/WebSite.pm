@@ -89,36 +89,36 @@ $locale->encoding("UTF-8");
 $locale->textdomain("publican");
 
 my %tmpl_strings = (
-    'toc_nav'      => $locale->maketext('toc nav'),
-    'Welcome'      => $locale->maketext('Welcome'),
-    'collapse_all' => $locale->maketext('collapse all'),
-    'Language'     => $locale->maketext('Language'),
-    'nocookie'     => $locale->maketext(
+    toc_nav      => $locale->maketext('toc nav'),
+    Welcome      => $locale->maketext('Welcome'),
+    collapse_all => $locale->maketext('collapse all'),
+    Language     => $locale->maketext('Language'),
+    nocookie     => $locale->maketext(
         'The Navigation Menu below will automatically collapse when pages are loaded. Enable cookies to fix the Navigation Menu functionality.'
     ),
-    'nojs' => $locale->maketext(
+    nojs => $locale->maketext(
         '<p>The Navigation Menu above requires JavaScript to function.</p><p>Enable JavaScript to allow the Navigation Menu to function.</p><p>Disable CSS to view the Navigation options without JavaScript enabled</p>'
     ),
-    'iframe' => $locale->maketext(
+    iframe => $locale->maketext(
         'This is an iframe, to view it upgrade your browser or enable iframe display.'
     ),
-    'Code'             => $locale->maketext('Code'),
-    'Products'         => $locale->maketext('Products'),
-    'Books'            => $locale->maketext('Books'),
-    'Versions'         => $locale->maketext('Versions'),
-    'Packages'         => $locale->maketext('Packages'),
-    'Total_Languages'  => $locale->maketext('Total Languages'),
-    'Total_Packages'   => $locale->maketext('Total Packages'),
-    'Untranslated'     => $locale->maketext('Untranslated'),
-    'index_javascript' => $locale->maketext(
+    Code             => $locale->maketext('Code'),
+    Products         => $locale->maketext('Products'),
+    Books            => $locale->maketext('Books'),
+    Versions         => $locale->maketext('Versions'),
+    Packages         => $locale->maketext('Packages'),
+    Total_Languages  => $locale->maketext('Total Languages'),
+    Total_Packages   => $locale->maketext('Total Packages'),
+    Untranslated     => $locale->maketext('Untranslated'),
+    index_javascript => $locale->maketext(
         'This web site requires JavaScript and cookies to be enabled to function correctly.'
     ),
-    'index_toc' =>
+    index_toc =>
         $locale->maketext('Click here to view a static Table of Contents'),
-    'ProductLinkTitle' => $locale->maketext('Information'),
+    ProductLinkTitle => $locale->maketext('Information'),
     ProductList        => $locale->maketext('Product List'),
-    'Hide_Menu'        => $locale->maketext('Hide Menu'),
-    'Show_Menu'        => $locale->maketext('Show Menu'),
+    Hide_Menu        => $locale->maketext('Hide Menu'),
+    Show_Menu        => $locale->maketext('Show Menu'),
 );
 
 sub new {
@@ -190,9 +190,9 @@ sub new {
 sub _dbh {
     my $self = shift;
 
-    return $self->{'dbh'} if $self->{'dbh'};
+    return $self->{dbh} if $self->{dbh};
 
-    my $db_file = $self->{'db_file'};
+    my $db_file = $self->{db_file};
     my $attr = { AutoCommit => 1, RaiseError => 0, PrintError => 1 };
 
     my $dbh = DBI->connect( "dbi:SQLite:dbname=$db_file", "", "", $attr );
@@ -205,7 +205,7 @@ sub _dbh {
 
     $dbh->{sqlite_unicode} = 1;
 
-    $self->{'dbh'} = $dbh;
+    $self->{dbh} = $dbh;
 }
 
 sub toc_path {
@@ -216,7 +216,7 @@ sub toc_path {
 sub _create_db {
     my $self = shift;
 
-    my $db_file = $self->{'db_file'};
+    my $db_file = $self->{db_file};
 
     if ( -f $db_file ) {
         print("DB file '$db_file' exists, skipping creation.");
@@ -247,7 +247,7 @@ CREATE_TABLE
 sub _load_db {
     my $self = shift;
 
-    my $db_file = $self->{'db_file'};
+    my $db_file = $self->{db_file};
 
     if ( not -f $db_file ) {
         croak "DB file '$db_file' not found.";
@@ -593,30 +593,30 @@ sub regen_all_toc {
         foreach my $product ( @{$products} ) {
             my @versions = ();
 
-            foreach my $version ( @{ $product->{'versions'} } ) {
-                delete( $version->{'untrans_books'} );
+            foreach my $version ( @{ $product->{versions} } ) {
+                delete( $version->{untrans_books} );
                 push( @versions, $version )
-                    if defined( $version->{'books'} )
-                        && scalar @{ $version->{'books'} };
+                    if defined( $version->{books} )
+                        && scalar @{ $version->{books} };
             }
 
             if ( scalar @versions ) {
-                $product->{'versions'} = \@versions;
+                $product->{versions} = \@versions;
                 push( @prods, $product );
             }
         }
 
-        $toc{'products'} = \@prods;
+        $toc{products} = \@prods;
 
         $lang->[0] =~ m/^([^-_]*)/;
         my $lang_name = code2language($1) || "unknown $1";
         if ( $LANG_NAME{ $lang->[0] } ) {
             $lang_name = $LANG_NAME{ $lang->[0] };
         }
-        $toc{'name'}    = $lang_name;
-        $toc{'langloc'} = $lang->[0];
+        $toc{name}    = $lang_name;
+        $toc{langloc} = $lang->[0];
         push( @fulltoc, \%toc );
-        my %toc_name = ( 'toc_name' => $lang_name );
+        my %toc_name = ( toc_name => $lang_name );
         push( @toc_names, \%toc_name );
 
         my %opds_lang = (
@@ -642,8 +642,8 @@ sub regen_all_toc {
     }
 
     my $vars = {
-        'static_langs'     => \@fulltoc,
-        'static_langs_toc' => \@toc_names,
+        static_langs     => \@fulltoc,
+        static_langs_toc => \@toc_names,
     };
 
     $self->{Template}->process(
@@ -668,8 +668,8 @@ sub regen_all_toc {
         locales          => $locales,
         title            => $self->{title},
         def_lang         => $self->{def_lang},
-        index_javascript => $tmpl_strings{'index_javascript'},
-        index_toc        => $tmpl_strings{'index_toc'},
+        index_javascript => $tmpl_strings{index_javascript},
+        index_toc        => $tmpl_strings{index_toc},
     };
     $self->{Template}->process(
         'index.tmpl', $vars,
@@ -783,13 +783,13 @@ SEARCH
         if ( $language eq $lang->[0] ) {
             $selected = 'selected="selected"';
         }
-        $row_data{'selected'}  = $selected;
-        $row_data{'lang'}      = $lang->[0];
-        $row_data{'lang_name'} = $lang_name;
+        $row_data{selected}  = $selected;
+        $row_data{lang}      = $lang->[0];
+        $row_data{lang_name} = $lang_name;
         push( @tmpl_langs, \%row_data );
     }
 
-    $vars->{'langs'} = \@tmpl_langs;
+    $vars->{langs} = \@tmpl_langs;
 
     my $list2 = $self->get_hash_ref( { language => "$language" } );
     my @products = ();
@@ -806,7 +806,7 @@ SEARCH
     my $search = ( $self->{search} || $default_search );
     my $string = $locale->maketext("Search");
     $search =~ s/###Search###/$string/g;
-    $vars->{'search'} = $search;
+    $vars->{search} = $search;
 
     foreach my $string ( sort( keys(%tmpl_strings) ) ) {
         $vars->{$string} = $locale->maketext( $tmpl_strings{$string} );
@@ -824,7 +824,7 @@ SEARCH
         my @versions = ();
 
         if ( -f "$self->{toc_path}/$language/$product/index.html" ) {
-            $prod_data{'product_icon'} = 1;
+            $prod_data{product_icon} = 1;
             my $url = {
                 url         => qq|$host/$language/$product/index.html|,
                 update_date => ctime(
@@ -837,7 +837,7 @@ SEARCH
             push( @{$urls}, $url );
         }
         else {
-            $prod_data{'product_icon'} = 0;
+            $prod_data{product_icon} = 0;
         }
 
         foreach my $version (
@@ -856,7 +856,7 @@ SEARCH
             if ( -f "$self->{toc_path}/$language/$product/$version/index.html"
                 )
             {
-                $ver_data{'ver_icon'} = 1;
+                $ver_data{ver_icon} = 1;
                 my $url = {
                     url => qq|$host/$language/$product/$version/index.html|,
                     update_date => ctime(
@@ -916,10 +916,10 @@ SEARCH
 ## debug_msg( "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_label: $product_label \n" );
 
                     my %type_data;
-                    $type_data{'type'}  = $type;
+                    $type_data{type}  = $type;
                     $type_data{prep}    = './';
                     $type_data{onclick} = 1;
-                    $type_data{'ext'}   = 'index.html';
+                    $type_data{ext}   = 'index.html';
                     if ( $type eq 'pdf' ) {
                         my @filelist
                             = File::Find::Rule->file->relative()
@@ -927,7 +927,7 @@ SEARCH
                             ->in(
                             "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );
-                        $type_data{'ext'} = pop(@filelist);
+                        $type_data{ext} = pop(@filelist);
                     }
                     elsif ( $type eq 'txt' ) {
                         my @filelist
@@ -936,7 +936,7 @@ SEARCH
                             ->in(
                             "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );
-                        $type_data{'ext'} = pop(@filelist);
+                        $type_data{ext} = pop(@filelist);
                     }
                     elsif ( $type eq 'epub' ) {
                         my @filelist
@@ -945,20 +945,20 @@ SEARCH
                             ->in(
                             "$self->{toc_path}/$lang/$product/$version/$type/$book"
                             );
-                        $type_data{'ext'} = pop(@filelist);
-                        if ( $type_data{'ext'} ) {
+                        $type_data{ext} = pop(@filelist);
+                        if ( $type_data{ext} ) {
                             my %opds_url = (
                                 title => "$book_label",
                                 id =>
                                     "$host/$lang/$product/$version/$type/$book/"
-                                    . $type_data{'ext'},
+                                    . $type_data{ext},
                                 lang => $language,
                                 update_date =>
                                     $list2->{$product}{$version}{$book}
                                     {update_date},
                                 url =>
                                     "$host/$lang/$product/$version/$type/$book/"
-                                    . $type_data{'ext'},
+                                    . $type_data{ext},
                                 category => $category,
                                 summary  => (
                                     $list2->{$product}{$version}{$book}
@@ -983,11 +983,11 @@ SEARCH
                         $type_data{onclick} = 0;
                     }
 
-                    if ( defined $type_data{'ext'} and $type_data{'ext'} ) {
+                    if ( defined $type_data{ext} and $type_data{ext} ) {
                         my $url = {
                             url =>
                                 qq|$host/$lang/$product/$version/$type/$book/|
-                                . $type_data{'ext'},
+                                . $type_data{ext},
                             update_date => $list2->{$product}{$version}{$book}
                                 {update_date},
                         };
@@ -1003,10 +1003,10 @@ SEARCH
                     push( @types, \%type_data );
                 }
 
-                $book_data{'book'}       = $book;
-                $book_data{'book_clean'} = $book_label;
-                $book_data{'book_clean'} =~ s/_/ /g;
-                $book_data{'types'} = \@types;
+                $book_data{book}       = $book;
+                $book_data{book_clean} = $book_label;
+                $book_data{book_clean} =~ s/_/ /g;
+                $book_data{types} = \@types;
 
                 if ( $lang eq $language ) {
                     push( @books, \%book_data );
@@ -1016,19 +1016,19 @@ SEARCH
                 }
             }
 
-            $ver_data{'version'}       = $version;
-            $ver_data{'version_label'} = $version_label;
-            $ver_data{'books'}         = \@books;
-            $ver_data{'untrans_books'} = \@untrans_books
+            $ver_data{version}       = $version;
+            $ver_data{version_label} = $version_label;
+            $ver_data{books}         = \@books;
+            $ver_data{untrans_books} = \@untrans_books
                 if scalar @untrans_books;
             push( @versions, \%ver_data );
         }
 
-        $prod_data{'prod_link_title'} = $tmpl_strings{'ProductLinkTitle'};
-        $prod_data{'product'}         = $product;
-        $prod_data{'product_clean'}   = $product_label;
-        $prod_data{'product_clean'} =~ s/_/ /g;
-        $prod_data{'versions'} = \@versions;
+        $prod_data{prod_link_title} = $tmpl_strings{ProductLinkTitle};
+        $prod_data{product}         = $product;
+        $prod_data{product_clean}   = $product_label;
+        $prod_data{product_clean} =~ s/_/ /g;
+        $prod_data{versions} = \@versions;
         push( @products, \%prod_data );
 
         # This file contains books for all versions of a product.
@@ -1037,7 +1037,7 @@ SEARCH
         $opds_vars->{update_date} = DateTime->now();
         $opds_vars->{self}        = "$host/$language/opds-$product.xml";
         $opds_vars->{id}          = "$host/$language/opds-$product.xml";
-        $opds_vars->{title}       = $prod_data{'product_clean'};
+        $opds_vars->{title}       = $prod_data{product_clean};
 ##        $opds_vars->{} = ;
 
         $self->{Template}->process(
@@ -1047,7 +1047,7 @@ SEARCH
         ) or croak( $self->{Template}->error() );
 
         my %opds_p_url = (
-            title       => $prod_data{'product_clean'},
+            title       => $prod_data{product_clean},
             id          => "$host/$language/$product/opds-$product.xml",
             lang        => $language,
             update_date => DateTime->now(),
@@ -1061,7 +1061,7 @@ SEARCH
         push( @opds_prod_list, \%opds_p_url );
     }
 
-    $vars->{'products'} = \@products;
+    $vars->{products} = \@products;
 
     $self->{Template}->process(
         'toc.tmpl', $vars,
