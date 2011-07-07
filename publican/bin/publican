@@ -544,7 +544,7 @@ if ( $action eq 'update_site' ) {
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
     rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", $ws->toc_path() . "/." );
-    $ws->regen_all_toc();
+    $ws->regen_all_toc( { force => 1 } );
 
     exit(0);
 }

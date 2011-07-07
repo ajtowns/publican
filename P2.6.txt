@@ -13,18 +13,20 @@ Done:
   - Fix UTF8 issue in TXT output. BZ #673855
   - Fix some set validation errors. BZ #673402
   - Fix packaging of stand alone sets. BZ #689347
+  - Switch normal output to STDOUT, added croak call. BZ #688447
+  - Added mainfile parameter. BZ #688585
+  - Add rename action. BZ #694698
+  - Added detection of mixed_mode tags to XmlClean. BZ #688286
+  - Add update_db action to allow more robust packaging. BZ #661948
+  - Fix show_unknown not working. BZ #662162
+  - Fix version 0 not installing on web site. BZ #702550
+  - Don't validate xml parsed as text in print_unused. BZ #705956
 
 Yes:
   - Corrected document conventions text. BZ#651616
   - Fix command example in PUG. BZ #663211
   - Correct typos. Yuri Chornoivan <yurchor@ukr.net> BZ #676997
-  - Switch normal output to STDOUT, added croak call. BZ #688447
-  - Add rename action. BZ #694698
-  - Added detection of mixed_mode tags to XmlClean. BZ #688286
-  - Fix version 0 not installing on web site. BZ #702550
-  - Add update_db action to allow more robust packaging. BZ #661948
-  - Don't validate xml parsed as text in print_unused. BZ #705956
-	May require mainfile patch ...
+
   - Fix admonition layout. BZ #715158
 	Need to test with FOP 0.95
   - Using the indexterm tag causes a line split in rendered PDF files. BZ #713669
@@ -33,8 +35,10 @@ Yes:
 	Not fixed yet
   - [RFE] -- use the force option for cvs-import.sh BZ #718102
 	Not fixed yet
+  - RFE: allow control of updating website navigation for installed/removed books. BZ #719573
+	Not fixed yet
 
 Maybe:
   - Non-ASCII characters are not presented properly in site navigation BZ #719214
-	Probably fixed by #661948
+	Probably fixed by #661948, already back ported above
 

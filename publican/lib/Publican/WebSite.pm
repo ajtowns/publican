@@ -158,6 +158,7 @@ sub new {
     my $dump_file = $config->param('dump_file') || $DEFAULT_DUMP_FILE;
     my $zip_dump  = $config->param('zip_dump')  || undef;
     my $toc_type  = $config->param('toc_type')  || 'toc';
+    my $manual_toc_update  = $config->param('manual_toc_update')  || 0;
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -176,6 +177,7 @@ sub new {
     $self->{dump_file} = $dump_file;
     $self->{zip_dump}  = $zip_dump;
     $self->{toc_type}  = $toc_type;
+    $self->{manual_toc_update}  = $manual_toc_update;
 
     my $conf = { INCLUDE_PATH => $tmpl_path, };
 
@@ -571,9 +573,13 @@ sub regen_all_toc {
     my ( $self, $arg ) = @_;
     my $OUT;
 
+    my $force = delete $arg->{force};
+
     if ( $arg && %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
+
+    return if($self->{manual_toc_update} && !$force);
 
     my $langs = $self->get_lang_list();
 
