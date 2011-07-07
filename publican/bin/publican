@@ -901,7 +901,7 @@ if ( $action eq 'package' ) {
         $dir = undef;
         $dir = pushd( $publican->param('tmp_dir') . "/$cvs_dir/$cvs_pkg" );
 
-        $result = system("$IMPORT_SCRIPT $srpm");
+        $result = system($IMPORT_SCRIPT, '--force', $srpm);
         if ($result) {
             croak( maketext("cvs import died, error $result: '$!'") );
         }
