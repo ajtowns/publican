@@ -1,0 +1,38 @@
+Done:
+  - Catch FOP failing. BZ #661551
+  - Have XmlClean treat address element as verbatim. BZ #662907
+  - Fix task missing ID. BZ #672439
+  - Fix startinglinenumber ignored & XML entites not being escaped. BZ #653432
+  - Fix perl critic encoding check failing. BZ #684509
+  - Update docbook-style-xsl req to 1.76.1 for epub change. BZ #697382
+  - Add keep_id to steps. BZ #697370
+  - Update BZ links to point to Publican component.
+  - Catch empty tags that break packaging. (abstract, subtitle) BZ #663206
+  - Add rpmlint check for mock builds. BZ #663203
+  - Fix web menu localisation being lost on rebuild from package. BZ #662897
+  - Fix UTF8 issue in TXT output. BZ #673855
+  - Fix some set validation errors. BZ #673402
+  - Fix packaging of stand alone sets. BZ #689347
+
+Yes:
+  - Corrected document conventions text. BZ#651616
+  - Fix command example in PUG. BZ #663211
+  - Correct typos. Yuri Chornoivan <yurchor@ukr.net> BZ #676997
+  - Switch normal output to STDOUT, added croak call. BZ #688447
+
+Maybe:
+  - Add rename action. BZ #694698
+  - Added detection of mixed_mode tags to XmlClean. BZ #688286
+  - Fix version 0 not installing on web site. BZ #702550
+  - Don't validate xml parsed as text in print_unused. BZ #705956
+  - Fix admonition layout. BZ #715158
+https://bugzilla.redhat.com/show_bug.cgi?id=713669
+https://bugzilla.redhat.com/show_bug.cgi?id=710304
+
+
+No:
+  - Add update_db action to allow more robust packaging. BZ #661948
+	To intrusive
+	svn diff -r1685:1686
+
+
