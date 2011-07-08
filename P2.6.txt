@@ -23,13 +23,13 @@ Done:
   - Don't validate xml parsed as text in print_unused. BZ #705956
   - Add manual_toc_update config for web-sites. BZ #719573
   - Use the force option for cvs-import.sh BZ #718102
+  - Fix admonition layout. BZ #715158
 
 Yes:
   - Corrected document conventions text. BZ#651616
   - Fix command example in PUG. BZ #663211
   - Correct typos. Yuri Chornoivan <yurchor@ukr.net> BZ #676997
 
-  - Fix admonition layout. BZ #715158
 	Need to test with FOP 0.95
   - Using the indexterm tag causes a line split in rendered PDF files. BZ #713669
 	Not fixed yet
@@ -40,3 +40,8 @@ Maybe:
   - Non-ASCII characters are not presented properly in site navigation BZ #719214
 	Probably fixed by #661948, already back ported above
 
+
+Deps:
+	FOP 1.0
+	perl-XML-TreeBuilder 4.0
+	perl-HTML-Tree 4.2
