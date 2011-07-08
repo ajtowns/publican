@@ -1622,8 +1622,7 @@ Version:1.72
     </xsl:choose>
   </xsl:variable>
 
-  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="hidden.properties">
-  <xsl:element name="{$wrapper.name}">
+  <xsl:element name="{$wrapper.name}" xsl:use-attribute-sets="hidden.properties">
     <xsl:attribute name="id">
       <xsl:call-template name="object.id"/>
     </xsl:attribute>
@@ -1661,7 +1660,6 @@ Version:1.72
       </xsl:otherwise>
     </xsl:choose>
   </xsl:element>
-  </fo:block>
 </xsl:template>
 
 <xsl:template name="formal.object.heading">
