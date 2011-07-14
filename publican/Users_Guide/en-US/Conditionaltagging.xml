@@ -89,6 +89,9 @@ msgstr ""</programlisting>
 		 <para>
 			As an alternative to conditionals, consider maintaining separate versions of your book in separate branches of a version-controlled repository. You can still share XML files and even PO files between the various branches as necessary, and some version control systems allow you to share changes readily among branches.
 		</para>
+		<para>
+			If you maintain two versions of a book in the same repository, we recommend using a separate config file for each version. For example, the  <filename>upstream.cfg</filename> file might contain the condition <literal>condition: upstream</literal> and the <filename>enterprise.cfg</filename> file might contain the condition <literal>condition: enterprise</literal>. You could then specify the version of the document to build or package with the <option>--config</option>; for example, <command>publican package --lang en-US --config upstream.cfg</command>. Using two separate config files saves you from having to edit the one config file each time you build or package a document.
+		</para>
 
 	</section>
 	
