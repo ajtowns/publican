@@ -1,5 +1,5 @@
 %define brand fedora
-%define RHEL6 %(test "%{?dist}" == ".el6" && echo 1 || echo 0)
+%define RHEL6 %([[ %{?dist}x == .el6[a-z]* ]] && echo 1 || echo 0)
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
@@ -15,8 +15,8 @@ ExclusiveArch:   i686 x86_64
 BuildArch:   noarch
 %endif
 Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	publican >= 2.0
-BuildRequires:	publican >= 2.0
+Requires:	publican >= 2.5
+BuildRequires:	publican >= 2.5
 URL:		https://publican.fedorahosted.org
 Obsoletes:	documentation-devel-Fedora
 

@@ -27,7 +27,7 @@
 		      <para>
 			      Copy the code file to the extras directory
 		      </para>
-<screen><command>cp <filename>~/samples/foo.c en-US/extras/.</filename></command>
+<screen><command>cp <filename>~/samples/foo.c en-US/extras/</filename></command>
 </screen>
 		</step>
 		<step>
@@ -72,7 +72,7 @@
 	&lt;/calloutlist&gt;
 &lt;/programlistingco&gt;</programlisting>
 	<para>
-		Note the <sgmltag>&lt;area&gt;</sgmltag> elements that define the position of the callouts that will appear on the code sample. The <literal>coord</literal> attributes specify a line number and a column number separated by a space. In this example, callouts are applied to lines 4 and 12 of the code, lined up with each other in column 75. Although this approach means that you might have to adjust <literal>coord</literal> attributes if you ever modify the code to which they apply, it avoids mixing XML <sgmltag>&lt;co&gt;</sgmltag> tags into the code itself. 
+		Note the <sgmltag>&lt;area&gt;</sgmltag> elements that define the position of the callouts that will appear on the code sample. The <literal>coords</literal> attributes specify a line number and a column number separated by a space. In this example, callouts are applied to lines 4 and 12 of the code, lined up with each other in column 75. Although this approach means that you might have to adjust <literal>coords</literal> attributes if you ever modify the code to which they apply, it avoids mixing XML <sgmltag>&lt;coords&gt;</sgmltag> tags into the code itself. 
 	</para>
 </section>
 

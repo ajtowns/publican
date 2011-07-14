@@ -212,7 +212,7 @@
 				<term><parameter>bridgehead_in_toc</parameter></term>
 				 <listitem>
 					<para>
-						specifies whether <sgmltag>&lt;bridgehead&gt;</sgmltag>s should be included among titles in tables of contents. To enable this feature, set <literal>bridgehead_in_toc: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and <sgmltag>&lt;bridgehead&gt;</sgmltag>s are not included in tables of contents.
+						specifies whether the contents of <sgmltag>&lt;bridgehead&gt;</sgmltag> elements (free-floating titles) should be included among other titles (such as section titles and chapter titles) in tables of contents. To enable this feature, set <literal>bridgehead_in_toc: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and <sgmltag>&lt;bridgehead&gt;</sgmltag>s are not included in tables of contents.
 					</para>
 
 				</listitem>
@@ -222,7 +222,7 @@
 				<term><parameter>chunk_first</parameter></term>
 				 <listitem>
 					<para>
-						controls whether the first section should appear on the same page as its parent when rendered in HTML. To make the first section appear on the same page as its parent, set this parameter to <literal>chunk_first: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and the first section starts a new HTML page.
+						controls whether the first section should appear on a new page when rendered in HTML. To make the first section appear on a new HTML page, set this parameter to <literal>chunk_first: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and the first section appears on the same page of its chapter.
 					</para>
 
 				</listitem>
@@ -232,8 +232,53 @@
 				<term><parameter>chunk_section_depth</parameter></term>
 				 <listitem>
 					<para>
-						controls the point at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. By default, this value is set to <literal>4</literal>.
+						controls the section depth at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. By default, this value is set to <literal>4</literal>. 
 					</para>
+					<example>
+						<title>Controlling the section depth with chunk_section_depth</title>
+						<variablelist>
+						<varlistentry>
+							<term>chunk_section_depth: 0</term>
+							<listitem>
+								<para>
+									no section split. All sections with their sub-sections appear on the same page of the chapter they belong. The page succession is chapter 1, chapter 2, chapter 3, &hellip;
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>chunk_section_depth: 1</term>
+							<listitem>
+								<para>
+									the split is at "level 1" section. Each level section one with its sub-sections, appear on a new page. The page succession is chapter 1, 1.2, 1.3, 1.4 &hellip; chapter 2, 2.1, 2.2, 2.3 &hellip;
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>chunk_section_depth: 2</term>
+							<listitem>
+								<para>
+									the split is at "level 2" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.3, 1.2.4 &hellip; 1.3, 1.3.2, 1.3.3 &hellip;
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>chunk_section_depth: 3</term>
+							<listitem>
+								<para>
+									the split is at "level 3" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.3, 1.2.2.4 &hellip; 1.3, 1.3.2, 1.3.2.2, 1.3.2.3 &hellip; 
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>chunk_section_depth: 4 (default)</term>
+							<listitem>
+								<para>
+									the split is at "level 4" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.2.2, 1.2.2.2.3, 1.2.2.2.4 &hellip; 1.2.3, 1.2.3.2, 1.2.3.2.2, 1.2.3.2.3 &hellip; 
+								</para>
+							</listitem>			
+						</varlistentry>			
+					</variablelist>	
+					</example>
 
 				</listitem>
 
@@ -354,7 +399,7 @@
 				<term><parameter>doc_url</parameter></term>
 				 <listitem>
 					<para>
-						provides a URL for the documentation team for this package. In multi-page HTML output, <application>Publican</application> links to this URL at the top right of each page, through the <filename>image_right.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>
+						provides a URL for the documentation team for this package. In HTML output, <application>Publican</application> links to this URL at the top right of each page, through the <filename>image_right.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>
 					</para>
 
 				</listitem>
@@ -453,6 +498,35 @@
 					<para>
 						controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value is set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.
 					</para>
+					<example>
+						<title>Setting the section depth at which tables of contents appear</title>
+						<variablelist>
+						<varlistentry>
+							<term>generate_section_toc_level: 0 (default)</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections.
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>generate_section_toc_level: 1</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents also at the start of each "level 1" section, such as sections 1.1, 1.2 &hellip; 2.1, 2.2 &hellip; 
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>generate_section_toc_level: 2</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents also at the start of each "level 2" section, such as as sections 1.1.1, 1.1.2. 1.1.3 &hellip; 1.2.1., 1.2.2, 1.2.3 &hellip; 
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>	
+					</example>
 
 				</listitem>
 
@@ -461,7 +535,7 @@
 				<term><parameter>ignored_translations</parameter></term>
 				 <listitem>
 					<para>
-						specifies translations to ignore. If you build or package a book in a language specified by this parameter, <application>Publican</application> ignores any translations that exist for this language, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend="sect-Users_Guide-Preparing_a_document_for_translation" />.
+						specifies translations to ignore as comma-separated XML language codes; for example, <literal>es-ES,it-IT</literal>. If you build or package a book for a language filtered by this parameter, <application>Publican</application> ignores any translations that exist for this language, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend="sect-Users_Guide-Preparing_a_document_for_translation" />, and to <xref linkend="appe-Users_Guide-Language_codes" />.
 					</para>
 
 				</listitem>
@@ -481,7 +555,7 @@
 				<term><parameter>max_image_width</parameter></term>
 				 <listitem>
 					<para>
-						specifies the maximum width allowable for images in the document in pixels. By default, <application>Publican</application> scales down any images wider than 444 pixels so that they fit within this limit. Keeping images no wider than 444 pixels ensures that they present no wider than the right-hand margin of the text in HTML output and that they fit within the pages of PDF output.
+						specifies the maximum width allowable for images in the document in pixels. By default, <application>Publican</application> scales down any images wider than 444 pixels so that they fit within this limit. Keeping images no wider than 444 pixels ensures that they present no wider than the right-hand margin of the text in HTML output and that they fit within the pages of PDF output. Refer to <xref linkend="sect-Users_Guide-Adding_images" /> for more information on using images.
 					</para>
 					 <xi:include href="Image_width.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
@@ -502,7 +576,7 @@
 				<term><parameter>os_ver</parameter></term>
 				 <listitem>
 					<para>
-						specifies the operating system for which to build packages. <application>Publican</application> appends the value that you provide here to the RPM packages that it builds. For example, the default value is <literal>.el5</literal>, which signifies Red Hat Enterprise Linux 5 and operating systems derived from it. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" /> and <xref linkend="sect-Users_Guide-Packaging_a_brand" />.
+						specifies the operating system for which to build packages. <application>Publican</application> appends the value that you provide here to the RPM packages that it builds. For example, <literal>.fc15</literal> for Fedora&nbsp;15. The default value is <literal>.el5</literal>, which signifies Red Hat Enterprise Linux 5 and operating systems derived from it. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" /> and <xref linkend="sect-Users_Guide-Packaging_a_brand" />.
 					</para>
 
 				</listitem>
@@ -512,7 +586,7 @@
 				<term><parameter>prod_url</parameter></term>
 				 <listitem>
 					<para>
-						provides a URL for the product to which this document applies. In multi-page HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>.
+						provides a URL for the product to which this document applies. In HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>.
 					</para>
 
 				</listitem>
@@ -562,7 +636,7 @@
 				<term><parameter>show_remarks</parameter></term>
 				 <listitem>
 					<para>
-						controls whether to display remarks in transformed output. By default, this value is set to <literal>0</literal>, which causes <application>Publican</application> to hide remarks. Set this value to <literal>1</literal> to display remarks.
+						controls whether to display DocBook <sgmltag>&lt;remark&gt;</sgmltag>s in transformed output. By default, this value is set to <literal>0</literal>, which causes <application>Publican</application> to hide remarks. Set this value to <literal>1</literal> to display remarks. In <application>Publican</application>'s <literal>common</literal> brand, displayed remarks are highlighted in magenta. 
 					</para>
 
 				</listitem>
@@ -614,6 +688,35 @@
 					<para>
 						controls the depth of sections that <application>Publican</application> includes in the main table of contents. By default, this value is set to <literal>2</literal>. With the default setting, sections 1.1 and 1.1.1 will appear in the main table of contents, but section 1.1.1.1 will not. (Note that the first digit in these examples represents a chapter, not a section).
 					</para>
+					<example>
+						<title>Controlling the depth of sections in the main table of contents</title>
+						<variablelist>
+						<varlistentry>
+						<term>toc_section_depth: 0</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate a main table of contents only for chapters.
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>toc_section_depth: 1</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate a main table of contents only for chapters and "level 1" sections, such as 1, 1.1, 1.2, 1.3 &hellip; 9, 9.1, 9.2 &hellip; but not for sections 1.1.1, 1.1.2 &hellip;
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>toc_section_depth: 2 (default)</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents for chapters and "level 1 and "level 2" sections, such as 1, 1.1, 1.1.1, &hellip; 1,2, 1.2.1, 1.2.2 &hellip; but not for deeper sections x.x.x.x .  									
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>	
+					</example>
 
 				</listitem>
 
@@ -744,8 +847,14 @@
 		 <para>
 			Aside from constituting much of a book's front matter, this metadata is also used when building books as RPM packages. Usually, if you distribute a book as an RPM package, several of the tags included by default in <filename>Book_Info.xml</filename> must have appropriate data within them, and that data must conform to the requirements of the RPM format. You can override the data in these tags by using equivalent fields in the <filename>publican.cfg</filename> file, as discussed in this section.
 		</para>
-		 <para>
-			Unless overridden in the <filename>publican.cfg</filename> file, data from seven of the default tags in <filename>Book_Info.xml</filename> is required to build books as RPMs. Most immediately, the file name of a book built as an RPM package is constructed as follows: <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable>.src.rpm</filename>. Everything but <replaceable>language</replaceable> above is pulled from <filename>Book_Info.xml</filename> — you specify <replaceable>language</replaceable> when you build the book. As well, the <sgmltag>&lt;subtitle&gt;</sgmltag> and <sgmltag>&lt;abstract&gt;</sgmltag> are used in the RPM spec file, to provide the <parameter>Summary:</parameter> field in the header and the <parameter>%description</parameter> field, respectively.
+		<para>
+			Unless overridden in the <filename>publican.cfg</filename> file, data from seven of the default tags in <filename>Book_Info.xml</filename> is required to build books as RPMs. Most immediately, the file name of a book built as an RPM package is constructed as follows:
+ 		</para>
+		<para>
+			<filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable>.src.rpm</filename>
+		</para>
+		<para>
+			Everything but <replaceable>language</replaceable> above is pulled from <filename>Book_Info.xml</filename> — you specify <replaceable>language</replaceable> when you build the book. As well, the <sgmltag>&lt;subtitle&gt;</sgmltag> and <sgmltag>&lt;abstract&gt;</sgmltag> are used in the RPM spec file, to provide the <parameter>Summary:</parameter> field in the header and the <parameter>%description</parameter> field, respectively.
 		</para>
 		 <para>
 			An example <filename>Book_Info.xml</filename> file, for the <literal>Test_Book</literal> book, is presented below. Details regarding this file, and what the RPM format requirements are for each tag, follow.
@@ -772,7 +881,7 @@
 				<term><sgmltag>&lt;productname&gt;<replaceable>productname</replaceable>&lt;/productname&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						The name of the product or product stream to which the book, article, or set applies, for example: <literal>Red Hat Enterprise Linux</literal> or <literal>JBoss Enterprise Application Platform</literal>. When building a book as an RPM package, data in the &lt;productname&gt; tag is used as part of the file name of the package.
+						The name of the product or product stream to which the book, article, or set applies, for example: <literal>Red Hat Enterprise Linux</literal> or <literal>JBoss Enterprise Application Platform</literal>. When building a book as an RPM package, data in the <sgmltag>&lt;productname&gt;</sgmltag> tag is used as part of the file name of the package.
 					</para>
 					 <para>
 						Override this tag with the <parameter>product</parameter> variable in the <filename>publican.cfg</filename> file if the name of your product contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
@@ -786,7 +895,7 @@
 				<term><sgmltag>&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						Obviously enough, the title of the document (for example, <emphasis>Server Configuration Guide</emphasis>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package.
+						The title of the document (for example, <emphasis>Server Configuration Guide</emphasis>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package.
 					</para>
 					 <para>
 						Override this tag with the <parameter>docname</parameter> variable in the <filename>publican.cfg</filename> file if the title of your document contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
@@ -800,7 +909,7 @@
 				<term><sgmltag>&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						Again, plainly enough, the subtitle tag contains a book's subtitle: an alternative, and commonly explanatory title for the book (for example: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). The subtitle appears under the title in both HTML and PDF editions. A subtitle is also required to make a book available as an RPM package. When building a book as an RPM package, the subtitle is used as the <parameter>Summary</parameter> in the RPM spec file. The <command>rpm -qi</command> returns the contents of several spec file fields, including the <computeroutput>Summary</computeroutput> field.
+						The book's subtitle: an alternative, and commonly explanatory title for the book (for example: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). The subtitle appears under the title in both HTML and PDF editions. A subtitle is also required to make a book available as an RPM package. When building a book as an RPM package, the subtitle is used as the <parameter>Summary</parameter> in the RPM spec file. The <command>rpm -qi</command> command returns the contents of several spec file fields, including the <computeroutput>Summary</computeroutput> field.
 					</para>
 
 				</listitem>
@@ -847,7 +956,7 @@
 				<term><sgmltag>&lt;pubsnumber&gt;<replaceable>pubsnumber</replaceable>&lt;/pubsnumber&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						The pubsnumber changes the release number (the last digit) when building a book with the <command>publican package</command> command. For example, setting the pubsnumber to <filename>1</filename> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
+						The pubsnumber sets the release number (the last digit in the file name) when building a book with the <command>publican package</command> command. For example, setting the pubsnumber to <literal>1</literal> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
 					</para>
 					 <para>
 						Override this tag with the <parameter>release</parameter> variable in the <filename>publican.cfg</filename> file if the release number of your document contains anything other than whole numbers.
@@ -1019,7 +1128,7 @@
 	</section>
 	
 	 <section id="sect-Users_Guide-Files_in_the_book_directory-Doc_Name.xml">
-		<title>Doc_Name.xml</title>
+		<title><replaceable>Doc_Name</replaceable>.xml</title>
 		 <para>
 			The <filename><replaceable>Doc_Name</replaceable>.xml</filename> file contains <literal>xi:include</literal> directives to include the other necessary XML files for the document, including chapters or sections contained in other XML files. For example, a book's <filename><replaceable>Doc_Name</replaceable>.xml</filename> file brings together chapters that are contained in separate XML files.
 		</para>
@@ -1083,7 +1192,7 @@
 	</section>
 	
 	 <section id="sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent">
-		<title>Doc_Name.ent</title>
+		<title><replaceable>Doc_Name</replaceable>.ent</title>
 		 <para>
 			The <filename><replaceable>Doc_Name</replaceable>.ent</filename> file is used to define local entities. The <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities are used for copyright information. By default, <application>Publican</application> sets <parameter>YEAR</parameter> to the current year, and inserts a message into <parameter>HOLDER</parameter> to remind you to specify the copyright holder for the document. If the <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities are missing altogether, the document will not build.
 		</para>
