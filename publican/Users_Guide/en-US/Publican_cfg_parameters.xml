@@ -350,6 +350,17 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term><parameter>mainfile</parameter></term>
+			 <listitem>
+				<para>
+					the name of the XML file in your document that contains the root XML node <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag>, or <sgmltag>&lt;set&gt;</sgmltag>, and the name of the corresponding <filename>.ent</filename> file that contains the document's entities. For example, if you set <literal>mainfile: master</literal>, <application>Publican</application> looks for the root XML node in <filename>master.xml</filename> and the document entities in <filename>master.ent</filename>.
+				</para>
+				<para>
+					If <parameter>mainfile</parameter> is not set, <application>Publican</application> looks for the root XML node in a file that matches the <sgmltag>&lt;title&gt;</sgmltag> of the document set in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file, and looks for the document entities in a file with a corresponding name.
+				</para> 
+			</listitem>
+		</varlistentry>
+		 <varlistentry>
 			<term><parameter>max_image_width</parameter></term>
 			 <listitem>
 				<para>

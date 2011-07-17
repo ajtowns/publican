@@ -563,6 +563,17 @@
 
 			</varlistentry>
 			 <varlistentry>
+				<term><parameter>mainfile</parameter></term>
+				<listitem>
+					<para>
+						specifies the name of the XML file in your document that contains the root XML node <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag>, or <sgmltag>&lt;set&gt;</sgmltag>, and the name of the corresponding <filename>.ent</filename> file that contains the document's entities. For example, if you set <literal>mainfile: master</literal>, <application>Publican</application> looks for the root XML node in <filename>master.xml</filename> and the document entities in <filename>master.ent</filename>.
+					</para>
+					<para>
+						If <parameter>mainfile</parameter> is not set, <application>Publican</application> looks for the root XML node in a file that matches the <sgmltag>&lt;title&gt;</sgmltag> of the document set in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file, and looks for the document entities in a file with a corresponding name.
+					</para> 
+				</listitem>
+			</varlistentry>
+			 <varlistentry>
 				<term><parameter>menu_category</parameter></term>
 				<listitem>
 					<para>
@@ -895,13 +906,15 @@
 				<term><sgmltag>&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						The title of the document (for example, <emphasis>Server Configuration Guide</emphasis>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package.
+						The title of the document (for example, <sgmltag>&lt;title&gt;Server Configuration Guide&lt;/title&gt;</sgmltag>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package.
 					</para>
-					 <para>
-						Override this tag with the <parameter>docname</parameter> variable in the <filename>publican.cfg</filename> file if the title of your document contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore.
+					<para>
+						The names of RPM packages can only contain certain basic ASCII characters. If the title of your document contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore, use the <parameter>docname</parameter> parameter in the <filename>publican.cfg</filename> file to set a name for the document in ASCII characters. When you build the document, the title appears as you set it with the <sgmltag>&lt;title&gt;</sgmltag> tag, but when you package the document, the value that you used in the <parameter>docname</parameter> parameter is used in the file name of the RPM package.
 					</para>
-					 <xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-
+					<xi:include href="Permitted_alphanumeric.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+					<para>
+						By default, <application>Publican</application> also uses the contents of the <sgmltag>&lt;title&gt;</sgmltag> tag to find the file that contains the root XML node: <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag>, or <sgmltag>&lt;set&gt;</sgmltag>. For example, if you set the title to <sgmltag>&lt;title&gt;Server Configuration Guide&lt;/title&gt;</sgmltag>, <application>Publican</application> expects the root XML node to be in a file named <filename>Server_Configuration_Guide.xml</filename> and the document entities to be in a file named <filename>Server_Configuration_Guide.ent</filename>. To use a different name for these files, set the <parameter>mainfile</parameter> parameter in the document configuration file (by default, <filename>publican.cfg</filename>). Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file"/>.
+					</para>
 				</listitem>
 
 			</varlistentry>
