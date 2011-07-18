@@ -60,7 +60,7 @@
 		</step>
 		<step>
 			<para>
-				Edit the site configuration file to specify the name of the site, the web host, and optionally, search parameters, default language, and dump file settings for the site:
+				Edit the site configuration file to specify the name of the site, the web host, and optionally, search parameters, default language, dump file settings, and update settings for the site:
 			</para>
 			<substeps>
 				<step>
@@ -143,6 +143,15 @@
 					</variablelist>
 					<para>
 						Refer to <xref linkend="dump_file"/> for a description of the contents of the dump file.
+					</para>
+				</step>
+				<step>
+					<para>
+						Optionally, specify that the site tables of contents will be updated manually with the <parameter>manual_toc_update</parameter> parameter, for example:
+					</para>
+<programlisting>manual_toc_update: 1</programlisting>
+					<para>
+						Normally, <application>Publican</application> updates the site's tables of contents every time a documentation package is added or removed. On a site with a large number of documents on it (more than a few hundred), or where documents are updated very frequently (dozens of updates per week), this process is very demanding on a server. On a large or busy site, we recommend that you set this parameter and then periodically update the tables of contents with the <command>publican update_site</command> command. 
 					</para>
 				</step>
 			</substeps>
