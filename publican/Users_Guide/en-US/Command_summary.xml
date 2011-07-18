@@ -153,7 +153,7 @@
 				<important>
 					<title>Important — No support for translated languages</title>
 					<para>
-						In <application>Publican&nbsp;2.3</application>, <command>bump</command> works only with the original, untranslated version of the document. Future versions of <application>Publican</application> will include support for translated languages too. 
+						In <application>Publican&nbsp;2.6</application>, <command>bump</command> works only with the original, untranslated version of the document. Future versions of <application>Publican</application> will include support for translated languages too. 
 					</para>
 				</important>
 
@@ -763,5 +763,176 @@
 		</varlistentry>
 
 	</variablelist>
+	<section>
+		<title>Internal commands</title>
+		<para>
+			<application>Publican</application> uses the commands documented in this section internally. There is normally no need to run them manually.
+		</para>
+		<variablelist>
+			<varlistentry>
+				<term>publican update_db --add</term>
+				<listitem>
+					<para>
+						Adds entries to the database of a <application>Publican</application>-generated website, with the following options:
+					</para>
+					<variablelist>
+						<varlistentry>
+							<term>--site_config</term>
+							<listitem>
+								<para>
+									name of the site configuration file.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--lang</term>
+							<listitem>
+								<para>
+									the language in which the document is published.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--formats</term>
+							<listitem>
+								<para>
+									a comma-separated list of the formats in which the document is published, for example, <literal>pdf,html-single</literal>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--name</term>
+							<listitem>
+								<para>
+									the title of the document.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--name_label</term>
+							<listitem>
+								<para>
+									the title of the document, as it should appear in the site's tables of contents.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--product</term>
+							<listitem>
+								<para>
+									the product that the document describes.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--product_label</term>
+							<listitem>
+								<para>
+									the product that the document describes, as it should appear in the site's tables of contents.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--version</term>
+							<listitem>
+								<para>
+									the version of the product that the document describes.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--version_label</term>
+							<listitem>
+								<para>
+									the version of the product that the document describes, as it should appear in the site's tables of contents.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--subtitle</term>
+							<listitem>
+								<para>
+									the subtitle of the document.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--abstract</term>
+							<listitem>
+								<para>
+									the abstract of the document.
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+					<para>
+						For example:
+					</para>
+<programlisting>publican update_db --add --lang en-US --formats html,pdf --name Foo \
+--name_label "foo is good" --version 0.1 --version_label UNUSED \
+--product Bar --product_label "To the bar" \
+--subtitle "A guide to Bar Foo" \
+--abstract "There once was a Foo from Bar ..." \
+--site_config /usr/share/bar/foo.cfg</programlisting>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>publican update_db --del</term>
+				<listitem>
+					<para>
+						removes entries from the database of a <application>Publican</application>-generated website, with the following options:
+					</para>
+					<variablelist>
+						<varlistentry>
+							<term>--site_config</term>
+							<listitem>
+								<para>
+									name of the site configuration file.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--lang</term>
+							<listitem>
+								<para>
+									the language in which the document is published.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--name</term>
+							<listitem>
+								<para>
+									the title of the document.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--product</term>
+							<listitem>
+								<para>
+									the product that the document describes.
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>--version</term>
+							<listitem>
+								<para>
+									the version of the product that the document describes.
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+					<para>
+						For example:
+					</para>
+<programlisting>publican update_db --del --lang en-US --name Foo --version 0.1 --product Bar \
+--site_config /usr/share/bar/foo.cfg</programlisting>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</section>
 </appendix>
 
