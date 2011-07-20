@@ -88,6 +88,40 @@ mkdir Book_A Book_B
 </programlisting>
 
 			</step>
+         <step>
+            <para>
+            To build the set, you will need to change the following:
+            </para>
+            <substeps>
+               <step>
+               <para>
+               In <filename>My_Set.xml</filename>, comment out the following lines:
+               </para>
+               <programlisting language="XML"><![CDATA[
+<remark>NOTE: the href does not contain a language! This is CORRECT!</remark>
+<remark>&lt;xi:include href="My_Other_Book/My_Other_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;</remark>
+<setindex></setindex>]]>
+               </programlisting>
+               </step>
+               <step>
+               <para>
+               In the <filename>Preface.xml</filename> and <filename>Book_Info.xml</filename> for each book you are using, add ../../ to the front of every Common_Content string you see. For example:
+               </para>
+               <programlisting language="XML"><![CDATA[
+<xi:include href="Common_Content/Conventions.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />]]>
+               </programlisting>
+               <para>
+               This will need to become:
+               </para>
+               <programlisting language="XML"><![CDATA[
+<xi:include href="../../Common_Content/Conventions.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />]]>
+               </programlisting>
+               <para>
+               This is because in a set, the Common Content folder is two directories further away from where Publican usually looks for it, so it has to be told manually. To build your book individually, without building the entire set, undo this step.
+               </para>
+               </step>
+            </substeps>
+         </step>
 			 <step>
 				<para>
 					Test your set by running the <command>publican build --formats=test --langs=en-US</command> command.
@@ -128,12 +162,14 @@ mkdir Book_A Book_B
 					Add the following lines to the <filename>publican.cfg</filename> file:
 				</para>
 				 
-<programlisting>books 		= Book_A Book_B
-repo	= <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
-scm	= SVN
+<programlisting>books: Book_A Book_B
+repo: <replaceable>http://PATH-TO-YOUR-SVN-REPOSITORY</replaceable>
+scm: SVN
 
 </programlisting>
-
+         <para>
+         Your repository path should end in the directory before the book you need.  
+         </para>
 			</step>
 			 <step>
 				<para>
