@@ -852,9 +852,14 @@ sub transform {
             || croak( maketext("Can't open file for html input!") );
         $tree->parse_file($fh);
 ## BUGBUG test for BZ #697363
-        if ($self->{publican}->param('NEW_TXT')) {
+        if ( $self->{publican}->param('NEW_TXT') ) {
             print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert(
-                    $tree->as_HTML, { leftmargin => 0, rightmargin => 72, anchor_links => 0, before_link => ' [%n] ' }
+                    $tree->as_HTML,
+                    {   leftmargin   => 0,
+                        rightmargin  => 72,
+                        anchor_links => 0,
+                        before_link  => ' [%n] '
+                    }
                 )
             );
         }
@@ -1803,12 +1808,15 @@ sub package_home {
     my $xsl_file      = $common_config . "/xsl/web-home-spec.xsl";
     $xsl_file =~ s/"//g;    # windows
 
-    my $license = $self->{publican}->param('license');
-    my $brand   = 'publican-' . lc( $self->{publican}->param('brand') );
-    my $doc_url = $self->{publican}->param('doc_url');
-    my $src_url = $self->{publican}->param('src_url');
-    my $os_ver  = $self->{publican}->param('os_ver');
-    my $log     = $self->change_log( { lang => $xml_lang } );
+    my $license  = $self->{publican}->param('license');
+    my $brand    = 'publican-' . lc( $self->{publican}->param('brand') );
+    my $doc_url  = $self->{publican}->param('doc_url');
+    my $src_url  = $self->{publican}->param('src_url');
+    my $os_ver   = $self->{publican}->param('os_ver');
+    my $log      = $self->change_log( { lang => $xml_lang } );
+    my $embedtoc = '--embedtoc';
+
+    $embedtoc = "" if ( $self->{publican}->param('no_embedtoc') );
 
     my %xslt_opts = (
         'book-title' => $name_start,
@@ -1825,6 +1833,7 @@ sub package_home {
         tmpdir       => $tmp_dir,
         web_type     => $web_type,
         spec_version => $Publican::SPEC_VERSION,
+        embedtoc     => $embedtoc,
     );
 
     logger(
@@ -1973,6 +1982,9 @@ sub package {
     my $type              = $self->{publican}->param('type');
     my $web_formats_comma = $self->{publican}->param('web_formats');
     my $web_formats       = $web_formats_comma;
+    my $embedtoc          = '--embedtoc';
+
+    $embedtoc = "" if ( $self->{publican}->param('no_embedtoc') );
 
     $web_formats =~ s/,/ /g;
 
@@ -2206,6 +2218,7 @@ sub package {
         web_formats_comma => $web_formats_comma,
         menu_category     => $menu_category,
         spec_version      => $Publican::SPEC_VERSION,
+        embedtoc          => $embedtoc,
     );
 
     # \p{Z} is unicode white space, which is a super set of ascii white space.
@@ -2337,7 +2350,8 @@ sub change_log {
             croak(
                 maketext(
                     "ERROR: revnumber '[_1]' does not match required format [_2]. e.g. '1-1'.\n",
-                    $revnumber, q|\d[0-9.]*-\d[0-9.]*|
+                    $revnumber,
+                    q|\d[0-9.]*-\d[0-9.]*|
                 )
             );
         }

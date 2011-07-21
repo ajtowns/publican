@@ -25,7 +25,7 @@ This is Publican Website <xsl:value-of select="$web_type"/> page using the brand
 %setup -q
 
 %build
-publican build --nocolours --embedtoc --formats="html-single" --langs=all --publish
+publican build --nocolours <xsl:value-of select="$embedtoc"/> --formats="html-single" --langs=all --publish
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -16,13 +16,13 @@ use File::HomeDir;
 use Publican::Localise;
 
 use vars
-  qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
+    qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
 $VERSION = '2.99';
 @ISA     = qw(Exporter AutoLoader);
 
-@EXPORT =
-  qw(dir_list debug_msg get_all_langs logger help_config maketext old2new new_tree);
+@EXPORT
+    = qw(dir_list debug_msg get_all_langs logger help_config maketext old2new new_tree);
 
 # Track when the SPEC file generation is incompatible.
 $SPEC_VERSION = '2.99';
@@ -80,19 +80,19 @@ my %PARAMS = (
 
     },
     books => {
-        descr =>
-          maketext('A space-separated list of books used in this remote set.'),
+        descr => maketext(
+            'A space-separated list of books used in this remote set.'),
 
     },
     banned_attrs => {
         descr => maketext(
-'A comma-separated list of XML attributes that are not permitted in the source.'
+            'A comma-separated list of XML attributes that are not permitted in the source.'
         ),
         limit_to => 'brand',
     },
     banned_tags => {
         descr => maketext(
-'A comma-separated list of XML tags that are not permitted in the source.'
+            'A comma-separated list of XML tags that are not permitted in the source.'
         ),
         limit_to => 'brand',
     },
@@ -118,21 +118,21 @@ my %PARAMS = (
     },
     chunk_first => {
         descr => maketext(
-'For HTML, should the first section be on the same page as its parent?'
+            'For HTML, should the first section be on the same page as its parent?'
         ),
         default => 0,
 
     },
     chunk_section_depth => {
         descr => maketext(
-'For HTML, what is the deepest level of nesting at which a section should be split onto its own page?'
+            'For HTML, what is the deepest level of nesting at which a section should be split onto its own page?'
         ),
         default => 4,
     },
     classpath => {
         descr => maketext('Path to jar files for FOP.'),
         default =>
-'/usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar',
+            '/usr/share/java/ant/ant-trax-1.7.0.jar:/usr/share/java/xmlgraphics-commons.jar:/usr/share/java/batik-all.jar:/usr/share/java/xml-commons-apis.jar:/usr/share/java/xml-commons-apis-ext.jar',
     },
     common_config => {
         descr   => maketext('Path to publican content.'),
@@ -145,8 +145,8 @@ my %PARAMS = (
 
     },
     condition => {
-        descr =>
-          maketext('Conditions on which to prune XML before transformation.'),
+        descr => maketext(
+            'Conditions on which to prune XML before transformation.'),
 
     },
     confidential => {
@@ -154,12 +154,13 @@ my %PARAMS = (
         default => 0,
     },
     confidential_text => {
-        descr => maketext('The text used to indicate content is confidential.'),
+        descr =>
+            maketext('The text used to indicate content is confidential.'),
         default => maketext('CONFIDENTIAL'),
     },
     cvs_root => {
         descr => maketext(
-'CVS root to import SRPM into. e.g. :ext:@cvs.fedoraproject.org:/cvs/pkgs'
+            'CVS root to import SRPM into. e.g. :ext:@cvs.fedoraproject.org:/cvs/pkgs'
         ),
     },
     cvs_pkg    => { descr => maketext('The name of the package in CVS.'), },
@@ -171,13 +172,13 @@ my %PARAMS = (
     },
     docname => {
         descr => maketext(
-'Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml if not set in cfg file.'
+            'Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml if not set in cfg file.'
         ),
         constraint => '[^0-9a-zA-Z_\-\.\+]',
     },
     doc_url => {
         descr => maketext(
-'URL for the documentation team for this package. Used for top right URL on HTML.'
+            'URL for the documentation team for this package. Used for top right URL on HTML.'
         ),
         default => 'https://fedorahosted.org/publican',
 
@@ -200,11 +201,12 @@ my %PARAMS = (
 
     },
     'ec_id' => {
-        descr => maketext('Eclipse plugin ID. Defaults to "$product.$docname"'),
+        descr =>
+            maketext('Eclipse plugin ID. Defaults to "$product.$docname"'),
     },
     'ec_name' => {
         descr =>
-          maketext('Eclipse plugin name. Defaults to "$product $docname"'),
+            maketext('Eclipse plugin name. Defaults to "$product $docname"'),
     },
     'ec_provider' => {
         descr => maketext(
@@ -219,7 +221,7 @@ my %PARAMS = (
     },
     ignored_translations => {
         descr => maketext(
-'Languages to replace with xml_lang regardless of translation status.'
+            'Languages to replace with xml_lang regardless of translation status.'
         ),
 
     },
@@ -230,7 +232,7 @@ my %PARAMS = (
     },
     mainfile => {
         descr => maketext(
-'The name of the main xml and ent files for this books, sans file extension and language. Fetched from docname if not set.'
+            'The name of the main xml and ent files for this books, sans file extension and language. Fetched from docname if not set.'
         ),
     },
     max_image_width => {
@@ -242,8 +244,14 @@ my %PARAMS = (
     },
     menu_category => {
         descr => maketext(
-'Semicolon-separated list of menu categories for the desktop package.'
+            'Semicolon-separated list of menu categories for the desktop package.'
         ),
+    },
+    no_embedtoc => {
+        descr => maketext(
+            'Brand option to disable embedding the navigational toc in web packages'
+        ),
+        limit_to => 'brand',
     },
     os_ver => {
         descr   => maketext('The OS for which to build packages.'),
@@ -251,13 +259,14 @@ my %PARAMS = (
     },
     product => {
         descr => maketext(
-'Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml'
+            'Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml'
         ),
         constraint => '[^0-9a-zA-Z_\-\.\+]',
 
     },
     prod_url => {
-        descr => maketext('URL for the product. Used in top left URL in HTML.'),
+        descr =>
+            maketext('URL for the product. Used in top left URL in HTML.'),
         default => 'https://fedorahosted.org/publican',
 
     },
@@ -266,7 +275,7 @@ my %PARAMS = (
     },
     scm => {
         descr => maketext(
-'Type of repository in which books that form part of a remote set are stored. Supported types: SVN.'
+            'Type of repository in which books that form part of a remote set are stored. Supported types: SVN.'
         ),
     },
     show_remarks => {
@@ -280,8 +289,8 @@ my %PARAMS = (
 
     },
     src_url => {
-        descr =>
-          maketext('URL to find tar of source files. Used in RPM Spec files.'),
+        descr => maketext(
+            'URL to find tar of source files. Used in RPM Spec files.'),
     },
     tmp_dir => {
         descr   => maketext('Directory to use for building.'),
@@ -296,14 +305,14 @@ my %PARAMS = (
     },
     type => {
         descr => maketext(
-'Type of content this package contains. Supported: set, book, article, brand'
+            'Type of content this package contains. Supported: set, book, article, brand'
         ),
         default => 'Book',
 
     },
     version => {
         descr => maketext(
-'Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml'
+            'Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml'
         ),
         constraint => '[^0-9.]',
     },
@@ -319,34 +328,35 @@ my %PARAMS = (
     },
     web_home => {
         descr => maketext(
-'This is a home page for a Publican-generated website, not a standard book.'
+            'This is a home page for a Publican-generated website, not a standard book.'
         ),
         alert =>
-'web_home is deprecated and will be removed from Publican in the future. Use "web_type: home" instead.',
+            'web_home is deprecated and will be removed from Publican in the future. Use "web_type: home" instead.',
     },
     web_type => {
         descr => maketext(
-'This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version.'
+            'This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version.'
         ),
     },
     web_host => {
         descr => maketext(
-'This is a host name for a Publican-generated website, used for searches and the Sitemap. Be sure to include the full path to your document tree. E.g. if your documents are in the docs directory: http://www.example.com/docs'
+            'This is a host name for a Publican-generated website, used for searches and the Sitemap. Be sure to include the full path to your document tree. E.g. if your documents are in the docs directory: http://www.example.com/docs'
         ),
         alert =>
-'web_host is deprecated and will be removed from Publican in the future. Use "host" in the web site configuration file instead.',
+            'web_host is deprecated and will be removed from Publican in the future. Use "host" in the web site configuration file instead.',
     },
-    web_obsoletes => { descr => maketext('Packages to obsolete in web RPM.'), },
-    web_search    => {
+    web_obsoletes =>
+        { descr => maketext('Packages to obsolete in web RPM.'), },
+    web_search => {
         descr => maketext(
-'Override the default search form for a Publican website. By default this will use Google search and do a site search if web_host is set.'
+            'Override the default search form for a Publican website. By default this will use Google search and do a site search if web_host is set.'
         ),
         alert =>
-'web_search is deprecated and will be removed from Publican in the future. Use "search" in the web site configuration file instead.',
+            'web_search is deprecated and will be removed from Publican in the future. Use "search" in the web site configuration file instead.',
     },
     web_name_label => {
         descr => maketext(
-'Override the book name, bottom level, menu label on a Publican website.'
+            'Override the book name, bottom level, menu label on a Publican website.'
         ),
     },
     web_product_label => {
@@ -356,12 +366,12 @@ my %PARAMS = (
     },
     web_version_label => {
         descr => maketext(
-'Override the version, middle level, menu label on a Publican website. To hide this menu item set this to: UNUSED'
+            'Override the version, middle level, menu label on a Publican website. To hide this menu item set this to: UNUSED'
         ),
     },
     web_cfg => {
         descr => maketext(
-'Full path for the publican site configuration file for non standard RPM websites.'
+            'Full path for the publican site configuration file for non standard RPM websites.'
         ),
         limit_to => 'brand',
     },
@@ -371,7 +381,7 @@ my %PARAMS = (
     },
     web_req => {
         descr => maketext(
-'Name of site package for non standard RPM websites. Required to ensure the site is installed.'
+            'Name of site package for non standard RPM websites. Required to ensure the site is installed.'
         ),
         limit_to => 'brand',
     },
@@ -386,7 +396,7 @@ my %PARAMS = (
 BEGIN {
     if ( !$LOCALISE ) {
         $LOCALISE = Publican::Localise->get_handle()
-          || croak("Could not create a Publican::Localise object");
+            || croak("Could not create a Publican::Localise object");
         $LOCALISE->encoding("UTF-8");
         $LOCALISE->textdomain("publican");
     }
@@ -427,22 +437,23 @@ Private method for loading a config file
 sub _load_config {
     my ( $self, $args ) = @_;
 
-    my $configfile =
-      ( delete( $args->{configfile} )
-          || croak( maketext("configfile is a mandatory argument") ) );
+    my $configfile = ( delete( $args->{configfile} )
+            || croak( maketext("configfile is a mandatory argument") ) );
     my $common_config  = delete( $args->{common_config} );
     my $common_content = delete( $args->{common_content} );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
     if ( not -f $configfile ) {
 
         croak(
             maketext(
-"Config file not found: [_1]. Perhaps you need to run 'publican old2new'",
+                "Config file not found: [_1]. Perhaps you need to run 'publican old2new'",
                 $configfile
             )
         );
@@ -451,18 +462,16 @@ sub _load_config {
     my $config = new Config::Simple();
     $config->syntax('http');
     $config->read($configfile)
-      || croak( maketext( "Failed to load config file: [_1]", $configfile ) );
+        || croak(
+        maketext( "Failed to load config file: [_1]", $configfile ) );
 
     foreach my $def ( keys(%PARAMS) ) {
-        if (
-            defined $PARAMS{$def}->{limit_to}
-            && (
-                defined $PARAMS{$def}->{limit_to}
-                && (
-                    lc( ( $config->param('type') || 'book' ) ) ne
+        if (defined $PARAMS{$def}->{limit_to}
+            && (defined $PARAMS{$def}->{limit_to}
+                && (lc( ( $config->param('type') || 'book' ) ) ne
                     lc( $PARAMS{$def}->{limit_to} ) )
             )
-          )
+            )
         {
             $config->delete($def);
             next;
@@ -505,7 +514,7 @@ sub _load_config {
         $xml_doc->parse_file( "$xml_lang/$type" . '_Info.xml' );
 
         my $docname = $config->param('docname')
-          || $xml_doc->root()->look_down( "_tag", "title" )->as_text();
+            || $xml_doc->root()->look_down( "_tag", "title" )->as_text();
         if ($@) {
             croak maketext("title not found in Info file");
         }
@@ -526,7 +535,8 @@ sub _load_config {
             croak maketext("productnumber not found in Info file");
         }
 
-        my ( $edition, $release ) = $self->get_ed_rev( { lang => $xml_lang } );
+        my ( $edition, $release )
+            = $self->get_ed_rev( { lang => $xml_lang } );
 
         if ( not defined( $self->{config}->param('mainfile') ) ) {
             $self->{config}->param( 'mainfile', $docname );
@@ -544,17 +554,17 @@ sub _load_config {
         # Override publican defaults with brand defaults
         if ( -f "$path/defaults.cfg" ) {
             my $tmp_cfg = new Config::Simple("$path/defaults.cfg")
-              || croak( maketext("Failed to load brand defaults.cfg file") );
+                || croak(
+                maketext("Failed to load brand defaults.cfg file") );
             my %Config = $tmp_cfg->vars();
             foreach my $cfg ( keys(%Config) ) {
 
-            # If a book key is unset or equals the publican default, Override it
-                if (
-                       ( !$self->{config}->param($cfg) )
+          # If a book key is unset or equals the publican default, Override it
+                if (   ( !$self->{config}->param($cfg) )
                     or ( !defined( $PARAMS{$cfg}->{default} ) )
-                    or
-                    ( $self->{config}->param($cfg) eq $PARAMS{$cfg}->{default} )
-                  )
+                    or ( $self->{config}->param($cfg) eq
+                        $PARAMS{$cfg}->{default} )
+                    )
                 {
                     $self->{config}->param( $cfg, $Config{$cfg} );
                 }
@@ -564,7 +574,8 @@ sub _load_config {
         # Enforce Brand Overrides
         if ( -f "$path/overrides.cfg" ) {
             my $tmp_cfg = new Config::Simple("$path/overrides.cfg")
-              || croak( maketext("Failed to load brand overrides.cfg file") );
+                || croak(
+                maketext("Failed to load brand overrides.cfg file") );
             my %Config = $tmp_cfg->vars();
             foreach my $cfg ( keys(%Config) ) {
                 $config->param( $cfg, $Config{$cfg} );
@@ -573,18 +584,21 @@ sub _load_config {
 
         # Brand Settings
         my $brand_cfg = new Config::Simple("$path/publican.cfg")
-          || croak(
-            maketext( "Failed to load brand file: [_1]", "$path/publican.cfg" )
-          );
+            || croak(
+            maketext(
+                "Failed to load brand file: [_1]",
+                "$path/publican.cfg"
+            )
+            );
 
         $self->{brand_config} = $brand_cfg;
 
         $config->param( 'ec_name', "$product $docname" )
-          unless defined $config->param('ec_name');
+            unless defined $config->param('ec_name');
         $config->param( 'ec_id', "org.$product.$docname" )
-          unless defined $config->param('ec_id');
+            unless defined $config->param('ec_id');
         $config->param( 'ec_provider', "Publican-$VERSION" )
-          unless defined $config->param('ec_provider');
+            unless defined $config->param('ec_provider');
     }
     $DEBUG = $self->{config}->param('debug') if ( !$DEBUG );
 
@@ -607,7 +621,7 @@ sub _validate_config {
             if ( $value && $value =~ /$constraint/ ) {
                 croak(
                     maketext(
-"Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])",
+                        "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])",
                         $key, $value, $constraint
                     )
                 );
@@ -642,8 +656,8 @@ sub new {
         $self = $SINGLETON;
     }
     else {
-        my $configfile =
-          ( delete( $args->{configfile} ) || $DEFAULT_CONFIG_FILE );
+        my $configfile
+            = ( delete( $args->{configfile} ) || $DEFAULT_CONFIG_FILE );
         $DEBUG = ( delete( $args->{debug} ) || $DEBUG );
         my $common_config  = delete( $args->{common_config} );
         my $common_content = delete( $args->{common_content} );
@@ -666,7 +680,8 @@ sub new {
             eval { require Win32::TieRegistry; };
             croak(
                 maketext(
-                    "Failed to load Win32::TieRegistry module. Error: [_1]", $@
+                    "Failed to load Win32::TieRegistry module. Error: [_1]",
+                    $@
                 )
             ) if ($@);
 
@@ -681,7 +696,7 @@ sub new {
                     $common_config =~ s/\\/\//g;
                 }
                 $common_content = "$common_config/Common_Content"
-                  if ( !$common_content );
+                    if ( !$common_content );
             }
 
             $common_config  = qq{"$common_config"}  if ($common_config);
@@ -689,8 +704,7 @@ sub new {
         }
 
         $self->_load_config(
-            {
-                configfile     => $configfile,
+            {   configfile     => $configfile,
                 common_config  => $common_config,
                 common_content => $common_content
             }
@@ -769,7 +783,7 @@ sub param {
     my ( $self, $name ) = @_;
 
     return $self->{config}->param($name)
-      if defined( $self->{config}->param($name) );
+        if defined( $self->{config}->param($name) );
 
     return $PARAMS{$name}->{default} if defined $PARAMS{$name}->{default};
 
@@ -788,14 +802,15 @@ sub help_config {
 
     foreach my $param ( sort( keys(%PARAMS) ) ) {
         logger( "\t$param:\n\t\t" . $PARAMS{$param}->{descr} . "\n" );
+        logger(   "\t\t"
+                . maketext( "Default: [_1]", $PARAMS{$param}->{default} )
+                . "\n" )
+            if ( defined( $PARAMS{$param}->{default} ) );
         logger( "\t\t"
-              . maketext( "Default: [_1]", $PARAMS{$param}->{default} )
-              . "\n" )
-          if ( defined( $PARAMS{$param}->{default} ) );
-        logger( "\t\t"
-              . maketext( "Constraint: [_1]", $PARAMS{$param}->{constraint} )
-              . "\n" )
-          if ( defined( $PARAMS{$param}->{constraint} ) );
+                . maketext( "Constraint: [_1]",
+                $PARAMS{$param}->{constraint} )
+                . "\n" )
+            if ( defined( $PARAMS{$param}->{constraint} ) );
 
         logger("\n");
     }
@@ -819,7 +834,7 @@ sub dir_list {
     }
 
     croak( maketext("regex is a required argument") )
-      if ( !$regex || $regex eq "" );
+        if ( !$regex || $regex eq "" );
 
     my @filelist = File::Find::Rule->file->name($regex)->in($dir);
 
@@ -838,21 +853,22 @@ sub get_all_langs {
     my $tmp_dir = $SINGLETON->param('tmp_dir');
 
     opendir( $handle, '.' )
-      || croak( maketext( "Can't open directory: [_1]", $@ ) );
+        || croak( maketext( "Can't open directory: [_1]", $@ ) );
     my @dirs = sort( readdir($handle) );
     closedir($handle);
 
     foreach my $dir (@dirs) {
         if ( -d $dir ) {
             next
-              if ( $dir =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish)$/ );
+                if (
+                $dir =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish)$/ );
 
             if ( valid_lang($dir) ) {
                 push( @langs, $dir );
             }
             else {
                 logger( maketext( "Skipping unknown language: [_1]", $dir )
-                      . "\n" );
+                        . "\n" );
             }
         }
     }
@@ -963,24 +979,27 @@ sub get_abstract {
     my ( $self, $args ) = @_;
 
     my $lang = delete( $args->{lang} )
-      || croak( maketext("lang is a mandatory argument") );
+        || croak( maketext("lang is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
-    my $tmp_dir   = $self->param('tmp_dir');
-    my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    my $tmp_dir = $self->param('tmp_dir');
+    my $info_file
+        = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
 
     croak( maketext("abstract can not be calculated before building.") )
-      unless ( -f $info_file );
+        unless ( -f $info_file );
 
     my $xsl_file = $self->param('common_config') . "/xsl/abstract.xsl";
 
-    my $abstract =
-      $self->run_xslt( { xml_file => $info_file, xsl_file => $xsl_file } );
+    my $abstract = $self->run_xslt(
+        { xml_file => $info_file, xsl_file => $xsl_file } );
 
     # tidy up white space
     $abstract =~ s/^[ \t]*//gm;
@@ -1004,24 +1023,27 @@ sub get_subtitle {
     my ( $self, $args ) = @_;
 
     my $lang = delete( $args->{lang} )
-      || croak( maketext("lang is a mandatory argument") );
+        || croak( maketext("lang is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
-    my $tmp_dir   = $self->param('tmp_dir');
-    my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    my $tmp_dir = $self->param('tmp_dir');
+    my $info_file
+        = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
 
     croak( maketext("subtitle can not be calculated before building.") )
-      unless ( -f $info_file );
+        unless ( -f $info_file );
 
     my $xsl_file = $self->param('common_config') . "/xsl/subtitle.xsl";
 
-    my $subtitle =
-      $self->run_xslt( { xml_file => $info_file, xsl_file => $xsl_file } );
+    my $subtitle = $self->run_xslt(
+        { xml_file => $info_file, xsl_file => $xsl_file } );
 
     # tidy up white space
     $subtitle =~ s/^\s*//gm;
@@ -1042,13 +1064,15 @@ Apply the supplied xslt file to teh supplied XML and return a string of the outp
 sub run_xslt {
     my ( $self, $args ) = @_;
     my $xml_file = delete( $args->{xml_file} )
-      || croak( maketext("xml_file is a mandatory argument") );
+        || croak( maketext("xml_file is a mandatory argument") );
     my $xsl_file = delete( $args->{xsl_file} )
-      || croak( maketext("xsl_file is a mandatory argument") );
+        || croak( maketext("xsl_file is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
@@ -1088,7 +1112,8 @@ sub run_xslt {
             )
         ) if ($@);
 
-        my $defualt_href = 'http://docbook.sourceforge.net/release/xsl/current';
+        my $defualt_href
+            = 'http://docbook.sourceforge.net/release/xsl/current';
         my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
             { Delimiter => "\\" } );
 
@@ -1128,8 +1153,8 @@ sub new_tree {
 
     my $store_comments = ( shift() || 0 );
 
-    my $xml_doc =
-      XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     my $empty_element_map = $xml_doc->_empty_element_map;
     $empty_element_map->{'xref'}       = 1;
     $empty_element_map->{'index'}      = 1;
@@ -1152,20 +1177,20 @@ Print a list of tags that are not supported.
 sub print_banned_tags {
     my $self = shift();
     print "\n"
-      . maketext(
-"NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
-      ) . "\n\n";
+        . maketext(
+        "NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
+        ) . "\n\n";
 
     print "\n" . maketext("Banned tags:") . "\n";
-    foreach
-      my $key ( sort( split( /,/, ( $self->param('banned_tags') || "" ) ) ) )
+    foreach my $key (
+        sort( split( /,/, ( $self->param('banned_tags') || "" ) ) ) )
     {
         print("\t$key\n");
     }
 
     print "\n" . maketext("Banned attributes:") . "\n";
-    foreach
-      my $attr ( sort( split( /,/, ( $self->param('banned_attrs') || "" ) ) ) )
+    foreach my $attr (
+        sort( split( /,/, ( $self->param('banned_attrs') || "" ) ) ) )
     {
         print("\t$attr\n");
     }
@@ -1183,9 +1208,9 @@ Add a full entry in to the revision history.
 sub add_revision {
     my ( $self, $args ) = @_;
     my $lang = delete( $args->{lang} )
-      || croak( maketext("lang is a required option for add_revision") );
+        || croak( maketext("lang is a required option for add_revision") );
     my $members = delete( $args->{members} )
-      || croak( maketext("member is a required option for add_revision") );
+        || croak( maketext("member is a required option for add_revision") );
 
     my $revnumber = delete( $args->{revnumber} );
     my $date      = delete( $args->{date} );
@@ -1194,8 +1219,8 @@ sub add_revision {
     my $email     = delete( $args->{email} );
 
     unless ($revnumber) {
-        my ( $edition, $release ) =
-          $self->get_ed_rev( { lang => $lang, bump => 1 } );
+        my ( $edition, $release )
+            = $self->get_ed_rev( { lang => $lang, bump => 1 } );
         $revnumber = "$edition-$release";
     }
 
@@ -1208,41 +1233,39 @@ sub add_revision {
         my $user_cfg = new Config::Simple();
         $user_cfg->syntax('http');
         $user_cfg->read($configfile)
-          || croak(
-            maketext( "Failed to load user config file: [_1]", $configfile ) );
+            || croak(
+            maketext( "Failed to load user config file: [_1]", $configfile )
+            );
 
         $firstname = $user_cfg->param('firstname')
-          || croak("firstname is a required field in the user config file")
-          unless ($firstname);
+            || croak("firstname is a required field in the user config file")
+            unless ($firstname);
 
         $surname = $user_cfg->param('surname')
-          || croak("surname is a required field in the user config file")
-          unless ($surname);
+            || croak("surname is a required field in the user config file")
+            unless ($surname);
 
         $email = $user_cfg->param('email')
-          || croak("email is a required field in the user config file")
-          unless ($email);
+            || croak("email is a required field in the user config file")
+            unless ($email);
     }
 
     croak("firstname is a required field")
-      unless ($firstname);
+        unless ($firstname);
     croak("surname is a required field")
-      unless ($surname);
+        unless ($surname);
     croak("email is a required field") unless ($email);
 
     my $revision = XML::Element->new_from_lol(
-        [
-            'revision',
+        [   'revision',
             [ 'revnumber', $revnumber ],
             [ 'date',      $date ],
-            [
-                'author',
+            [   'author',
                 [ 'firstname', $firstname ],
                 [ 'surname',   $surname ],
                 [ 'email',     $email ],
             ],
-            [
-                'revdescription',
+            [   'revdescription',
                 [ 'simplelist', map { [ 'member', $_ ] } @{$members}, ],
             ],
         ],
@@ -1257,14 +1280,15 @@ sub add_revision {
     }
     else {
         $rev_doc->root()->tag('appendix');
-        my $rev_hist =
-          XML::Element->new_from_lol( [ 'title', maketext('Revision History') ],
-          );
+        my $rev_hist
+            = XML::Element->new_from_lol(
+            [ 'title', maketext('Revision History') ],
+            );
 
         $rev_doc->root()->push_content($rev_hist);
 
-        $rev_hist =
-          XML::Element->new_from_lol( [ 'simpara', ['revhistory'], ], );
+        $rev_hist
+            = XML::Element->new_from_lol( [ 'simpara', ['revhistory'], ], );
 
         $rev_doc->root()->push_content($rev_hist);
     }
@@ -1278,7 +1302,7 @@ sub add_revision {
 
     my $OUTDOC;
     open( $OUTDOC, ">:encoding(UTF-8)", "$rev_file" )
-      || croak( maketext( "Could not open [_1] for output!", $rev_file ) );
+        || croak( maketext( "Could not open [_1] for output!", $rev_file ) );
     print( $OUTDOC $rev_doc->root()->as_XML() );
     close($OUTDOC);
     $rev_doc->root()->delete();
@@ -1303,17 +1327,18 @@ sub get_ed_rev {
     my ( $self, $args ) = @_;
 
     my $lang = delete( $args->{lang} )
-      || croak( maketext("'lang' is a required option for get_ed_rev") );
+        || croak( maketext("'lang' is a required option for get_ed_rev") );
     my $bump = delete( $args->{bump} );
 
     my $rev_file = "$lang/Revision_History.xml";
     croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
-      if ( !-f $rev_file );
+        if ( !-f $rev_file );
 
     my $rev_doc = XML::TreeBuilder->new();
     $rev_doc->parse_file($rev_file);
-    my $VR =
-      eval { $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text(); };
+    my $VR = eval {
+        $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text();
+    };
     if ($@) {
         croak( maketext( "revnumber not found in [_1]", $rev_file ) );
     }
