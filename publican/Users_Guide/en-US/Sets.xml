@@ -90,7 +90,7 @@ mkdir Book_A Book_B
 			</step>
          <step>
             <para>
-            To build the set, you will need to change the following:
+            To make your set XML valid, you will need to change the following:
             </para>
             <substeps>
                <step>
@@ -117,7 +117,7 @@ mkdir Book_A Book_B
 <xi:include href="../../Common_Content/Conventions.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />]]>
                </programlisting>
                <para>
-               This is because in a set, the Common Content folder is two directories further away from where Publican usually looks for it, so it has to be told manually. To build your book individually, without building the entire set, undo this step.
+               This is because in a standalone set, the Common Content folder is two directories further away from where Publican usually looks for it, so it has to be told manually. To build your book individually, without building the entire set, undo this step.
                </para>
                </step>
             </substeps>
@@ -181,6 +181,16 @@ scm: SVN
 </programlisting>
 
 			</step>
+         <step>
+            <para>
+            To make your set XML valid, you will need to comment out the following lines in <filename>My_Set.xml</filename>
+            </para>
+            <programlisting language="XML"><![CDATA[
+<remark>NOTE: the href does not contain a language! This is CORRECT!</remark>
+<remark>&lt;xi:include href="My_Other_Book/My_Other_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude"&gt;</remark>
+<setindex></setindex>]]>
+            </programlisting>
+         </step>
 			 <step>
 				<para>
 					Test your set by running the <command>publican build --formats=test --langs=en-US</command> command.
