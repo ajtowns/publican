@@ -1,7 +1,7 @@
 
 # Track font name changes
 %define RHEL5 %(test %{?dist} == .el5 && echo 1 || echo 0)
-%define RHEL6 %(test %{?dist} == .el6 && echo 1 || echo 0)
+%define RHEL6 %([[ %{?dist}x == .el6[a-z]* ]] && echo 1 || echo 0)
 # Assume not rhel means FC11+ ... ugly
 %define OTHER 1
 %if %{RHEL6}

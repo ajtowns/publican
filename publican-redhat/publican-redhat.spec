@@ -1,6 +1,6 @@
 %define brand RedHat
 %define pub_name Publican
-%define RHEL6 %(test %{?dist} == .el6 && echo 1 || echo 0)
+%define RHEL6 %([[ %{?dist}x == .el6[a-z]* ]] && echo 1 || echo 0)
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
