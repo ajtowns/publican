@@ -31,7 +31,7 @@ Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.t
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # Limited to these arches on RHEL 6 due to PDF + Java limitations
 %if %{RHEL6}
-BuildArch:      i386 x86_64
+ExclusiveArch:   i686 x86_64
 %else
 BuildArch:      noarch
 %endif
