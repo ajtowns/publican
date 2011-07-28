@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl -CA
 
 use warnings;
 use strict;
@@ -53,7 +53,7 @@ if (   ( $ENV{RPM_BUILD_DIR} )
     }
 
     # sad we need to do this kind of thing
-    if ( system( "rpmlint", "-i", $pkg ) != 0 ) {
+    if ( system( "rpmlint", "-f", "/usr/share/publican/rpmlint.cfg", "-i", $pkg ) != 0 ) {
         croak(
             "\n\nERROR: Package failed rpmlint validation. Fix errors and retry."
         );

@@ -1,52 +1,61 @@
 3.0  UNRELEASED
-  - Catch FOP failing. BZ #661551
   - Update Changes file. BZ #661568
   - Cleaned up README file.
-  - Catch empty tags that break packaging. (abstract, subtitle) BZ #663206
-  - Add rpmlint check for mock builds. BZ #663203
   - Corrected document conventions text. BZ#651616
-  - Add update_db action to allow more robust packaging. BZ #661948
-  - Fix show_unknown not working. BZ #662162
   - Make XmlClean use File::Inplace instead of grep & sed. BZ #661567
-  - Removed auto addition of '-0' to invalid revnumber. BZ #628464
   - Deleted STRICT mode. Added banned_tags and banned_attrs configurations. BZ #663202
   - Fix command example in PUG. BZ #663211
-  - Fix web menu localisation being lost on rebuild from package. BZ #662897
   - Use revision history for edition and release. BZ #642127
   - Deleted edition and release config parameters. BZ #642127
   - Add add_revision action and associated options. BZ #642127
-  - Have XmlClean treat address element as verbatim. BZ #662907
-  - Fix task missing ID. BZ #672439
-  - Fix UTF8 issue in TXT output. BZ #673855
   - Fix wrong BuildRequires and path for desktop packages. BZ #676472
   - Correct typos. Yuri Chornoivan <yurchor@ukr.net> BZ #676997
   - Fix CreateBook texts missing from pot file. BZ #677119
   - Add --msgmerge to update_po to override using internal POT/PO merging. BZ #661569
   - Added base_brand config option for brands to allow multiple base brands. BZ #697367
-  - Fix startinglinenumber ignored & XML entites not being escaped. BZ #653432
   - Added site config toc_type to allow selecting TOC styles. BZ #697375
-  - Fix perl critic encoding check failing. BZ #684509
   - Added authortest target for author tests.
-  - Fix some set validation errors. BZ #673402
   - Purge Site statistics, site tech and HTML site map. BZ #697376
   - Truncate PO Fuzzy/Un-transtaled message, added PO line number. BZ #697380
-  - Add keep_id to steps. BZ #697370
   - Add Author_Group.xml handling for translations. BZ #697371
-  - Fix packaging of stand alone sets. BZ #689347
+  - Split pod from publican command to allow auto-generation.
+
+2.6-3 Thu Jul 28 2011 
+  - Force publican to use UTF8 for command line options.
+  - Add rpmlint cfg for brew checks.
+
+2.6-2 Wed Jul 27 2011 
+  - Fix archness ... java hate increases
+
+2.6 Mon Jul 25 2011 
+  - Catch FOP failing. BZ #661551
+  - Have XmlClean treat address element as verbatim. BZ #662907
+  - Fix task missing ID. BZ #672439
+  - Fix startinglinenumber ignored & XML entites not being escaped. BZ #653432
+  - Fix perl critic encoding check failing. BZ #684509
   - Update docbook-style-xsl req to 1.76.1 for epub change. BZ #697382
+  - Add keep_id to steps. BZ #697370
+  - Update BZ links to point to Publican component.
+  - Catch empty tags that break packaging. (abstract, subtitle) BZ #663206
+  - Add rpmlint check for mock builds. BZ #663203
+  - Fix web menu localisation being lost on rebuild from package. BZ #662897
+  - Fix UTF8 issue in TXT output. BZ #673855
+  - Fix some set validation errors. BZ #673402
+  - Fix packaging of stand alone sets. BZ #689347
   - Switch normal output to STDOUT, added croak call. BZ #688447
   - Added mainfile parameter. BZ #688585
-  - Split pod from publican command to allow auto-generation.
-  - Update BZ links to point to Publican component.
   - Add rename action. BZ #694698
   - Added detection of mixed_mode tags to XmlClean. BZ #688286
+  - Add update_db action to allow more robust packaging. BZ #661948
+  - Fix show_unknown not working. BZ #662162
   - Fix version 0 not installing on web site. BZ #702550
   - Don't validate xml parsed as text in print_unused. BZ #705956
-  - Fix admonition layout. BZ #715158
   - Add manual_toc_update config for web-sites. BZ #719573
   - Use the force option for cvs-import.sh BZ #718102
+  - Fix admonition layout. BZ #715158
   - Fix indexterm tag causes a line split in PDF. BZ #713669
   - Add no_embedtoc config for brands. BZ #723725
+  - Removed auto addition of '-0' to invalid revnumber. BZ #628464
 
 2.5  Fri Dec 02 2010 
   - Use SPEC_VERSION for splash page spec files

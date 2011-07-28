@@ -20,8 +20,8 @@
 %define TESTS 0
 
 Name:           publican
-Version:        2.99
-Release:        0%{?dist}.t70
+Version:        3.0
+Release:        0%{?dist}.t1
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -173,7 +173,7 @@ solely on using the publican tools.
 %build
 %{__perl} Build.PL installdirs=vendor --nocolours=1
 ./Build
-dir=`pwd` && cd Users_Guide && perl -I $dir/blib/lib $dir/blib/script/publican build \
+dir=`pwd` && cd Users_Guide && %{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican build \
     --formats=html-desktop --publish --langs=all \
     --common_config="$dir/blib/datadir" \
     --common_content="$dir/blib/datadir/Common_Content" --nocolours
