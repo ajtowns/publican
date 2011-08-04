@@ -753,7 +753,9 @@ pre .keycap {
 
 code {
 	font-family:"liberation mono", "bitstream vera mono", "dejavu mono", monospace;
-	white-space: nowrap;
+/*	white-space: nowrap;*/
+	white-space: pre-wrap;
+	word-wrap: break-word;
 	font-weight:bold;
 }
 
@@ -790,6 +792,7 @@ div.warning, div.note, div.important {
 	background-color: white;
 	margin-bottom: 1em;
 	border-bottom: 1px solid #aaaaaa;
+	page-break-inside: avoid;
 }
 
 div.warning h2, div.note h2,div.important h2 {
@@ -884,6 +887,10 @@ div.admonition {
 }
 
 /*Table*/
+div.table {
+	page-break-inside: avoid;
+}
+
 table {
 	border:1px solid #6c614b;
 	width:100%;
@@ -1108,10 +1115,12 @@ sup {
 /**/
 div.chapter {
 	margin-top:3em;
+	page-break-inside: avoid;
 }
 
 div.section {
 	margin-top:1em;
+	page-break-inside: auto;
 }
 
 div.note .replaceable, 
@@ -1394,12 +1403,14 @@ pre {
 	-moz-border-radius:11px;
 	-webkit-border-radius:11px;
 	border-radius: 11px;
+	page-break-inside: avoid;
 }
 
 .example {
 	-moz-border-radius:0px;
 	-webkit-border-radius:0px;
 	border-radius: 0px;
+	page-break-inside: avoid;
 }
 
 .package, .citetitle {
