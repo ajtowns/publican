@@ -1712,7 +1712,6 @@ sub package_brand {
     my $name    = lc( $self->{publican}->param('brand') );
     my $version = $self->{publican}->param('version');
     my $release = $self->{publican}->param('release');
-    my $os_ver  = $self->{publican}->param('os_ver');
 
     my $tardir = "publican-$name-$version";
     mkpath("$tmp_dir/tar/$tardir");
@@ -1812,7 +1811,6 @@ sub package_home {
     my $brand    = 'publican-' . lc( $self->{publican}->param('brand') );
     my $doc_url  = $self->{publican}->param('doc_url');
     my $src_url  = $self->{publican}->param('src_url');
-    my $os_ver   = $self->{publican}->param('os_ver');
     my $log      = $self->change_log( { lang => $xml_lang } );
     my $embedtoc = '--embedtoc';
 
@@ -1908,17 +1906,27 @@ sub build_rpm {
             . "\n"
     );
 
-    if (system( $rpmbuild, "--define",
-            "_sourcedir $dir", "--define",
-            "_builddir $dir",  "--define",
-            "_srcrpmdir $dir", "--define",
-            "_rpmdir $dir", ( $binary ? "-ba" : ( "-bs", "--nodeps" ) ),
-            "--define", "dist $os_ver",
-            $spec
-        ) != 0
-        )
-    {
-        if ( $? == -1 ) {
+     my @rpm_args = (
+        "--define", "_sourcedir $dir", "--define", "_builddir $dir",
+        "--define", "_srcrpmdir $dir", "--define", "_rpmdir $dir"
+    );
+
+    if ($binary) {
+        push( @rpm_args, "-ba" );
+    }
+    else {
+        push( @rpm_args, "-bs", "--nodeps" );
+    }
+
+    if ($os_ver) {
+        $os_ver = ".$os_ver" unless ( $os_ver =~ m/^\./ );
+        push( @rpm_args, "--define", "dist $os_ver" );
+    }
+
+    push( @rpm_args, $spec );
+
+    if ( system( $rpmbuild, @rpm_args ) != 0 ) {
+       if ( $? == -1 ) {
             croak maketext( "Failed to execute [_1], error number: [_2]",
                 $rpmbuild, $! )
                 . "\n";
@@ -2081,7 +2089,6 @@ sub package {
     my $dt_obsoletes      = $self->{publican}->param('dt_obsoletes') || "";
     my $dt_requires       = $self->{publican}->param('dt_requires') || "";
     my $web_obsoletes     = $self->{publican}->param('web_obsoletes') || "";
-    my $os_ver            = $self->{publican}->param('os_ver');
     my $translation       = ( $lang ne $xml_lang );
     my $language          = code2language( substr( $lang, 0, 2 ) );
     my $web_product_label = $self->{publican}->param('web_product_label')

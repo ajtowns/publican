@@ -255,7 +255,6 @@ my %PARAMS = (
     },
     os_ver => {
         descr   => maketext('The OS for which to build packages.'),
-        default => '.el5',
     },
     product => {
         descr => maketext(
@@ -314,7 +313,7 @@ my %PARAMS = (
         descr => maketext(
             'Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml'
         ),
-        constraint => '[^0-9.]',
+        constraint => '^[^0-9]',
     },
     web_brew_dist => {
         descr   => maketext('The brew dist to use for building the web rpm.'),
