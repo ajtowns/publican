@@ -803,6 +803,10 @@ sub transform {
 
     my $dir;
 
+## BUGBUG test an alternative to fop!
+    my $wkhtmltopdf_cmd = '/opt/wkhtmltopdf/bin/wkhtmltopdf';
+    my $diefopdie = (-f $wkhtmltopdf_cmd);
+
     my $tmp_dir           = $self->{publican}->param('tmp_dir');
     my $docname           = $self->{publican}->param('docname');
     my $common_config     = $self->{publican}->param('common_config');
@@ -871,6 +875,22 @@ sub transform {
 
         close($TXT_FILE);
         $dir = undef;
+        return;
+    }
+
+    if ( $format eq 'pdf' && $diefopdie ) {
+        if ( !-e "$tmp_dir/$lang/html-single" ) {
+            $self->transform( { lang => $lang, format => 'html-single' } );
+        }
+
+        mkdir "$tmp_dir/$lang/pdf";
+        $dir = pushd("$tmp_dir/$lang/html-single");
+
+        my @wkhtmltopdf_args = ($wkhtmltopdf_cmd, 'index.html',  "../pdf/$pdf_name");
+        my $result = system(@wkhtmltopdf_args);
+        if($result) {
+            #...
+        }
         return;
     }
 
