@@ -2074,12 +2074,12 @@ sub package {
     rmtree("$tmp_dir/tar/$tardir/$lang/Common_Content");
     mkpath("$tmp_dir/rpm");
 
-    dircopy( "$xml_lang/icons", "$tmp_dir/tar/$tardir/icons" )
+    dircopy( "$xml_lang/icons", "$tmp_dir/tar/$tardir/$lang/icons" )
         if ( -e "$xml_lang/icons" );
-    dircopy( "$lang/icons", "$tmp_dir/tar/$tardir/icons" )
+    dircopy( "$lang/icons", "$tmp_dir/tar/$tardir/$lang/icons" )
         if ( -e "$lang/icons" );
-    finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/icons" )
-        if ( -e "$tmp_dir/tar/$tardir/icons" );
+    finddepth( \&del_unwanted_dirs, "$tmp_dir/tar/$tardir/$lang/icons" )
+        if ( -e "$tmp_dir/tar/$tardir/$lang/icons" );
 
     dircopy( "$xml_lang/files", "$tmp_dir/tar/$tardir/$lang/files" )
         if ( -e "$xml_lang/files" );
