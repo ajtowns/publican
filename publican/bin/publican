@@ -911,7 +911,15 @@ if ( $action eq 'package' ) {
             croak( maketext("cvs up died, error $result: '$!'") );
         }
 
-        $result = system("make build");
+        @cvs_args = ('make');
+
+        unless ( $opts{'wait'} ) {
+            push( @cvs_args, "BREW_FLAGS=--nowait" );
+        }
+
+        push( @cvs_args, 'build' );
+
+        $result = system(@cvs_args);
         if ($result) {
             croak( maketext("make died, error $result: '$!'") );
         }
