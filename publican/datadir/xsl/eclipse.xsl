@@ -8,6 +8,9 @@
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/eclipse/eclipse.xsl"/>
 <xsl:import href="defaults.xsl"/>
 <xsl:import href="xhtml-common.xsl"/>
+<xsl:param name="chunker.output.omit-xml-declaration" select="'yes'"/>
+<xsl:param name="chunker.output.doctype-public" select="''"/>
+<xsl:param name="chunker.output.doctype-system" select="''"/>
 
 <xsl:param name="suppress.navigation" select="1"/>
 
