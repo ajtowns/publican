@@ -45,7 +45,7 @@
 			</step>
 			 <step>
 				<para>
-					<command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two directories called <filename>Book_A</filename> and <filename>Book_B</filename>.
+					<command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two <emphasis>directories</emphasis> (not books) called <filename>Book_A</filename> and <filename>Book_B</filename>.
 				</para>
 				 
 <screen>cd My_Set/en-US
@@ -126,10 +126,62 @@ mkdir Book_A Book_B
 				<para>
 					Test your set by running the <command>publican build --formats=test --langs=en-US</command> command.
 				</para>
-
 			</step>
+      </procedure>
+         <para>
+         If you are using pre-existing books, you will need to rearrange them so the XML files are at the level of the set and all images are inside the images directory at the same level. For example:
+         </para>
+         <programlisting>
+   -- My_Set
+    |-- en-US
+    |   |-- Author_Group.xml
+    |   |-- Book_A.ent
+    |   |-- Book_A.xml
+    |   |-- Book_B.ent
+    |   |-- Book_B.xml
+    |   |-- Book_Info_A.xml
+    |   |-- Book_Info_B.xml
+    |   |-- chapter_A.xml
+    |   |-- chapter_B.xml
+    |   |-- images
+    |   |   |-- icon.svg
+    |   |   `-- image1.png
+    |   |-- My_Set.ent
+    |   |-- My_Set.xml
+    |   |-- Preface.xml
+    |   |-- Revision_History.xml
+    |   `-- Set_Info.xml
+    `-- publican.cfg
 
-		</procedure>
+         </programlisting>
+         <para>
+         The XML files can also be within sub-folders to keep them separate. This is true within the images directory, as well. For example:
+         </para>
+         <programlisting>
+   -- My_Set
+    |-- en-US
+    |   |-- Author_Group.xml
+    |   |-- Book_A
+    |   |   |-- Book_A.ent
+    |   |   |-- Book_A.xml
+    |   |   |-- Book_Info.xml
+    |   |   `-- chapter.xml
+    |   |-- Book_B
+    |   |   |-- Book_B.ent
+    |   |   |-- Book_B.xml
+    |   |   |-- Book_Info.xml
+    |   |   `-- chapter.xml
+    |   |-- images
+    |   |   |-- icon.svg
+    |   |   `-- image1.png
+    |   |-- My_Set.ent
+    |   |-- My_Set.xml
+    |   |-- Preface.xml
+    |   |-- Revision_History.xml
+    |   `-- Set_Info.xml
+    `-- publican.cfg
+         </programlisting>
+		
 		
 
 	</section>
