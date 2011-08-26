@@ -186,7 +186,7 @@ my %PARAMS = (
     dtdver => {
         descr => maketext(
             'Version of the DocBook DTD on which this project is based.'),
-        default => '4.5',
+        default => '5.1b4',
 
     },
     dt_obsoletes => {

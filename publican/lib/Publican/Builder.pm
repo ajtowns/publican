@@ -34,6 +34,7 @@ use Locale::Language;
 use List::Util qw(max);
 use Text::Wrap qw(fill $columns);
 use IO::String;
+use File::Which;
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
@@ -43,7 +44,6 @@ $VERSION = '0.2';
 
 my $INVALID = 1;
 
-my $TEST_MML     = 0;
 my $DEFAULT_WRAP = 82;
 $columns = $DEFAULT_WRAP;
 
@@ -406,7 +406,7 @@ sub setup_xml {
             if ( -f $trans_file ) {
                 my $auth_file = "$tmp_dir/$lang/xml_tmp/Author_Group.xml";
 
-                my $auth_doc = XML::TreeBuilder->new();
+                my $auth_doc = XML::TreeBuilder->new({ 'NoExpand' => "1", 'ErrorContext' => "2" });
                 $auth_doc->parse_file($auth_file);
                 my $auth_node = eval {
                     $auth_doc->root()->look_down( "_tag", "authorgroup" );
@@ -418,7 +418,7 @@ sub setup_xml {
                         )
                     );
                 }
-                my $trans_doc = XML::TreeBuilder->new();
+                my $trans_doc = XML::TreeBuilder->new({ 'NoExpand' => "1", 'ErrorContext' => "2" });
                 $trans_doc->parse_file($trans_file);
                 my $trans_node = eval {
                     $trans_doc->root()->look_down( "_tag", "authorgroup" );
@@ -709,19 +709,7 @@ sub validate_xml {
 
     if ( $dtdver =~ m/^5/ ) {
         $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
-        if ( $dtdver =~ m/[a-z]/ ) {
-            $dtd_path = qq|http://docbook.org/xml/$dtdver/dtd/docbook.dtd|;
-        }
-        else {
-            $dtd_path
-                = qq|http://docbook.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
-        }
-    }
-
-    if ( 0 && $TEST_MML ) {
-        $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
-        $dtd_path
-            = 'http://www.oasis-open.org/docbook/xml/mathml/1.0/dbmathml.dtd';
+        $dtd_path = qq|http://docbook.org/xml/$dtdver/rng/docbook.rng|;
     }
 
     if ( $^O eq 'MSWin32' ) {
@@ -745,7 +733,7 @@ sub validate_xml {
         }
     }
 
-    if ( $dtdver !~ m/^5.*[a-zA-Z]/ ) {
+    if ( $dtdver !~ m/^5/ ) {
         my $dtd = XML::LibXML::Dtd->new( $dtd_type, $dtd_path );
 
         unless ( $source->is_valid($dtd) ) {
@@ -764,7 +752,7 @@ sub validate_xml {
 # wget http://docbook.org/xml/5.1b2/tools/db4-upgrade.xsl
 # for file in `ls *.xml`; do echo "$file"; xsltproc ../../db4-upgrade-publican.xsl $file > $file.tmp;mv $file.tmp $file; echo; done
         my $rngschema = XML::LibXML::RelaxNG->new(
-            location => 'http://docbook.org/xml/5.1b2/rng/docbook.rng' );
+            location => "http://docbook.org/xml/$dtdver/rng/docbook.rng" );
         eval { $rngschema->validate($source); };
         if ($@) {
             logger( maketext("RelaxNG Validation failed: ") . "\n", RED );
@@ -804,8 +792,8 @@ sub transform {
     my $dir;
 
 ## BUGBUG test an alternative to fop!
-    my $wkhtmltopdf_cmd = '/opt/wkhtmltopdf/bin/wkhtmltopdf';
-    my $diefopdie = (-f $wkhtmltopdf_cmd);
+    my $wkhtmltopdf_cmd = which('wkhtmltopdf');
+    my $diefopdie = ($wkhtmltopdf_cmd && $wkhtmltopdf_cmd ne '');
 
     my $tmp_dir           = $self->{publican}->param('tmp_dir');
     my $docname           = $self->{publican}->param('docname');
@@ -877,6 +865,12 @@ sub transform {
         $dir = undef;
         return;
     }
+
+    my $pdf_name
+        = $self->{publican}->param('product') . '-'
+        . $self->{publican}->param('version') . '-'
+        . $self->{publican}->param('docname') . '-'
+        . "$lang.pdf";
 
     if ( $format eq 'pdf' && $diefopdie ) {
         if ( !-e "$tmp_dir/$lang/html-single" ) {
@@ -1096,12 +1090,6 @@ sub transform {
     croak( maketext( "Transformation error '[_1]' : [_2]", $!, $@ ) ) if $@;
 
     if ( $format =~ /^pdf/ ) {
-        my $pdf_name
-            = $self->{publican}->param('product') . '-'
-            . $self->{publican}->param('version') . '-'
-            . $self->{publican}->param('docname') . '-'
-            . "$lang.pdf";
-
         my $fop_command
             = qq|CLASSPATH="$classpath" fop -q -c $common_config/fop/fop.xconf -fo $docname.fo -pdf ../pdf/$pdf_name|;
 
@@ -2032,7 +2020,7 @@ sub package {
         croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
             if ( !-f $rev_file );
 
-        my $rev_doc = XML::TreeBuilder->new();
+        my $rev_doc = XML::TreeBuilder->new({ 'NoExpand' => "1", 'ErrorContext' => "2" });
         $rev_doc->parse_file($rev_file);
         my $VR = eval {
             $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text();
@@ -2131,7 +2119,7 @@ sub package {
         croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
             if ( !-f $xml_file );
 
-        my $xml_doc = XML::TreeBuilder->new();
+        my $xml_doc = XML::TreeBuilder->new({ 'NoExpand' => "1", 'ErrorContext' => "2" });
         $xml_doc->parse_file($xml_file);
 
         # BUGBUG can't translate overridden labels :(
@@ -2317,7 +2305,7 @@ sub change_log {
     my $log     = "";
     my $tmp_dir = $self->{publican}->param('tmp_dir');
 
-    my $xml_doc = XML::TreeBuilder->new();
+    my $xml_doc = XML::TreeBuilder->new({ 'NoExpand' => "1", 'ErrorContext' => "2" });
     $xml_doc->parse_file("$tmp_dir/$lang/xml/Revision_History.xml");
 
     $xml_doc->root()->look_down( "_tag", "revision" ) || croak(
@@ -2569,19 +2557,7 @@ sub dtd_string {
 
     if ( $dtdver =~ m/^5/ ) {
         $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
-        if ( $dtdver =~ m/[a-z]/ ) {
-            $uri = qq|http://docbook.org/xml/$dtdver/dtd/docbook.dtd|;
-        }
-        else {
-            $uri
-                = qq|http://www.oasis-open.org/docbook/xml/$dtdver/dtd/docbook.dtd|;
-        }
-    }
-
-    if ( 0 && $TEST_MML ) {
-        $dtd_type = '-//OASIS//DTD DocBook MathML Module V1.0//EN';
-        $uri
-            = 'http://www.oasis-open.org/docbook/xml/mathml/1.0/dbmathml.dtd';
+        $uri = qq|http://docbook.org/xml/$dtdver/rng/docbook.rng|;
     }
 
     # TODO Maynot be necessary
@@ -2618,22 +2594,9 @@ DTDHEAD
 <!ENTITY % sgml.features "IGNORE">
 <!ENTITY % xml.features "INCLUDE">
 <!ENTITY euro "&#8364;">
-<!ENTITY % dbcent PUBLIC "-//OASIS//ENTITIES DocBook Character Entities V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/dbcentx.mod">
+<!ENTITY % dbcent PUBLIC "-//OASIS//ENTITIES DocBook Character Entities V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/dbcentx.mod">
 %dbcent;
 DB5
-    }
-
-    if ($TEST_MML) {
-        $dtd .= <<MML;
-<!ENTITY % MATHML.prefixed "INCLUDE">
-<!ENTITY % MATHML.prefix "mml">
-<!ENTITY % equation.content "(alt?, (graphic+|mediaobject+|mml:math))">
-<!ENTITY % inlineequation.content
-               "(alt?, (inlinegraphic+|inlinemediaobject+|mml:math))">
-<!ENTITY % mathml PUBLIC "-//W3C//DTD MathML 2.0//EN"
-       "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
-%mathml;
-MML
     }
 
     # handle entity file
@@ -2647,10 +2610,6 @@ ENT
     $dtd .= <<DTDTAIL;
 ]>
 DTDTAIL
-
-    if ( $dtdver =~ m/^5.*[a-zA-Z]/ ) {
-        $dtd = q|<?xml version='1.0' encoding='utf-8' ?>| . "\n";
-    }
 
     return ($dtd);
 }

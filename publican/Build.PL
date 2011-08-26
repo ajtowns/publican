@@ -262,6 +262,7 @@ my $builder = $class->new(
         'XML::Simple'                     => 0,
         'XML::TreeBuilder'                => 4.0,
         'Locale::Maketext::Gettext'       => 0,
+        'File::Which'                     => 0,
     },
     requires => {
         'Archive::Tar'                    => 0,
@@ -305,6 +306,7 @@ my $builder = $class->new(
         'DBI'                             => 0,
         'DBD::SQLite'                     => 0,
         'Template'                        => 0,
+        'File::Which'                     => 0,
     },
     add_to_cleanup => [
         'publican-*',

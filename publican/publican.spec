@@ -1,18 +1,11 @@
 
 # Track font name changes
-%define RHEL5 %(test %{?dist} == .el5 && echo 1 || echo 0)
 %define RHEL6 %([[ %{?dist}x == .el6[a-z]* ]] && echo 1 || echo 0)
-# Assume not rhel means FC11+ ... ugly
+
 %define OTHER 1
 %if %{RHEL6}
 %define OTHER 0
 %endif
-%if %{RHEL5}
-%define OTHER 0
-%endif
-
-# who doesn't have xdg-open?
-%define HTMLVIEW %{RHEL5}
 
 # required for desktop file install
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
@@ -21,7 +14,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t1
+Release:        0%{?dist}.t3
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -29,21 +22,13 @@ Group:          Applications/Publishing
 URL:            https://publican.fedorahosted.org
 Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# Limited to these arches on RHEL 6 due to PDF + Java limitations
-%if %{RHEL6}
-ExclusiveArch:   i686 x86_64
-%else
 BuildArch:      noarch
-%endif
 
 # Get rid of the old packages
 Obsoletes:      perl-Publican-WebSite
 Obsoletes:      publican-WebSite-obsoletes
 Conflicts:      perl-Publican-WebSite
 Conflicts:      publican-WebSite-obsoletes
-# Do NOT support very old packages
-#Provides:       perl-Publican-WebSite = 1.5
-#Provides:       publican-WebSite-obsoletes = 1.21
 
 BuildRequires:  perl(Devel::Cover)
 BuildRequires:  perl(Module::Build)
@@ -68,6 +53,7 @@ BuildRequires:  perl(File::HomeDir)
 BuildRequires:  perl(File::Inplace)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::pushd)
+BuildRequires:  perl(File::Which)
 BuildRequires:  perl(HTML::FormatText)
 BuildRequires:  perl(HTML::TreeBuilder)
 BuildRequires:  perl(I18N::LangTags::List)
@@ -86,7 +72,7 @@ BuildRequires:  perl(XML::LibXML)  >=  1.67
 BuildRequires:  perl(XML::LibXSLT) >=  1.67
 BuildRequires:  perl(XML::Simple)
 BuildRequires:  perl(XML::TreeBuilder) >= 4.0
-BuildRequires:  fop >= 0.95
+BuildRequires:  wkhtmltopdf
 BuildRequires:  batik
 BuildRequires:  docbook-style-xsl >= 1.76.1
 BuildRequires:  desktop-file-utils
@@ -96,7 +82,7 @@ BuildRequires:  perl(DBD::SQLite)
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires:       perl(Locale::Maketext::Gettext)
-Requires:       fop >= 0.95
+Requires:       wkhtmltopdf
 Requires:       batik rpm-build
 Requires:       docbook-style-xsl >= 1.76.1
 Requires:       perl(XML::LibXML)  >=  1.67
@@ -110,17 +96,6 @@ Requires:       perl(DBD::SQLite)
 Requires:       rpmlint
 
 # Pull in the fonts for all languages, else you can't build translated PDF in brew/koji
-%if %{RHEL5}
-Requires:       fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
-Requires:       fonts-hindi fonts-japanese fonts-kannada fonts-korean
-Requires:       fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
-Requires:       fonts-tamil fonts-telugu liberation-fonts
-BuildRequires:  fonts-bengali fonts-chinese fonts-chinese-zysong fonts-gujarati
-BuildRequires:  fonts-hindi fonts-japanese fonts-kannada fonts-korean
-BuildRequires:  fonts-malayalam fonts-oriya fonts-punjabi fonts-sinhala
-BuildRequires:  fonts-tamil fonts-telugu liberation-fonts
-#BuildRequires:  java-1.5.0-sun java-1.5.0-sun-devel chkconfig
-%endif
 %if %{RHEL6}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
@@ -152,11 +127,7 @@ your XML is up to publishable standard.
 %package doc
 Group:          Documentation
 Summary:        Documentation for the Publican package
-%if %{HTMLVIEW}
-Requires:       htmlview
-%else
 Requires:       xdg-utils
-%endif
 Obsoletes:      Publican-doc < 1.0
 # Do NOT support very old packages
 #Provides:       Publican-doc = 1.0
@@ -173,10 +144,10 @@ solely on using the publican tools.
 %build
 %{__perl} Build.PL installdirs=vendor --nocolours=1
 ./Build
-dir=`pwd` && cd Users_Guide && %{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican build \
-    --formats=html-desktop --publish --langs=all \
-    --common_config="$dir/blib/datadir" \
-    --common_content="$dir/blib/datadir/Common_Content" --nocolours
+#dir=`pwd` && cd Users_Guide && %{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican build \
+#    --formats=html-desktop --publish --langs=all \
+#    --common_config="$dir/blib/datadir" \
+#    --common_content="$dir/blib/datadir/Common_Content" --nocolours
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -190,10 +161,6 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
-
-%if %{HTMLVIEW}
-sed -i -e 's|xdg-open|htmlview|' %{name}.desktop
-%endif
 
 desktop-file-install --vendor="%{my_vendor}" --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{name}.desktop
 
@@ -228,7 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files doc
 %defattr(-,root,root,-)
-%doc Users_Guide/publish/desktop/*
+#%doc Users_Guide/publish/desktop/*
 %{_datadir}/applications/%{my_vendor}-%{name}.desktop
 %doc fdl.txt
 
