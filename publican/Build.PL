@@ -329,7 +329,7 @@ my $builder = $class->new(
         'Splash_Page/tmp/tmp',
         'Splash_Page/tmp/publish',
     ],
-    script_files => ['bin/publican'],
+    script_files => [ 'bin/publican', 'bin/db5-valid' ],
     bindoc_dirs  => ['pod1'],
     install_path => {
         'datadir'    => '/usr/share/publican',

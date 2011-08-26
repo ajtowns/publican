@@ -1,0 +1,86 @@
+#!/usr/bin/perl
+
+use utf8;
+use strict;
+use warnings;
+use 5.008;
+use Carp;
+use XML::LibXSLT;
+use XML::LibXML;
+use Getopt::Long;
+use Pod::Usage;
+
+my $man     = 0;         # display man page
+my $help    = 0;         # display help
+my $file    = undef;
+my $version = '5.1b4';
+
+GetOptions(
+    'help|?'    => \$help,
+    'man'       => \$man,
+    'file=s'    => \$file,
+    'version=s' => \$version,
+) || pod2usage( -verbose => 0 );
+
+pod2usage( -verbose => 1 ) if ($help);
+pod2usage( -verbose => 2 ) if ($man);
+pod2usage( { -message => "file is a mandatory parameter", -exitvalue => 1 } )
+    unless ($file);
+
+my $parser;
+$parser = XML::LibXML->new(
+    {   pedantic_parser   => 1,
+        suppress_errors   => 0,
+        suppress_warnings => 1,
+        line_numbers      => 1,
+        expand_xinclude   => 1
+    }
+);
+my $source;
+eval { $source = $parser->parse_file("$file"); };
+my $rngschema = XML::LibXML::RelaxNG->new(
+    location => "http://docbook.org/xml/$version/rng/docbook.rng" );
+eval { $rngschema->validate($source); };
+
+if ($@) {
+    print("RelaxNG Validation failed: ");
+    croak($@);
+}
+print("RelaxNG Validation OK\n");
+
+exit;
+
+__END__
+
+=head1 NAME
+
+db5-valid - a tool to run RelaxNG validation for DocBook 5 sources.
+
+=head1 SYNOPSIS
+
+db5-valid [options]
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--help>
+
+Print a brief help message and exits.
+
+=item B<--man>
+ 
+Prints the manual page and exits.
+
+=item B<--file=<path>> 
+
+The DocBook 5 master file.
+
+=item B<--version=<version>>
+
+The DocBook version to validate against. Deafults to B<5.1b4>.
+
+=back
+
+=cut
+
