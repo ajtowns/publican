@@ -323,7 +323,7 @@ my %PARAMS = (
         descr => maketext(
             'A comma-separated list of the formats to use for the web packages.'
         ),
-        default => 'html,pdf,html-single,epub',
+        default => 'html,html-single,pdf,epub',
     },
     web_home => {
         descr => maketext(

@@ -45,10 +45,10 @@ Requires:      publican >= <xsl:value-of select="$spec_version"/>
 %package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 <xsl:if test="$translation = '1'">
 Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
-Summary(<xsl:value-of select="$lang"/>):    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+Summary(<xsl:value-of select="$lang"/>):    <xsl:value-of select="$full_subtitle"/>
 </xsl:if>
 <xsl:if test="$translation != '1'">
-Summary:    <xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/></xsl:if>
+Summary:    <xsl:value-of select="$full_subtitle"/></xsl:if>
 
 Group:        Documentation
 %if %{HTMLVIEW}
@@ -80,12 +80,12 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 cp -rf publish/<xsl:value-of select="$lang"/> $RPM_BUILD_ROOT/%{wwwdir}/.
 
 %if %{ICONS}
-for icon in `ls  <xsl:value-of select="$lang"/>/icons/*x*.png`; do
+for icon in `ls <xsl:value-of select="$lang"/>/icons/*x*.png`; do
   size=`echo "$icon" | sed -e 's/.*icons\/\(.*\)\.png/\1/'`;
   mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
   cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
 done
-cp  <xsl:value-of select="$lang"/>/icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+cp <xsl:value-of select="$lang"/>/icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %else
 cp <xsl:value-of select="$lang"/>/images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %endif
@@ -94,7 +94,7 @@ cp <xsl:value-of select="$lang"/>/images/icon.svg  $RPM_BUILD_ROOT/usr/share/ico
 cat > <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-<xsl:value-of select="$rpmver"/>.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Name=<xsl:value-of select="/bookinfo/productname" /><xsl:value-of select="/setinfo/productname" /><xsl:value-of select="/articleinfo/productname"/> <xsl:value-of select="/bookinfo/productnumber" /><xsl:value-of select="/setinfo/productnumber" /><xsl:value-of select="/articleinfo/productnumber"/>: <xsl:value-of select="/bookinfo/title" /><xsl:value-of select="/setinfo/title" /><xsl:value-of select="/articleinfo/title"/>
-Comment=<xsl:value-of select="/bookinfo/subtitle"/><xsl:value-of select="/setinfo/subtitle"/><xsl:value-of select="/articleinfo/subtitle"/>
+Comment=<xsl:value-of select="$full_subtitle"/>
 Exec=%{viewer} %{_docdir}/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>-%{version}/index.html
 Icon=<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
 Categories=Documentation;<xsl:value-of select="$menu_category"/>
@@ -112,11 +112,11 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-
 
 %preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 if [ "$1" = "0" ] ; then # last uninstall
-publican update_db --site_config="<xsl:value-of select="$web_cfg"/>" --del --lang="<xsl:value-of select="$lang"/>" --formats=<xsl:value-of select="$web_formats_comma" /> --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />"
+publican update_db --del --lang="<xsl:value-of select="$lang"/>" --formats=<xsl:value-of select="$web_formats_comma" /> --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --site_config="<xsl:value-of select="$web_cfg"/>"
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-publican update_db --site_config="<xsl:value-of select="$web_cfg"/>" --add --lang="<xsl:value-of select="$lang"/>" --formats="<xsl:value-of select="$web_formats_comma" />" --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --subtitle="<xsl:value-of select="$full_subtitle"/>" --abstract="<xsl:value-of select="$full_abstract" />" <xsl:if test="$name_label != ''">--name_label="<xsl:value-of select="$name_label" />"</xsl:if> <xsl:if test="$version_label != ''">--version_label="<xsl:value-of select="$version_label" />"</xsl:if> <xsl:if test="$product_label != ''">--product_label="<xsl:value-of select="$product_label" />"</xsl:if>
+publican update_db --add --lang="<xsl:value-of select="$lang"/>" --formats="<xsl:value-of select="$web_formats_comma" />" --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --subtitle="<xsl:value-of select="$full_subtitle"/>" --abstract="<xsl:value-of select="$full_abstract" />" <xsl:if test="$name_label != ''">--name_label="<xsl:value-of select="$name_label" />"</xsl:if> <xsl:if test="$version_label != ''">--version_label="<xsl:value-of select="$version_label" />"</xsl:if> <xsl:if test="$product_label != ''">--product_label="<xsl:value-of select="$product_label" />"</xsl:if> --site_config="<xsl:value-of select="$web_cfg"/>"
 
 # Update Icon cache if it exists
 %post -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>

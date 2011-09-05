@@ -2145,9 +2145,9 @@ sub package {
         }
     }
 
-    $web_product_label =~ s/'/\\'/g;
-    $web_name_label    =~ s/'/\\'/g;
-    $web_version_label =~ s/'/\\'/g;
+    $web_product_label =~ s/"/\\"/g;
+    $web_name_label    =~ s/"/\\"/g;
+    $web_version_label =~ s/"/\\"/g;
 
     # store lables for rebuilding translated content
     if ( $web_product_label eq $product ) {
@@ -2187,6 +2187,7 @@ sub package {
     my $log = $self->change_log( { lang => $lang } );
 
     my $full_abstract = $self->{publican}->get_abstract( { lang => $lang } );
+    $full_abstract =~ s/\p{Z}+/ /g;
 
     # Wrap description for RPM style requirements
     $columns = 68;
@@ -2194,10 +2195,11 @@ sub package {
     $columns = $DEFAULT_WRAP;
 
     # Escape single quotes to prevent bash breaking
-    $full_abstract =~ s/'/\\'/g;
+    $full_abstract =~ s/"/\\"/g;
 
     my $full_subtitle = $self->{publican}->get_subtitle( { lang => $lang } );
-    $full_subtitle =~ s/'/\\'/g;
+    $full_subtitle =~ s/"/\\"/g;
+    $full_subtitle =~ s/\p{Z}+/ /g;
     chomp($full_subtitle);
 
     my %xslt_opts = (
