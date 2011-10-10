@@ -116,7 +116,7 @@ my %tmpl_strings = (
     index_toc =>
         $locale->maketext('Click here to view a static Table of Contents'),
     ProductLinkTitle => $locale->maketext('Information'),
-    ProductList        => $locale->maketext('Product List'),
+    ProductList      => $locale->maketext('Product List'),
     Hide_Menu        => $locale->maketext('Hide Menu'),
     Show_Menu        => $locale->maketext('Show Menu'),
 );
@@ -158,7 +158,7 @@ sub new {
     my $dump_file = $config->param('dump_file') || $DEFAULT_DUMP_FILE;
     my $zip_dump  = $config->param('zip_dump')  || undef;
     my $toc_type  = $config->param('toc_type')  || 'toc';
-    my $manual_toc_update  = $config->param('manual_toc_update')  || 0;
+    my $manual_toc_update = $config->param('manual_toc_update') || 0;
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -167,17 +167,17 @@ sub new {
     }
 
     $self->_load_db;
-    $self->{toc_path}  = $toc_path;
-    $self->{tmpl_path} = $tmpl_path;
-    $self->{def_lang}  = $def_lang;
-    $self->{host}      = $host;
-    $self->{search}    = $search;
-    $self->{title}     = $title;
-    $self->{dump}      = $dump;
-    $self->{dump_file} = $dump_file;
-    $self->{zip_dump}  = $zip_dump;
-    $self->{toc_type}  = $toc_type;
-    $self->{manual_toc_update}  = $manual_toc_update;
+    $self->{toc_path}          = $toc_path;
+    $self->{tmpl_path}         = $tmpl_path;
+    $self->{def_lang}          = $def_lang;
+    $self->{host}              = $host;
+    $self->{search}            = $search;
+    $self->{title}             = $title;
+    $self->{dump}              = $dump;
+    $self->{dump_file}         = $dump_file;
+    $self->{zip_dump}          = $zip_dump;
+    $self->{toc_type}          = $toc_type;
+    $self->{manual_toc_update} = $manual_toc_update;
 
     my $conf = { INCLUDE_PATH => $tmpl_path, };
 
@@ -579,7 +579,7 @@ sub regen_all_toc {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
 
-    return if($self->{manual_toc_update} && !$force);
+    return if ( $self->{manual_toc_update} && !$force );
 
     my $langs = $self->get_lang_list();
 
@@ -735,6 +735,10 @@ sub version_sort {
     }
 }
 
+sub insensitive_sort {
+    return ( lc($a) cmp lc($b) );
+}
+
 sub _regen_toc {
     my ( $self, $arg ) = @_;
 
@@ -823,7 +827,7 @@ SEARCH
     $vars->{untrans_lang} = $self->{def_lang};
     my @opds_prod_list;
 
-    foreach my $product ( sort( keys( %{$list2} ) ) ) {
+    foreach my $product ( sort( insensitive_sort keys( %{$list2} ) ) ) {
         my @opds_list;
         my $product_label = $product;
         my %prod_data;
@@ -876,8 +880,11 @@ SEARCH
                 push( @{$urls}, $url );
             }
 
-            foreach
-                my $book ( sort( keys( %{ $list2->{$product}{$version} } ) ) )
+            foreach my $book (
+                sort( keys(
+                        insensitive_sort %{ $list2->{$product}{$version} }
+                        ) )
+                )
             {
                 my $book_label = $book;
                 my %book_data;
@@ -922,10 +929,10 @@ SEARCH
 ## debug_msg( "product: $product, version: $version, book: $book, book_label: $book_label, version_label: $version_label, product_label: $product_label \n" );
 
                     my %type_data;
-                    $type_data{type}  = $type;
+                    $type_data{type}    = $type;
                     $type_data{prep}    = './';
                     $type_data{onclick} = 1;
-                    $type_data{ext}   = 'index.html';
+                    $type_data{ext}     = 'index.html';
                     if ( $type eq 'pdf' ) {
                         my @filelist
                             = File::Find::Rule->file->relative()
@@ -1313,6 +1320,10 @@ TODO should also/instead compare entires aginst web site files?
 =head2 version_sort
 
 Sort version strings in to correct order, handles X, X.Y, and X.Y.Z formats.
+
+=head2 insensitive_sort
+
+Sort strings case insensitvly.
 
 =head2 toc_path
 

@@ -208,12 +208,13 @@ EOL
 );
 
 my $builder = $class->new(
-    module_name       => 'Publican',
-    dist_name         => 'Publican',
-    license           => 'perl',
-    dist_author       => 'Jeff Fearn <jfearn@redhat.com>',
-    dist_version_from => 'lib/Publican.pm',
-    build_requires    => {
+    module_name        => 'Publican',
+    dist_name          => 'Publican',
+    license            => 'perl',
+    dist_author        => 'Jeff Fearn <jfearn@redhat.com>',
+    dist_version_from  => 'lib/Publican.pm',
+    configure_requires => { 'Module::Build' => 0 },
+    build_requires     => {
         'Devel::Cover'                    => 0,
         'Module::Build'                   => 0,
         'Test::Exception'                 => 0,
