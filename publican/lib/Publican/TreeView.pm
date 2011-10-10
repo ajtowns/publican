@@ -192,6 +192,85 @@ sub print_unused {
     return;
 }
 
+=head2  print_unused_images
+
+Print out a list of image files that are not used.
+
+=cut
+
+sub print_unused_images {
+    my ( $self, $args ) = @_;
+
+    my $in_file = ( delete $args->{'in_file'}
+            || ( $self->{publican}->param('mainfile') ) . '.xml' );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my ( %used_files, %missing_files );
+    my $xml_lang  = $self->{publican}->param('xml_lang');
+    my @xml_files = dir_list( $xml_lang, '*.xml' );
+    my $first     = 1;
+
+    foreach my $xml_file ( sort(@xml_files) ) {
+
+        my $xml_doc = XML::TreeBuilder->new();
+        $xml_doc->parse_file($xml_file)
+            || croak(
+            maketext( "Can't open file: [_1]: [_2]", $xml_file, $@ ) );
+
+        my @nodes = $xml_doc->look_down( "_tag", "imagedata" );
+        foreach my $node (@nodes) {
+            my $filename = $node->attr('fileref');
+            $filename =~ s/'//g;
+
+            if ( -f "$xml_lang/$filename" ) {
+                $used_files{"$filename"} = 1;
+            }
+            else {
+                $missing_files{"$filename"} = 1;
+            }
+        }
+    }
+
+    my @image_files = dir_list( $xml_lang, '.*\.(svg|png|jpg|jpeg|gif)$' );
+    $first = 1;
+
+    foreach my $image ( sort(@image_files) ) {
+        $image =~ s/^$xml_lang\///;
+
+        unless ( defined $used_files{"$image"} ) {
+            if ($first) {
+                logger(   "\n"
+                        . maketext("List of unused Image files in $xml_lang")
+                        . "\n" );
+                $first = 0;
+            }
+            logger( "    " . "$image\n", RED );
+        }
+    }
+
+    if ($first) {
+        logger( "\n" . maketext("No unused Image files") . "\n" );
+    }
+
+    if (%missing_files) {
+        logger( "\n" . maketext("List of missing Image files in $xml_lang") . "\n" );
+        foreach my $image ( sort( keys %missing_files ) ) {
+            logger( "    " . "$image\n", RED );
+        }
+    }
+
+    logger("\n");
+
+    return;
+}
+
 1;    # Magic true value required at end of module
 __END__
 

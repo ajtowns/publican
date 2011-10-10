@@ -253,9 +253,7 @@ my %PARAMS = (
         ),
         limit_to => 'brand',
     },
-    os_ver => {
-        descr   => maketext('The OS for which to build packages.'),
-    },
+    os_ver  => { descr => maketext('The OS for which to build packages.'), },
     product => {
         descr => maketext(
             'Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml'
@@ -835,7 +833,21 @@ sub dir_list {
     croak( maketext("regex is a required argument") )
         if ( !$regex || $regex eq "" );
 
-    my @filelist = File::Find::Rule->file->name($regex)->in($dir);
+    my @filelist;
+    my $rule = File::Find::Rule->new;
+
+    if ( $regex =~ m/[|()]/ ) {
+        $rule->file->name(qr/$regex/);
+    }
+    else {
+        $rule->file->name($regex);
+    }
+
+    $rule->start($dir);
+    while ( my $file = $rule->match ) {
+        push( @filelist, $file )
+            unless ( $file =~ m{(/extras/|/icons/|images/icon.svg)} );
+    }
 
     return @filelist;
 }
