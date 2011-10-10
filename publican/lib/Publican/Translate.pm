@@ -20,11 +20,12 @@ use vars qw($VERSION);
 $VERSION = '0.2';
 
 # What tags do we translate?
-my $TRANSTAGS =
-qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|indexterm|jobtitle|keyword|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|phrase|productname|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondaryie|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiaryie|title|titleabbrev|screen|programlisting|literallayout)$/;
+my $TRANSTAGS
+    = qr/^(?:ackno|bridgehead|caption|conftitle|contrib|entry|firstname|glossterm|indexterm|jobtitle|keyword|label|lastname|lineannotation|lotentry|member|orgdiv|orgname|othername|para|phrase|productname|refclass|refdescriptor|refentrytitle|refmiscinfo|refname|refpurpose|releaseinfo|revremark|screeninfo|secondaryie|seealsoie|seeie|seg|segtitle|simpara|subtitle|surname|term|termdef|tertiaryie|title|titleabbrev|screen|programlisting|literallayout)$/;
 
 # Blocks that contain translatable tags that need to be kept inline
-my $IGNOREBLOCKS = qr/^(?:footnote|citerefentry|indexterm|productname|phrase)$/;
+my $IGNOREBLOCKS
+    = qr/^(?:footnote|citerefentry|indexterm|productname|phrase)$/;
 
 # Preserve white space in these tags
 my $VERBATIM = qr/^(?:screen|programlisting|literallayout)$/;
@@ -100,7 +101,7 @@ sub update_pot {
 
         my $xml_doc = Publican::Builder::new_tree();
         $xml_doc->parse_file($xml_file)
-          || croak(
+            || croak(
             maketext( "Can't open file [_1]. Error: [_2]", $xml_file, $@ ) );
         $xml_doc->pos( $xml_doc->root() );
 
@@ -124,30 +125,32 @@ Merge XML and PO into a translated XML file.
 sub po2xml {
     my ( $self, $args ) = @_;
     my $xml_file = delete( $args->{xml_file} )
-      || croak( maketext("xml_file is a mandatory argument") );
+        || croak( maketext("xml_file is a mandatory argument") );
     my $po_file = delete( $args->{po_file} )
-      || croak( maketext("po_file is a mandatory argument") );
+        || croak( maketext("po_file is a mandatory argument") );
     my $out_file = delete( $args->{out_file} )
-      || croak( maketext("out_file is a mandatory argument") );
+        || croak( maketext("out_file is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
     logger(
         "\t"
-          . maketext( "Merging [_1] >> [_2] -> [_3]",
+            . maketext( "Merging [_1] >> [_2] -> [_3]",
             $po_file, $xml_file, $out_file )
-          . "\n"
+            . "\n"
     );
 
     my $dtdver = $self->{publican}->param('dtdver');
 
     my $out_doc = Publican::Builder::new_tree();
     $out_doc->parse_file($xml_file)
-      || croak(
+        || croak(
         maketext( "Can't open file [_1]. Error: [_2]", $xml_file, $@ ) );
     $out_doc->pos( $out_doc->root() );
 
@@ -171,6 +174,11 @@ sub po2xml {
     $self->merge_msgs( { out_doc => $out_doc, msgids => $msgids } );
 
     $out_doc->pos( $out_doc->root() );
+    foreach my $node ( $out_doc->look_down( 'processed', 1 ) ) {
+        $node->attr( 'processed', undef );
+    }
+
+    $out_doc->pos( $out_doc->root() );
     my $type = $out_doc->attr("_tag");
     my $text = $out_doc->as_XML();
 
@@ -190,7 +198,7 @@ sub po2xml {
     my $OUTDOC;
 
     open( $OUTDOC, ">:encoding(UTF-8)", "$out_file" )
-      || croak( maketext( "Could not open [_1] for output!", $out_file ) );
+        || croak( maketext( "Could not open [_1] for output!", $out_file ) );
     print $OUTDOC Publican::Builder::dtd_string(
         { tag => $type, dtdver => $dtdver } );
 ##debug_msg("is utf8 text: " . utf8::is_utf8($text) . "\n");
@@ -210,7 +218,7 @@ sub update_po {
     my ( $self, $args ) = @_;
 
     my $langs = delete( $args->{langs} )
-      || croak( maketext("langs is a mandatory argument") );
+        || croak( maketext("langs is a mandatory argument") );
 
     my $msgmerge  = delete( $args->{msgmerge} );
     my $firstname = delete( $args->{firstname} );
@@ -219,7 +227,9 @@ sub update_po {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
@@ -236,7 +246,7 @@ sub update_po {
         unless ( Publican::valid_lang($lang) ) {
             logger(
                 maketext( "WARNING: Skipping invalid language: [_1]", $lang )
-                  . "\n" );
+                    . "\n" );
             next;
         }
 
@@ -251,9 +261,9 @@ sub update_po {
             $po_file =~ s/^pot/$lang/;
             logger(
                 "\t"
-                  . maketext( "Processing file [_1] -> [_2]",
+                    . maketext( "Processing file [_1] -> [_2]",
                     $pot_file, $po_file )
-                  . "\n"
+                    . "\n"
             );
 
             # handle nested directories
@@ -274,11 +284,11 @@ sub update_po {
                         "--backup=none", "--update",  $po_file,
                         $pot_file
                     ) != 0
-                  )
+                    )
                 {
                     croak(
                         maketext(
-"Fatal Error: msgmerge failed to merge updates. POT File: [_1]. Po File: [_2]",
+                            "Fatal Error: msgmerge failed to merge updates. POT File: [_1]. Po File: [_2]",
                             $pot_file,
                             $po_file
                         )
@@ -292,13 +302,13 @@ sub update_po {
             logger(
                 maketext( "WARNING: No source xml file exists for [_1]",
                     $pot_file )
-                  . "\n",
+                    . "\n",
                 CYAN
             ) unless ( -f $xml_file );
         }
 
-        my ( $edition, $release ) =
-          $self->{publican}->get_ed_rev( { lang => $xml_lang } );
+        my ( $edition, $release )
+            = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
 
         my @members = (
             maketext(
@@ -308,8 +318,7 @@ sub update_po {
         );
 
         $self->{publican}->add_revision(
-            {
-                lang      => $lang,
+            {   lang      => $lang,
                 revnumber => "$edition-$release.1",
                 members   => \@members,
                 email     => $email,
@@ -334,13 +343,15 @@ sub merge_po {
     my ( $self, $args ) = @_;
 
     my $po_file = delete( $args->{po_file} )
-      || croak( maketext("po_file is a mandatory argument") );
+        || croak( maketext("po_file is a mandatory argument") );
     my $pot_file = delete( $args->{pot_file} )
-      || croak( maketext("pot_file is a mandatory argument") );
+        || croak( maketext("pot_file is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
@@ -349,7 +360,7 @@ sub merge_po {
     my @po_keys       = keys( %{$po_hash} );
     my %po_start_keys = map { $_ => 1 } @po_keys;
 
-  POT:
+POT:
     foreach my $pot ( @{$pot_arry} ) {
         my $pot_id  = $pot->msgid();
         my $matched = 0;
@@ -359,9 +370,9 @@ sub merge_po {
             if ( $match >= 1 ) {
                 delete( $po_start_keys{$po_id} );
                 $po_hash->{$po_id}->obsolete(0)
-                  if ( $po_hash->{$po_id}->obsolete() );
+                    if ( $po_hash->{$po_id}->obsolete() );
                 $po_hash->{$po_id}->fuzzy(0)
-                  if ( $po_hash->{$po_id}->fuzzy() );
+                    if ( $po_hash->{$po_id}->fuzzy() );
                 next POT;
             }
             elsif ( $match >= 0.8 ) {
@@ -410,8 +421,10 @@ sub match_strings {
     my ( $self, $s1, $s2 ) = @_;
 
     croak(
-        maketext( "match_strings requires 2 arguments [_1], [_2].", $s1, $s2 ) )
-      unless ( ($s1) && ($s2) && ( $s1 ne "" ) && ( $s2 ne "" ) );
+        maketext(
+            "match_strings requires 2 arguments [_1], [_2].", $s1, $s2
+        )
+    ) unless ( ($s1) && ($s2) && ( $s1 ne "" ) && ( $s2 ne "" ) );
 
     my $similarity = similarity( $s1, $s2 );
 
@@ -436,7 +449,9 @@ sub update_po_all {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
@@ -461,12 +476,14 @@ sub get_msgs {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
-    my $trans_tree =
-      XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $trans_tree = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
 
     my $trans_node;
 
@@ -488,38 +505,39 @@ sub get_msgs {
                             qr/$IGNOREBLOCKS/,
                             sub {
                                 $_[0]->tag() =~ /$TRANSTAGS/
-                                  && $inner->parent()
-                                  && $inner->parent()->tag() =~ /$TRANSTAGS/;
+                                    && $inner->parent()
+                                    && $inner->parent()->tag()
+                                    =~ /$TRANSTAGS/;
                             },
                         )
                     );
                 }
                 else {
 ## Other IGNOREBLOCKS tags are completely ignored for translation structure.
-                    not defined( $inner->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
+                    not defined(
+                        $inner->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
 
                 }
             }
         )
-      )
+        )
     {
 
-        # lookdown matches the root node
-        if ( $child->address() eq $trans_tree->address() ) {
-
-            #            next;
-        }
+        next if ( $child->attr('processed') );
+        $child->attr( 'processed', 1 );
 
         next if ( $child->is_empty );
 
         $trans_node = XML::Element->new( $child->tag() );
 
-       # Have to be inside a translatable tag here, so don't need to check again
-        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/,
+     # Have to be inside a translatable tag here, so don't need to check again
+        my @matches = $child->look_down(
+            '_tag',
+            qr/$TRANSTAGS/,
             sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
         );
 
-      # No Nesting so push all of this nodes content on to the output trans_tree
+    # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
             $trans_node->push_content( $child->content_list() );
         }
@@ -529,17 +547,15 @@ sub get_msgs {
 
             # Nesting, need to start a new output node
             $trans_tree->push_content($trans_node)
-              if ( !$trans_node->is_empty );
-            $trans_node =
-              XML::Element->new( $child->tag() )
-              ;    # Does this dupliacte new above?
+                if ( !$trans_node->is_empty );
+            $trans_node = XML::Element->new( $child->tag() )
+                ;    # Does this dupliacte new above?
 
             # Text nodes are not ref
             # any non-matching node should be pushed on to output with text
             # this catches inline tags
             foreach my $nested ( $child->content_list() ) {
-                if (
-                    ref $nested
+                if (ref $nested
 
                     && $nested->look_down(
                         '_tag',
@@ -549,13 +565,14 @@ sub get_msgs {
                                 $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
                         }
                     )
-                  )
+                    )
                 {
                     $trans_tree->push_content($trans_node)
-                      if ( !$trans_node->is_empty );
+                        if ( !$trans_node->is_empty );
                     $trans_node = XML::Element->new( $child->tag() );
                     $trans_tree->push_content(
-                        $self->get_msgs( { doc => $nested } )->content_list() );
+                        $self->get_msgs( { doc => $nested } )->content_list()
+                    );
                 }
                 else {
                     $trans_node->push_content($nested);
@@ -563,10 +580,10 @@ sub get_msgs {
             }
 
             $trans_tree->push_content($trans_node)
-              if ( !$trans_node->is_empty );
+                if ( !$trans_node->is_empty );
         }
         $trans_tree->push_content($trans_node)
-          if ( !$trans_node->is_empty );
+            if ( !$trans_node->is_empty );
         $child->delete();
     }
 
@@ -582,13 +599,15 @@ Merge translations in to XML
 sub merge_msgs {
     my ( $self, $args ) = @_;
     my $out_doc = delete( $args->{out_doc} )
-      || croak("out_doc is a mandatory argument");
+        || croak("out_doc is a mandatory argument");
     my $msgids = delete( $args->{msgids} )
-      || croak("msgids is a mandatory argument");
+        || croak("msgids is a mandatory argument");
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
     foreach my $child (
@@ -607,20 +626,22 @@ sub merge_msgs {
                             qr/$IGNOREBLOCKS/,
                             sub {
                                 $_[0]->tag() =~ /$TRANSTAGS/
-                                  && $inner->parent()
-                                  && $inner->parent()->tag() =~ /$TRANSTAGS/;
+                                    && $inner->parent()
+                                    && $inner->parent()->tag()
+                                    =~ /$TRANSTAGS/;
                             },
                         )
                     );
                 }
                 else {
 ## Other IGNOREBLOCKS tags are completely ignored for translation structure.
-                    not defined( $inner->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
+                    not defined(
+                        $inner->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
 
                 }
             }
         )
-      )
+        )
     {
 
         # lookdown matches the root node
@@ -631,11 +652,13 @@ sub merge_msgs {
 
         next if ( $child->is_empty );
 
-        my @matches = $child->look_down( '_tag', qr/$TRANSTAGS/,
+        my @matches = $child->look_down(
+            '_tag',
+            qr/$TRANSTAGS/,
             sub { not defined( $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) ) }
         );
 
-      # No Nesting so push all of this nodes content on to the output trans_tree
+    # No Nesting so push all of this nodes content on to the output trans_tree
         if ( !$#matches ) {
             $self->translate( { node => $child, msgids => $msgids } );
         }
@@ -649,8 +672,7 @@ sub merge_msgs {
             foreach my $nested (@content) {
 
                 # No ref == text node
-                if (
-                    ref $nested
+                if (ref $nested
                     && $nested->look_down(
                         '_tag',
                         qr/$TRANSTAGS/,
@@ -659,7 +681,7 @@ sub merge_msgs {
                                 $_[0]->look_up( '_tag', qr/$IGNOREBLOCKS/ ) );
                         }
                     )
-                  )
+                    )
                 {
                     if ( $trans_node && !$trans_node->is_empty ) {
                         $self->translate(
@@ -678,7 +700,8 @@ sub merge_msgs {
             }
 
             if ( $trans_node && !$trans_node->is_empty ) {
-                $self->translate( { node => $trans_node, msgids => $msgids } );
+                $self->translate(
+                    { node => $trans_node, msgids => $msgids } );
                 $child->push_content( $trans_node->content_list() );
                 $trans_node->delete();
             }
@@ -697,13 +720,15 @@ Replace strings with translated strings.
 sub translate {
     my ( $self, $args ) = @_;
     my $node = delete( $args->{node} )
-      || croak("node is a mandatory argument");
+        || croak("node is a mandatory argument");
     my $msgids = delete( $args->{msgids} )
-      || croak("msgids is a mandatory argument");
+        || croak("msgids is a mandatory argument");
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
@@ -734,15 +759,18 @@ sub translate {
     }
 
 ##debug_msg("msgid 4: |$msgid| |$tag|\n");
+    # mixed mode tags, para, caption, can be empty at this point
+    if ( $msgid and ( $msgid eq '""' ) ) {
 
-    if (   $msgid
-        && $msgid ne '""'
+        #nop
+    }
+    elsif ( $msgid
         && defined $msgids->{$msgid} )
     {
         if ( $msgids->{$msgid}{msgstr} ne '""' ) {
             my $msgstr = $msgids->{$msgid}{msgstr};
             debug_msg("DANGER: found obsolete msg: $msgid\n")
-              if ( $msgstr =~ /^#~/ );
+                if ( $msgstr =~ /^#~/ );
 ##debug_msg("is utf8 msgstr 1: " . utf8::is_utf8($msgstr) . "\n");
             utf8::decode($msgstr);
 ##debug_msg("is utf8 msgstr 2: " . utf8::is_utf8($msgstr) . "\n");
@@ -752,8 +780,10 @@ sub translate {
 
 ##debug_msg("is utf8 repl: ".utf8::is_utf8($repl)."\n");
 ##debug_msg("repl: |$repl|\n");
-            my $dtd = Publican::Builder::dtd_string(
-                { tag => $tag, dtdver => $self->{publican}->param('dtdver') } );
+            my $dtd
+                = Publican::Builder::dtd_string(
+                { tag => $tag, dtdver => $self->{publican}->param('dtdver') }
+                );
             my $new_tree = Publican::Builder::new_tree();
             $new_tree->parse(qq|$dtd<$tag$attr_text>$repl</$tag>|);
             $node->delete_content();
@@ -761,16 +791,19 @@ sub translate {
         }
         else {
 ##        debug_msg("WARNING: Un-translated message: '$msgid'\n");
-            if ( $msgids->{$msgid}->fuzzy() ) {  # BUGBUG TEST this is still set
+            if ( $msgids->{$msgid}->fuzzy() )
+            {    # BUGBUG TEST this is still set
                 logger( maketext("WARNING: Fuzzy message in PO file."), RED );
             }
             else {
-                logger( maketext("WARNING: Un-translated message in PO file."),
+                logger(
+                    maketext("WARNING: Un-translated message in PO file."),
                     RED );
             }
             my $str = $msgid;
             $str = substr( $str, 0, 64 ) . '...' if ( length($str) > 64 );
-            logger( "\n" . $msgids->{$msgid}->loaded_line_number . ": $str\n\n",
+            logger(
+                "\n" . $msgids->{$msgid}->loaded_line_number . ": $str\n\n",
                 RED );
         }
     }
@@ -778,7 +811,7 @@ sub translate {
 ##         debug_msg("WARNING: Missing message: '\n$msgid\n'\n");
         logger(
             maketext(
-"WARNING: Message missing from PO file, consider updating your POT and PO files."
+                "WARNING: Message missing from PO file, consider updating your POT and PO files."
             ),
             RED
         );
@@ -796,25 +829,27 @@ Print the translation strings in an XML::TreeBuilder object to a POT file
 sub print_msgs {
     my ( $self, $args ) = @_;
     my $msg_list = delete( $args->{msg_list} )
-      || croak("msg_list is a mandatory argument");
+        || croak("msg_list is a mandatory argument");
     my $pot_file = delete( $args->{pot_file} )
-      || croak( maketext("pot_file is a mandatory argument") );
+        || croak( maketext("pot_file is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
     my $fh;
 
     open( $fh, ">:encoding(UTF-8)", $pot_file )
-      or croak(
+        or croak(
         maketext(
             "Failed to open output file [_1]. Error: [_2]",
             $pot_file, $@
         )
-      );
+        );
 
     print( $fh $self->header() );
 
@@ -826,14 +861,13 @@ sub print_msgs {
 ##debug_msg("msg_id: $msg_id\n");
 
 ##        my $msg_id = $child->as_text();
-        $msg_id =
-          po_format( $self->normalise( $msg_id, $child->tag() ),
+        $msg_id = po_format( $self->normalise( $msg_id, $child->tag() ),
             $child->tag() );
         next unless $msg_id;
 
 ##        $msg_id = qq|"$msg_id"|;
         next
-          if ( $msg_id eq '' || $msg_id eq '""' || defined $msgs{$msg_id} );
+            if ( $msg_id eq '' || $msg_id eq '""' || defined $msgs{$msg_id} );
 ##debug_msg("is utf8 msg_id 2: '" . utf8::is_utf8($msg_id) . "'\n");
 ##debug_msg("msg_id: $msg_id\n\n");
         $msgs{$msg_id} = 1;
@@ -946,16 +980,17 @@ sub po_format {
 
     if ( $name =~ /$VERBATIM/ ) {
         $string =~ s/^<$name>//s;    # remove start tag to reduce polution
-        $string =~
-          s/<\/$name>(?:\\n|[\t ])*$//s;   # remove close tag to reduce polution
-        $string =~ s/\\/\\\\/g;    # \ seen as control sequence by msg* programs
-        $string =~ s/\"/\\"/g;     # " seen as special char by msg* programs
+        $string =~ s/<\/$name>(?:\\n|[\t ])*$//s
+            ;                        # remove close tag to reduce polution
+        $string =~ s/\\/\\\\/g;  # \ seen as control sequence by msg* programs
+        $string =~ s/\"/\\"/g;   # " seen as special char by msg* programs
     }
     else {
-        $string =~ s/^<$name>[\t ]*//s;    # remove start tag to reduce polution
-        $string =~ s/[\t ]*<\/$name>$//s;  # remove close tag to reduce polution
-        $string =~ s/\\/\\\\/g;    # \ seen as control sequence by msg* programs
-        $string =~ s/\"/\\"/g;     # " seen as special char by msg* programs
+        $string =~ s/^<$name>[\t ]*//s;  # remove start tag to reduce polution
+        $string
+            =~ s/[\t ]*<\/$name>$//s;    # remove close tag to reduce polution
+        $string =~ s/\\/\\\\/g;  # \ seen as control sequence by msg* programs
+        $string =~ s/\"/\\"/g;   # " seen as special char by msg* programs
     }
     $string = qq|"$string"|;
 
@@ -982,11 +1017,11 @@ sub po_unformat {
         $string =~ s/\\\\/\\/g;   # unescape backslash added by po_format
     }
     else {
-        $string =~ s/^\"//msg;    # strip sol quotes added by msguniq etc
-        $string =~ s/\"$//msg;    # strip sol quotes added by msguniq etc
-        $string =~ s/\n//msg;     # strip eol quotes added by msguniq etc
-        $string =~
-          s/^[\t ]*//msg; # strip the leading spaces left from the msgid "" line
+        $string =~ s/^\"//msg;      # strip sol quotes added by msguniq etc
+        $string =~ s/\"$//msg;      # strip sol quotes added by msguniq etc
+        $string =~ s/\n//msg;       # strip eol quotes added by msguniq etc
+        $string =~ s/^[\t ]*//msg
+            ;    # strip the leading spaces left from the msgid "" line
         $string =~ s/\\"/\"/msg;    # unescape quotes added by po_format
         $string =~ s/\\\\/\\/g;     # unescape backslash added by po_format
     }
@@ -1003,11 +1038,13 @@ sub po_report {
     my ( $self, $args ) = @_;
 
     my $lang = delete( $args->{lang} )
-      || croak( maketext("'lang' is a mandatory argument") );
+        || croak( maketext("'lang' is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
         );
     }
 
@@ -1063,8 +1100,9 @@ sub po_report {
             }
 ## More accurate word counts
 ##            my $count = () = $msgref->msgid() =~ /\w+/g;
-            my $count = () =
-              $msgref->msgid() =~ /(?:\s+|<\/[a-zA-Z]+><[a-zA-Z]+>\S|-|.$)/g;
+            my $count = ()
+                = $msgref->msgid()
+                =~ /(?:\s+|<\/[a-zA-Z]+><[a-zA-Z]+>\S|-|.$)/g;
             $po_stats{word_count} += $count;
             if ( $msgref->msgstr() =~ /^""$/ ) {
                 $po_stats{untrans_count} += $count;
