@@ -822,7 +822,7 @@ list all the files in a directory, and its sub-directories, matching the supplie
 =cut
 
 sub dir_list {
-    my ( $dir, $regex ) = @_;
+    my ( $dir, $regex, $clean_images ) = @_;
     croak( maketext("dir is a required argument") ) unless ($dir);
 
     unless ( -d $dir ) {
@@ -846,7 +846,8 @@ sub dir_list {
     $rule->start($dir);
     while ( my $file = $rule->match ) {
         push( @filelist, $file )
-            unless ( $file =~ m{(/extras/|/icons/|images/icon.svg)} );
+            unless ( $clean_images
+            and $file =~ m{(/extras/|/icons/|images/icon.svg)} );
     }
 
     return @filelist;

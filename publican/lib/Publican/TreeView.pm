@@ -165,7 +165,7 @@ sub print_unused {
     $dir = undef;
 
     if ($unused) {
-        my @xml_files = dir_list( $xml_lang, '*.xml' );
+        my @xml_files = dir_list( $xml_lang, '*.xml', 1 );
         my $first = 1;
 
         foreach my $xml_file ( sort(@xml_files) ) {
