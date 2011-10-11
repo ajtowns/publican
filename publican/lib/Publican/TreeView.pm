@@ -153,6 +153,7 @@ sub print_unused {
     my @nodes = $xml_doc->look_down( "_tag", "xi:include" );
     foreach my $node (@nodes) {
         my $filename = $node->attr('href');
+        $filename =~ s/^\.\///;
         if ( -f $filename && $filename =~ /\.xml$/ ) {
             if ( !$node->attr('parse') || $node->attr('parse') ne 'text' ) {
                 $self->print_unused( { 'in_file' => $filename, } );
