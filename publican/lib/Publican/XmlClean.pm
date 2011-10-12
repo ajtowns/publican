@@ -163,7 +163,7 @@ my %MAP_OUT = (
     honorific         => { newline_after => 1 },
     firstname         => { newline_after => 1 },
     surname           => { newline_after => 1 },
-    email             => { newline_after => 1 },
+    email             => { newline_after => 1, newline_after => 1 },
     isbn              => { newline_after => 1 },
     issuenum          => { newline_after => 1 },
     edition           => { newline_after => 1 },
