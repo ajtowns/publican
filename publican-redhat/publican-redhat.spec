@@ -4,7 +4,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.7
+Version:	2.8
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -47,6 +47,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Oct 13 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.8-1
+- set max_image_width to 660
+- updated Italian translations from fvalent@redhat.com
+
 * Wed Jan 19 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.7-1
 - correct Requires: and BuildRequires:
 
