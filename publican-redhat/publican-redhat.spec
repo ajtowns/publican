@@ -1,20 +1,14 @@
 %define brand RedHat
 %define pub_name Publican
-%define RHEL6 %([[ %{?dist}x == .el6[a-z]* ]] && echo 1 || echo 0)
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.8
+Version:	2.9
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# Limited to these arches on RHEL 6 due to PDF + Java limitations
-%if %{RHEL6}
-ExclusiveArch:   i686 x86_64
-%else
 BuildArch:   noarch
-%endif
 Source:		https://fedorahosted.org/releases/p/u/publican/publican-redhat-%{version}.tgz
 BuildRequires:	publican >= 2.5
 Requires:	publican >= 2.5
@@ -47,6 +41,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Thu Oct 20 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.9-1
+- noarch
+- change titlepage css
+- back out max_image_width -- now handled in common
+
 * Thu Oct 13 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.8-1
 - set max_image_width to 660
 - updated Italian translations from fvalent@redhat.com
