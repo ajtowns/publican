@@ -3,7 +3,7 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.9
+Version:	2.10
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Oct 21 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.10-1
+- css fix for productname on titlepage
+
 * Thu Oct 20 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.9-1
 - noarch
 - change titlepage css
