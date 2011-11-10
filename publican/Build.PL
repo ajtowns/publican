@@ -379,15 +379,12 @@ my $builder = $class->new(
 );
 
 if ( $^O eq 'darwin' ) {
-    $builder->config(
-        install_path => {
-            'datadir'    => '/opt/local/share/publican',
-            'web'        => '/opt/local/share/publican/sitetemplate',
-            'templates'  => '/opt/local/share/publican/templates',
-            'etc'        => '/opt/local/etc',
-            'completion' => '/opt/local/etc/bash_completion.d',
-        },
-    );
+    $builder->install_path( 'datadir'    => '/opt/local/share/publican' );
+    $builder->install_path( 'generated'  => '/opt/local/share/publican/sitetemplate' );
+    $builder->install_path( 'web'        => '/opt/local/share/publican/sitetemplate' );
+    $builder->install_path( 'templates'  => '/opt/local/share/publican/templates' );
+    $builder->install_path( 'etc'        => '/opt/local/etc' );
+    $builder->install_path( 'completion' => '/opt/local/etc/bash_completion.d' );
 }
 
 $builder->add_build_element('common');
