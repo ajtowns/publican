@@ -230,37 +230,6 @@
 			Because the document has not been validated against the DTD, the quality of the output produced when you build with the <option>--novalid</option> option is highly suspect. Do not publish documentation that you have built with the <option>--novalid</option> option.
 		</para>
 	</section>
-	
-	 <section id="sect-Users_Guide-Building_a_document-Building_a_document_created_with_Publican_0">
-		<title>Building a document created with Publican 0</title>
-		 <para>
-			Documents produced with early versions of <application>Publican</application> (versions up to and including 0.45) did not have a <filename>publican.cfg</filename> file; a similar set of parameters was defined in a <filename>Makefile</filename>. Before you build such a document in a current version of <application>Publican</application> (version 0.99 onwards), you must convert the <filename>Makefile</filename> into a <filename>publican.cfg</filename> file. <application>Publican</application> can do this conversion automatically:
-		</para>
-		 <procedure>
-			<step>
-				<para>
-					Change into the document directory, the one that holds the <filename>Makefile</filename>.
-				</para>
-
-			</step>
-			 <step>
-				<para>
-					Run <command>publican old2new</command>. <application>Publican</application> parses the <filename>Makefile</filename> and creates a <filename>publican.cfg</filename> file with equivalent parameters wherever available.
-				</para>
-
-			</step>
-
-		</procedure>
-		
-		 <para>
-			When you run <command>publican old2new</command>, <application>Publican</application> does not alter or delete the original <filename>Makefile</filename>. A <filename>Makefile</filename> and a <filename>publican.cfg</filename> file can coexist in the same document.
-		</para>
-
-	</section>
-	
-
-	
-
 </section>
 
 

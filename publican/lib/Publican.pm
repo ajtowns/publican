@@ -9,7 +9,6 @@ use XML::TreeBuilder;
 use I18N::LangTags::List;
 use Term::ANSIColor qw(:constants uncolor);
 use File::Find::Rule;
-use Makefile::Parser;
 use XML::LibXSLT;
 use XML::LibXML;
 use File::HomeDir;
@@ -22,7 +21,7 @@ $VERSION = '3.0';
 @ISA     = qw(Exporter AutoLoader);
 
 @EXPORT
-    = qw(dir_list debug_msg get_all_langs logger help_config maketext old2new new_tree);
+    = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree);
 
 # Track when the SPEC file generation is incompatible.
 $SPEC_VERSION = '3.0';
@@ -450,7 +449,7 @@ sub _load_config {
 
         croak(
             maketext(
-                "Config file not found: [_1]. Perhaps you need to run 'publican old2new'",
+                "Config file not found: [_1].",
                 $configfile
             )
         );
@@ -942,43 +941,6 @@ sub maketext {
     }
 
     return ($string);
-}
-
-=head2 old2new
-
-Parse a publican 0.x Makefile and create a publican 1.x config file.
-
-=cut
-
-sub old2new {
-
-    my $parser = Makefile::Parser->new();
-
-    $parser->parse('Makefile') or croak( Makefile::Parser->error() );
-
-    # get all the variable names defined in the Makefile:
-    my @vars   = $parser->vars();
-    my $config = new Config::Simple();
-    $config->syntax('http');
-
-    foreach my $var (@vars) {
-        if ( !defined $PARAM_OLD{$var} ) {
-            logger( maketext( "[_1] is not handled yet.", $var ) . "\n" );
-            next;
-        }
-        if ( $PARAM_OLD{$var} eq '' ) {
-            logger( maketext( "[_1] is not used anymore.", $var ) . "\n" );
-            next;
-        }
-
-        $config->param( $PARAM_OLD{$var}, $parser->var($var) );
-    }
-
-    $config->param( 'debug', '1' );
-
-    $config->write('publican.cfg');
-
-    return;
 }
 
 =head2 get_abstract

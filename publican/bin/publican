@@ -180,12 +180,6 @@ my %actions = (
         'brief'   => maketext('Run clean ids for source XML'),
         'options' => [],
     },
-    'old2new' => {
-        'brief' => maketext(
-            'Create a publican.cfg file from the Makefile of an old book, set, or article'
-        ),
-        'options' => [],
-    },
     'print_tree' => {
         'brief'   => maketext('Print a tree of the xi:includes'),
         'options' => [],
@@ -490,11 +484,6 @@ if ( $action eq 'create_brand' ) {
     );
     $creator->create();
 
-    exit(0);
-}
-
-if ( $action eq 'old2new' ) {
-    old2new();
     exit(0);
 }
 
