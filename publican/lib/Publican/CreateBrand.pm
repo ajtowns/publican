@@ -8,10 +8,10 @@ use Config::Simple '-strict';
 use File::Path;
 use File::pushd;
 use DateTime;
-use Image::Magick;
 use Publican;
 use Publican::Builder;
 use Term::ANSIColor qw(:constants uncolor);
+use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);
 
 use vars qw( $VERSION $MAX_COUNT );
 
@@ -116,6 +116,12 @@ sub create {
         || croak( maketext( "Can't create directory: [_1]", $@ ) );
 
     $self->conf_files();
+
+    $self->{publican} = Publican->new(
+        {   configfile     => 'publican.cfg',
+        }
+    );
+
     $self->xml_files();
     $self->images();
 
@@ -140,8 +146,8 @@ h1 {
 	color:#a70000;
 }
 
-.producttitle {
-	background: #800 url(../images/h1-bg.png) top left repeat;
+div.producttitle {
+	color:#a70000;
 }
 
 .section h1.title {
@@ -177,7 +183,7 @@ table tr.even td {
 	color:#a70000;
 }
 
-.edition {
+.titlepage .edition {
 	color: #a70000;
 }
 
@@ -387,156 +393,11 @@ sub images {
     my ( $OUT, $out_file );
     my $lang = $self->{config}->param('xml_lang');
 
-    # create call out numbers
-    for ( my $count = 1; $count <= $MAX_COUNT; $count++ ) {
-        my $svg = <<SVG;
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
-<svg
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   version="1.0"
-   width="32"
-   height="32"
-   id="svg$count">
-  <defs
-     id="defs$count" />
-  <circle
-     cx="16"
-     cy="16"
-     r="14"
-     id="circle"
-     style="fill:#aa0000" />
-  <text
-     x="16"
-     y="16"
-     transform="scale(0.89833804,1.1131667)"
-     id="text$count"
-     xml:space="preserve"
-     style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Liberation Serif;"><tspan
-       x="18"
-       y="20"
-       id="tspan$count">$count</tspan></text>
-</svg>
-SVG
-
-        open( $OUT, ">:encoding(UTF-8)", "$lang/images/$count.svg" )
-            || croak(
-            maketext(
-                "Can't open SVG file [_1]: [_2]", "$lang/images/$count.svg",
-                $@
-            )
+    my $common_content = $self->{publican}->param('common_content');
+    File::Copy::Recursive::rcopy_glob(
+                $common_content . "/brand-template/images/*",
+                "$lang/images"
             );
-        print( $OUT $svg );
-        close($OUT);
-        my $image = Image::Magick->new;
-        $image->ReadImage("$lang/images/$count.svg");
-        $image->Write("$lang/images/$count.png");
-    }
-
-    my %images = (
-
-        # Nav images
-        'stock-go-back'    => { x => 22, y => 22 },
-        'stock-go-forward' => { x => 22, y => 22 },
-        'stock-go-up'      => { x => 22, y => 22 },
-        'stock-home'       => { x => 22, y => 22 },
-
-        # Logo images
-        'image_left'  => { x => 88,  y => 45 },
-        'image_right' => { x => 199, y => 41 },
-        'title_logo'  => { x => 112, y => 100 },
-        'h1-bg'       => { x => 5,   y => 100 },
-
-        # Admonition images
-        'important' => { x => 48, y => 48 },
-        'note'      => { x => 48, y => 48 },
-        'warning'   => { x => 48, y => 48 },
-
-        # List style images
-        'dot2' => { x => 5, y => 6 },
-        'dot'  => { x => 5, y => 6 },
-
-        # Watermark
-        'watermark-draft' => { x => 500, y => 500 },
-    );
-
-    foreach my $image ( keys(%images) ) {
-        $self->default_images(
-            {   file => $image,
-                x    => $images{$image}->{x},
-                y    => $images{$image}->{y}
-            }
-        );
-    }
-
-    return;
-}
-
-=head2 default_images
-
-Generate images with default text in SVG and PNG formats.
-
-=cut
-
-sub default_images {
-    my ( $self, $args ) = @_;
-
-    my $file = delete( $args->{file} )
-        || croak( maketext("file is a mandatory argument") );
-    my $x = delete( $args->{x} )
-        || croak( maketext("x is a mandatory argument") );
-    my $y = delete( $args->{y} )
-        || croak( maketext("y is a mandatory argument") );
-
-    if ( %{$args} ) {
-        croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
-    }
-
-    my ($OUT);
-    my $lang = $self->{config}->param('xml_lang');
-
-    my $x1 = $x / 2;
-    my $x2 = $x1 + 2;
-    my $y1 = $y / 2;
-    my $y2 = $y1 + 2;
-
-    my $svg = <<SVG;
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   version="1.0"
-   width="$x"
-   height="$y"
-   id="svg$file">
-  <defs
-     id="defs$file" />
-  <text
-     x="$x1"
-     y="$y1"
-     transform="scale(0.89833804,1.1131667)"
-     id="text$file"
-     xml:space="preserve"
-     style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Liberation Serif;"><tspan
-       x="$x2"
-       y="$y2"
-       id="tspan$file">$file</tspan></text>
-</svg>
-SVG
-
-    open( $OUT, ">:encoding(UTF-8)", "$lang/images/$file.svg" )
-        || croak(
-        maketext(
-            "Can't open SVG file [_1]: [_2]", "$lang/images/$file.svg", $@
-        )
-        );
-    print( $OUT $svg );
-    close($OUT);
-    my $image = Image::Magick->new;
-    $image->ReadImage("$lang/images/$file.svg");
-    $image->Write("$lang/images/$file.png");
 
     return;
 }
@@ -587,7 +448,6 @@ Config::Simple
 File::Path
 File::pushd
 DateTime
-Image::Magick
 Publican
 Term::ANSIColor
 

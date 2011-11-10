@@ -57,8 +57,6 @@ BuildRequires:  perl(File::Which)
 BuildRequires:  perl(HTML::FormatText)
 BuildRequires:  perl(HTML::TreeBuilder)
 BuildRequires:  perl(I18N::LangTags::List)
-BuildRequires:  perl(Image::Magick)
-BuildRequires:  perl(Image::Size)
 BuildRequires:  perl(Locale::Maketext::Gettext)
 BuildRequires:  perl(Locale::Language)
 BuildRequires:  perl(Locale::PO)
@@ -155,8 +153,6 @@ rm -rf $RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 
 %{_fixperms} $RPM_BUILD_ROOT/*
-
-./fop-ttc-metric.pl --outdir $RPM_BUILD_ROOT%{_datadir}/publican/fop/font-metrics --conffile $RPM_BUILD_ROOT%{_datadir}/publican/fop/fop.xconf
 
 sed -i -e 's|@@FILE@@|%{_docdir}/%{name}-doc-%{version}/en-US/index.html|' %{name}.desktop
 sed -i -e 's|@@ICON@@|%{_docdir}/%{name}-doc-%{version}/en-US/images/icon.svg|' %{name}.desktop
