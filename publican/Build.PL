@@ -381,6 +381,19 @@ my $builder = $class->new(
         { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
     completion_files => { 'completion/_publican' => 'completion/_publican', },
 );
+
+if ( $^O eq 'darwin' ) {
+    $builder->config(
+        install_path => {
+            'datadir'    => '/opt/local/share/publican',
+            'web'        => '/opt/local/share/publican/sitetemplate',
+            'templates'  => '/opt/local/share/publican/templates',
+            'etc'        => '/opt/local/etc',
+            'completion' => '/opt/local/etc/bash_completion.d',
+        },
+    );
+}
+
 $builder->add_build_element('common');
 $builder->add_build_element('data');
 $builder->add_build_element('web');

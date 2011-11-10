@@ -698,6 +698,14 @@ sub new {
             $common_config  = qq{"$common_config"}  if ($common_config);
             $common_content = qq{"$common_content"} if ($common_content);
         }
+        elsif( $^O eq 'darwin' ) {
+            if ( !$common_config ) {
+                $common_config = '/opt/local/share/publican';
+            }
+            if ( !$common_content ) {
+                $common_content = "$common_config/Common_Content";
+            }
+        }
 
         $self->_load_config(
             {   configfile     => $configfile,
