@@ -873,17 +873,36 @@ sub transform {
         . "$lang.pdf";
 
     if ( $format eq 'pdf' && $diefopdie ) {
-        if ( !-e "$tmp_dir/$lang/html-single" ) {
-            $self->transform( { lang => $lang, format => 'html-single' } );
+        if ( -d "$tmp_dir/$lang/html-pdf" ) {
+            rmtree("$tmp_dir/$lang/html-pdf");
         }
 
-        mkdir "$tmp_dir/$lang/pdf";
-        $dir = pushd("$tmp_dir/$lang/html-single");
+        $self->transform( { lang => $lang, format => 'html-pdf' } );
 
-        my @wkhtmltopdf_args = ($wkhtmltopdf_cmd, 'index.html',  "../pdf/$pdf_name");
+        mkdir "$tmp_dir/$lang/pdf";
+
+        my @wkhtmltopdf_args
+            = ( $wkhtmltopdf_cmd, '--header-spacing', 5, '--margin-top', 20,
+            );
+
+        if ( -f "$common_config/header.html" ) {
+            push( @wkhtmltopdf_args,
+                '--header-html', "$common_config/header.html" );
+        }
+
+        push( @wkhtmltopdf_args,
+            "$tmp_dir/$lang/html-pdf/index.html",
+            "$tmp_dir/$lang/pdf/$pdf_name" );
+
         my $result = system(@wkhtmltopdf_args);
-        if($result) {
-            #...
+        if ($result) {
+            croak(
+                "\n",
+                maketext(
+                    'wkhtmltopdf died, PDF generation failed. Check log for details.'
+                ),
+                "\n"
+            );
         }
         return;
     }
