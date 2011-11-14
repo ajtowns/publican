@@ -880,12 +880,7 @@ SEARCH
                 push( @{$urls}, $url );
             }
 
-            foreach my $book (
-                sort( keys(
-                        insensitive_sort %{ $list2->{$product}{$version} }
-                        ) )
-                )
-            {
+            foreach my $book ( sort( insensitive_sort keys( %{ $list2->{$product}{$version} } ) )  )  {
                 my $book_label = $book;
                 my %book_data;
                 my @types = ();
