@@ -112,7 +112,6 @@ my %MAP_OUT = (
     mediaobject => { block       => 1 },
     imageobject => { block       => 1 },
     imagedata     => {},
-    graphic       => {},
     'xi:include'  => { newline_after => 1 },
     'xi:fallback' => { newline_after => 1 },
 
@@ -612,7 +611,6 @@ sub my_as_XML {
     $empty_element_map->{'xi:include'} = 1;
     $empty_element_map->{ulink}        = 1;
     $empty_element_map->{imagedata}    = 1;
-    $empty_element_map->{graphic}      = 1;
     $empty_element_map->{area}         = 1;
 
     my $depth  = 0;
@@ -690,7 +688,7 @@ sub my_as_XML {
                         $depth++;
                     }
 
-                    if ( $tag eq 'imagedata' || $tag eq 'graphic' ) {
+                    if ( $tag eq 'imagedata' ) {
                         my $img_file = "$path" . $node->attr('fileref');
                         $img_file
                             = $self->{publican}->param('xml_lang') . "/"
