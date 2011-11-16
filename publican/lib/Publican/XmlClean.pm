@@ -112,6 +112,7 @@ my %MAP_OUT = (
     mediaobject => { block       => 1 },
     imageobject => { block       => 1 },
     imagedata     => {},
+    graphic       => {},
     'xi:include'  => { newline_after => 1 },
     'xi:fallback' => { newline_after => 1 },
 
@@ -605,13 +606,14 @@ sub my_as_XML {
     my $lang         = $self->{config}->param('lang');
 
     # This flags tags that use  /> instead of end tags IF they are empty.
-    $empty_element_map->{'xref'}        = 1;
-    $empty_element_map->{'footnoteref'} = 1;
-    $empty_element_map->{'index'}       = 1;
-    $empty_element_map->{'xi:include'}  = 1;
-    $empty_element_map->{'ulink'}       = 1;
-    $empty_element_map->{'imagedata'}   = 1;
-    $empty_element_map->{'area'}        = 1;
+    $empty_element_map->{xref}         = 1;
+    $empty_element_map->{footnoteref}  = 1;
+    $empty_element_map->{'index'}      = 1;
+    $empty_element_map->{'xi:include'} = 1;
+    $empty_element_map->{ulink}        = 1;
+    $empty_element_map->{imagedata}    = 1;
+    $empty_element_map->{graphic}      = 1;
+    $empty_element_map->{area}         = 1;
 
     my $depth  = 0;
     my $indent = "\t";
@@ -688,7 +690,7 @@ sub my_as_XML {
                         $depth++;
                     }
 
-                    if ( $tag eq 'imagedata' ) {
+                    if ( $tag eq 'imagedata' || $tag eq 'graphic' ) {
                         my $img_file = "$path" . $node->attr('fileref');
                         $img_file
                             = $self->{publican}->param('xml_lang') . "/"
