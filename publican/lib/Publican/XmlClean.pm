@@ -255,6 +255,7 @@ my %MAP_OUT = (
     subjectset    => { block => 1 },
     subject       => { block => 1 },
     subjectterm   => { newline_after => 1 },
+    superscript   => {},
 );
 
 =head2 new
