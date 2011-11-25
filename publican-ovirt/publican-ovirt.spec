@@ -2,7 +2,7 @@
 
 Name:		publican-ovirt
 Summary:	Common documentation files for %{brand}
-Version:	1.4
+Version:	1.5
 Release:	0%{?dist}
 License:	Open Publication
 Group:		Applications/Text
@@ -38,7 +38,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
-* Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
+* Wed Nov 9 2011 Stephen Gordon <sgordon@redhat.com> 1.5-0
+- Updated Feedback.xml to match new oVirt workflow.
+- Removed links to docs.redhat.com, replaced with ovirt.org.
+- Added updated oVirt logo image.
+- Added updated oVirt header bar for html, html-single formats (doesn't appear in PDF)
+- Replaced 'Red Hat Documentation' image.
+- Updated Legal Notice to specify ASL 2.0 using notice cleared by legal (<rfontana@redhat.com>).
+- Added ASL 2.0 full text as an appendix.
+
+* Tue Oct 5 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.4-0
 - Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>
 
 * Mon Jul 5 2010 Jeff Fearn <jfearn@redhat.com> 1.3
