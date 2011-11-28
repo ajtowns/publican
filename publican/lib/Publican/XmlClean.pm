@@ -521,18 +521,8 @@ sub print_xml {
         }
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
-        my $text = $self->my_as_XML(
-            { xml_doc => $xml_doc, path => ( $1 || './' ) } );
-
-##        $text =~ s/&#10;//g;
-##        $text =~ s/&#9;//g;
-        $text =~ s/&#38;([a-zA-Z-_0-9\.-\:]+;)/&$1/g;
-        $text =~ s/&#38;/&amp;/g;
-##        $text =~ s/&amp;#x200B;/&#x200B;/g;
-##        $text =~ s/&#x200B; &#x200B;/ /g;
-##        $text =~ s/&#x200B; / /g;
-        $text =~ s/&#60;/&lt;/g;
-        $text =~ s/&#62;/&gt;/g;
+##        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ( $1 || './' ) } );
+        my $text =$xml_doc->as_XML();
         $text =~ s/&#34;/"/g;
         $text =~ s/&#39;/'/g;
         $text =~ s/&quot;/"/g;
