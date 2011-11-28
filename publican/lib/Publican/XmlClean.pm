@@ -522,7 +522,7 @@ sub print_xml {
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
 ##        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ( $1 || './' ) } );
-        my $text =$xml_doc->as_XML();
+        my $text = $xml_doc->as_XML();
         $text =~ s/&#34;/"/g;
         $text =~ s/&#39;/'/g;
         $text =~ s/&quot;/"/g;
