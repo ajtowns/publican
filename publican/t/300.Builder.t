@@ -20,7 +20,7 @@ my $publican = Publican->new(
         common_config  => abs_path('../blib/datadir'),
         common_content => abs_path('../blib/datadir/Common_Content'),
         NOCOLOURS      => 1,
-
+	QUIET          => 1,
     }
 );
 

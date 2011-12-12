@@ -18,7 +18,7 @@ my $coverdb        = '';
 $coverdb = qq|-MDevel::Cover=-db,$cover_db| if ($cover_db);
 
 my $common_opts =
-  qq|--common_config="$common_config" --common_content="$common_content" --nocolours|;
+  qq|--quiet --common_config="$common_config" --common_content="$common_content" --nocolours|;
 
 is( system(qq{perl $coverdb -I $lib -c $publican $common_opts -v}),
     0, 'test sytnax OK' );
