@@ -4,7 +4,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.4
+Version:	0.5
 Release:	3%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Fri Dec 16 2011 David O'Brien <davido@redhat.com> 0.5-1
+- Change "Express" and "Flex" table headings to include "OpenShift" prefix.
+
 * Thu Jun 2 2011 David O'Brien <davido@redhat.com> 0.4-3
 - Replace spaces with tabs as field label separators
 
