@@ -44,7 +44,7 @@
 				</listitem>
 				<listitem>
 					<para>
-						<filename>Sitemap</filename> — an XML Sitemap to assist search engines to crawl the site.
+						<filename>Sitemap</filename> — A Sitemap is a list of the URLs from your website and metadata about them, like update history, change frequency, and importance relative to other URLs in the site. A Sitemap can be supplied to many major search engines, where it is used to help their crawlers index your site more intelligently. A Sitemap does not guarantee that your site will be ranked higher in search results. However, it does help search engines to return the most relevant results from your website in response to user queries. For more information on Sitemaps, visit  <ulink url ="http://www.sitemaps.org/">sitemaps.org</ulink>. 
 					</para>
 				</listitem>
 				<listitem>
@@ -202,9 +202,141 @@
 			</para>
 
 		</section>
-
-		
-	</section>
-
+	      </section>
+		<section id="sect-Users_Guide-Sitemap_Submission">
+		<title>Submitting Your Sitemap to Search Engines</title>
+		<para>
+		  A Publican website includes an XML Sitemap file. The Sitemap can be submitted to many major search engines, in order to help them index your website more intelligently and thoroughly. Each search engine has its own submission procedure. This section includes documentation on how to submit a Sitemap to Google and Bing. 
+		</para>
+		<section id="sect-Users_Guide-Sitemap_Submission-Google">
+		<title>Submitting Your Sitemap to Google.</title>
+		<procedure id = "proc-Users_Guide-Sitemap_Submission-Google">
+		  <title>To Submit Your Sitemap to Google:</title>
+		  <step>
+		    <para>
+		      Sign up for a Google account at <ulink url ="http://www.google.com/webmasters/tools/home">Google Webmaster Tools</ulink>. If you already have a Google account, you can use it.
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      Sign in to your Google Webmaster Tools account at this URL: <ulink url ="http://www.google.com/webmasters/tools/home">http://www.google.com/webmasters/tools/home</ulink>. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      First you must verify you are the owner of your Publican site. Click the <guibutton>Add A Site</guibutton> button. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      A dialog box is displayed for you to <guilabel>Add a site</guilabel> with. Enter the URL of your Publican site in the text entry field and click <guibutton>Continue</guibutton>. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      Follow the instructions that display and upload the HTML file that Google provides to the document root of your website. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      When you have confirmed that the provided HTML file has been uploaded to the required location by accessing it in a web browser, click the <guibutton>Verify</guibutton> button. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      When you have successfully verified the ownership of your Publican website to Google, return to the Webmaster Tools home page. Your Publican site is listed. Click on it. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      You are taken to the Webmaster Tools configuration page for your Publican site. On the left side of the page there is a menu. Click on the <guilabel>Site configuration</guilabel> menu entry to expand it. Its expanded contents includes a <guilabel>Sitemaps</guilabel> entry. Click it. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      You are taken to a Sitemap submission page. Click the <guibutton>Submit a Sitemap</guibutton> button. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      A text entry field displays, including the base URL of your Publican site, with room to enter the URL of your Sitemap XML file. Enter its location and click the <guibutton>Submit Sitemap</guibutton> button. The details of the Sitemap are displayed in a table. 
+		    </para>
+		  </step>
+		  <step>
+		    <formalpara>
+		      <title>Result</title>
+		    <para>
+		      The Sitemap for your Publican site has been successfully submitted to Google.
+		    </para>
+		  </formalpara>
+		  </step>
+		</procedure>	
+	      </section>
+	      <section id="sect-Users_Guide-Sitemap_Submission-Bing">
+		<title>Submitting Your Sitemap to Bing.</title>
+		<procedure id = "proc-Users_Guide-Sitemap_Submission-Bing">
+		  <title>To Submit Your Sitemap to Bing:</title>
+		  <step>
+		    <para>
+		      Sign up for a Bing Webmaster Tools account at <ulink url ="http://www.bing.com/toolbox/webmaster/">Bing Webmaster Tools</ulink>. If you already have a Windows LiveID account, you can use it.
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      Sign in to your Bing Webmaster Tools account at this URL: <ulink url ="http://www.bing.com/toolbox/webmaster/">http://www.bing.com/toolbox/webmaster/</ulink>. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      Click the <guibutton>Add Site</guibutton> button. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      The <guilabel>Add Site</guilabel> dialog box is displayed. Enter the URL of your Publican site in the text entry field and click <guibutton>Submit</guibutton>. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      The <guilabel>Verify Ownership</guilabel> dialog displays, with three options. Follow the instructions given when the <guilabel>Option 1: Place an XML file on your web server</guilabel> has been expanded. Upload the <systemitem>BingSiteAuth.xml</systemitem> file that Bing provides to the document root of your website. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      When you have confirmed that the provided <systemitem>BingSiteAuth.xml</systemitem> file has been uploaded to the required location by accessing it in a web browser, click the <guibutton>Verify</guibutton> button. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      When you have successfully verified your ownership of your Publican website to Bing, return to the Bing Webmaster Tools home page. Your Publican site is listed. Click on it. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      Select the <guibutton>Crawl</guibutton> tab. 
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      Select <guilabel>Sitemaps</guilabel> and then <guilabel>Add Feed</guilabel>.
+		    </para>
+		  </step>
+		  <step>
+		    <para>
+		      The <guilabel>Add Feed</guilabel> dialog displays. Enter the URL of your Sitemap file and click <guibutton>Submit</guibutton>. The details of the Sitemap are displayed. 
+		    </para>
+		  </step>
+		  <step>
+		    <formalpara>
+		      <title>Result:</title>
+		    <para>
+		      The Sitemap for your Publican site has been successfully submitted to Bing.
+		    </para>
+		  </formalpara>
+		  </step>
+		</procedure>	
+	      </section>
+	      
+	    </section>
 </chapter>
 
