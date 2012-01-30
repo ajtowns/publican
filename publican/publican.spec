@@ -84,7 +84,6 @@ Requires:       docbook-style-xsl >= 1.76.1
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 4.0
-Requires:       cvs
 Requires:       perl-Template-Toolkit
 Requires:       perl(DBD::SQLite)
 

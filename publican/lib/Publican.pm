@@ -157,13 +157,6 @@ my %PARAMS = (
             maketext('The text used to indicate content is confidential.'),
         default => maketext('CONFIDENTIAL'),
     },
-    cvs_root => {
-        descr => maketext(
-            'CVS root to import SRPM into. e.g. :ext:@cvs.fedoraproject.org:/cvs/pkgs'
-        ),
-    },
-    cvs_pkg    => { descr => maketext('The name of the package in CVS.'), },
-    cvs_branch => { descr => maketext('The Branch of the package in CVS.'), },
     debug      => {
         descr   => maketext('Print out extra messages?'),
         default => 0,

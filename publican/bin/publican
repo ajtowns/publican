@@ -25,7 +25,6 @@ use File::Basename;
 my $VERSION      = "$Publican::VERSION";
 my $LANG_PATTERN = q|__LANG__|;
 ## TODO Consider making these parameters
-my $IMPORT_SCRIPT     = '../common/cvs-import.sh';
 my $WEB_TEMPLATE_PATH = '/usr/share/publican';
 
 # Try to catch SRPMS created using outdated versions of publican in brew/koji/mock
@@ -117,8 +116,6 @@ my %options = (
     'distributed_set' => maketext(
         qq|This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.|
     ),
-    'cvs' => maketext(
-        'Import the SRPM in to CVS, the run make tag and make build.'),
     'nocolours' => maketext('Disable ANSI colourisation of logging.'),
     'quiet'     => maketext('Disable all logging.'),
     'novalid'   => maketext('Do not run the DTD validation'),
@@ -211,7 +208,7 @@ my %actions = (
         'brief'   => maketext('Package a language for shipping'),
         'options' => [
             'lang',          'desktop', 'brew', 'scratch',
-            'short_sighted', 'binary',  'wait', 'cvs'
+            'short_sighted', 'binary',  'wait'
         ],
     },
     'update_pot' => {
@@ -844,76 +841,6 @@ if ( $action eq 'package' ) {
         else {
             croak( maketext("Can't locate srpm, packaging aborted") );
         }
-    }
-
-    if ( $opts{cvs} ) {
-
-        my $dir = pushd( $publican->param('tmp_dir') );
-        print( "pushd " . $publican->param('tmp_dir') . "\n" );
-
-        my @filelist = File::Find::Rule->file->name('*.src.rpm')->in('rpm');
-
-        my $srpm = abs_path( pop(@filelist) );
-
-        unless ( -f "$srpm" ) {
-            croak( maketext("Can't locate srpm, CVS import aborted") );
-        }
-
-        # TODO consider making this optional?
-        my $cvs_root = $publican->param('cvs_root')
-            || croak(
-            maketext("--cvs requires cvs_root to be set in the cfg file") );
-
-        my $cvs_pkg = $publican->param('cvs_pkg')
-            || croak(
-            maketext("--cvs requires cvs_pkg to be set in the cfg file") );
-        $cvs_pkg =~ s/$LANG_PATTERN/$opts{lang}/g;
-
-        my $cvs_branch = $publican->param('cvs_branch')
-            || croak(
-            maketext("--cvs requires cvs_branch to be set in the cfg file") );
-
-        my $cvs_dir = "$cvs_pkg-$cvs_branch";
-
-        my @cvs_args = ("cvs");
-        push( @cvs_args, ( "-d", $cvs_root ) ) if ($cvs_root);
-        push( @cvs_args, ( "co", $cvs_dir ) );
-
-        print( "cvs command: " . join( " ", @cvs_args ), "\n" );
-        my $result = system(@cvs_args);
-        if ($result) {
-            croak( maketext("cvs died, error $result: '$!'") );
-        }
-
-        print(qq|pushd("$cvs_dir/$cvs_pkg"\n|);
-        ## BUGBUG this breaks if you undef $dir first ...
-        $dir = undef;
-        $dir = pushd( $publican->param('tmp_dir') . "/$cvs_dir/$cvs_pkg" );
-
-        $result = system($IMPORT_SCRIPT, '--force', $srpm);
-        if ($result) {
-            croak( maketext("cvs import died, error $result: '$!'") );
-        }
-
-        $result = system("cvs up");
-        if ($result) {
-            croak( maketext("cvs up died, error $result: '$!'") );
-        }
-
-        @cvs_args = ('make');
-
-        unless ( $opts{'wait'} ) {
-            push( @cvs_args, "BREW_FLAGS=--nowait" );
-        }
-
-        push( @cvs_args, 'build' );
-
-        $result = system(@cvs_args);
-        if ($result) {
-            croak( maketext("make died, error $result: '$!'") );
-        }
-
-        $dir = undef;
     }
 }
 
