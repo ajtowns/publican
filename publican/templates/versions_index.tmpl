@@ -1,0 +1,20 @@
+[%- title = labels.${product}.label _ " " _ labels.${product}.${version}.label -%]
+[%- ver_menu = 1 -%]
+[%- book_menu = 1 -%]
+[%- lang_menu = product _ "/" _ version _ "/index.html" -%]
+[% INCLUDE 'web_2_head.tmpl' %]
+<script>var current_product = "[% product %]"; var current_version= "[% version %]"; var current_book= "Books"</script>
+<h1>[% title %]</h1>
+<div id="version_top_box" class="version_top_box"></div>
+<script>$("#version_top_box").load("splash.html");</script>
+<div class="version_bottom_box">
+  <div class="bottom_versions">
+[% FOREACH  booker = book_list %]
+    <div class="bottom_books[% IF lang != booker.value.lang %] untranslated [% lang %][% END %]">
+      <a href="[% host %]/[% lang %]/[% product %]/[% version %]/[% booker.value.book %]/index.html">[% booker.value.book_clean %]</a>[% IF lang != booker.value.lang %]<span>[% trans_strings.Untranslated %]</span>[% END %]
+    </div>
+[%- END %]
+  </div>
+</div>
+[% INCLUDE 'web_2_footer.tmpl' %]
+

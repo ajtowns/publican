@@ -1,0 +1,96 @@
+#!/usr/bin/perl -CA
+
+use strict;
+use warnings;
+use XML::TreeBuilder;
+
+my $file = 'zanata.xml';
+
+my %mapping = (
+    'ar'         => 'ar-SA',
+    'as'         => 'as-IN',
+    'ast'        => 'ast-ES',
+    'bg'         => 'bg-BG',
+    'bn-IN'      => 'bn-IN',
+    'bs'         => 'bs-BA',
+    'ca'         => 'ca-ES',
+    'cs'         => 'cs-CZ',
+    'da'         => 'da-DK',
+    'de-CH'      => 'de-CH',
+    'de-DE'      => 'de-DE',
+    'el'         => 'el-GR',
+    'en-US'      => 'en-US',
+    'es-ES'      => 'es-ES',
+    'fa'         => 'fa-IR',
+    'fi'         => 'fi-FI',
+    'fr'         => 'fr-FR',
+    'gu'         => 'gu-IN',
+    'he'         => 'he-IL',
+    'hi'         => 'hi-IN',
+    'hr'         => 'hr-HR',
+    'hu'         => 'hu-HU',
+    'id'         => 'id-ID',
+    'is'         => 'is-IS',
+    'it'         => 'it-IT',
+    'ja'         => 'ja-JP',
+    'kn'         => 'kn-IN',
+    'ko'         => 'ko-KR',
+    'lv'         => 'lv-LV',
+    'ml'         => 'ml-IN',
+    'mr'         => 'mr-IN',
+    'ms'         => 'ms-MY',
+    'nb'         => 'nb-NO',
+    'nl'         => 'nl-NL',
+    'or'         => 'or-IN',
+    'pa'         => 'pa-IN',
+    'pl'         => 'pl-PL',
+    'pt-BR'      => 'pt-BR',
+    'pt-PT'      => 'pt-PT',
+    'ru'         => 'ru-RU',
+    'si'         => 'si-LK',
+    'sk'         => 'sk-SK',
+    'sr-Latn'    => 'sr-Latn-RS',
+    'sr-Cyrl'    => 'sr-RS',
+    'sv'         => 'sv-SE',
+    'ta-IN'      => 'ta-IN',
+    'te'         => 'te-IN',
+    'th'         => 'th-TH',
+    'tr'         => 'tr-TR',
+    'uk'         => 'uk-UA',
+    'zh-Hans-CN' => 'zh-CN',
+    'zh-Hant-TW' => 'zh-TW',
+);
+
+my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+$xml_doc->store_comments(1);
+$xml_doc->store_declarations(1);
+
+$xml_doc->parse_file($file)
+    || croak( maketext( "Can't open file '[_1]' [_2]", $file, $@ ) );
+
+fix_mapping($xml_doc);
+
+my $OUTDOC;
+open( $OUTDOC, ">:encoding(UTF-8)", "$file" )
+    || croak( maketext( "Could not open [_1] for output!", $file ) );
+
+print( $OUTDOC $xml_doc->as_XML() );
+close($OUTDOC);
+
+exit;
+
+#### code ###
+
+sub fix_mapping {
+    my $xml_doc = shift;
+
+    $xml_doc->pos( $xml_doc->root() );
+
+    foreach my $node ( $xml_doc->look_down( "_tag", "locale" ) ) {
+        my $locale = $node->as_text();
+        if ( defined( $mapping{$locale} ) && $mapping{$locale} ne $locale ) {
+            $node->attr( 'map-from', $mapping{$locale} );
+        }
+    }
+}
+

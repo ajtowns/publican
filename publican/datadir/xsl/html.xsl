@@ -21,6 +21,7 @@
 <xsl:param name="chunker.output.quiet" select="0"/>
 
 <xsl:param name="refentry.separator" select="1"/>
+<xsl:param name="suppress.footer.navigation" select="1"/>
 
 <!--
 From: xsl/docbook/1.72.0/xhtml/chunk-code.xsl
@@ -88,7 +89,7 @@ Version:
 	<xsl:if test="$suppress.navigation = '0' and $suppress.header.navigation = '0'">
 		<xsl:if test="$row1 or $row2">
 			<xsl:if test="$row1">
-				<p xmlns="http://www.w3.org/1999/xhtml">
+				<p xmlns="http://www.w3.org/1999/xhtml" class="hidden">
 					<xsl:attribute name="id">
 						<xsl:text>title</xsl:text>
 					</xsl:attribute>
@@ -124,7 +125,8 @@ Version:
 							</a>
 						</xsl:if>
 					</li>
-					<li class="next">
+						<li class="home"><xsl:value-of select="$clean_title"/></li>
+						<li class="next">
 						<xsl:if test="count($next)&gt;0">
 							<a accesskey="n">
 								<xsl:attribute name="href">
@@ -285,9 +287,8 @@ Version:
     <body>
       <xsl:call-template name="body.attributes"/>
       <xsl:if test="$embedtoc != 0">
-      <div id="tocdiv" class="toc">
-        <iframe><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/toc.html</xsl:attribute>This is an iframe, to view it upgrade your browser or enable iframe display.</iframe>
-      </div>
+        <div id="navigation"></div>
+        <div id="floatingtoc" class="hidden"></div>
       </xsl:if>
       <xsl:call-template name="user.header.navigation"/>
         <xsl:call-template name="header.navigation">

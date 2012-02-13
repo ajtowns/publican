@@ -3,6 +3,8 @@ var name_c = window.location.hostname + '-publican';
 var num_days = 7;
 var name_cp = window.location.hostname + '-publican-current_page';
 var name_menu = window.location.hostname + '-publican-menu';
+var style = 1;
+var toc_path = '';
 
 function setCookie(name, value, expires, path, domain, secure) { 
 	var curCookie = name + "=" + value + 
@@ -335,5 +337,41 @@ function showMenu() {
 	var expDate = new Date();
 	expDate.setDate(expDate.getDate() + num_days);
 	setCookie(name_menu, 'open', expDate, '/', false, false);
+}
+
+function loadMenu(){
+	$.ajax({
+		url:toc_path + '/toc.html',
+		type:'HEAD',
+		success:
+			function(){
+				style = 1;
+				addID(current_product);
+				addID(current_product + '.' + current_version);
+				addID(current_product + '.' + current_version + '.books');
+				addID(current_product + '.' + current_version + '.' + current_book);
+				var html =  '<div id="tocdiv"><iframe class="toc" src="' + toc_path + '/toc.html">This is an iframe, to view it upgrade your browser or enable iframe display.</iframe></div>';
+				$("#navigation").html(html);
+			},
+		error:
+			function(){
+				style = 2;
+				var html = '<div id="menu">';
+				html = 	html +	'<div id="lang_menu"><a href="' + toc_path + '/index.html"><img src="' + toc_path + '/../images/page.png"/></a></div>';
+				html = 	html +	'<div id="product_menu" class="breadcrumb" onmouseover="work=1; toggle(\'\',\'product_menu_list\');" onmouseout="work=1; toggle(\'\',\'product_menu_list\');"></div>';
+				html = 	html +	'<div id="version_menu" class="breadcrumb" onmouseover="work=1; toggle(\'\',\'version_menu_list\');" onmouseout="work=1; toggle(\'\',\'version_menu_list\');"></div>';
+				html = 	html +	'<div id="book_menu" class="breadcrumb" onmouseover="work=1; toggle(\'\',\'book_menu_list\');" onmouseout="work=1; toggle(\'\',\'book_menu_list\');"></div>';
+				html = 	html +	'<div id="book_lang_menu"  onmouseover="work=1; toggle(\'\',\'book_lang_menu_list\');" onmouseout="work=1; toggle(\'\',\'book_lang_menu_list\');"></div>';
+				html = 	html +	'<div id="search_box"></div>';
+				html = 	html +	'</div>';
+				$("#navigation").html(html);
+				$("#search_box").load(toc_path + "/../search.html");
+				$("#product_menu").load(toc_path + "/products_menu.html");
+				$("#version_menu").load(toc_path +  '/' + current_product + "/versions_menu.html");
+				$("#book_menu").load(toc_path + '/' + current_product + '/' +  current_version + '/' +  "/books_menu.html");
+				$("#book_lang_menu").load(toc_path + '/' +  current_product + '/' +  current_version +  '/' + current_book + "/lang_menu.html");
+			}
+	});
+
 }
 

@@ -1,0 +1,28 @@
+[%- title = labels.${product}.label -%]
+[%- ver_menu = 1 -%]
+[%- lang_menu = product _ "/index.html" -%]
+[% INCLUDE 'web_2_head.tmpl' %]
+<script>
+	var current_product = "[% product %]";
+	var current_version= "Versions";
+</script>
+<h1>[% labels.${product}.label %]</h1>
+<div id="product_top_box" class="product_top_box"></div>
+<script>$("#product_top_box").load("splash.html");</script>
+<div class="product_bottom_box">
+	[% FOREACH  ver = v_sort(book_list) %][% cur_ver = book_list.${ver} %]
+	<div class="bottom_versions">
+		<div class="title">
+			<span><a href="[% host %]/[% lang %]/[% product %]/[% ver %]/index.html">[% labels.${product}.${ver}.label %]</a></span>
+		</div>
+		[% FOREACH  c_book = i_sort(cur_ver) %][% booker = book_list.${ver}.${c_book} %]
+		<div class="bottom_books[% IF lang != booker.lang %] untranslated [% lang %][% END %]">
+			<a href="[% host %]/[% lang %]/[% product %]/[% booker.version %]/[% booker.book %]/index.html">[% booker.book_clean %]</a>[% IF lang != booker.lang %]<span>[% trans_strings.Untranslated %]</span>[% END %]
+		</div>
+		[%- END %]
+	</div>
+	[%- END %]
+</div>
+
+[% INCLUDE 'web_2_footer.tmpl' %]
+

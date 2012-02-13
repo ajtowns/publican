@@ -26,6 +26,11 @@ Version:
   <xsl:call-template name="user.preroot"/>
   <xsl:call-template name="root.messages"/>
 
+  <xsl:choose>
+    <xsl:when test="$body.only != 0">
+      <xsl:apply-templates select="."/>
+    </xsl:when>
+    <xsl:otherwise>
   <html>
     <head>
       <xsl:call-template name="system.head.content">
@@ -44,13 +49,15 @@ Version:
         <xsl:with-param name="node" select="$doc"/>
       </xsl:call-template>
       <xsl:if test="$embedtoc != 0">
-      <div id="tocdiv" class="toc">
-       <iframe><xsl:attribute name="id">tocframe</xsl:attribute><xsl:attribute name="class">toc</xsl:attribute><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/toc.html</xsl:attribute>This is an iframe, to view it upgrade your browser or enable iframe display.</iframe>
-      </div>
+      <div id="navigation"></div>
+      <div id="floatingtoc" class="hidden"></div>
       </xsl:if>
       <p xmlns="http://www.w3.org/1999/xhtml">
         <xsl:attribute name="id">
            <xsl:text>title</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="class">
+           <xsl:text>hidden</xsl:text>
         </xsl:attribute>
         <a class="left">
           <xsl:attribute name="href">
@@ -72,6 +79,8 @@ Version:
     </body>
   </html>
   <xsl:value-of select="$html.append"/>
+     </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

@@ -226,15 +226,28 @@ sub build {
                     else {
 ## TODO BUGBUG BZ #648126
 # for some reason the UTF8 file name is getting munged dep inside rcopy
-# works fron from the command line though O_O
+# works from from the command line though O_O
 # perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
 #
 ## Work around BZ #648126 ... gonna need to do an UTF8 audit maybe ...
 ##  Check, UTF8 file names, UTF8 output from XmlClean, Translate, WebSite.
-##                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
-                        system(
-                            qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|
-                        ) if ( -d "$tmp_dir/$lang/$format" );
+## however the work around blows up on Windows :(
+                        if ( $^O eq 'MSWin32' ) {
+                            rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
+                                if ( -d "$tmp_dir/$lang/$format" );
+                        }
+                        else {
+                            system(
+                                qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|
+                            ) if ( -d "$tmp_dir/$lang/$format" );
+                        }
+
+             # for splash pages, we need to rename them if using a web style 2
+                        if (   $self->{publican}->param('web_type')
+                            && $self->{publican}->param('web_style') == 2 )
+                        {
+                            fmove( "$path/index.html", "$path/splash.html" );
+                        }
                     }
                 }
             }
@@ -729,7 +742,7 @@ sub validate_xml {
             $dtd_path =~ s/\\/\//g;
         }
         else {
-            $dtd_path = 'file:///D:/Data/temp/Redhat/DTD/docbookx.dtd';
+            $dtd_path = 'file:///C:/publican/DTD/docbookx.dtd';
         }
     }
 
@@ -793,7 +806,7 @@ sub transform {
 
 ## BUGBUG test an alternative to fop!
     my $wkhtmltopdf_cmd = which('wkhtmltopdf');
-    my $diefopdie = ($wkhtmltopdf_cmd && $wkhtmltopdf_cmd ne '');
+    my $diefopdie = ( $wkhtmltopdf_cmd && $wkhtmltopdf_cmd ne '' );
 
     my $tmp_dir           = $self->{publican}->param('tmp_dir');
     my $docname           = $self->{publican}->param('docname');
@@ -827,6 +840,12 @@ sub transform {
     my $RPM_VERSION = $self->{publican}->param('edition');
 
     my $RPM_RELEASE = $self->{publican}->param('release');
+
+    my $pdf_name
+        = $self->{publican}->param('product') . '-'
+        . $self->{publican}->param('version') . '-'
+        . $self->{publican}->param('docname') . '-'
+        . "$lang.pdf";
 
     if ( $format eq 'txt' ) {
         if ( !-e "$tmp_dir/$lang/html-single" ) {
@@ -866,11 +885,8 @@ sub transform {
         return;
     }
 
-    my $pdf_name
-        = $self->{publican}->param('product') . '-'
-        . $self->{publican}->param('version') . '-'
-        . $self->{publican}->param('docname') . '-'
-        . "$lang.pdf";
+    my ( $web_product_label, $web_version_label, $web_name_label )
+        = $self->web_labels( { lang => $lang, xml_lang => $xml_lang } );
 
     if ( $format eq 'pdf' && $diefopdie ) {
         if ( -d "$tmp_dir/$lang/html-pdf" ) {
@@ -881,9 +897,10 @@ sub transform {
 
         mkdir "$tmp_dir/$lang/pdf";
 
-        my @wkhtmltopdf_args
-            = ( $wkhtmltopdf_cmd, '--header-spacing', 5, '--margin-top', 20,
-            );
+        my @wkhtmltopdf_args = (
+            $wkhtmltopdf_cmd, '--header-spacing', 5, '--footer-spacing', 3,
+            '--margin-top', 20,
+        );
 
         if ( -f "$common_config/header.html" ) {
             push( @wkhtmltopdf_args,
@@ -926,6 +943,7 @@ sub transform {
         'tablecolumns.extensions'    => 1,
         'publican.version'           => "'$Publican::VERSION'",
         'bridgehead.in.toc'          => $bridgehead_in_toc,
+        'body.only'                  => 0,
     );
 
     mkdir "$tmp_dir/$lang/$format";
@@ -954,6 +972,11 @@ sub transform {
             $toc_path = '../..';
             $pop_name = undef;
         }
+        if (   $self->{publican}->param('web_type')
+            && $self->{publican}->param('web_style') == 2 )
+        {
+            $xslt_opts{'body.only'} = 1;
+        }
     }
 
     if ( $format eq 'html-single' ) {
@@ -965,6 +988,33 @@ sub transform {
         $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
         $xslt_opts{'embedtoc'} = $embedtoc;
         $xslt_opts{'tocpath'}  = "'$toc_path'";
+        $xslt_opts{'pop_prod'} = "'$pop_prod'" if ($pop_prod);
+        $xslt_opts{'pop_ver'}  = "'$pop_ver'" if ($pop_ver);
+        $xslt_opts{'pop_name'} = "'$pop_name'" if ($pop_name);
+    }
+    elsif ( $format eq 'html-pdf' ) {
+        $dir = pushd("$tmp_dir/$lang/$format");
+        my $title;
+
+        $title
+            = $web_product_label
+            ? $web_product_label
+            : $self->{publican}->param('product');
+        $title .= ' ';
+        $title .=
+              $web_version_label
+            ? $web_version_label
+            : $self->{publican}->param('version');
+        $title .= ' ';
+
+        $title =~ s/_/ /g;
+
+        $xslt_opts{'product'}    = "'$title'";
+        $xslt_opts{'svg.object'} = "0";
+        $xslt_opts{'doc.url'}    = "'$doc_url'";
+        $xslt_opts{'prod.url'}   = "'$prod_url'";
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'tocpath'} = "'$toc_path'";
         $xslt_opts{'pop_prod'} = "'$pop_prod'" if ($pop_prod);
         $xslt_opts{'pop_ver'}  = "'$pop_ver'" if ($pop_ver);
         $xslt_opts{'pop_name'} = "'$pop_name'" if ($pop_name);
@@ -983,7 +1033,15 @@ sub transform {
     }
     elsif ( $format eq 'html' ) {
         $dir = pushd("$tmp_dir/$lang/$format");
+        $xslt_opts{clean_title}
+            = $web_name_label
+            ? $web_name_label
+            : $pop_name;
 
+        $xslt_opts{clean_title} = $self->{publican}->param('docname')
+            unless ( $xslt_opts{clean_title} );
+        $xslt_opts{clean_title} = '"' . $xslt_opts{clean_title} . '"';
+        $xslt_opts{clean_title} =~ s/_/ /g;
         $xslt_opts{'doc.url'}  = "'$doc_url'";
         $xslt_opts{'prod.url'} = "'$prod_url'";
         $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
@@ -1077,7 +1135,7 @@ sub transform {
         my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
             { Delimiter => "\\" } );
 
-        my $new_href = 'file:///D:/Data/temp/Redhat/docbook-xsl-1.75.2';
+        my $new_href = 'file:///C:/publican/docbook-xsl-1.76.1';
         if ( $key and $key->GetValue("xsl_path") ) {
             $new_href = 'file:///' . $key->GetValue("xsl_path");
             $new_href =~ s/ /%20/g;
@@ -1099,7 +1157,7 @@ sub transform {
     if ( $format =~ /^pdf/ ) {
         eval { $stylesheet->output_file( $results, "$docname.fo" ) };
     }
-    elsif ( $format =~ /^html-/ ) {    # html-single and html-desktop
+    elsif ( $format =~ /^html-/ ) {    # html-single and html-desktop html-pdf
         eval { $stylesheet->output_file( $results, "index.html" ) };
     }
     else {                             # html
@@ -1683,7 +1741,6 @@ Returns: Modified input tree, which is DocBook XML.
 =cut
 
 sub numberLines {
-
     # BUGBUG testing BZ #653432
     my $count   = shift()->string_value();
     my $content = shift();
@@ -2024,13 +2081,13 @@ sub package {
     $web_formats =~ s/,/ /g;
 
     # No PDF for Indic packages. BZ #655713
-    if (   $lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/
-        || $xml_lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/ )
-    {
-        $web_formats_comma =~ s/pdf,//g;
-        $web_formats_comma =~ s/,pdf//g;
-        $web_formats       =~ s/\s*pdf\s*/ /g;
-    }
+##    if (   $lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/
+##        || $xml_lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/ )
+##    {
+##        $web_formats_comma =~ s/pdf,//g;
+##        $web_formats_comma =~ s/,pdf//g;
+##        $web_formats       =~ s/\s*pdf\s*/ /g;
+##    }
 
     if ( $lang ne $xml_lang ) {
         $release = undef;
@@ -2109,20 +2166,19 @@ sub package {
     my $xsl_file      = $common_config . "/xsl/web-spec.xsl";
     $xsl_file = $common_config . "/xsl/dt_htmlsingle_spec.xsl" if ($desktop);
     $xsl_file =~ s/"//g;    # windows
-    my $license           = $self->{publican}->param('license');
-    my $brand             = lc( $self->{publican}->param('brand') );
-    my $doc_url           = $self->{publican}->param('doc_url');
-    my $src_url           = $self->{publican}->param('src_url');
-    my $dt_obsoletes      = $self->{publican}->param('dt_obsoletes') || "";
-    my $dt_requires       = $self->{publican}->param('dt_requires') || "";
-    my $web_obsoletes     = $self->{publican}->param('web_obsoletes') || "";
-    my $translation       = ( $lang ne $xml_lang );
-    my $language          = code2language( substr( $lang, 0, 2 ) );
-    my $web_product_label = $self->{publican}->param('web_product_label')
-        || "";
-    my $web_version_label = $self->{publican}->param('web_version_label')
-        || "";
-    my $web_name_label = $self->{publican}->param('web_name_label') || "";
+    my $license       = $self->{publican}->param('license');
+    my $brand         = lc( $self->{publican}->param('brand') );
+    my $doc_url       = $self->{publican}->param('doc_url');
+    my $src_url       = $self->{publican}->param('src_url');
+    my $dt_obsoletes  = $self->{publican}->param('dt_obsoletes') || "";
+    my $dt_requires   = $self->{publican}->param('dt_requires') || "";
+    my $web_obsoletes = $self->{publican}->param('web_obsoletes') || "";
+    my $translation   = ( $lang ne $xml_lang );
+    my $language      = code2language( substr( $lang, 0, 2 ) );
+
+    my ( $web_product_label, $web_version_label, $web_name_label )
+        = $self->web_labels( { lang => $lang, xml_lang => $xml_lang } );
+
     my $web_dir = $self->{publican}->param('web_dir')
         || '%{_localstatedir}/www/html/docs';
     my $web_cfg = $self->{publican}->param('web_cfg')
@@ -2133,52 +2189,17 @@ sub package {
         || "X-Red-Hat-Base;";
     $menu_category .= ';' if ( $menu_category !~ /;\s*$/ );
 
-    if ( $lang ne $xml_lang ) {
-        my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
-        croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
-            if ( !-f $xml_file );
-
-        my $xml_doc = XML::TreeBuilder->new({ 'NoExpand' => "1", 'ErrorContext' => "2" });
-        $xml_doc->parse_file($xml_file);
-
-        # BUGBUG can't translate overridden labels :(
-        unless ($web_product_label) {
-            $web_product_label = eval {
-                $xml_doc->root()->look_down( "_tag", "productname" )
-                    ->as_text();
-            };
-            if ($@) {
-                croak maketext("productname not found in Info file");
-            }
-            $web_product_label =~ s/\s/_/g;
-        }
-
-        unless ($web_name_label) {
-            $web_name_label = eval {
-                $xml_doc->root()->look_down( "_tag", "title" )->as_text();
-            };
-            if ($@) {
-                croak maketext("title not found in Info file");
-            }
-            $web_name_label =~ s/\s/_/g;
-        }
-    }
-
-    $web_product_label =~ s/"/\\"/g;
-    $web_name_label    =~ s/"/\\"/g;
-    $web_version_label =~ s/"/\\"/g;
-
     # store lables for rebuilding translated content
-    if ( $web_product_label eq $product ) {
-        $web_product_label = undef;
-    }
     $self->{publican}->{config}
-        ->param( 'web_product_label', $web_product_label );
+        ->param( 'web_product_label', $web_product_label )
+        if ($web_product_label);
+    $self->{publican}->{config}
+        ->param( 'web_version_label', $web_version_label )
+        if ($web_version_label);
+    $self->{publican}->{config}->param( 'web_name_label', $web_name_label )
+        if ($web_name_label);
 
-    if ( $web_name_label eq $docname ) {
-        $web_name_label = undef;
-    }
-    $self->{publican}->{config}->param( 'web_name_label', $web_name_label );
+    $self->{publican}->{config}->param( 'release', $release );
 
     # don't override these
     $self->{publican}->{config}->delete('common_config');
@@ -2305,6 +2326,95 @@ sub package {
     $self->build_rpm( { spec => $spec_name, binary => $binary } );
 
     return;
+}
+
+=head2 web_labels
+
+Determine if the labels use in the web navigation are different from the names used for packaging.
+
+=cut
+
+sub web_labels {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
+    my $xml_lang = delete( $args->{xml_lang} )
+        || croak( maketext("xml_lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my $tmp_dir = $self->{publican}->param('tmp_dir');
+    my $type    = $self->{publican}->param('type');
+    my $docname = $self->{publican}->param('docname');
+    my $product = $self->{publican}->param('product');
+    my $version = $self->{publican}->param('version');
+
+    my $web_product_label = $self->{publican}->param('web_product_label')
+        || undef;
+    my $web_version_label = $self->{publican}->param('web_version_label')
+        || undef;
+    my $web_name_label = $self->{publican}->param('web_name_label') || undef;
+
+    #    if ( $lang ne $xml_lang ) {
+    my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
+    croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
+        if ( !-f $xml_file );
+
+    my $xml_doc = XML::TreeBuilder->new();
+    $xml_doc->parse_file($xml_file);
+
+    # BUGBUG can't translate overridden labels :(
+    unless ($web_product_label) {
+        $web_product_label = eval {
+            $xml_doc->root()->look_down( "_tag", "productname" )->as_text();
+        };
+        if ($@) {
+
+            #            croak maketext("productname not found in Info file");
+        }
+        else {
+            $web_product_label =~ s/\s/_/g;
+        }
+    }
+    unless ($web_name_label) {
+        $web_name_label = eval {
+            $xml_doc->root()->look_down( "_tag", "title" )->as_text();
+        };
+        if ($@) {
+
+            #           croak maketext("title not found in Info file");
+        }
+        else {
+            $web_name_label =~ s/\s/_/g;
+        }
+    }
+
+    #    }
+
+    $web_product_label =~ s/"/\\"/g if ($web_product_label);
+    $web_name_label    =~ s/"/\\"/g if ($web_name_label);
+    $web_version_label =~ s/"/\\"/g if ($web_version_label);
+
+    if ( $web_name_label && $web_name_label eq $docname ) {
+        $web_name_label = undef;
+    }
+
+    if ( $web_version_label && $web_version_label eq $version ) {
+        $web_version_label = undef;
+    }
+
+    if ( $web_product_label && $web_product_label eq $product ) {
+        $web_product_label = undef;
+    }
+
+    return ( $web_product_label, $web_version_label, $web_name_label );
 }
 
 =head2 change_log
@@ -2593,7 +2703,7 @@ sub dtd_string {
         my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
             { Delimiter => "\\" } );
 
-        $uri = 'file:///D:/Data/temp/Redhat/DTD/docbookx.dtd';
+        $uri = 'file:///C:/publican/DTD/docbookx.dtd';
 
         if ( $key and $key->GetValue("dtd_path") ) {
             $uri = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';

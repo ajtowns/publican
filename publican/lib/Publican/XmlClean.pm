@@ -411,6 +411,7 @@ sub Clean_ID {
     my ( $self, $node ) = @_;
     my $my_id   = "";
     my $docname = $self->{publican}->param('docname');
+    my $product = $self->{publican}->param('product');
 
     if ($node) {
         my $tag = $node->{'_tag'};
@@ -450,10 +451,10 @@ sub Clean_ID {
             }
         }
 
-        # prepend book name (to avoid problems in sets)
+        # prepend product & book name (to avoid problems in sets)
         # prepend tag type for translations BZ #427312
         if ( $my_id ne "" ) {
-            $my_id = "$docname-$my_id";
+            $my_id = "$product-$docname-$my_id";
             $my_id = substr( $tag, 0, 4 ) . "-$my_id";
         }
 
@@ -679,7 +680,7 @@ sub my_as_XML {
                         $depth++;
                     }
 
-                    if ( $tag eq 'imagedata' ) {
+                    if ( $tag eq 'imagedata' || $tag eq 'graphic' ) {
                         my $img_file = "$path" . $node->attr('fileref');
                         $img_file
                             = $self->{publican}->param('xml_lang') . "/"
@@ -824,11 +825,11 @@ sub my_as_XML {
                         $tree->_xml_escape($node);
 
                         # zero width space to allow Chinese to wrap
-                        if ( $lang
-                            && ( $lang eq 'zh-CN' || $lang eq 'zh-TW' ) )
-                        {
-                            $node =~ s/([\x{2000}-\x{AFFF}])/$1\&\#x200B\;/g;
-                        }
+##                        if ( $lang
+##                            && ( $lang eq 'zh-CN' || $lang eq 'zh-TW' ) )
+##                        {
+##                            $node =~ s/([\x{2000}-\x{AFFF}])/$1\&\#x200B\;/g;
+##                        }
 
                         push( @xml, $node );
                     }

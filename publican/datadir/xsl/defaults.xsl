@@ -46,10 +46,12 @@ Copied from fo/params.xsl
 <xsl:param name="pop_name" select="''"/>
 
 <xsl:param name="desktop" select="0"/>
-<xsl:param name="draft.mode">yes</xsl:param>
+<xsl:param name="draft.mode">maybe</xsl:param>
 
 <xsl:param name="funcsynopsis.style">ansi</xsl:param>
 <xsl:param name="refentry.pagebreak">0</xsl:param>
+
+<xsl:param name="svg.object">1</xsl:param>
 
 <xsl:template match="command">
 	<xsl:call-template name="inline.monoseq"/>

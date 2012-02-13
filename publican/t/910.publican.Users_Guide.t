@@ -15,42 +15,46 @@ my $coverdb = '';
 $coverdb = qq|-MDevel::Cover=-db,$cover_db| if ($cover_db);
 my $lib      = abs_path('blib/lib');
 my $publican = abs_path('blib/script/publican');
-my $common_opts =
-  qq|--common_config="$common_config" --common_content="$common_content" --nocolours|;
+my @common_opts = ( '--quiet', '--common_config', $common_config, '--common_content',
+    $common_content );
 
 my $dir = pushd('Users_Guide');
+my $result;
 
-is( system(qq{perl -I $lib $coverdb $publican print_tree $common_opts}),
-    0, 'Run print_tree' );
+$result = system( 'perl', '-CA', '-I', $lib, $publican, 'print_tree',
+    @common_opts );
+is( $result, 0, 'Run print_tree' );
 
-is( system(qq{perl -I $lib $coverdb $publican update_pot $common_opts}),
-    0, 'Update POT file' );
+$result = system( 'perl', '-CA', '-I', $lib, $publican, 'update_pot',
+    @common_opts );
+is( $result, 0, 'Update POT file' );
 
 # TODO rebuild all translation when we get some
-is(
-    system(
-qq{perl -I $lib $coverdb $publican update_po --langs=de-DE --email 'test\@example.com' --firstname 'Simple' --surname 'Simon' $common_opts}
-    ),
-    0,
-    'Update German PO files'
+$result = system(
+    'perl',      '-CA',     '-I',    $lib, $publican,
+    'update_po', '--langs', 'de-DE', @common_opts
 );
 
-is(
-    system(
-qq{perl -I $lib $coverdb $publican build --formats=html,html-single,html-desktop,pdf,txt,eclipse,epub --langs=en-US $common_opts}
-    ),
-    0,
-    'build the Users Guide'
+is( $result, 0, 'Update German PO files' );
+
+## BUGBUG why doesn't the test system see these tests being run?
+$result = system(
+    'perl',      '-CA',  '-I',      $lib,    $publican, 'build',
+    '--formats', 'html', '--langs', 'de-DE', @common_opts
 );
 
-# TODO build translation when we get one
-is(
-    system(
-qq{perl -I $lib $coverdb $publican build --formats=html --langs=de-DE $common_opts}
-    ),
-    0,
-    'build the Users Guide'
+is( $result, 0, 'build the Users Guide' );
+
+$result = system(
+    'perl',      '-CA',
+    '-I',        $lib,
+    $publican,   'build',
+    '--formats', 'html,html-single,html-desktop,pdf,txt,eclipse,epub',
+    '--langs',   'en-US', '--publish',
+    @common_opts
 );
+
+is( $result, 0, 'build the Users Guide in all formats' );
 
 $dir = undef;
 

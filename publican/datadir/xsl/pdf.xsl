@@ -1181,6 +1181,16 @@ Version: 1.72
   </fo:table-row>
 </xsl:template>
 
+<xsl:template match="corpauthor" mode="tablerow.titlepage.mode">
+  <fo:table-row>
+    <fo:table-cell>
+      <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="partintro.titlepage.recto.style">
+        <xsl:apply-templates select="."/>
+      </fo:block>
+    </fo:table-cell>
+  </fo:table-row>
+</xsl:template>
+
 <xsl:template match="othercredit" mode="tablerow.titlepage.mode">
   <fo:table-row>
     <fo:table-cell>
@@ -1221,6 +1231,7 @@ Version:1.72
       <xsl:apply-templates select="author" mode="tablerow.titlepage.mode"/>
       <xsl:apply-templates select="editor" mode="tablerow.titlepage.mode"/>
       <xsl:apply-templates select="othercredit" mode="tablerow.titlepage.mode"/>
+      <xsl:apply-templates select="corpauthor" mode="tablerow.titlepage.mode"/>
     </fo:table-body>
   </fo:table>
 </xsl:template>
@@ -2274,7 +2285,7 @@ because it has to parse lines one by one to place the gfx
         <!-- nop -->
       </xsl:when>
       <!--xsl:when test="ancestor-or-self::*[@status][1]/@status = 'draft'"-->
-      <xsl:when test="(ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'">
+      <xsl:when test="($draft.mode = 'maybe' and (ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft')">
         <xsl:text>-draft</xsl:text>
       </xsl:when>
       <xsl:otherwise>

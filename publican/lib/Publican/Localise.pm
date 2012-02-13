@@ -276,7 +276,7 @@ None reported.
 
 Please report any bugs or feature requests to
 C<publican-list@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&component=publican>.
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&amp;component=publican>.
 
 =head1 AUTHOR
 

@@ -65,12 +65,12 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
 
 %if %{ICONS}
-for icon in `ls  <xsl:value-of select="$lang"/>/icons/*x*.png`; do
+for icon in `ls <xsl:value-of select="$lang"/>/icons/*x*.png`; do
   size=`echo "$icon" | sed -e 's/.*icons\/\(.*\)\.png/\1/'`;
   mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps
   cp $icon  $RPM_BUILD_ROOT/usr/share/icons/hicolor/$size/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.png;
 done
-cp  <xsl:value-of select="$lang"/>/icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
+cp <xsl:value-of select="$lang"/>/icons/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %else
 cp <xsl:value-of select="$lang"/>/images/icon.svg  $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/<xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>.svg;
 %endif

@@ -1,0 +1,180 @@
+[%- lang_menu = "index.html" -%]
+[% INCLUDE 'web_2_head.tmpl' %]
+<script type="text/javascript" src="[% host %]/jquery.jcarousel.min.js"></script>
+<script>
+	var current_product = "Products";
+	function sideProductsLinkClicked(productname,linkclass, displayclass)
+	{
+		productname = productname.replace(".", "\\.");
+		$('.'+linkclass+' .link').removeClass("active")
+		$('.'+linkclass+' .link#'+productname).addClass("active")
+		$('.'+displayclass).addClass("hidden")
+		$('.'+displayclass+'.'+productname).removeClass("hidden")
+	}
+	$(document).ready(function() {
+		/*Add hidden class display:none*/
+		$(".bottom_products").addClass("hidden");
+		$(".bottom_versions").addClass("hidden");
+
+		/*make the first child in the links list active*/
+		if (window.location.hash == ""){ 
+		/*$('.side_products .link:first-child').each(function(){sideProductsLinkClicked(this.id, "side_products","bottom_products");$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function()
+				{sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});});*/
+		} else {
+				var anchorcontents = window.location.hash.replace("#","").split("-")
+				sideProductsLinkClicked(anchorcontents[0], "side_products","bottom_products")
+				if (anchorcontents.length > 1)
+				{
+					sideProductsLinkClicked(anchorcontents[0]+"-"+anchorcontents[1], "version_tabs","bottom_versions")
+				} else
+				{
+					$(".bottom_products."+anchorcontents[0]+" .version_tabs .link:first-child").each(function()
+				{sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});
+				}
+		}
+		/* set up the click function for all the links*/
+		$('.side_products .link').click(function(e)
+			{
+				sideProductsLinkClicked(this.id, "side_products","bottom_products");
+				
+				$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function()
+				{sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});
+				e.preventDefault();
+			});
+				
+		$('.version_tabs .link').click(function(){sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});
+	});
+		function mycarousel_initCallback(carousel)
+{
+    $(".jcarousel-container").hover(function() {
+        carousel.stopAuto();
+    }, function() {
+        carousel.startAuto();
+    });
+};
+$(document).ready(function() {
+   $('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", initCallback: mycarousel_initCallback});
+});
+</script>
+<div class="lang_top_box">
+  <div class="langauge_banner">
+  <ul id="slider">
+   	<li class="slider_item">
+	   <a class="slider_link" href="#">
+	   <div class="slider_wrapper">
+			<div class="slider_wrapper2">
+				<div class="slider_title">
+					Preview the latest for Red Hat Enterprise Linux 5
+				</div>
+				<div class="slider_body">
+					Red Hat Enterprise Linux 5.8 is coming soon. Learn about what's new, including over 700 bug fixes, 36 new packages, and 4 technology previews!
+				</div>
+			</div>
+		</div>
+	 	</a>
+   </li>
+   <li class="slider_item">
+	   <a class="slider_link" href="/docs/en-US/Red_Hat_Certificate_System/8.1/">
+	   <div class="slider_wrapper">
+			<div class="slider_wrapper2">
+				<div class="slider_title">
+					Out now: Red Hat Certificate System 8.1
+				</div>
+				<div class="slider_body">
+					Red Hat Certificate System 8.1 is here: certified at EAL4 and with a fresh new Token Processing System
+				</div>
+			</div>
+		</div>
+	 	</a>
+   </li>
+      <li class="slider_item">
+	   <a class="slider_link" href="/docs/en-US/JBoss_Operations_Network">
+	   <div class="slider_wrapper">
+			<div class="slider_wrapper2">
+				<div class="slider_title">
+					New JBoss Operations Network documentation
+				</div>
+				<div class="slider_body">
+					Three new manuals are available for JBoss Operations Network administrators. Learn how to set up inventory groups, manage resource configuration, and use monitoring alerts.
+				</div>
+			</div>
+		</div>
+	 	</a>
+   </li>
+      <li class="slider_item">
+	   <a class="slider_link" href="/docs/en-US/OpenShift_Express/2.0/html/User_Guide">
+	   <div class="slider_wrapper">
+			<div class="slider_wrapper2">
+				<div class="slider_title">
+					OpenShift Express Documentation
+				</div>
+				<div class="slider_body">
+					OpenShift Express is Red Hat's new platform as a service (PaaS) solution. Our User Guide will have you up and running straight away
+				</div>
+			</div>
+		</div>
+	 	</a>
+   </li>
+         <li class="slider_item">
+	   <a class="slider_link" href="/docs/en-US/Red_Hat_Enterprise_MRG/2.0">
+	   <div class="slider_wrapper">
+			<div class="slider_wrapper2">
+				<div class="slider_title">
+					Updated Red Hat Enterprise MRG Docs
+				</div>
+				<div class="slider_body">
+					If you use Red Hat Enterprise MRG 2.0, you'll want the new versions of the manuals, revised and expanded to cover Aviary attributes, PostgreSQL configuration, and new technology previews.
+				</div>
+			</div>
+		</div>
+	 	</a>
+   </li>
+
+   </ul>
+  </div>
+  
+  <!--<div class="popular_books">
+    This box should contain the most popular 3 books...
+% FOREACH  l_book = popular_books %
+    <div class="popular_book">
+    </div>
+%- END %
+  </div>-->
+</div>
+<div class="main_content">
+<div class="side_products">
+	[% FOREACH  prod = products %]
+		<div class="link" id="[% prod %]"><a href="#[% prod %]">[% labels.${prod}.label %]</a></div>
+	[%- END %]
+</div>
+
+<div class="lang_bottom_box">
+	[% FOREACH  prod = products %]
+	<div class="bottom_products [% prod %]">
+	<div class="title"><span><a href="[% host %]/[% lang %]/[% prod %]/index.html">[% labels.${prod}.label %]</a></span></div>
+		<div class="version_tabs">
+		[% FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
+		<span class="link" id="[% prod %]-[% ver %]"><a href="#[% prod %]-[% ver %]">[% labels.${prod}.${ver}.label %]</a></span>
+		[% END %]
+		</div>
+		
+	[% FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
+	<div class="bottom_versions [% prod %]-[% ver %]">
+		
+		[% FOREACH  c_book = i_sort(cur_ver) %][% booker = book_list.${prod}.${ver}.${c_book} %]
+		<div class="bottom_books[% IF lang != booker.lang %] untranslated [% lang %][% END %]">
+			<a href="[% host %]/[% lang %]/[% prod %]/[% booker.version %]/[% booker.book %]/index.html">[% booker.book_clean %]</a>[% IF lang != booker.lang %]<span>[% trans_strings.Untranslated %]</span>
+		[% END %]
+		</div>
+	[%- END %]
+</div>
+[%- END %]
+</div>
+
+
+[%- END %]
+</div>
+</div>
+</div>
+[% INCLUDE 'web_2_footer.tmpl' %]
+

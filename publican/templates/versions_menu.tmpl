@@ -1,0 +1,6 @@
+<script>$('<div>'+current_version+'</div>').insertBefore("#version_menu_list")</script>
+<ul id="version_menu_list" class="hidden">
+[%- FOREACH ver = versions %]
+  <li><a href="[% host %]/[% lang %]/[% product %]/[% ver %]/index.html">[% labels.${product}.${ver}.label %]</a></li>
+[%- END %]
+</ul>

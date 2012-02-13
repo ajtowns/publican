@@ -95,6 +95,14 @@ Requires:       rpmlint
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 Requires:       lklug-fonts baekmuk-ttf-batang-fonts
+Requires:       lohit-assamese-fonts lohit-bengali-fonts lohit-devanagari-fonts
+Requires:       lohit-gujarati-fonts lohit-hindi-fonts lohit-kannada-fonts
+Requires:       lohit-kashmiri-fonts lohit-konkani-fonts lohit-maithili-fonts
+Requires:       lohit-malayalam-fonts lohit-marathi-fonts lohit-nepali-fonts
+Requires:       lohit-oriya-fonts lohit-punjabi-fonts lohit-sindhi-fonts
+Requires:       lohit-tamil-fonts lohit-telugu-fonts dejavu-lgc-sans-mono-fonts
+Requires:       dejavu-fonts-common dejavu-serif-fonts dejavu-sans-fonts
+Requires:       dejavu-sans-mono-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
@@ -110,10 +118,6 @@ BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 %endif
 
-Obsoletes:      Publican < 1.0
-# Do NOT support very old packages
-#Provides:       Publican = 1.0
-
 %description
 Publican is a DocBook publication system, not just a DocBook processing tool.
 As well as ensuring your DocBook XML is valid, publican works to ensure
@@ -123,9 +127,6 @@ your XML is up to publishable standard.
 Group:          Documentation
 Summary:        Documentation for the Publican package
 Requires:       xdg-utils
-Obsoletes:      Publican-doc < 1.0
-# Do NOT support very old packages
-#Provides:       Publican-doc = 1.0
 
 %description doc
 Publican is a tool for publishing material authored in DocBook XML.

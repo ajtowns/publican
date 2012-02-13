@@ -5,7 +5,7 @@ use warnings;
 use strict;
 use 5.008;
 
-use Carp qw(cluck croak);
+use Carp qw(cluck croak confess);
 use Config::Simple '-strict';
 use DBI;
 use Template;
@@ -19,7 +19,7 @@ use Time::localtime;
 use XML::Simple;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
 
-our $VERSION = '1.3';
+our $VERSION = '1.4';
 
 my $DB_NAME             = 'books';
 my $DEFAULT_LANG        = 'en-US';
@@ -83,8 +83,7 @@ my %LANG_NAME = (
 # This is required to ensure that the correct localised strings are found when running
 # the commands on an non en-US command line
 my $locale = Publican::Localise->get_handle('en-US')
-    || croak(
-    "Could not create a Publican::Localise object for language: en-US");
+    || croak("Could not create a Publican::Localise object for language: en-US");
 $locale->encoding("UTF-8");
 $locale->textdomain("publican");
 
@@ -159,6 +158,9 @@ sub new {
     my $zip_dump  = $config->param('zip_dump')  || undef;
     my $toc_type  = $config->param('toc_type')  || 'toc';
     my $manual_toc_update = $config->param('manual_toc_update') || 0;
+    my $debug             = $config->param('debug')             || 0;
+    my $footer            = $config->param('footer')            || "";
+    my $web_style         = $config->param('web_style')         || 1;
 
     my $self = bless { db_file => $db_file }, $class;
 
@@ -172,16 +174,20 @@ sub new {
     $self->{def_lang}          = $def_lang;
     $self->{host}              = $host;
     $self->{search}            = $search;
+    $self->{footer}            = $footer;
     $self->{title}             = $title;
     $self->{dump}              = $dump;
     $self->{dump_file}         = $dump_file;
     $self->{zip_dump}          = $zip_dump;
     $self->{toc_type}          = $toc_type;
     $self->{manual_toc_update} = $manual_toc_update;
+    $self->{debug}             = $debug;
+    $self->{web_style}         = $web_style;
 
     my $conf = { INCLUDE_PATH => $tmpl_path, };
 
-    $conf->{DEBUG} = Template::Constants::DEBUG_ALL if ($Publican::DEBUG);
+    #    $conf->{DEBUG} = Template::Constants::DEBUG_ALL if ($debug);
+    $conf->{DEBUG} = Template::Constants::DEBUG_VARS if ($debug);
 
     # create Template object
     $self->{Template} = Template->new($conf) or croak( Template->error() );
@@ -477,7 +483,7 @@ sub get_hash_ref {
     my ( $self, $arg ) = @_;
 
     my $language = delete $arg->{language}
-        || croak "get_hash_ref: language required";
+        || confess "get_hash_ref: language required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -556,7 +562,8 @@ sub get_lang_list {
 
     my $langs;
 
-    my $sql = qq|SELECT DISTINCT language FROM $DB_NAME ORDER BY language|;
+    my $sql
+        = qq|SELECT DISTINCT language FROM $DB_NAME where language <> "$self->{def_lang} ORDER BY language "|;
     $langs = $self->_dbh->selectall_arrayref($sql);
 
     unless ( $langs->[0] ) {
@@ -565,7 +572,9 @@ sub get_lang_list {
         my @langs = ( $self->{def_lang} );
         $langs->[0] = \@langs;
     }
-
+    else {
+        unshift( @{$langs}, [ $self->{def_lang} ] );
+    }
     return ($langs);
 }
 
@@ -592,8 +601,7 @@ sub regen_all_toc {
         my %toc;
         my @prods = ();
 
-        my $products = $self->_regen_toc(
-            { language => qq|$lang->[0]|, urls => \@urls } );
+        my $products = $self->_regen_toc( { language => qq|$lang->[0]|, urls => \@urls } );
 
         # Remove untranslated content from map page.
         foreach my $product ( @{$products} ) {
@@ -699,6 +707,9 @@ sub regen_all_toc {
     ) or croak( $self->{Template}->error() );
 
     $self->xml_dump() if ( $self->{dump} );
+
+    $self->splash_pages() if ( $self->{web_style} == 2 );
+
     return;
 }
 
@@ -1071,11 +1082,17 @@ SEARCH
 
     $vars->{products} = \@products;
 
-    $self->{Template}->process(
-        'toc.tmpl', $vars,
-        $self->{toc_path} . "/$language/toc.html",
-        binmode => ':encoding(UTF-8)'
-    ) or croak( $self->{Template}->error() );
+    if ( $self->{web_style} == 1 ) {
+        $self->{Template}->process(
+            'toc.tmpl', $vars,
+            $self->{toc_path} . "/$language/toc.html",
+            binmode => ':encoding(UTF-8)'
+        ) or croak( $self->{Template}->error() );
+    }
+    else {
+        unlink( $self->{toc_path} . "/$language/toc.html" )
+            if ( -f $self->{toc_path} . "/$language/toc.html" );
+    }
 
     # This file contains all products for this langauge.
     my $opds_vars;
@@ -1211,6 +1228,612 @@ sub xml_dump {
     }
 
     return;
+}
+
+sub splash_pages {
+    my ( $self, $arg ) = @_;
+
+    if ( $arg && %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $host     = $self->{host};
+    my $langs    = $self->get_lang_list();
+    my $def_lang = $self->{def_lang};
+    my @all_lang_array;
+
+    # remove duplicate ...
+    shift @$langs;
+
+    foreach my $lang_t (@$langs) {
+        my %lang_hash = (
+            lang      => $lang_t->[0],
+            lang_name => $self->lang_name( { lang => $lang_t->[0] } )
+        );
+        push( @all_lang_array, \%lang_hash );
+    }
+
+    foreach my $lang ( @{$langs} ) {
+        my $language  = $lang->[0];
+        my $direction = 'DESC';
+        $direction = 'ASC' if ( $def_lang lt $language );
+
+        my $sql = <<SQL;
+SELECT distinct product, version, name, language, name_label, version_label, product_label, formats, langs, abstract
+FROM (
+  SELECT product, version, name, language, name_label, version_label, product_label, abstract, 
+    (
+      SELECT GROUP_CONCAT(format)
+      FROM books as books1
+      WHERE  books1.name  = books.name
+      AND books1.product  = books.product
+      AND books1.version  = books.version
+      AND books1.language = books.language
+    ) AS formats,
+    (
+      SELECT GROUP_CONCAT(distinct language)
+      FROM books as books2
+      WHERE books2.name   = books.name
+      AND books2.product  = books.product
+      AND books2.version  = books.version
+      AND (
+            books2.language <> ?
+        AND books2.language <> books.language
+      )
+      ORDER BY books2.language
+    ) as langs
+  FROM books
+  WHERE language = ? OR language = ?
+  GROUP BY product, version, name, language
+  ORDER BY product, version, name, language $direction
+)
+GROUP BY product, version, name
+ORDER BY product, version desc, name
+SQL
+
+## BUGBUG cache this query?
+        my $sth = $self->_dbh->prepare($sql);
+        $sth->execute( $language, $def_lang, $language );
+
+        my %book_list;
+        my $product       = "";
+        my $product_label = "";
+        my $version       = "";
+        my $version_label = "";
+        my %book_ver_list;
+        my %labels;
+
+        my $lc_lang = $language;
+        $lc_lang =~ s/-/_/g;
+        my $locale = Publican::Localise->get_handle($lc_lang)
+            || croak( "Could not create a Publican::Localise object for language: [_1]",
+            $lang );
+        $locale->encoding("UTF-8");
+        $locale->textdomain("publican");
+
+        my $OUT_FILE;
+        open( $OUT_FILE, '>', $self->{toc_path} . '/search.html' )
+            || croak( maketext( "Could not open search file for output: [_1]", $@ ) );
+
+        print( $OUT_FILE $self->search_string() );
+        close($OUT_FILE);
+
+        open( $OUT_FILE, '>', $self->{toc_path} . '/footer.html' )
+            || croak( maketext( "Could not open footer file for output: [_1]", $@ ) );
+
+        print( $OUT_FILE $self->{footer} );
+        close($OUT_FILE);
+
+        my $vars;
+        foreach my $string ( sort( keys(%tmpl_strings) ) ) {
+            $vars->{$string} = $locale->maketext( $tmpl_strings{$string} );
+            $vars->{$string} = decode_utf8( $vars->{$string} )
+                unless ( is_utf8( $vars->{$string} ) );
+        }
+
+        while ( my $record = $sth->fetchrow_hashref ) {
+
+            # Bash UTF8 into DB fields
+            foreach my $key (
+                qw(product version name language name_label version_label product_label abstract )
+                )
+            {
+                $record->{$key} = decode_utf8( $record->{$key} )
+                    unless ( is_utf8( $record->{$key} ) );
+##                print( STDERR "$key: " . ( $record->{$key} || "" ) . ", " );
+            }
+##            print( STDERR "\n\n" );
+
+            if ( $product ne '' and ( $product ne $record->{product} ) ) {
+
+                # write our books_index.tmpl
+
+## BUGBUG might be better off looping again at end to ensure translated labels are in place
+                # write our versions_index.tmpl & books_menu.tmpl
+                $self->write_version_index(
+                    {   lang          => $language,
+                        product       => $product,
+                        version       => $version,
+                        langs         => \@all_lang_array,
+                        book_list     => $book_list{$product}{$version},
+                        labels        => \%labels,
+                        trans_strings => $vars,
+                    }
+                );
+
+                # write our products_index.tmpl & versions_menu.tmpl
+                $self->write_product_index(
+                    {   lang          => $language,
+                        product       => $product,
+                        book_list     => $book_list{$product},
+                        langs         => \@all_lang_array,
+                        labels        => \%labels,
+                        trans_strings => $vars,
+                    }
+                );
+
+                # write out products_menu.tmpl
+                $self->write_product_menu(
+                    {   lang          => $language,
+                        book_list     => \%book_list,
+                        langs         => \@all_lang_array,
+                        labels        => \%labels,
+                        trans_strings => $vars,
+                    }
+                );
+
+            }
+            elsif ( $version ne '' and ( $version ne $record->{version} ) ) {
+
+                # write our versions_index.tmpl & books_menu.tmpl
+                $self->write_version_index(
+                    {   lang          => $language,
+                        product       => $product,
+                        version       => $version,
+                        book_list     => $book_list{$product}{$version},
+                        langs         => \@all_lang_array,
+                        labels        => \%labels,
+                        trans_strings => $vars,
+                    }
+                );
+
+            }
+
+            $product = $record->{product};
+            if ( $record->{product_label} ) {
+                $product_label = $record->{product_label};
+                $labels{$product}{label} = $product_label;
+            }
+            else {
+                $product_label = $record->{product};
+                $product_label =~ s/_/ /g;
+            }
+
+            $labels{$product}{label} = $product_label
+                if ( !defined( $labels{$product}{label} ) );
+
+            $version = $record->{version};
+            if ( $record->{version_label} ) {
+                $version_label = $record->{version_label};
+                $labels{$product}{$version}{label} = $version_label;
+            }
+            else {
+                $version_label = $record->{version};
+                $version_label =~ s/_/ /g;
+            }
+
+            $labels{$product}{$version}{label} = $version_label
+                if ( !defined( $labels{$product}{$version}{label} ) );
+
+            my @lang_array;
+            if ( $record->{langs} ) {
+##print( STDERR "langs: " . $record->{langs} ."\n\n");
+                foreach my $trans ( sort( split( /,/, $record->{langs} ) ) ) {
+                    my %lang_hash = (
+                        lang      => $trans,
+                        lang_name => $self->lang_name( { lang => $trans } )
+                    );
+                    push( @lang_array, \%lang_hash );
+                }
+            }
+
+            # write out book_lang_menu.tmpl
+            my $book_lang_vars;
+            $book_lang_vars->{host}    = $host;
+            $book_lang_vars->{product} = $record->{product};
+            $book_lang_vars->{product_label}
+                = ( $record->{product_label} || $record->{product} );
+            $book_lang_vars->{version} = $record->{version};
+            $book_lang_vars->{version_label}
+                = ( $record->{version_label} || $record->{version} );
+            $book_lang_vars->{lang}          = $record->{language};
+            $book_lang_vars->{book}          = $record->{name};
+            $book_lang_vars->{book_label}    = ( $record->{name_label} || $record->{name} );
+            $book_lang_vars->{abstract}      = $record->{abstract};
+            $book_lang_vars->{trans_strings} = $vars;
+
+            if ( defined $record->{name_label} && $record->{name_label} ne "" ) {
+                $book_lang_vars->{book_clean} = $record->{name_label};
+            }
+            else {
+                $book_lang_vars->{book_clean} = $record->{name};
+                $book_lang_vars->{book_clean} =~ s/_/ /g;
+            }
+            $book_lang_vars->{langs} = \@lang_array;
+
+            $self->{Template}->process(
+                'books_lang_menu.tmpl',
+                $book_lang_vars,
+                $self->{toc_path}
+                    . "/$language/$record->{product}/$record->{version}/$record->{name}/lang_menu.html",
+                binmode => ':encoding(UTF-8)'
+            ) or croak( $self->{Template}->error() );
+
+            $book_list{$product}{$version}{ $record->{name} } = $book_lang_vars;
+
+            push(
+                @{ $book_ver_list{$product}{ $record->{name} }{$version}{formats} },
+                split( /,/, $record->{formats} )
+            );
+        }
+
+        # write our books_index.tmpl
+        $self->write_books_index(
+            {   lang          => $language,
+                book_ver_list => \%book_ver_list,
+                book_list     => \%book_list,
+                langs         => \@all_lang_array,
+                labels        => \%labels,
+                trans_strings => $vars,
+            }
+        );
+
+        # write our versions_index.tmpl & books_menu.tmpl
+        $self->write_version_index(
+            {   lang          => $language,
+                product       => $product,
+                version       => $version,
+                book_list     => $book_list{$product}{$version},
+                langs         => \@all_lang_array,
+                labels        => \%labels,
+                trans_strings => $vars,
+            }
+        );
+
+        # write our products_index.tmpl & versions_menu.tmpl
+        $self->write_product_index(
+            {   lang          => $language,
+                product       => $product,
+                book_list     => $book_list{$product},
+                langs         => \@all_lang_array,
+                labels        => \%labels,
+                trans_strings => $vars,
+            }
+        );
+
+        # write out products_menu.tmpl
+        $self->write_product_menu(
+            {   lang          => $language,
+                book_list     => \%book_list,
+                langs         => \@all_lang_array,
+                labels        => \%labels,
+                trans_strings => $vars,
+            }
+        );
+
+        # write our langauge_index.tmpl
+        $self->write_language_index(
+            {   lang          => $language,
+                book_list     => \%book_list,
+                langs         => \@all_lang_array,
+                labels        => \%labels,
+                trans_strings => $vars,
+            }
+        );
+    }
+
+    return;
+}
+
+sub write_version_index {
+    my ( $self, $arg ) = @_;
+    my $lang      = delete $arg->{lang}      || croak "write_version_index: lang required";
+    my $book_list = delete $arg->{book_list} || croak "write_version_index: book_list required";
+    my $product   = delete $arg->{product}   || croak "write_version_index: product required";
+    my $version   = delete $arg->{version}   || croak "write_version_index: version required";
+    my $langs     = delete $arg->{langs}     || croak "write_version_index: langs required";
+    my $labels    = delete $arg->{labels}    || croak "write_version_index: labels required";
+    my $trans_strings = delete $arg->{trans_strings}
+        || croak "write_version_index: trans_strings required";
+
+    #    my $    = delete $arg->{}    || croak "_regen_toc:  required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $host = $self->{host};
+
+    my $index_vars;
+    $index_vars->{product}          = $product;
+    $index_vars->{version}          = $version;
+    $index_vars->{host}             = $host;
+    $index_vars->{book_list}        = $book_list;
+    $index_vars->{lang}             = $lang;
+    $index_vars->{langs}            = $langs;
+    $index_vars->{search}           = $self->search_string();
+    $index_vars->{labels}           = $labels;
+    $index_vars->{publican_version} = $Publican::VERSION;
+    $index_vars->{trans_strings}    = $trans_strings;
+    $index_vars->{footer}           = $self->{footer};
+    $index_vars->{site_title}       = $self->{title};
+
+    $self->{Template}->process(
+        'versions_index.tmpl', $index_vars,
+        $self->{toc_path} . "/$lang/$product/$version/index.html",
+        binmode => ':encoding(UTF-8)'
+    ) or croak( $self->{Template}->error() );
+
+    my @books = sort( insensitive_sort keys( %{$book_list} ) );
+    $index_vars->{books} = \@books;
+
+    $self->{Template}->process(
+        'books_menu.tmpl', $index_vars,
+        $self->{toc_path} . "/$lang/$product/$version/books_menu.html",
+        binmode => ':encoding(UTF-8)'
+    ) or croak( $self->{Template}->error() );
+    return;
+}
+
+sub write_product_index {
+    my ( $self, $arg ) = @_;
+    my $lang      = delete $arg->{lang}      || croak "write_product_index: lang required";
+    my $book_list = delete $arg->{book_list} || croak "write_product_index: book_list required";
+    my $product   = delete $arg->{product}   || croak "write_product_index: product required";
+    my $langs     = delete $arg->{langs}     || croak "write_product_index: langs required";
+    my $labels    = delete $arg->{labels}    || croak "write_product_index: labels required";
+    my $trans_strings = delete $arg->{trans_strings}
+        || croak "write_product_index: trans_strings required";
+
+    #    my $    = delete $arg->{}    || croak "_regen_toc:  required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $host = $self->{host};
+
+    my $index_vars;
+    $index_vars->{product}       = $product;
+    $index_vars->{host}          = $host;
+    $index_vars->{book_list}     = $book_list;
+    $index_vars->{lang}          = $lang;
+    $index_vars->{v_sort}        = \&v_sort;
+    $index_vars->{i_sort}        = \&i_sort;
+    $index_vars->{search}        = $self->search_string();
+    $index_vars->{langs}         = $langs;
+    $index_vars->{labels}        = $labels;
+    $index_vars->{trans_strings} = $trans_strings;
+    $index_vars->{footer}        = $self->{footer};
+    $index_vars->{site_title}       = $self->{title};
+
+    $self->{Template}->process(
+        'products_index.tmpl', $index_vars,
+        $self->{toc_path} . "/$lang/$product/index.html",
+        binmode => ':encoding(UTF-8)'
+    ) or croak( $self->{Template}->error() );
+
+    my @versions = reverse( sort( version_sort keys( %{$book_list} ) ) );
+
+    $index_vars->{versions} = \@versions;
+
+    $self->{Template}->process(
+        'versions_menu.tmpl', $index_vars,
+        $self->{toc_path} . "/$lang/$product/versions_menu.html",
+        binmode => ':encoding(UTF-8)'
+    ) or croak( $self->{Template}->error() );
+
+    return;
+}
+
+sub write_product_menu {
+    my ( $self, $arg ) = @_;
+    my $lang      = delete $arg->{lang}      || croak "write_product_menu: lang required";
+    my $book_list = delete $arg->{book_list} || croak "write_product_menu: book_list required";
+    my $langs     = delete $arg->{langs}     || croak "write_product_menu: langs required";
+    my $labels    = delete $arg->{labels}    || croak "write_product_menu: labels required";
+    my $trans_strings = delete $arg->{trans_strings}
+        || croak "write_product_menu: trans_strings required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $host = $self->{host};
+
+    my @products = sort( insensitive_sort keys( %{$book_list} ) );
+
+    my $index_vars;
+    $index_vars->{host}          = $host;
+    $index_vars->{book_list}     = $book_list;
+    $index_vars->{lang}          = $lang;
+    $index_vars->{products}      = \@products;
+    $index_vars->{search}        = $self->search_string();
+    $index_vars->{langs}         = $langs;
+    $index_vars->{labels}        = $labels;
+    $index_vars->{trans_strings} = $trans_strings;
+    $index_vars->{footer}        = $self->{footer};
+    $index_vars->{site_title}       = $self->{title};
+
+## BUGBUG handle product labels
+    $self->{Template}->process(
+        'products_menu.tmpl', $index_vars,
+        $self->{toc_path} . "/$lang/products_menu.html",
+        binmode => ':encoding(UTF-8)'
+    ) or croak( $self->{Template}->error() );
+
+    return;
+}
+
+sub v_sort {
+    my $hash = shift;
+    return ( reverse( sort( version_sort keys( %{$hash} ) ) ) );
+}
+
+sub i_sort {
+    my $hash = shift;
+    return ( sort( insensitive_sort keys( %{$hash} ) ) );
+}
+
+sub write_language_index {
+    my ( $self, $arg ) = @_;
+    my $lang = delete $arg->{lang} || croak "write_langauge_index: lang required";
+    my $book_list = delete $arg->{book_list}
+        || croak "write_langauge_index: book_list required";
+    my $langs  = delete $arg->{langs}  || croak "write_langauge_index: langs required";
+    my $labels = delete $arg->{labels} || croak "write_langauge_index: labels required";
+    my $trans_strings = delete $arg->{trans_strings}
+        || croak "write_langauge_index: trans_strings required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $host = $self->{host};
+
+    my @products = sort( insensitive_sort keys( %{$book_list} ) );
+
+    my $index_vars;
+    $index_vars->{host}          = $host;
+    $index_vars->{book_list}     = $book_list;
+    $index_vars->{lang}          = $lang;
+    $index_vars->{products}      = \@products;
+    $index_vars->{v_sort}        = \&v_sort;
+    $index_vars->{i_sort}        = \&i_sort;
+    $index_vars->{title}         = $self->{title};
+    $index_vars->{search}        = $self->search_string();
+    $index_vars->{langs}         = $langs;
+    $index_vars->{labels}        = $labels;
+    $index_vars->{trans_strings} = $trans_strings;
+    $index_vars->{footer}        = $self->{footer};
+    $index_vars->{site_title}       = $self->{title};
+
+## BUGBUG handle product labels
+    $self->{Template}->process(
+        'language_index.tmpl', $index_vars,
+        $self->{toc_path} . "/$lang/index.html",
+        binmode => ':encoding(UTF-8)'
+    ) or croak( $self->{Template}->error() );
+
+    return;
+}
+
+sub write_books_index {
+    my ( $self, $arg ) = @_;
+    my $lang = delete $arg->{lang} || croak "write_langauge_index: lang required";
+    my $book_ver_list = delete $arg->{book_ver_list}
+        || croak "write_langauge_index: book_ver_list required";
+    my $book_list = delete $arg->{book_list}
+        || croak "write_langauge_index: book_list required";
+    my $langs  = delete $arg->{langs}  || croak "write_langauge_index: langs required";
+    my $labels = delete $arg->{labels} || croak "write_langauge_index: labels required";
+    my $trans_strings = delete $arg->{trans_strings}
+        || croak "write_langauge_index: trans_strings required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $host = $self->{host};
+
+    foreach my $product ( keys( %{$book_ver_list} ) ) {
+        foreach my $book ( keys( %{ $book_ver_list->{$product} } ) ) {
+
+            my @versions = reverse(
+                sort( version_sort keys( %{ $book_ver_list->{$product}{$book} } ) ) );
+
+            foreach my $version (@versions) {
+
+                my $index_vars;
+                $index_vars->{host}     = $host;
+                $index_vars->{book}     = $book_list->{$product}{$version}{$book};
+                $index_vars->{lang}     = $lang;
+                $index_vars->{langs}    = $langs;
+                $index_vars->{product}  = $product;
+                $index_vars->{version}  = $version;
+                $index_vars->{versions} = \@versions;
+                $index_vars->{formats}  = $book_ver_list->{$product}{$book}{$version}{formats};
+                $index_vars->{search}   = $self->search_string();
+                $index_vars->{labels}   = $labels;
+                $index_vars->{trans_strings} = $trans_strings;
+                $index_vars->{footer}        = $self->{footer};
+    $index_vars->{site_title}       = $self->{title};
+
+## BUGBUG handle product labels
+                $self->{Template}->process(
+                    'books_index.tmpl', $index_vars,
+                    $self->{toc_path} . "/$lang/$product/$version/$book/index.html",
+                    binmode => ':encoding(UTF-8)'
+                ) or croak( $self->{Template}->error() );
+
+            }
+        }
+    }
+
+    return;
+}
+
+sub lang_name {
+    my ( $self, $arg ) = @_;
+    my $lang = delete $arg->{lang} || croak "_regen_toc: lang required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    $lang =~ m/^([^-_]*)/;
+    my $lang_name = code2language($1) || "unknown $1";
+    if ( $LANG_NAME{$lang} ) {
+        $lang_name = $LANG_NAME{$lang};
+    }
+
+    return ($lang_name);
+}
+
+sub search_string {
+    my ( $self, $arg ) = @_;
+
+    if ( $arg && %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $default_search = <<SEARCH;
+	<form target="_top" method="get" action="http://www.google.com/search">
+		<div class="search">
+			<input class="searchtxt" type="text" name="q" value="" />
+			<input class="searchsub" type="submit" value="###Search###" />
+SEARCH
+
+    my $host = $self->{host};
+
+    if ($host) {
+        $default_search .= <<SEARCH;
+			<input class="searchchk" type="hidden"  name="sitesearch" value="$host" />
+SEARCH
+    }
+    else {
+        $host = '.';
+    }
+
+    $default_search .= <<SEARCH;
+		</div>
+	</form>
+SEARCH
+
+    my $search = ( $self->{search} || $default_search );
+    my $string = $locale->maketext("Search");
+    $search =~ s/###Search###/$string/g;
+    return ($search);
 }
 
 1;    # Magic true value required at end of module

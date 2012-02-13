@@ -61,16 +61,15 @@ Print out a tree view of xi:includes
 sub print_tree {
     my ( $self, $args ) = @_;
     my $dir;
-    my $in_file = ( delete $args->{'in_file'}
-            || ( $self->{publican}->param('mainfile') ) . '.xml' );
+    my $in_file =
+      ( delete $args->{'in_file'}
+          || ( $self->{publican}->param('mainfile') ) . '.xml' );
 
     my $indent = ( delete $args->{'indent'} || 1 );
 
     if ( %{$args} ) {
         croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
+            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
         );
     }
 
@@ -81,21 +80,21 @@ sub print_tree {
 
     my $xml_doc = XML::TreeBuilder->new();
     $xml_doc->parse_file($in_file)
-        || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
+      || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
 
     my @nodes = $xml_doc->look_down( "_tag", "xi:include" );
     foreach my $node (@nodes) {
         my $filename = $node->attr('href');
         if ( -f $filename ) {
             if ( $filename =~ /\.xml$/ ) {
-                if ( $node->attr('parse') && $node->attr('parse') eq 'text' )
-                {
+                if ( $node->attr('parse') && $node->attr('parse') eq 'text' ) {
                     logger( "   " x $indent . "$filename\n", GREEN );
                 }
                 else {
                     logger( "   " x $indent . "$filename\n" );
                     $self->print_tree(
-                        {   'in_file' => $filename,
+                        {
+                            'in_file' => $filename,
                             'indent'  => ( $indent + 1 )
                         }
                     );
@@ -122,14 +121,13 @@ Print out a list of XML files that are not xi:included
 sub print_unused {
     my ( $self, $args ) = @_;
     my $dir;
-    my $in_file = ( delete $args->{'in_file'}
-            || ( $self->{publican}->param('mainfile') ) . '.xml' );
+    my $in_file =
+      ( delete $args->{'in_file'}
+          || ( $self->{publican}->param('mainfile') ) . '.xml' );
 
     if ( %{$args} ) {
         croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
+            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
         );
     }
 
@@ -148,12 +146,11 @@ sub print_unused {
 
     my $xml_doc = XML::TreeBuilder->new();
     $xml_doc->parse_file($in_file)
-        || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
+      || croak( maketext( "Can't open file: [_1]: [_2]", $in_file, $@ ) );
 
     my @nodes = $xml_doc->look_down( "_tag", "xi:include" );
     foreach my $node (@nodes) {
         my $filename = $node->attr('href');
-        $filename =~ s/^\.\///;
         if ( -f $filename && $filename =~ /\.xml$/ ) {
             if ( !$node->attr('parse') || $node->attr('parse') ne 'text' ) {
                 $self->print_unused( { 'in_file' => $filename, } );
@@ -165,20 +162,18 @@ sub print_unused {
     $dir = undef;
 
     if ($unused) {
-        my @xml_files = dir_list( $xml_lang, '*.xml', 1 );
+        my @xml_files = dir_list( $xml_lang, '*.xml' );
         my $first = 1;
 
         foreach my $xml_file ( sort(@xml_files) ) {
             $xml_file =~ s/^$xml_lang\///;
             next
-                if (
-                $xml_file eq $self->{publican}->param('mainfile') . '.xml' );
+              if ( $xml_file eq $self->{publican}->param('mainfile') . '.xml' );
 
             unless ( defined $self->{used_files}->{qq|'$xml_file'|} ) {
                 if ($first) {
-                    logger(
-                        maketext("\nList of unused XML files in $xml_lang")
-                            . "\n" );
+                    logger( maketext("\nList of unused XML files in $xml_lang")
+                          . "\n" );
                     $first = 0;
                 }
                 logger( "   " . "$xml_file\n", RED );
@@ -202,14 +197,13 @@ Print out a list of image files that are not used.
 sub print_unused_images {
     my ( $self, $args ) = @_;
 
-    my $in_file = ( delete $args->{'in_file'}
-            || ( $self->{publican}->param('mainfile') ) . '.xml' );
+    my $in_file =
+      ( delete $args->{'in_file'}
+          || ( $self->{publican}->param('mainfile') ) . '.xml' );
 
     if ( %{$args} ) {
         croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
+            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) )
         );
     }
 
@@ -222,8 +216,7 @@ sub print_unused_images {
 
         my $xml_doc = XML::TreeBuilder->new();
         $xml_doc->parse_file($xml_file)
-            || croak(
-            maketext( "Can't open file: [_1]: [_2]", $xml_file, $@ ) );
+          || croak( maketext( "Can't open file: [_1]: [_2]", $xml_file, $@ ) );
 
         my @nodes = $xml_doc->look_down( "_tag", "imagedata" );
         foreach my $node (@nodes) {
@@ -239,7 +232,7 @@ sub print_unused_images {
         }
     }
 
-    my @image_files = dir_list( $xml_lang, '.*\.(svg|png|jpg|jpeg|gif)$' );
+    my @image_files = dir_list( $xml_lang, '.*\.(svg|png|jpg|jpeg|gif)$', 1 );
     $first = 1;
 
     foreach my $image ( sort(@image_files) ) {
@@ -247,9 +240,9 @@ sub print_unused_images {
 
         unless ( defined $used_files{"$image"} ) {
             if ($first) {
-                logger(   "\n"
-                        . maketext("List of unused Image files in $xml_lang")
-                        . "\n" );
+                logger( "\n"
+                      . maketext("List of unused Image files in $xml_lang")
+                      . "\n" );
                 $first = 0;
             }
             logger( "    " . "$image\n", RED );
@@ -261,7 +254,9 @@ sub print_unused_images {
     }
 
     if (%missing_files) {
-        logger( "\n" . maketext("List of missing Image files in $xml_lang") . "\n" );
+        logger( "\n"
+              . maketext("List of missing Image files in $xml_lang")
+              . "\n" );
         foreach my $image ( sort( keys %missing_files ) ) {
             logger( "    " . "$image\n", RED );
         }
@@ -316,7 +311,7 @@ No bugs have been reported.
 
 Please report any bugs or feature requests to
 C<publican-list@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&component=publican>.
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&amp;component=publican>.
 
 
 =head1 AUTHOR

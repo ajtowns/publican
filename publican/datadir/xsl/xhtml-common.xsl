@@ -344,18 +344,23 @@ Version: 1.72.0
 			</meta>
 		</xsl:if>
 	</xsl:if>
-      <xsl:if test="$embedtoc != 0 and $pop_prod != ''">
+      <xsl:if test="$embedtoc != 0 ">
+          <link rel="stylesheet" type="text/css"><xsl:attribute name="href"><xsl:value-of select="$tocpath"/>/../menu.css</xsl:attribute></link>
+          <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../jquery-1.7.1.min.js</xsl:attribute></script>
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../toc.js</xsl:attribute></script>
-          <script type="text/javascript">
-              addID('<xsl:value-of select="$pop_prod"/>');
-              <xsl:if test="$pop_ver != ''">
-	      addID('<xsl:value-of select="$pop_prod"/>.<xsl:value-of select="$pop_ver"/>');
-              </xsl:if>
-              <xsl:if test="$pop_name != ''">
-              addID('<xsl:value-of select="$pop_prod"/>.<xsl:value-of select="$pop_ver"/>.books');
-	      addID('<xsl:value-of select="$pop_prod"/>.<xsl:value-of select="$pop_ver"/>.<xsl:value-of select="$pop_name"/>');
-              </xsl:if>
-</script>
+          <script>
+		$(document).ready(function() {
+			$("#floatingtoc").load('index.html .book .toc');
+			$(".docnav li.home").click(function(){
+				$("#floatingtoc").toggle();
+			});
+		});
+		current_book = '<xsl:copy-of select="$pop_name"/>';
+		current_version = '<xsl:copy-of select="$pop_ver"/>';
+		current_product = '<xsl:copy-of select="$pop_prod"/>';
+                toc_path = '<xsl:value-of select="$tocpath"/>';
+		loadMenu();
+          </script>
       </xsl:if>
 
 	<xsl:apply-templates select="." mode="head.keywords.content"/>
@@ -398,6 +403,10 @@ Version: 1.72.0
 			<xsl:value-of select="$confidential.text"/>
 		</h1>
 	</xsl:if>
+	<div id="site_footer"></div>
+	<script type="text/javascript">
+		$("#site_footer").load("<xsl:value-of select="$tocpath"/>/../footer.html");
+	</script>
 </xsl:template>
 
 <!--
@@ -609,7 +618,7 @@ Version: 1.72.0
   <xsl:param name="object" select="."/>
   <xsl:param name="title">
     <xsl:apply-templates select="$object" mode="object.title.markup">
-      <xsl:with-param name="allow-anchors" select="0"/>
+      <xsl:with-param name="allow-anchors" select="1"/>
     </xsl:apply-templates>
   </xsl:param>
   <h6><xsl:copy-of select="$title"/></h6>
@@ -857,7 +866,7 @@ because it has to parse lines one by one to place the gfx
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/releaseinfo"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/copyright"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/copyright"/>
-  <hr/>
+  <!--hr/-->
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/legalnotice"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/legalnotice"/>
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/pubdate"/>
@@ -941,7 +950,7 @@ because it has to parse lines one by one to place the gfx
       <xsl:with-param name="object" select="$node"/>
     </xsl:call-template>
   </xsl:variable>
-  <xsl:if test="(self::title and substring($id,1,2) = 'id') or self::bridgehead">
+  <xsl:if test="(self::title or self::bridgehead) and substring($id,1,2) = 'id'">
     <xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
   </xsl:if>
 </xsl:template>
@@ -1638,7 +1647,7 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
 
   <xsl:variable name="img">
     <xsl:choose>
-      <xsl:when test="@format = 'SVG'">
+      <xsl:when test="@format = 'SVG' and $svg.object != 0">
         <object data="{$output_filename}" type="image/svg+xml">
           <xsl:call-template name="process.image.attributes">
             <!--xsl:with-param name="alt" select="$alt"/ there's no alt here-->
@@ -2760,6 +2769,18 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
       <xsl:call-template name="formal.object.heading"/>
     </xsl:if>
   </div>
+</xsl:template>
+
+<xsl:template name="book.titlepage.separator">
+</xsl:template>
+
+<xsl:template name="reference.titlepage.separator">
+</xsl:template>
+
+<xsl:template name="article.titlepage.separator">
+</xsl:template>
+
+<xsl:template name="set.titlepage.separator">
 </xsl:template>
 
 </xsl:stylesheet>

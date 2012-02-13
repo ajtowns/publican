@@ -1,0 +1,6 @@
+<script>$('<div>'+current_product+'</div>').insertBefore("#product_menu_list")</script>
+<ul id="product_menu_list" class="hidden">
+[%- FOREACH prod = products %]
+  <li><a href="[% host %]/[% lang %]/[% prod %]/index.html">[% labels.${prod}.label %]</a></li>
+[%- END %]
+</ul>

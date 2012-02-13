@@ -157,7 +157,7 @@ my %PARAMS = (
             maketext('The text used to indicate content is confidential.'),
         default => maketext('CONFIDENTIAL'),
     },
-    debug      => {
+    debug => {
         descr   => maketext('Print out extra messages?'),
         default => 0,
 
@@ -175,10 +175,12 @@ my %PARAMS = (
         default => 'https://fedorahosted.org/publican',
 
     },
+## BUGBUG this should be ripped from file header
     dtdver => {
         descr => maketext(
             'Version of the DocBook DTD on which this project is based.'),
-        default => '5.1b4',
+        default => '4.5',
+#        default => '5.1b4',
 
     },
     dt_obsoletes => {
@@ -226,13 +228,6 @@ my %PARAMS = (
         descr => maketext(
             'The name of the main xml and ent files for this books, sans file extension and language. Fetched from docname if not set.'
         ),
-    },
-    max_image_width => {
-        descr => maketext(
-            'The maximum pixel width an image can be before it will be scaled.'
-        ),
-        default => '444',
-
     },
     menu_category => {
         descr => maketext(
@@ -321,6 +316,13 @@ my %PARAMS = (
         ),
         alert =>
             'web_home is deprecated and will be removed from Publican in the future. Use "web_type: home" instead.',
+    },
+    web_style => {
+        descr => maketext(
+            'Splash pages should be generated to be comaptible with this web style. Valid values are 1 and 2.'
+        ),
+        constraint => '[^1-2]',
+        default    => '1',
     },
     web_type => {
         descr => maketext(
@@ -478,6 +480,15 @@ sub _load_config {
         {
             _alert( $PARAMS{$def}->{alert} . "\n" );
         }
+
+        # delete any bogus empty fields
+        my $tmp = $config->param($def);
+        if (   ( not defined $tmp )
+            or ( $tmp eq "" )
+            or ( ref $tmp eq "ARRAY" and $#{$tmp} == -1 ) )
+        {
+            $config->delete($def);
+        }
     }
 
     $config->param( 'common_config',  $common_config )  if $common_config;
@@ -502,24 +513,29 @@ sub _load_config {
         my $xml_doc = XML::TreeBuilder->new();
         $xml_doc->parse_file( "$xml_lang/$type" . '_Info.xml' );
 
-        my $docname = $config->param('docname')
-            || $xml_doc->root()->look_down( "_tag", "title" )->as_text();
+        my $docname = $config->param('docname');
+
+        eval { $docname = $xml_doc->root()->look_down( "_tag", "title" )->as_text(); }
+            unless defined($docname);
         if ($@) {
             croak maketext("title not found in Info file");
         }
         $docname =~ s/\s/_/g;
 
-        my $product = $config->param('product') || eval {
-            $xml_doc->root()->look_down( "_tag", "productname" )->as_text();
-        };
+        my $product = $config->param('product');
+
+        eval {
+            $product = $xml_doc->root()->look_down( "_tag", "productname" )->as_text();
+        } unless defined($product);
         if ($@) {
             croak maketext("productname not found in Info file");
         }
         $product =~ s/\s/_/g;
 
-        my $version = $config->param('version') || eval {
-            $xml_doc->root()->look_down( "_tag", "productnumber" )->as_text();
-        };
+        my $version = $config->param('version');
+        eval {
+            $version = $xml_doc->root()->look_down( "_tag", "productnumber" )->as_text();
+        } unless defined($version);
         if ($@) {
             croak maketext("productnumber not found in Info file");
         }
@@ -691,7 +707,7 @@ sub new {
             $common_config  = qq{"$common_config"}  if ($common_config);
             $common_content = qq{"$common_content"} if ($common_content);
         }
-        elsif( $^O eq 'darwin' ) {
+        elsif ( $^O eq 'darwin' ) {
             if ( !$common_config ) {
                 $common_config = '/opt/local/share/publican';
             }
@@ -826,7 +842,7 @@ sub dir_list {
     croak( maketext("dir is a required argument") ) unless ($dir);
 
     unless ( -d $dir ) {
-        logger( maketext( "skiping non existant directory: [_1]", $dir ) );
+        logger( maketext( "skipping non existent directory: [_1]", $dir ) );
         return;
     }
 
@@ -1022,10 +1038,10 @@ sub get_subtitle {
 
     # tidy up white space
     $subtitle =~ s/^\s*//gm;
-    $subtitle =~ s/\s+/ /;
 
     # RPM doesn't like non-breaking-space
     $subtitle =~ s/\x{A0}/ /gm;
+    $subtitle =~ s/\s+/ /;
 
     return ($subtitle);
 }
@@ -1419,7 +1435,7 @@ No bugs have been reported.
 
 Please report any bugs or feature requests to
 C<publican-list@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&component=publican>.
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&amp;component=publican>.
 
 =head1 AUTHOR
 

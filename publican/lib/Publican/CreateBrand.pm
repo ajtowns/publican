@@ -18,7 +18,7 @@ use vars qw( $VERSION $MAX_COUNT );
 $VERSION   = '0.2';
 $MAX_COUNT = 29;
 
-my $INIT_VERSION  = '0.1';
+my $INIT_VERSION = '0.1';
 
 ## NOTE Change this for betas
 my $PUBLICAN_NAME = 'publican';
@@ -73,9 +73,11 @@ sub new {
 
     if ( %{$args} ) {
         croak(
-            maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
-
 
     $config->param( 'type',    'brand' );
     $config->param( 'version', $INIT_VERSION );
@@ -106,7 +108,9 @@ sub create {
         unless ( Publican::valid_lang($lang) );
 
     croak(
-        maketext( "Can't create brand, directory 'publican-[_1]' exists!", $name )
+        maketext(
+            "Can't create brand, directory 'publican-[_1]' exists!", $name
+        )
     ) if ( -d "publican-$name" );
 
     mkpath("publican-$name")
@@ -117,10 +121,7 @@ sub create {
 
     $self->conf_files();
 
-    $self->{publican} = Publican->new(
-        {   configfile     => 'publican.cfg',
-        }
-    );
+    $self->{publican} = Publican->new( { configfile => 'publican.cfg', } );
 
     $self->xml_files();
     $self->images();
@@ -284,8 +285,8 @@ sub conf_files {
     $self->{config}->write($cfg_file)
         || croak(
         maketext(
-            "Can't write to [_1]: [_2]",
-            $cfg_file, Config::Simple->error()
+            "Can't write to [_1]: [_2]", $cfg_file,
+            Config::Simple->error()
         )
         );
 
@@ -298,7 +299,10 @@ sub conf_files {
     $config->param( 'doc_url',  'http://www.SETUP.example.com/docs' );
     $config->write('defaults.cfg')
         || croak(
-        maketext( "Can't write to defaults.cfg: [_1]", Config::Simple->error() )
+        maketext(
+            "Can't write to defaults.cfg: [_1]",
+            Config::Simple->error()
+        )
         );
     $config->close();
 
@@ -307,7 +311,10 @@ sub conf_files {
     $config->param( 'strict', 0 );
     $config->write('overrides.cfg')
         || croak(
-        maketext( "Can't write to overrides.cfg: [_1]", Config::Simple->error() )
+        maketext(
+            "Can't write to overrides.cfg: [_1]",
+            Config::Simple->error()
+        )
         );
     $config->close();
 
@@ -316,7 +323,8 @@ sub conf_files {
     $out_file = "publican-$lcbrand.spec";
 
     open( $OUT, ">:encoding(UTF-8)", $out_file )
-        || croak( maketext( "Could not open file [_1] for output!", $out_file ) );
+        || croak(
+        maketext( "Could not open file [_1] for output!", $out_file ) );
 
     print $OUT <<SPEC;
 %define brand $brand
@@ -367,15 +375,16 @@ SPEC
     close($OUT);
 
     open( $OUT, ">:encoding(UTF-8)", 'README' )
-        || croak( maketext( "Could not open file README for output!" ) );
+        || croak( maketext("Could not open file README for output!") );
 
-    print($OUT "SETUP This file should be a short description of your project");
+    print( $OUT
+            "SETUP This file should be a short description of your project" );
     close($OUT);
 
     open( $OUT, ">:encoding(UTF-8)", 'COPYING' )
-        || croak( maketext( "Could not open file COPYING for output!" ) );
+        || croak( maketext("Could not open file COPYING for output!") );
 
-    print($OUT "SETUP This file should contain your COPYRIGHT License");
+    print( $OUT "SETUP This file should contain your COPYRIGHT License" );
     close($OUT);
 
     return;
@@ -395,9 +404,8 @@ sub images {
 
     my $common_content = $self->{publican}->param('common_content');
     File::Copy::Recursive::rcopy_glob(
-                $common_content . "/brand-template/images/*",
-                "$lang/images"
-            );
+        $common_content . "/brand-template/images/*",
+        "$lang/images" );
 
     return;
 }
@@ -462,7 +470,7 @@ None reported.
 
 Please report any bugs or feature requests to
 C<publican-list@redhat.com>, or through the web interface at
-L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&component=publican>.
+L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&amp;component=publican>.
 
 =head1 AUTHOR
 

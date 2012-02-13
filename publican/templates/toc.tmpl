@@ -47,7 +47,7 @@
 				<div id='[% product %].[% version %].books' class="books">
 		    [%- END %]
 				[%- FOREACH books %]
-					<div id='[% product %].[% version %].[% book %]' class="book collapsed">
+					<div id='[% product %].[% version %].[% book %]' class="book collapsed" onclick="work=0">
 						<a class="type" href="[% product %]/[% version %]/html/[% book %]/index.html" onclick="window.top.location='./[% product %]/[% version %]/html/[% book %]/index.html'"><span class="book">[% book_clean %]</span></a> 
 						<div id='[% product %].[% version %].[% book %].types' class="types" onclick="work=0;">
 						[%- FOREACH types %]
@@ -61,7 +61,7 @@
 						<span class="version">[% Untranslated %]</span>
 						<div id='[% product %].[% version %].untrans_books' class="books hidden">
 						[%- FOREACH untrans_books %]
-							<div id='[% product %].[% version %].[% book %]' class="book collapsed" onclick="toggle(event, '[% product %].[% version %].[% book %].types');">
+							<div id='[% product %].[% version %].[% book %]' class="book collapsed" onclick="work=0">
 								<a class="type" href="../[% untrans_lang %]/[% product %]/[% version %]/html/[% book %]/index.html" onclick="window.top.location='../[% untrans_lang %]/[% product %]/[% version %]/html/[% book %]/index.html'"><span class="book">[% book_clean %]</span></a> 
 								<div id='[% product %].[% version %].[% book %].types' class="types hidden" onclick="work=0;">
 								[%- FOREACH types %]

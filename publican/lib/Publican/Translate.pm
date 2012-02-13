@@ -4,7 +4,7 @@ use utf8;
 use strict;
 use warnings;
 use 5.008;
-use Carp;
+use Carp qw(carp croak cluck);
 use Publican;
 use Publican::Builder;
 use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);

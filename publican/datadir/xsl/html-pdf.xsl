@@ -13,11 +13,11 @@
 <xsl:output method="xml" encoding="UTF-8" indent="no" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" omit-xml-declaration="no" />
 
 <xsl:param name="html.append"/>
-
+<xsl:param name="make.clean.html" select="1"/>
 <xsl:param name="generate.toc">
-set toc
-book toc,qandadiv
-article toc
+set toc,title
+book toc,title,qandadiv
+article toc,title
 chapter nop
 qandadiv nop
 qandaset nop
@@ -145,6 +145,89 @@ body { background-image: url('</xsl:text>
     </style>
   </xsl:if>
   <xsl:apply-templates select="." mode="head.keywords.content"/>
+</xsl:template>
+
+<xsl:template name="make.toc">
+  <xsl:param name="toc-context" select="."/>
+  <xsl:param name="toc.title.p" select="true()"/>
+  <xsl:param name="nodes" select="/NOT-AN-ELEMENT"/>
+
+  <xsl:variable name="nodes.plus" select="$nodes | qandaset"/>
+
+  <xsl:variable name="toc.title">
+    <xsl:if test="$toc.title.p">
+      <h1 class="toc-title">
+        <xsl:call-template name="gentext">
+          <xsl:with-param name="key">TableofContents</xsl:with-param>
+        </xsl:call-template>
+      </h1>
+    </xsl:if>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$manual.toc != ''">
+      <xsl:variable name="id">
+        <xsl:call-template name="object.id"/>
+      </xsl:variable>
+      <xsl:variable name="toc" select="document($manual.toc, .)"/>
+      <xsl:variable name="tocentry" select="$toc//tocentry[@linkend=$id]"/>
+      <xsl:if test="$tocentry and $tocentry/*">
+        <div class="toc">
+          <xsl:copy-of select="$toc.title"/>
+          <xsl:element name="{$toc.list.type}" namespace="http://www.w3.org/1999/xhtml">
+            <xsl:call-template name="manual-toc">
+              <xsl:with-param name="tocentry" select="$tocentry/*[1]"/>
+            </xsl:call-template>
+          </xsl:element>
+        </div>
+      </xsl:if>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:choose>
+        <xsl:when test="$qanda.in.toc != 0">
+          <xsl:if test="$nodes.plus">
+            <div class="toc">
+              <xsl:copy-of select="$toc.title"/>
+              <xsl:element name="{$toc.list.type}" namespace="http://www.w3.org/1999/xhtml">
+                <xsl:apply-templates select="$nodes.plus" mode="toc">
+                  <xsl:with-param name="toc-context" select="$toc-context"/>
+                </xsl:apply-templates>
+              </xsl:element>
+            </div>
+          </xsl:if>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test="$nodes">
+            <div class="toc">
+              <xsl:copy-of select="$toc.title"/>
+              <xsl:element name="{$toc.list.type}" namespace="http://www.w3.org/1999/xhtml">
+                <xsl:apply-templates select="$nodes" mode="toc">
+                  <xsl:with-param name="toc-context" select="$toc-context"/>
+                </xsl:apply-templates>
+              </xsl:element>
+            </div>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<xsl:template match="abstract" mode="titlepage.mode">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:call-template name="anchor"/>
+    <xsl:if test="$abstract.notitle.enabled = 0">
+      <h1 class="toc-title">
+        <xsl:call-template name="gentext">
+          <xsl:with-param name="key">Abstract</xsl:with-param>
+        </xsl:call-template>
+      </h1>
+    </xsl:if>
+    <xsl:apply-templates mode="titlepage.mode"/>
+    <xsl:call-template name="process.footnotes"/>
+  </div>
 </xsl:template>
 
 </xsl:stylesheet>

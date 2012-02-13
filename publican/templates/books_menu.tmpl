@@ -1,0 +1,9 @@
+<script>$('<div>'+current_book+'</div>').insertBefore("#book_menu_list")</script>
+<ul id="book_menu_list" class="hidden">
+[%- FOREACH book_name = books %]
+  <li [% IF lang != book_list.${book_name}.lang %]class="untranslated [% lang %]"[% END %]>
+        <a href="[% host %]/[% lang %]/[% product %]/[% book_list.${book_name}.version %]/[% book_list.${book_name}.book %]/index.html">[% book_list.${book_name}.book_clean %]</a>[% IF lang != book_list.${book_name}.lang %]<span>[% trans_strings.Untranslated %]</span>[% END %]
+  </li>
+[%- END %]
+</ul>
+

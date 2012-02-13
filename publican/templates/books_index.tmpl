@@ -1,0 +1,37 @@
+[%- title = product_label _ " " _ version_label  _ " " _  book.book_clean -%]
+[%- ver_menu = 1 -%]
+[%- book_menu = 1 -%]
+[%- book_lang_menu = 1 -%]
+[% INCLUDE 'web_2_head.tmpl' %]
+<script>var current_product = "[% product %]"; var current_version= "[% version %]"; var current_book= "[%title %]"</script>
+<h1>[%title %]</h1>
+<div class="book_top_box">
+[%- book.abstract -%]
+</div>
+<div class="book_bottom_box">
+  <div class="book_versions">
+[% FOREACH  ver = versions %]
+    <div class="book_version">
+[%- IF ver != version %]
+      <a href="[% host %]/[% lang %]/[% product %]/[% ver %]/[% book.book %]/index.html">[% labels.${product}.${ver}.label %]</a>
+[%- ELSE %]
+    [% ver %]
+[%- END %]
+    </div>
+[%- END %]
+  </div>
+  <div class="book_formats">
+[% FOREACH  format = formats %]
+    <div class="format_[% format %]">
+     [% IF format == 'pdf' || format == 'epub' %]
+      <a href="[% host %]/[% book.lang %]/[% book.product %]/[% book.version %]/[%format %]/[% book.book %]/[% book.product %]-[% book.version %]-[% book.book %]-[% book.lang %].[% format %]">[% format %]</a>
+     [% ELSIF format == 'txt' %]
+      <a href="[% host %]/[% book.lang %]/[% book.product %]/[% book.version %]/[%format %]/[% book.book %]/[% book.book %].[% format %]">[% format %]</a>
+     [%- ELSE %]
+      <a href="[% host %]/[% book.lang %]/[% book.product %]/[% book.version %]/[%format %]/[% book.book %]/index.html">[% format %]</a>
+     [%- END %]
+    </div>
+[%- END %]
+  </div>
+</div>
+[% INCLUDE 'web_2_footer.tmpl' %]
