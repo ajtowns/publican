@@ -4,7 +4,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.7
+Version:	0.8
 Release:	3%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -45,8 +45,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Feb 15 2012 David O'Brien <davido@redhat.com> 0.8-3
+- Updated links to OpenShift public website.
+
 * Wed Feb 15 2012 David O'Brien <davido@redhat.com> 0.7-3
-- Fix docbook tags in Feedback.xml
+- Fix docbook tags in Feedback.xml.
 
 * Wed Feb 15 2012 David O'Brien <davido@redhat.com> 0.6-1
 - Reformat table col widths.
@@ -56,20 +59,20 @@ rm -rf $RPM_BUILD_ROOT
 - Change "Express" and "Flex" table headings to include "OpenShift" prefix.
 
 * Thu Jun 2 2011 David O'Brien <davido@redhat.com> 0.4-3
-- Replace spaces with tabs as field label separators
+- Replace spaces with tabs as field label separators.
 
 * Wed Jun 1 2011 David O'Brien <davido@redhat.com> 0.4-1
-- Update OpenShift terminology
-- Adjust Overview structure
+- Update OpenShift terminology.
+- Adjust Overview structure.
 
 * Thu May 26 2011  Rüdiger Landmann <r.landmann@redhat.com> 0.3-1
-- Adjust styles and graphics
+- Adjust styles and graphics.
 
 * Wed May 25 2011  David O'Brien <davido@redhat.com> 0.2-1
-- Updated bug reporting options
+- Updated bug reporting options.
 
 * Fri May 20 2011 David O'Brien <davido@redhat.com> 0.1-1
-- Created Brand
-- Added common files for express and flex
-- Updated support options
+- Created Brand.
+- Added common files for express and flex.
+- Updated support options.
 
