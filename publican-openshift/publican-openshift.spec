@@ -4,7 +4,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.6
+Version:	0.7
 Release:	3%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/publican/Common_Content/%{brand}
 
 %changelog
+* Wed Feb 15 2012 David O'Brien <davido@redhat.com> 0.7-3
+- Fix docbook tags in Feedback.xml
+
 * Wed Feb 15 2012 David O'Brien <davido@redhat.com> 0.6-1
 - Reformat table col widths.
 - Add link to doc component in Bugzilla for bug reporting.
