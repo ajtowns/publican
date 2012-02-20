@@ -111,7 +111,7 @@ a:focus {
     padding-top: 20px;
     position: relative;
     padding-left: 25px;
-    width: 25%;
+    width: 22.6%;
 }
 .side_products:after {
     clear: both;
@@ -121,7 +121,7 @@ a:focus {
     font-size: 12px;
 /*    height: 24px; */
     line-height: 1em;
-    margin-bottom: 10px;
+/*    margin-bottom: 10px; */
 }
 .side_products div.link a {
     color: #333333;
@@ -132,19 +132,23 @@ a:focus {
     background-color: #333333;
     color: #EEEEEE;
     position: relative;
+    margin:0em;
+    position: relative;
 }
-.side_products div.link.active a {
+.side_products div.link.active a { position:relative;
     color: #EEEEEE;
 }
 .side_products div.link.active:after {
-    border-color: transparent transparent transparent #333333;
+    margin: 0em;
+    left: 98.99%;;
+    top: 50%;
+    margin-top: -1em;
+    border-color: transparent transparent transparent #333;
     border-style: solid;
-    border-width: 12px;
+    border-width: 1em 0em 1em 1em !important;
     content: "";
     display: inline-block;
     position: absolute;
-    right: -24px;
-    top: 0;
     width: 0;
     z-index: 999;
 }
@@ -731,6 +735,8 @@ div.version_tabs {
     font-family: Overpass;
 /*     height: 32px !important;
     line-height: 32px !important; */
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 .side_products div.link:after {
     border-width: 16px !important;
