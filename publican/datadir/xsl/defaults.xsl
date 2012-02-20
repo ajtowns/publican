@@ -39,11 +39,13 @@ Copied from fo/params.xsl
 <!-- This sets the filename based on the ID.								-->
 <xsl:param name="use.id.as.filename" select="'1'"/>
 
-<xsl:param name="embedtoc" select="'0'"/>
-<xsl:param name="tocpath" select="''"/>
-<xsl:param name="pop_prod" select="''"/>
-<xsl:param name="pop_ver" select="''"/>
-<xsl:param name="pop_name" select="''"/>
+<xsl:param name="embedtoc"  select="'0'"/>
+<xsl:param name="tocpath"   select="''"/>
+<xsl:param name="pop_prod"  select="''"/>
+<xsl:param name="pop_ver"   select="''"/>
+<xsl:param name="pop_name"  select="''"/>
+<xsl:param name="brand"     select="''"/>
+<xsl:param name="langpath"  select="''"/>
 
 <xsl:param name="desktop" select="0"/>
 <xsl:param name="draft.mode">maybe</xsl:param>

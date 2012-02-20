@@ -65,18 +65,12 @@ sub new {
     $config->syntax('http');
 
     $config->param( 'brand',
-        delete( $args->{name} )
-            || croak( maketext("name is a required parameter") ) );
+        delete( $args->{name} ) || croak( maketext("name is a required parameter") ) );
     $config->param( 'xml_lang',
-        delete( $args->{lang} )
-            || croak( maketext("lang is a required parameter") ) );
+        delete( $args->{lang} ) || croak( maketext("lang is a required parameter") ) );
 
     if ( %{$args} ) {
-        croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
-        );
+        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
     }
 
     $config->param( 'type',    'brand' );
@@ -107,11 +101,8 @@ sub create {
     croak( maketext( "Invalid language supplied: [_1]", $lang ) . "\n" )
         unless ( Publican::valid_lang($lang) );
 
-    croak(
-        maketext(
-            "Can't create brand, directory 'publican-[_1]' exists!", $name
-        )
-    ) if ( -d "publican-$name" );
+    croak( maketext( "Can't create brand, directory 'publican-[_1]' exists!", $name ) )
+        if ( -d "publican-$name" );
 
     mkpath("publican-$name")
         || croak( maketext( "Can't create directory: [_1]", $@ ) );
@@ -131,8 +122,7 @@ sub create {
     $out_file = "$lang/css/overrides.css";
 
     open( $OUT, ">:encoding(UTF-8)", $out_file )
-        || croak(
-        maketext( "Could not open [_1] for output: [_2]", $out_file, $@ ) );
+        || croak( maketext( "Could not open [_1] for output: [_2]", $out_file, $@ ) );
 
     print $OUT <<CSS;
 a:link {
@@ -249,13 +239,9 @@ sub xml_files {
         my $out_file = "$lang/$file" . ".xml";
         my $OUTDOC;
         open( $OUTDOC, ">:encoding(UTF-8)", $out_file )
-            || croak(
-            maketext( "Could not open file [_1] for output!", $out_file ) );
+            || croak( maketext( "Could not open file [_1] for output!", $out_file ) );
 
-        print( $OUTDOC Publican::Builder::dtd_string(
-                { tag => $type, dtdver => '4.5' }
-            )
-        );
+        print( $OUTDOC Publican::Builder::dtd_string( { tag => $type, dtdver => '4.5' } ) );
         print( $OUTDOC $text );
         close($OUTDOC);
 
@@ -283,12 +269,7 @@ sub conf_files {
 
     # publican.cfg
     $self->{config}->write($cfg_file)
-        || croak(
-        maketext(
-            "Can't write to [_1]: [_2]", $cfg_file,
-            Config::Simple->error()
-        )
-        );
+        || croak( maketext( "Can't write to [_1]: [_2]", $cfg_file, Config::Simple->error() ) );
 
     debug_msg("TODO: conf_files: COPYING - URL for where to wget it\n");
     debug_msg("TODO: conf_files: TODO README\n");
@@ -298,24 +279,14 @@ sub conf_files {
     $config->param( 'prod_url', 'http://www.SETUP.example.com' );
     $config->param( 'doc_url',  'http://www.SETUP.example.com/docs' );
     $config->write('defaults.cfg')
-        || croak(
-        maketext(
-            "Can't write to defaults.cfg: [_1]",
-            Config::Simple->error()
-        )
-        );
+        || croak( maketext( "Can't write to defaults.cfg: [_1]", Config::Simple->error() ) );
     $config->close();
 
     $config = new Config::Simple();
     $config->syntax('http');
     $config->param( 'strict', 0 );
     $config->write('overrides.cfg')
-        || croak(
-        maketext(
-            "Can't write to overrides.cfg: [_1]",
-            Config::Simple->error()
-        )
-        );
+        || croak( maketext( "Can't write to overrides.cfg: [_1]", Config::Simple->error() ) );
     $config->close();
 
     # spec file
@@ -323,11 +294,11 @@ sub conf_files {
     $out_file = "publican-$lcbrand.spec";
 
     open( $OUT, ">:encoding(UTF-8)", $out_file )
-        || croak(
-        maketext( "Could not open file [_1] for output!", $out_file ) );
+        || croak( maketext( "Could not open file [_1] for output!", $out_file ) );
 
     print $OUT <<SPEC;
 %define brand $brand
+%define wwwdir <xsl:value-of select="\$web_dir"/>
 
 Name:		publican-$lcbrand
 Summary:	Common documentation files for %{brand}
@@ -338,13 +309,21 @@ Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 Source:		https://www.SETUP.set.me.example.com/source/%{name}-%{version}.tgz
-Requires:	$PUBLICAN_NAME >= 1.99
-BuildRequires:	$PUBLICAN_NAME >= 1.99
+Requires:	$PUBLICAN_NAME
+BuildRequires:	$PUBLICAN_NAME
 URL:		https://www.SETUP.set.me.example.com
 
 %description
 This package provides common files and templates needed to build documentation
 for %{brand} with publican.
+
+%package web
+Summary:        Web styles for the %{brand} brand
+Group:          Documentation
+Requires:	$PUBLICAN_NAME
+
+%description web
+Web Site common files for the %{brand} brand.
 
 %prep
 %setup -q 
@@ -356,6 +335,9 @@ publican build --formats=xml --langs=all --publish
 rm -rf \$RPM_BUILD_ROOT
 mkdir -p -m755 \$RPM_BUILD_ROOT%{_datadir}/$PUBLICAN_NAME/Common_Content
 publican install_brand --path=\$RPM_BUILD_ROOT%{_datadir}/$PUBLICAN_NAME/Common_Content
+mkdir -p -m755 \$RPM_BUILD_ROOT/%{wwwdir}/%{brand}
+publican install_brand --web --path=\$RPM_BUILD_ROOT/%{wwwdir}/%{brand}
+
 
 %clean
 rm -rf \$RPM_BUILD_ROOT
@@ -365,6 +347,10 @@ rm -rf \$RPM_BUILD_ROOT
 %doc README
 %doc COPYING
 %{_datadir}/$PUBLICAN_NAME/Common_Content/%{brand}
+
+%files web
+%defattr(-,root,root,-)
+%{wwwdir}/%{brand}
 
 %changelog
 * $date  SETUP:YourName <SETUP:your.email\@example.com> 0.1
@@ -377,8 +363,7 @@ SPEC
     open( $OUT, ">:encoding(UTF-8)", 'README' )
         || croak( maketext("Could not open file README for output!") );
 
-    print( $OUT
-            "SETUP This file should be a short description of your project" );
+    print( $OUT "SETUP This file should be a short description of your project" );
     close($OUT);
 
     open( $OUT, ">:encoding(UTF-8)", 'COPYING' )
@@ -403,8 +388,7 @@ sub images {
     my $lang = $self->{config}->param('xml_lang');
 
     my $common_content = $self->{publican}->param('common_content');
-    File::Copy::Recursive::rcopy_glob(
-        $common_content . "/brand-template/images/*",
+    File::Copy::Recursive::rcopy_glob( $common_content . "/brand-template/images/*",
         "$lang/images" );
 
     return;

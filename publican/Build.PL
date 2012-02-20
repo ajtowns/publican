@@ -197,6 +197,7 @@ L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&component=
 =head1 AUTHOR
 
 Jeff Fearn  C<< <jfearn\@redhat.com> >>
+=cut
 EOL
 
             close($POD_FILE);

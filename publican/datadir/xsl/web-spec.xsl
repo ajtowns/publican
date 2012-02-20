@@ -35,6 +35,7 @@ Requires:      publican >= <xsl:value-of select="$spec_version"/>
 <xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
 <xsl:if test="$web_obsoletes != ''">Obsoletes:    <xsl:value-of select="$web_obsoletes"/></xsl:if>
 <xsl:if test="$web_req != ''">Requires:    <xsl:value-of select="$web_req"/></xsl:if>
+Requires:      publican-<xsl:value-of select="$brand"/>-web
 
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>

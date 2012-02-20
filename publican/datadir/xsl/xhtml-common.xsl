@@ -35,10 +35,9 @@
 <xsl:param name="html.longdesc.link" select="0"/>
 <xsl:param name="html.longdesc" select="0"/>
 <xsl:param name="html.longdesc.embed" select="1"/>
-
-<xsl:param name="html.stylesheet" select="'Common_Content/css/default.css'"/>
+<xsl:param name="html.stylesheet"><xsl:if test="$embedtoc = 0 ">Common_Content/css/default.css</xsl:if></xsl:param>
 <xsl:param name="html.stylesheet.type" select="'text/css'"/>
-<xsl:param name="html.stylesheet.print" select="'Common_Content/css/print.css'"/>
+<xsl:param name="html.stylesheet.print"><xsl:if test="$embedtoc = 0 ">Common_Content/css/print.css</xsl:if></xsl:param>
 <xsl:param name="html.cleanup" select="0"/>
 <xsl:param name="html.ext" select="'.html'"/>
 <xsl:output method="xml" indent="yes"/>
@@ -345,7 +344,9 @@ Version: 1.72.0
 		</xsl:if>
 	</xsl:if>
       <xsl:if test="$embedtoc != 0 ">
+          <link rel="stylesheet" type="text/css"><xsl:attribute name="href"><xsl:value-of select="$tocpath"/>/../<xsl:value-of select="$brand"/>/<xsl:value-of select="$langpath"/>/css/menu.css</xsl:attribute></link>
           <link rel="stylesheet" type="text/css"><xsl:attribute name="href"><xsl:value-of select="$tocpath"/>/../menu.css</xsl:attribute></link>
+          <link rel="stylesheet" type="text/css"><xsl:attribute name="href"><xsl:value-of select="$tocpath"/>/../print.css</xsl:attribute><xsl:attribute name="media">print</xsl:attribute></link>
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../jquery-1.7.1.min.js</xsl:attribute></script>
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../toc.js</xsl:attribute></script>
           <script>

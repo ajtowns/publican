@@ -11,10 +11,12 @@
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
 
 %define TESTS 0
+%define brand common
+%define wwwdir /var/www/html/docs
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t5
+Release:        0%{?dist}.t14
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -134,6 +136,14 @@ This guide explains how to  to create and build books and articles
 using publican. It is not a DocBook XML tutorial and concentrates
 solely on using the publican tools.
 
+%package common-web
+Group:          Documentation
+Summary:        Website style for common brand
+Requires:       publican
+
+%description common-web
+Website style for common brand.
+
 %prep
 %setup -q -n Publican-%{version}
 
@@ -166,9 +176,16 @@ done
 
 %find_lang %{name}
 
+# Package web common files
+mkdir -p -m755 $RPM_BUILD_ROOT/%{wwwdir}/%{brand}
+dir=`pwd`
+cd datadir/Common_Content/common
+%{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican install_brand --web --path=$RPM_BUILD_ROOT/%{wwwdir}/%{brand}
+cd -
+
 %check
 %if %{TESTS}
-#./Build test
+./Build test
 %endif
 
 %clean
@@ -193,6 +210,11 @@ rm -rf $RPM_BUILD_ROOT
 #%doc Users_Guide/publish/desktop/*
 %{_datadir}/applications/%{my_vendor}-%{name}.desktop
 %doc fdl.txt
+
+%files common-web
+%defattr(-,root,root,-)
+%{wwwdir}/%{brand}
+
 
 %changelog
 * Thu Dec 09 2010 Jeff Fearn <jfearn@redhat.com> 3.0-1

@@ -112,8 +112,7 @@ my %tmpl_strings = (
     index_javascript => $locale->maketext(
         'This web site requires JavaScript and cookies to be enabled to function correctly.'
     ),
-    index_toc =>
-        $locale->maketext('Click here to view a static Table of Contents'),
+    index_toc        => $locale->maketext('Click here to view a static Table of Contents'),
     ProductLinkTitle => $locale->maketext('Information'),
     ProductList      => $locale->maketext('Product List'),
     Hide_Menu        => $locale->maketext('Hide Menu'),
@@ -135,12 +134,9 @@ sub new {
     $config->read($site_config)
         || croak("Failed to load config file: $site_config");
 
-    my $toc_path = $config->param('toc_path') || croak(
-        maketext(
-            "[_1] is a mandatory field in a site configuration file",
-            'toc_path'
-        )
-    );
+    my $toc_path = $config->param('toc_path')
+        || croak(
+        maketext( "[_1] is a mandatory field in a site configuration file", 'toc_path' ) );
     my $tmpl_path = $config->param('tmpl_path') || $DEFAULT_TMPL_PATH;
     my $def_lang  = $config->param('def_lang')  || $DEFAULT_LANG;
     my $db_file   = $config->param('db_file')   || croak(
@@ -150,13 +146,13 @@ sub new {
             $site_config
         )
     );
-    my $host      = $config->param('host')      || 'http://localhost/';
-    my $search    = $config->param('search')    || undef;
-    my $title     = $config->param('title')     || 'Documentation';
-    my $dump      = $config->param('dump')      || undef;
-    my $dump_file = $config->param('dump_file') || $DEFAULT_DUMP_FILE;
-    my $zip_dump  = $config->param('zip_dump')  || undef;
-    my $toc_type  = $config->param('toc_type')  || 'toc';
+    my $host              = $config->param('host')              || 'http://localhost/';
+    my $search            = $config->param('search')            || undef;
+    my $title             = $config->param('title')             || 'Documentation';
+    my $dump              = $config->param('dump')              || undef;
+    my $dump_file         = $config->param('dump_file')         || $DEFAULT_DUMP_FILE;
+    my $zip_dump          = $config->param('zip_dump')          || undef;
+    my $toc_type          = $config->param('toc_type')          || 'toc';
     my $manual_toc_update = $config->param('manual_toc_update') || 0;
     my $debug             = $config->param('debug')             || 0;
     my $footer            = $config->param('footer')            || "";
@@ -366,10 +362,9 @@ sub add_entry {
 INSERT_ENTRY
 
     return $self->_dbh->do(
-        $sql,           undef,       $language,    $product,
-        $version,       $name,       $format,      $product_label,
-        $version_label, $name_label, $update_date, $subtitle,
-        $abstract
+        $sql,         undef,     $language,      $product,       $version,
+        $name,        $format,   $product_label, $version_label, $name_label,
+        $update_date, $subtitle, $abstract
     );
 }
 
@@ -407,10 +402,9 @@ sub update_entry {
 INSERT_ENTRY
 
     return $self->_dbh->do(
-        $sql,           undef,       $language,    $product,
-        $version,       $name,       $format,      $product_label,
-        $version_label, $name_label, $update_date, $subtitle,
-        $abstract
+        $sql,         undef,     $language,      $product,       $version,
+        $name,        $format,   $product_label, $version_label, $name_label,
+        $update_date, $subtitle, $abstract
     );
 }
 
@@ -439,10 +433,9 @@ sub del_entry {
            AND format = ?
 DELETE_ENTRY
 
-   #croak "\n\nvals: $sql, $language, $product, $version, $name, $format\n\n";
+    #croak "\n\nvals: $sql, $language, $product, $version, $name, $format\n\n";
 
-    return $self->_dbh->do( $sql, undef, $language, $product, $version, $name,
-        $format );
+    return $self->_dbh->do( $sql, undef, $language, $product, $version, $name, $format );
 }
 
 sub get_entry_id {
@@ -643,13 +636,8 @@ sub regen_all_toc {
             update_date => DateTime->now(),
         );
 
-        $opds_lang{img}
-            = $self->{host} . '/'
-            . qq|$lang->[0]|
-            . '/images/cover_thumbnail.png'
-            if ( -f $self->{toc_path} . '/'
-            . qq|$lang->[0]|
-            . '/images/cover_thumbnail.png' );
+        $opds_lang{img} = $self->{host} . '/' . qq|$lang->[0]| . '/images/cover_thumbnail.png'
+            if ( -f $self->{toc_path} . '/' . qq|$lang->[0]| . '/images/cover_thumbnail.png' );
 
         push( @opds_lang_list, \%opds_lang );
 
@@ -818,8 +806,7 @@ SEARCH
     my $lc_lang = $language;
     $lc_lang =~ s/-/_/g;
     my $locale = Publican::Localise->get_handle($lc_lang)
-        || croak(
-        "Could not create a Publican::Localise object for language: [_1]",
+        || croak( "Could not create a Publican::Localise object for language: [_1]",
         $language );
     $locale->encoding("UTF-8");
     $locale->textdomain("publican");
@@ -847,12 +834,9 @@ SEARCH
         if ( -f "$self->{toc_path}/$language/$product/index.html" ) {
             $prod_data{product_icon} = 1;
             my $url = {
-                url         => qq|$host/$language/$product/index.html|,
-                update_date => ctime(
-                    (   stat(
-                            "$self->{toc_path}/$language/$product/index.html")
-                    )[9]
-                ),
+                url => qq|$host/$language/$product/index.html|,
+                update_date =>
+                    ctime( ( stat("$self->{toc_path}/$language/$product/index.html") )[9] ),
             };
 
             push( @{$urls}, $url );
@@ -861,8 +845,7 @@ SEARCH
             $prod_data{product_icon} = 0;
         }
 
-        foreach my $version (
-            reverse( sort( version_sort keys( %{ $list2->{$product} } ) ) ) )
+        foreach my $version ( reverse( sort( version_sort keys( %{ $list2->{$product} } ) ) ) )
         {
             my $version_label = $version;
             my %ver_data;
@@ -874,24 +857,22 @@ SEARCH
 ## It makes more sense to do an SQL query here for the labels instead of
 ## doing it in the book loop.
 
-            if ( -f "$self->{toc_path}/$language/$product/$version/index.html"
-                )
-            {
+            if ( -f "$self->{toc_path}/$language/$product/$version/index.html" ) {
                 $ver_data{ver_icon} = 1;
                 my $url = {
-                    url => qq|$host/$language/$product/$version/index.html|,
+                    url         => qq|$host/$language/$product/$version/index.html|,
                     update_date => ctime(
-                        (   stat(
-                                "$self->{toc_path}/$language/$product/$version/index.html"
-                            )
-                        )[9]
+                        ( stat( "$self->{toc_path}/$language/$product/$version/index.html" ) )
+                        [9]
                     ),
                 };
 
                 push( @{$urls}, $url );
             }
 
-            foreach my $book ( sort( insensitive_sort keys( %{ $list2->{$product}{$version} } ) )  )  {
+            foreach
+                my $book ( sort( insensitive_sort keys( %{ $list2->{$product}{$version} } ) ) )
+            {
                 my $book_label = $book;
                 my %book_data;
                 my @types = ();
@@ -903,31 +884,23 @@ SEARCH
                     )
                 {
 
-                    $book_label
-                        = $list2->{$product}{$version}{$book}{name_label}
+                    $book_label = $list2->{$product}{$version}{$book}{name_label}
                         if ($list2->{$product}{$version}{$book}{name_label}
-                        and $list2->{$product}{$version}{$book}{name_label} ne
-                        $book );
+                        and $list2->{$product}{$version}{$book}{name_label} ne $book );
 
                     $book_label = decode_utf8($book_label)
                         unless ( is_utf8($book_label) );
 
-                    $version_label
-                        = $list2->{$product}{$version}{$book}{version_label}
-                        if (
-                            $list2->{$product}{$version}{$book}{version_label}
-                        and $list2->{$product}{$version}{$book}{version_label}
-                        ne $version );
+                    $version_label = $list2->{$product}{$version}{$book}{version_label}
+                        if ($list2->{$product}{$version}{$book}{version_label}
+                        and $list2->{$product}{$version}{$book}{version_label} ne $version );
 
                     $version_label = decode_utf8($version_label)
                         unless ( is_utf8($version_label) );
 
-                    $product_label
-                        = $list2->{$product}{$version}{$book}{product_label}
-                        if (
-                            $list2->{$product}{$version}{$book}{product_label}
-                        and $list2->{$product}{$version}{$book}{product_label}
-                        ne $product );
+                    $product_label = $list2->{$product}{$version}{$book}{product_label}
+                        if ($list2->{$product}{$version}{$book}{product_label}
+                        and $list2->{$product}{$version}{$book}{product_label} ne $product );
 
                     $product_label = decode_utf8($product_label)
                         unless ( is_utf8($product_label) );
@@ -940,53 +913,33 @@ SEARCH
                     $type_data{onclick} = 1;
                     $type_data{ext}     = 'index.html';
                     if ( $type eq 'pdf' ) {
-                        my @filelist
-                            = File::Find::Rule->file->relative()
-                            ->name('*.pdf')
-                            ->in(
-                            "$self->{toc_path}/$lang/$product/$version/$type/$book"
-                            );
+                        my @filelist = File::Find::Rule->file->relative()->name('*.pdf')
+                            ->in( "$self->{toc_path}/$lang/$product/$version/$type/$book" );
                         $type_data{ext} = pop(@filelist);
                     }
                     elsif ( $type eq 'txt' ) {
-                        my @filelist
-                            = File::Find::Rule->file->relative()
-                            ->name('*.txt')
-                            ->in(
-                            "$self->{toc_path}/$lang/$product/$version/$type/$book"
-                            );
+                        my @filelist = File::Find::Rule->file->relative()->name('*.txt')
+                            ->in( "$self->{toc_path}/$lang/$product/$version/$type/$book" );
                         $type_data{ext} = pop(@filelist);
                     }
                     elsif ( $type eq 'epub' ) {
-                        my @filelist
-                            = File::Find::Rule->file->relative()
-                            ->name('*.epub')
-                            ->in(
-                            "$self->{toc_path}/$lang/$product/$version/$type/$book"
-                            );
+                        my @filelist = File::Find::Rule->file->relative()->name('*.epub')
+                            ->in( "$self->{toc_path}/$lang/$product/$version/$type/$book" );
                         $type_data{ext} = pop(@filelist);
                         if ( $type_data{ext} ) {
                             my %opds_url = (
                                 title => "$book_label",
-                                id =>
-                                    "$host/$lang/$product/$version/$type/$book/"
+                                id    => "$host/$lang/$product/$version/$type/$book/"
                                     . $type_data{ext},
-                                lang => $language,
-                                update_date =>
-                                    $list2->{$product}{$version}{$book}
-                                    {update_date},
-                                url =>
-                                    "$host/$lang/$product/$version/$type/$book/"
+                                lang        => $language,
+                                update_date => $list2->{$product}{$version}{$book}{update_date},
+                                url         => "$host/$lang/$product/$version/$type/$book/"
                                     . $type_data{ext},
                                 category => $category,
-                                summary  => (
-                                    $list2->{$product}{$version}{$book}
-                                        {subtitle} || ""
-                                ),
-                                content => (
-                                    $list2->{$product}{$version}{$book}
-                                        {abstract} || ""
-                                ),
+                                summary =>
+                                    ( $list2->{$product}{$version}{$book}{subtitle} || "" ),
+                                content =>
+                                    ( $list2->{$product}{$version}{$book}{abstract} || "" ),
                             );
                             $category = "";
                             $opds_url{title} =~ s/_/ /g;
@@ -1004,11 +957,9 @@ SEARCH
 
                     if ( defined $type_data{ext} and $type_data{ext} ) {
                         my $url = {
-                            url =>
-                                qq|$host/$lang/$product/$version/$type/$book/|
+                            url => qq|$host/$lang/$product/$version/$type/$book/|
                                 . $type_data{ext},
-                            update_date => $list2->{$product}{$version}{$book}
-                                {update_date},
+                            update_date => $list2->{$product}{$version}{$book}{update_date},
                         };
 
                         push( @{$urls}, $url ) if ( $lang eq $language );
@@ -1152,8 +1103,7 @@ GET_ALL
     $sth->execute();
 
     while ( my ( $product, $name, $version, $language ) = $sth->fetchrow() ) {
-        my $package = sprintf( '%s-%s-%s-web-%s', $product, $name, $version,
-            $language );
+        my $package = sprintf( '%s-%s-%s-web-%s', $product, $name, $version, $language );
         system( 'rpm', '-q', $package, '--queryformat=""' );
     }
 
@@ -1197,8 +1147,7 @@ sub xml_dump {
         croak "unknown args: " . join( ", ", keys %{$arg} );
     }
 
-    my $results = $self->_dbh->selectall_arrayref( 'SELECT * FROM books',
-        { Columns => {} } );
+    my $results = $self->_dbh->selectall_arrayref( 'SELECT * FROM books', { Columns => {} } );
 
     my %site = (
         host     => $self->{host},
@@ -1209,8 +1158,7 @@ sub xml_dump {
 
     my $OUT_FILE;
     open( $OUT_FILE, '>', $self->{dump_file} )
-        || croak(
-        maketext( "Could not open dump file for output: [_1]", $@ ) );
+        || croak( maketext( "Could not open dump file for output: [_1]", $@ ) );
 
     print( $OUT_FILE "<?xml version='1.0' encoding='utf-8' ?>\n" );
     print( $OUT_FILE $xml );
@@ -1615,7 +1563,7 @@ sub write_product_index {
     $index_vars->{labels}        = $labels;
     $index_vars->{trans_strings} = $trans_strings;
     $index_vars->{footer}        = $self->{footer};
-    $index_vars->{site_title}       = $self->{title};
+    $index_vars->{site_title}    = $self->{title};
 
     $self->{Template}->process(
         'products_index.tmpl', $index_vars,
@@ -1663,7 +1611,7 @@ sub write_product_menu {
     $index_vars->{labels}        = $labels;
     $index_vars->{trans_strings} = $trans_strings;
     $index_vars->{footer}        = $self->{footer};
-    $index_vars->{site_title}       = $self->{title};
+    $index_vars->{site_title}    = $self->{title};
 
 ## BUGBUG handle product labels
     $self->{Template}->process(
@@ -1716,7 +1664,7 @@ sub write_language_index {
     $index_vars->{labels}        = $labels;
     $index_vars->{trans_strings} = $trans_strings;
     $index_vars->{footer}        = $self->{footer};
-    $index_vars->{site_title}       = $self->{title};
+    $index_vars->{site_title}    = $self->{title};
 
 ## BUGBUG handle product labels
     $self->{Template}->process(
@@ -1767,7 +1715,7 @@ sub write_books_index {
                 $index_vars->{labels}   = $labels;
                 $index_vars->{trans_strings} = $trans_strings;
                 $index_vars->{footer}        = $self->{footer};
-    $index_vars->{site_title}       = $self->{title};
+                $index_vars->{site_title}    = $self->{title};
 
 ## BUGBUG handle product labels
                 $self->{Template}->process(
