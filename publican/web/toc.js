@@ -5,6 +5,7 @@ var name_cp = window.location.hostname + '-publican-current_page';
 var name_menu = window.location.hostname + '-publican-menu';
 var style = 1;
 var toc_path = '';
+site_title = 'Pants';
 
 function setCookie(name, value, expires, path, domain, secure) { 
 	var curCookie = name + "=" + value + 
@@ -357,7 +358,7 @@ function loadMenu(){
 			function(){
 				style = 2;
 				var html = '<div id="menu">';
-				html = 	html +	'<div id="lang_menu"><a href="' + toc_path + '/index.html"><img src="' + toc_path + '/../images/page.png"/></a></div>';
+				html = 	html +	'<div id="lang_menu" class="breadcrumb"><a href="' + toc_path + '/index.html">' + site_title + '</a></div>';
 				html = 	html +	'<div id="product_menu" class="breadcrumb" onmouseover="work=1; toggle(\'\',\'product_menu_list\');" onmouseout="work=1; toggle(\'\',\'product_menu_list\');"></div>';
 				html = 	html +	'<div id="version_menu" class="breadcrumb" onmouseover="work=1; toggle(\'\',\'version_menu_list\');" onmouseout="work=1; toggle(\'\',\'version_menu_list\');"></div>';
 				html = 	html +	'<div id="book_menu" class="breadcrumb" onmouseover="work=1; toggle(\'\',\'book_menu_list\');" onmouseout="work=1; toggle(\'\',\'book_menu_list\');"></div>';

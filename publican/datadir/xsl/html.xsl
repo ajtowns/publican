@@ -21,7 +21,7 @@
 <xsl:param name="chunker.output.quiet" select="0"/>
 
 <xsl:param name="refentry.separator" select="1"/>
-<xsl:param name="suppress.footer.navigation" select="1"/>
+<xsl:param name="suppress.footer.navigation"><xsl:value-of select="$embedtoc"/></xsl:param>
 
 <!--
 From: xsl/docbook/1.72.0/xhtml/chunk-code.xsl
