@@ -1,17 +1,17 @@
 %define brand RedHat
-%define pub_name Publican
+%define wwwdir /var/www/html/docs
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.10
+Version:	2.99
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:   noarch
 Source:		https://fedorahosted.org/releases/p/u/publican/publican-redhat-%{version}.tgz
-BuildRequires:	publican >= 2.5
-Requires:	publican >= 2.5
+BuildRequires:	publican >= 3.0
+Requires:	publican >= 3.0
 URL:		https://fedorahosted.org/publican
 Provides:	documentation-devel-%{brand} = %{version}-%{release}
 Obsoletes:	Obsoletes: documentation-devel-%{brand} < %{version}-%{release}
@@ -19,6 +19,14 @@ Obsoletes:	Obsoletes: documentation-devel-%{brand} < %{version}-%{release}
 %description
 This package provides common files and templates needed to build documentation
 for %{brand} with publican.
+
+%package web
+Summary:        Web styles for %{brand}
+Group:          Documentation
+Requires:	publican >= 3.0
+
+%description web
+Web Site common files for the %{brand} brand.
 
 %prep
 %setup -q
@@ -30,6 +38,8 @@ publican build --formats=xml --langs=all --publish
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
 publican install_brand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
+mkdir -p -m755 $RPM_BUILD_ROOT/%{wwwdir}/%{brand}
+publican install_brand --web --path=$RPM_BUILD_ROOT/%{wwwdir}/%{brand}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -40,7 +50,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
 
+%files web
+%defattr(-,root,root,-)
+%{wwwdir}/%{brand}
+
 %changelog
+* Tue Feb 21 2012 Jeff Fearn <jfearn@redhat.com> 2.99-1
+- Port to Publican 3.0
+
 * Fri Oct 21 2011 Rüdiger Landmann <r.landmann@redhat.com> 2.10-1
 - css fix for productname on titlepage
 
