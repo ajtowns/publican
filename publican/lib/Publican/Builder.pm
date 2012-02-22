@@ -770,8 +770,11 @@ sub transform {
         open( $fh, "<:encoding(UTF-8)", "html-single/index.html" )
             || croak( maketext("Can't open file for html input!") );
         $tree->parse_file($fh);
-## BUGBUG test for BZ #697363
-        if ( $self->{publican}->param('NEW_TXT') ) {
+## BZ #697363
+        if ( $self->{publican}->param('OLD_TXT') ) {
+            my $formatter = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
+            print( $TXT_FILE $formatter->format($tree) );
+        else {
             print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert(
                     $tree->as_HTML,
                     {   leftmargin   => 0,
@@ -782,9 +785,6 @@ sub transform {
                 )
             );
         }
-        else {
-            my $formatter = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
-            print( $TXT_FILE $formatter->format($tree) );
         }
 
         close($TXT_FILE);
