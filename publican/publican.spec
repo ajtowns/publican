@@ -34,48 +34,55 @@ Conflicts:      publican-WebSite-obsoletes
 
 BuildRequires:  perl(Devel::Cover)
 BuildRequires:  perl(Module::Build)
-BuildRequires:  perl(Test::Exception)
 BuildRequires:  perl(Test::More)
-BuildRequires:  perl(Test::Pod)
-BuildRequires:  perl(Test::Pod::Coverage)
-BuildRequires:  perl(Test::Perl::Critic)
+BuildRequires:  perl(Test::Pod) => 1.14
+BuildRequires:  perl(Test::Pod::Coverage) => 1.04
 BuildRequires:  perl(Archive::Tar)
 BuildRequires:  perl(Archive::Zip)
+BuildRequires:  perl(Locale::Maketext::Gettext)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Config::Simple)
 BuildRequires:  perl(Cwd)
-BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(DateTime)
 BuildRequires:  perl(DateTime::Format::DateParse)
+BuildRequires:  perl(DBI)
 BuildRequires:  perl(Encode)
-BuildRequires:  perl(File::Copy::Recursive)
+BuildRequires:  perl(File::Basename)
+BuildRequires:  perl(File::Copy::Recursive) => 0.38
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(File::Find::Rule)
 BuildRequires:  perl(File::HomeDir)
 BuildRequires:  perl(File::Inplace)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::pushd)
+BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(File::Which)
+BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(HTML::FormatText)
+BuildRequires:  perl(HTML::FormatText::WithLinks::AndTables)
 BuildRequires:  perl(HTML::TreeBuilder)
 BuildRequires:  perl(I18N::LangTags::List)
-BuildRequires:  perl(Locale::Maketext::Gettext)
+BuildRequires:  perl(IO::String)
+BuildRequires:  perl(List::Util)
 BuildRequires:  perl(Locale::Language)
 BuildRequires:  perl(Locale::PO)
+BuildRequires:  perl(Module::Build)
+BuildRequires:  perl(Pod::Usage)
+BuildRequires:  perl(String::Similarity)
 BuildRequires:  perl(Syntax::Highlight::Engine::Kate)
+BuildRequires:  perl(Template)
+BuildRequires:  perl(Template::Constants)
 BuildRequires:  perl(Term::ANSIColor)
 BuildRequires:  perl(Text::Wrap)
-BuildRequires:  perl(Test::Pod)
-BuildRequires:  perl(version)
-BuildRequires:  perl(XML::LibXML)  >=  1.67
-BuildRequires:  perl(XML::LibXSLT) >=  1.67
+BuildRequires:  perl(Time::localtime)
+BuildRequires:  perl(XML::LibXML) => 1.67
+BuildRequires:  perl(XML::LibXSLT) => 1.67
 BuildRequires:  perl(XML::Simple)
-BuildRequires:  perl(XML::TreeBuilder) >= 4.0
+BuildRequires:  perl(XML::TreeBuilder) => 4.0
 BuildRequires:  wkhtmltopdf
 BuildRequires:  docbook-style-xsl >= 1.76.1
 BuildRequires:  desktop-file-utils
-BuildRequires:  perl-Template-Toolkit
-BuildRequires:  perl(DBD::SQLite)
+BuildRequires:  gettext
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
