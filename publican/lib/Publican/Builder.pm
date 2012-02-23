@@ -774,7 +774,7 @@ sub transform {
         if ( $self->{publican}->param('OLD_TXT') ) {
             my $formatter = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
             print( $TXT_FILE $formatter->format($tree) );
-        else {
+        } else {
             print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert(
                     $tree->as_HTML,
                     {   leftmargin   => 0,
@@ -784,7 +784,6 @@ sub transform {
                     }
                 )
             );
-        }
         }
 
         close($TXT_FILE);
