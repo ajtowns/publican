@@ -1883,11 +1883,11 @@ Validate the database entries against the RPM database.
 
 TODO should also/instead compare entires aginst web site files?
 
-=head2 version_sort
+=head2 v_sort
 
 Sort version strings in to correct order, handles X, X.Y, and X.Y.Z formats.
 
-=head2 insensitive_sort
+=head2 i_sort
 
 Sort strings case insensitvly.
 
@@ -1898,6 +1898,38 @@ Return the full toc path.
 =head2 xml_dump
 
 Generate an XML dump, and a zip of the dump if required, of the Database.
+
+=head2 search_string
+
+Returns a string for the web page search box.
+
+=head2 lang_name
+
+Returns a string of the localise name for a language. e.g. fr-FR => Français
+
+=head2 splash_pages
+
+Main function for generating splash pages for web 2 style.
+
+=head2 write_books_index
+
+Writes an index page for a book for web 2 style.
+
+=head2 write_language_index
+
+Writes an index page for a langauge for web 2 style.
+
+=head2 write_product_index
+
+Writes an index page for a product for web 2 style.
+
+=head2 write_product_menu
+
+Writes a menu page for a product for web 2 style.
+
+=head2 write_version_index
+
+Writes an index page for a  for web 2 style.
 
 =head1 DIAGNOSTICS
 
