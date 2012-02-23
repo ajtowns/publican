@@ -28,6 +28,7 @@ use HTML::FormatText;
 # https://rt.cpan.org/Public/Bug/Display.html?id=63555
 # https://rt.cpan.org/Public/Bug/Display.html?id=55919
 use HTML::FormatText::WithLinks::AndTables;
+use HTML::FormatText::WithLinks;
 use Term::ANSIColor qw(:constants);
 use POSIX qw(floor :sys_wait_h);
 use Locale::Language;
@@ -771,10 +772,12 @@ sub transform {
             || croak( maketext("Can't open file for html input!") );
         $tree->parse_file($fh);
 ## BZ #697363
-        if ( $self->{publican}->param('OLD_TXT') ) {
-            my $formatter = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
-            print( $TXT_FILE $formatter->format($tree) );
-        } else {
+        my $formatter = $self->{publican}->param('txt_format') || '';
+        if ( $formatter eq 'links') {
+           my $f = HTML::FormatText::WithLinks->new();
+           print( $TXT_FILE $f->parse_file("html-single/index.html"));
+
+        } elsif ( $formatter eq 'tables') {
             print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert(
                     $tree->as_HTML,
                     {   leftmargin   => 0,
@@ -784,6 +787,10 @@ sub transform {
                     }
                 )
             );
+        }
+        else {
+            my $formatter = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
+            print( $TXT_FILE $formatter->format($tree) );
         }
 
         close($TXT_FILE);

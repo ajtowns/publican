@@ -294,6 +294,12 @@ my %PARAMS = (
         default => 'Book',
 
     },
+    txt_formater => {
+        descr => maketext(
+            '....'
+        ),
+        constraint => '(?:links|tables|)',
+    },
     version => {
         descr => maketext(
             'Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml'

@@ -137,7 +137,6 @@ my %options = (
     'surname=s'   => maketext('surname to use for a revision.'),
     'email=s'     => maketext('email to use for a revision.'),
     msgmerge      => maketext(q|Use gettext's msgmerge for POT/PO merging.|),
-    OLD_TXT       => q|Use old TXT output, BZ #697363.|,
     web           => maketext(q|Install the web content for a brand.|),
 );
 
@@ -151,7 +150,7 @@ my %actions = (
         'brief'   => maketext('Transform XML to other formats (pdf, html, html-single, etc)'),
         'options' => [
             'formats',         'langs',   'publish', 'embedtoc',
-            'distributed_set', 'novalid', 'OLD_TXT'
+            'distributed_set', 'novalid'
         ],
     },
     'clean' => {
@@ -763,7 +762,6 @@ if ( $action eq 'lang_stats' ) {
 }
 
 if ( $action eq 'build' ) {
-    $publican->{config}->param( 'OLD_TXT', 1 ) if $opts{OLD_TXT};
     my $builder = Publican::Builder->new( { novalid => $opts{novalid} } );
     $builder->build(
         {   formats         => $opts{formats},
