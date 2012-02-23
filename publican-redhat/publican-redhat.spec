@@ -4,7 +4,7 @@
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
 Version:	2.99
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
