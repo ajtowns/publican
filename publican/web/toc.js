@@ -5,7 +5,7 @@ var name_cp = window.location.hostname + '-publican-current_page';
 var name_menu = window.location.hostname + '-publican-menu';
 var style = 1;
 var toc_path = '';
-site_title = 'Pants';
+site_title = 'Documentation';
 
 function setCookie(name, value, expires, path, domain, secure) { 
 	var curCookie = name + "=" + value + 
