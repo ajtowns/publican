@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t33
+Release:        0%{?dist}.t34
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -31,6 +31,9 @@ Obsoletes:      perl-Publican-WebSite
 Obsoletes:      publican-WebSite-obsoletes
 Conflicts:      perl-Publican-WebSite
 Conflicts:      publican-WebSite-obsoletes
+
+## work around arch -> noarch bug in yum
+Obsoletes:      publican < 3
 
 BuildRequires:  perl(Devel::Cover)
 BuildRequires:  perl(Module::Build)
@@ -59,6 +62,7 @@ BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(File::Which)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(HTML::FormatText)
+BuildRequires:  perl(HTML::FormatText::WithLinks)
 BuildRequires:  perl(HTML::FormatText::WithLinks::AndTables)
 BuildRequires:  perl(HTML::TreeBuilder)
 BuildRequires:  perl(I18N::LangTags::List)
@@ -136,6 +140,7 @@ your XML is up to publishable standard.
 Group:          Documentation
 Summary:        Documentation for the Publican package
 Requires:       xdg-utils
+Obsoletes:      publican-doc < 3
 
 %description doc
 Publican is a tool for publishing material authored in DocBook XML.
