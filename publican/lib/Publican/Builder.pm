@@ -1149,7 +1149,7 @@ sub transform {
     else {
         $dir = undef;
         dircopy( "$tmp_dir/$lang/xml/images",         "$tmp_dir/$lang/$format/images" );
-        dircopy( "$tmp_dir/$lang/xml/Common_Content", "$tmp_dir/$lang/$format/Common_Content" );
+        dircopy( "$tmp_dir/$lang/xml/Common_Content", "$tmp_dir/$lang/$format/Common_Content" ) if($embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf');
         dircopy( "$xml_lang/files",                   "$tmp_dir/$lang/$format/files" )
             if ( -e "$xml_lang/files" );
         dircopy( "$lang/files", "$tmp_dir/$lang/$format/files" )
@@ -1159,7 +1159,7 @@ sub transform {
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
 
         # remove any XML files from common
-        finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" );
+        finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" ) if($embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf');
     }
 
     $xslt       = undef;
