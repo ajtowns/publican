@@ -9,7 +9,7 @@ License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:   noarch
-Source:		https://fedorahosted.org/releases/p/u/publican/publican-redhat-%{version}.tgz
+Source:		https://fedorahosted.org/releases/p/u/publican/publican-jboss-%{version}.tgz
 BuildRequires:	publican >= 3.0
 Requires:	publican >= 3.0
 URL:		https://fedorahosted.org/publican
