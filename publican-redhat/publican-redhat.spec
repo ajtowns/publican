@@ -14,7 +14,7 @@ BuildRequires:	publican >= 3.0
 Requires:	publican >= 3.0
 URL:		https://fedorahosted.org/publican
 Provides:	documentation-devel-%{brand} = %{version}-%{release}
-Obsoletes:	Obsoletes: documentation-devel-%{brand} < %{version}-%{release}
+Obsoletes:	documentation-devel-%{brand} < %{version}-%{release}
 
 %description
 This package provides common files and templates needed to build documentation
