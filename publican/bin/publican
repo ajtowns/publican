@@ -23,7 +23,7 @@ use File::Find::Rule;
 use File::pushd;
 use Archive::Tar;
 use Term::ANSIColor qw(:constants);
-use Cwd qw(abs_path);
+use Cwd qw(abs_path cwd);
 use File::Basename;
 
 my $VERSION      = "$Publican::VERSION";
@@ -138,6 +138,7 @@ my %options = (
     'email=s'     => maketext('email to use for a revision.'),
     msgmerge      => maketext(q|Use gettext's msgmerge for POT/PO merging.|),
     web           => maketext(q|Install the web content for a brand.|),
+    'src_dir=s'   => maketext(q|Directory to source publican files from.|),
 );
 
 # Options all actions use
@@ -150,7 +151,7 @@ my %actions = (
         'brief'   => maketext('Transform XML to other formats (pdf, html, html-single, etc)'),
         'options' => [
             'formats',         'langs',   'publish', 'embedtoc',
-            'distributed_set', 'novalid'
+            'distributed_set', 'novalid', 'src_dir'
         ],
     },
     'clean' => {
@@ -598,6 +599,12 @@ if ( $action eq 'print_known' ) {
     exit(0);
 }
 my %args = ( 'configfile' => $opts{config} );
+my $src_dir;
+my $cwd = cwd();
+
+if ( defined( $opts{src_dir} ) ) {
+    $src_dir = pushd( $opts{src_dir} );
+}
 
 my $publican = Publican->new(
     {   'configfile'   => $opts{config},
@@ -607,6 +614,10 @@ my $publican = Publican->new(
         NOCOLOURS      => $opts{nocolours},
     }
 );
+
+if ( defined( $opts{src_dir} ) ) {
+    $publican->{config}->param( 'tmp_dir', abs_path( "$cwd/" . $publican->param('tmp_dir') ) );
+}
 
 if ( $action eq 'print_banned' ) {
     $publican->print_banned_tags();
