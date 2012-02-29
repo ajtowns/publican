@@ -260,7 +260,7 @@ Create the proper directory structure for the XML, including copying in Brand fi
 
 sub setup_xml {
     my ( $self, $args ) = @_;
-    $File::Copy::Recursive::KeepMode = 1;
+    $File::Copy::Recursive::KeepMode = 0;
     my $xml_lang = $self->{publican}->param('xml_lang');
     my $tmp_dir  = $self->{publican}->param('tmp_dir');
     my $type     = $self->{publican}->param('type');

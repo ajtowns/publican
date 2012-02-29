@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t39
+Release:        0%{?dist}.t41
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -162,10 +162,10 @@ Website style for common brand.
 %build
 %{__perl} Build.PL installdirs=vendor --nocolours=1
 ./Build
-#dir=`pwd` && cd Users_Guide && %{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican build \
-#    --formats=html-desktop --publish --langs=all \
-#    --common_config="$dir/blib/datadir" \
-#    --common_content="$dir/blib/datadir/Common_Content" --nocolours
+dir=`pwd` && cd Users_Guide && %{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican build \
+    --formats=html-desktop --publish --langs=all \
+    --common_config="$dir/blib/datadir" \
+    --common_content="$dir/blib/datadir/Common_Content" --nocolours
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -219,7 +219,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files doc
 %defattr(-,root,root,-)
-#%doc Users_Guide/publish/desktop/*
+%doc Users_Guide/publish/desktop/*
 %{_datadir}/applications/%{my_vendor}-%{name}.desktop
 %doc fdl.txt
 
