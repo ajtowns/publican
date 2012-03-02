@@ -37,6 +37,8 @@ use Text::Wrap qw(fill $columns);
 use IO::String;
 use File::Which;
 
+$File::Copy::Recursive::KeepMode = 0;
+
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
 $VERSION = '0.2';
@@ -260,7 +262,6 @@ Create the proper directory structure for the XML, including copying in Brand fi
 
 sub setup_xml {
     my ( $self, $args ) = @_;
-    $File::Copy::Recursive::KeepMode = 0;
     my $xml_lang = $self->{publican}->param('xml_lang');
     my $tmp_dir  = $self->{publican}->param('tmp_dir');
     my $type     = $self->{publican}->param('type');
@@ -422,13 +423,12 @@ sub setup_xml {
 
         # copy css for brand and default images for non-brand
         if ( $type eq 'brand' ) {
-            dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
-                if ( -d "$lang/css" );
+            dircopy( "$xml_lang/css", "$tmp_dir/$lang/xml/css" ) if ( -d "$xml_lang/css" );
+            dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" ) if ( -d "$lang/css" );
         }
-        else {
-            dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
+
+        dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
                 if ( -d "$xml_lang/images" );
-        }
 
         dircopy( "$lang/images", "$tmp_dir/$lang/xml/images" )
             if ( -d "$lang/images" );

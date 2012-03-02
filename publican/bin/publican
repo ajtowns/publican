@@ -652,6 +652,7 @@ if ( $action eq 'install_brand' ) {
                     || die("can't open file for output: $opts{path}/$ln/css/menu.css");
                 close($DUMMY_FILE);
             }
+            rcopy( "$xml_lang/images/*", "$opts{path}/$ln/images/." ) if ( -d "$xml_lang/images" );
             rcopy( "$ln/images/*", "$opts{path}/$ln/images/." ) if ( -d "$ln/images" );
         }
     }

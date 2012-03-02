@@ -27,57 +27,13 @@ body.toc_embeded {
 a:focus {
     outline: medium none;
 }
-.book, .article, .set, .preface, .chapter, .section, .appendix {
+.book, .article, .set, .preface, .chapter, .section, .appendix, .part {
     margin-left: auto;
     margin-right: auto;
     max-width: 55em;
-}
-.docnav {
-    background-color: #C5C5C5;
-    height: 35px;
-/*    margin: 35px auto 0; */
-    margin-top: 4px;
-/*    max-width: 75em; */
-    padding: 0px;
-}
-.docnav li.home {
-    font-size: 20px !important;
-    margin: 0;
-    padding: 0;
-    top: auto;
-}
-.docnav li.next, .docnav li.previous {
-    margin: 0;
-    padding: 0;
-    top: auto;
-}
-.docnav li.next strong {
-    color: #C5C5C5;
-}
-#floatingtoc {
-    background-color: white;
-    border: 1px solid #565656;
-    display: none;
-    left: 50%;
-    margin-left: -210px;
-    margin-right: auto;
     margin-top: 40px;
-    max-height: 75%;
-    overflow-y: scroll;
-    padding: 20px;
-    position: absolute;
-    width: 400px;
-    z-index: 1;
 }
-.hidden {
-    display: none;
-}
-#title.hidden {
-    display: none;
-}
-.visible {
-    display: block;
-}
+
 .lang_top_box {
     margin-top: 4px;
 }
@@ -285,7 +241,7 @@ a:focus {
     height: 30px !important;
     left: 0;
     line-height: 30px;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
 }
@@ -299,6 +255,7 @@ a:focus {
     border: medium none !important;
     color: white;
     white-space: pre;
+    display: inline;
 }
 .breadcrumb {
     padding-left: 10px;
@@ -324,8 +281,8 @@ a:focus {
 #product_menu_list {
     position: absolute;
     top: 10px;
-    width: 350px;
     z-index: 99;
+
 }
 #version_menu {
     display: inline-block;
@@ -375,7 +332,7 @@ a:focus {
 #lang_menu_2 div {
     color: #555555;
     margin: 0px;
-    margin-bottom: -20px
+    margin-bottom: -20px;
     padding: 0px;
     padding-left:10px;
     padding-right:20px;
@@ -399,8 +356,10 @@ a:focus {
     font-style: italic;
 }
 .untranslated span {
-    background-color: white;
     opacity: 0.5;
+    margin-left: 10px;
+    color: white;
+
 }
 #search_box {
     background-color: grey;
@@ -408,6 +367,7 @@ a:focus {
     right: 40px;
     z-index: 9;
 }
+
 .hidden {
     display: none;
 }
@@ -462,6 +422,7 @@ body {
     font-size: 1em;
     padding-top: 2em;
 }
+
 body > #wrapper {
     background-color: #FFFFFF;
     margin: 0 auto;
@@ -519,7 +480,7 @@ body > #wrapper {
     font-family: Overpass;
     line-height: 32px;
     position: relative;
-    text-indent: 2em;
+    text-indent: 32px;
 }
 .breadcrumb:before {
     border-color: transparent transparent transparent rgba(0, 0, 0, 0.2);
@@ -649,7 +610,7 @@ body > #wrapper .book_top_box {
     background-color: rgba(110, 110, 110, 0.95) !important;
     left: 0;
     margin: 22px 0 !important;
-    padding: 0 !important;
+/*    padding: 0 !important; */
     top: 0;
 }
 .breadcrumb ul li {
