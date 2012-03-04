@@ -15,8 +15,8 @@ ExclusiveArch:   i686 x86_64
 BuildArch:   noarch
 %endif
 Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	publican >= 2.5
-BuildRequires:	publican >= 2.5
+Requires:	publican >= 2.99
+BuildRequires:	publican >= 2.99
 URL:		https://publican.fedorahosted.org
 Obsoletes:	documentation-devel-Fedora
 
