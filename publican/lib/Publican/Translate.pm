@@ -146,6 +146,7 @@ sub po2xml {
 
     my $msgids = Locale::PO->load_file_ashash($po_file);
     foreach my $key ( keys( %{$msgids} ) ) {
+##debug_msg("key: $key\n");
 ##debug_msg("is utf8  key " . utf8::is_utf8($key) . "\n");
         my $msgref = $msgids->{$key};
 ##debug_msg("is utf8 msgref " . utf8::is_utf8($msgref->msgstr()) . "\n");
@@ -477,9 +478,9 @@ sub get_msgs {
         )
         )
     {
-
-        next if ( $child->attr('processed') );
-        $child->attr( 'processed', 1 );
+## BUGBUG is this required here?
+##        next if ( $child->attr('processed') );
+##        $child->attr( 'processed', 1 );
 
         next if ( $child->is_empty );
 
@@ -587,11 +588,8 @@ sub merge_msgs {
         )
     {
 
-        # lookdown matches the root node
-        if ( $child->address() eq $out_doc->address() ) {
-
-            #            next;
-        }
+        next if ( $child->attr('processed') );
+        $child->attr( 'processed', 1 );
 
         next if ( $child->is_empty );
 
@@ -667,7 +665,7 @@ sub translate {
     my $msgid = $node->as_XML();
     my $tag   = $node->tag();
 
-    #debug_msg("msgid 1: |$msgid| |$tag|\n");
+##debug_msg("msgid 1: $tag, $msgid\n");
     my $attr_text = '';
 
 ##debug_msg("is utf8 msgid: ".utf8::is_utf8($msgid)."\n");
@@ -690,7 +688,7 @@ sub translate {
         $attr_text =~ s/\\//g;
     }
 
-##debug_msg("msgid 4: |$msgid| |$tag|\n");
+##debug_msg("msgid 4: $tag, $msgid\n");
     # mixed mode tags, para, caption, can be empty at this point
     if ( $msgid and ( $msgid eq '""' ) ) {
 
@@ -865,7 +863,7 @@ sub normalise {
 ##    $norm =~ s/&#9;//g;
 ##    $norm =~ s/&#38;([a-zA-Z-_0-9]+;)/&$1/g;
     $norm =~ s/&#38;/&amp;/g;
-    $norm =~ s/&amp;#x200B;/&#x200B;/g;
+##    $norm =~ s/&amp;#x200B;/&#x200B;/g;
 ##    $norm =~ s/&#x200B; &#x200B;/ /g;
 ##    $norm =~ s/&#x200B; / /g;
     $norm =~ s/&#60;/&lt;/g;
@@ -1106,4 +1104,3 @@ L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&amp;compon
 =head1 AUTHOR
 
 Jeff Fearn  C<< <jfearn@redhat.com> >>
-
