@@ -163,7 +163,7 @@ $(document).ready(function() {
 		
 		[% FOREACH  c_book = i_sort(cur_ver) %][% booker = book_list.${prod}.${ver}.${c_book} %]
 		<div class="bottom_books[% IF lang != booker.lang %] untranslated [% lang %][% END %]">
-			<a href="[% host %]/[% lang %]/[% prod %]/[% booker.version %]/[% booker.book %]/index.html">[% booker.book_clean %]</a>[% IF lang != booker.lang %]<span>[% trans_strings.Untranslated %]</span>
+			<a href="[% host %]/[% lang %]/[% prod %]/[% booker.version %]/[% booker.book %]/index.html">[% booker.book_clean %][% IF lang != booker.lang %] <span>[% trans_strings.Untranslated %]</span></a>
 		[% END %]
 		</div>
 	[%- END %]

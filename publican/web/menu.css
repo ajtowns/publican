@@ -240,8 +240,8 @@ div.book, div.article, div.set, div.preface, div.chapter, div.section, div.appen
 }
 #menu ul {
     list-style: none outside none !important;
-    margin: 0;
-    padding: 0 10px;
+    margin: 0px;
+    padding: 0px;
     min-width: 100%;
 }
 
@@ -249,7 +249,7 @@ div.book, div.article, div.set, div.preface, div.chapter, div.section, div.appen
     border: medium none !important;
     color: #444444;
     white-space: pre;
-    display: inline;
+    display: block;
     text-decoration: none;
 }
 
@@ -261,6 +261,7 @@ div.book, div.article, div.set, div.preface, div.chapter, div.section, div.appen
 .breadcrumb {
     padding-left: 10px;
     padding-right: 10px;
+    overflow-
 }
 #langauge_menu {
     background-color: red;
@@ -358,9 +359,8 @@ div.book, div.article, div.set, div.preface, div.chapter, div.section, div.appen
 .untranslated span {
     opacity: 0.5;
     margin-left: 10px;
-    color: white;
-
 }
+
 #search_box {
     background-color: grey;
     position: absolute;
@@ -623,6 +623,7 @@ body > #wrapper .book_top_box {
     margin: 22px 0 !important;
 /*    padding: 0 !important; */
     top: 0;
+    text-indent: 16px;
 }
 .breadcrumb ul li {
     margin: 0;
@@ -633,6 +634,7 @@ body > #wrapper .book_top_box {
     height: 32px;
     line-height: 32px;
     text-decoration: none;
+    padding-right: 16px;
 }
 .breadcrumb ul a:hover {
     background-color: #333333;
@@ -652,7 +654,7 @@ body > #wrapper .book_top_box {
     font-size: 14px;
     font-weight: normal;
     line-height: 12px;
-    margin: 16px 16px 0 0 !important;
+    margin: 16px 0 0 0 !important;
     position: relative;
     text-decoration: none !important;
     z-index: 6;
