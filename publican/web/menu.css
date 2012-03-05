@@ -865,7 +865,7 @@ div.version_tabs {
     width: 32px;
 }
 .jcarousel-prev-horizontal:after {
-    border-color: transparent #999999 transparent transparent;
+    border-color: transparent black transparent transparent;
     border-style: inset;
     border-width: 10px;
     content: " ";
@@ -876,13 +876,14 @@ div.version_tabs {
     position: absolute;
     top: 50%;
     width: 0;
+    opacity: 1 !important;
 }
 .jcarousel-direction-rtl .jcarousel-prev-horizontal {
     left: auto;
     right: 5px;
 }
 .jcarousel-prev-horizontal:hover, .jcarousel-prev-horizontal:focus {
-    opacity: 0.8 !important;
+    opacity: 1 !important;
 }
 .jcarousel-prev-horizontal:active {
     background-position: -64px 0;
