@@ -1207,9 +1207,9 @@ sub splash_pages {
         $direction = 'ASC' if ( $def_lang lt $language );
 
         my $sql = <<SQL;
-SELECT distinct product, version, name, language, name_label, version_label, product_label, formats, langs, abstract
+SELECT distinct product, version, name, language, name_label, version_label, product_label, formats, langs, abstract, subtitle
 FROM (
-  SELECT product, version, name, language, name_label, version_label, product_label, abstract, 
+  SELECT product, version, name, language, name_label, version_label, product_label, abstract, subtitle, 
     (
       SELECT GROUP_CONCAT(format)
       FROM books as books1
@@ -1283,7 +1283,7 @@ SQL
 
             # Bash UTF8 into DB fields
             foreach my $key (
-                qw(product version name language name_label version_label product_label abstract )
+                qw(product version name language name_label version_label product_label abstract subtitle )
                 )
             {
                 $record->{$key} = decode_utf8( $record->{$key} )
@@ -1399,6 +1399,7 @@ SQL
             $book_lang_vars->{book_label}    = ( $record->{name_label} || $record->{name} );
             $book_lang_vars->{abstract}      = $record->{abstract};
             $book_lang_vars->{trans_strings} = $vars;
+            $book_lang_vars->{subtitle}      = $record->{subtitle};
 
             if ( defined $record->{name_label} && $record->{name_label} ne "" ) {
                 $book_lang_vars->{book_clean} = $record->{name_label};

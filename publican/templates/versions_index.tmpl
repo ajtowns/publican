@@ -3,10 +3,11 @@
 [%- book_menu = 1 -%]
 [%- lang_menu = product _ "/" _ version _ "/index.html" -%]
 [% INCLUDE 'web_2_head.tmpl' %]
-<script>var current_product = "[% product %]"; var current_version= "[% version %]"; var current_book= "Books"</script>
+<script type="text/javascript">var current_product = "[% product %]"; var current_version= "[% version %]"; var current_book= "Books"</script>
 <h1>[% title %]</h1>
 <div id="version_top_box" class="version_top_box"></div>
-<script>$("#version_top_box").load("splash.html");</script>
+<script type="text/javascript">$("#version_top_box").load("splash.html");</script>
+<div class="main_content">
 <div class="version_bottom_box">
   <div class="bottom_versions">
 [% FOREACH  booker = book_list %]
@@ -15,6 +16,7 @@
     </div>
 [%- END %]
   </div>
+</div>
 </div>
 [% INCLUDE 'web_2_footer.tmpl' %]
 

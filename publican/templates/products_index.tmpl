@@ -2,13 +2,13 @@
 [%- ver_menu = 1 -%]
 [%- lang_menu = product _ "/index.html" -%]
 [% INCLUDE 'web_2_head.tmpl' %]
-<script>
+<script type="text/javascript">
 	var current_product = "[% product %]";
 	var current_version= "Versions";
 </script>
 <h1>[% labels.${product}.label %]</h1>
 <div id="product_top_box" class="product_top_box"></div>
-<script>$("#product_top_box").load("splash.html");</script>
+<script type="text/javascript">$("#product_top_box").load("splash.html");</script>
 <div class="product_bottom_box">
 	[% FOREACH  ver = v_sort(book_list) %][% cur_ver = book_list.${ver} %]
 	<div class="bottom_versions">

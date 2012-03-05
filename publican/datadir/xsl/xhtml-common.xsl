@@ -351,7 +351,7 @@ Version: 1.72.0
 	</xsl:if>
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../jquery-1.7.1.min.js</xsl:attribute></script>
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../toc.js</xsl:attribute></script>
-          <script>
+          <script type="text/javascript">
 		$(document).ready(function() {
 			$("#floatingtoc").load('index.html .book .toc');
 			$(".docnav li.home").click(function(){

@@ -1,15 +1,3 @@
-@font-face {
-    font-family: "OverpassBold";
-    font-style: normal;
-    font-weight: bold;
-    src: url("overpass-bold-wf.eot?#iefix") format("eot"), url("overpass-bold-wf.woff") format("woff"), url("overpass-bold-wf.ttf") format("truetype"), url("overpass-bold-wf.svg#webfontzRhIMntw") format("svg");
-}
-@font-face {
-    font-family: "Overpass";
-    font-style: normal;
-    font-weight: normal;
-    src: url("overpass-wf.eot?#iefix") format("eot"), url("overpass-wf.woff") format("woff"), url("overpass-wf.ttf") format("truetype"), url("overpass-wf.svg#webfontiqWxLEM5") format("svg");
-}
 html {
     overflow-y: scroll;
 }
@@ -17,6 +5,7 @@ body {
     border: 40px solid #C3C3C3;
     margin: 0;
     padding: 0 10px;
+	font-family: "liberation sans", "Myriad ", "Bitstream Vera Sans", "Lucida Grande", "Luxi Sans", "Trebuchet MS", helvetica, verdana, arial, sans-serif;
 }
 body.toc_embeded {
     margin: 0 auto;
@@ -27,11 +16,16 @@ body.toc_embeded {
 a:focus {
     outline: medium none;
 }
-.book, .article, .set, .preface, .chapter, .section, .appendix, .part {
+div.book, div.article, div.set, div.preface, div.chapter, div.section, div.appendix, div.part {
     margin-left: auto;
     margin-right: auto;
     max-width: 55em;
     margin-top: 40px;
+-webkit-box-shadow: 0 0 0 1px #AAAAAA, 0 0 10px 0 #777777;
+   -moz-box-shadow: 0 0 0 1px #AAAAAA, 0 0 10px 0 #777777;
+        box-shadow: 0 0 0 1px #AAAAAA, 0 0 10px 0 #777777;
+    background-color: white;
+    padding-left: 16px;
 }
 
 .lang_top_box {
@@ -189,7 +183,6 @@ a:focus {
 .version_top_box>:first-child {
     font-size: 18px;
     text-align: center;
-    font-family: Overpass;
 }
 
 
@@ -218,7 +211,7 @@ a:focus {
     margin: 5px;
     padding: 5px;
     text-align: center;
-    width: 45%;
+    width: 50%;
 }
 .book_formats {
     background-color: #111111;
@@ -348,7 +341,6 @@ a:focus {
 
 #book_lang_menu_list, #lang_menu_list {
     background-color: rgba(110, 110, 110, 0.95) !important;
-    font-family: Overpass;
     line-height: 32px;
     margin-top: 0 !important;
     position: absolute;
@@ -397,7 +389,6 @@ a:focus {
 .version_tabs .link a {
     background-color: #666666;
     display: block;
-    font-family: Overpass;
     padding: 5px 10px;
 }
 .version_tabs .link.active:before {
@@ -437,6 +428,9 @@ body > #wrapper {
     background-color: #FFFFFF;
     margin: 0 auto;
     max-width: 90em;
+-webkit-box-shadow: 0 0 0 1px #AAAAAA, 0 0 5px 0 #AAAAAA;
+   -moz-box-shadow: 0 0 0 1px #AAAAAA, 0 0 5px 0 #AAAAAA;
+        box-shadow: 0 0 0 1px #AAAAAA, 0 0 5px 0 #AAAAAA;
 }
 .langauge_banner {
     color: #FFFFFF;
@@ -454,7 +448,6 @@ body > #wrapper {
 }
 .bottom_products > .title a {
     color: #999999 !important;
-    font-family: Overpass;
     font-size: 30px;
     text-decoration: none;
 }
@@ -470,7 +463,6 @@ body > #wrapper {
 }
 .bottom_versions > .title a {
     color: #666666 !important;
-    font-family: Overpass;
     font-size: 2em;
     padding-left: 0.5em;
     text-decoration: none;
@@ -493,7 +485,6 @@ body > #wrapper {
     cursor: pointer !important;
     display: block;
     float: left;
-    font-family: Overpass;
     line-height: 32px;
     position: relative;
     text-indent: 32px;
@@ -564,11 +555,16 @@ body > #wrapper {
     max-width: 70em !important;
 }
 body > #wrapper h1 {
-    font-family: Overpass;
     font-weight: normal;
     padding-top: 20px;
     text-align: center;
 }
+
+body > #wrapper h2 {
+    font-weight: normal;
+    text-align: center;
+}
+
 body > #wrapper .book_top_box {
     margin: 2em auto;
     max-width: 56em;
@@ -655,7 +651,6 @@ body > #wrapper .book_top_box {
 .bottom_books a {
     color: #333333;
     display: block;
-    font-family: Overpass;
     font-size: 14px;
     font-weight: normal;
     line-height: 12px;
@@ -704,7 +699,6 @@ div.version_tabs {
     color: #999999;
     cursor: pointer;
     display: block !important;
-    font-family: Overpass;
 /*     height: 32px !important;
     line-height: 32px !important; */
     padding-top: 3px;
@@ -722,7 +716,6 @@ div.version_tabs {
 .slider_item {
     background-color: #990000;
     background-image: url("http://file.bne.redhat.com/~rlerch/pants.png");
-    font-family: Overpass;
     height: 100%;
     vertical-align: middle;
 }
@@ -908,11 +901,11 @@ div.version_tabs {
     background-color: white;
     float: left;
     padding: 40px !important;
-    width: 88%;
 }
 
 .product_bottom_box .bottom_versions {
     display: block;
+    min-width: 91.5%;
  }
 
 .footer {
