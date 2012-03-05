@@ -35,7 +35,7 @@ a:focus {
 }
 
 .lang_top_box {
-    margin-top: 4px;
+/*    margin-top: 4px;*/
 }
 .langauge_banner {
     border: 1px solid #C3C3C3;
@@ -419,7 +419,7 @@ body {
     background-color: #EEEEEE;
     border: medium none;
     font-size: 1em;
-    padding-top: 2em;
+    padding-top: 32px;
 }
 
 body > #wrapper {
@@ -468,7 +468,13 @@ body > #wrapper {
     height: 32px !important;
 }
 #menu {
-    background-color: #EEEEEE;
+    z-index: 999;
+/*box-shadow*/
+-webkit-box-shadow:0 1px 0 #999999, 0 -1px 8px #888888, 0 -30px 30px -20px #CCCCCC inset;
+   -moz-box-shadow:0 1px 0 #999999, 0 -1px 8px #888888, 0 -30px 30px -20px #CCCCCC inset;
+        box-shadow:0 1px 0 #999999, 0 -1px 8px #888888, 0 -30px 30px -20px #CCCCCC inset;
+    background-color:#EEEEEE;
+
 }
 .breadcrumb {
     background-color: #EEEEEE;
@@ -519,12 +525,13 @@ body > #wrapper {
 #book_lang_menu {
     background-color: #EEEEEE;
 }
-#search_box {
-}
+
 #search_box {
     background-color: transparent;
     padding: 0;
+    width: 190px;
 }
+
 #search_box input[type="text"] {
     background-color: #FFFFFF;
     border: 1px solid #CCCCCC;
