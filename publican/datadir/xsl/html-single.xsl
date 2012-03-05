@@ -49,8 +49,8 @@ Version:
         <xsl:with-param name="node" select="$doc"/>
       </xsl:call-template>
       <xsl:if test="$embedtoc != 0">
-      <div id="navigation"></div>
-      <div id="floatingtoc" class="hidden"></div>
+        <div id="navigation"></div>
+        <div id="floatingtoc" class="hidden"></div>
       </xsl:if>
       <p xmlns="http://www.w3.org/1999/xhtml">
         <xsl:attribute name="id">
@@ -72,6 +72,11 @@ Version:
           <img src="Common_Content/images/image_right.png" alt="Documentation Site"/>
         </a>
       </p>
+    <xsl:if test="$embedtoc != 0">
+      <ul class="docnav" xmlns="http://www.w3.org/1999/xhtml">
+        <li class="home"><xsl:value-of select="$clean_title"/></li>
+      </ul>
+    </xsl:if>
       <xsl:apply-templates select="."/>
       <xsl:call-template name="user.footer.content">
         <xsl:with-param name="node" select="$doc"/>

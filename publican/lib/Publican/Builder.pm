@@ -889,6 +889,16 @@ sub transform {
         }
     }
 
+    $xslt_opts{clean_title}
+        = $web_name_label
+        ? $web_name_label
+        : $pop_name;
+
+    $xslt_opts{clean_title} = $self->{publican}->param('docname')
+        unless ( $xslt_opts{clean_title} );
+    $xslt_opts{clean_title} = '"' . $xslt_opts{clean_title} . '"';
+    $xslt_opts{clean_title} =~ s/_/ /g;
+
     if ( $format eq 'html-single' ) {
 
         $dir = pushd("$tmp_dir/$lang/$format");
@@ -943,15 +953,7 @@ sub transform {
     }
     elsif ( $format eq 'html' ) {
         $dir = pushd("$tmp_dir/$lang/$format");
-        $xslt_opts{clean_title}
-            = $web_name_label
-            ? $web_name_label
-            : $pop_name;
 
-        $xslt_opts{clean_title} = $self->{publican}->param('docname')
-            unless ( $xslt_opts{clean_title} );
-        $xslt_opts{clean_title} = '"' . $xslt_opts{clean_title} . '"';
-        $xslt_opts{clean_title} =~ s/_/ /g;
         $xslt_opts{'doc.url'}              = "'$doc_url'";
         $xslt_opts{'prod.url'}             = "'$prod_url'";
         $xslt_opts{'package'}              = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
