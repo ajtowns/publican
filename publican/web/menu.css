@@ -390,9 +390,12 @@ a:focus {
     font-size: 16px;
     font-weight: bold;
     position: relative;
+-webkit-box-shadow: 0 0 2px white;
+   -moz-box-shadow: 0 0 2px white;
+        box-shadow: 0 0 2px white;
 }
 .version_tabs .link a {
-    background-color: #FFFFFF;
+    background-color: #666666;
     display: block;
     font-family: Overpass;
     padding: 5px 10px;
@@ -401,11 +404,11 @@ a:focus {
     border-color: transparent transparent #FFFFFF;
     border-style: solid;
     border-width: 8px 12px;
-    bottom: 0;
+    bottom: -5px;
     content: "";
     display: inline-block;
     left: 50%;
-    margin-left: -12px;
+    margin-left: -10px;
     position: absolute;
     width: 0;
     z-index: 999;
@@ -685,7 +688,6 @@ div.version_tabs {
     background-color: transparent;
 }
 .version_tabs span a {
-    color: #AAAAAA;
     min-width: 3em;
     text-align: center;
     text-decoration: none;
