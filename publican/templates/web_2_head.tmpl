@@ -10,44 +10,56 @@
 </head>
 <body class="menu">
 <div id="wrapper">
-<div id="menu">
-	<div id="lang_menu" class="breadcrumb"><a href="[% host %]/[% lang %]/index.html">[% site_title %]</a></div>
-	<div id="product_menu" class="breadcrumb" onmouseover="work=1; expand_menu('product_menu_list');" onmouseout="work=1; retract_menu('product_menu_list');">Pants</div>
-[%- IF ver_menu %]
-	<div id="version_menu" class="breadcrumb" onmouseover="work=1; expand_menu('version_menu_list');" onmouseout="work=1; retract_menu('version_menu_list');"></div>
-[%- END %]
-[%- IF book_menu %]
-	<div id="book_menu" class="breadcrumb" onmouseover="work=1; expand_menu('book_menu_list');" onmouseout="work=1; retract_menu('book_menu_list');"></div>
-[%- END %]
-[%- IF book_lang_menu %]
-	<div id="book_lang_menu"  onmouseover="work=1; expand_menu('book_lang_menu_list');" onmouseout="work=1; retract_menu('book_lang_menu_list');"></div>
-[%- END %]
-[%- IF lang_menu %]
-	<div id="lang_menu_2"  onmouseover="work=1; expand_menu('lang_menu_list');" onmouseout="work=1; retract_menu('lang_menu_list');">
-[%- FOREACH lang_t = langs %]
-[% IF lang_t.lang == lang %]
-		<div>[% lang_t.lang_name %]</div>
-[%- END %]
-[%- END %]
-		<ul id="lang_menu_list" class="hidden">
-[%- FOREACH lang_t = langs %]
- 			<li><a href="[% host %]/[% lang_t.lang %]/[% lang_menu %]">[% lang_t.lang_name %]</a></li>
-[%- END %]
-		</ul>
-	</div>
-[%- END %]
-	<div id="search_box">[% search %]</div>
-	<script type="text/javascript">
-		$("#product_menu").load("[% host %]/[% lang %]/products_menu.html");
-[%- IF ver_menu %]
-		$("#version_menu").load("[% host %]/[% lang %]/[% product %]/versions_menu.html");
-[%- END %]
-[%- IF book_menu %]
-		$("#book_menu").load("[% host %]/[% lang %]/[% product %]/[% version %]/books_menu.html");
-[%- END %]
-[%- IF book_lang_menu %]
-		$("#book_lang_menu").load("[% host %]/[% lang %]/[% product %]/[% version %]/[% book.book %]/lang_menu.html");
-[%- END %]
-	</script>
-</div>
+	<div id="menu">
+		<div id="lang_menu" class="breadcrumb">
+			<a href="[% host %]/[% lang %]/index.html">[% site_title %]</a>
+		</div>
+		<div id="product_menu" class="breadcrumb" onmouseover="work=1; expand_menu('product_menu_list');" onmouseout="work=1; retract_menu('product_menu_list');">
+			Products
+		</div>
+	    [%- IF ver_menu %]
+		<div id="version_menu" class="breadcrumb" onmouseover="work=1; expand_menu('version_menu_list');" onmouseout="work=1; retract_menu('version_menu_list');">
+			Versions
+		</div>
+	    [%- END %]
+	    [%- IF book_menu %]
+		<div id="book_menu" class="breadcrumb" onmouseover="work=1; expand_menu('book_menu_list');" onmouseout="work=1; retract_menu('book_menu_list');">
+			Books
+		</div>
+	    [%- END %]
+	    [%- IF book_lang_menu %]
+		<div id="book_lang_menu"  onmouseover="work=1; expand_menu('book_lang_menu_list');" onmouseout="work=1; retract_menu('book_lang_menu_list');">
+			Translations
+		</div>
+	    [%- END %]
+	    [%- IF lang_menu %]
+		<div id="lang_menu_2"  onmouseover="work=1; expand_menu('lang_menu_list');" onmouseout="work=1; retract_menu('lang_menu_list');">
+		    [%- FOREACH lang_t = langs %]
+			[%- IF lang_t.lang == lang %]
+			<div>[% lang_t.lang_name %]</div>
+			[%- END %]
+		    [%- END %]
+			<ul id="lang_menu_list" class="hidden">
+			    [%- FOREACH lang_t = langs %]
+	 			<li><a href="[% host %]/[% lang_t.lang %]/[% lang_menu %]">[% lang_t.lang_name %]</a></li>
+			    [%- END %]
+			</ul>
+		</div>
+	    [%- END %]
+		<div id="search_box">
+			[% search %]
+		</div>
+		<script type="text/javascript">
+			$("#product_menu").load("[% host %]/[% lang %]/products_menu.html");
+		    [%- IF ver_menu %]
+			$("#version_menu").load("[% host %]/[% lang %]/[% product %]/versions_menu.html");
+		    [%- END %]
+		    [%- IF book_menu %]
+			$("#book_menu").load("[% host %]/[% lang %]/[% product %]/[% version %]/books_menu.html");
+		    [%- END %]
+		    [%- IF book_lang_menu %]
+			$("#book_lang_menu").load("[% host %]/[% lang %]/[% product %]/[% version %]/[% book.book %]/lang_menu.html");
+		    [%- END %]
+		</script>
+	</div><!-- end menu -->
 
