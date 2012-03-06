@@ -30,6 +30,44 @@ part nop
 </xsl:param>
 
 <!--
+From: html/component.xsl
+Reason: Override Chapter H2 to H1 for PDF titles
+-->
+<xsl:template name="component.title">
+  <xsl:param name="node" select="."/>
+
+  <xsl:variable name="level">
+    <xsl:choose>
+      <xsl:when test="ancestor::section">
+        <xsl:value-of select="count(ancestor::section)+1"/>
+      </xsl:when>
+      <xsl:when test="ancestor::sect5">6</xsl:when>
+      <xsl:when test="ancestor::sect4">5</xsl:when>
+      <xsl:when test="ancestor::sect3">4</xsl:when>
+      <xsl:when test="ancestor::sect2">3</xsl:when>
+      <xsl:when test="ancestor::sect1">2</xsl:when>
+      <xsl:otherwise>0</xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <!-- Let's handle the case where a component (bibliography, for example)
+       occurs inside a section; will we need parameters for this? -->
+
+  <xsl:element name="h{$level+1}">
+    <xsl:attribute name="class">title</xsl:attribute>
+    <xsl:if test="$generate.id.attributes = 0">
+      <xsl:call-template name="anchor">
+	<xsl:with-param name="node" select="$node"/>
+	<xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template>
+    </xsl:if>
+      <xsl:apply-templates select="$node" mode="object.title.markup">
+      <xsl:with-param name="allow-anchors" select="1"/>
+    </xsl:apply-templates>
+  </xsl:element>
+</xsl:template>
+
+<!--
 From: xhtml/docbook.xsl
 Reason: add TOC div for web site
 Version:
