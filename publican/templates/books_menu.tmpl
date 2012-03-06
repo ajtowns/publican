@@ -1,4 +1,4 @@
-<script>$('<div>'+current_book+'</div>').insertBefore("#book_menu_list")</script>
+<script>$('<div>'+labels[current_product][current_version][current_book]["label"]+'</div>').insertBefore("#book_menu_list")</script>
 <ul id="book_menu_list" class="hidden">
 [%- FOREACH book_name = books %]
   <li [% IF lang != book_list.${book_name}.lang %]class="untranslated [% lang %]"[% END %]>

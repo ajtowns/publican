@@ -70,7 +70,6 @@ Requires:    xdg-utils
 %setup -q
 
 %build
-export CLASSPATH=$CLASSPATH:%{_javadir}/ant/ant-trax-1.7.0.jar:%{_javadir}/xmlgraphics-commons.jar:%{_javadir}/batik-all.jar:%{_javadir}/xml-commons-apis.jar:%{_javadir}/xml-commons-apis-ext.jar
 publican build --nocolours <xsl:value-of select="$embedtoc"/> --formats="<xsl:value-of select="$web_formats_comma"/>,html-desktop" --langs=<xsl:value-of select="$lang"/> --publish
 
 %install

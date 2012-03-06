@@ -1350,6 +1350,7 @@ SQL
             $product = $record->{product};
             if ( $record->{product_label} ) {
                 $product_label = $record->{product_label};
+                $product_label =~ s/_/ /g;
                 $labels{$product}{label} = $product_label;
             }
             else {
@@ -1363,6 +1364,7 @@ SQL
             $version = $record->{version};
             if ( $record->{version_label} ) {
                 $version_label = $record->{version_label};
+                $version_label =~ s/_/ /g;
                 $labels{$product}{$version}{label} = $version_label;
             }
             else {
@@ -1400,14 +1402,16 @@ SQL
             $book_lang_vars->{abstract}      = $record->{abstract};
             $book_lang_vars->{trans_strings} = $vars;
             $book_lang_vars->{subtitle}      = $record->{subtitle};
+            $book_lang_vars->{book_label} =~ s/_/ /g;
 
             if ( defined $record->{name_label} && $record->{name_label} ne "" ) {
                 $book_lang_vars->{book_clean} = $record->{name_label};
             }
             else {
                 $book_lang_vars->{book_clean} = $record->{name};
-                $book_lang_vars->{book_clean} =~ s/_/ /g;
             }
+            $book_lang_vars->{book_clean} =~ s/_/ /g;
+            $book_lang_vars->{book_clean} =~ s/^\s*//g;
             $book_lang_vars->{langs} = \@lang_array;
 
             $self->{Template}->process(
@@ -1477,6 +1481,14 @@ SQL
                 langs         => \@all_lang_array,
                 labels        => \%labels,
                 trans_strings => $vars,
+            }
+        );
+        # write our labels.tmpl
+        $self->write_language_labels(
+            {   lang          => $language,
+                labels        => \%labels,
+                trans_strings => $vars,
+                book_list     => \%book_list,
             }
         );
     }
@@ -1671,6 +1683,38 @@ sub write_language_index {
     $self->{Template}->process(
         'language_index.tmpl', $index_vars,
         $self->{toc_path} . "/$lang/index.html",
+        binmode => ':encoding(UTF-8)'
+    ) or croak( $self->{Template}->error() );
+
+    return;
+}
+
+
+sub write_language_labels {
+    my ( $self, $arg ) = @_;
+    my $lang = delete $arg->{lang} || croak "write_language_labels: lang required";
+    my $labels = delete $arg->{labels} || croak "write_language_labels: labels required";
+    my $book_list = delete $arg->{book_list} || croak "write_language_labels: book_list required";
+    my $trans_strings = delete $arg->{trans_strings}
+        || croak "write_langauge_index: trans_strings required";
+
+    if ( %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $host = $self->{host};
+
+    my $index_vars;
+    $index_vars->{lang}          = $lang;
+    $index_vars->{labels}        = $labels;
+    $index_vars->{trans_strings} = $trans_strings;
+    $index_vars->{book_list}     = $book_list;
+    $index_vars->{site_title}    = $self->{title};
+
+## BUGBUG handle product labels
+    $self->{Template}->process(
+        'labels.tmpl', $index_vars,
+        $self->{toc_path} . "/$lang/labels.js",
         binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
@@ -1931,6 +1975,10 @@ Writes a menu page for a product for web 2 style.
 =head2 write_version_index
 
 Writes an index page for a  for web 2 style.
+
+=head2 write_language_labels
+
+Writes a javascript file with an associative array of labels.
 
 =head1 DIAGNOSTICS
 

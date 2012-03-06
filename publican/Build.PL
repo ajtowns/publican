@@ -371,6 +371,7 @@ my $builder = $class->new(
         'templates/books_lang_menu.tmpl' => 'templates/books_lang_menu.tmpl',
         'templates/books_menu.tmpl'      => 'templates/books_menu.tmpl',
         'templates/index.tmpl'           => 'templates/index.tmpl',
+        'templates/labels.tmpl'          => 'templates/labels.tmpl',
         'templates/language_index.tmpl'  => 'templates/language_index.tmpl',
         'templates/opds.tmpl'            => 'templates/opds.tmpl',
         'templates/opds-langs.tmpl'      => 'templates/opds-langs.tmpl',
