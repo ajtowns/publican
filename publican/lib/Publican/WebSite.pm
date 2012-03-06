@@ -862,8 +862,7 @@ SEARCH
                 my $url = {
                     url         => qq|$host/$language/$product/$version/index.html|,
                     update_date => ctime(
-                        ( stat( "$self->{toc_path}/$language/$product/$version/index.html" ) )
-                        [9]
+                        ( stat("$self->{toc_path}/$language/$product/$version/index.html") )[9]
                     ),
                 };
 
@@ -914,17 +913,17 @@ SEARCH
                     $type_data{ext}     = 'index.html';
                     if ( $type eq 'pdf' ) {
                         my @filelist = File::Find::Rule->file->relative()->name('*.pdf')
-                            ->in( "$self->{toc_path}/$lang/$product/$version/$type/$book" );
+                            ->in("$self->{toc_path}/$lang/$product/$version/$type/$book");
                         $type_data{ext} = pop(@filelist);
                     }
                     elsif ( $type eq 'txt' ) {
                         my @filelist = File::Find::Rule->file->relative()->name('*.txt')
-                            ->in( "$self->{toc_path}/$lang/$product/$version/$type/$book" );
+                            ->in("$self->{toc_path}/$lang/$product/$version/$type/$book");
                         $type_data{ext} = pop(@filelist);
                     }
                     elsif ( $type eq 'epub' ) {
                         my @filelist = File::Find::Rule->file->relative()->name('*.epub')
-                            ->in( "$self->{toc_path}/$lang/$product/$version/$type/$book" );
+                            ->in("$self->{toc_path}/$lang/$product/$version/$type/$book");
                         $type_data{ext} = pop(@filelist);
                         if ( $type_data{ext} ) {
                             my %opds_url = (
@@ -1397,6 +1396,7 @@ SQL
             $book_lang_vars->{version_label}
                 = ( $record->{version_label} || $record->{version} );
             $book_lang_vars->{lang}          = $record->{language};
+            $book_lang_vars->{lang_name}     = $self->lang_name( { lang => $language } );
             $book_lang_vars->{book}          = $record->{name};
             $book_lang_vars->{book_label}    = ( $record->{name_label} || $record->{name} );
             $book_lang_vars->{abstract}      = $record->{abstract};
@@ -1483,6 +1483,7 @@ SQL
                 trans_strings => $vars,
             }
         );
+
         # write our labels.tmpl
         $self->write_language_labels(
             {   lang          => $language,
@@ -1689,12 +1690,12 @@ sub write_language_index {
     return;
 }
 
-
 sub write_language_labels {
     my ( $self, $arg ) = @_;
-    my $lang = delete $arg->{lang} || croak "write_language_labels: lang required";
+    my $lang   = delete $arg->{lang}   || croak "write_language_labels: lang required";
     my $labels = delete $arg->{labels} || croak "write_language_labels: labels required";
-    my $book_list = delete $arg->{book_list} || croak "write_language_labels: book_list required";
+    my $book_list = delete $arg->{book_list}
+        || croak "write_language_labels: book_list required";
     my $trans_strings = delete $arg->{trans_strings}
         || croak "write_langauge_index: trans_strings required";
 
@@ -1912,7 +1913,7 @@ Returns a reference to a has of all books for the selected language.
 
 =head2 get_lang_list
 
-Returns an array ref of distinct, osrted, languages.
+Returns an array ref of distinct, sorted, languages.
 
 =head2 regen_all_toc
 
