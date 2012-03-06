@@ -5,6 +5,11 @@
 <title>[% title %]</title>
 <link rel="stylesheet" href="[% host %]/menu.css" type="text/css" />
 <meta name="generator" content="publican [% publican_version %]" />
+<script type="text/javascript">
+    var current_product = "[%- IF product %][% product %][% ELSE %]Products[% END %]";
+    var current_version = "[%- IF version %][% version %][% ELSE %]Versions[% END %]";
+    var current_book = "[%- IF book.book %][% book.book %][% ELSE %]Books[% END %]";
+</script>
 <script type="text/javascript" src="[% host %]/[% lang %]/labels.js"></script>
 <script type="text/javascript" src="[% host %]/toc.js"></script>
 <script type="text/javascript" src="[% host %]/jquery-1.7.1.min.js"></script>

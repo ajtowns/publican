@@ -1,4 +1,10 @@
-<script>$('<div>'+labels[current_product]["label"]+'</div>').insertBefore("#product_menu_list")</script>
+<script>
+    if(current_product != 'Products') {
+	$('<div>'+labels[current_product]["label"]+'</div>').insertBefore("#product_menu_list");
+    } else {
+        $('<div>[% trans_strings.Products %]</div>').insertBefore("#product_menu_list");
+    }
+</script>
 <ul id="product_menu_list" class="hidden">
 [%- FOREACH prod = products %]
   <li><a href="[% host %]/[% lang %]/[% prod %]/index.html">[% labels.${prod}.label %]</a></li>
