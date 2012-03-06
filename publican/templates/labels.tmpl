@@ -1,0 +1,20 @@
+var labels = {};
+labels["site"] = {};
+labels["site"]["title"] = "[% site_title %]";
+
+[%- FOREACH  prod = labels.keys %]
+labels["[% prod  %]"] = {};
+    [%- FOREACH  ver = labels.${prod}.keys %]
+labels["[% prod  %]"]["[% ver %]"] = {};
+        [%- IF ver == "label" %]
+labels["[% prod  %]"]["[% ver %]"] = "[% labels.${prod}.${ver} %]";
+	[%- ELSE %]
+labels["[% prod %]"]["[% ver %]"]["label"] = "[%  labels.${prod}.${ver}.label %]";
+            [%- FOREACH  book = book_list.${prod}.${ver}.keys %]
+labels["[% prod %]"]["[% ver %]"]["[% book %]"] = {};
+labels["[% prod %]"]["[% ver %]"]["[% book %]"]["label"] = "[%  book_list.${prod}.${ver}.${book}.book_clean %]";
+            [%- END %]
+        [%- END %]
+    [%- END %]
+[%- END %]
+

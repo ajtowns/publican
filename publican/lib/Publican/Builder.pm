@@ -811,7 +811,7 @@ sub transform {
         mkdir "$tmp_dir/$lang/pdf";
 
         my @wkhtmltopdf_args = (
-            $wkhtmltopdf_cmd, '--header-spacing', 5, '--footer-spacing', 3, '--margin-top', 20,
+            $wkhtmltopdf_cmd, '--header-spacing', 5, '--footer-spacing', 3, '--margin-top', 20, '--margin-left', '15mm', '--margin-right', '15mm'
         );
 
         if ( -f "$common_config/header.html" ) {
