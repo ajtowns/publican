@@ -50,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
 
+%files web
+%defattr(-,root,root,-)
+%{wwwdir}/%{brand}
+
 %changelog
 * Wed Mar 7 2012 Rüdiger Landmann <rlandman@redhat.com> 0.9-1
 - Convert brand to Publican 3.0
