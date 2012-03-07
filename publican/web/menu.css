@@ -306,7 +306,7 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     top: 10px;
     z-index: 97;
 }
-#book_lang_menu, #lang_menu_2 {
+#book_lang_menu, #lang_menu_2, #book_format_menu {
     background-color: transparent;
     border-left: 1px solid rgba(0, 0, 0, 0.2);
     border-right: 1px solid rgba(0, 0, 0, 0.2);
@@ -341,7 +341,7 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     padding-right:20px;
 }
 
-#book_lang_menu_list, #lang_menu_list {
+#book_lang_menu_list, #lang_menu_list, #book_format_menu_list {
     background-color: rgba(110, 110, 110, 0.95) !important;
     line-height: 32px;
     margin-top: 0 !important;
@@ -351,7 +351,8 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     z-index: 99;
 }
 #book_lang_menu_list a,
-#lang_menu_list a {
+#lang_menu_list a,
+#book_format_menu_list a {
     text-decoration: none;
 }
 .untranslated {
@@ -467,7 +468,10 @@ body > #wrapper {
     padding-left: 0.5em;
     text-decoration: none;
 }
-#book_lang_menu, #menu, .breadcrumb {
+#book_lang_menu,
+#menu,
+.breadcrumb,
+#book_format_menu {
     height: 32px !important;
 }
 #menu {
@@ -524,17 +528,21 @@ body > #wrapper {
 }
 #book_menu, #product_menu, #version_menu {
 }
-#book_lang_menu {
+#book_lang_menu,
+#book_format_menu {
     background-color: #EEEEEE;
 }
 
-#book_lang_menu > div {
+#book_lang_menu > div,
+#book_format_menu > div {
     color: #444444;
     text-indent: 8px;
 }
 
 #book_lang_menu:hover,
-#book_lang_menu:hover > div {
+#book_lang_menu:hover > div,
+#book_format_menu:hover > div,
+#book_format_menu:hover, {
     color: white;
     background-color: #666666;
 }
@@ -661,12 +669,16 @@ body > #wrapper .book_top_box {
     display: inline;
     margin: 0;
     padding: 0;
+-moz-box-sizing: border-box !important;
+    height: 60px;
+    padding-right:2em;
+    overflow: hidden;
 }
 .bottom_books a {
     color: #333333;
     display: block;
     font-size: 14px;
-    font-weight: normal;
+    font-weight: bold;
     line-height: 12px;
     margin: 16px 0 0 0 !important;
     position: relative;
@@ -674,6 +686,16 @@ body > #wrapper .book_top_box {
     z-index: 6;
     padding-right: 1px;
 }
+
+.bottom_books .subtitle {
+    display:block;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 5px;
+    line-height: 12px;
+    color: #666;
+}
+
 .bottom_versions div:nth-child(2n) a {
 }
 .langauge_banner, .popular_books {
