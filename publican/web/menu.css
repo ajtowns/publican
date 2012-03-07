@@ -27,6 +27,7 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     background-color: white;
     padding-left: 30px;
     padding-right: 40px;
+    padding-bottom: 20px;
 }
 
 .lang_top_box {
@@ -244,6 +245,7 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     margin: 0px;
     padding: 0px;
     min-width: 100%;
+    padding-left: 5px;
 }
 
 #menu a {
@@ -317,7 +319,9 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     right: 240px;
     z-index: 19;
 }
-#lang_menu_2:before {
+#lang_menu_2:before,
+#book_format_menu:before,
+#book_lang_menu:before {
     border-color: #666666 transparent transparent;
     border-style: solid;
     border-width: 6px 6px 0;
@@ -332,7 +336,9 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     width: 0;
 }
 
-#lang_menu_2 div {
+#lang_menu_2 div,
+#book_format_menu div,
+#book_lang_menu div {
     color: #555555;
     margin: 0px;
     margin-bottom: -20px;
@@ -669,7 +675,9 @@ body > #wrapper .book_top_box {
     display: inline;
     margin: 0;
     padding: 0;
--moz-box-sizing: border-box !important;
+-webkit-box-sizing: border-box !important;
+   -moz-box-sizing: border-box !important;
+        box-sizing: border-box !important;
     height: 60px;
     padding-right:2em;
     overflow: hidden;
