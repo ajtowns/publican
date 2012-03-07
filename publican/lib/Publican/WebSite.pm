@@ -117,6 +117,7 @@ my %tmpl_strings = (
     ProductList      => $locale->maketext('Product List'),
     Hide_Menu        => $locale->maketext('Hide Menu'),
     Show_Menu        => $locale->maketext('Show Menu'),
+    Formats          => $locale->maketext('Formats'),
 );
 
 sub new {
@@ -1763,10 +1764,15 @@ sub write_books_index {
                 $index_vars->{footer}        = $self->{footer};
                 $index_vars->{site_title}    = $self->{title};
 
-## BUGBUG handle product labels
                 $self->{Template}->process(
                     'books_index.tmpl', $index_vars,
                     $self->{toc_path} . "/$lang/$product/$version/$book/index.html",
+                    binmode => ':encoding(UTF-8)'
+                ) or croak( $self->{Template}->error() );
+
+                $self->{Template}->process(
+                    'books_format_menu.tmpl', $index_vars,
+                    $self->{toc_path} . "/$lang/$product/$version/$book/format_menu.html",
                     binmode => ':encoding(UTF-8)'
                 ) or croak( $self->{Template}->error() );
 

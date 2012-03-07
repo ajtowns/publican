@@ -522,8 +522,9 @@ sub print_xml {
         }
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
-##        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ( $1 || './' ) } );
-        my $text = $xml_doc->as_XML();
+        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ( $1 || './' ) } );
+## BUGBUG revert to upstream as_XML?
+##        my $text = $xml_doc->as_XML();
         $text =~ s/&#34;/"/g;
         $text =~ s/&#39;/'/g;
         $text =~ s/&quot;/"/g;
@@ -681,6 +682,12 @@ sub my_as_XML {
                     }
 
                     if ( $tag eq 'imagedata' || $tag eq 'graphic' ) {
+                        $node->attr('fileref') =~ m/(...)$/;
+                        my $format = uc($1);
+                        if (!$node->attr('format') && $format) {
+                            $node->attr( 'format', $format );
+                        }
+
                         my $img_file = "$path" . $node->attr('fileref');
                         $img_file
                             = $self->{publican}->param('xml_lang') . "/"

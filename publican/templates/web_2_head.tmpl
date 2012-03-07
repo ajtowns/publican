@@ -34,6 +34,9 @@
 		</div>
 	    [%- END %]
 	    [%- IF book_lang_menu %]
+		<div id="book_format_menu" onmouseover="work=1; expand_menu('book_format_menu_list');" onmouseout="work=1; retract_menu('book_format_menu_list');">
+			Formats
+		</div>
 		<div id="book_lang_menu"  onmouseover="work=1; expand_menu('book_lang_menu_list');" onmouseout="work=1; retract_menu('book_lang_menu_list');">
 			Translations
 		</div>
@@ -65,6 +68,7 @@
 		    [%- END %]
 		    [%- IF book_lang_menu %]
 			$("#book_lang_menu").load("[% host %]/[% lang %]/[% product %]/[% version %]/[% book.book %]/lang_menu.html");
+			$("#book_format_menu").load("[% host %]/[% lang %]/[% product %]/[% version %]/[% book.book %]/format_menu.html");
 		    [%- END %]
 		</script>
 	</div><!-- end menu -->
