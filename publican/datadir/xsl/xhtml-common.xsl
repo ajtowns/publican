@@ -21,8 +21,17 @@
 <!-- Admonition Graphics -->
 <xsl:param name="admon.graphics" select="1"/>
 <xsl:param name="admon.style" select="''"/>
-<xsl:param name="admon.graphics.path">Common_Content/images/</xsl:param>
-<xsl:param name="callout.graphics.path">Common_Content/images/</xsl:param>
+<xsl:param name="admon.graphics.path">
+    <xsl:choose>
+      <xsl:when test="$embedtoc != 0">
+        <xsl:value-of select="concat($tocpath, '/../', $brand, '/', $langpath, '/images')"/>
+      </xsl:when>
+      <xsl:otherwise>
+		<xsl:text>Common_Content/images/</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+</xsl:param>
+<xsl:param name="callout.graphics.path"><xsl:value-of select="$admon.graphics.path"/></xsl:param>
 
 <xsl:param name="package" select="''"/>
 
@@ -1372,6 +1381,10 @@ Version: 1.72.0
 
   <xsl:variable name="output_filename">
     <xsl:choose>
+      <xsl:when test="$embedtoc != 0 and contains($filename, 'Common_Content')">
+        <xsl:value-of select=" concat($tocpath, '/../', $brand, '/',$langpath)"/>
+        <xsl:value-of select="substring-after($filename, 'Common_Content')"/>
+      </xsl:when>
       <xsl:when test="@entityref">
         <xsl:value-of select="$filename"/>
       </xsl:when>
