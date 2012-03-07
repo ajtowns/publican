@@ -12,7 +12,7 @@
   <div class="bottom_versions">
 [% FOREACH  booker = book_list %]
     <div class="bottom_books[% IF lang != booker.value.lang %] untranslated [% lang %][% END %]">
-      <a href="[% host %]/[% lang %]/[% product %]/[% version %]/html/[% booker.value.book %]/index.html">[% booker.value.book_clean %][% IF lang != booker.value.lang %] <span>[% trans_strings.Untranslated %]</span>[% END %]<span class="subtitle">[% booker.value.subtitle %]</span></a>
+      <a href="[% host %]/[% booker.value.lang %]/[% product %]/[% version %]/html/[% booker.value.book %]/index.html">[% booker.value.book_clean %][% IF lang != booker.value.lang %] <span>[% trans_strings.Untranslated %]</span>[% END %]<span class="subtitle">[% booker.value.subtitle %]</span></a>
     </div>
 [%- END %]
   </div>
