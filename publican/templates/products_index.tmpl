@@ -17,7 +17,7 @@
 		</div>
 		[% FOREACH  c_book = i_sort(cur_ver) %][% booker = book_list.${ver}.${c_book} %]
 		<div class="bottom_books[% IF lang != booker.lang %] untranslated [% lang %][% END %]">
-			<a href="[% host %]/[% lang %]/[% product %]/[% booker.version %]/[% booker.book %]/index.html">[% booker.book_clean %][% IF lang != booker.lang %] <span>[% trans_strings.Untranslated %]</span>[% END %]</a>
+			<a href="[% host %]/[% booker.lang %]/[% booker.product %]/[% booker.version %]/html/[% booker.book %]/index.html">[% booker.book_clean %][% IF lang != booker.lang %] <span>[% trans_strings.Untranslated %]</span>[% END %]<span class="subtitle">[% booker.subtitle %]</span></a>
 		</div>
 		[%- END %]
 	</div>
