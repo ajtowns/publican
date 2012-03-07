@@ -9,7 +9,7 @@ Release:	3%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# Limited to these arches on RHEL 6 due to PDF + Java limitations
+#  Limited to these arches on RHEL 6 due to PDF + Java limitations
 %if %{RHEL6}
 ExclusiveArch:	i686 x86_64
 %else
