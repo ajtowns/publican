@@ -1,28 +1,32 @@
 %define brand fedora
-%define RHEL6 %([[ %{?dist}x == .el6[a-z]* ]] && echo 1 || echo 0)
+%define wwwdir /var/www/html/docs
 
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
-Version:2.0
+Version:	3.0
 Release:	0%{?dist}
 License:	CC-BY-SA
-Group:		Development/Libraries
+Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# Limited to these arches on RHEL 6 due to PDF + Java limitations
-%if %{RHEL6}
-ExclusiveArch:   i686 x86_64
-%else
-BuildArch:   noarch
-%endif
-Source:		https://fedorahosted.org/releases/publican/%{name}-%{version}.tgz
-Requires:	publican >= 2.99
-BuildRequires:	publican >= 2.99
-URL:		https://publican.fedorahosted.org
-Obsoletes:	documentation-devel-Fedora
+BuildArch:	noarch
+Source:		https://fedorahosted.org/releases/p/u/publican/%{name}-%{version}.tgz
+BuildRequires:	publican >= 3.0
+Requires:	publican >= 3.0
+URL:		https://fedorahosted.org/publican
+Provides:	documentation-devel-%{brand} = %{version}-%{release}
+Obsoletes:	documentation-devel-%{brand} < %{version}-%{release}
 
 %description
 This package provides common files and templates needed to build documentation
 for %{brand} with publican.
+
+%package web
+Summary:        Web styles for %{brand}
+Group:          Documentation
+Requires:	publican >= 3.0
+
+%description web
+Web Site common files for the %{brand} brand.
 
 %prep
 %setup -q
@@ -34,6 +38,8 @@ publican build --formats=xml --langs=all --publish
 rm -rf $RPM_BUILD_ROOT
 mkdir -p -m755 $RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
 publican install_brand --path=$RPM_BUILD_ROOT%{_datadir}/publican/Common_Content
+mkdir -p -m755 $RPM_BUILD_ROOT/%{wwwdir}/%{brand}
+publican install_brand --web --path=$RPM_BUILD_ROOT/%{wwwdir}/%{brand}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -44,7 +50,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_datadir}/publican/Common_Content/%{brand}
 
+%files web
+%defattr(-,root,root,-)
+%{wwwdir}/%{brand}
+
 %changelog
+* Thu Mar 8 2012 Rüdiger Landmann <r.landmann@redhat.com> 3.0-0
+- Update brand for Publican 3.0
+
 * Sun Aug 29 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.0-0
 - Extend callout graphics to 40; adjust colour and font BZ #629804 <r.landmann@redhat.com>
 - Restrict CSS style for edition to title pages to avoid applying to bibliographies <r.landmann@redhat.com>
