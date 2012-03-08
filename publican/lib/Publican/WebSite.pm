@@ -1071,7 +1071,7 @@ sub report {
     }
 
     my $sql = <<GET_COUNTS;
-        SELECT COUNT(*), 
+        SELECT 
                count(DISTINCT language), 
                count(DISTINCT product), 
                count(DISTINCT format) 
@@ -1079,10 +1079,22 @@ sub report {
 GET_COUNTS
     my $counts = $self->_dbh->selectall_arrayref($sql)->[0];
 
-    my $report = "\nThe database contains books that cover " . $counts->[2];
-    $report .= " products, " . $counts->[1];
-    $report .= " languages, " . $counts->[3];
-    $report .= " formats, totaling " . $counts->[0] . " packages\n";
+    my $report = "\nThe database contains books that cover " . $counts->[1];
+    $report .= " products, " . $counts->[0];
+    $report .= " languages, " . $counts->[2];
+    $report .= " formats,";
+
+    $sql = <<GET_COUNTS;
+	SELECT COUNT(*) FROM (
+		SELECT DISTINCT product, version, name, language 
+		  FROM $DB_NAME
+		  GROUP BY product, version, name, language
+	)
+GET_COUNTS
+
+    $counts = $self->_dbh->selectall_arrayref($sql)->[0];
+
+    $report .= " totaling " . $counts->[0] . " packages\n";
 
     return ($report);
 }
