@@ -3,7 +3,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.9
+Version:	0.10
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Thu Mar 8 2012 Rüdiger Landmann <rlandman@redhat.com> 0.10-1
+- Correct colours in web styles
+
 * Wed Mar 7 2012 Rüdiger Landmann <rlandman@redhat.com> 0.9-1
 - Convert brand to Publican 3.0
 
