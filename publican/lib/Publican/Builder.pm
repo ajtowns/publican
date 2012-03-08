@@ -189,6 +189,52 @@ sub build {
                             $path = "publish/home/$lang";
                             fcopy( 'site_overrides.css', 'publish/home/site_overrides.css' )
                                 if ( -f 'site_overrides.css' );
+
+                            # Build ADs
+                            if ( -f "$tmp_dir/$lang/xml/Ads.xml" ) {
+                                mkpath($path);
+                                my $common_config = $self->{publican}->param('common_config');
+
+                                my $xsl_file = $common_config . "/xsl/carousel.xsl";
+                                # required for Windows
+                                $xsl_file =~ s/"//g;
+                                my $parser = XML::LibXML->new();
+                                my $xslt   = XML::LibXSLT->new();
+                                my $source;
+                                eval {
+                                    $source = $parser->parse_file("$tmp_dir/$lang/xml/Ads.xml");
+                                };
+                                if ($@) {
+                                    if ( ref($@) ) {
+
+                                        # handle a structured error (XML::LibXML::Error object)
+                                        croak(
+                                            maketext(
+                                                "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
+                                                $@->domain(),
+                                                $@->code(),
+                                                $@->file(),
+                                                $@->line(),
+                                                $@->message(),
+                                            )
+                                        );
+                                    }
+                                    else {
+                                        croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+                                    }
+                                }
+
+                                my $style_doc  = $parser->parse_file($xsl_file);
+                                my $stylesheet = $xslt->parse_stylesheet($style_doc);
+                                my $results    = $stylesheet->transform( $source );
+                                my $outfile;
+                                my $ad_file = "$path/carousel.html";
+
+                                open( $outfile, ">:encoding(UTF-8)", "$ad_file" )
+                                    || croak( maketext( "Can't open ad file: [_1]", $@ ) );
+                                print( $outfile $stylesheet->output_string($results) );
+                                close($outfile);
+                            }
                         }
                         elsif ( $web_type =~ m/^product$/i ) {
                             $path = "publish/home/$lang/$product";
@@ -424,11 +470,11 @@ sub setup_xml {
         # copy css for brand and default images for non-brand
         if ( $type eq 'brand' ) {
             dircopy( "$xml_lang/css", "$tmp_dir/$lang/xml/css" ) if ( -d "$xml_lang/css" );
-            dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" ) if ( -d "$lang/css" );
+            dircopy( "$lang/css",     "$tmp_dir/$lang/xml/css" ) if ( -d "$lang/css" );
         }
 
         dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
-                if ( -d "$xml_lang/images" );
+            if ( -d "$xml_lang/images" );
 
         dircopy( "$lang/images", "$tmp_dir/$lang/xml/images" )
             if ( -d "$lang/images" );
@@ -773,11 +819,13 @@ sub transform {
         $tree->parse_file($fh);
 ## BZ #697363
         my $formatter = $self->{publican}->param('txt_format') || '';
-        if ( $formatter eq 'links') {
-           my $f = HTML::FormatText::WithLinks->new();
-           print( $TXT_FILE $f->parse_file("html-single/index.html"));
 
-        } elsif ( $formatter eq 'tables') {
+        if ( $formatter eq 'links' ) {
+            my $f = HTML::FormatText::WithLinks->new();
+            print( $TXT_FILE $f->parse_file("html-single/index.html") );
+
+        }
+        elsif ( $formatter eq 'tables' ) {
             print( $TXT_FILE HTML::FormatText::WithLinks::AndTables->convert(
                     $tree->as_HTML,
                     {   leftmargin   => 0,
@@ -811,7 +859,9 @@ sub transform {
         mkdir "$tmp_dir/$lang/pdf";
 
         my @wkhtmltopdf_args = (
-            $wkhtmltopdf_cmd, '--header-spacing', 5, '--footer-spacing', 3, '--margin-top', 20, '--margin-left', '15mm', '--margin-right', '15mm'
+            $wkhtmltopdf_cmd, '--header-spacing', 5,  '--footer-spacing',
+            3,                '--margin-top',     20, '--margin-left',
+            '15mm',           '--margin-right',   '15mm'
         );
 
         if ( -f "$common_config/header.html" ) {
@@ -825,7 +875,7 @@ sub transform {
         my $result = system(@wkhtmltopdf_args);
         if ($result) {
             croak( "\n",
-                maketext( 'wkhtmltopdf died, PDF generation failed. Check log for details.' ),
+                maketext('wkhtmltopdf died, PDF generation failed. Check log for details.'),
                 "\n" );
         }
         return;
@@ -1077,7 +1127,7 @@ sub transform {
         }
 
         if ( system($fop_command) != 0 ) {
-            croak( "\n", maketext( "FOP error, PDF generation failed. Check log for details." ),
+            croak( "\n", maketext("FOP error, PDF generation failed. Check log for details."),
                 "\n" );
         }
 
@@ -1151,8 +1201,9 @@ sub transform {
     else {
         $dir = undef;
         dircopy( "$tmp_dir/$lang/xml/images",         "$tmp_dir/$lang/$format/images" );
-        dircopy( "$tmp_dir/$lang/xml/Common_Content", "$tmp_dir/$lang/$format/Common_Content" ) if($embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf');
-        dircopy( "$xml_lang/files",                   "$tmp_dir/$lang/$format/files" )
+        dircopy( "$tmp_dir/$lang/xml/Common_Content", "$tmp_dir/$lang/$format/Common_Content" )
+            if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
+        dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/files" )
             if ( -e "$xml_lang/files" );
         dircopy( "$lang/files", "$tmp_dir/$lang/$format/files" )
             if ( -e "$lang/files" );
@@ -1161,7 +1212,8 @@ sub transform {
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
 
         # remove any XML files from common
-        finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" ) if($embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf');
+        finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" )
+            if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
     }
 
     $xslt       = undef;
@@ -1274,7 +1326,7 @@ sub adjustColumnWidths {
         }
         elsif ( $width =~ m/^(\d+)(cm|mm|in|pc|pt|px)$/ ) {
             logger( "TODO: convert exact to % of table_width", RED );
-            debug_msg( "TODO: consider limiting this to matching same units as table_width" );
+            debug_msg("TODO: consider limiting this to matching same units as table_width");
             $exact++;
         }
         else {
@@ -1753,6 +1805,7 @@ sub package_home {
     my $brand    = 'publican-' . lc( $self->{publican}->param('brand') );
     my $doc_url  = $self->{publican}->param('doc_url');
     my $src_url  = $self->{publican}->param('src_url');
+## BUGBUG for home pages we need to use $xml_lang/Rev... NOT $tmp/$lang/...
     my $log      = $self->change_log( { lang => $xml_lang } );
     my $embedtoc = '--embedtoc';
 
@@ -2336,9 +2389,8 @@ sub get_books {
 
     unless ($scm) {
         logger(
-            maketext( "Config parameter 'scm' not found; treating set as standalone." ) . "\n",
-            RED
-        );
+            maketext("Config parameter 'scm' not found; treating set as standalone.") . "\n",
+            RED );
         return;
     }
 
@@ -2356,7 +2408,7 @@ sub get_books {
         if ( !-d $book ) {
             logger( maketext( "Fetching [_1] from scm", $book ) . "\n" );
             if ( $scm eq 'svn' ) {
-                debug_msg( "TODO: should be using Alien::SVN or similar to access SVN!\n" );
+                debug_msg("TODO: should be using Alien::SVN or similar to access SVN!\n");
                 if ( system("svn export --quiet $repo/$book $book") != 0 ) {
                     croak(
                         maketext(
@@ -2408,7 +2460,7 @@ sub build_set_books {
             );
         }
 
-        if ( system( "publican build --formats=xml --langs=$langs --distributed_set" ) != 0 ) {
+        if ( system("publican build --formats=xml --langs=$langs --distributed_set") != 0 ) {
 
             # build failed
             croak(

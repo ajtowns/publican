@@ -337,6 +337,7 @@ my $builder = $class->new(
         'datadir/footer.html'                => 'datadir/footer.html',
         'datadir/header.html'                => 'datadir/header.html',
         'datadir/xsl/dt_htmlsingle_spec.xsl' => 'datadir/xsl/dt_htmlsingle_spec.xsl',
+        'datadir/xsl/carousel.xsl'           => 'datadir/xsl/carousel.xsl',
         'datadir/xsl/xhtml-common.xsl'       => 'datadir/xsl/xhtml-common.xsl',
         'datadir/xsl/html-pdf.xsl'           => 'datadir/xsl/html-pdf.xsl',
         'datadir/xsl/html.xsl'               => 'datadir/xsl/html.xsl',

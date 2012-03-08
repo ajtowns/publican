@@ -15,6 +15,7 @@
 		/*Add hidden class display:none*/
 		$(".bottom_products").addClass("hidden");
 		$(".bottom_versions").addClass("hidden");
+		$('#slider').load("[% host %]/[% lang %]/carousel.html");
 
 		/*make the first child in the links list active*/
 		if (window.location.hash == ""){ 
@@ -59,76 +60,6 @@ $(document).ready(function() {
 <div class="lang_top_box">
 	<div class="langauge_banner">
 		<ul id="slider">
-			<li class="slider_item">
-				<a class="slider_link" href="#">
-				   <div class="slider_wrapper">
-					<div class="slider_wrapper2">
-						<div class="slider_title">
-							Preview the latest for Red Hat Enterprise Linux 5
-						</div>
-						<div class="slider_body">
-							Red Hat Enterprise Linux 5.8 is coming soon. Learn about what's new, including over 700 bug fixes, 36 new packages, and 4 technology previews!
-						</div>
-					</div>
-				  </div>
-	 			</a>
-			</li>
-			<li class="slider_item">
-				<a class="slider_link" href="/docs/en-US/Red_Hat_Certificate_System/8.1/">
-					<div class="slider_wrapper">
-						<div class="slider_wrapper2">
-							<div class="slider_title">
-								Out now: Red Hat Certificate System 8.1
-							</div>
-							<div class="slider_body">
-								Red Hat Certificate System 8.1 is here: certified at EAL4 and with a fresh new Token Processing System
-							</div>
-						</div>
-					</div>
-			 	</a>
-			</li>
-			<li class="slider_item">
-				<a class="slider_link" href="/docs/en-US/JBoss_Operations_Network">
-				   <div class="slider_wrapper">
-					<div class="slider_wrapper2">
-						<div class="slider_title">
-							New JBoss Operations Network documentation
-						</div>
-						<div class="slider_body">
-							Three new manuals are available for JBoss Operations Network administrators. Learn how to set up inventory groups, manage resource configuration, and use monitoring alerts.
-						</div>
-					</div>
-				  </div>
-				</a>
-			</li>
-			<li class="slider_item">
-				<a class="slider_link" href="/docs/en-US/OpenShift_Express/2.0/html/User_Guide">
-					<div class="slider_wrapper">
-						<div class="slider_wrapper2">
-							<div class="slider_title">
-								OpenShift Express Documentation
-							</div>
-							<div class="slider_body">
-								OpenShift Express is Red Hat's new platform as a service (PaaS) solution. Our User Guide will have you up and running straight away
-							</div>
-						</div>
-					</div>
-				</a>
-			</li>
-			<li class="slider_item">
-				<a class="slider_link" href="/docs/en-US/Red_Hat_Enterprise_MRG/2.0">
-					<div class="slider_wrapper">
-						<div class="slider_wrapper2">
-							<div class="slider_title">
-								Updated Red Hat Enterprise MRG Docs
-							</div>
-							<div class="slider_body">
-								If you use Red Hat Enterprise MRG 2.0, you'll want the new versions of the manuals, revised and expanded to cover Aviary attributes, PostgreSQL configuration, and new technology previews.
-							</div>
-						</div>
-					</div>
-				</a>
-			</li>
 		</ul>
 	</div>
 </div>
@@ -141,7 +72,7 @@ $(document).ready(function() {
 	    [%- END %]
 	</div>
 	<div class="lang_bottom_box">
-	    [% FOREACH  prod = products %]
+	    [%- FOREACH  prod = products %]
 		<div class="bottom_products [% prod %]">
 			<div class="title">
 				<span><a href="[% host %]/[% lang %]/[% prod %]/index.html">[% labels.${prod}.label %]</a></span>
