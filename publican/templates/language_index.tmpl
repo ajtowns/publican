@@ -10,12 +10,12 @@
 		$('.'+linkclass+' .link#'+productname).addClass("active")
 		$('.'+displayclass).addClass("hidden")
 		$('.'+displayclass+'.'+productname).removeClass("hidden")
+		$('.splash').addClass("hidden");
 	}
 	$(document).ready(function() {
 		/*Add hidden class display:none*/
 		$(".bottom_products").addClass("hidden");
 		$(".bottom_versions").addClass("hidden");
-		$('#slider').load("[% host %]/[% lang %]/carousel.html");
 
 		/*make the first child in the links list active*/
 		if (window.location.hash == ""){ 
@@ -44,18 +44,19 @@
 			});
 				
 		$('.version_tabs .link').click(function(){sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});
+		$('#slider').load("[% host %]/[% lang %]/carousel.html", function(){
+			$('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", initCallback: mycarousel_initCallback});
+		});	
+		$('#splash').load("[% host %]/[% lang %]/splash.html");
 	});
-		function mycarousel_initCallback(carousel)
-{
-    $(".jcarousel-container").hover(function() {
-        carousel.stopAuto();
-    }, function() {
-        carousel.startAuto();
-    });
-};
-$(document).ready(function() {
-   $('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", initCallback: mycarousel_initCallback});
-});
+
+	function mycarousel_initCallback(carousel) {
+		$(".jcarousel-container").hover(function() {
+			carousel.stopAuto();
+		}, function() {
+			carousel.startAuto();
+		});
+	};
 </script>
 <div class="lang_top_box">
 	<div class="langauge_banner">
@@ -72,6 +73,8 @@ $(document).ready(function() {
 	    [%- END %]
 	</div>
 	<div class="lang_bottom_box">
+		<div id="splash" class="splash">
+		</div>
 	    [%- FOREACH  prod = products %]
 		<div class="bottom_products [% prod %]">
 			<div class="title">
