@@ -130,28 +130,28 @@ $(document).ready(function() {
 		<div class="article">
 			<div id="splash" class="splash section active">
 			</div>
-	    [%- FOREACH  prod = products %]
-		<div class="bottom_products section" id="[% prod %]">
-			<div class="title">
-				<span><a href="[% host %]/[% lang %]/[% prod %]/index.html">[% labels.${prod}.label %]</a></span>
-			</div>
-			<div class="version_tabs">
-			    [%- FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
-				<span class="link"><a href="#[% prod %]-[% ver %]">[% labels.${prod}.${ver}.label %]</a></span>
-			    [%- END %]
-			</div>
-			<div class="article">
-			[%- FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
-			<div class="bottom_versions section" id="[% prod %]-[% ver %]">
-			    [%- FOREACH  c_book = i_sort(cur_ver) %][% booker = book_list.${prod}.${ver}.${c_book} %]
-				<div class="bottom_books[% IF lang != booker.lang %] untranslated [% lang %][% END %]">
-					<a href="[% host %]/[% booker.lang %]/[% booker.product %]/[% booker.version %]/html/[% booker.book %]/index.html">[% booker.book_clean %][% IF lang != booker.lang %] <span>[% trans_strings.Untranslated %]</span>[% END %]<span class="subtitle">[% booker.subtitle %]</span></a>
+		    [%- FOREACH  prod = products %]
+			<div class="bottom_products section" id="[% prod %]">
+				<div class="title">
+					<span><a href="[% host %]/[% lang %]/[% prod %]/index.html">[% labels.${prod}.label %]</a></span>
 				</div>
-			    [%- END %]
+				<div class="version_tabs">
+				    [%- FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
+					<span class="link"><a href="#[% prod %]-[% ver.replace('\.', '-') %]">[% labels.${prod}.${ver}.label %]</a></span>
+				    [%- END %]
+				</div>
+				<div class="article">
+				    [%- FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
+					<div class="bottom_versions section" id="[% prod %]-[% ver.replace('\.', '-') %]">
+					    [%- FOREACH  c_book = i_sort(cur_ver) %][% booker = book_list.${prod}.${ver}.${c_book} %]
+						<div class="bottom_books[% IF lang != booker.lang %] untranslated [% lang %][% END %]">
+							<a href="[% host %]/[% booker.lang %]/[% booker.product %]/[% booker.version %]/html/[% booker.book %]/index.html">[% booker.book_clean %][% IF lang != booker.lang %] <span>[% trans_strings.Untranslated %]</span>[% END %]<span class="subtitle">[% booker.subtitle %]</span></a>
+						</div>
+					    [%- END %]
+					</div>
+				    [%- END %]
+				</div>
 			</div>
-			[%- END %]
-			</div>
-		</div>
 	    [%- END %]
 		</div>
 	</div>
