@@ -2,72 +2,115 @@
 [% INCLUDE 'web_2_head.tmpl' %]
 <script type="text/javascript" src="[% host %]/jquery.jcarousel.min.js"></script>
 <script type="text/javascript">
-	var current_product = "Products";
-	function sideProductsLinkClicked(productname,linkclass, displayclass)
-	{
-		productname = productname.replace(".", "\\.");
-		$('.'+linkclass+' .link').removeClass("active")
-		$('.'+linkclass+' .link#'+productname).addClass("active")
-		$('.'+displayclass).addClass("hidden")
-		$('.'+displayclass+'.'+productname).removeClass("hidden")
-		$('.splash').addClass("hidden");
-	}
-	$(document).ready(function() {
-		/*Add hidden class display:none*/
-		$(".bottom_products").addClass("hidden");
-		$(".bottom_versions").addClass("hidden");
 
-		/*make the first child in the links list active*/
-		if (window.location.hash == ""){ 
-/* Don't do this, use splash page content
-			$('.side_products .link:first-child').each(function(){
-				sideProductsLinkClicked(this.id, "side_products","bottom_products");
-				$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function(){
-					sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")
-				});
-			});
-*/
-		} else {
-				var anchorcontents = window.location.hash.replace("#","").split("-")
-				sideProductsLinkClicked(anchorcontents[0], "side_products","bottom_products")
-				if (anchorcontents.length > 1)
-				{
-					sideProductsLinkClicked(anchorcontents[0]+"-"+anchorcontents[1], "version_tabs","bottom_versions")
-				} else
-				{
-					$(".bottom_products."+anchorcontents[0]+" .version_tabs .link:first-child").each(function(){
-						sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")
-					});
-				}
-		}
-		/* set up the click function for all the links*/
-		$('.side_products .link').click(function(e)
-			{
-				sideProductsLinkClicked(this.id, "side_products","bottom_products");
-				
-				$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function(){
-					sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")
-				});
-/* this breaks product link from changing url
-				e.preventDefault();
-*/
-			});
-				
-		$('.version_tabs .link').click(function(){sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});
-		$('#slider').load("[% host %]/[% lang %]/carousel.html", function(){
-			$('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", initCallback: mycarousel_initCallback});
-		});	
-		$('#splash').load("[% host %]/[% lang %]/splash.html");
+function mycarousel_initCallback(carousel) {
+	$(".jcarousel-container").hover(function() {
+		carousel.stopAuto();
+	}, function() {
+		carousel.startAuto();
 	});
+};
 
-	function mycarousel_initCallback(carousel) {
-		$(".jcarousel-container").hover(function() {
-			carousel.stopAuto();
-		}, function() {
-			carousel.startAuto();
-		});
-	};
+
+function copyClass($section, cls) {
+    var id = $section.attr('id');
+    if (!id) {
+        return;
+    }
+    var has_class = $section.hasClass(cls);
+    $('a[href="#' + id + '"]').toggleClass(cls, has_class);
+    $('.' + id).toggleClass(cls, has_class);
+}
+
+function ensureConsistency() {
+
+    // We specify which classes are okay to clone 
+    // (classes that will never be used as an ID)
+    var classes = ['disabled', 'disabling', 'active', 'alert', 'online'];
+    var copyAllClasses = function() {
+        var $section = $(this);
+        jQuery.each(classes, function(ix, cls) {
+            copyClass($section, cls);
+        });
+    };
+
+    // We set which elements to listen to the ID/Status of
+    $('.section').each(copyAllClasses);
+    // how can we do this without specifying all elements?
+    $('div').each(copyAllClasses);
+    $('a').each(copyAllClasses);
+    $('span').each(copyAllClasses);
+    $('td').each(copyAllClasses);
+    $('table').each(copyAllClasses); 
+}
+
+ensureConsistency(); // now we pull the trigger
+
+function activateFirstSections($root) {
+    var $sections = $root.children('.section');
+    if ($sections.length === 0) {
+        return;
+    }
+    if ($sections.filter('.active').length > 0) {
+        return;
+    }
+    var $first_section = $sections.first().addClass('active');
+    activateFirstSections($first_section);
+}
+
+function activateElement($elem) {
+    $elem.addClass('active');
+    $elem.siblings().removeClass('active');
+}
+
+function activateTab(id) {
+// This appears to be bogus
+    var $current_section = $('#content');
+    if (id) {
+        var $elem = $('#' + id);
+        activateElement($elem);
+        activateElement($elem.parents('.section'));
+
+        if ($elem[0].tagName === 'SECTION' && $current_section.has($elem).length > 0) {
+            $current_section = $elem;
+        }
+// but this works
+        activateFirstSections($elem.children('.article:first'));
+    }
+
+    if ($current_section.find('.section.active').length === 0) {
+//        activateFirstSections($current_section.children('.article:first'));
+    }
+
+    $('.section.active').removeClass('hidden');
+    $('.section').not('.active').addClass('hidden');
+    ensureConsistency();
+}
+
+$(window).bind('hashchange', function() {
+    if (window.location.hash === "") {
+        // activate the default section
+        activateTab();
+    } else {
+        //Grab what is after the # from the url bar and remove the #
+        var anchorid = window.location.hash.replace("#", "");
+        activateTab(anchorid);
+    }
+});
+
+$(document).ready(function() {
+	/*Add hidden class display:none*/
+	$(".bottom_products").addClass("hidden");
+	$(".bottom_versions").addClass("hidden");
+	$('#slider').load("http://cranium.usersys.redhat.com/docs/en-US/carousel.html", function(){
+		$('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", initCallback: mycarousel_initCallback});
+	});	
+	$('#splash').load("http://cranium.usersys.redhat.com/docs/en-US/splash.html");
+	$(window).trigger('hashchange');
+});
+
 </script>
+
 <div class="lang_top_box">
 	<div class="langauge_banner">
 		<ul id="slider">
@@ -77,26 +120,29 @@
 <div class="main_content">
 	<div class="side_products">
 	    [%- FOREACH  prod = products %]
-		<div class="link" id="[% prod %]">
+		<div class="link">
 			<a href="#[% prod %]">[% labels.${prod}.label %]</a>
 		</div>
 	    [%- END %]
 	</div>
 	<div class="lang_bottom_box">
-		<div id="splash" class="splash">
-		</div>
+
+		<div class="article">
+			<div id="splash" class="splash section active">
+			</div>
 	    [%- FOREACH  prod = products %]
-		<div class="bottom_products [% prod %]">
+		<div class="bottom_products section" id="[% prod %]">
 			<div class="title">
 				<span><a href="[% host %]/[% lang %]/[% prod %]/index.html">[% labels.${prod}.label %]</a></span>
 			</div>
 			<div class="version_tabs">
 			    [%- FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
-				<span class="link" id="[% prod %]-[% ver %]"><a href="#[% prod %]-[% ver %]">[% labels.${prod}.${ver}.label %]</a></span>
+				<span class="link"><a href="#[% prod %]-[% ver %]">[% labels.${prod}.${ver}.label %]</a></span>
 			    [%- END %]
 			</div>
+			<div class="article">
 			[%- FOREACH  ver = v_sort(book_list.${prod}) %][% cur_ver = book_list.${prod}.${ver} %]
-			<div class="bottom_versions [% prod %]-[% ver %]">
+			<div class="bottom_versions section" id="[% prod %]-[% ver %]">
 			    [%- FOREACH  c_book = i_sort(cur_ver) %][% booker = book_list.${prod}.${ver}.${c_book} %]
 				<div class="bottom_books[% IF lang != booker.lang %] untranslated [% lang %][% END %]">
 					<a href="[% host %]/[% booker.lang %]/[% booker.product %]/[% booker.version %]/html/[% booker.book %]/index.html">[% booker.book_clean %][% IF lang != booker.lang %] <span>[% trans_strings.Untranslated %]</span>[% END %]<span class="subtitle">[% booker.subtitle %]</span></a>
@@ -104,8 +150,10 @@
 			    [%- END %]
 			</div>
 			[%- END %]
+			</div>
 		</div>
 	    [%- END %]
+		</div>
 	</div>
 </div>
 [% INCLUDE 'web_2_footer.tmpl' %]

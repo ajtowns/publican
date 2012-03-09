@@ -81,17 +81,17 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     display: block;
     text-decoration: none;
 }
-.side_products div.link.active {
+.side_products div.link a.active {
     background-color: #333333;
     color: #EEEEEE;
     position: relative;
     margin:0em;
     position: relative;
 }
-.side_products div.link.active a { position:relative;
+.side_products div.link a.active { position:relative;
     color: #EEEEEE;
 }
-.side_products div.link.active:after {
+.side_products div.link a.active:after {
     margin: 0em;
     left: 98.99%;;
     top: 50%;
@@ -401,11 +401,11 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     display: block;
     padding: 5px 10px;
 }
-.version_tabs .link.active:before {
+.version_tabs .link a.active:before {
     border-color: transparent transparent #FFFFFF;
     border-style: solid;
     border-width: 8px 12px;
-    bottom: -5px;
+    bottom: -4px;
     content: "";
     display: inline-block;
     left: 50%;
@@ -418,7 +418,7 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     clear: both;
     content: "";
 }
-.version_tabs .link.active a {
+.version_tabs .link a.active {
     background-color: #333333;
     color: #EEEEEE;
     position: relative;
@@ -741,7 +741,8 @@ div.version_tabs {
     height: 240px;
     text-shadow: 0 1px 1px #000000;
 }
-.side_products div.link, .side_products div.link a {
+.side_products div.link,
+.side_products div.link a {
     color: #999999;
     cursor: pointer;
     display: block !important;
@@ -750,7 +751,7 @@ div.version_tabs {
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.side_products div.link:after {
+.side_products div.link a:after {
     border-width: 16px !important;
     right: -31px !important;
 }
