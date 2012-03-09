@@ -211,9 +211,11 @@ sub update_po {
         || croak( maketext("langs is a mandatory argument") );
 
     my $msgmerge  = delete( $args->{msgmerge} );
-    my $firstname = delete( $args->{firstname} );
-    my $surname   = delete( $args->{surname} );
-    my $email     = delete( $args->{email} );
+    my $firstname = delete( $args->{firstname} )
+        || croak( maketext("firstname is a mandatory argument") );
+    my $surname = delete( $args->{surname} )
+        || croak( maketext("surname is a mandatory argument") );
+    my $email = delete( $args->{email} ) || croak( maketext("email is a mandatory argument") );
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -419,10 +421,12 @@ sub update_po_all {
     }
 
     $self->update_po(
-        { langs => get_all_langs(), msgmerge => $msgmerge },
-        email     => $email,
-        firstname => $firstname,
-        surname   => $surname
+        {   langs     => get_all_langs(),
+            msgmerge  => $msgmerge,
+            email     => $email,
+            firstname => $firstname,
+            surname   => $surname,
+        }
     );
     return;
 }

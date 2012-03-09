@@ -19,8 +19,14 @@
 
 		/*make the first child in the links list active*/
 		if (window.location.hash == ""){ 
-		/*$('.side_products .link:first-child').each(function(){sideProductsLinkClicked(this.id, "side_products","bottom_products");$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function()
-				{sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});});*/
+/* Don't do this, use splash page content
+			$('.side_products .link:first-child').each(function(){
+				sideProductsLinkClicked(this.id, "side_products","bottom_products");
+				$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function(){
+					sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")
+				});
+			});
+*/
 		} else {
 				var anchorcontents = window.location.hash.replace("#","").split("-")
 				sideProductsLinkClicked(anchorcontents[0], "side_products","bottom_products")
@@ -29,8 +35,9 @@
 					sideProductsLinkClicked(anchorcontents[0]+"-"+anchorcontents[1], "version_tabs","bottom_versions")
 				} else
 				{
-					$(".bottom_products."+anchorcontents[0]+" .version_tabs .link:first-child").each(function()
-				{sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});
+					$(".bottom_products."+anchorcontents[0]+" .version_tabs .link:first-child").each(function(){
+						sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")
+					});
 				}
 		}
 		/* set up the click function for all the links*/
@@ -38,9 +45,12 @@
 			{
 				sideProductsLinkClicked(this.id, "side_products","bottom_products");
 				
-				$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function()
-				{sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});
+				$(".bottom_products."+this.id+" .version_tabs .link:first-child").each(function(){
+					sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")
+				});
+/* this breaks product link from changing url
 				e.preventDefault();
+*/
 			});
 				
 		$('.version_tabs .link').click(function(){sideProductsLinkClicked(this.id, "version_tabs","bottom_versions")});

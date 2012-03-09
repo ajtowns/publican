@@ -2312,7 +2312,11 @@ sub change_log {
     my $tmp_dir = $self->{publican}->param('tmp_dir');
 
     my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
-    $xml_doc->parse_file("$tmp_dir/$lang/xml/Revision_History.xml");
+
+    my $path = "$tmp_dir/$lang/xml/Revision_History.xml";
+    $path = "$lang/Revision_History.xml" if($self->{publican}->param('web_home') || $self->{publican}->param('web_type'));
+
+    $xml_doc->parse_file("$path");
 
     $xml_doc->root()->look_down( "_tag", "revision" )
         || croak(
