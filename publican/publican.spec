@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t122
+Release:        0%{?dist}.t127
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -213,6 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %{_bindir}/publican
 %{_bindir}/db5-valid
+%{_bindir}/db4-2-db5
 %{_datadir}/publican
 %config(noreplace) %{_datadir}/publican/default.db
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/publican-website.cfg

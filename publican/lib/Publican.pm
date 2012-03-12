@@ -296,7 +296,7 @@ my %PARAMS = (
     },
     txt_formater => {
         descr => maketext(
-            '....'
+            'Choose the formatter to use when creating txt output.'
         ),
         constraint => '(?:links|tables|)',
     },

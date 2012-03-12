@@ -780,7 +780,7 @@ sub transform {
     my $chunk_first                = $self->{publican}->param('chunk_first');
     my $xml_lang                   = $self->{publican}->param('xml_lang');
     my $classpath                  = $self->{publican}->param('classpath');
-    my $type                       = $self->{publican}->param('type');
+    my $type                       = lc($self->{publican}->param('type'));
     my $ec_name                    = $self->{publican}->param('ec_name');
     my $ec_id                      = $self->{publican}->param('ec_id');
     my $ec_provider                = $self->{publican}->param('ec_provider');
@@ -903,6 +903,7 @@ sub transform {
         'body.only'                  => 0,
         'brand'                      => "'$brand'",
         'langpath'                   => "'$lang'",
+        'book.type'                  => "'$type'",
 ##        '' => ,
     );
 
@@ -2542,18 +2543,6 @@ sub dtd_string {
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE $tag PUBLIC "$dtd_type" "$uri" [
 DTDHEAD
-
-    # Include some DocBook 4 entities to reduce migration issues
-    if ( $dtdver =~ m/^5/ ) {
-        $dtd .= <<DB5;
-<!-- import a bunch of DocBook 4 entities -->
-<!ENTITY % sgml.features "IGNORE">
-<!ENTITY % xml.features "INCLUDE">
-<!ENTITY euro "&#8364;">
-<!ENTITY % dbcent PUBLIC "-//OASIS//ENTITIES DocBook Character Entities V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/dbcentx.mod">
-%dbcent;
-DB5
-    }
 
     # handle entity file
     if ($ent_file) {

@@ -1,0 +1,65 @@
+#!/usr/bin/perl -CAS
+
+use strict;
+use warnings;
+use Publican;
+use XML::LibXML;
+use XML::LibXSLT;
+use Carp;
+
+my $publican = Publican->new();
+
+my $common_config = $publican->param('common_config');
+
+my $xsl_file = $common_config . "/xsl/db4-upgrade.xsl";
+
+# required for Windows
+$xsl_file =~ s/"//g;
+my $parser = XML::LibXML->new(
+    {   pedantic_parser   => 0,
+        suppress_errors   => 1,
+        suppress_warnings => 1,
+        line_numbers      => 1,
+        expand_xinclude   => 0,
+        expand_entities   => 0,
+        recover_silently  => 1
+    }
+);
+
+my $xslt = XML::LibXSLT->new();
+my @xml_files = dir_list( $publican->param('xml_lang'), '*.xml' );
+
+foreach my $xml_file ( sort(@xml_files) ) {
+    print("Processing: $xml_file\n");
+    my $source;
+
+    eval { $source = $parser->parse_file("$xml_file"); };
+    if ($@) {
+        if ( ref($@) ) {
+
+            # handle a structured error (XML::LibXML::Error object)
+            carp(
+                maketext(
+                    "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
+                    $@->domain(), $@->code(), $@->file(), $@->line(), $@->message(),
+                )
+            );
+            next;
+        }
+        else {
+            croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+        }
+    }
+
+    my $style_doc  = $parser->parse_file($xsl_file);
+    my $stylesheet = $xslt->parse_stylesheet($style_doc);
+    my $results    = $stylesheet->transform($source);
+    my $outfile;
+    my $ad_file = "$xml_file";
+
+    open( $outfile, ">", "$xml_file" )
+        || croak( maketext( "Can't open ad file: [_1]", $@ ) );
+    print( $outfile $stylesheet->output_string($results) );
+    close($outfile);
+}
+

@@ -52,6 +52,7 @@ function activateFirstSections($root) {
         return;
     }
     if ($sections.filter('.active').length > 0) {
+// BUGBUG need to click here when returning to change URL to match non default tabs
         return;
     }
     var $first_section = $sections.first().addClass('active');

@@ -87,6 +87,22 @@ my $class = Module::Build->subclass(
             $dir = undef;
             $builder = undef;
             $publican = undef;
+
+            $dir = pushd('datadir/Common_Content/common-db5');
+            $path = "$cwd/blib/datadir/Common_Content";
+            return if(-d $path);
+            die "can't chdir: $@" if $@;
+
+            $publican = Publican->new({NOCOLOURS => $self->args('nocolours')});
+            $builder = Publican::Builder->new();
+            $builder->build(
+                { formats => 'xml', langs => 'all', publish => 1 } );
+            mkpath("$path");
+            rcopy( "publish/*", "$path/.");
+            rcopy('publican.cfg', "$path/common-db5/.");
+            $dir = undef;
+            $builder = undef;
+            $publican = undef;
         }
         sub ACTION_update_pot {
             my $self = shift;
@@ -320,9 +336,10 @@ my $builder = $class->new(
         'datadir/Common_Content/common/publish', 'MANIFEST.bak',
         'Site_Tech/tmp',                         'Site_Tech/publish',
         'META.yml',                              'Splash_Page/tmp/tmp',
-        'Splash_Page/tmp/publish',
+        'Splash_Page/tmp/publish',               'datadir/Common_Content/common-db5/tmp',
+        'datadir/Common_Content/common-db5/publish',
     ],
-    script_files => [ 'bin/publican', 'bin/db5-valid' ],
+    script_files => [ 'bin/publican', 'bin/db5-valid', 'bin/db4-2-db5' ],
     bindoc_dirs  => ['pod1'],
     install_path => {
         'datadir'    => '/usr/share/publican',

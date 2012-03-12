@@ -363,7 +363,7 @@ Version: 1.72.0
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../toc.js</xsl:attribute></script>
           <script type="text/javascript">
 		$(document).ready(function() {
-			$("#floatingtoc").load('index.html .book .toc');
+			$("#floatingtoc").load('index.html .<xsl:value-of select="$book.type"/> .toc');
 			$(".docnav li.home").click(function(){
 				$("#floatingtoc").toggle();
 			});
