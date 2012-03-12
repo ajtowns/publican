@@ -518,8 +518,15 @@ sub print_xml {
             && !$self->{config}->param('update_includes')
             && !$self->{config}->param('donotset_lang') )
         {
-            $xml_doc->attr( 'lang', $lang );
+            if($dtdver !~ m/^5/) {
+                $xml_doc->attr( 'lang', $lang );
+            }
         }
+
+        if($dtdver =~ m/^5/) {
+            $xml_doc->attr( 'xml:lang', $lang );
+        }
+
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
         my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ( $1 || './' ) } );
