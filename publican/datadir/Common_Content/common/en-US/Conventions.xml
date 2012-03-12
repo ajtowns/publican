@@ -37,7 +37,7 @@
 		The above includes a file name, a shell command and a keycap, all presented in mono-spaced bold and all distinguishable thanks to context.
 		</para>
 		<para>
-		Key combinations can be distinguished from keycaps by the hyphen connecting each part of a key combination. For example:
+		Key combinations can be distinguished from keycaps by the plus sign that connects each part of a key combination. For example:
 		</para>
 
 		<blockquote>
@@ -78,7 +78,7 @@
 			</para>
 
 			<para>
-			To insert a special character into a <application>gedit</application> file, choose <menuchoice><guimenu>Applications</guimenu><guisubmenu>Accessories</guisubmenu><guimenuitem>Character Map</guimenuitem></menuchoice> from the main menu bar. Next, choose <menuchoice><guimenu>Search</guimenu><guimenuitem>Find&hellip;</guimenuitem></menuchoice> from the <application>Character Map</application> menu bar, type the name of the character in the <guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The character you sought will be highlighted in the <guilabel>Character Table</guilabel>. Double-click this highlighted character to place it in the <guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</guibutton> button. Now switch back to your document and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice> from the <application>gedit</application> menu bar.
+			To insert a special character into a <application>gedit</application> file, choose <menuchoice><guimenu>Applications</guimenu><guisubmenu>Accessories</guisubmenu><guimenuitem>Character Map</guimenuitem></menuchoice> from the main menu bar. Next, choose <menuchoice><guimenu>Search</guimenu><guimenuitem>Find…</guimenuitem></menuchoice> from the <application>Character Map</application> menu bar, type the name of the character in the <guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The character you sought will be highlighted in the <guilabel>Character Table</guilabel>. Double-click this highlighted character to place it in the <guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</guibutton> button. Now switch back to your document and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice> from the <application>gedit</application> menu bar.
 			</para>
 		</blockquote>
 
@@ -109,7 +109,7 @@
 		</blockquote>
 		
 		<para>
-		Note the words in bold italics above &mdash; username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system.
+		Note the words in bold italics above — username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system.
 		</para>
 
 		<para>
@@ -142,25 +142,8 @@ books_tests  Desktop1  downloads      images  notes  scripts  svgs</screen>
 		Source-code listings are also set in <computeroutput>mono-spaced roman</computeroutput> but add syntax highlighting as follows:
 		</para>
 
-<programlisting language="Java">package org.jboss.book.jca.ex1;
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Program_Listing.xml"/>
 
-import javax.naming.InitialContext;
-
-public class ExClient
-{
-   public static void main(String args[]) 
-       throws Exception
-   {
-      InitialContext iniCtx = new InitialContext();
-      Object         ref    = iniCtx.lookup("EchoBean");
-      EchoHome       home   = (EchoHome) ref;
-      Echo           echo   = home.create();
-
-      System.out.println("Created Echo");
-
-      System.out.println("Echo.echo('Hello') = " + echo.echo("Hello"));
-   }
-}</programlisting>
 
 	</section>
 
