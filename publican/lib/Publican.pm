@@ -11,7 +11,6 @@ use Term::ANSIColor qw(:constants uncolor);
 use File::Find::Rule;
 use XML::LibXSLT;
 use XML::LibXML;
-use File::HomeDir;
 use Publican::Localise;
 
 use vars
@@ -1204,16 +1203,15 @@ Add a full entry in to the revision history.
 
 sub add_revision {
     my ( $self, $args ) = @_;
-    my $lang = delete( $args->{lang} )
-        || croak( maketext("lang is a required option for add_revision") );
     my $members = delete( $args->{members} )
-        || croak( maketext("member is a required option for add_revision") );
+        || croak( maketext("[_1] is a required option for add_revision", 'members') );
 
     my $revnumber = delete( $args->{revnumber} );
     my $date      = delete( $args->{date} );
-    my $firstname = delete( $args->{firstname} );
-    my $surname   = delete( $args->{surname} );
-    my $email     = delete( $args->{email} );
+    my $firstname = delete( $args->{firstname} ) || croak( maketext("[_1] is a required option for add_revision", 'firstname') );
+    my $surname   = delete( $args->{surname} ) || croak( maketext("[_1] is a required option for add_revision", 'surname') );
+    my $email     = delete( $args->{email} ) || croak( maketext("[_1] is a required option for add_revision", 'email') );
+    my $lang = delete( $args->{lang} ) || croak( maketext("[_1] is a required option for add_revision", 'lang') );
 
     unless ($revnumber) {
         my ( $edition, $release )
@@ -1224,34 +1222,6 @@ sub add_revision {
     unless ($date) {
         $date = DateTime->now()->strftime("%a %b %e %Y");
     }
-
-    my $configfile = File::HomeDir->my_home() . "/.publican.cfg";
-    if ( -f $configfile ) {
-        my $user_cfg = new Config::Simple();
-        $user_cfg->syntax('http');
-        $user_cfg->read($configfile)
-            || croak(
-            maketext( "Failed to load user config file: [_1]", $configfile )
-            );
-
-        $firstname = $user_cfg->param('firstname')
-            || croak("firstname is a required field in the user config file")
-            unless ($firstname);
-
-        $surname = $user_cfg->param('surname')
-            || croak("surname is a required field in the user config file")
-            unless ($surname);
-
-        $email = $user_cfg->param('email')
-            || croak("email is a required field in the user config file")
-            unless ($email);
-    }
-
-    croak("firstname is a required field")
-        unless ($firstname);
-    croak("surname is a required field")
-        unless ($surname);
-    croak("email is a required field") unless ($email);
 
     my $revision = XML::Element->new_from_lol(
         [   'revision',

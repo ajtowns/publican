@@ -25,6 +25,7 @@ use Archive::Tar;
 use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path cwd);
 use File::Basename;
+use File::HomeDir;
 
 my $VERSION      = "$Publican::VERSION";
 my $LANG_PATTERN = q|__LANG__|;
@@ -615,6 +616,21 @@ my $publican = Publican->new(
     }
 );
 
+my $configfile = File::HomeDir->home() . "/.publican.cfg";
+if ( -f $configfile ) {
+    my $user_cfg = new Config::Simple();
+    $user_cfg->syntax('http');
+    $user_cfg->read($configfile)
+        || croak( maketext( "Failed to load user config file: [_1]", $configfile ) );
+
+    $opts{firstname} = $user_cfg->param('firstname') unless ( $opts{firstname} );
+    $opts{surname}   = $user_cfg->param('surname')   unless ( $opts{surname} );
+    $opts{email}     = $user_cfg->param('email')     unless ( $opts{email} );
+    $opts{lang}      = $user_cfg->param('lang')      unless ( $opts{lang} );
+    $opts{formats}   = $user_cfg->param('formats')   unless ( $opts{formats} );
+    $opts{langs}     = $user_cfg->param('langs')     unless ( $opts{langs} );
+}
+
 if ( defined( $opts{src_dir} ) ) {
     $publican->{config}->param( 'tmp_dir', abs_path( "$cwd/" . $publican->param('tmp_dir') ) );
 }
@@ -652,7 +668,8 @@ if ( $action eq 'install_brand' ) {
                     || die("can't open file for output: $opts{path}/$ln/css/menu.css");
                 close($DUMMY_FILE);
             }
-            rcopy( "$xml_lang/images/*", "$opts{path}/$ln/images/." ) if ( -d "$xml_lang/images" );
+            rcopy( "$xml_lang/images/*", "$opts{path}/$ln/images/." )
+                if ( -d "$xml_lang/images" );
             rcopy( "$ln/images/*", "$opts{path}/$ln/images/." ) if ( -d "$ln/images" );
         }
     }
@@ -740,7 +757,7 @@ if ( $action eq 'update_pot' ) {
 
 if ( $action eq 'update_po' ) {
     my $translater = Publican::Translate->new();
-    if ( $opts{langs} eq 'all' ) {
+    if ( !defined $opts{langs} || $opts{langs} eq 'all' ) {
         $translater->update_po_all(
             {   msgmerge  => $opts{msgmerge},
                 email     => $opts{email},
