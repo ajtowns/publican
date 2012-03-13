@@ -112,7 +112,7 @@ my %PARAMS = (
     },
     chunk_first => {
         descr =>
-            maketext( 'For HTML, should the first section be on the same page as its parent?' ),
+            maketext('For HTML, should the first section be on the same page as its parent?'),
         default => 0,
 
     },
@@ -159,6 +159,7 @@ my %PARAMS = (
             'Name of this package. Fetched from title tag in xml_lang/TYPE_Info.xml if not set in cfg file.'
         ),
         constraint => '^[0-9a-zA-Z_\-\.\+]+$',
+        not_for    => 'brand',
     },
     doc_url => {
         descr => maketext(
@@ -176,7 +177,7 @@ my %PARAMS = (
 
     },
     dt_obsoletes => {
-        descr => maketext( 'Space-separated list of packages the desktop package obsoletes.' ),
+        descr => maketext('Space-separated list of packages the desktop package obsoletes.'),
 
     },
     dt_requires => {
@@ -195,7 +196,7 @@ my %PARAMS = (
     },
     ignored_translations => {
         descr =>
-            maketext( 'Languages to replace with xml_lang regardless of translation status.' ),
+            maketext('Languages to replace with xml_lang regardless of translation status.'),
 
     },
     license => {
@@ -210,7 +211,7 @@ my %PARAMS = (
     },
     menu_category => {
         descr =>
-            maketext( 'Semicolon-separated list of menu categories for the desktop package.' ),
+            maketext('Semicolon-separated list of menu categories for the desktop package.'),
     },
     no_embedtoc => {
         descr => maketext(
@@ -224,7 +225,7 @@ my %PARAMS = (
             'Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml'
         ),
         constraint => '^[0-9a-zA-Z_\-\.\+]+$',
-
+        not_for    => 'brand',
     },
     prod_url => {
         descr   => maketext('URL for the product. Used in top left URL in HTML.'),
@@ -267,8 +268,9 @@ my %PARAMS = (
 
     },
     txt_formater => {
-        descr      => maketext( 'Choose the formatter to use when creating txt output.' ),
-        constraint => '^(links{1}|tables{1})$',
+        descr      => maketext('Choose the formatter to use when creating txt output.'),
+        constraint => '^(links{1}|tables{1}|default)$',
+        default    => 'default',
     },
     version => {
         descr => maketext(
@@ -281,8 +283,7 @@ my %PARAMS = (
         default => 'docs-5E',
     },
     web_formats => {
-        descr =>
-            maketext( 'A comma-separated list of the formats to use for the web packages.' ),
+        descr => maketext('A comma-separated list of the formats to use for the web packages.'),
         default => 'html,html-single,pdf,epub',
     },
     web_home => {
@@ -325,8 +326,7 @@ my %PARAMS = (
         ),
     },
     web_product_label => {
-        descr =>
-            maketext( 'Override the product, top level, menu label on a Publican website.' ),
+        descr => maketext('Override the product, top level, menu label on a Publican website.'),
     },
     web_version_label => {
         descr => maketext(
@@ -570,11 +570,18 @@ sub _validate_config {
         if ( defined $PARAMS{$key}->{constraint} ) {
             my $value      = $self->{config}->param($key);
             my $constraint = $PARAMS{$key}->{constraint};
-            if ( $value && $value !~ /$constraint/ ) {
+            if ((     !$PARAMS{$key}->{not_for}
+                    || $PARAMS{$key}->{not_for} ne $self->{config}->param('type')
+                )
+                && ( !$value || $value !~ /$constraint/ )
+                )
+            {
                 croak(
                     maketext(
                         "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])",
-                        $key, $value, $constraint
+                        $key,
+                        ( $value || "EMPTY" ),
+                        $constraint
                     )
                 );
             }
@@ -1307,4 +1314,3 @@ L<https://bugzilla.redhat.com/bugzilla/enter_bug.cgi?product=Publican&amp;compon
 =head1 AUTHOR
 
 Jeff Fearn  C<< <jfearn@redhat.com> >>
-
