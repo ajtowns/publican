@@ -982,7 +982,8 @@ because it has to parse lines one by one to place the gfx
     <xsl:with-param name="inherit" select="$inherit"/>
   </xsl:apply-templates>
   <xsl:if test="$node/@id or $node/@xml:id">
-	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
+  <!-- Remove duplictae IDs BZ #788576 -->
+	<!--xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute-->
   </xsl:if>
 </xsl:template>
 
@@ -1004,9 +1005,10 @@ because it has to parse lines one by one to place the gfx
   </xsl:variable>
   <h1>
     <!-- some blocks with titles don't have their id's set-->
-    <xsl:if test="substring($id,1,2) = 'id'">
+    <!-- Remove duplictae IDs BZ #788576 -->
+    <!--xsl:if test="substring($id,1,2) = 'id'">
 	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
-    </xsl:if>
+    </xsl:if-->
     <xsl:apply-templates select="." mode="class.attribute"/>
     <xsl:choose>
       <xsl:when test="$show.revisionflag != 0 and @revisionflag">
