@@ -1150,8 +1150,8 @@ sub transform {
     }
     elsif ( $format eq 'epub' ) {
         $dir = undef;
-##        dircopy( "$tmp_dir/$lang/xml/images",
-##            "$tmp_dir/$lang/$format/OEBPS/images" );
+        dircopy( "$tmp_dir/$lang/xml/images",
+            "$tmp_dir/$lang/$format/OEBPS/images" );
 ##        dircopy(
 ##            "$tmp_dir/$lang/xml/Common_Content",
 ##            "$tmp_dir/$lang/$format/OEBPS/Common_Content"
@@ -1169,7 +1169,7 @@ sub transform {
         mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/images");
         fcopy( "$tmp_dir/$lang/xml/Common_Content/",
             "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg" );
-        unlink("$tmp_dir/$lang/$format/OEBPS/icon.svg");
+        unlink("$tmp_dir/$lang/$format/OEBPS/images/icon.svg");
 
         # remove any RCS from the output
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
