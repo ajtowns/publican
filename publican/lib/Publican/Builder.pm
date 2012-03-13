@@ -159,6 +159,9 @@ sub build {
             next;
         }
 
+        # catch txt not being rebuilt BZ #802576
+        my $rebuild = 1;
+
         foreach my $format ( split( /,/, $formats ) ) {
             logger( "\t" . maketext( "Starting [_1]", $format ) . "\n" );
             if ( $format eq 'test' ) {
@@ -166,8 +169,16 @@ sub build {
                 next;
             }
 
-            $self->transform( { format => $format, lang => $lang, embedtoc => $embedtoc } )
-                unless ( $format eq 'xml' );
+            $self->transform(
+                {   format   => $format,
+                    lang     => $lang,
+                    embedtoc => $embedtoc,
+                    rebuild  => $rebuild
+                }
+            ) unless ( $format eq 'xml' );
+
+            $rebuild = 0 if ( $format eq 'txt' || $format eq 'html-single' );
+
             if ($publish) {
                 if ( $type eq 'brand' ) {
                     my $path = "publish/$brand/$lang";
@@ -196,6 +207,7 @@ sub build {
                                 my $common_config = $self->{publican}->param('common_config');
 
                                 my $xsl_file = $common_config . "/xsl/carousel.xsl";
+
                                 # required for Windows
                                 $xsl_file =~ s/"//g;
                                 my $parser = XML::LibXML->new();
@@ -205,6 +217,7 @@ sub build {
                                     $source = $parser->parse_file("$tmp_dir/$lang/xml/Ads.xml");
                                 };
                                 if ($@) {
+
                                     if ( ref($@) ) {
 
                                         # handle a structured error (XML::LibXML::Error object)
@@ -226,7 +239,7 @@ sub build {
 
                                 my $style_doc  = $parser->parse_file($xsl_file);
                                 my $stylesheet = $xslt->parse_stylesheet($style_doc);
-                                my $results    = $stylesheet->transform( $source );
+                                my $results    = $stylesheet->transform($source);
                                 my $outfile;
                                 my $ad_file = "$path/carousel.html";
 
@@ -753,6 +766,7 @@ sub transform {
     my $format = delete( $args->{format} )
         || croak( maketext("format is a mandatory argument") );
     my $embedtoc = delete( $args->{embedtoc} ) || 0;
+    my $rebuild  = delete( $args->{rebuild} )  || 0;
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -780,7 +794,7 @@ sub transform {
     my $chunk_first                = $self->{publican}->param('chunk_first');
     my $xml_lang                   = $self->{publican}->param('xml_lang');
     my $classpath                  = $self->{publican}->param('classpath');
-    my $type                       = lc($self->{publican}->param('type'));
+    my $type                       = lc( $self->{publican}->param('type') );
     my $ec_name                    = $self->{publican}->param('ec_name');
     my $ec_id                      = $self->{publican}->param('ec_id');
     my $ec_provider                = $self->{publican}->param('ec_provider');
@@ -803,7 +817,7 @@ sub transform {
         . "$lang.pdf";
 
     if ( $format eq 'txt' ) {
-        if ( !-e "$tmp_dir/$lang/html-single" ) {
+        if ( !-e "$tmp_dir/$lang/html-single" || $rebuild ) {
             $self->transform( { lang => $lang, format => 'html-single' } );
         }
 
@@ -1802,12 +1816,12 @@ sub package_home {
     my $xsl_file      = $common_config . "/xsl/web-home-spec.xsl";
     $xsl_file =~ s/"//g;    # windows
 
-    my $license  = $self->{publican}->param('license');
-    my $brand    = 'publican-' . lc( $self->{publican}->param('brand') );
-    my $doc_url  = $self->{publican}->param('doc_url');
-    my $src_url  = $self->{publican}->param('src_url');
+    my $license = $self->{publican}->param('license');
+    my $brand   = 'publican-' . lc( $self->{publican}->param('brand') );
+    my $doc_url = $self->{publican}->param('doc_url');
+    my $src_url = $self->{publican}->param('src_url');
 ## BUGBUG for home pages we need to use $xml_lang/Rev... NOT $tmp/$lang/...
-    my $log      = $self->change_log( { lang => $xml_lang } );
+    my $log = $self->change_log( { lang => $xml_lang } );
     my $embedtoc = '--embedtoc';
 
     $embedtoc = "" if ( $self->{publican}->param('no_embedtoc') );
@@ -2315,7 +2329,8 @@ sub change_log {
     my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
 
     my $path = "$tmp_dir/$lang/xml/Revision_History.xml";
-    $path = "$lang/Revision_History.xml" if($self->{publican}->param('web_home') || $self->{publican}->param('web_type'));
+    $path = "$lang/Revision_History.xml"
+        if ( $self->{publican}->param('web_home') || $self->{publican}->param('web_type') );
 
     $xml_doc->parse_file("$path");
 
