@@ -730,9 +730,9 @@ Version: 1.72.0
         <xsl:with-param name="conditional" select="0"/>
       </xsl:call-template-->
       <xsl:if test="string-length($label.content) &gt; 0">
-        <label>
+        <div class="label">
           <xsl:copy-of select="$label.content"/>
-        </label>
+        </div>
       </xsl:if>
     <div class="data">
       <xsl:apply-templates/>
@@ -758,9 +758,9 @@ Version: 1.72.0
       <xsl:apply-templates select="." mode="label.markup"/>
     </xsl:variable>
     <xsl:if test="string-length($answer.label) &gt; 0">
-      <label>
+      <div class="label">
         <xsl:copy-of select="$answer.label"/>
-      </label>
+      </div>
     </xsl:if>
      <div class="data">
        <xsl:apply-templates />

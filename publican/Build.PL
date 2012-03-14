@@ -139,6 +139,7 @@ my $class = Module::Build->subclass(
         sub ACTION_distdir {
             my ($self) = @_;
 #            $self->depends_on('authortest');
+            $self->depends_on('update_pod');
             return $self->SUPER::ACTION_distdir();
         }
         sub ACTION_update_pod {
@@ -170,14 +171,14 @@ Command Options
     -v			Display the version of Publican
 EOL
 
-            my $pod = qx|perl -I blib/lib bin/publican --help_actions|;
+            my $pod = qx|perl -CA -I blib/lib bin/publican --help_actions|;
             print($POD_FILE $pod);
             print($POD_FILE <<EOL);
 =head1 INTERFACE 
 
 EOL
 
-            $pod = qx|perl -I blib/lib bin/publican --help all|;
+            $pod = qx|perl -CA -I blib/lib bin/publican --help all|;
             my $version = $self->dist_version;
             print($POD_FILE $pod, "\n");
             print($POD_FILE <<EOL);
@@ -218,7 +219,7 @@ EOL
 
             close($POD_FILE);
 
-            $self->do_system('perl -I blib/lib bin/publican --bash');
+            $self->do_system('perl -CA -I blib/lib bin/publican --bash');
             return;
         }
     }
@@ -265,6 +266,7 @@ my $builder = $class->new(
         'I18N::LangTags::List'                   => 0,
         'IO::String'                             => 0,
         'List::Util'                             => 0,
+        'List::MoreUtils'                        => 0,
         'Locale::Language'                       => 0,
         'Locale::PO'                             => 0,
         'Module::Build'                          => 0,

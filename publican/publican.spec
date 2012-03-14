@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t141
+Release:        0%{?dist}.t143
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -67,6 +67,7 @@ BuildRequires:  perl(HTML::FormatText::WithLinks::AndTables)
 BuildRequires:  perl(HTML::TreeBuilder)
 BuildRequires:  perl(I18N::LangTags::List)
 BuildRequires:  perl(IO::String)
+BuildRequires:  perl(List::MoreUtils)
 BuildRequires:  perl(List::Util)
 BuildRequires:  perl(Locale::Language)
 BuildRequires:  perl(Locale::PO)
