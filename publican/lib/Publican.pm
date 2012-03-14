@@ -12,6 +12,7 @@ use File::Find::Rule;
 use XML::LibXSLT;
 use XML::LibXML;
 use Publican::Localise;
+use Cwd qw(abs_path);
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
@@ -405,6 +406,7 @@ sub _load_config {
             || croak( maketext("configfile is a mandatory argument") ) );
     my $common_config  = delete( $args->{common_config} );
     my $common_content = delete( $args->{common_content} );
+    my $brand_dir      = delete( $args->{brand_dir} );
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -456,6 +458,7 @@ sub _load_config {
 
     $config->param( 'common_config',  $common_config )  if $common_config;
     $config->param( 'common_content', $common_content ) if $common_content;
+    $config->param( 'brand_dir',      abs_path("$brand_dir"))  if $brand_dir;
 
     $self->{configfile} = $configfile;
     $self->{config}     = $config;
@@ -509,12 +512,13 @@ sub _load_config {
         $self->{config}->param( 'release', $release );
         $self->{config}->param( 'edition', $edition );
 
-        my $path = $self->{config}->param('common_content') . "/$brand";
-        $path =~ s/\"//g;
+        my $brand_path = $self->{config}->param('brand_dir')
+            || $self->{config}->param('common_content') . "/$brand";
+        $brand_path =~ s/\"//g;
 
         # Override publican defaults with brand defaults
-        if ( -f "$path/defaults.cfg" ) {
-            my $tmp_cfg = new Config::Simple("$path/defaults.cfg")
+        if ( -f "$brand_path/defaults.cfg" ) {
+            my $tmp_cfg = new Config::Simple("$brand_path/defaults.cfg")
                 || croak( maketext("Failed to load brand defaults.cfg file") );
             my %Config = $tmp_cfg->vars();
             foreach my $cfg ( keys(%Config) ) {
@@ -530,8 +534,8 @@ sub _load_config {
         }
 
         # Enforce Brand Overrides
-        if ( -f "$path/overrides.cfg" ) {
-            my $tmp_cfg = new Config::Simple("$path/overrides.cfg")
+        if ( -f "$brand_path/overrides.cfg" ) {
+            my $tmp_cfg = new Config::Simple("$brand_path/overrides.cfg")
                 || croak( maketext("Failed to load brand overrides.cfg file") );
             my %Config = $tmp_cfg->vars();
             foreach my $cfg ( keys(%Config) ) {
@@ -540,8 +544,8 @@ sub _load_config {
         }
 
         # Brand Settings
-        my $brand_cfg = new Config::Simple("$path/publican.cfg")
-            || croak( maketext( "Failed to load brand file: [_1]", "$path/publican.cfg" ) );
+        my $brand_cfg = new Config::Simple("$brand_path/publican.cfg")
+            || croak( maketext( "Failed to load brand file: [_1]", "$brand_path/publican.cfg" ) );
 
         $self->{brand_config} = $brand_cfg;
 
@@ -621,6 +625,7 @@ sub new {
         my $common_content = delete( $args->{common_content} );
         $QUIET     = delete( $args->{QUIET} );
         $NOCOLOURS = delete( $args->{NOCOLOURS} );
+        my $brand_dir = delete( $args->{brand_dir} );
 
         if ( %{$args} ) {
             croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -663,7 +668,8 @@ sub new {
         $self->_load_config(
             {   configfile     => $configfile,
                 common_config  => $common_config,
-                common_content => $common_content
+                common_content => $common_content,
+                brand_dir      => $brand_dir,
             }
         );
 

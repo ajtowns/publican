@@ -6,7 +6,7 @@
 		exclude-result-prefixes="#default">
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"/>
-<xsl:import href="../../../xsl/html.xsl"/>
+<xsl:import href="https://fedorahosted.org/released/publican/xsl/docbook4/html.xsl"/>
 
 <xsl:param name="generate.toc">
 set toc

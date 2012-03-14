@@ -500,9 +500,13 @@ sub setup_xml {
             my $brand          = $self->{publican}->param('brand');
             my $base_brand
                 = ( $self->{publican}->{brand_config}->param('base_brand') || 'common' );
+
             if ( $common_content =~ m/\"/ & $common_content !~ m/\s/ ) {
                 $common_content =~ s/\"//g;
             }
+
+            my $brand_path = $self->{publican}->param('brand_dir')
+                || $common_content . "/$brand";
 
             File::Copy::Recursive::rcopy_glob( $common_content . "/$base_brand/en-US/*",
                 "$tmp_dir/$lang/xml/Common_Content" );
@@ -510,18 +514,16 @@ sub setup_xml {
                 "$tmp_dir/$lang/xml/Common_Content" )
                 if ( $lang ne 'en-US' );
 
-            if ( $brand ne $base_brand ) {
+            if ( ( $brand ne $base_brand ) || ( $brand_path ne $common_content . "/$brand" ) ) {
                 my $brand_lang = $self->{publican}->{brand_config}->param('xml_lang');
 
-                my @files = File::Copy::Recursive::rcopy_glob(
-                    $common_content . "/$brand/$brand_lang/*",
-                    "$tmp_dir/$lang/xml/Common_Content"
-                );
+                my @files = File::Copy::Recursive::rcopy_glob( $brand_path . "/$brand_lang/*",
+                    "$tmp_dir/$lang/xml/Common_Content" );
 
                 croak( maketext( "Brand '[_1]' had no content to copy.", $brand ) )
                     if ( scalar(@files) == 0 );
 
-                File::Copy::Recursive::rcopy_glob( $common_content . "/$brand/$lang/*",
+                File::Copy::Recursive::rcopy_glob( "$brand_path/$lang/*",
                     "$tmp_dir/$lang/xml/Common_Content" )
                     if ( $lang ne $brand_lang );
             }
@@ -801,6 +803,7 @@ sub transform {
     my $product                    = $self->{publican}->param('product');
     my $bridgehead_in_toc          = $self->{publican}->param('bridgehead_in_toc');
     my $main_file                  = $self->{publican}->param('mainfile');
+    my $brand_path = $self->{publican}->param('brand_dir') || $common_content . "/$brand";
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'
@@ -896,8 +899,8 @@ sub transform {
     }
 
     my $xsl_file = $common_config . "/xsl/$format.xsl";
-    $xsl_file = $common_content . "/$brand/xsl/$format.xsl"
-        if ( -f $common_content . "/$brand/xsl/$format.xsl" );
+    $xsl_file = "$brand_path/xsl/$format.xsl"
+        if ( -f "$brand_path/xsl/$format.xsl" );
 
     # required for Windows
     $xsl_file =~ s/"//g;
@@ -1006,8 +1009,8 @@ sub transform {
     }
     elsif ( $format eq 'html-desktop' ) {
         $xsl_file = $common_config . "/xsl/html-single.xsl";
-        $xsl_file = $common_content . "/$brand/xsl/html-single.xsl"
-            if ( -e $common_content . "/$brand/xsl/html-single.xsl" );
+        $xsl_file = "$brand_path/xsl/html-single.xsl"
+            if ( -e "$brand_path/xsl/html-single.xsl" );
         $dir = pushd("$tmp_dir/$lang/$format");
 
         $xslt_opts{'doc.url'}  = "'$doc_url'";
@@ -1150,8 +1153,7 @@ sub transform {
     }
     elsif ( $format eq 'epub' ) {
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/OEBPS/images" );
+        dircopy( "$tmp_dir/$lang/xml/images", "$tmp_dir/$lang/$format/OEBPS/images" );
 ##        dircopy(
 ##            "$tmp_dir/$lang/xml/Common_Content",
 ##            "$tmp_dir/$lang/$format/OEBPS/Common_Content"
@@ -1167,8 +1169,10 @@ sub transform {
             "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/print.css"
         );
         mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/images");
-        fcopy( "$tmp_dir/$lang/xml/Common_Content/",
-            "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg" );
+        fcopy(
+            "$tmp_dir/$lang/xml/Common_Content/images/title_logo.svg",
+            "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg"
+        );
         unlink("$tmp_dir/$lang/$format/OEBPS/images/icon.svg");
 
         # remove any RCS from the output

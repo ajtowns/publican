@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t136
+Release:        0%{?dist}.t141
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -200,6 +200,19 @@ cd -
 %if %{TESTS}
 ./Build test
 %endif
+
+%post
+CATALOG=%{_sysconfdir}/xml/catalog
+%{_bindir}/xmlcatalog --noout --add "rewriteURI" \
+ "https://fedorahosted.org/released/publican/xsl/docbook4/" \
+ "file://%{_datadir}/publican/xsl/"  $CATALOG
+
+%postun
+if [ "$1" = 0 ]; then
+  CATALOG=%{_sysconfdir}/xml/catalog
+  %{_bindir}/xmlcatalog --noout --del \
+   "file://%{_datadir}/publican/xsl/docbook4/" $CATALOG
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT

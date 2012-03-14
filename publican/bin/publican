@@ -1,4 +1,7 @@
 #!/usr/bin/perl -CA
+
+eval 'exec /usr/bin/perl -CA -S $0 ${1+"$@"}'
+    if 0; # not running under some shell
 #BUGBUG -CAS should allow removing utf8::encode, utf8::decode from Translate.pm
 # See: http://perldoc.perl.org/perlrun.html#*-C-[_number/list_]*
 # or binmode STDIN, ":encoding(UTF-8)";
@@ -140,11 +143,12 @@ my %options = (
     msgmerge      => maketext(q|Use gettext's msgmerge for POT/PO merging.|),
     web           => maketext(q|Install the web content for a brand.|),
     'src_dir=s'   => maketext(q|Directory to source publican files from.|),
+    'brand_dir=s'   => maketext(q|Directory to source brand files from.|),
 );
 
 # Options all actions use
 my @utility_opts
-    = ( 'help', 'config=s', 'common_config=s', 'common_content=s', 'nocolours', 'quiet', );
+    = ( 'help', 'config=s', 'common_config=s', 'common_content=s', 'nocolours', 'quiet','brand_dir=s', );
 
 # Actions
 my %actions = (
@@ -613,6 +617,7 @@ my $publican = Publican->new(
         common_content => $opts{common_content},
         QUIET          => $opts{quiet},
         NOCOLOURS      => $opts{nocolours},
+        brand_dir      => $opts{brand_dir},
     }
 );
 
