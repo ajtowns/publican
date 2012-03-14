@@ -219,11 +219,17 @@ sub toc_path {
 }
 
 sub _create_db {
-    my $self = shift;
+    my ( $self, $arg ) = @_;
+
+    my $force = delete $arg->{force};
+
+    if ( $arg && %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
 
     my $db_file = $self->{db_file};
 
-    if ( -f $db_file ) {
+    if ( -f $db_file && !$force ) {
         print("DB file '$db_file' exists, skipping creation.");
         return;
     }
@@ -235,14 +241,15 @@ CREATE TABLE IF NOT EXISTS $DB_NAME (
 	product text(255) NOT NULL,
 	version text(255) NOT NULL,
 	name text(255) NOT NULL,
-	format text(31) NOT NULL,
+	formats text(255) NOT NULL,
 	product_label text(255),
 	version_label text(255),
 	name_label text(255),
+	sort_order INTEGER DEFAULT 50,
 	update_date text(10),
 	subtitle text,
 	abstract text,
-	UNIQUE(language, product, version, name, format)
+	UNIQUE(language, product, version, name)
 )
 CREATE_TABLE
 
@@ -272,8 +279,8 @@ sub update_or_add_entry {
         = defined $arg->{version}
         ? delete $arg->{version}
         : croak "update_or_add_entry: version required";
-    my $name   = delete $arg->{name}   || croak "name required";
-    my $format = delete $arg->{format} || croak "format required";
+    my $name    = delete $arg->{name}    || croak "name required";
+    my $formats = delete $arg->{formats} || croak "formats required";
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
@@ -291,7 +298,6 @@ sub update_or_add_entry {
             product  => $product,
             version  => $version,
             name     => $name,
-            format   => $format
         }
     );
 
@@ -302,7 +308,7 @@ sub update_or_add_entry {
                 product       => $product,
                 version       => $version,
                 name          => $name,
-                format        => $format,
+                formats       => $formats,
                 product_label => $product_label,
                 version_label => $version_label,
                 name_label    => $name_label,
@@ -317,7 +323,7 @@ sub update_or_add_entry {
                 product       => $product,
                 version       => $version,
                 name          => $name,
-                format        => $format,
+                formats       => $formats,
                 product_label => $product_label,
                 version_label => $version_label,
                 name_label    => $name_label,
@@ -339,8 +345,8 @@ sub add_entry {
         = defined $arg->{version}
         ? delete $arg->{version}
         : croak "add_entry: version required";
-    my $name   = delete $arg->{name}   || croak "name required";
-    my $format = delete $arg->{format} || croak "format required";
+    my $name    = delete $arg->{name}    || croak "name required";
+    my $formats = delete $arg->{formats} || croak "formats required";
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
@@ -353,18 +359,18 @@ sub add_entry {
 
     my $update_date = DateTime->today()->ymd();
 
-    $format = lc $format;
+    $formats = lc $formats;
     $abstract =~ s/\n/ /gm;
 
     my $sql = <<INSERT_ENTRY;
         INSERT INTO $DB_NAME 
-               (language, product, version, name, format, product_label, version_label, name_label, update_date, subtitle, abstract) 
+               (language, product, version, name, formats, product_label, version_label, name_label, update_date, subtitle, abstract) 
                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 INSERT_ENTRY
 
     return $self->_dbh->do(
         $sql,         undef,     $language,      $product,       $version,
-        $name,        $format,   $product_label, $version_label, $name_label,
+        $name,        $formats,  $product_label, $version_label, $name_label,
         $update_date, $subtitle, $abstract
     );
 }
@@ -379,8 +385,8 @@ sub update_entry {
         = defined $arg->{version}
         ? delete $arg->{version}
         : croak "update_entry: version required";
-    my $name   = delete $arg->{name}   || croak "name required";
-    my $format = delete $arg->{format} || croak "format required";
+    my $name    = delete $arg->{name}    || croak "name required";
+    my $formats = delete $arg->{formats} || croak "formats required";
     my $product_label = delete $arg->{product_label};
     my $version_label = delete $arg->{version_label};
     my $name_label    = delete $arg->{name_label};
@@ -393,18 +399,18 @@ sub update_entry {
 
     my $update_date = DateTime->today()->ymd();
 
-    $format = lc $format;
+    $formats = lc $formats;
     $abstract =~ s/\n/ /gm;
 
     my $sql = <<INSERT_ENTRY;
         UPDATE $DB_NAME SET
-               language = ?, product = ?, version = ?, name = ?, format = ?, product_label = ?, version_label = ?, name_label = ?, update_date = ?, subtitle = ?, abstract = ?
+               language = ?, product = ?, version = ?, name = ?, formats = ?, product_label = ?, version_label = ?, name_label = ?, update_date = ?, subtitle = ?, abstract = ?
                WHERE ID = $ID
 INSERT_ENTRY
 
     return $self->_dbh->do(
         $sql,         undef,     $language,      $product,       $version,
-        $name,        $format,   $product_label, $version_label, $name_label,
+        $name,        $formats,  $product_label, $version_label, $name_label,
         $update_date, $subtitle, $abstract
     );
 }
@@ -418,8 +424,7 @@ sub del_entry {
         = defined $arg->{version}
         ? delete $arg->{version}
         : croak "del_entry: version required";
-    my $name   = delete $arg->{name}   || croak "name required";
-    my $format = delete $arg->{format} || croak "format required";
+    my $name = delete $arg->{name} || croak "name required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -431,12 +436,11 @@ sub del_entry {
            AND product = ?
            AND version = ?
            AND name = ?
-           AND format = ?
 DELETE_ENTRY
 
-    #croak "\n\nvals: $sql, $language, $product, $version, $name, $format\n\n";
+    #croak "\n\nvals: $sql, $language, $product, $version, $name\n\n";
 
-    return $self->_dbh->do( $sql, undef, $language, $product, $version, $name, $format );
+    return $self->_dbh->do( $sql, undef, $language, $product, $version, $name );
 }
 
 sub get_entry_id {
@@ -448,8 +452,7 @@ sub get_entry_id {
         = defined $arg->{version}
         ? delete $arg->{version}
         : croak "get_entry_id version required";
-    my $name   = delete $arg->{name}   || croak "name required";
-    my $format = delete $arg->{format} || croak "format required";
+    my $name = delete $arg->{name} || croak "name required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -461,12 +464,11 @@ sub get_entry_id {
            AND product = ?
            AND version = ?
            AND name = ?
-           AND format = ?
 GET_ENTRY
 
     my $sth = $self->_dbh->prepare($sql);
 
-    $sth->execute( $language, $product, $version, $name, $format );
+    $sth->execute( $language, $product, $version, $name );
     my $result = $sth->fetchrow();
 
     return $result;
@@ -493,7 +495,7 @@ sub get_hash_ref {
                product, 
                version, 
                name, 
-               format,
+               formats,
                product_label, 
                version_label, 
                name_label,
@@ -502,12 +504,11 @@ sub get_hash_ref {
                abstract
           FROM $DB_NAME 
          WHERE (language = ? or language = ?)
-      GROUP BY language, product, version, name, format
+      GROUP BY language, product, version, name
       ORDER BY language $direction,
                product, 
                version DESC, 
-               name, 
-               format
+               name
 GET_LIST
 
     my $sth = $self->_dbh->prepare($sql);
@@ -517,7 +518,7 @@ GET_LIST
 
     while (
         my ($id,         $lang,        $product,       $version,
-            $name,       $format,      $product_label, $version_label,
+            $name,       $formats,     $product_label, $version_label,
             $name_label, $update_date, $subtitle,      $abstract
         )
         = $sth->fetchrow()
@@ -528,9 +529,13 @@ GET_LIST
             if ( defined $list{$product}{$version}{$name}
             and $list{$product}{$version}{$name}{language} ne $lang );
 
-        $list{$product}{$version}{$name}{formats}{$format} = 1;
-        $list{$product}{$version}{$name}{language}         = $lang;
-        $list{$product}{$version}{$name}{version_label}    = $version_label
+## BUGBUG where to handle this?
+        foreach my $format ( split( /,/, $formats ) ) {
+            $list{$product}{$version}{$name}{formats}{$format} = 1;
+        }
+
+        $list{$product}{$version}{$name}{language}      = $lang;
+        $list{$product}{$version}{$name}{version_label} = $version_label
             if $version_label;
         $list{$product}{$version}{$name}{name_label} = $name_label
             if $name_label;
@@ -878,6 +883,7 @@ SEARCH
                 my @types = ();
                 my $lang  = $list2->{$product}{$version}{$book}{language};
 
+## BUGBUG could split formats here
                 foreach my $type (
                     sort
                     keys %{ $list2->{$product}{$version}{$book}{formats} }
@@ -1071,29 +1077,18 @@ sub report {
     }
 
     my $sql = <<GET_COUNTS;
-        SELECT 
-               count(DISTINCT language), 
-               count(DISTINCT product), 
-               count(DISTINCT format) 
-          FROM $DB_NAME
+SELECT 
+	COUNT(*),
+	count(DISTINCT language), 
+	count(DISTINCT product)
+FROM $DB_NAME
 GET_COUNTS
+
     my $counts = $self->_dbh->selectall_arrayref($sql)->[0];
 
-    my $report = "\nThe database contains books that cover " . $counts->[1];
-    $report .= " products, " . $counts->[0];
-    $report .= " languages, " . $counts->[2];
-    $report .= " formats,";
-
-    $sql = <<GET_COUNTS;
-	SELECT COUNT(*) FROM (
-		SELECT DISTINCT product, version, name, language 
-		  FROM $DB_NAME
-		  GROUP BY product, version, name, language
-	)
-GET_COUNTS
-
-    $counts = $self->_dbh->selectall_arrayref($sql)->[0];
-
+    my $report = "\nThe database contains books that cover ";
+    $report .= $counts->[1] . " products, ";
+    $report .= $counts->[2] . " languages, ";
     $report .= " totaling " . $counts->[0] . " packages\n";
 
     return ($report);
@@ -1108,7 +1103,7 @@ sub validate {
 
 ## Validate database entries have RPMs
     my $sql = <<GET_ALL;
-select product,name,version,language from books where format = 'html' group by product,name,version,language
+select product,name,version,language from books group by product,name,version,language
 GET_ALL
 
     my $sth = $self->_dbh->prepare($sql);
@@ -1138,7 +1133,6 @@ GET_ALL
           AND  name = ?
           AND  version = ?
           AND  language = ?
-          AND  format = 'html'
 GET_COUNT
 
         my $sth = $self->_dbh->prepare($sql);
@@ -1219,17 +1213,9 @@ sub splash_pages {
         $direction = 'ASC' if ( $def_lang lt $language );
 
         my $sql = <<SQL;
-SELECT distinct product, version, name, language, name_label, version_label, product_label, formats, langs, abstract, subtitle
+SELECT distinct product, version, name, language, name_label, version_label, product_label, formats, langs, abstract, subtitle, sort_order
 FROM (
-  SELECT product, version, name, language, name_label, version_label, product_label, abstract, subtitle, 
-    (
-      SELECT GROUP_CONCAT(format)
-      FROM books as books1
-      WHERE  books1.name  = books.name
-      AND books1.product  = books.product
-      AND books1.version  = books.version
-      AND books1.language = books.language
-    ) AS formats,
+  SELECT product, version, name, language, name_label, version_label, product_label, abstract, subtitle, formats, sort_order, 
     (
       SELECT GROUP_CONCAT(distinct language)
       FROM books as books2
@@ -1415,7 +1401,8 @@ SQL
             $book_lang_vars->{abstract}      = $record->{abstract};
             $book_lang_vars->{trans_strings} = $vars;
             $book_lang_vars->{subtitle}      = $record->{subtitle};
-            $book_lang_vars->{book_label} =~ s/_/ /g;
+            $book_lang_vars->{book_label}    =~ s/_/ /g;
+            $book_lang_vars->{sort_order}    = $record->{sort_order};
 
             if ( defined $record->{name_label} && $record->{name_label} ne "" ) {
                 $book_lang_vars->{book_clean} = $record->{name_label};
@@ -1657,7 +1644,14 @@ sub v_sort {
 
 sub i_sort {
     my $hash = shift;
-    return ( sort( insensitive_sort keys( %{$hash} ) ) );
+    return (
+        sort( { if ( ($hash->{$a}->{sort_order} || 50) != ($hash->{$b}->{sort_order} || 50))
+                {
+                    $hash->{$a}->{sort_order} <=> $hash->{$b}->{sort_order};
+                }
+                else { lc($a) cmp lc($b) }
+            } keys( %{$hash} ) )
+    );
 }
 
 sub write_language_index {
@@ -1848,6 +1842,39 @@ SEARCH
     return ($search);
 }
 
+sub MigrateDB {
+    my ( $self, $arg ) = @_;
+
+    if ( $arg && %{$arg} ) {
+        croak "unknown args: " . join( ", ", keys %{$arg} );
+    }
+
+    my $tmpname = $DB_NAME . "_bak";
+
+    $self->_dbh->do("ALTER TABLE $DB_NAME RENAME TO $tmpname");
+    $self->_create_db( { force => 1 } );
+
+    my $sql = <<SQL;
+INSERT INTO $DB_NAME (language, product, version, name, product_label, version_label, name_label,update_date, subtitle, abstract, formats)
+  SELECT language, product, version, name, product_label, version_label, name_label,update_date, subtitle, abstract, 
+    (
+      SELECT GROUP_CONCAT(format)
+      FROM $tmpname as books1
+      WHERE  books1.name  = $tmpname.name
+      AND books1.product  = $tmpname.product
+      AND books1.version  = $tmpname.version
+      AND books1.language = $tmpname.language
+    ) AS formats
+  FROM $tmpname
+  GROUP BY product, version, name, language
+  ORDER BY product, version, name, language
+SQL
+
+    $self->_dbh->do($sql);
+
+    return;
+}
+
 1;    # Magic true value required at end of module
 __END__
 
@@ -1998,6 +2025,10 @@ Writes an index page for a  for web 2 style.
 =head2 write_language_labels
 
 Writes a javascript file with an associative array of labels.
+
+=head2 MigrateDB
+
+Migrate a website DataBase from Publican < 3 to Publican 3.
 
 =head1 DIAGNOSTICS
 

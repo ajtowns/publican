@@ -249,6 +249,8 @@ my %PARAMS = (
         default => 1,
 
     },
+    sort_order =>
+        { descr => maketext('Override the default sort weighting. Defaults to 50.'), },
     src_url =>
         { descr => maketext('URL to find tar of source files. Used in RPM Spec files.'), },
     tmp_dir => {

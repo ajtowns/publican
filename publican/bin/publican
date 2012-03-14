@@ -266,6 +266,10 @@ my %actions = (
         'brief'   => maketext('Rename a publican book'),
         'options' => [ 'name', 'product', 'version' ],
     },
+    'migrate_site' => {
+        'brief'   => maketext('Migrate a website DataBase from Publican < 3 to Publican 3.'),
+        'options' => ['site_config'],
+    },
 );
 
 # Grab to limit options to the valid ones for this action
@@ -466,8 +470,8 @@ if ( $action eq 'create_brand' ) {
 if ( $action eq 'create_site' ) {
     my $site_config = $opts{site_config}
         || croak( maketext( "[_1] is a required argument", 'site_config' ) );
-    my $db_file   = $opts{db_file}   || undef;
-    my $toc_path  = $opts{toc_path}  || undef;
+    my $db_file   = $opts{db_file}   || croak( maketext( "[_1] is a required argument", 'db_file' ) );
+    my $toc_path  = $opts{toc_path}  || croak( maketext( "[_1] is a required argument", 'toc_path' ) );
     my $tmpl_path = $opts{tmpl_path} || undef;
     my $def_lang  = $opts{lang}      || undef;
 
@@ -509,6 +513,17 @@ if ( $action eq 'update_site' ) {
     exit(0);
 }
 
+if ( $action eq 'migrate_site' ) {
+    my $site_config = $opts{site_config} || undef;
+    local $File::Copy::Recursive::RMTrgFil = 1;
+    my $ws = Publican::WebSite->new( { site_config => $site_config } );
+
+    $ws->MigrateDB();
+    $ws->regen_all_toc( { force => 1 } );
+
+    exit(0);
+}
+
 if ( $action eq 'site_stats' ) {
     my $site_config = $opts{site_config} || undef;
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
@@ -518,6 +533,7 @@ if ( $action eq 'site_stats' ) {
 }
 
 # install/remove book for pre-build content (RPM, DEB, etc)
+# BUGBUG formats isn't required for del
 if ( $action eq 'update_db' ) {
     my $site_config = $opts{site_config} || undef;
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
@@ -560,13 +576,13 @@ if ( $action eq 'update_db' ) {
     my $name_label    = $opts{name_label}    || undef;
 
     if ($add) {
-        foreach my $format ( split( /,/, $formats ) ) {
+##        foreach my $format ( split( /,/, $formats ) ) {
             $ws->update_or_add_entry(
                 {   language      => $lang,
                     product       => $product,
                     version       => $version,
                     name          => $name,
-                    format        => $format,
+                    formats       => $formats,
                     product_label => $product_label,
                     version_label => $version_label,
                     name_label    => $name_label,
@@ -574,20 +590,19 @@ if ( $action eq 'update_db' ) {
                     abstract      => $abstract,
                 }
             );
-        }
+##        }
     }
     else {
-        foreach my $format ( split( /,/, $formats ) ) {
-
+##        foreach my $format ( split( /,/, $formats ) ) {
             $ws->del_entry(
                 {   language => $lang,
                     product  => $product,
                     version  => $version,
                     name     => $name,
-                    format   => "$format"
+##                    format   => "$format"
                 }
             );
-        }
+##        }
 
     }
 
@@ -945,17 +960,16 @@ if ( $action eq 'install_book' ) {
             unless ( -d $ws->toc_path() . "/$lang" );
         rcopy( "publish/$lang/*", $ws->toc_path() . "/$lang/." );
 
-        my @formats = split( /,/, $publican->param('web_formats') );
-
-        foreach my $format (@formats) {
-            next unless ( -d "publish/$lang/$product/$version/$format" );
+##        my @formats = split( /,/, $publican->param('web_formats') );
+##        foreach my $format (@formats) {
+##            next unless ( -d "publish/$lang/$product/$version/$format" );
 
             $ws->update_or_add_entry(
                 {   language      => $lang,
                     product       => $product,
                     version       => $version,
                     name          => $name,
-                    format        => $format,
+                    formats       => $publican->param('web_formats'),
                     product_label => $product_label,
                     version_label => $version_label,
                     name_label    => $name_label,
@@ -963,7 +977,7 @@ if ( $action eq 'install_book' ) {
                     abstract      => $abstract,
                 }
             );
-        }
+##        }
     }
 
     $ws->regen_all_toc();
@@ -979,19 +993,17 @@ if ( $action eq 'remove_book' ) {
     my $version = $publican->param('version');
     my $name    = $publican->param('docname');
 
+    $ws->del_entry(
+        {   language => $lang,
+            product  => $product,
+            version  => $version,
+            name     => $name,
+        }
+    );
+
+## BUGBUG should we fetch formats from DB?
     my @formats = split( /,/, $publican->param('web_formats') );
     foreach my $format (@formats) {
-
-        # BUGBUG get these the normal way
-        $ws->del_entry(
-            {   language => $lang,
-                product  => $product,
-                version  => $version,
-                name     => $name,
-                format   => "$format"
-            }
-        );
-
         my $dir = "$ws->{toc_path}/$lang/$product/$version/$format/$name";
         rmtree($dir);
 
@@ -1010,7 +1022,6 @@ if ( $action eq 'remove_book' ) {
         }
     }
     $ws->regen_all_toc();
-
 }
 
 if ( $action eq 'rename' ) {

@@ -33,6 +33,7 @@ Valid actions are:
     install_book  Install a book in to a WebSite.
     install_brand  Install a brand to the supplied location
     lang_stats    report PO statistics
+    migrate_site  Migrate a website DataBase from Publican < 3 to Publican 3.
     package       Package a language for shipping
     print_banned  Print a list of banned DocBook tags
     print_known   Print a list of QA'd DocBook tags
@@ -239,6 +240,20 @@ lang_stats
         --quiet                   Disable all logging.
         --brand_dir=s             Directory to source brand files from.
         --lang=<LANG>             The language the XML will be written in
+
+
+migrate_site
+    Migrate a website DataBase from Publican < 3 to Publican 3.
+
+	Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --brand_dir=s             Directory to source brand files from.
+        --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
 
 
 package

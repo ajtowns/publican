@@ -13,7 +13,7 @@ use Publican::Builder;
 use File::Inplace;
 
 ## Testing collation
-my $test_collate = undef;
+my $test_collate = 1;
 if ($test_collate) {
     use Unicode::Collate;
 }

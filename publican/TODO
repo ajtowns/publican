@@ -1,0 +1,39 @@
+List of unscheduled things we should look at doing:
+
+Refactor EPUB output using EBook::EPUB or EBook::Tools
+
+Support MOBI output using EBook::MOBI
+
+
+Document migrating a P2 wedsite to P3:
+
+$ publican migrate_site --site_config homepage.cfg 
+
+
+Document creating a P3 web site from scratch:
+
+$ mkdir $path_to_make_web_site_in
+$ cd $path_to_make_web_site_in
+$ publican create_site --site_config tester.cfg --db_file tester.db --toc_path ./docs
+$ publican site_stats --site_config tester.cfg 
+
+The database contains books that cover 0 products, 0 languages,  totaling 0 packages
+
+$ cd $path to publican common_files
+$ publican build --formats xml --publish
+$ mkdir /home/jfearn/Source/test/testsite/docs/common
+$ publican install_brand --web --path /home/jfearn/Source/test/testsite/docs/common 
+
+$ cd $path_to_welcome_page
+$ publican build --publish --formats html-single --embedtoc --langs en-US
+$ publican install_book --lang en-US --site_config /home/jfearn/Source/test/testsite/tester.cfg
+
+$ cd $book_soure_dir
+$ publican build --publish --embedtoc --formats html,pdf,html-single,epub,txt --lang en-US
+
+$ publican site_stats --site_config tester.cfg 
+
+The database contains books that cover 1 products, 1 languages,  totaling 1 packages
+
+
+
