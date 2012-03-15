@@ -18,7 +18,6 @@
 		</indexterm>
 		is a tool for publishing material authored in DocBook XML. This guide explains how to create and build books and articles using <application>Publican</application>. It is not a general DocBook XML tutorial; refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner, available at <ulink url="http://www.docbook.org/tdg/en/html/docbook.html" /> for more general help with DocBook XML.
 	</para>
-        <bridgehead id="pants"> pants</bridgehead>
 	 <para>
 		<application>Publican</application> began life as an internal tool used by Red Hat's Documentation Group (now known as Engineering Content Services). On occasion, this legacy is visible.
 	</para>
@@ -30,7 +29,7 @@
 
 	</formalpara>
 	 <para>
-		The branding <xref linkend="pants"/>  functionality allows you to create your own presentation rules and look, overriding many parts of the default style to meet your publishing needs. Choices executed in code, however, are not changeable.
+		The branding functionality allows you to create your own presentation rules and look, overriding many parts of the default style to meet your publishing needs. Choices executed in code, however, are not changeable.
 	</para>
 	 <para>
 		Entities, for example, can be validly defined in any XML file. However, to ensure the DTD declaration is present, valid and standardized, <application>Publican</application> rewrites the declaration in every XML file before it builds a book or article. Consequently, all entities declared in all XML files are lost. <application>Publican</application>, therefore, requires you define entities in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file (refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent" />).
