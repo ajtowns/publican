@@ -320,13 +320,13 @@ function checkMenu() {
 }
 
 function hideMenu() {
-	parent.document.body.className = parent.document.body.className = "notoc";
+	parent.document.body.className = parent.document.body.className = "toc_embeded notoc";
 	var entity = parent.document.getElementById('tocframe');
 	if(entity) {
 		entity.className = "notoc";
 	}
 
-	document.body.className = "notocnav";
+	document.body.className = "toc_embeded notocnav";
 
 	entity = document.getElementById('closemenu');
 	if(entity) {
@@ -383,7 +383,7 @@ function loadMenu(){
 				addID(current_product + '.' + current_version);
 				addID(current_product + '.' + current_version + '.books');
 				addID(current_product + '.' + current_version + '.' + current_book);
-				var html =  '<div id="tocdiv"><iframe class="toc" src="' + toc_path + '/toc.html">This is an iframe, to view it upgrade your browser or enable iframe display.</iframe></div>';
+				var html =  '<div id="tocdiv"><iframe id="tocframe" class="toc" src="' + toc_path + '/toc.html">This is an iframe, to view it upgrade your browser or enable iframe display.</iframe></div>';
 				$("#navigation").html(html);
 			},
 		error:
@@ -405,6 +405,8 @@ function loadMenu(){
 				$("#book_menu").load(toc_path + '/' + current_product + '/' +  current_version + '/' +  "/books_menu.html");
 				$("#book_lang_menu").load(toc_path + '/' +  current_product + '/' +  current_version +  '/' + current_book + "/lang_menu.html");
 				$("#book_format_menu").load(toc_path + '/' +  current_product + '/' +  current_version +  '/' + current_book + "/format_menu.html");
+				$('body').removeClass('toc_embeded');
+				$('body').addClass('menu_embeded');
 			}
 	});
 

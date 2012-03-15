@@ -7,12 +7,25 @@ body {
     padding: 0 10px;
 	font-family: "liberation sans", "Myriad ", "Bitstream Vera Sans", "Lucida Grande", "Luxi Sans", "Trebuchet MS", helvetica, verdana, arial, sans-serif;
 }
-body.toc_embeded {
+
+body.menu_embeded {
     margin: 0 auto;
     max-width: 100%;
     padding-left: 0px;
     padding-right: 0px;
 }
+
+body.toc_embeded {
+	/*for web hosting system only*/
+	padding: 0em 100px 0px 300px;
+	margin: 0 auto;
+}
+
+body.notoc {
+margin-left:3em;
+	padding-left: 0px;
+}
+
 a:focus {
     outline: medium none;
 }
@@ -21,13 +34,32 @@ body > div.book, body > div.article, body > div.set, body > div.preface, body > 
     margin-right: auto;
     max-width: 55em;
     margin-top: 40px;
+    margin-bottom:4em;
+/*
 -webkit-box-shadow: 0 0 0 1px #AAAAAA, 0 0 10px 0 #777777;
    -moz-box-shadow: 0 0 0 1px #AAAAAA, 0 0 10px 0 #777777;
         box-shadow: 0 0 0 1px #AAAAAA, 0 0 10px 0 #777777;
+*/
+-webkit-box-shadow: 0 .5em 3em #aaa;
+   -moz-box-shadow: 0 .5em 3em #aaa;
+        box-shadow: 0 .5em 3em #aaa;
+
     background-color: white;
     padding-left: 30px;
     padding-right: 40px;
     padding-bottom: 20px;
+}
+
+body.toc_embeded > div.book,
+body.toc_embeded > div.article,
+body.toc_embeded > div.set,
+body.toc_embeded > div.preface,
+body.toc_embeded > div.chapter,
+body.toc_embeded > div.section,
+body.toc_embeded > div.appendix,
+body.toc_embeded > div.part {
+	width: 50em;
+	padding-top: 1px;
 }
 
 .lang_top_box {
@@ -949,3 +981,8 @@ div.version_tabs {
     float: left;
     width: 100%;
 }
+
+.menu_embeded #title.hidden {
+    display: none;
+}
+

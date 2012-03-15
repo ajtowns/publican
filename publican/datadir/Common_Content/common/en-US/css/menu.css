@@ -15,10 +15,6 @@ body {
 	color: black;
 }
 
-body.toc_embeded {
-	/*for web hosting system only*/
-	margin-left: 300px;
-}
 
 object.toc, iframe.toc {
 	/*for web hosting system only*/
@@ -912,6 +908,8 @@ div.admonition {
 	height:45px;
 	padding-bottom:1em;
 	margin:0px;
+	width: 55em;
+	background-color: white;
 }
 
 #title a.left{
@@ -1473,6 +1471,12 @@ ul.docnav {
 	border-top:1px dotted #ccc;
 }
 
+.toc_embeded > ul.docnav {
+	margin-left: -19px;
+	position: absolute;
+	width: 57em;
+}
+
 .docnav li.home {
     font-size: 20px !important;
     margin: 0;
@@ -1509,10 +1513,6 @@ ul.docnav {
 }
 
 .hidden {
-    display: none;
-}
-
-#title.hidden {
     display: none;
 }
 

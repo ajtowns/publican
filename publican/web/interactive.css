@@ -173,13 +173,6 @@ margin:0;
 padding:0;
 }
 
-body.toc_embeded {
-margin-left:300px;
-}
-
-body.notoc {
-margin-left:3em;
-}
 
 iframe.notoc {
 border:none;
@@ -199,6 +192,7 @@ width:4em;
 overflow:hidden;
 margin:0;
 padding:0;
+background-color: #EEEEEE;
 }
 
 .closemenu {
@@ -442,7 +436,7 @@ border-style:none !important;
 color:#999 !important;
 text-shadow:0 -1px #222;
 display:block;
-height:32px;
+min-height:32px;
 line-height:32px !important;
 }
 
@@ -508,7 +502,8 @@ border-width:8px 5px;
 -o-transition:all .5s ease-out;
 transition:all .5s ease-out;
 text-overflow:ellipsis;
-white-space:nowrap;
+/* breaks stupidly long names */
+/* white-space:nowrap; */
 overflow:hidden;
 display:block;
 background-color:#333;
