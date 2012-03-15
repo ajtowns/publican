@@ -1154,25 +1154,25 @@ sub transform {
     elsif ( $format eq 'epub' ) {
         $dir = undef;
         dircopy( "$tmp_dir/$lang/xml/images", "$tmp_dir/$lang/$format/OEBPS/images" );
-##        dircopy(
-##            "$tmp_dir/$lang/xml/Common_Content",
-##            "$tmp_dir/$lang/$format/OEBPS/Common_Content"
-##        );
+        dircopy(
+            "$tmp_dir/$lang/xml/Common_Content",
+            "$tmp_dir/$lang/$format/OEBPS/Common_Content"
+        );
 ##        dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
 ##            if ( -e "$xml_lang/files" );
 ##        dircopy( "$lang/files", "$tmp_dir/$lang/$format/OEBPS/files" )
 ##            if ( -e "$lang/files" );
 
-        mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/css");
-        fcopy(
-            "$tmp_dir/$lang/xml/Common_Content/css/print.css",
-            "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/print.css"
-        );
-        mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/images");
-        fcopy(
-            "$tmp_dir/$lang/xml/Common_Content/images/title_logo.svg",
-            "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg"
-        );
+##        mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/css");
+##        fcopy(
+##            "$tmp_dir/$lang/xml/Common_Content/css/print.css",
+##            "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/print.css"
+##        );
+##        mkpath("$tmp_dir/$lang/$format/OEBPS/Common_Content/images");
+##        fcopy(
+##            "$tmp_dir/$lang/xml/Common_Content/images/title_logo.svg",
+##            "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg"
+##        );
         unlink("$tmp_dir/$lang/$format/OEBPS/images/icon.svg");
 
         # remove any RCS from the output
@@ -1180,6 +1180,38 @@ sub transform {
 
         # remove any XML files from common
         finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/OEBPS/Common_Content" );
+
+        my @files = dir_list( "$tmp_dir/$lang/$format/OEBPS/Common_Content", '*' );
+        my $content_file = "$tmp_dir/$lang/$format/OEBPS/content.opf";
+        my $tree = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        $tree->parse_file("$content_file");
+        my $node;
+        eval { $node = $tree->look_down( '_tag', "manifest" ); };
+        if ( $@ or !$node ) {
+            croak( maketext("manifest not found") );
+        }
+
+        foreach my $file (@files) {
+            next if ( $file =~ /title_logo.svg/ || $file =~ /print.css/ || $file =~ /default.css/ );
+            $file =~ s/^.*OEBPS\///g;
+            $file =~ /(...)$/;
+            my $ext = $1;
+            my $id  = $file;
+            $id =~ s/\//-/g;
+            $node->push_content(
+                [ 'item', { href => "$file", 'media-type' => "image/$ext", id => $id } ] );
+        }
+
+        my $OUTDOC;
+        open( $OUTDOC, ">:encoding(UTF-8)", "$content_file" )
+            || croak( maketext( "Could not open [_1] for output!", $content_file ) );
+        my $text = $tree->as_XML();
+        $text =~ s/&#34;/"/g;
+        $text =~ s/&#39;/'/g;
+        $text =~ s/&quot;/"/g;
+        $text =~ s/&apos;/'/g;
+        print($OUTDOC $text);
+        close($OUTDOC);
 
         my $MIME;
         open( $MIME, ">", "$tmp_dir/$lang/$format/mimetype" )

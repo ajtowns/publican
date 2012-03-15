@@ -12,7 +12,7 @@
 <xsl:param name="tablecolumns.extensions" select="1"/>
 <xsl:param name="epub.oebps.dir" select="'OEBPS/'"/> 
 
-<xsl:param name="html.stylesheet" select="''"/>
+<!--xsl:param name="html.stylesheet" select="''"/-->
 
 <xsl:param name="generate.toc">
 set nop
