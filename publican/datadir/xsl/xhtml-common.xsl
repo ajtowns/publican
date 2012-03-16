@@ -385,7 +385,9 @@ Reason: Add css class for draft mode
 Version: 1.72.0
 -->
 <xsl:template name="body.attributes">
-	<!--xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and ancestor-or-self::*[@status][1]/@status = 'draft'))"-->
+	<xsl:if test="starts-with($writing.mode, 'rl')">
+		<xsl:attribute name="dir">rtl</xsl:attribute>
+	</xsl:if>
 	<xsl:variable name="class">
 		<xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and (ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'))">
 			<xsl:value-of select="ancestor-or-self::*[@status][1]/@status"/><xsl:text> </xsl:text>
