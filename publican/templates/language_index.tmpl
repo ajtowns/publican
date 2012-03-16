@@ -104,7 +104,7 @@ $(document).ready(function() {
 	$(".bottom_products").addClass("hidden");
 	$(".bottom_versions").addClass("hidden");
 	$('#slider').load("http://cranium.usersys.redhat.com/docs/en-US/carousel.html", function(){
-		$('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", [%- IF lang.match('(?:he-IL|fa-IR|ar-SA)') %] rtl:"1"[% END %], initCallback: mycarousel_initCallback});
+		$('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", [%- IF lang.match('(?:he-IL|fa-IR|ar-SA)') %] rtl:"1",[% END %] initCallback: mycarousel_initCallback});
 	});	
 	$('#splash').load("http://cranium.usersys.redhat.com/docs/en-US/splash.html");
 	$(window).trigger('hashchange');
