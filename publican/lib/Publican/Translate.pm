@@ -368,7 +368,7 @@ POT:
             my $id = $highest{po_id};
             $po_hash->{$id}->fuzzy(1) unless ( $po_hash->{$id}->fuzzy() );
             $po_hash->{$id}->obsolete(0) if ( $po_hash->{$id}->obsolete() );
-            $po_hash->{$id}->msgid( $highest{pot_id} );
+            $po_hash->{$id}->msgid( $po_hash->{$id}->dequote($highest{pot_id}) );
         }
     }
 
