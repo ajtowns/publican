@@ -389,22 +389,39 @@ function loadMenu(){
 		error:
 			function(){
 				style = 2;
+                                var prod_label;
+    if(current_product != 'Products') {
+	prod_label = labels[current_product]["label"];
+    } else {
+        prod_label = labels["trans_strings"]["Products"];
+    }
+                                
 				var html = '<div id="menu">';
 				html = 	html +	'<div id="lang_menu" class="breadcrumb"><a href="' + toc_path + '/index.html">' + labels["site"]["title"] + '</a></div>';
-				html = 	html +	'<div id="product_menu" class="breadcrumb" onmouseover="work=1; expand_menu(\'product_menu_list\');" onmouseout="work=1; retract_menu(\'product_menu_list\');"></div>';
-				html = 	html +	'<div id="version_menu" class="breadcrumb" onmouseover="work=1; expand_menu(\'version_menu_list\');" onmouseout="work=1; retract_menu(\'version_menu_list\');"></div>';
-				html = 	html +	'<div id="book_menu" class="breadcrumb" onmouseover="work=1; expand_menu(\'book_menu_list\');" onmouseout="work=1; retract_menu(\'book_menu_list\');"></div>';
-				html = 	html +	'<div id="book_format_menu" onmouseover="work=1; expand_menu(\'book_format_menu_list\');" onmouseout="work=1; retract_menu(\'book_format_menu_list\');"></div>';
-				html = 	html +	'<div id="book_lang_menu" onmouseover="work=1; expand_menu(\'book_lang_menu_list\');" onmouseout="work=1; retract_menu(\'book_lang_menu_list\');"></div>';
+				html = 	html +	'<div id="product_menu" class="breadcrumb" onmouseover="work=1; expand_menu(\'product_menu_list\');" onmouseout="work=1; retract_menu(\'product_menu_list\');">' + prod_label + '</div>';
+				if(typeof current_version != "undefined" && current_version != '') {
+					html = 	html +	'<div id="version_menu" class="breadcrumb" onmouseover="work=1; expand_menu(\'version_menu_list\');" onmouseout="work=1; retract_menu(\'version_menu_list\');">' + current_version + '</div>';
+					if(typeof current_book != "undefined" && current_book != '') {
+						html = 	html +	'<div id="book_menu" class="breadcrumb" onmouseover="work=1; expand_menu(\'book_menu_list\');" onmouseout="work=1; retract_menu(\'book_menu_list\');">' + current_book + '</div>';
+						html = 	html +	'<div id="book_format_menu" onmouseover="work=1; expand_menu(\'book_format_menu_list\');" onmouseout="work=1; retract_menu(\'book_format_menu_list\');"></div>';
+						html = 	html +	'<div id="book_lang_menu" onmouseover="work=1; expand_menu(\'book_lang_menu_list\');" onmouseout="work=1; retract_menu(\'book_lang_menu_list\');"></div>';
+					}
+				}
 				html = 	html +	'<div id="search_box"></div>';
 				html = 	html +	'</div>';
 				$("#navigation").html(html);
 				$("#search_box").load(toc_path + "/../search.html");
 				$("#product_menu").load(toc_path + "/products_menu.html");
-				$("#version_menu").load(toc_path +  '/' + current_product + "/versions_menu.html");
-				$("#book_menu").load(toc_path + '/' + current_product + '/' +  current_version + '/' +  "/books_menu.html");
-				$("#book_lang_menu").load(toc_path + '/' +  current_product + '/' +  current_version +  '/' + current_book + "/lang_menu.html");
-				$("#book_format_menu").load(toc_path + '/' +  current_product + '/' +  current_version +  '/' + current_book + "/format_menu.html");
+				if(typeof current_product != "undefined" && current_product != '') {
+					$("#version_menu").load(toc_path +  '/' + current_product + "/versions_menu.html");
+					if(typeof current_version != "undefined" && current_version != '') {
+						$("#book_menu").load(toc_path + '/' + current_product + '/' +  current_version + '/' +  "/books_menu.html");
+						if(typeof current_book != "undefined" && current_book != '') {
+							$("#book_lang_menu").load(toc_path + '/' +  current_product + '/' +  current_version +  '/' + current_book + "/lang_menu.html");
+							$("#book_format_menu").load(toc_path + '/' +  current_product + '/' +  current_version +  '/' + current_book + "/format_menu.html");
+						}
+					}
+				}
 				$('body').removeClass('toc_embeded');
 				$('body').addClass('menu_embeded');
 			}

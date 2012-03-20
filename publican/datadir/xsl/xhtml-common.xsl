@@ -362,6 +362,7 @@ Version: 1.72.0
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/labels.js</xsl:attribute></script>
           <script type="text/javascript"><xsl:attribute name="src"><xsl:value-of select="$tocpath"/>/../toc.js</xsl:attribute></script>
           <script type="text/javascript">
+          <xsl:if test="$web.type = ''">
 		$(document).ready(function() {
 			$("#floatingtoc").load('index.html .<xsl:value-of select="$book.type"/> .toc');
 			$(".docnav li.home").click(function(){
@@ -371,6 +372,11 @@ Version: 1.72.0
 		current_book = '<xsl:copy-of select="$pop_name"/>';
 		current_version = '<xsl:copy-of select="$pop_ver"/>';
 		current_product = '<xsl:copy-of select="$pop_prod"/>';
+	   </xsl:if>
+          <xsl:if test="$web.type != ''">
+		current_book = '';
+		current_version = '';
+	   </xsl:if>
                 toc_path = '<xsl:value-of select="$tocpath"/>';
 		loadMenu();
           </script>

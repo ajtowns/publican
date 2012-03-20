@@ -18,3 +18,9 @@ labels["[% prod %]"]["[% ver %]"]["[% book %]"]["label"] = "[%  book_list.${prod
     [%- END %]
 [%- END %]
 
+labels["trans_strings"] = {};
+
+[%- FOREACH  tstring = trans_strings.keys %]
+labels["trans_strings"]["[% tstring %]"] = "[% trans_strings.${tstring} %]";
+[%- END %]
+

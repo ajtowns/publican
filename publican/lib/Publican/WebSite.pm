@@ -837,19 +837,19 @@ SEARCH
         my %prod_data;
         my @versions = ();
 
-        if ( -f "$self->{toc_path}/$language/$product/index.html" ) {
+        if ( -f "$self->{toc_path}/$language/$product/splash.html" ) {
             $prod_data{product_icon} = 1;
             my $url = {
-                url => qq|$host/$language/$product/index.html|,
+                url => qq|$host/$language/$product/splash.html|,
                 update_date =>
-                    ctime( ( stat("$self->{toc_path}/$language/$product/index.html") )[9] ),
+                    ctime( ( stat("$self->{toc_path}/$language/$product/splash.html") )[9] ),
             };
 
             push( @{$urls}, $url );
         }
-        else {
+#        else {
             $prod_data{product_icon} = 0;
-        }
+#        }
 
         foreach my $version ( reverse( sort( version_sort keys( %{ $list2->{$product} } ) ) ) )
         {
@@ -1065,6 +1065,16 @@ SEARCH
         $self->{toc_path} . "/$language/opds.xml",
         binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
+
+        if ( -f "$self->{toc_path}/$language/splash.html" ) {
+            $vars->{host} = $host;
+            $vars->{lang} = $language;
+            $self->{Template}->process(
+                'language_index_style_1.tmpl',$vars,
+                $self->{toc_path} . "/$language/index.html",
+                binmode => ':encoding(UTF-8)'
+            ) or croak( $self->{Template}->error() );
+}
 
     return \@products;
 }
@@ -1687,7 +1697,6 @@ sub write_language_index {
     $index_vars->{footer}        = $self->{footer};
     $index_vars->{site_title}    = $self->{title};
 
-## BUGBUG handle product labels
     $self->{Template}->process(
         'language_index.tmpl', $index_vars,
         $self->{toc_path} . "/$lang/index.html",

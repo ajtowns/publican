@@ -51,8 +51,7 @@ function activateFirstSections($root) {
     if ($sections.length === 0) {
         return;
     }
-    if ($sections.filter('.active').length > 0) {
-// BUGBUG need to click here when returning to change URL to match non default tabs
+    if ($sections.filter('.active').length > 0) {// BUGBUG need to click here when returning to change URL to match non default tabs
         return;
     }
     var $first_section = $sections.first().addClass('active');
@@ -103,10 +102,10 @@ $(document).ready(function() {
 	/*Add hidden class display:none*/
 	$(".bottom_products").addClass("hidden");
 	$(".bottom_versions").addClass("hidden");
-	$('#slider').load("http://cranium.usersys.redhat.com/docs/en-US/carousel.html", function(){
+	$('#slider').load("[% host %]/[% lang %]/carousel.html", function(){
 		$('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", [%- IF lang.match('(?:he-IL|fa-IR|ar-SA)') %] rtl:"1",[% END %] initCallback: mycarousel_initCallback});
 	});	
-	$('#splash').load("http://cranium.usersys.redhat.com/docs/en-US/splash.html");
+	$('#splash').load("[% host %]/[% lang %]/splash.html");
 	$(window).trigger('hashchange');
 });
 

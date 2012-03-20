@@ -32,11 +32,12 @@ Copied from fo/params.xsl
 -->
 <xsl:param name="l10n.gentext.default.language" select="'en'"/>
 <xsl:param name="book.type" select="'book'"/>
+<xsl:param name="web.type" select="''"/>
 <xsl:param name="show.comments">0</xsl:param>
 <xsl:param name="confidential" select="0"/>
 <xsl:param name="confidential.text">CONFIDENTIAL</xsl:param>
 
-<!-- This sets the filename based on the ID.								-->
+<!-- This sets the filename based on the ID. -->
 <xsl:param name="use.id.as.filename" select="'1'"/>
 
 <xsl:param name="embedtoc"  select="'0'"/>

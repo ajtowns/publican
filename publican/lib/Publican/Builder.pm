@@ -291,7 +291,8 @@ sub build {
 
                         # for splash pages, we need to rename them if using a web style 2
                         if (   $self->{publican}->param('web_type')
-                            && $self->{publican}->param('web_style') == 2 )
+##                            && $self->{publican}->param('web_style') == 2 
+                           )
                         {
                             fmove( "$path/index.html", "$path/splash.html" );
                         }
@@ -804,6 +805,7 @@ sub transform {
     my $bridgehead_in_toc          = $self->{publican}->param('bridgehead_in_toc');
     my $main_file                  = $self->{publican}->param('mainfile');
     my $brand_path = $self->{publican}->param('brand_dir') || $common_content . "/$brand";
+    my $web_type = $self->{publican}->param('web_type');
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'
@@ -921,6 +923,7 @@ sub transform {
         'brand'                      => "'$brand'",
         'langpath'                   => "'$lang'",
         'book.type'                  => "'$type'",
+        'web.type'                   => "'$web_type'",
 ##        '' => ,
     );
 
@@ -934,7 +937,6 @@ sub transform {
     $toc_path = '.' if ( $self->{publican}->param('web_home') );
 
     if ( $self->{publican}->param('web_type') ) {
-        my $web_type = $self->{publican}->param('web_type');
         if ( $web_type =~ m/^home$/i ) {
             $toc_path = '.';
             $pop_prod = undef;
@@ -953,7 +955,7 @@ sub transform {
         if (   $self->{publican}->param('web_type')
             && $self->{publican}->param('web_style') == 2 )
         {
-            $xslt_opts{'body.only'} = 1;
+#            $xslt_opts{'body.only'} = 1;
         }
     }
 

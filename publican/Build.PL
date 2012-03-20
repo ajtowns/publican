@@ -394,6 +394,7 @@ my $builder = $class->new(
         'templates/index.tmpl'             => 'templates/index.tmpl',
         'templates/labels.tmpl'            => 'templates/labels.tmpl',
         'templates/language_index.tmpl'    => 'templates/language_index.tmpl',
+        'templates/language_index_style_1.tmpl'  => 'templates/language_index_style_1.tmpl',
         'templates/opds.tmpl'              => 'templates/opds.tmpl',
         'templates/opds-langs.tmpl'        => 'templates/opds-langs.tmpl',
         'templates/opds-prods.tmpl'        => 'templates/opds-prods.tmpl',
