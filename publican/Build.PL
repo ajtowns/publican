@@ -77,7 +77,7 @@ my $class = Module::Build->subclass(
             return if(-d $path);
             die "can't chdir: $@" if $@;
 
-            my $publican = Publican->new({NOCOLOURS => $self->args('nocolours')});
+            my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
             my $builder = Publican::Builder->new();
             $builder->build(
                 { formats => 'xml', langs => 'all', publish => 1 } );
@@ -93,7 +93,7 @@ my $class = Module::Build->subclass(
             return if(-d $path);
             die "can't chdir: $@" if $@;
 
-            $publican = Publican->new({NOCOLOURS => $self->args('nocolours')});
+            $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
             $builder = Publican::Builder->new();
             $builder->build(
                 { formats => 'xml', langs => 'all', publish => 1 } );
