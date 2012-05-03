@@ -363,9 +363,7 @@ POT:
         }
 
         if ( !$matched ) {
-            my $po = new Locale::PO( -msgid => $pot_id, -msgstr => '' );
-            $po_hash->{$pot_id} = $po;
-            push( @out_arry, $po );
+            push( @out_arry, $pot );
         }
         else {
             my $id = $highest{po_id};
