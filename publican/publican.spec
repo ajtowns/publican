@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t166
+Release:        0%{?dist}.t167
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -133,7 +133,6 @@ BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 %endif
 
 %description
-						<li class="home"><xsl:value-of select="$clean_title"/></li>
 Publican is a DocBook publication system, not just a DocBook processing tool.
 As well as ensuring your DocBook XML is valid, publican works to ensure
 your XML is up to publishable standard.

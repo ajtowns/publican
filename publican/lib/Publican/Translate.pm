@@ -331,6 +331,7 @@ sub merge_po {
     my $po_hash       = Locale::PO->load_file_ashash($po_file);
     my @po_keys       = keys( %{$po_hash} );
     my %po_start_keys = map { $_ => 1 } @po_keys;
+    my @out_arry      = ();
 
 POT:
     foreach my $pot ( @{$pot_arry} ) {
@@ -345,6 +346,7 @@ POT:
                     if ( $po_hash->{$po_id}->obsolete() );
                 $po_hash->{$po_id}->fuzzy(0)
                     if ( $po_hash->{$po_id}->fuzzy() );
+                push( @out_arry, $po_hash->{$po_id} );
                 next POT;
             }
             elsif ( $match >= 0.8 ) {
@@ -363,20 +365,23 @@ POT:
         if ( !$matched ) {
             my $po = new Locale::PO( -msgid => $pot_id, -msgstr => '' );
             $po_hash->{$pot_id} = $po;
+            push( @out_arry, $po );
         }
         else {
             my $id = $highest{po_id};
             $po_hash->{$id}->fuzzy(1) unless ( $po_hash->{$id}->fuzzy() );
             $po_hash->{$id}->obsolete(0) if ( $po_hash->{$id}->obsolete() );
-            $po_hash->{$id}->msgid( $po_hash->{$id}->dequote($highest{pot_id}) );
+            $po_hash->{$id}->msgid( $po_hash->{$id}->dequote( $highest{pot_id} ) );
+            push( @out_arry, $po_hash->{$id} );
         }
     }
 
     foreach my $obsolete ( keys(%po_start_keys) ) {
         $po_hash->{$obsolete}->obsolete(1);
+        push( @out_arry, $po_hash->{$obsolete} );
     }
 
-    Locale::PO->save_file_fromhash( $po_file, $po_hash );
+    Locale::PO->save_file_fromarray( $po_file, \@out_arry );
 
     return;
 }
