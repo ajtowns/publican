@@ -19,7 +19,7 @@ use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION)
 $VERSION = '3.0';
 @ISA     = qw(Exporter AutoLoader);
 
-@EXPORT = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree);
+@EXPORT = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string);
 
 # Track when the SPEC file generation is incompatible.
 $SPEC_VERSION = '3.0';
@@ -458,9 +458,9 @@ sub _load_config {
         }
     }
 
-    $config->param( 'common_config',  $common_config )  if $common_config;
-    $config->param( 'common_content', $common_content ) if $common_content;
-    $config->param( 'brand_dir',      abs_path("$brand_dir"))  if $brand_dir;
+    $config->param( 'common_config',  $common_config )         if $common_config;
+    $config->param( 'common_content', $common_content )        if $common_content;
+    $config->param( 'brand_dir',      abs_path("$brand_dir") ) if $brand_dir;
 
     $self->{configfile} = $configfile;
     $self->{config}     = $config;
@@ -547,7 +547,8 @@ sub _load_config {
 
         # Brand Settings
         my $brand_cfg = new Config::Simple("$brand_path/publican.cfg")
-            || croak( maketext( "Failed to load brand file: [_1]", "$brand_path/publican.cfg" ) );
+            || croak(
+            maketext( "Failed to load brand file: [_1]", "$brand_path/publican.cfg" ) );
 
         $self->{brand_config} = $brand_cfg;
 
@@ -1079,6 +1080,76 @@ sub new_tree {
     return ($xml_doc);
 }
 
+=head2 dtd_string
+
+Returns a valid DTD for the DocBook tag supplied.
+
+Parameters:
+	tag	 The root tag for this file
+	dtdver	 The DTD version
+	ent_file An entity file to include (optional)
+
+=cut
+
+sub dtd_string {
+    my ($args) = @_;
+    my $tag = delete( $args->{tag} )
+        || croak( maketext("tag is a mandatory argument") );
+    my $dtdver = delete( $args->{dtdver} )
+        || croak( maketext("dtdver is a mandatory argument") );
+    my $ent_file = delete( $args->{ent_file} );
+
+    if ( %{$args} ) {
+        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+    }
+
+    my $uri      = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
+    my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
+
+    if ( $dtdver =~ m/^5/ ) {
+        $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
+        $uri      = qq|http://docbook.org/xml/$dtdver/rng/docbook.rng|;
+    }
+
+    # TODO Maynot be necessary
+    if ( $^O eq 'MSWin32' ) {
+        eval { require Win32::TieRegistry; };
+        croak( maketext( "Failed to load Win32::TieRegistry module. Error: [_1]", $@ ) )
+            if ($@);
+
+        my $key
+            = new Win32::TieRegistry( "LMachine\\Software\\Publican", { Delimiter => "\\" } );
+
+        $uri = 'file:///C:/publican/DTD/docbookx.dtd';
+
+        if ( $key and $key->GetValue("dtd_path") ) {
+            $uri = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';
+        }
+
+        $uri =~ s/ /%20/g;
+        $uri =~ s/\\/\//g;
+    }
+
+    my $dtd = <<DTDHEAD;
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE $tag PUBLIC "$dtd_type" "$uri" [
+DTDHEAD
+
+    # handle entity file
+    if ($ent_file) {
+        $dtd .= <<ENT;
+<!ENTITY % BOOK_ENTITIES SYSTEM "$ent_file">
+%BOOK_ENTITIES;
+ENT
+    }
+
+    $dtd .= <<DTDTAIL;
+]>
+DTDTAIL
+
+    return ($dtd);
+}
+
 =head2  print_banned_tags
 
 Print a list of tags that are not supported.
@@ -1150,6 +1221,13 @@ sub add_revision {
         ],
     );
 
+    my $dtdver    = $self->param('dtdver');
+    my $ent_file  = undef;
+    my $main_file = $self->param('mainfile');
+    if ( -e "$lang/$main_file.ent" ) {
+        $ent_file = "$lang/$main_file.ent";
+    }
+
     my $rev_file = "$lang/Revision_History.xml";
     my $node;
     my $rev_doc = new_tree();
@@ -1178,11 +1256,13 @@ sub add_revision {
     my $OUTDOC;
     open( $OUTDOC, ">:encoding(UTF-8)", "$rev_file" )
         || croak( maketext( "Could not open [_1] for output!", $rev_file ) );
+    print( $OUTDOC dtd_string( { tag => 'appendix', dtdver => $dtdver, ent_file => $ent_file } )
+    );
     print( $OUTDOC $rev_doc->root()->as_XML() );
     close($OUTDOC);
     $rev_doc->root()->delete();
 
-    my $cleaner = Publican::XmlClean->new( { exclude_ent => 1 } );
+    my $cleaner = Publican::XmlClean->new( { exclude_ent => 0 } );
     $cleaner->process_file( { file => $rev_file, out_file => $rev_file } );
 
     return;

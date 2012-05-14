@@ -43,7 +43,6 @@ use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
 $VERSION = '0.2';
 @ISA     = qw(Exporter AutoLoader);
-@EXPORT  = qw(dtd_string);
 
 my $INVALID = 1;
 
@@ -290,9 +289,9 @@ sub build {
                         }
 
                         # for splash pages, we need to rename them if using a web style 2
-                        if (   $self->{publican}->param('web_type')
-##                            && $self->{publican}->param('web_style') == 2 
-                           )
+                        if ($self->{publican}->param('web_type')
+##                            && $self->{publican}->param('web_style') == 2
+                            )
                         {
                             fmove( "$path/index.html", "$path/splash.html" );
                         }
@@ -805,7 +804,7 @@ sub transform {
     my $bridgehead_in_toc          = $self->{publican}->param('bridgehead_in_toc');
     my $main_file                  = $self->{publican}->param('mainfile');
     my $brand_path = $self->{publican}->param('brand_dir') || $common_content . "/$brand";
-    my $web_type = $self->{publican}->param('web_type');
+    my $web_type   = $self->{publican}->param('web_type');
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'
@@ -955,7 +954,8 @@ sub transform {
         if (   $self->{publican}->param('web_type')
             && $self->{publican}->param('web_style') == 2 )
         {
-#            $xslt_opts{'body.only'} = 1;
+
+            #            $xslt_opts{'body.only'} = 1;
         }
     }
 
@@ -1194,7 +1194,10 @@ sub transform {
         }
 
         foreach my $file (@files) {
-            next if ( $file =~ /title_logo.svg/ || $file =~ /print.css/ || $file =~ /default.css/ );
+            next
+                if ( $file =~ /title_logo.svg/
+                || $file =~ /print.css/
+                || $file =~ /default.css/ );
             $file =~ s/^.*OEBPS\///g;
             $file =~ /(...)$/;
             my $ext = $1;
@@ -1212,7 +1215,7 @@ sub transform {
         $text =~ s/&#39;/'/g;
         $text =~ s/&quot;/"/g;
         $text =~ s/&apos;/'/g;
-        print($OUTDOC $text);
+        print( $OUTDOC $text );
         close($OUTDOC);
 
         my $MIME;
@@ -2540,76 +2543,6 @@ sub build_set_books {
     }
 
     return;
-}
-
-=head2 dtd_string
-
-Returns a valid DTD for the DocBook tag supplied.
-
-Parameters:
-	tag	 The root tag for this file
-	dtdver	 The DTD version
-	ent_file An entity file to include (optional)
-
-=cut
-
-sub dtd_string {
-    my ($args) = @_;
-    my $tag = delete( $args->{tag} )
-        || croak( maketext("tag is a mandatory argument") );
-    my $dtdver = delete( $args->{dtdver} )
-        || croak( maketext("dtdver is a mandatory argument") );
-    my $ent_file = delete( $args->{ent_file} );
-
-    if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
-    }
-
-    my $uri      = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
-    my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
-
-    if ( $dtdver =~ m/^5/ ) {
-        $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
-        $uri      = qq|http://docbook.org/xml/$dtdver/rng/docbook.rng|;
-    }
-
-    # TODO Maynot be necessary
-    if ( $^O eq 'MSWin32' ) {
-        eval { require Win32::TieRegistry; };
-        croak( maketext( "Failed to load Win32::TieRegistry module. Error: [_1]", $@ ) )
-            if ($@);
-
-        my $key
-            = new Win32::TieRegistry( "LMachine\\Software\\Publican", { Delimiter => "\\" } );
-
-        $uri = 'file:///C:/publican/DTD/docbookx.dtd';
-
-        if ( $key and $key->GetValue("dtd_path") ) {
-            $uri = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';
-        }
-
-        $uri =~ s/ /%20/g;
-        $uri =~ s/\\/\//g;
-    }
-
-    my $dtd = <<DTDHEAD;
-<?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE $tag PUBLIC "$dtd_type" "$uri" [
-DTDHEAD
-
-    # handle entity file
-    if ($ent_file) {
-        $dtd .= <<ENT;
-<!ENTITY % BOOK_ENTITIES SYSTEM "$ent_file">
-%BOOK_ENTITIES;
-ENT
-    }
-
-    $dtd .= <<DTDTAIL;
-]>
-DTDTAIL
-
-    return ($dtd);
 }
 
 =head2  NAME

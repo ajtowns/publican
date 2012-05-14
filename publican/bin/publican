@@ -1,7 +1,5 @@
 #!/usr/bin/perl -CA
 
-eval 'exec /usr/bin/perl -CA -S $0 ${1+"$@"}'
-    if 0; # not running under some shell
 #BUGBUG -CAS should allow removing utf8::encode, utf8::decode from Translate.pm
 # See: http://perldoc.perl.org/perlrun.html#*-C-[_number/list_]*
 # or binmode STDIN, ":encoding(UTF-8)";
@@ -48,8 +46,12 @@ if (   ( $ENV{RPM_BUILD_DIR} )
         = qq|/builddir/build/SRPMS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm|;
     my $req_version = qx|rpm --requires -qp $pkg \| grep 'publican ' \| sed -e 's/^[^0-9]*//'|;
 
-    my $db_count = qx|grep -c 'publican update_db' $pkg|;
-    my $pm_count = qx|grep -c 'use Publican' $pkg|;
+    system("rpm -Uvh $pkg");
+    my $spec
+        = qq|/builddir/build/SPECS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm|;
+
+    my $db_count = qx|grep -c 'publican update_db' $spec|;
+    my $pm_count = qx|grep -c 'use Publican' $spec|;
 
     chomp($req_version);
     if (( $db_count > 0 or $pm_count > 0 )

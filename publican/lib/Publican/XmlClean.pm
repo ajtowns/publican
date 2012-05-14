@@ -277,18 +277,12 @@ sub new {
     $config->param( 'clean_id', ( delete( $args->{clean_id} ) ) || 0 );
     $config->param( 'show_unknown', delete( $args->{show_unknown} ) )
         if ( $args->{show_unknown} );
-    $config->param( 'donotset_lang',
-        ( delete( $args->{donotset_lang} ) ) || 1 );
-    $config->param( 'distributed_set',
-        ( delete( $args->{distributed_set} ) ) || 0 );
-    $config->param( 'exclude_ent', ( delete( $args->{exclude_ent} ) ) || 0 );
+    $config->param( 'donotset_lang',   ( delete( $args->{donotset_lang} ) )   || 1 );
+    $config->param( 'distributed_set', ( delete( $args->{distributed_set} ) ) || 0 );
+    $config->param( 'exclude_ent',     ( delete( $args->{exclude_ent} ) )     || 0 );
 
     if ( %{$args} ) {
-        croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
-        );
+        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
     }
 
     my $self = bless {}, $class;
@@ -339,8 +333,7 @@ sub prune_xml {
                 my $node = $xml_doc->look_down(
                     sub {
                         $_[0]->attr('lang')
-                            && $_[0]->attr('lang')
-                            !~ ( $self->{config}->param('lang') );
+                            && $_[0]->attr('lang') !~ ( $self->{config}->param('lang') );
                     }
                 )
                 )
@@ -359,8 +352,7 @@ sub prune_xml {
                 my $node = $xml_doc->look_down(
                     sub {
                         $_[0]->attr('arch')
-                            && $_[0]->attr('arch')
-                            !~ ( $self->{publican}->param('arch') );
+                            && $_[0]->attr('arch') !~ ( $self->{publican}->param('arch') );
                     }
                 )
                 )
@@ -423,8 +415,7 @@ sub Clean_ID {
         elsif ( !$MAP_OUT{$tag}->{no_id} ) {
             foreach my $child ( $node->content_refs_list() ) {
                 if ( ref $$child
-                    && $$child->{'_tag'} eq
-                    ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
+                    && $$child->{'_tag'} eq ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
                 {
                     $my_id = $$child->as_text;
                     $my_id =~ s/[- ]/_/g;
@@ -437,8 +428,7 @@ sub Clean_ID {
                     }
 
                     if ( $node->parent() ) {
-                        my $par_title = $node->parent()
-                            ->look_up( sub { $_[0]->attr('id'); } );
+                        my $par_title = $node->parent()->look_up( sub { $_[0]->attr('id'); } );
                         if ( $my_id ne "" && $par_title ) {
                             my $my_p_id = $par_title->attr('id');
 
@@ -489,11 +479,7 @@ sub print_xml {
         || croak( maketext("out_file is a mandatory argument") );
 
     if ( %{$args} ) {
-        croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
-        );
+        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
     }
 
     my $lvl       = 0;
@@ -518,12 +504,12 @@ sub print_xml {
             && !$self->{config}->param('update_includes')
             && !$self->{config}->param('donotset_lang') )
         {
-            if($dtdver !~ m/^5/) {
+            if ( $dtdver !~ m/^5/ ) {
                 $xml_doc->attr( 'lang', $lang );
             }
         }
 
-        if($dtdver =~ m/^5/) {
+        if ( $dtdver =~ m/^5/ ) {
             $xml_doc->attr( 'xml:lang', $lang );
         }
 
@@ -541,8 +527,7 @@ sub print_xml {
 
         my $OUTDOC;
         open( $OUTDOC, ">:encoding(UTF-8)", "$out_file" )
-            || croak(
-            maketext( "Could not open [_1] for output!", $out_file ) );
+            || croak( maketext( "Could not open [_1] for output!", $out_file ) );
 
         my $ent_file = undef;
 
@@ -554,7 +539,7 @@ sub print_xml {
             }
         }
 
-        print( $OUTDOC Publican::Builder::dtd_string(
+        print( $OUTDOC Publican::dtd_string(
                 { tag => $type, dtdver => $dtdver, ent_file => $ent_file }
             )
         );
@@ -587,16 +572,12 @@ sub my_as_XML {
     my $empty_element_map = $tree->_empty_element_map;
 
     my %banned_tags = ();
-    foreach my $btag (
-        split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) )
-    {
+    foreach my $btag ( split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) ) {
         $banned_tags{$btag} = 1;
     }
 
     my %banned_attrs = ();
-    foreach my $battr (
-        split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) )
-    {
+    foreach my $battr ( split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) ) {
         $banned_attrs{$battr} = 1;
     }
 
@@ -680,8 +661,8 @@ sub my_as_XML {
                     }
                     elsif ( $MAP_OUT{$tag}->{block} ) {
 
-                   # Check to make sure the block is starting on it's own line
-                   # If not add a new line and indent
+                        # Check to make sure the block is starting on it's own line
+                        # If not add a new line and indent
                         if ( $xml[$#xml] && $xml[$#xml] =~ /\S/ ) {
                             push( @xml, "\n", $indent x $depth );
                         }
@@ -691,14 +672,12 @@ sub my_as_XML {
                     if ( $tag eq 'imagedata' || $tag eq 'graphic' ) {
                         $node->attr('fileref') =~ m/(...)$/;
                         my $format = uc($1);
-                        if (!$node->attr('format') && $format) {
+                        if ( !$node->attr('format') && $format ) {
                             $node->attr( 'format', $format );
                         }
 
                         my $img_file = "$path" . $node->attr('fileref');
-                        $img_file
-                            = $self->{publican}->param('xml_lang') . "/"
-                            . $img_file
+                        $img_file = $self->{publican}->param('xml_lang') . "/" . $img_file
                             if ($clean_id);
                         if ( -f $img_file ) {
 
@@ -707,24 +686,20 @@ sub my_as_XML {
                         elsif ( $img_file !~ /Common_Content/ ) {
                             logger(
                                 "\t"
-                                    . maketext(
-                                    "WARNING: Image missing: [_1]",
-                                    $img_file )
+                                    . maketext( "WARNING: Image missing: [_1]", $img_file )
                                     . "\n",
                                 RED
                             );
                         }
 
-                  # when building distrubuted sets, we need to prepend the
-                  # books name to the image path to prevent image name clashes
-                        my $preptxt
-                            = 'images/' . $self->{publican}->param('docname');
+                        # when building distrubuted sets, we need to prepend the
+                        # books name to the image path to prevent image name clashes
+                        my $preptxt = 'images/' . $self->{publican}->param('docname');
 
                         if (   $self->{config}->param('distributed_set')
                             && $node->attr('fileref') !~ /^$preptxt/ )
                         {
-                            $node->attr( 'fileref',
-                                "$preptxt/" . $node->attr('fileref') );
+                            $node->attr( 'fileref', "$preptxt/" . $node->attr('fileref') );
                         }
                     }
 
@@ -733,7 +708,7 @@ sub my_as_XML {
                     {
                         push( @xml, $node->starttag_XML( undef, 1 ) );
                         if ($MAP_OUT{$tag}->{newline_after}
-                            && ( ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                            && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $node->look_up( '_tag', 'para' ) ) )
                             )
@@ -747,8 +722,7 @@ sub my_as_XML {
 
                     if ( $MAP_OUT{$tag}->{block} ) {
                         if (   $node->parent()
-                            && $MAP_OUT{ $node->parent()->{'_tag'} }
-                            ->{'line_wrap'} )
+                            && $MAP_OUT{ $node->parent()->{'_tag'} }->{'line_wrap'} )
                         {
                             push( @xml, "\n" );
                         }
@@ -780,8 +754,7 @@ sub my_as_XML {
 ##                                push( @xml, "\n" );
                             }
                             elsif ($node->parent()
-                                && $MAP_OUT{ $node->parent()->{'_tag'} }
-                                ->{'line_wrap'} )
+                                && $MAP_OUT{ $node->parent()->{'_tag'} }->{'line_wrap'} )
                             {
                                 $depth--;
                                 push( @xml, "\n" );
@@ -821,8 +794,8 @@ sub my_as_XML {
                     && !( $MAP_OUT{ $parent->{'_tag'} }->{verbatim} ) )
                 {
 
-                  # Don't out put empty tags
-                  # BZ #453067 but spaces between inline tags should be output
+                    # Don't out put empty tags
+                    # BZ #453067 but spaces between inline tags should be output
                     if ( $node !~ /^[\t ]*$/ || $node !~ /\n/ ) {
 
                         # Truncate leading space
@@ -830,7 +803,7 @@ sub my_as_XML {
 
                         if ( $MAP_OUT{ $parent->{'_tag'} }->{block} ) {
 
-                     # for the first child, remove leading space and indent it
+                            # for the first child, remove leading space and indent it
                             if ( $_[4] == 0 ) {
                                 $node =~ s/^ //g;
                             }
@@ -929,9 +902,7 @@ sub sort_glossaries {
     my $Collator = Unicode::Collate->new();
 
     if ($xml_doc) {
-        foreach
-            my $glosslist ( $xml_doc->root->look_down( "_tag", "glosslist" ) )
-        {
+        foreach my $glosslist ( $xml_doc->root->look_down( "_tag", "glosslist" ) ) {
             my @glossentries = sort( {
                     $Collator->cmp(
                         $a->look_down( "_tag", "glossterm" )->as_text(),
@@ -964,23 +935,16 @@ sub process_file {
         || croak( maketext("out_file is a mandatory argument") );
 
     if ( %{$args} ) {
-        croak(
-            maketext(
-                "unknown arguments: [_1]", join( ", ", keys %{$args} )
-            )
-        );
+        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
     }
 
-    logger(   "\t"
-            . maketext( "Processing file [_1] -> [_2]", $file, $out_file )
-            . "\n" );
+    logger( "\t" . maketext( "Processing file [_1] -> [_2]", $file, $out_file ) . "\n" );
 
     my $clean_id        = $self->{config}->param('clean_id');
     my $update_includes = $self->{config}->param('update_includes');
     my $xml_lang        = $self->{publican}->param('xml_lang');
 
-    my $xml_doc = XML::TreeBuilder->new(
-        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
 ##debug_msg("here 1");
 
@@ -1039,7 +1003,7 @@ sub process_file {
             }
         }
 
-# clear out changes ... might be better to save them up and do a single pass...
+        # clear out changes ... might be better to save them up and do a single pass...
         %UPDATED_IDS = ();
     }
 
