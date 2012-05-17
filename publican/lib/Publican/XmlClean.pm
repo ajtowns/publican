@@ -135,10 +135,10 @@ my %MAP_OUT = (
     refmeta           => { block         => 1 },
     refentryinfo      => { block         => 1, no_id => 1 },
     reference         => { block         => 1 },
-    indexterm         => { block         => 1 },
-    primary           => { newline_after => 1 },
-    secondary         => { newline_after => 1 },
-    tertiary          => { newline_after => 1 },
+    indexterm         => { block         => 1, mixed_mode => 1 },
+    primary           => { newline_after => 1, mixed_mode => 1 },
+    secondary         => { newline_after => 1, mixed_mode => 1 },
+    tertiary          => { newline_after => 1, mixed_mode => 1 },
     bookinfo          => { block         => 1 },
     articleinfo       => { block         => 1 },
     abstract          => { block         => 1 },
@@ -161,7 +161,7 @@ my %MAP_OUT = (
     honorific         => { newline_after => 1 },
     firstname         => { newline_after => 1 },
     surname           => { newline_after => 1 },
-    email             => { mixed_mode    => 1, newline_after => 1 },
+    email             => { newline_after => 1, mixed_mode => 1 },
     isbn              => { newline_after => 1 },
     issuenum          => { newline_after => 1 },
     edition           => { newline_after => 1 },
@@ -652,7 +652,12 @@ sub my_as_XML {
                         $self->Clean_ID($node);
                     }
 
-                    if ( $MAP_OUT{$tag}->{'newline'} ) {
+                    if (( $MAP_OUT{$tag}->{'newline'} )
+                        && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                            || ( not $MAP_OUT{$tag}->{mixed_mode} )
+                            || ( not $node->look_up( '_tag', 'para' ) ) )
+                        )
+                    {
                         push( @xml, "\n", $indent x $depth );
                     }
 
@@ -663,7 +668,12 @@ sub my_as_XML {
 
                         # Check to make sure the block is starting on it's own line
                         # If not add a new line and indent
-                        if ( $xml[$#xml] && $xml[$#xml] =~ /\S/ ) {
+                        if (( $xml[$#xml] && $xml[$#xml] =~ /\S/ )
+                            && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                                || ( not $MAP_OUT{$tag}->{mixed_mode} )
+                                || ( not $node->look_up( '_tag', 'para' ) ) )
+                            )
+                        {
                             push( @xml, "\n", $indent x $depth );
                         }
                         $depth++;
@@ -726,7 +736,13 @@ sub my_as_XML {
                         {
                             push( @xml, "\n" );
                         }
-                        elsif ( not $MAP_OUT{$tag}->{verbatim} ) {
+                        elsif (
+                            ( not $MAP_OUT{$tag}->{verbatim} )
+                            && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                                || ( not $MAP_OUT{$tag}->{mixed_mode} )
+                                || ( not $node->look_up( '_tag', 'para' ) ) )
+                            )
+                        {
                             push( @xml, "\n", $indent x $depth );
                         }
                     }
@@ -753,6 +769,12 @@ sub my_as_XML {
 ## BZ #604465 don't add trailing newline.
 ##                                push( @xml, "\n" );
                             }
+                            elsif (( defined $MAP_OUT{$tag}->{mixed_mode} )
+                                && ( $MAP_OUT{$tag}->{mixed_mode} )
+                                && ( $node->look_up( '_tag', 'para' ) ) )
+                            {
+                                $depth--;
+                            }
                             elsif ($node->parent()
                                 && $MAP_OUT{ $node->parent()->{'_tag'} }->{'line_wrap'} )
                             {
@@ -772,7 +794,7 @@ sub my_as_XML {
                         push( @xml, $node->endtag_XML() );
                     }    # otherwise it will have been an <... /> tag.
 
-                    if ($MAP_OUT{$tag}->{newline_after}
+                    if (( $MAP_OUT{$tag}->{newline_after} )
                         && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
                             || ( not $MAP_OUT{$tag}->{mixed_mode} )
                             || ( not $node->look_up( '_tag', 'para' ) ) )
@@ -781,7 +803,12 @@ sub my_as_XML {
                         push( @xml, "\n", $indent x $depth );
                     }
 
-                    if ( ( $MAP_OUT{$tag}->{block} ) ) {
+                    if (( $MAP_OUT{$tag}->{block} )
+                        && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                            || ( not $MAP_OUT{$tag}->{mixed_mode} )
+                            || ( not $node->look_up( '_tag', 'para' ) ) )
+                        )
+                    {
                         push( @xml, "\n", $indent x $depth );
                     }
                 }
