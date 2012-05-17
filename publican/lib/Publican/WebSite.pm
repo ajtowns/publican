@@ -758,6 +758,7 @@ sub _regen_toc {
     }
 
     my $vars = {};
+    $vars->{publican_version} = $Publican::VERSION;
 
     my $default_search = <<SEARCH;
 	<form target="_top" method="get" action="http://www.google.com/search">
@@ -1069,6 +1070,7 @@ SEARCH
         if ( -f "$self->{toc_path}/$language/splash.html" ) {
             $vars->{host} = $host;
             $vars->{lang} = $language;
+            $vars->{title} = $self->{title};
             $self->{Template}->process(
                 'language_index_style_1.tmpl',$vars,
                 $self->{toc_path} . "/$language/index.html",
