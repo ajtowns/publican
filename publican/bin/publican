@@ -61,7 +61,7 @@ if (   ( $ENV{RPM_BUILD_DIR} )
         )
     {
         croak(
-            "\n\nERROR: The version of publican used to create the SRPM is too old to use with this version of publican. Upgrade publican on your local machine to at least version $Publican::SPEC_VERSION and try again."
+            "\n\n\nERROR: The version of publican used to create the SRPM is too old to use with this version of publican. Upgrade publican on your local machine to at least version $Publican::SPEC_VERSION and try again.\n\n\n"
         );
     }
 }
