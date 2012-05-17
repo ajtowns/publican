@@ -112,7 +112,7 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications <xsl:value-
 
 %preun -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
 if [ "$1" = "0" ] ; then # last uninstall
-publican update_db --del --lang="<xsl:value-of select="$lang"/>" --formats=<xsl:value-of select="$web_formats_comma" /> --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --site_config="<xsl:value-of select="$web_cfg"/>"
+publican update_db --del --lang="<xsl:value-of select="$lang"/>" --formats="<xsl:value-of select="$web_formats_comma" />" --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --site_config="<xsl:value-of select="$web_cfg"/>"
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>

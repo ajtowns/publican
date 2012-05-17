@@ -804,7 +804,7 @@ sub transform {
     my $bridgehead_in_toc          = $self->{publican}->param('bridgehead_in_toc');
     my $main_file                  = $self->{publican}->param('mainfile');
     my $brand_path = $self->{publican}->param('brand_dir') || $common_content . "/$brand";
-    my $web_type   = $self->{publican}->param('web_type');
+    my $web_type   = $self->{publican}->param('web_type') || '';
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'

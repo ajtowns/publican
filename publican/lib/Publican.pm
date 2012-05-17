@@ -456,6 +456,9 @@ sub _load_config {
         {
             $config->delete($def);
         }
+	elsif (ref $tmp eq "ARRAY") {
+		$config->param($def, join(',', @{$config->param($def)}));
+	}
     }
 
     $config->param( 'common_config',  $common_config )         if $common_config;

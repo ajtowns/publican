@@ -48,7 +48,7 @@ if (   ( $ENV{RPM_BUILD_DIR} )
 
     system("rpm -Uvh $pkg");
     my $spec
-        = qq|/builddir/build/SPECS/$ENV{RPM_PACKAGE_NAME}-$ENV{RPM_PACKAGE_VERSION}-$ENV{RPM_PACKAGE_RELEASE}.src.rpm|;
+        = qq|/builddir/build/SPECS/$ENV{RPM_PACKAGE_NAME}.spec|;
 
     my $db_count = qx|grep -c 'publican update_db' $spec|;
     my $pm_count = qx|grep -c 'use Publican' $spec|;
