@@ -17,7 +17,7 @@ use Cwd qw(abs_path);
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
 $VERSION = '3.0';
-@ISA     = qw(Exporter AutoLoader);
+@ISA     = qw(Exporter);
 
 @EXPORT = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string);
 

@@ -389,7 +389,7 @@ sub images {
 
     my $common_content = $self->{publican}->param('common_content');
     File::Copy::Recursive::rcopy_glob( $common_content . "/brand-template/images/*",
-        "$lang/images" );
+        "$lang/images" ) || croak("can't copy $common_content/brand-template/images/* to $lang/images");
 
     return;
 }

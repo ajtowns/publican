@@ -42,7 +42,7 @@ $File::Copy::Recursive::KeepMode = 0;
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
 $VERSION = '0.2';
-@ISA     = qw(Exporter AutoLoader);
+@ISA     = qw(Exporter);
 
 my $INVALID = 1;
 
