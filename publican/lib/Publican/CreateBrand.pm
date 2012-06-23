@@ -298,7 +298,7 @@ sub conf_files {
 
     print $OUT <<SPEC;
 %define brand $brand
-%define wwwdir <xsl:value-of select="\$web_dir"/>
+%define wwwdir /var/www/html/docs
 
 Name:		publican-$lcbrand
 Summary:	Common documentation files for %{brand}

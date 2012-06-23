@@ -63,6 +63,15 @@ my $class = Module::Build->subclass(
             my @rpm_files = $rule->in($dir);
             $self->do_system("sudo", "yum", "-y", "localinstall",  "--nogpg", @rpm_files);
         }
+        sub  process_brand_template_files {
+            my $self = shift;
+            use File::Find::Rule;
+            use File::Copy::Recursive qw(rcopy);
+            my $cwd = getcwd();
+            my $path = "$cwd/blib/datadir/Common_Content/brand-template";
+            mkpath("$path");
+            rcopy( "datadir/Common_Content/brand-template/*", "$path/.");
+        }
         sub  process_common_files {
             my $self = shift;
             # This is how to self host
@@ -421,6 +430,7 @@ if ( $^O eq 'darwin' ) {
 }
 
 $builder->add_build_element('common');
+$builder->add_build_element('brand_template');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
 $builder->add_build_element('templates');
