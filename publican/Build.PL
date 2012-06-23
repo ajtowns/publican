@@ -96,17 +96,26 @@ my $class = Module::Build->subclass(
             $dir = undef;
             $builder = undef;
             $publican = undef;
-
-            $dir = pushd('datadir/Common_Content/common-db5');
-            $path = "$cwd/blib/datadir/Common_Content";
-            return if(-d $path);
+        }
+        sub process_commondb5_files {
+            my $self = shift;
+            # This is how to self host
+            use lib File::Spec->catdir('lib'); 
+            use Publican;
+            $Publican::SINGLETON = undef;
+            use Publican::Builder;
+            use File::Path;
+            use File::Copy::Recursive qw(rcopy);
+            my $cwd = getcwd();
+            my $dir = pushd('datadir/Common_Content/common-db5');
+            my $path = "$cwd/blib/datadir/Common_Content";
+            return if(-d "$path/common-db5");
             die "can't chdir: $@" if $@;
 
-            $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
-            $builder = Publican::Builder->new();
+            my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
+            my $builder = Publican::Builder->new();
             $builder->build(
                 { formats => 'xml', langs => 'all', publish => 1 } );
-            mkpath("$path");
             rcopy( "publish/*", "$path/.");
             rcopy('publican.cfg', "$path/common-db5/.");
             $dir = undef;
@@ -381,6 +390,7 @@ my $builder = $class->new(
         'datadir/xsl/abstract.xsl'           => 'datadir/xsl/abstract.xsl',
         'datadir/xsl/subtitle.xsl'           => 'datadir/xsl/subtitle.xsl',
         'datadir/xsl/merge_revisions.xsl'    => 'datadir/xsl/merge_revisions.xsl',
+        'datadir/xsl/db4-upgrade.xsl'        => 'datadir/xsl/db4-upgrade.xsl',
     },
     web_files => {
         'web/index.html'              => 'web/index.html',
@@ -430,6 +440,7 @@ if ( $^O eq 'darwin' ) {
 }
 
 $builder->add_build_element('common');
+$builder->add_build_element('commondb5');
 $builder->add_build_element('brand_template');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
