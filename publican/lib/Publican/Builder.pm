@@ -1180,6 +1180,19 @@ sub transform {
 ##        );
         unlink("$tmp_dir/$lang/$format/OEBPS/images/icon.svg");
 
+        unless (-f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css") {
+            my $OUTDOC;
+            open( $OUTDOC, ">:encoding(UTF-8)", "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css" )
+            || croak( maketext( "Could not open [_1] for output!", "\$tmp_dir/\$lang/\$format/OEBPS/Common_Content/css/lang.css" ) );
+            close($OUTDOC);
+        }
+        unless (-f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/overrides.css") {
+            my $OUTDOC;
+            open( $OUTDOC, ">:encoding(UTF-8)", "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/overrides.css" )
+            || croak( maketext( "Could not open [_1] for output!", "\$tmp_dir/\$lang/\$format/OEBPS/Common_Content/css/lang.css" ) );
+            close($OUTDOC);
+        }
+
         # remove any RCS from the output
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
 
