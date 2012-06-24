@@ -286,6 +286,7 @@ sub update_or_add_entry {
     my $name_label    = delete $arg->{name_label};
     my $subtitle      = delete $arg->{subtitle};
     my $abstract      = delete $arg->{abstract};
+    my $sort_order    = delete $arg->{sort_order};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -314,6 +315,7 @@ sub update_or_add_entry {
                 name_label    => $name_label,
                 subtitle      => $subtitle,
                 abstract      => $abstract,
+                sort_order    => $sort_order,
             }
         );
     }
@@ -329,6 +331,7 @@ sub update_or_add_entry {
                 name_label    => $name_label,
                 subtitle      => $subtitle,
                 abstract      => $abstract,
+                sort_order    => $sort_order,
             }
         );
     }
@@ -352,6 +355,7 @@ sub add_entry {
     my $name_label    = delete $arg->{name_label};
     my $subtitle      = delete $arg->{subtitle};
     my $abstract      = delete $arg->{abstract};
+    my $sort_order    = delete $arg->{sort_order};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -364,14 +368,14 @@ sub add_entry {
 
     my $sql = <<INSERT_ENTRY;
         INSERT INTO $DB_NAME 
-               (language, product, version, name, formats, product_label, version_label, name_label, update_date, subtitle, abstract) 
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+               (language, product, version, name, formats, product_label, version_label, name_label, update_date, subtitle, abstract, sort_order) 
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 INSERT_ENTRY
 
     return $self->_dbh->do(
         $sql,         undef,     $language,      $product,       $version,
         $name,        $formats,  $product_label, $version_label, $name_label,
-        $update_date, $subtitle, $abstract
+        $update_date, $subtitle, $abstract, $sort_order
     );
 }
 
@@ -392,6 +396,7 @@ sub update_entry {
     my $name_label    = delete $arg->{name_label};
     my $subtitle      = delete $arg->{subtitle};
     my $abstract      = delete $arg->{abstract};
+    my $sort_order    = delete $arg->{sort_order};
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -404,14 +409,14 @@ sub update_entry {
 
     my $sql = <<INSERT_ENTRY;
         UPDATE $DB_NAME SET
-               language = ?, product = ?, version = ?, name = ?, formats = ?, product_label = ?, version_label = ?, name_label = ?, update_date = ?, subtitle = ?, abstract = ?
+               language = ?, product = ?, version = ?, name = ?, formats = ?, product_label = ?, version_label = ?, name_label = ?, update_date = ?, subtitle = ?, abstract = ?, sort_order = ?
                WHERE ID = $ID
 INSERT_ENTRY
 
     return $self->_dbh->do(
         $sql,         undef,     $language,      $product,       $version,
         $name,        $formats,  $product_label, $version_label, $name_label,
-        $update_date, $subtitle, $abstract
+        $update_date, $subtitle, $abstract, $sort_order
     );
 }
 

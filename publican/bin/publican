@@ -565,6 +565,13 @@ if ( $action eq 'migrate_site' ) {
     $ws->MigrateDB();
     $ws->regen_all_toc( { force => 1 } );
 
+    print(maketext("Now that your site is migrated you will need to rebuild your brands and install the brands web payload on your site.\n\nIt is also recommended that you rebuild and reinstall all books to ensure the layout is properly migrated."));
+    print(maketext('$ cd path/to/brand'), "\n");
+    print(maketext('$ publican build --formats=xml --langs=all --publish'), "\n");
+## BUGBUG should this use siteconfig?
+    print(maketext('$ publican install_brand --web --path=/path/to/site/%{brand}'), "\n");
+    print(maketext('$ publican update_site --site_config /path/to/site/config'), "\n");
+
     exit(0);
 }
 
@@ -960,6 +967,7 @@ if ( $action eq 'install_book' ) {
         my $product_label = $publican->param('web_product_label');
         my $version_label = $publican->param('web_version_label');
         my $name_label    = $publican->param('web_name_label');
+        my $sort_order    = $publican->param('sort_order');
 
         my $subtitle = $publican->get_subtitle( { lang => $lang } );
         my $abstract = $publican->get_abstract( { lang => $lang } );
@@ -1032,6 +1040,7 @@ if ( $action eq 'install_book' ) {
                 name_label    => $name_label,
                 subtitle      => $subtitle,
                 abstract      => $abstract,
+                sort_order    => $sort_order,
             }
         );
 ##        }
