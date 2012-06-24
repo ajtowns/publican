@@ -200,6 +200,10 @@ my %PARAMS = (
             maketext('Languages to replace with xml_lang regardless of translation status.'),
 
     },
+    info_file => {
+        descr =>
+            maketext('Override the default Info file.'),
+    },
     license => {
         descr   => maketext('License this package uses.'),
         default => 'GFDL',
@@ -238,6 +242,10 @@ my %PARAMS = (
         descr => maketext(
             'Type of repository in which books that form part of a remote set are stored. Supported types: SVN.'
         ),
+    },
+    rev_file => {
+        descr =>
+            maketext('Override the default Revision History file.'),
     },
     show_remarks => {
         descr   => maketext('Display remarks in transformed output.'),
@@ -474,11 +482,14 @@ sub _load_config {
 
     # don't try and load version info for brand files
     if ( $type ne 'brand' ) {
-        croak( maketext( "Can't locate required file: [_1]", "$xml_lang/$type" . '_Info.xml' ) )
-            if ( !-f "$xml_lang/$type" . '_Info.xml' );
+         my $info_file = "$xml_lang/$type" . '_Info.xml';
+        $info_file = "$xml_lang/" . $config->param('info_file') if($config->param('info_file'));
+
+        croak( maketext( "Can't locate required file: [_1]", $info_file ) )
+            if ( !-f $info_file );
 
         my $xml_doc = XML::TreeBuilder->new();
-        $xml_doc->parse_file( "$xml_lang/$type" . '_Info.xml' );
+        $xml_doc->parse_file($info_file);
 
         my $docname = $config->param('docname');
 
@@ -927,6 +938,7 @@ sub get_abstract {
 
     my $tmp_dir   = $self->param('tmp_dir');
     my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    $info_file = "$tmp_dir/$lang/xml/" . $self->param('info_file') if($self->param('info_file'));
 
     croak( maketext("abstract can not be calculated before building.") )
         unless ( -f $info_file );
@@ -965,6 +977,7 @@ sub get_subtitle {
 
     my $tmp_dir   = $self->param('tmp_dir');
     my $info_file = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    $info_file = "$tmp_dir/$lang/xml/" . $self->param('info_file') if($self->param('info_file'));
 
     croak( maketext("subtitle can not be calculated before building.") )
         unless ( -f $info_file );
@@ -1232,6 +1245,8 @@ sub add_revision {
     }
 
     my $rev_file = "$lang/Revision_History.xml";
+    $rev_file = "$lang/" . $self->param('rev_file') if($self->param('rev_file'));
+
     my $node;
     my $rev_doc = new_tree();
 
@@ -1289,6 +1304,8 @@ sub get_ed_rev {
     my $bump = delete( $args->{bump} );
 
     my $rev_file = "$lang/Revision_History.xml";
+    $rev_file = "$lang/" . $self->param('rev_file') if($self->param('rev_file'));
+
     croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
         if ( !-f $rev_file );
 

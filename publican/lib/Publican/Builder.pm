@@ -394,7 +394,10 @@ sub setup_xml {
                 }
             }
 
-            if ( -f "$lang/Revision_History.xml" ) {
+            my $rev_file = "Revision_History.xml";
+            $rev_file = $self->{publican}->param('rev_file') if($self->{publican}->param('rev_file'));
+
+            if ( -f "$lang/$rev_file" ) {
                 my $common_config = $self->{publican}->param('common_config');
                 my $xsl_file      = $common_config . "/xsl/merge_revisions.xsl";
                 $xsl_file =~ s/"//g;    # windows
@@ -404,14 +407,14 @@ sub setup_xml {
                 );
                 my $xslt       = XML::LibXSLT->new();
                 my $stylesheet = $xslt->parse_stylesheet($style_doc);
-                my %opts       = ( trans_rev => abs_path("$lang/Revision_History.xml") );
+                my %opts       = ( trans_rev => abs_path("$lang/$rev_file") );
                 my $result     = $stylesheet->transform_file(
-                    "$tmp_dir/$lang/xml_tmp/Revision_History.xml",
+                    "$tmp_dir/$lang/xml_tmp/$rev_file",
                     XML::LibXSLT::xpath_to_string(%opts)
                 );
                 eval {
                     $stylesheet->output_file( $result,
-                        "$tmp_dir/$lang/xml_tmp/Revision_History.xml.tmp" );
+                        "$tmp_dir/$lang/xml_tmp/$rev_file.tmp" );
                 };
 
                 if ($@) {
@@ -431,8 +434,8 @@ sub setup_xml {
                 }
 
                 fmove(
-                    "$tmp_dir/$lang/xml_tmp/Revision_History.xml.tmp",
-                    "$tmp_dir/$lang/xml_tmp/Revision_History.xml"
+                    "$tmp_dir/$lang/xml_tmp/$rev_file.tmp",
+                    "$tmp_dir/$lang/xml_tmp/$rev_file"
                 );
             }
 
@@ -1889,7 +1892,10 @@ sub package_home {
 
     my $parser    = XML::LibXML->new();
     my $xslt      = XML::LibXSLT->new();
-    my $source    = $parser->parse_file( "$xml_lang/$type" . '_Info.xml' );
+    my $info_file = "$xml_lang/$type" . '_Info.xml';
+    $info_file = "$xml_lang/" . $self->{publican}->param('info_file') if($self->{publican}->param('info_file'));
+
+    my $source    = $parser->parse_file($info_file);
     my $style_doc = $parser->parse_file($xsl_file);
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
@@ -2040,6 +2046,8 @@ sub package {
         $release = undef;
 
         my $rev_file = "$lang/Revision_History.xml";
+        $rev_file = "$lang/" . $self->{publican}->param('rev_file') if($self->{publican}->param('rev_file'));
+
         croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
             if ( !-f $rev_file );
 
@@ -2244,7 +2252,10 @@ sub package {
 
     my $parser    = XML::LibXML->new();
     my $xslt      = XML::LibXSLT->new();
-    my $source    = $parser->parse_file( "$tmp_dir/$lang/xml/$type" . '_Info.xml' );
+    my $info_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
+    $info_file = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file') if($self->{publican}->param('info_file'));
+
+    my $source    = $parser->parse_file($info_file);
     my $style_doc = $parser->parse_file($xsl_file);
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
@@ -2298,6 +2309,7 @@ sub web_labels {
 
     #    if ( $lang ne $xml_lang ) {
     my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
+    $xml_file = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file') if($self->{publican}->param('info_file'));
     croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
         if ( !-f $xml_file );
 
@@ -2369,8 +2381,11 @@ sub change_log {
 
     my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
 
-    my $path = "$tmp_dir/$lang/xml/Revision_History.xml";
-    $path = "$lang/Revision_History.xml"
+    my $rev_file = "Revision_History.xml";
+    $rev_file = $self->{publican}->param('rev_file') if($self->{publican}->param('rev_file'));
+
+    my $path = "$tmp_dir/$lang/xml/$rev_file";
+    $path = "$lang/$rev_file"
         if ( $self->{publican}->param('web_home') || $self->{publican}->param('web_type') );
 
     $xml_doc->parse_file("$path");

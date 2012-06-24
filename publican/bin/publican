@@ -983,6 +983,8 @@ if ( $action eq 'install_book' ) {
 ## BUGBUG this is copied from Publican.pm, maybe a sub for these?
         if ( $lang ne $xml_lang ) {
             my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
+            $xml_file = "$tmp_dir/$lang/xml/" . $publican->param('info_file') if($publican->param('info_file'));
+
             croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
                 if ( !-f $xml_file );
 
@@ -1103,6 +1105,7 @@ if ( $action eq 'rename' ) {
         = $config->param('xml_lang') . '/'
         . ( $config->param('type') || 'Book' )
         . '_Info.xml';
+    $file = $config->param('xml_lang') . "/" . $config->param('info_file') if($config->param('info_file'));
 
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
