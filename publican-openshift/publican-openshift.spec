@@ -3,7 +3,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.10
+Version:	0.11
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Tue Jun 26 2012 David O'Brien <davido@redhat.com> 0.11-1
+- Update text of Feedback.xml
+
 * Thu Mar 8 2012 Rüdiger Landmann <rlandman@redhat.com> 0.10-1
 - Correct colours in web styles
 
