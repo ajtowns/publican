@@ -3,7 +3,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.11
+Version:	0.12
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Mon July 2 2012 David O'Brien <davido@redhat.com> 0.12-1
+- updated logos
+
 * Tue Jun 26 2012 David O'Brien <davido@redhat.com> 0.11-1
 - Update text of Feedback.xml
 
