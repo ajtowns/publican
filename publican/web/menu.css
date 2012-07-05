@@ -1212,7 +1212,7 @@ body[dir="rtl"] .footer {
 }
 
 .menu_embeded #title.hidden {
-    display: none;
+    display: block;
 }
 
 p, div.para, div.formalpara {
@@ -1225,12 +1225,13 @@ p, div.para, div.formalpara {
 
 
 /*    *****    */
+body,html {
+	height: 100%;
+}
 
-
-body, html{ height: 100%;} /*needed for the hover stuff*/
-
-/*selection fixing - now they press ctrl+a and only the document contents are selectable*/
-body {
+/*needed for the hover stuff*/
+/*selection fixing -now they press ctrl+a and only the document contents are selectable*/
+body, section {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -1238,7 +1239,7 @@ body {
 }
 
 body > div.book,body > div.article,body > div.set,body > div.preface,body > div.chapter,body > div.section,body > div.appendix,body > div.part {
-	margin-top: 100px;
+	margin-top: 0px;
 	-webkit-user-select: text;
 	-moz-user-select: text;
 	-ms-user-select: text;
@@ -1246,6 +1247,7 @@ body > div.book,body > div.article,body > div.set,body > div.preface,body > div.
 	-webkit-box-shadow: 0 .5em 5em #ccc;
 	box-shadow: 0 .5em 5em #ccc;
 	padding: 6em;
+	padding-top: 2em;
 }
 
 /*
@@ -1256,6 +1258,20 @@ putting the doc nav away from the site nav
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	border-bottom: 1px solid #ccc; /*and a nice border bottom*/
+position: fixed;
+
+	-webkit-transition: all .25s ease;
+	-moz-transition: all .25s ease;
+	-o-transition: all .25s ease;
+	-ms-transition: all .25s ease;
+	transition: all .25s ease;
+
+	-webkit-transition-delay: 2s;
+	-moz-transition-delay: 2s;
+	-o-transition-delay: 2s;
+	-ms-transition-delay: 2s;
+	transition-delay: 2s;
+	top: -32px;
 }
 
 /*setting the docnav at the bottom with a dark background */
@@ -1266,6 +1282,7 @@ putting the doc nav away from the site nav
 	color: #fff;
 	width: 90%;
 	left: 5%;
+	height: 3em;
 
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -1275,22 +1292,66 @@ putting the doc nav away from the site nav
 	padding-top: .26em;
 }
 
+body.toc_embeded .docnav {
+	left: auto;
+	position: fixed;
+	margin-left: -4em;
+	width: 65em;
+}
+
 /*fancy docnav animation*/
 .docnav {
 	z-index: 99;
 	bottom: -3em;
 	margin-bottom: 0 !important;
+	position: fixed;
 
 	-webkit-transition: all .25s ease;
 	-moz-transition: all .25s ease;
 	-o-transition: all .25s ease;
 	-ms-transition: all .25s ease;
 	transition: all .25s ease;
+
+	-webkit-transition-delay: 2s;
+	-moz-transition-delay: 2s;
+	-o-transition-delay: 2s;
+	-ms-transition-delay: 2s;
+	transition-delay: 2s;
 }
 
 body:hover .docnav {
 	bottom: 0px;
+
+	-webkit-transition-delay: 0s !important;
+	-moz-transition-delay: 0s !important;
+	-o-transition-delay: 0s !important;
+	-ms-transition-delay: 0s !important;
+	transition-delay: 0s !important;
+
+	-webkit-transition: bottom .25s ease;
+	-moz-transition: bottom .25s ease;
+	-o-transition: bottom .25s ease;
+	-ms-transition: bottom .25s ease;
+	transition: bottom .25s ease;
 }
+
+body:hover #menu {
+	top: 0px;
+
+	-webkit-transition: bottom .25s ease;
+	-moz-transition: bottom .25s ease;
+	-o-transition: bottom .25s ease;
+	-ms-transition: bottom .25s ease;
+	transition: bottom .25s ease;
+
+	-webkit-transition-delay: 0s !important;
+	-moz-transition-delay: 0s !important;
+	-o-transition-delay: 0s !important;
+	-ms-transition-delay: 0s !important;
+	transition-delay: 0s !important;
+}
+
+
 
 /*making the text white */
 .docnav li.next a strong,.docnav li.previous a strong,.docnav .home {
@@ -1373,6 +1434,12 @@ body:hover .docnav {
 	padding: 5em 0em;
 	bottom: 0px;
 
+	-webkit-transition-delay: 2s;
+	-moz-transition-delay: 2s;
+	-o-transition-delay: 2s;
+	-ms-transition-delay: 2s;
+	transition-delay: 2s;
+
 	-webkit-transition: all .2s ease;
 	-moz-transition: all .2s ease;
 	-o-transition: all .2s ease;
@@ -1389,8 +1456,8 @@ body:hover .docnav {
 
 #floatingtoc .toc {
 	overflow: auto;
-	max-width: 500px;
-	padding: 2em;
+ width: 70% !important;
+ 	padding: 2em;
 
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -1402,50 +1469,63 @@ body:hover .docnav {
 	border-radius: .51em .51em 0em 0em;
 	position: fixed;
 	top: 50px;
-	bottom: 40px;
 	left: 50%;
-	margin-left: -250px !important;
-}
-
-#floatingtoc .toc {
+	margin-left: -30% !important;
 	bottom: 0px;
 
-	-webkit-transition: all .2s ease;
-	-moz-transition: all .2s ease;
-	-o-transition: all .2s ease;
-	-ms-transition: all .2s ease;
-	transition: all .2s ease;
+	-webkit-transition: bottom .2s ease;
+	-moz-transition: bottom .2s ease;
+	-o-transition: bottom .2s ease;
+	-ms-transition: bottom .2s ease;
+	transition: bottom .2s ease;
+	-webkit-transition-delay: 2s;
+	-moz-transition-delay: 2s;
+	-o-transition-delay: 2s;
+	-ms-transition-delay: 2s;
+	transition-delay: 2s;
+}
+
+body.toc_embeded #floatingtoc .toc {
+	width: 60% !important;
+	left: 700px;
 }
 
 body:hover #floatingtoc .toc {
-	bottom: 40px;
-
-	-webkit-transition: all .2s ease;
-	-moz-transition: all .2s ease;
-	-o-transition: all .2s ease;
-	-ms-transition: all .2s ease;
-	transition: all .2s ease;
+	bottom: 3em;
+	-webkit-transition: bottom .2s ease;
+	-moz-transition: bottom .2s ease;
+	-o-transition: bottom .2s ease;
+	-ms-transition: bottom .2s ease;
+	transition: bottom .2s ease;
+	-webkit-transition-delay: 2s;
+	-moz-transition-delay: 2s;
+	-o-transition-delay: 2s;
+	-ms-transition-delay: 2s;
+	transition-delay: 2s;
 }
 
-#floatingtoc .toc:after {
-	-webkit-transition: all .2s ease;
-	-moz-transition: all .2s ease;
-	-o-transition: all .2s ease;
-	-ms-transition: all .2s ease;
-	transition: all .2s ease;
-	content: "";
-	display: block;
-	width: 0;
-	height: 0;
-	border-width: .5em;
-	border-color: transparent transparent #fff transparent;
-	border-style: solid;
-	z-index: 99;
-	position: fixed;
-	bottom: 0px;
-	left: 50%;
-	margin-left: -.25em;
-}
+/*
+
+/*   #floatingtoc .toc:after {
+/*   	-webkit-transition: all .2s ease;
+/*   	-moz-transition: all .2s ease;
+/*   	-o-transition: all .2s ease;
+/*   	-ms-transition: all .2s ease;
+/*   	transition: all .2s ease;
+/*   	content: "";
+/*   	display: block;
+/*   	width: 0;
+/*   	height: 0;
+/*   	border-width: .5em;
+/*   	border-color: transparent transparent #fff transparent;
+/*   	border-style: solid;
+/*   	z-index: 99;
+/*   	position: fixed;
+/*   	bottom: 0px;
+/*   	left: 50%;
+/*   	margin-left: -.25em;
+/*   }
+*/
 
 body:hover #floatingtoc .toc:after {
 	bottom: 39px;
@@ -1470,6 +1550,39 @@ body:hover #floatingtoc .toc:after {
 #menu ul a:hover {
 	background-color: #666;
 	color: #FFF !important;
+}
+
+
+/*this media query hack makes sure tablets and phones always get the menus */
+@media only screen and (max-width: 65em) {
+	body .docnav {
+	bottom: 0px !important;
+}
+
+
+
+body #menu {
+	top: 0px !important;}}
+
+@media only screen and (max-width: 45em) {
+
+	body > div.book, body > div.article, body > div.set, body > div.preface, body > div.chapter, body > div.section, body > div.appendix, body > div.part {padding:2em;}
+#book_lang_menu, #lang_menu_2, #book_format_menu{right: 0 !important;}
+
+}
+
+#book_lang_menu:hover, #book_lang_menu:hover > div, #book_format_menu:hover > div, #book_format_menu:hover{cursor:pointer} /*makes sure the lang and formats menu has the right cursor*/
+
+p#title {
+	padding: 1em;
+	margin: 0 auto;
+	margin-top: 110px;
+	background-color: transparent;
+	border: none !important;
+}
+
+body.toc_embeded p#title {
+	margin-top: 55px;
 }
 
 

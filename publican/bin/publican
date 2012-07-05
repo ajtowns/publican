@@ -152,6 +152,7 @@ my %options = (
     web           => maketext(q|Install the web content for a brand.|),
     'src_dir=s'   => maketext(q|Directory to source publican files from.|),
     'brand_dir=s' => maketext(q|Directory to source brand files from.|),
+    'sort_order=s' => maketext('Order to sort a book'),
 );
 
 # Options all actions use
@@ -277,7 +278,7 @@ my %actions = (
             'name',          'formats',
             'subtitle',      'abstract',
             'product_label', 'version_label',
-            'name_label'
+            'name_label', 'sort_order',
         ],
     },
     'add_revision' => {
@@ -626,6 +627,7 @@ if ( $action eq 'update_db' ) {
     my $product_label = $opts{product_label} || undef;
     my $version_label = $opts{version_label} || undef;
     my $name_label    = $opts{name_label}    || undef;
+    my $sort_order    = $opts{sort_order}    || undef;
 
     if ($add) {
 ##        foreach my $format ( split( /,/, $formats ) ) {
@@ -640,6 +642,7 @@ if ( $action eq 'update_db' ) {
                 name_label    => $name_label,
                 subtitle      => $subtitle,
                 abstract      => $abstract,
+                sort_order    => $sort_order,
             }
         );
 ##        }

@@ -506,7 +506,8 @@ sub get_hash_ref {
                name_label,
                update_date,
                subtitle,
-               abstract
+               abstract,
+               sort_order
           FROM $DB_NAME 
          WHERE (language = ? or language = ?)
       GROUP BY language, product, version, name
@@ -524,7 +525,8 @@ GET_LIST
     while (
         my ($id,         $lang,        $product,       $version,
             $name,       $formats,     $product_label, $version_label,
-            $name_label, $update_date, $subtitle,      $abstract
+            $name_label, $update_date, $subtitle,      $abstract,
+            $sort_order
         )
         = $sth->fetchrow()
         )
@@ -550,6 +552,7 @@ GET_LIST
             || '2000-01-01';
         $list{$product}{$version}{$name}{subtitle} = $subtitle;
         $list{$product}{$version}{$name}{abstract} = $abstract;
+        $list{$product}{$version}{$name}{sort_order} = $sort_order;
     }
 
     $sth->finish();
@@ -881,8 +884,8 @@ SEARCH
                 push( @{$urls}, $url );
             }
 
-            foreach
-                my $book ( sort( insensitive_sort keys( %{ $list2->{$product}{$version} } ) ) )
+#            foreach my $book ( sort( insensitive_sort keys( %{ $list2->{$product}{$version} } ) ) )
+            foreach my $book ( i_sort($list2->{$product}{$version}) )
             {
                 my $book_label = $book;
                 my %book_data;
@@ -1180,7 +1183,7 @@ sub xml_dump {
     my $xml = XMLout( { site => \%site, record => $results }, NoAttr => 1 );
 
     my $OUT_FILE;
-    open( $OUT_FILE, '>', $self->{dump_file} )
+    open( $OUT_FILE, '>:encoding(UTF-8)', $self->{dump_file} )
         || croak( maketext( "Could not open dump file for output: [_1]", $@ ) );
 
     print( $OUT_FILE "<?xml version='1.0' encoding='utf-8' ?>\n" );

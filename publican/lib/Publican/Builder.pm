@@ -2148,6 +2148,7 @@ sub package {
     my $web_cfg = $self->{publican}->param('web_cfg')
         || '/etc/publican-website.cfg';
     my $web_req = $self->{publican}->param('web_req') || '';
+    my $sort_order = $self->{publican}->param('sort_order') || '';
 
     my $menu_category = $self->{publican}->param('menu_category')
         || "X-Red-Hat-Base;";
@@ -2230,7 +2231,7 @@ sub package {
         name_label        => $web_name_label,
         web_dir           => $web_dir,
         web_cfg           => $web_cfg,
-        web_req           => $web_cfg,
+        web_req           => $web_req,
         full_abstract     => $full_abstract,
         full_subtitle     => $full_subtitle,
         web_formats       => $web_formats,
@@ -2238,6 +2239,7 @@ sub package {
         menu_category     => $menu_category,
         spec_version      => $Publican::SPEC_VERSION,
         embedtoc          => $embedtoc,
+        sort_order        => $sort_order,
     );
 
     # \p{Z} is unicode white space, which is a super set of ascii white space.
