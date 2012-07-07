@@ -64,13 +64,21 @@ Version:
           <xsl:attribute name="href">
               <xsl:value-of select="$prod.url"/>
           </xsl:attribute>
-          <img src="Common_Content/images/image_left.png" alt="Product Site"/>
+	  <img alt="Product Site">
+		<xsl:attribute name="src">
+			<xsl:value-of select="$admon.graphics.path"/><xsl:text>/image_left.png</xsl:text>
+		</xsl:attribute>
+	  </img>
         </a>
         <a class="right">
           <xsl:attribute name="href">
             <xsl:value-of select="$doc.url"/>
           </xsl:attribute>
-          <img src="Common_Content/images/image_right.png" alt="Documentation Site"/>
+	  <img alt="Documentation Site">
+		<xsl:attribute name="src">
+			<xsl:value-of select="$admon.graphics.path"/><xsl:text>/image_right.png</xsl:text>
+		</xsl:attribute>
+	  </img>
         </a>
       </p>
       </xsl:if>

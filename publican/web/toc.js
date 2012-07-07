@@ -390,11 +390,11 @@ function loadMenu(){
 			function(){
 				style = 2;
                                 var prod_label;
-    if(current_product != 'Products') {
-	prod_label = labels[current_product]["label"];
-    } else {
-        prod_label = labels["trans_strings"]["Products"];
-    }
+				if(current_product != 'Products') {
+					prod_label = labels[current_product]["label"];
+				} else {
+					prod_label = labels["trans_strings"]["Products"];
+				}
                                 
 				var html = '<div id="menu">';
 				html = 	html +	'<div id="lang_menu" class="breadcrumb"><a href="' + toc_path + '/index.html">' + labels["site"]["title"] + '</a></div>';
@@ -425,6 +425,18 @@ function loadMenu(){
 				$('body').removeClass('toc_embeded');
 				$('body').addClass('menu_embeded');
 			}
+	});
+	$(document).ready(function() {
+		$("#floatingtoc").load('index.html .toc:eq(0)');
+		$("body").click(function(){
+			work = 1;
+			retract_menu('floatingtoc');
+		});
+		$(".docnav li.home").click(function(e){
+			work = 1;
+			toggle(e, 'floatingtoc');
+			return false;
+		});
 	});
 
 }
