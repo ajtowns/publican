@@ -57,9 +57,6 @@ Version:
         <xsl:attribute name="id">
            <xsl:text>title</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="class">
-           <xsl:text>hidden</xsl:text>
-        </xsl:attribute>
         <a class="left">
           <xsl:attribute name="href">
               <xsl:value-of select="$prod.url"/>
