@@ -1451,12 +1451,13 @@ body:hover #menu {
 	top: 0px;
 	width: 100%;
 	margin: 0em;
+	overflow: hidden;
 	left: 0em;
 }
 
 #floatingtoc .toc {
 	overflow: auto;
- width: 70% !important;
+	width: 70% !important;
  	padding: 2em;
 
 	-webkit-box-sizing: border-box;
@@ -1487,7 +1488,8 @@ body:hover #menu {
 
 body.toc_embeded #floatingtoc .toc {
 	width: 60% !important;
-	left: 700px;
+	left: 50%;
+	margin-left:  -20%
 }
 
 body:hover #floatingtoc .toc {

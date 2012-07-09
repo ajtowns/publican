@@ -341,6 +341,11 @@ GetOptions( \%opts, @optns, )
     -pathlist => \@pod_paths
     );
 
+# catch multiple actions
+if(scalar @ARGV > 1) {
+	croak( maketext("publican only accepts one action you supplied '[_1]': [_2]\n", scalar @ARGV, join(' & ', @ARGV)));
+}
+
 # Getopt will remove the options leaving only the action
 $action = ( $ARGV[0] || "" );
 
