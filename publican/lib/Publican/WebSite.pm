@@ -1667,7 +1667,7 @@ sub i_sort {
     return (
         sort( { if ( ($hash->{$a}->{sort_order} || 50) != ($hash->{$b}->{sort_order} || 50))
                 {
-                    $hash->{$a}->{sort_order} <=> $hash->{$b}->{sort_order};
+                    ($hash->{$a}->{sort_order} || 50) <=> ($hash->{$b}->{sort_order} || 50);
                 }
                 else { lc($a) cmp lc($b) }
             } keys( %{$hash} ) )
