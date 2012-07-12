@@ -4,7 +4,7 @@
 Name:		publican-rhev
 Summary:	Common documentation files for %{brand}
 Version:	2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Thu Jul 12 2012 Rüdiger Landmann <rlandman@redhat.com> 2.0-2
+- Remove backup files
+
 * Thu Jul 12 2012 Rüdiger Landmann <rlandman@redhat.com> 2.0-1
 - Update for Publican 3.0
 
