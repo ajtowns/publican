@@ -284,24 +284,27 @@ sub update_po {
                 unless ( -f $xml_file );
         }
 
-        my ( $edition, $release ) = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
+        if ( $self->{publican}->param('type') ne 'brand' ) {
+            my ( $edition, $release ) = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
 
-        my @members = (
-            maketext(
-                "Translation files synchronised with XML sources [_1]-[_2]", $edition,
-                $release
-            )
-        );
+            my @members = (
+                maketext(
+                    "Translation files synchronised with XML sources [_1]-[_2]", $edition,
+                    $release
+                )
+            );
 
-        $self->{publican}->add_revision(
-            {   lang      => $lang,
-                revnumber => "$edition-$release.1",
-                members   => \@members,
-                email     => $email,
-                firstname => $firstname,
-                surname   => $surname
-            }
-        );
+            $self->{publican}->add_revision(
+                {   lang      => $lang,
+                    revnumber => "$edition-$release.1",
+                    members   => \@members,
+                    email     => $email,
+                    firstname => $firstname,
+                    surname   => $surname
+                }
+            );
+        }
+
     }
 
     return;
