@@ -1,0 +1,538 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Release_Notes.ent">
+%BOOK_ENTITIES;
+]>
+<article>
+	<xi:include href="Article_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	 <variablelist>
+		<varlistentry>
+			<term>Update Changes file. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=661568">BZ #661568</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Cleaned up README file.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Corrected document conventions text. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=651616">BZ#651616</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Make XmlClean use File::Inplace instead of grep &amp; sed. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=661567">BZ #661567</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Deleted STRICT mode. Added banned_tags and banned_attrs configurations. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=663202">BZ #663202</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix command example in PUG. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=663211">BZ #663211</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Use revision history for edition and release. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=642127">BZ #642127</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Deleted edition and release config parameters. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=642127">BZ #642127</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add add_revision action and associated options. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=642127">BZ #642127</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix wrong BuildRequires and path for desktop packages. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=676472">BZ #676472</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Correct typos. Yuri Chornoivan yurchor@ukr.net </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=676997">BZ #676997</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix CreateBook texts missing from pot file. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=677119">BZ #677119</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add --msgmerge to update_po to override using internal POT/PO merging. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=661569">BZ #661569</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Added base_brand config option for brands to allow multiple base brands. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=697367">BZ #697367</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Added site config toc_type to allow selecting TOC styles. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=697375">BZ #697375</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Added authortest target for author tests.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Purge Site statistics, site tech and HTML site map. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=697376">BZ #697376</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Truncate PO Fuzzy/Un-transtaled message, added PO line number. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=697380">BZ #697380</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add Author_Group.xml handling for translations. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=697371">BZ #697371</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Split pod from publican command to allow auto-generation.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix bridgehead links not working in html. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=711348">BZ #711348</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Re-add API check. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=742097">BZ #742097</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix wkhtmltopdf format when building web packages.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix sort order of books in website navigation. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=743792">BZ #743792</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Extra bottom margin for screen. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=738689">BZ #738689</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Change stepalternative list style. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=687894">BZ #687894</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add print_unused_images action. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=724850">BZ #724850</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix print_unused not matching relative paths. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=740417">BZ #740417</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix empty parameters being parsed as arrays. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=744964">BZ #744964</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Removed border from blockquote. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=734154">BZ #734154</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>No newline after email when inline. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=745304">BZ #745304</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add Indic fonts to RPM spec requires.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Switch RPM spec requires from FOP to wkhtmltopdf</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Remove old2new action &amp; Makefile::Parser dep. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=752640">BZ #752640</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Override install &amp; common paths on darwin. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=752620">BZ #752620</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Remove Image::Magick &amp; Image::Size deps and max_image_width option. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=752637">BZ #752637</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Treat graphic like imagedata. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=754340">BZ #754340</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Support superscript, fix color. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=726548">BZ #726548</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix test warnings and errors. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=747871">BZ #747871</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Change title page layout.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Remove trailing slash from --langs completion. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=757182">BZ #757182</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Remove white space munging from XmlClean. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=756756">BZ #756756</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix corpauthor killing FOP. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=756864">BZ #756864</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Remove --cvs option.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Update Conventions translation in pt-BR ldelima@redhat.com</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix build failing when source language directory is read only. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=798484">BZ #798484</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add src_dir parameter to allow building outside source tree. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=798485">BZ #798485</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Apply Spanish translation update from Ismael Olea. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=787739">BZ #787739</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Added web_cfg to allow non-standard paths for rpm based web sites.</term>
+			<listitem>
+				<para>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Ensure xml:lang is set by XmlClean for DocBook 5 sources. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=696397">BZ #696397</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Added handling of defaults file. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=599283">BZ #599283</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Catch txt not being rebuilt. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=802576">BZ #802576</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Catch invalid version when installing book. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=748657">BZ #748657</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix duplicate IDs in HTML outputs. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=788576">BZ #788576</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix some epub validation errors. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=701667">BZ #701667</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add brand_dir option and publican XSL name space. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=800252">BZ #800252</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Consolidate DataBase entries. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=707833">BZ #707833</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add sort_order parameter. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=744661">BZ #744661</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix para tag not getting newline in TXT output. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=773120">BZ #773120</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Rework toc style to fit long name products and books. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=696834">BZ #696834</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix PO merge output order. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=808088">BZ #808088</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix new entires in merged PO being double escaped. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=818768">BZ #818768</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix false warning "Message missing from PO file". </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=737426">BZ #737426</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix create_brand not copying images. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=832345">BZ #832345</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix rename requiring --name parameter. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=694698">BZ #694698</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add rev_file and info_file parameters. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=804917">BZ #804917</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix multiple actions not being caught. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=838427">BZ #838427</ulink>
+				</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</article>
+
