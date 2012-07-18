@@ -1267,13 +1267,15 @@ ul li p:last-child, ul li para:last-child {
 	width:100%;
 	padding-bottom:2em;
 	padding-top:1em;
-	border-top:1px dotted #ccc;
-        background-color: rgba(240, 240, 240, 0.9);
         height:2.5em;
         line-height:2.5em;
+/*
+	border-top:1px dotted #ccc;
+        background-color: rgba(240, 240, 240, 0.9);
 -webkitbox-shadow: 0px .15em .5em rgba(0,0,0,0.2);
   -moz-box-shadow: 0px .15em .5em rgba(0,0,0,0.2);
        box-shadow: 0px .15em .5em rgba(0,0,0,0.2);
+*/
 }
 
 .docnav li {
@@ -1290,12 +1292,19 @@ ul li p:last-child, ul li para:last-child {
 
 .docnav li.previous, .docnav li.next {
 	position:absolute;
-	top:1em;
+	top:1.5em;
 }
 
 .docnav li.up, .docnav li.home {
 	margin:0px 1.5em;
 }
+
+.docnav.top li.home {
+	color: #336699;
+	font-size: 22pt;
+	font-weight: bold;
+}
+
 
 .docnav li.previous {
 	left:0px;
@@ -1308,8 +1317,8 @@ ul li p:last-child, ul li para:last-child {
 }
 
 .docnav li.previous strong, .docnav li.next strong {
-	height:22px;
-	display:block;
+	height: 17px;
+	display: block;
 }
 
 .docnav {

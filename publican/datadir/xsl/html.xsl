@@ -116,7 +116,7 @@ Version:
 				</p>
 			</xsl:if>
 			<xsl:if test="$row2">
-				<ul class="docnav" xmlns="http://www.w3.org/1999/xhtml">
+				<ul class="docnav top" xmlns="http://www.w3.org/1999/xhtml">
 					<li class="previous">
 						<xsl:if test="count($prev)&gt;0">
 							<a accesskey="p">

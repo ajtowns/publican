@@ -1231,19 +1231,23 @@ body,html {
 
 /*needed for the hover stuff*/
 /*selection fixing -now they press ctrl+a and only the document contents are selectable*/
+/* breaks selection
 body, section {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
+*/
 
 body > div.book,body > div.article,body > div.set,body > div.preface,body > div.chapter,body > div.section,body > div.appendix,body > div.part {
 	margin-top: 0px;
+/* breaks selection
 	-webkit-user-select: text;
 	-moz-user-select: text;
 	-ms-user-select: text;
 	user-select: text;
+*/
 	-webkit-box-shadow: 0 .5em 5em #ccc;
 	box-shadow: 0 .5em 5em #ccc;
 	padding: 6em;
