@@ -82,6 +82,158 @@
 	 <variablelist id="vari-Users_Guide-Command_summary-Actions">
 		<title>Actions</title>
 		 <varlistentry>
+			<term><command>publican add_revision</command></term>
+			 <listitem>
+				<para>
+					adds an entry in <filename>Revision_History.xml</filename>. Options:
+				</para>
+				 <variablelist>
+					<varlistentry>
+						<term>--help</term>
+						 <listitem>
+							<para>
+								display help message.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--config=s</term>
+						 <listitem>
+							<para>
+								use a nonstandard config file.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--common_config=s</term>
+						 <listitem>
+							<para>
+								override path to Common_Config directory.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--common_content=s</term>
+						 <listitem>
+							<para>
+								override path to Common_Content directory.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--nocolours</term>
+						 <listitem>
+							<para>
+								disable ANSI colourization of logging.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--quiet</term>
+						 <listitem>
+							<para>
+								disable all logging.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--brand_dir=s</term>
+						 <listitem>
+							<para>
+								directory to source brand files from.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--lang=<replaceable>LANG</replaceable></term>
+						 <listitem>
+							<para>
+								the language the XML will be written in.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--revnumber=<replaceable>REVNUMBER</replaceable></term>
+						 <listitem>
+							<para>
+								revision number to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--date=<replaceable>DATE</replaceable></term>
+						 <listitem>
+							<para>
+								date to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--member=<replaceable>MEMBER</replaceable></term>
+						 <listitem>
+							<para>
+								an entry to be added to the revision. Can be specified multiple times.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--firstname=<replaceable>FIRSTNAME</replaceable></term>
+						 <listitem>
+							<para>
+								firstname to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--surname=<replaceable>SURNAME</replaceable></term>
+						 <listitem>
+							<para>
+								surname to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--email=<replaceable>EMAIL</replaceable></term>
+						 <listitem>
+							<para>
+								email to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+				</variablelist>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><command>publican build</command></term>
 			 <listitem>
 				<para>
