@@ -241,30 +241,90 @@
 				</para>
 				 <variablelist>
 					<varlistentry>
-						<term>--formats</term>
+						<term>--help</term>
 						 <listitem>
 							<para>
-								comma-separated list of formats to build (mandatory).
+								display help message.
 							</para>
 
 						</listitem>
 
 					</varlistentry>
 					 <varlistentry>
-						<term>--langs</term>
+						<term>--config=s</term>
 						 <listitem>
 							<para>
-								comma-separated list of languages to build (mandatory).
+								use a nonstandard config file.
 							</para>
 
 						</listitem>
 
 					</varlistentry>
 					 <varlistentry>
-						<term>--embedtoc</term>
+						<term>--common_config=s</term>
 						 <listitem>
 							<para>
-								embeds a table of contents into HTML output.
+								override path to Common_Config directory.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--common_content=s</term>
+						 <listitem>
+							<para>
+								override path to Common_Content directory.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--nocolours</term>
+						 <listitem>
+							<para>
+								disable ANSI colourization of logging.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--quiet</term>
+						 <listitem>
+							<para>
+								disable all logging.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--brand_dir=s</term>
+						 <listitem>
+							<para>
+								directory to source brand files from.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					<varlistentry>
+						<term>--formats=<replaceable>FORMATS</replaceable></term>
+						 <listitem>
+							<para>
+								comma-separated list of formats to build. For example: html,pdf,html-single,html-desktop,txt,epub (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--langs=<replaceable>LANGS</replaceable></term>
+						 <listitem>
+							<para>
+								comma-separated list of languages to build. For example: en-US,de-DE,all (mandatory).
 							</para>
 
 						</listitem>
@@ -281,6 +341,16 @@
 
 					</varlistentry>
 					 <varlistentry>
+						<term>--embedtoc</term>
+						 <listitem>
+							<para>
+								embeds a table of contents into HTML output.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
 						<term>--novalid</term>
 						 <listitem>
 							<para>
@@ -291,10 +361,10 @@
 
 					</varlistentry>
 					 <varlistentry>
-						<term>--src_dir</term>
+						<term>--src_dir=<replaceable>SRC_DIR</replaceable></term>
 						 <listitem>
 							<para>
-								specifies the directory to look for <application>Publican</application> sources in.
+								specifies the directory to source <application>Publican</application> files from.
 							</para>
 
 						</listitem>
