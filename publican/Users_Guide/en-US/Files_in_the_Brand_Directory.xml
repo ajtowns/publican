@@ -335,6 +335,20 @@
 
 	</section>
 	
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_brand_dir_option">
+		<title>The brand_dir option</title>
+		<para>The <application>Publican</application> build option brand_dir allows you to specify the location of brand files. These files do not have to be part of an installed brand.</para>
+
+	<para>You can ship custom XSL in a folder named <filename>xsl</filename> in your brand: it sits at the same level as the various language files for your brand. Publican uses any
+XSL that it finds in that directory to override the XSL templates that we ship in the common brand (which in turn override the XSL templates that the
+DocBook project ships).</para>
+
+	<important>
+		<para>Brands that supply XSL files need to change the relative path to a URI.</para>
+	</important>
+
+
+	</section>
 
 </section>
 
