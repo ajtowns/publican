@@ -358,10 +358,16 @@ dtdver: 5.0
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix empty parameters being parsed as arrays. </term>
+			<term>Fix empty parameters being parsed as arrays</term>
 			<listitem>
 				<para>
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=744964">BZ #744964</ulink>
+				</para>
+				<para>
+					Empty fields were corrupting the website TOC and displaying values such as <literal>ARRAY(0x388baf8)</literal>.
+				</para>
+				<para>
+					Empty fields in <filename>publican.cfg</filename> are now ignored.
 				</para>
 			</listitem>
 		</varlistentry>
