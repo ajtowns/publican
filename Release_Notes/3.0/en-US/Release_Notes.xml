@@ -602,6 +602,21 @@ dtdver: 5.0
 				<para>
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=800252">BZ #800252</ulink>
 				</para>
+				<para>
+					The <application>Publican</application> build option brand_dir allows you to specify the location of brand files. These files do not have to be part of an installed brand.
+				</para>
+
+					<para>
+						You can ship custom XSL in a folder named <filename>xsl</filename> in your brand: it sits at the same level as the various language files for your brand. <application>Publican</application> uses any XSL that it finds in that directory to override the XSL templates that we ship in the common brand (which in turn override the XSL templates that the DocBook project ships).
+					</para>
+					<para>
+						Brands that supply XSL files need to change the relative path to a URI.
+						<example>
+							<title>Updating brand XSL</title>
+							<programlisting>
+<xi:include parse="text" href="extras/xsl" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+						</example>
+					</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
