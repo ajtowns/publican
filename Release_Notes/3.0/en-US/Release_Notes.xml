@@ -541,10 +541,22 @@ dtdver: 5.0
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Added handling of defaults file. </term>
+			<term>Publican now accepts a per user defaults file.</term>
 			<listitem>
 				<para>
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=599283">BZ #599283</ulink>
+				</para>
+				<para>
+					Users can set their own default values for <application>Publican</application> in <filename>~/.publican.cfg</filename>. Currently, <application>Publican</application> supports the following values:
+				</para>
+				<para>firstname</para>
+				<para>surname</para>
+				<para>email</para>
+				<para>formats</para>
+				<para>lang</para>
+				<para>langs</para>
+				<para>
+					Use <filename>~/.publican.cfg</filename> to simplify your build command, or with the new <application>add_revision</application> action.
 				</para>
 			</listitem>
 		</varlistentry>
