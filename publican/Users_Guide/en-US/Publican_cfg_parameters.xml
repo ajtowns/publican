@@ -310,6 +310,16 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term><parameter>info_file</parameter></term>
+			 <listitem>
+				<para>
+					override the default Info file. Use the full filename without the path.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><parameter>license</parameter></term>
 			 <listitem>
 				<para>
@@ -393,6 +403,16 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term><parameter>rev_file</parameter></term>
+			 <listitem>
+				<para>
+					override the default Revision History file. Use the full filename without the path.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><parameter>scm</parameter></term>
 			 <listitem>
 				<para>
@@ -417,6 +437,16 @@
 			 <listitem>
 				<para>
 					whether <application>Publican</application> reports unknown tags when processing XML. (Default: <literal>1</literal> — report unknown tags)
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
+			<term><parameter>sort_order</parameter></term>
+			 <listitem>
+				<para>
+					override the default sort weighting for books in a <application>Publican</application> website. Defaults to 50.
 				</para>
 
 			</listitem>
@@ -453,10 +483,30 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term>--toc_path</term>
+			 <listitem>
+				<para>
+					path to the directory in which to create the top-level <filename>toc.html</filename> file (mandatory).
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><parameter>toc_section_depth</parameter></term>
 			 <listitem>
 				<para>
 					the depth of sections that <application>Publican</application> includes in the main table of contents. (Default: <literal>2</literal>)
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
+			<term>--tmpl_path</term>
+			 <listitem>
+				<para>
+					path to the template directory (by default, <filename>/usr/share/publican/templates</filename>).
 				</para>
 
 			</listitem>

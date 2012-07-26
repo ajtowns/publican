@@ -149,6 +149,36 @@
 				</listitem>
 
 			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_cfg</parameter></term>
+				 <listitem>
+					<para>
+						the full path for the <application>Publican</application> site configuration file for non standard RPM websites.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_dir</parameter></term>
+				 <listitem>
+					<para>
+						the full path to where files will be installed. You must also set <replaceable>wwwdir</replaceable> in <filename>publican-<replaceable>brand</replaceable>.spec</filename>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_req</parameter></term>
+				 <listitem>
+					<para>
+						the name of the RPM package that will supply the Publican site config file.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
 
 		</variablelist>
 
@@ -168,6 +198,8 @@
 		 <para>
 			Use the <filename>defaults.cfg</filename> file to set values that you routinely apply to your brand but want to allow writers to change in particular books; use the <filename>overrides.cfg</filename> file for values that you do not want to allow writers to change.
 		</para>
+
+		<para>You can add a list of banned tags or attributes using <replaceable>banned_tags</replaceable> and <replaceable>banned_attrs</replaceable> respectively to either <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename>. These will be listed by the <application>Publican</application> action <replaceable>print_banned</replaceable>.</para>
 
 	</section>
 	
@@ -335,6 +367,20 @@
 
 	</section>
 	
+	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_brand_dir_option">
+		<title>The brand_dir option</title>
+		<para>The <application>Publican</application> build option brand_dir allows you to specify the location of brand files. These files do not have to be part of an installed brand.</para>
+
+	<para>You can ship custom XSL in a folder named <filename>xsl</filename> in your brand: it sits at the same level as the various language files for your brand. Publican uses any
+XSL that it finds in that directory to override the XSL templates that we ship in the common brand (which in turn override the XSL templates that the
+DocBook project ships).</para>
+
+	<important>
+		<para>Brands that supply XSL files need to change the relative path to a URI.</para>
+	</important>
+
+
+	</section>
 
 </section>
 

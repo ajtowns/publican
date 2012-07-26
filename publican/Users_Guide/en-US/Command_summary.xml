@@ -82,6 +82,88 @@
 	 <variablelist id="vari-Users_Guide-Command_summary-Actions">
 		<title>Actions</title>
 		 <varlistentry>
+			<term><command>publican add_revision</command></term>
+			 <listitem>
+				<para>
+					adds an entry in <filename>Revision_History.xml</filename>. Options:
+				</para>
+				 <variablelist>
+					 <varlistentry>
+						<term>--lang=<replaceable>LANG</replaceable></term>
+						 <listitem>
+							<para>
+								the language the XML will be written in.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--revnumber=<replaceable>REVNUMBER</replaceable></term>
+						 <listitem>
+							<para>
+								revision number to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--date=<replaceable>DATE</replaceable></term>
+						 <listitem>
+							<para>
+								date to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--member=<replaceable>MEMBER</replaceable></term>
+						 <listitem>
+							<para>
+								an entry to be added to the revision. Can be specified multiple times.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--firstname=<replaceable>FIRSTNAME</replaceable></term>
+						 <listitem>
+							<para>
+								firstname to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--surname=<replaceable>SURNAME</replaceable></term>
+						 <listitem>
+							<para>
+								surname to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--email=<replaceable>EMAIL</replaceable></term>
+						 <listitem>
+							<para>
+								email to use for a revision.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+				</variablelist>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><command>publican build</command></term>
 			 <listitem>
 				<para>
@@ -89,30 +171,90 @@
 				</para>
 				 <variablelist>
 					<varlistentry>
-						<term>--formats</term>
+						<term>--help</term>
 						 <listitem>
 							<para>
-								comma-separated list of formats to build (mandatory).
+								display help message.
 							</para>
 
 						</listitem>
 
 					</varlistentry>
 					 <varlistentry>
-						<term>--langs</term>
+						<term>--config=s</term>
 						 <listitem>
 							<para>
-								comma-separated list of languages to build (mandatory).
+								use a nonstandard config file.
 							</para>
 
 						</listitem>
 
 					</varlistentry>
 					 <varlistentry>
-						<term>--embedtoc</term>
+						<term>--common_config=s</term>
 						 <listitem>
 							<para>
-								embeds a table of contents into HTML output.
+								override path to Common_Config directory.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--common_content=s</term>
+						 <listitem>
+							<para>
+								override path to Common_Content directory.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--nocolours</term>
+						 <listitem>
+							<para>
+								disable ANSI colorization of logging.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--quiet</term>
+						 <listitem>
+							<para>
+								disable all logging.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--brand_dir=s</term>
+						 <listitem>
+							<para>
+								directory to source brand files from.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					<varlistentry>
+						<term>--formats=<replaceable>FORMATS</replaceable></term>
+						 <listitem>
+							<para>
+								comma-separated list of formats to build. For example: html,pdf,html-single,html-desktop,txt,epub (mandatory).
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--langs=<replaceable>LANGS</replaceable></term>
+						 <listitem>
+							<para>
+								comma-separated list of languages to build. For example: en-US,de-DE,all (mandatory).
 							</para>
 
 						</listitem>
@@ -129,6 +271,16 @@
 
 					</varlistentry>
 					 <varlistentry>
+						<term>--embedtoc</term>
+						 <listitem>
+							<para>
+								embeds a table of contents into HTML output.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
 						<term>--novalid</term>
 						 <listitem>
 							<para>
@@ -138,7 +290,16 @@
 						</listitem>
 
 					</varlistentry>
+					 <varlistentry>
+						<term>--src_dir=<replaceable>SRC_DIR</replaceable></term>
+						 <listitem>
+							<para>
+								specifies the directory to source <application>Publican</application> files from.
+							</para>
 
+						</listitem>
+
+					</varlistentry>
 				</variablelist>
 
 			</listitem>
@@ -453,6 +614,29 @@
 
 		</varlistentry>
 		 <varlistentry>
+			<term><command>publican migrate_site</command></term>
+			 <listitem>
+				<para>
+					migrates a website database from <application>Publican</application> 2.x to <application>Publican</application> 3. Options:
+				</para>
+				 <variablelist>
+					<varlistentry>
+						<term>--site_config=<replaceable>site_config</replaceable></term>
+						 <listitem>
+							<para>
+								website configuration file to use or create.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+
+				</variablelist>
+
+			</listitem>
+
+		</varlistentry>
+		 <varlistentry>
 			<term><command>publican package</command></term>
 			 <listitem>
 				<para>
@@ -635,7 +819,7 @@
 						<term>--name</term>
 						 <listitem>
 							<para>
-								the new title for the document,
+								the new title for the document.
 							</para>
 
 						</listitem>
@@ -719,7 +903,16 @@
 						</listitem>
 
 					</varlistentry>
+					<varlistentry>
+						<term>--msgmerge</term>
+						 <listitem>
+							<para>
+								use gettext's msgmerge for POT/PO merging.
+							</para>
 
+						</listitem>
+
+					</varlistentry>
 				</variablelist>
 
 			</listitem>

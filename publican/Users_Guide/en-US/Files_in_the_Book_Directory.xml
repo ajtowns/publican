@@ -512,6 +512,16 @@
 
 			</varlistentry>
 			 <varlistentry>
+				<term><parameter>info_file</parameter></term>
+				 <listitem>
+					<para>
+						overrides the default Info file. Specifies where <application>Publican</application> looks for info fields. Use the full filename without the path.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
 				<term><parameter>license</parameter></term>
 				 <listitem>
 					<para>
@@ -603,6 +613,16 @@
 				</listitem>
 
 			</varlistentry>
+		 <varlistentry>
+			<term><parameter>rev_file</parameter></term>
+			 <listitem>
+				<para>
+					override the default Revision History file. Specifies where <application>Publican</application> looks for revision fields. Use the full filename without the path. When combined with the <application>Publican</application> action add_revision, it enables you to build a book without a <filename>Revision_History.xml</filename>.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
 			 <varlistentry>
 				<term><parameter>scm</parameter></term>
 				 <listitem>
@@ -634,6 +654,16 @@
 
 			</varlistentry>
 			 <varlistentry>
+				<term><parameter>sort_order</parameter></term>
+				 <listitem>
+					<para>
+						override the default sort weighting for books in a <application>Publican</application> website. Books are displayed on the website in descending sort order. For example, a book with sort order 10 appears before a book with sort order 5. By default, this value is set to 50.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
 				<term><parameter>src_url</parameter></term>
 				 <listitem>
 					<para>
@@ -658,6 +688,26 @@
 				 <listitem>
 					<para>
 						specifies the directory for <application>Publican</application> output. By default, this is set to <literal>tmp</literal>, which creates a directory named <filename>tmp</filename> inside the directory that holds your article or book.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>tmpl_path</parameter></term>
+				 <listitem>
+					<para>
+						specifies the path to <application>Publican</application> templates. By default, this is set to <filename>/usr/share/publican/templates</filename>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>toc_type</parameter></term>
+				 <listitem>
+					<para>
+						specifies the name of a custom TOC template. By default, <application>Publican</application> looks for <filename>toc-<replaceable>$toc_type</replaceable>.tmpl</filename> in <filename>/usr/share/publican/templates</filename>. You can override this by setting an alternative path with <filename>tmpl_path</filename>.
 					</para>
 
 				</listitem>

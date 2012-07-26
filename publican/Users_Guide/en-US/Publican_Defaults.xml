@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Users_Guide-Publican_Defaults">
+	<title>Publican defaults</title>
+
+	<para>Users can set their own default values for <application>Publican</application> in <filename>~/.publican.cfg</filename>. Currently, <application>Publican</application> supports the following values:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>firstname</para>
+		</listitem>
+		<listitem>
+		  <para>surname</para>
+		</listitem>
+		<listitem>
+		  <para>email</para>
+		</listitem>
+		<listitem>
+		  <para>formats</para>
+		</listitem>
+		<listitem>
+		  <para>lang</para>
+		</listitem>
+		<listitem>
+		  <para>langs</para>
+		</listitem>
+	</itemizedlist>
+
+	<note>
+		<para>This file is completely different to <filename>publican.cfg</filename> that is used to build a book. It does not accept the same parameters.</para>
+	</note>
+
+	<section id="chap-Users_Guide-Publican_Defaults-Examples">
+		<title>Publican default examples</title>
+			<para>Users can set <replaceable>formats</replaceable>, <replaceable>lang</replaceable>, and <replaceable>langs</replaceable> to their standard build parameters.</para>
+
+			<example>
+				<title>Setting formats and lang</title>
+<screen>
+$ echo 'formats: "html,html-single,pdf,txt"' >> ~/.publican.cfg
+$ echo 'langs: "en-US"' >> ~/.publican.cfg
+$ publican build
+Setting up en-US
+[...]
+	Finished txt
+</screen> 
+			</example>
+
+		<para><application>Publican</application> 3.0 allows you to add a revision history entry from the command line. You can set your user details in <filename>~/.publican.cfg</filename>.</para>
+
+		<example>
+			<title>Setting user details</title>
+<screen>
+$ echo 'firstname: "Dude"' >> ~/.publican.cfg 
+$ echo 'surname: "McPants"' >> ~/.publican.cfg 
+$ echo 'email: "dude.mcpants@awesome.com"' >> ~/.publican.cfg 
+$ publican add_revision --member "Updated examples in chapter 2." \
+--member "Removed obsolete example in sect 4.1"
+</screen>
+		</example>
+
+	</section>
+
+
+</chapter>
+
