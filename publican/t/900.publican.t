@@ -20,27 +20,6 @@ $coverdb = qq|-MDevel::Cover=-db,$cover_db| if ($cover_db);
 my $common_opts
     = qq|--quiet --common_config="$common_config" --common_content="$common_content" --nocolours|;
 
-is( system(qq{perl -CA $coverdb -I $lib -c $publican $common_opts -v}),
-    0, 'test sytnax OK' );
-
-is( system(qq{perl -CA $coverdb -I $lib $publican -v --help all}),
-    0, 'test help output' );
-
-is( system(qq{perl -CA $coverdb -I $lib $publican --help_actions}),
-    0, 'all action help' );
-
-like(
-    qx/perl -CA $coverdb -I $lib $publican pants/,
-    qr/'pants' is an unknown action!/,
-    'invalid action'
-);
-
-is( system(qq{perl -CA $coverdb -I $lib $publican --help build}),
-    0, 'valid action help' );
-
-is( system(qq{perl -CA $coverdb -I $lib $publican --man}),
-    0, 'test man output' );
-
 is( system(
         qq{perl -CA $coverdb -I $lib $publican create --name foo2 $common_opts}
     ),
@@ -48,7 +27,13 @@ is( system(
     'create a book'
 );
 
+my $flink = cwd().'/blib';
+
+my $tlink = cwd().'/foo2';
+
 my $dir = pushd("foo2");
+
+system("ln -s $flink $tlink");
 
 is( system(qq{perl -CA $coverdb -I $lib $publican help_config $common_opts}),
     0, 'test help_config'
@@ -86,4 +71,26 @@ is( system(qq{perl -CA $coverdb -I $lib $publican print_banned $common_opts}),
 );
 
 $dir = undef;
+
+is( system(qq{perl -CA $coverdb -I $lib -c $publican $common_opts -v}),
+    0, 'test sytnax OK' );
+
+is( system(qq{perl -CA $coverdb -I $lib $publican -v --help all}),
+    0, 'test help output' );
+
+is( system(qq{perl -CA $coverdb -I $lib $publican --help_actions}),
+    0, 'all action help' );
+
+like(
+    qx/perl -CA $coverdb -I $lib $publican pants/,
+    qr/'pants' is an unknown action!/,
+    'invalid action'
+);
+
+is( system(qq{perl -CA $coverdb -I $lib $publican --help build}),
+    0, 'valid action help' );
+
+is( system(qq{perl -CA $coverdb -I $lib $publican --man}),
+    0, 'test man output' );
+
 

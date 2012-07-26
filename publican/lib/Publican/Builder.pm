@@ -839,11 +839,11 @@ sub transform {
             || croak( maketext("Can't open file for html input!") );
         $tree->parse_file($fh);
 ## BZ #697363
-        my $formatter = $self->{publican}->param('txt_format') || '';
+        my $formatter = $self->{publican}->param('txt_formater') || '';
 
         if ( $formatter eq 'links' ) {
             my $f = HTML::FormatText::WithLinks->new();
-            print( $TXT_FILE $f->parse_file("html-single/index.html") );
+            print( $TXT_FILE $f->parse($tree->as_HTML()) );
 
         }
         elsif ( $formatter eq 'tables' ) {
@@ -858,8 +858,8 @@ sub transform {
             );
         }
         else {
-            my $formatter = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
-            print( $TXT_FILE $formatter->format($tree) );
+            my $f = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
+            print( $TXT_FILE $f->format($tree) );
         }
 
         close($TXT_FILE);

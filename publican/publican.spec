@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0
-Release:        0%{?dist}.t210
+Release:        0%{?dist}.t212
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -63,7 +63,7 @@ BuildRequires:  perl(File::Which)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(HTML::FormatText)
 BuildRequires:  perl(HTML::FormatText::WithLinks)
-BuildRequires:  perl(HTML::FormatText::WithLinks::AndTables)
+BuildRequires:  perl(HTML::FormatText::WithLinks::AndTables) >= 0.02
 BuildRequires:  perl(HTML::TreeBuilder)
 BuildRequires:  perl(I18N::LangTags::List)
 BuildRequires:  perl(IO::String)
@@ -202,6 +202,7 @@ cd -
 %endif
 
 %post
+# hack to allow branch directory BZ #800252
 CATALOG=%{_sysconfdir}/xml/catalog
 %{_bindir}/xmlcatalog --noout --add "rewriteURI" \
  "https://fedorahosted.org/released/publican/xsl/docbook4/" \
