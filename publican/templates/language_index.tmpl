@@ -105,7 +105,7 @@ $(document).ready(function() {
 	$('#slider').load("[% host %]/[% lang %]/carousel.html", function(){
 		$('#slider').jcarousel({scroll:1,auto:"8",visible:"1",wrap:"both", [%- IF lang.match('(?:he-IL|fa-IR|ar-SA)') %] rtl:"1",[% END %] initCallback: mycarousel_initCallback});
 	});	
-	$('#splash').load("[% host %]/[% lang %]/splash.html");
+	$('#splash').load("[% host %]/[% lang %]/splash.html .article");
 	$(window).trigger('hashchange');
 });
 

@@ -1612,3 +1612,68 @@ body.toc_embeded p#title {
 	position: absolute !important;
 }
 
+
+/*narrower lists in nav for smaller screens */
+@media (max-height: 640px) {
+    #product_menu a{font-size:.85em !important; line-height:2em; height:2em;}
+    
+}
+
+
+/*smaller nav for smaller screens */
+@media (max-width: 1020px) {
+    #menu {font-size:.75em !important;}}
+
+
+
+/*fixing the overflow of long product menus*/
+#product_menu ul,
+#book_menu ul,
+#version_menu ul,
+#lang_menu_2 ul {
+	left: inherit;
+	position:fixed !important;
+	max-height: 90%;
+	display:block;
+	top:10px !important;
+	margin-left: -.9em !important;
+	max-width: 70em !important;
+	background-color: pink;
+	overflow: auto;
+	min-width: 200px !important
+}
+
+#lang_menu_2 ul {
+top: 32px !important;
+}
+
+
+/* shrink the font size of the docunav when viewing on a small screen*/
+@media (max-width: 1020px) {
+     .docnav , .docnav li.home,  .docnav a strong, #floatingtoc{font-size:.75em !important;}
+    }
+   
+}
+
+
+
+/*when there is no side nav */
+#floatingtoc .toc { 
+        width: 40em !important;
+  left: 50% !important;
+  margin-left: -20em !important;
+  position: absolute !important;
+}
+
+
+
+
+/*when there is a side nav, nudge the floating toc to the left by 20em */
+.toc_embeded #floatingtoc .toc { 
+        width: 40em !important;
+  left: 50% !important;
+  margin-left: 0em !important;
+  position: absolute !important;
+}
+
+
