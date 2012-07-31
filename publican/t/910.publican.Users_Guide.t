@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More tests => 5;
 use File::pushd;
-use Cwd qw(abs_path);
+use Cwd qw(abs_path cwd);
 
 diag("Testing bin/publican on the Users_Guide");
 
@@ -22,8 +22,14 @@ push @perl_args, $coverdb if defined $coverdb;
 my @common_opts
     = ( '--quiet', '--common_config', $common_config, '--common_content', $common_content );
 
+my $flink = cwd().'/blib';
+
+my $tlink = cwd().'/Users_Guide';
+
 my $dir = pushd('Users_Guide');
 my $result;
+
+system("ln -s $flink $tlink") unless (-l 'blib' && -d 'blib');
 
 $result = system( @perl_args, $publican, 'print_tree', @common_opts );
 is( $result, 0, 'Run print_tree' );
@@ -53,4 +59,3 @@ $result
 is( $result, 0, 'build the Users Guide in all formats' );
 
 $dir = undef;
-
