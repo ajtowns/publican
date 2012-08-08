@@ -9,13 +9,24 @@
 		<varlistentry>
 			<term>wkhtmltopdf</term>
 			<listitem>
-			  <para>FOP has been replaced with wkhtmltopdf.</para>
+			  <para>For PDF generation FOP has been replaced with wkhtmltopdf.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
 			<term>Publican website</term>
 			<listitem>
 			  <para>The database has changed. Users of <application>Publican</application> 2.x websites must run <application>publican migrate_site</application> to update their database.</para>
+				<para>
+					Publican now supports 2 web site layouts, controlled with the web_style parameter in the site configuration file. web_style 1, the original style, has been tweaked to be a more modern. web_style 2 a new layout style that is much more modern that the original style.
+				</para>
+				<important>
+					<para>
+						Publican uses javascript to check for the existance of <filename>toc.html</filename> to determine which style to use for the layout. If you switch from style 1 to style 2 you will need to manually remove <filename>toc.html</filename>.
+					</para>
+					<para>
+						Doing it this way allows you to switch between styles without regenrating any of the books.
+					</para>
+				</important>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -60,7 +71,7 @@
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=663202">BZ #663202</ulink>
 				</para>
 				<para>
-					You can add a list of banned tags or attributes using <replaceable>banned_tags</replaceable> and <replaceable>banned_attrs</replaceable> respectively to either <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename>. These will be listed by the <application>Publican</application> action <replaceable>print_banned</replaceable>.
+					In a brand you can add a list of banned tags or attributes using <replaceable>banned_tags</replaceable> and <replaceable>banned_attrs</replaceable> respectively to either <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename>. These will be listed by the <application>Publican</application> action <replaceable>print_banned</replaceable>.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -79,8 +90,13 @@
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=642127">BZ #642127</ulink>
 				</para>
 				<para>
-					<application>update_po</application> adds a <replaceable>LANG</replaceable>/Revision_History.xml file; building the book adds this file to the English Revision History. 
+					<application>update_po</application> now adds a <replaceable>LANG</replaceable>/Revision_History.xml file; building the book adds this file to the English Revision History. 
 				</para>
+				<warning>
+					<para>
+						Many books have revnumbers that will not work when trying to package books due to format constraints. These books will have to have their revnmbers corrected.
+					</para>
+				</warning>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -113,7 +129,7 @@
 						<term>--revnumber=<replaceable>REVNUMBER</replaceable></term>
 						 <listitem>
 							<para>
-								revision number to use for a revision.
+								revision number to use for a revision. Will default to <replaceable>REVNUMBER</replaceable> + 1 if not specified.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -121,7 +137,7 @@
 						<term>--date=<replaceable>DATE</replaceable></term>
 						 <listitem>
 							<para>
-								date to use for a revision.
+								date to use for a revision. Will default to current date if not set.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -137,7 +153,7 @@
 						<term>--firstname=<replaceable>FIRSTNAME</replaceable></term>
 						 <listitem>
 							<para>
-								firstname to use for a revision.
+								firstname to use for revision author. Optional if set in <filename>~/.publican.cfg</filename>.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -145,7 +161,7 @@
 						<term>--surname=<replaceable>SURNAME</replaceable></term>
 						 <listitem>
 							<para>
-								surname to use for a revision.
+								surname to use for revision author. Optional if set in <filename>~/.publican.cfg</filename>.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -153,7 +169,7 @@
 						<term>--email=<replaceable>EMAIL</replaceable></term>
 						 <listitem>
 							<para>
-								email to use for a revision.
+								email address to use for revision author. Optional if set in <filename>~/.publican.cfg</filename>.
 							</para>
 						</listitem>
 					</varlistentry>
@@ -185,20 +201,24 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Add --msgmerge to update_po to override using internal POT/PO merging. </term>
+			<term>Replace msgmerge</term>
 			<listitem>
 				<para>
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=661569">BZ #661569</ulink>
 				</para>
-					<variablelist>
-						<varlistentry>
-							<term>update_po --msgmerge</term>
-							 <listitem>
-								<para>
-									use gettext's msgmerge for POT/PO merging.
-								</para>
-							</listitem>
-						</varlistentry>
+				<para>
+					Implimented internal XML-&gt;PO and PO-&gt;XML routines.
+				</para>
+				<para>Added --msgmerge to update_po to allow users to switch back to using msgmerge. </para>
+				<variablelist>
+					<varlistentry>
+						<term>update_po --msgmerge</term>
+						 <listitem>
+							<para>
+								use gettext's msgmerge for POT/PO merging.
+							</para>
+						</listitem>
+					</varlistentry>
 				</variablelist>
 			</listitem>
 		</varlistentry>
@@ -208,9 +228,13 @@
 				<para>
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=697367">BZ #697367</ulink>
 				</para>
-				<para>
-					DocBook 5 is a tech preview. 
-				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+				<term>
+					DocBook 5 tech preview. 
+				</term>
+			<listitem>
 				<para>
 					To convert a publican book's XML to DB5, cd in to the book directory and run:
 				</para>
@@ -273,7 +297,7 @@ dtdver: 5.0
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=697371">BZ #697371</ulink>
 				</para>
 				<para>
-					Translators are now able to add an <filename>Author_Group.xml</filename> to their language directory. When the document is build, this file will be appended to the source language version.
+					Translators are now able to add an <filename>Author_Group.xml</filename> to their language directory. When the document is built this file will be appended to the source language version.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -605,18 +629,41 @@ dtdver: 5.0
 				<para>
 					The <application>Publican</application> build option brand_dir allows you to specify the location of brand files. These files do not have to be part of an installed brand.
 				</para>
+				<para>
+					You can ship custom XSL in a folder named <filename>xsl</filename> in your brand: it sits at the same level as the various language files for your brand. <application>Publican</application> uses any XSL that it finds in that directory to override the XSL templates that we ship in the common brand (which in turn override the XSL templates that the DocBook project ships).
+				</para>
+				<warning>
+					<para>
+						Brands wishing to support brand_dir that supply XSL files need to change the relative path to a URI.
+					</para>
+					<example>
+						<title>Updating brand XSL</title>
+						<programlisting language="XML">
+<xi:include parse="text" href="extras/xsl" xmlns:xi="http://www.w3.org/2001/XInclude" />
+						</programlisting>
+					</example>
+				</warning>
+				<warning>
+					<para>
+						Platform support for this this change requires updating the XML catalog on the system. Packagers should automate this for their platforms. 
+					</para>
+					<example><title>Modifying the XML catalog on an RPM based system</title>
+						<programlisting>
+%post
+CATALOG=%{_sysconfdir}/xml/catalog
+%{_bindir}/xmlcatalog --noout --add "rewriteURI" \
+ "https://fedorahosted.org/released/publican/xsl/docbook4/" \
+ "file://%{_datadir}/publican/xsl/"  $CATALOG
 
-					<para>
-						You can ship custom XSL in a folder named <filename>xsl</filename> in your brand: it sits at the same level as the various language files for your brand. <application>Publican</application> uses any XSL that it finds in that directory to override the XSL templates that we ship in the common brand (which in turn override the XSL templates that the DocBook project ships).
-					</para>
-					<para>
-						Brands that supply XSL files need to change the relative path to a URI.
-						<example>
-							<title>Updating brand XSL</title>
-							<programlisting>
-<xi:include parse="text" href="extras/xsl" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
-						</example>
-					</para>
+%postun
+if [ "$1" = 0 ]; then
+  CATALOG=%{_sysconfdir}/xml/catalog
+  %{_bindir}/xmlcatalog --noout --del \
+   "file://%{_datadir}/publican/xsl/docbook4/" $CATALOG
+fi
+						</programlisting>
+					</example>
+				</warning>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -716,6 +763,23 @@ dtdver: 5.0
 				<para>
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=838427">BZ #838427</ulink>
 				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add jcarousel support.</term>
+			<listitem>
+				<para>
+					Added support for using <ulink url="http://sorgalla.com/jcarousel/">jcarousel</ulink> to the web_style 2 welcome page. 
+				</para>
+				<para>
+					To populate this content  add a new file to your welcome page, <filename>en-US/Ads.xml</filename>, using the <sgmltag>refentry</sgmltag> format. For each <sgmltag>refsection</sgmltag> supply a <sgmltag>title</sgmltag>, <sgmltag>subtitle</sgmltag>, and <sgmltag>literallayout</sgmltag>. The text of <sgmltag>title</sgmltag> and <sgmltag>subtitle</sgmltag> are used in the Ad&semi; <sgmltag>literallayout</sgmltag> is used to create a relative link on the site. You can customise the CSS for each Ad by specifing the role attribute on the <sgmltag>refsection</sgmltag> and then by adding the same class in the welocme page's <filename>site_overides.css</filename>. If you ship images in the welcome page's images directory you can then use them as backgroud images.
+				</para>
+				<example>
+					<title>Ads.xml</title>
+					<programlisting language="XML">
+<xi:include parse="text" href="extras/Ads.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+					</programlisting>
+				</example>
 			</listitem>
 		</varlistentry>
 
