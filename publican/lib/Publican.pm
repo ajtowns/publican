@@ -1310,7 +1310,12 @@ sub get_ed_rev {
         if ( !-f $rev_file );
 
     my $rev_doc = XML::TreeBuilder->new();
-    $rev_doc->parse_file($rev_file);
+    eval{ $rev_doc->parse_file($rev_file);};
+    if ($@) {
+        croak( maketext( "FATAL ERROR: [_1]: [_2]",$rev_file, $@ ) );
+    }
+
+
     my $VR = eval { $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text(); };
     if ($@) {
         croak( maketext( "revnumber not found in [_1]", $rev_file ) );
