@@ -403,6 +403,7 @@ my $builder = $class->new(
         'web/jquery-1.7.1.min.js'     => 'web/jquery-1.7.1.min.js',
         'web/jquery.jcarousel.min.js' => 'web/jquery.jcarousel.min.js',
         'web/menu.css'                => 'web/menu.css',
+        'web/print.css'               => 'web/print.css',
         'web/static.css'              => 'web/static.css',
     },
     templates_files => {
