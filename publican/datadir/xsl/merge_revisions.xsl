@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<xsl:output encoding="UTF-8" indent="yes" omit-xml-declaration="no" version="1.0"/>
+<xsl:output encoding="UTF-8" indent="yes" omit-xml-declaration="no" version="1.0" doctype-public="-//OASIS//DTD DocBook XML V4.5//EN" doctype-system="http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"/>
 <xsl:param name="trans_rev" select="''" />
 <xsl:template match="/">
 <xsl:variable name="trans_rev_doc" select="document($trans_rev)" />
