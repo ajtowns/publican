@@ -39,14 +39,14 @@ body[dir="rtl"].notoc {
 a:focus {
     outline: medium none;
 }
-body > div.book,
-body > div.article,
-body > div.set,
-body > div.preface,
-body > div.chapter,
-body > div.section,
-body > div.appendix,
-body > div.part,
+body > div.book, #main > div.book,
+body > div.article, #main > div.article,
+body > div.set, #main > div.set,
+body > div.preface, #main > div.preface,
+body > div.chapter, #main > div.chapter,
+body > div.section, #main > div.section,
+body > div.appendix, #main > div.appendix,
+body > div.part, #main > div.part,
 body > div.index {
     margin-left: auto;
     margin-right: auto;
@@ -1241,7 +1241,7 @@ body, section {
 }
 */
 
-body > div.book,body > div.article,body > div.set,body > div.preface,body > div.chapter,body > div.section,body > div.appendix,body > div.part {
+body > div.book, #main > div.book,body > div.article, #main > div.article,body > div.set, #main > div.set,body > div.preface, #main > div.preface,body > div.chapter, #main > div.chapter,body > div.section, #main > div.section,body > div.appendix, #main > div.appendix,body > div.part {
 	margin-top: 0px;
 /* breaks selection
 	-webkit-user-select: text;
@@ -1573,7 +1573,7 @@ body #menu {
 
 @media only screen and (max-width: 45em) {
 
-	body > div.book, body > div.article, body > div.set, body > div.preface, body > div.chapter, body > div.section, body > div.appendix, body > div.part {padding:2em;}
+	body > div.book, #main > div.book, body > div.article, #main > div.article, body > div.set, #main > div.set, body > div.preface, #main > div.preface, body > div.chapter, #main > div.chapter, body > div.section, #main > div.section, body > div.appendix, #main > div.appendix, body > div.part {padding:2em;}
 #book_lang_menu, #lang_menu_2, #book_format_menu{right: 0 !important;}
 
 }
