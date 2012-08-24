@@ -11,7 +11,7 @@
 
 	;Name and file
 	Name "Publican"
-	OutFile "Publican-Installer-2.9.exe"
+	OutFile "Publican-Installer-3.0-beta.exe"
 	!insertmacro MUI_DEFAULT MUI_ICON "publican.ico"
 
 	;Default installation folder
@@ -39,7 +39,7 @@
 	!insertmacro MUI_PAGE_LICENSE "..\COPYING" # GPL
 	!insertmacro MUI_PAGE_LICENSE "..\CC0"
 	!insertmacro MUI_PAGE_LICENSE "..\fdl.txt"
-	!insertmacro MUI_PAGE_LICENSE "C:\publican\trunk\publican-redhat\COPYING" # CC-BY-SA 3.0
+	!insertmacro MUI_PAGE_LICENSE "C:\Users\jfearn\publican\publican-redhat\COPYING" # CC-BY-SA 3.0
 	!insertmacro MUI_PAGE_COMPONENTS
 	!insertmacro MUI_PAGE_DIRECTORY
 	!insertmacro MUI_PAGE_INSTFILES
@@ -101,7 +101,7 @@ Section "Publican" SecMain
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
 
 	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayName" "Publican"
-	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayVersion" "2.9"
+	WriteRegStr HKLM "${REG_UNINSTALL}" "DisplayVersion" "3.0-beta"
 	WriteRegStr HKLM "${REG_UNINSTALL}" "Publisher" "Team Publican"
 	WriteRegStr HKLM "${REG_UNINSTALL}" "InstallSource" "$EXEDIR\"
 	WriteRegDWord HKLM "${REG_UNINSTALL}" "NoModify" 0
@@ -113,63 +113,63 @@ SectionEnd
 SectionGroup "Brands" SecBrands
 Section "RedHat" SecBrandRedHat
 	SetOutPath "$INSTDIR\Common_Content"
-	file /r C:\publican\trunk\publican-redhat\publish\*
+	file /r C:\Users\jfearn\publican\publican-redhat\publish\*
 	SetOutPath "$INSTDIR\Common_Content\RedHat"
-	file /r C:\publican\trunk\publican-redhat\publican.cfg
+	file /r C:\Users\jfearn\publican\publican-redhat\publican.cfg
 
 SectionEnd
 
 Section "fedora" SecBrandfedora
 
 	SetOutPath "$INSTDIR\Common_Content"
-	file /r C:\publican\trunk\publican-fedora\publish\*
+	file /r C:\Users\jfearn\publican\publican-fedora\publish\*
 	SetOutPath "$INSTDIR\Common_Content\fedora"
-	file /r C:\publican\trunk\publican-fedora\publican.cfg
+	file /r C:\Users\jfearn\publican\publican-fedora\publican.cfg
 
 SectionEnd
 
 Section "JBoss" SecBrandJBoss
 
 	SetOutPath "$INSTDIR\Common_Content"
-	file /r C:\publican\trunk\publican-jboss\publish\*
+	file /r C:\Users\jfearn\publican\publican-jboss\publish\*
 	SetOutPath "$INSTDIR\Common_Content\jboss"
-	file /r C:\publican\trunk\publican-jboss\publican.cfg
+	file /r C:\Users\jfearn\publican\publican-jboss\publican.cfg
 
 SectionEnd
 
 Section "JBoss Community" SecBrandJBossCom
 
 	SetOutPath "$INSTDIR\Common_Content"
-	file /r C:\publican\trunk\publican-jboss-community\publish\*
+	file /r C:\Users\jfearn\publican\publican-jboss-community\publish\*
 	SetOutPath "$INSTDIR\Common_Content\jboss-community"
-	file /r C:\publican\trunk\publican-jboss-community\publican.cfg
+	file /r C:\Users\jfearn\publican\publican-jboss-community\publican.cfg
 
 SectionEnd
 
 Section "JBoss Hibernate Community" SecBrandJBossHib
 
 	SetOutPath "$INSTDIR\Common_Content"
-	file /r C:\publican\trunk\publican-jboss-community-hibernate\publish\*
+	file /r C:\Users\jfearn\publican\publican-jboss-community-hibernate\publish\*
 	SetOutPath "$INSTDIR\Common_Content\jboss-community-hibernate"
-	file /r C:\publican\trunk\publican-jboss-community-hibernate\publican.cfg
+	file /r C:\Users\jfearn\publican\publican-jboss-community-hibernate\publican.cfg
 
 SectionEnd
 
 Section "JBoss Richfaces Community" SecBrandJBossRF
 
 	SetOutPath "$INSTDIR\Common_Content"
-	file /r C:\publican\trunk\publican-jboss-community-richfaces\publish\*
+	file /r C:\Users\jfearn\publican\publican-jboss-community-richfaces\publish\*
 	SetOutPath "$INSTDIR\Common_Content\jboss-community-richfaces"
-	file /r C:\publican\trunk\publican-jboss-community-richfaces\publican.cfg
+	file /r C:\Users\jfearn\publican\publican-jboss-community-richfaces\publican.cfg
 
 SectionEnd
 
 Section "GIMP" SecBrandGIMP
 
 	SetOutPath "$INSTDIR\Common_Content"
-	file /r C:\publican\trunk\publican-gimp\publish\*
+	file /r C:\Users\jfearn\publican\publican-gimp\publish\*
 	SetOutPath "$INSTDIR\Common_Content\GIMP"
-	file /r C:\publican\trunk\publican-gimp\publican.cfg
+	file /r C:\Users\jfearn\publican\publican-gimp\publican.cfg
 
 SectionEnd
 
