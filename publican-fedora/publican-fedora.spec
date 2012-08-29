@@ -4,7 +4,7 @@
 Name:		publican-%{brand}
 Summary:	Publican documentation template files for %{brand}
 Version:	3.0
-Release:	0%{?dist}
+Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,7 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
-* Thu Mar 8 2012 Rüdiger Landmann <r.landmann@redhat.com> 3.0-0
+* Thu Mar 8 2012 Rüdiger Landmann <r.landmann@redhat.com> 3.0-1
 - Update brand for Publican 3.0
 
 * Sun Aug 29 2010 Rüdiger Landmann <r.landmann@redhat.com> 2.0-0
