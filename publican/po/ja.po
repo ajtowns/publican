@@ -1,10 +1,11 @@
+# khasida <khasida@fedoraproject.org>, 2012. #zanata
 # ykatabam <ykatabam@fedoraproject.org>, 2012. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-08-29 09:55-0400\n"
-"Last-Translator: ykatabam <ykatabam@fedoraproject.org>\n"
+"PO-Revision-Date: 2012-08-30 03:06-0400\n"
+"Last-Translator: khasida <khasida@fedoraproject.org>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,43 +19,45 @@ msgid ""
 "\n"
 "No unused XML files"
 msgstr ""
+"\n"
+"未使用の XML ファイルはありません"
 
 #: bin/publican:575
 msgid "$ cd path/to/brand"
-msgstr ""
+msgstr "$ cd path/to/brand"
 
 #: bin/publican:576
 msgid "$ publican build --formats=xml --langs=all --publish"
-msgstr ""
+msgstr "$ publican build --formats=xml --langs=all --publish"
 
 #: bin/publican:578
 msgid "$ publican install_brand --web --path=/path/to/site/%{brand}"
-msgstr ""
+msgstr "$ publican install_brand --web --path=/path/to/site/%{brand}"
 
 #: bin/publican:579
 msgid "$ publican update_site --site_config /path/to/site/config"
-msgstr ""
+msgstr "$ publican update_site --site_config /path/to/site/config"
 
 #. ($rpmbuild,WTERMSIG($?))
 #: lib/Publican/Builder.pm:1993
 msgid "%1 died with signal %2"
-msgstr ""
+msgstr "%1 はシグナル %2 で消滅しました"
 
 #. ($rpmbuild,WEXITSTATUS($?))
 #: lib/Publican/Builder.pm:1996
 msgid "%1 exited with value %2"
-msgstr ""
+msgstr "%1 は %2 の値で終了しました"
 
 #. ('toc_path')
 #: lib/Publican/WebSite.pm:140
 msgid "%1 is a mandatory field in a site configuration file"
-msgstr ""
+msgstr "%1 はサイト設定ファイル内の必須のフィールドです"
 
 #. ('db_file',$site_config)
 #: lib/Publican/WebSite.pm:145
 msgid ""
 "%1 is a mandatory field in a site configuration file. Check %2 for validity."
-msgstr ""
+msgstr "%1 はサイト設定ファイル内の必須のフィールドです。%2 をチェックして妥当性を確認します。"
 
 #. ('cmd')
 #. ('site_config')
@@ -73,7 +76,7 @@ msgstr ""
 #: bin/publican:616 bin/publican:618 bin/publican:625 bin/publican:627
 #: bin/publican:732 bin/publican:971
 msgid "%1 is a required argument"
-msgstr ""
+msgstr "%1 は必須の引数です"
 
 #. ('members')
 #. ('firstname')
@@ -83,47 +86,47 @@ msgstr ""
 #: lib/Publican.pm:1205 lib/Publican.pm:1210 lib/Publican.pm:1212
 #: lib/Publican.pm:1214 lib/Publican.pm:1216
 msgid "%1 is a required option for add_revision"
-msgstr ""
+msgstr "%1 は add_revision 用の必須のオプションです"
 
 #. ($action)
 #: bin/publican:420
 msgid "'%1' is an unknown action!"
-msgstr ""
+msgstr "'%1'  は不明な操作です"
 
 #. ($language)
 #: lib/Publican/Builder.pm:1490
 msgid ""
 "'%1' is not a valid language for highlighting. Language names are case "
 "sensitive."
-msgstr ""
+msgstr "'%1' は、強調表示用には有効な言語ではありません。言語名は大文字/小文字の区別があります。"
 
 #: lib/Publican/Builder.pm:1573 lib/Publican/Builder.pm:1588
 msgid "'area' requires a 'coords' attribute."
-msgstr ""
+msgstr "'area' には、 'coords' 属性が必要です。"
 
 #: lib/Publican/Builder.pm:2493 lib/Publican/Builder.pm:2535
 msgid "'books' is a required configuration parameter for a remote set"
-msgstr ""
+msgstr "'books' は、リモートセット用に必須の設定パラメータです"
 
 #: lib/Publican/Translate.pm:961
 msgid "'lang' is a mandatory argument"
-msgstr ""
+msgstr "'lang' は必須の引数です"
 
 #: lib/Publican.pm:1303
 msgid "'lang' is a required option for get_ed_rev"
-msgstr ""
+msgstr "'lang' は、get_ed_rev の為に必須のオプションです"
 
 #: lib/Publican/XmlClean.pm:567
 msgid "'path' is a mandatory argument"
-msgstr ""
+msgstr "'path' は、必須の引数です"
 
 #: lib/Publican/Builder.pm:2496
 msgid "'repo' is a required configuration parameter for a remote set"
-msgstr ""
+msgstr "'repo' は、リモートセット用に必須の設定パラメータです"
 
 #: lib/Publican/XmlClean.pm:565
 msgid "'xml_doc' is a mandatory argument"
-msgstr ""
+msgstr "'xml_doc' は必須の引数です"
 
 #. ($title,$cols,@entries)
 #: lib/Publican/XmlClean.pm:907
@@ -131,6 +134,8 @@ msgid ""
 "*ERROR: Fatal Table Error* Table (%1) contains invalid data\n"
 "Attribute cols (%2) does not match number of entry elements (%3)"
 msgstr ""
+"*ERROR: Fatal Table Error*  表 (%1) には、無効なデータが含まれています\n"
+" cols (%2) 属性は、多くのエントリ要素 (%3) に一致しません"
 
 #. ($title)
 #: lib/Publican/XmlClean.pm:899
@@ -138,6 +143,8 @@ msgid ""
 "*ERROR: Fatal Table Error* Table (%1) contains invalid data\n"
 "Attribute cols is mandatory for tgroup"
 msgstr ""
+"*ERROR: Fatal Table Error* 表 (%1) には、無効なデータが含まれています\n"
+"cols 属性は tgroup 用に必須となります"
 
 #. ($tag)
 #: lib/Publican/XmlClean.pm:644
@@ -1352,7 +1359,7 @@ msgstr ""
 #. ($edition,$release)
 #: lib/Publican/Translate.pm:292
 msgid "Translation files synchronised with XML sources %1-%2"
-msgstr "翻訳ファイルを XML sources %1-%2 と同期"
+msgstr "翻訳ファイルを XML ソースバージョン %1-%2 と同期化"
 
 #: lib/Publican.pm:276
 msgid ""
