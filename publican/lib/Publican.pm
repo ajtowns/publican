@@ -211,7 +211,7 @@ my %PARAMS = (
     },
     mainfile => {
         descr => maketext(
-            'The name of the main xml and ent files for this books, sans file extension and language. Fetched from docname if not set.'
+            'The name of the main xml and ent files for this book, sans file extension and language. Fetched from docname if not set.'
         ),
     },
     menu_category => {
@@ -306,7 +306,7 @@ my %PARAMS = (
     },
     web_style => {
         descr => maketext(
-            'Splash pages should be generated to be comaptible with this web style. Valid values are 1 and 2.'
+            'Splash pages should be generated to be compatible with this web style. Valid values are 1 and 2.'
         ),
         constraint => '[1-2]',
         default    => '1',
