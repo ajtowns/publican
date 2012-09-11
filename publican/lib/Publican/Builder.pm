@@ -36,6 +36,8 @@ use List::Util qw(max);
 use Text::Wrap qw(fill $columns);
 use IO::String;
 use File::Which;
+use Text::CSV_XS;
+use Encode qw(is_utf8 decode_utf8 encode_utf8); 
 
 $File::Copy::Recursive::KeepMode = 0;
 
@@ -1024,8 +1026,10 @@ sub transform {
         $xslt_opts{'desktop'}  = 1;
 
     }
-    elsif ( $format eq 'html' ) {
+    elsif ( $format eq 'html' or $format eq 'drupal-book' ) {
         $dir = pushd("$tmp_dir/$lang/$format");
+
+        $xsl_file =~ s/drupal\-book\.xsl$/html\.xsl/;
 
         $xslt_opts{'doc.url'}              = "'$doc_url'";
         $xslt_opts{'prod.url'}             = "'$prod_url'";
@@ -1286,6 +1290,11 @@ sub transform {
         # remove any XML files from common
         finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" )
             if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
+
+        if ( $format =~ /^drupal-book/) {
+            my @nodes_order = $self->get_nodes_order( { source => $source } );
+            $self->build_drupal_book( { lang => $lang, nodes_order => \@nodes_order } ); 
+        }
     }
 
     $xslt       = undef;
@@ -1300,6 +1309,221 @@ sub transform {
 
     return;
 }
+
+sub get_nodes_order {
+    my ($self, $args) = @_;
+
+    my $source = delete( $args->{source} )
+        || croak( maketext("source is a mandatory argument") );
+
+    my $node = delete( $args->{node} ) || undef;
+
+    my @order;
+    my @node_list;
+
+    if ( !$node ) {
+        @node_list = $source->getElementsByTagName('chapter');        
+    }
+    else  {
+        @node_list = $node->childNodes();
+    }
+
+    foreach my $node (@node_list) {
+        foreach my $node_attr ($node->attributes()) {
+            push @order, $node_attr->getValue()
+              if ($node_attr->isId);
+
+            my @child_node = $self->get_nodes_order( { source => $source, node => $node } );
+            push @order, @child_node
+              if (@child_node);
+        }
+    }
+
+    return @order;
+}
+
+sub build_drupal_book {
+    my ($self, $args) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
+
+    my $nodes_order = delete( $args->{nodes_order} )
+        || croak( maketext("nodes_order is a mandatory argument") );
+
+    my $tmp_dir                    = $self->{publican}->param('tmp_dir');
+    my $docname                    = $self->{publican}->param('docname');
+    my $doc_url                    = $self->{publican}->param('doc_url');
+    my $prod_url                   = $self->{publican}->param('prod_url');
+    my $product                    = $self->{publican}->param('product');
+
+    my $dir = "$tmp_dir/$lang/html";
+    #my $dh = undef;
+    #my @html_files;
+
+    #opendir($dh, $dir) || croak "Can't open directory $_ $!";
+    #@html_files = readdir($dh);
+    #closedir($dh);
+
+    my @csv_headers = (
+        "Title",
+        "Book",
+        "Parent item",
+        "Weight",
+        "Menu link title",
+        #"Alias for node which should be used as parent menu",
+        "Body",
+        "Input format",
+        "Authored By",
+        "Published",
+        "URL path settings"
+    );
+
+    my $xs = Text::CSV_XS->new( { binary => 1, always_quote  => 1, eol => $/} );
+
+    my $csv_file_name = "$tmp_dir/$lang/drupal-book/$docname" . "_drupal.csv";
+     open my $fh, ">:encoding(utf8)", $csv_file_name
+       or croak "$csv_file_name: $!";
+
+    #$xs->print ($fh, \@csv_headers) or $xs->error_diag;
+    $xs->combine(@csv_headers);
+    $fh->print ($xs->string);
+
+    my @first = ("index", "pref-openshift_test-Openshift-Preface", "pr01s02" );
+    unshift @{$nodes_order}, @first;
+
+    foreach my $page (@{$nodes_order}) {
+        my $previous_page ="";
+        my $file_name = "$dir/$page.html";
+        if (-e $file_name) {
+            my @csv_row;
+            my $tree = HTML::TreeBuilder->new();
+
+            open my $html_file, "<:encoding(utf8)", $file_name
+              or croak "$file_name: $!";
+
+            $tree->parse_file($html_file);
+            $html_file->close();
+
+            foreach my $tag( qw (meta link ul img object span) ) {
+                my @nodes;
+                my %to_be_deleted;
+                my $attr_name = 'name';
+                @nodes = $tree->look_down( '_tag' , $tag );
+
+                if ($tag eq 'meta' ) {
+                    %to_be_deleted = 
+                    ( 
+                      generator   => 1, 
+                      'package'   => 1,
+                      description => 1,
+                    );
+                }
+                elsif ($tag eq 'link' ) {
+                    $attr_name = 'rel';
+                    %to_be_deleted = 
+                    (
+                      up     => 1, 
+                      prev   => 1, 
+                      home   => 1,
+                      'next' => 1,
+                    );
+                }
+                elsif ($tag eq 'ul' ) {
+                    $attr_name = 'class';
+                    %to_be_deleted = 
+                    (
+                      'docnav' => 1,
+                      'docnav top' => 1,
+                    );
+                }
+                elsif ( $tag eq 'img' ) {
+                    $attr_name = 'src';
+                }
+                elsif ( $tag eq 'object' ) {
+                    $attr_name = 'type';
+                }
+                elsif ( $tag eq 'span' ) {
+                    $attr_name = 'class';
+                }
+
+                foreach my $node (@nodes) {
+                    my $node_name = $node->attr($attr_name) || undef;
+                    next if ( !$node_name );
+
+                    if ( $tag eq 'link' && $node_name eq 'stylesheet' ) {
+                        my $old_value = $node->attr('href') || undef;
+                        $node->attr('href', "sites/default/files/" . $old_value)
+                          if ($old_value);
+                    }
+                    elsif ( $tag eq 'img' ) {
+                        my $old_value = $node->attr('src') || undef;
+                        $node->attr('src', "sites/default/files/" . $old_value)
+                          if ($old_value);
+                    }
+                    elsif ( $tag eq 'object' && $node_name eq 'image/svg+xml') {
+                        my $old_value = $node->attr('data') || undef;
+                        $node->attr('data', "sites/default/files/" . $old_value)
+                          if ($old_value);
+                    }
+                    elsif ( $tag eq 'span' && $node_name eq 'section' ) {
+                        my @ahrefs = $node->look_down( '_tag' , 'a' );
+                        foreach my $href (@ahrefs) {
+                            my $old_value = $href->attr('href') || undef;
+                            if ($old_value) {
+                                $href->attr('href', "?q=" . $old_value);        
+                            }                       
+                        }
+                    }
+
+                    next if ( ! exists $to_be_deleted{$node_name} );
+
+                    if ( $node_name eq 'docnav' ) {
+                        my @all_li = $node->look_down( '_tag' , "li" );
+
+                        foreach my $li (@all_li) {
+                            if ( $li->attr('class') eq 'previous' ) {
+                                my @links = $li->look_down( '_tag' , "a" );
+                                if (@links) {
+                                    $previous_page = $links[0]->as_trimmed_text;
+                                    $previous_page =~ s/^Prev//;
+                                }
+                                  
+                            }
+                        }
+                    }
+
+                    $node->delete();
+                }
+            }
+
+           
+
+            my $node = $tree->look_down( '_tag' , 'title' );
+            my $title = $node->as_trimmed_text;
+  
+            push @csv_row, $title;
+            push @csv_row, $docname;
+            push @csv_row, $previous_page;
+            push @csv_row, 0;
+            push @csv_row, $title;
+            #push @csv_row, '';
+            push @csv_row, $tree->as_HTML;
+            push @csv_row, 2;
+            push @csv_row, 'hyu';
+            push @csv_row, 'TRUE';
+            push @csv_row, "$page.html";
+
+            #$xs->print($fh, \@csv_row) or $xs->error_diag;
+            $xs->combine(@csv_row) or $xs->error_diag;
+            $fh->print ($xs->string);
+        }
+    }
+
+     $fh->close();
+
+}
+
 
 =head2 clean_ids
 
