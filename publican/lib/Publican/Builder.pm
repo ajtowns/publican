@@ -163,6 +163,9 @@ sub build {
         # catch txt not being rebuilt BZ #802576
         my $rebuild = 1;
 
+        # catch html rebuilt for drupal
+        my $html_rebuild = 1;
+
         foreach my $format ( split( /,/, $formats ) ) {
             logger( "\t" . maketext( "Starting [_1]", $format ) . "\n" );
             if ( $format eq 'test' ) {
@@ -174,10 +177,12 @@ sub build {
                 {   format   => $format,
                     lang     => $lang,
                     embedtoc => $embedtoc,
-                    rebuild  => $rebuild
+                    rebuild  => $rebuild,
+                    html_rebuild => $html_rebuild
                 }
             ) unless ( $format eq 'xml' );
 
+            $html_rebuild = 0 if ( $format eq 'drupal-book' || $format eq 'html' );
             $rebuild = 0 if ( $format eq 'txt' || $format eq 'html-single' );
 
             if ($publish) {
@@ -583,6 +588,9 @@ sub setup_xml {
             }
         }
         finddepth( \&del_unwanted_dirs, $tmp_dir );
+
+        # clean Common Content XML
+        $self->clean_ids({ directory => "$tmp_dir/$lang/xml/Common_Content" });
     }
 
     return;
@@ -774,6 +782,7 @@ sub transform {
         || croak( maketext("format is a mandatory argument") );
     my $embedtoc = delete( $args->{embedtoc} ) || 0;
     my $rebuild  = delete( $args->{rebuild} )  || 0;
+    my $html_rebuild  = delete( $args->{html_rebuild} ) || 0;
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -824,6 +833,18 @@ sub transform {
         . $self->{publican}->param('version') . '-'
         . $self->{publican}->param('docname') . '-'
         . "$lang.pdf";
+
+    # drupal conversion
+    if ( $format eq 'drupal-book' ) {
+        $self->transform( { lang => $lang, format => 'html' } )
+          if (!-e "$tmp_dir/$lang/html" || $html_rebuild );
+
+        my $csv_file = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.csv";
+        $self->drupal_transform( { lang => $lang, csv_file => $csv_file } );
+        #use Cwd();
+        #print Cwd::getcwd() . "<<<<\n";
+        return;
+    }
 
     if ( $format eq 'txt' ) {
         if ( !-e "$tmp_dir/$lang/html-single" || $rebuild ) {
@@ -1026,10 +1047,8 @@ sub transform {
         $xslt_opts{'desktop'}  = 1;
 
     }
-    elsif ( $format eq 'html' or $format eq 'drupal-book' ) {
+    elsif ( $format eq 'html' ) {
         $dir = pushd("$tmp_dir/$lang/$format");
-
-        $xsl_file =~ s/drupal\-book\.xsl$/html\.xsl/;
 
         $xslt_opts{'doc.url'}              = "'$doc_url'";
         $xslt_opts{'prod.url'}             = "'$prod_url'";
@@ -1290,12 +1309,8 @@ sub transform {
         # remove any XML files from common
         finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" )
             if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
-
-        if ( $format =~ /^drupal-book/) {
-            my @nodes_order = $self->get_nodes_order( { source => $source } );
-            $self->build_drupal_book( { lang => $lang, nodes_order => \@nodes_order } ); 
-        }
     }
+
 
     $xslt       = undef;
     $source     = undef;
@@ -1310,30 +1325,68 @@ sub transform {
     return;
 }
 
+sub drupal_transform {
+    my ($self, $args) = @_;
+
+    my $lang = delete $args->{lang}
+      || croak maketext("lang is the mandatory argument for drupal_transform");
+
+    my $csv_file = delete $args->{csv_file}
+      || croak maketext("csv_file is the mandatory argument for drupal_transform");
+
+    my $tmp_dir   = $self->{publican}->param('tmp_dir');
+    my $main_file = $self->{publican}->param('mainfile');
+
+    mkdir "$tmp_dir/$lang/drupal-book";
+
+    #use Cwd();
+    #print Cwd::getcwd() . "<<<<\n";
+
+    my $parser = XML::LibXML->new();
+    $parser->expand_xinclude(1);
+    $parser->expand_entities(1);
+
+    my $source;
+    eval { $source = $parser->parse_file("$tmp_dir/$lang/xml/$main_file.xml"); };
+
+    my %node_types;
+    my @nodes_order = $self->get_nodes_order( { source => $source, node_types => \%node_types } );
+
+    $self->build_drupal_book( { lang => $lang, nodes_order => \@nodes_order, csv_file => $csv_file, node_types => \%node_types } );
+
+    return;
+}
+
 sub get_nodes_order {
     my ($self, $args) = @_;
 
     my $source = delete( $args->{source} )
         || croak( maketext("source is a mandatory argument") );
 
-    my $node = delete( $args->{node} ) || undef;
+    my $node       = delete( $args->{node} ) || undef;
+    my $node_types = delete( $args->{node_types} ) || {};
 
     my @order;
     my @node_list;
-
+   
     if ( !$node ) {
-        @node_list = $source->getElementsByTagName('chapter');        
+        @node_list =$source->getElementsByTagName('book')->[0]->childNodes();       
     }
     else  {
         @node_list = $node->childNodes();
     }
 
     foreach my $node (@node_list) {
-        foreach my $node_attr ($node->attributes()) {
-            push @order, $node_attr->getValue()
-              if ($node_attr->isId);
+        # $node->attributes will return namespace too, so we need to skip it here
+        next if ( !$node->hasAttributes() );
+        #print $node->nodeName ."\n";
 
-            my @child_node = $self->get_nodes_order( { source => $source, node => $node } );
+        foreach my $node_attr ($node->attributes()) {
+            if ($node_attr && $node_attr->isId) {
+                push @order, $node_attr->getValue();
+                $node_types->{$node->nodeName()} = 1; 
+            }
+            my @child_node = $self->get_nodes_order( { source => $source, node => $node, node_types => $node_types  } );
             push @order, @child_node
               if (@child_node);
         }
@@ -1346,10 +1399,16 @@ sub build_drupal_book {
     my ($self, $args) = @_;
 
     my $lang = delete( $args->{lang} )
-        || croak( maketext("lang is a mandatory argument") );
+      || croak( maketext("lang is a mandatory argument for build_drupal_book") );
 
     my $nodes_order = delete( $args->{nodes_order} )
-        || croak( maketext("nodes_order is a mandatory argument") );
+      || croak( maketext("nodes_order is a mandatory argument for build_drupal_book") );
+
+    my $csv_file = delete $args->{csv_file}
+      || croak maketext("csv_file is the mandatory argument for build_drupal_book");
+
+    my $node_types = delete $args->{node_types}
+      || croak maketext("node_types is the mandatory argument for build_drupal_book");
 
     my $tmp_dir                    = $self->{publican}->param('tmp_dir');
     my $docname                    = $self->{publican}->param('docname');
@@ -1357,7 +1416,8 @@ sub build_drupal_book {
     my $prod_url                   = $self->{publican}->param('prod_url');
     my $product                    = $self->{publican}->param('product');
 
-    my $dir = "$tmp_dir/$lang/html";
+    my $html_dir   = "$tmp_dir/$lang/html";
+    my $drupal_dir = "$tmp_dir/$lang/drupal-book";
     #my $dh = undef;
     #my @html_files;
 
@@ -1379,22 +1439,21 @@ sub build_drupal_book {
         "URL path settings"
     );
 
+    print "Writing $csv_file\n";
+
     my $xs = Text::CSV_XS->new( { binary => 1, always_quote  => 1, eol => $/} );
 
-    my $csv_file_name = "$tmp_dir/$lang/drupal-book/$docname" . "_drupal.csv";
-     open my $fh, ">:encoding(utf8)", $csv_file_name
-       or croak "$csv_file_name: $!";
+     open my $fh, ">:encoding(utf8)", "$drupal_dir/$csv_file"
+       || croak "$drupal_dir/$csv_file: $!";
 
-    #$xs->print ($fh, \@csv_headers) or $xs->error_diag;
     $xs->combine(@csv_headers);
     $fh->print ($xs->string);
 
-    my @first = ("index", "pref-openshift_test-Openshift-Preface", "pr01s02" );
-    unshift @{$nodes_order}, @first;
-
+    my $previous_page ="";
     foreach my $page (@{$nodes_order}) {
-        my $previous_page ="";
-        my $file_name = "$dir/$page.html";
+        $page = ( $page =~ /^book\-/ ) ? 'index' : $page;
+        my $file_name = "$html_dir/$page.html";
+
         if (-e $file_name) {
             my @csv_row;
             my $tree = HTML::TreeBuilder->new();
@@ -1466,62 +1525,69 @@ sub build_drupal_book {
                         $node->attr('data', "sites/default/files/" . $old_value)
                           if ($old_value);
                     }
-                    elsif ( $tag eq 'span' && $node_name eq 'section' ) {
+                    elsif ( $tag eq 'span' && exists $node_types->{$node_name} ) {
                         my @ahrefs = $node->look_down( '_tag' , 'a' );
                         foreach my $href (@ahrefs) {
                             my $old_value = $href->attr('href') || undef;
-                            if ($old_value) {
-                                $href->attr('href', "?q=" . $old_value);        
+                            if ( $old_value ) {
+                                $href->attr('href', "?q=" . $old_value);   
                             }                       
                         }
                     }
 
                     next if ( ! exists $to_be_deleted{$node_name} );
 
-                    if ( $node_name eq 'docnav' ) {
-                        my @all_li = $node->look_down( '_tag' , "li" );
-
-                        foreach my $li (@all_li) {
-                            if ( $li->attr('class') eq 'previous' ) {
-                                my @links = $li->look_down( '_tag' , "a" );
-                                if (@links) {
-                                    $previous_page = $links[0]->as_trimmed_text;
-                                    $previous_page =~ s/^Prev//;
-                                }
-                                  
-                            }
-                        }
-                    }
+                    #if ( $node_name eq 'docnav' ) {
+                    #    my @all_li = $node->look_down( '_tag' , "li" );
+                    #    foreach my $li (@all_li) {
+                    #        if ( $li->attr('class') eq 'previous' ) {
+                    #            my @links = $li->look_down( '_tag' , "a" );
+                    #            if (@links) {
+                    #                $previous_page = $links[0]->attr('href') || "";
+                    #                $previous_page =~ s/\.html//;
+                    #            }
+                    #              
+                    #        }
+                    #    }
+                    #}
 
                     $node->delete();
                 }
             }
 
-           
-
             my $node = $tree->look_down( '_tag' , 'title' );
             my $title = $node->as_trimmed_text;
+
+            my $alias = "$page.html";
+            my $book  = "$product: $docname";
+            if ( $page eq 'index' ) {
+              my $alias = "$product-$docname-index.html";
+              $title = "$product: $docname";
+              $book = "";
+            }
   
             push @csv_row, $title;
-            push @csv_row, $docname;
+            push @csv_row, $book;
             push @csv_row, $previous_page;
             push @csv_row, 0;
             push @csv_row, $title;
-            #push @csv_row, '';
+            #push @csv_row, "";
             push @csv_row, $tree->as_HTML;
             push @csv_row, 2;
             push @csv_row, 'hyu';
             push @csv_row, 'TRUE';
-            push @csv_row, "$page.html";
+            push @csv_row, $alias;
 
-            #$xs->print($fh, \@csv_row) or $xs->error_diag;
             $xs->combine(@csv_row) or $xs->error_diag;
             $fh->print ($xs->string);
+
+            $previous_page = "$title";
         }
     }
 
-     $fh->close();
+    $fh->close();
 
+    return;
 }
 
 
@@ -1539,8 +1605,17 @@ sub clean_ids {
     #    if ( %{$args} ) {
     #        croak "unknown args: " . join( ", ", keys %{$args} );
     #    }
+    my $directory = delete $args->{directory} || undef;
 
-    my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
+    my @xml_files;
+
+    if ($directory && -d $directory) {
+        @xml_files = dir_list( $directory, '*.xml' );
+    }
+    else { 
+        @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
+    }
+
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
     foreach my $xml_file ( sort(@xml_files) ) {
