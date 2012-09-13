@@ -4,7 +4,7 @@
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
 Version:	2.99
-Release:	1%{?dist}
+Release:	4%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Tue Aug 28 2012 Leticia de Lima <ldelima@redhat.com> 2.99-4
+- Update pt-BR translation
+
 * Tue Feb 28 2012 Rüdiger Landmann <r.landmann@redhat.com> 2.99-1
 - Port to Publican 3.0
 
