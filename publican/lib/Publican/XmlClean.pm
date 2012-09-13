@@ -997,6 +997,7 @@ sub process_file {
         # Update links in xml
         foreach my $xml_file ( dir_list( $xml_lang, '*.xml' ) ) {
             my $editor = new File::Inplace( file => $xml_file );
+            my $perm = (stat $editor->{infh})[2] & 07777;
             while ( my ($line) = $editor->next_line ) {
                 foreach my $key ( keys(%UPDATED_IDS) ) {
                     $line =~ s/linkend="$key"/linkend="$UPDATED_IDS{$key}"/g;
@@ -1005,6 +1006,8 @@ sub process_file {
             }
 
             $editor->commit;
+            $editor = undef;
+            chmod($perm | 0600, $xml_file);
         }
 
         # update links in PO files
