@@ -11,6 +11,7 @@ use File::Path;
 use Term::ANSIColor qw(:constants);
 use Publican::Builder;
 use File::Inplace;
+use DBI;
 
 ## Testing collation
 my $test_collate = 1;
@@ -450,6 +451,8 @@ sub Clean_ID {
 
         if ( $node->id() && $node->id() ne $my_id ) {
             $UPDATED_IDS{ $node->id() } = $my_id;
+
+            $self->track_id( {old_id => $node->id(), new_id => $my_id} );
         }
 
         if ( $my_id eq "" ) {
@@ -457,6 +460,65 @@ sub Clean_ID {
         }
 
         $node->attr( 'id', $my_id );
+    }
+
+    return;
+}
+
+sub track_id {
+    my ( $self, $args ) = @_;
+
+    my $old_id = delete $args->{old_id} || undef;
+    my $new_id = delete $args->{new_id} || undef;
+
+    if (!$old_id || !$new_id ) {
+        croak( maketext( "old_id and new_id are mandatory arguments" ) );
+    }
+
+    my $docname = $self->{publican}->param('docname')
+      || croak( maketext( "clean_id failed to get the docname" ) );
+
+    my $product = $self->{publican}->param('product')
+      || croak( maketext( "clean_id failed to get the product name" ) );
+
+    my $version = $self->{publican}->param('version')
+      || croak( maketext( "clean_id failed to get the version number" ) );
+
+    eval {
+        my $sql = <<SQL;
+          SELECT id 
+           FROM clean_id_tracker
+          WHERE product = '$product' 
+            AND docname = '$docname' 
+            AND version = '$version'
+            AND new_section_id = '$old_id'
+SQL
+
+        my $result = $self->{dbh}->selectrow_hashref($sql);
+        my $sth;
+
+        if (defined $result->{id}) {
+            my $row_id = $result->{id};
+            my $update_sql = "UPDATE clean_id_tracker SET new_section_id = ? WHERE id = ?";
+            $sth = $self->{dbh}->prepare($update_sql);
+            $sth->execute($new_id, $row_id);
+           
+        }
+        else {
+            my $insert_sql = <<SQL; 
+              INSERT INTO clean_id_tracker 
+                (product, version, docname, old_section_id, new_section_id) 
+              VALUES (?, ?, ?, ?, ?)
+SQL
+            $sth = $self->{dbh}->prepare($insert_sql);
+            $sth->execute($product, $version, $docname, $old_id, $new_id);
+        }
+
+        $sth->finish() if (defined $sth);
+    };
+
+    if ($@) {
+        croak ( maketext("Failed to update table: $@") );
     }
 
     return;
@@ -970,6 +1032,12 @@ sub process_file {
     my $clean_id        = $self->{config}->param('clean_id');
     my $update_includes = $self->{config}->param('update_includes');
     my $xml_lang        = $self->{publican}->param('xml_lang');
+    my $db_file         = "$xml_lang/clean_id_tracker.db";
+
+    # create database to track section id changes
+    $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
+      || croak( maketext($DBI::errstr) );
+    $self->create_db();
 
     my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
@@ -1033,6 +1101,46 @@ sub process_file {
 
         # clear out changes ... might be better to save them up and do a single pass...
         %UPDATED_IDS = ();
+    }
+
+    $self->{dbh}->disconnect()
+      if ( defined $self->{dbh} );
+
+    return;
+}
+
+sub create_db {
+    my $self = shift;
+    my $sql;
+
+    eval {
+        my $check_table_sql =<<SQL;
+          SELECT name 
+            FROM sqlite_master 
+           WHERE name='clean_id_tracker'
+SQL
+
+        my $create_table_sql = <<SQL;
+          CREATE TABLE clean_id_tracker (
+            id             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            product        TEXT NOT NULL,
+            version        TEXT NOT NULL,
+            docname        TEXT NOT NULL,
+            old_section_id TEXT NOT NULL,
+            new_section_id TEXT NOT NULL
+        )
+SQL
+
+        my $table = $self->{dbh}->selectrow_hashref($check_table_sql);
+
+        return if ( defined $table->{name} );
+
+        $self->{dbh}->do($create_table_sql);
+
+    };
+
+    if ($@) {
+        croak ( maketext("Failed to create table: $@") );
     }
 
     return;
