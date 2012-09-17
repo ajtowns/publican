@@ -37,7 +37,6 @@ use Text::Wrap qw(fill $columns);
 use IO::String;
 use File::Which;
 use Text::CSV_XS;
-use Encode qw(is_utf8 decode_utf8 encode_utf8); 
 
 $File::Copy::Recursive::KeepMode = 0;
 
@@ -839,8 +838,7 @@ sub transform {
         $self->transform( { lang => $lang, format => 'html' } )
           if (!-e "$tmp_dir/$lang/html" || $html_rebuild );
 
-        my $csv_file = "$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE.csv";
-        $self->drupal_transform( { lang => $lang, csv_file => $csv_file } );
+        $self->drupal_transform( { lang => $lang } );
         #use Cwd();
         #print Cwd::getcwd() . "<<<<\n";
         return;
@@ -1331,11 +1329,17 @@ sub drupal_transform {
     my $lang = delete $args->{lang}
       || croak maketext("lang is the mandatory argument for drupal_transform");
 
-    my $csv_file = delete $args->{csv_file}
-      || croak maketext("csv_file is the mandatory argument for drupal_transform");
-
     my $tmp_dir   = $self->{publican}->param('tmp_dir');
     my $main_file = $self->{publican}->param('mainfile');
+    my $docname   = $self->{publican}->param('docname');
+    my $product   = $self->{publican}->param('product');
+    my $version   = $self->{publican}->param('version');
+    my $edition   = $self->{publican}->param('edition');
+    my $xml_lang  = $self->{publican}->param('xml_lang');
+
+    my $prefix     = "$product-$version";
+    my $bookname   = "$prefix-$docname";
+    my $drupal_dir = "$tmp_dir/$lang/drupal-book";
 
     mkdir "$tmp_dir/$lang/drupal-book";
 
@@ -1350,9 +1354,53 @@ sub drupal_transform {
     eval { $source = $parser->parse_file("$tmp_dir/$lang/xml/$main_file.xml"); };
 
     my %node_types;
-    my @nodes_order = $self->get_nodes_order( { source => $source, node_types => \%node_types } );
+    my $nodes_order = $self->get_nodes_order( { source => $source, node_types => \%node_types } );
 
-    $self->build_drupal_book( { lang => $lang, nodes_order => \@nodes_order, csv_file => $csv_file, node_types => \%node_types } );
+    #use Data::Dumper;
+    #print Dumper($nodes_order);
+
+    #use Data::Dumper;
+    #print Dumper($nodes_order);
+    my @csv_headers = (
+        "Title",
+        "Book",
+        "Parent item",
+        "Weight",
+        "Menu link title",
+        "Alias for node which should be used as parent menu",
+        "Body",
+        "Input format",
+        "Authored By",
+        "Published",
+        "URL path settings"
+    );
+
+    my $csv_file = "$bookname-$edition.csv";
+
+    print "Writing $csv_file\n";
+
+    my $xs = Text::CSV_XS->new( { binary => 1, always_quote  => 1, eol => $/} );
+
+    open my $fh, ">:encoding(utf8)", "$drupal_dir/$csv_file"
+      || croak "$drupal_dir/$csv_file: $!";
+
+    $xs->combine(@csv_headers);
+    $fh->print ($xs->string);
+
+    my $db_file = "$xml_lang/clean_id_tracker.db";
+    $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
+      || croak ( maketext($DBI::errstr) );
+
+    my $outputs = $self->build_drupal_book( { lang => $lang, nodes_order => $nodes_order, node_types => \%node_types } );
+
+    foreach my $row (@{$outputs}) {
+      $xs->combine(@{$row}) or $xs->error_diag;
+      $fh->print ($xs->string);
+    }
+
+    $fh->close();
+    $self->{dbh}->disconnect()
+      if ( defined $self->{dbh} );
 
     return;
 }
@@ -1366,7 +1414,7 @@ sub get_nodes_order {
     my $node       = delete( $args->{node} ) || undef;
     my $node_types = delete( $args->{node_types} ) || {};
 
-    my @order;
+    my %order;
     my @node_list;
    
     if ( !$node ) {
@@ -1376,23 +1424,24 @@ sub get_nodes_order {
         @node_list = $node->childNodes();
     }
 
-    foreach my $node (@node_list) {
-        # $node->attributes will return namespace too, so we need to skip it here
-        next if ( !$node->hasAttributes() );
-        #print $node->nodeName ."\n";
+    my $count = 0;
+    foreach my $cnode (@node_list) {
+        # $cnode->attributes will return namespace too, so we need to skip it here
+        next if ( !$cnode->hasAttributes() );
+        #print $cnode->nodeName ."\n";
 
-        foreach my $node_attr ($node->attributes()) {
-            if ($node_attr && $node_attr->isId) {
-                push @order, $node_attr->getValue();
-                $node_types->{$node->nodeName()} = 1; 
+        foreach my $cnode_attr ($cnode->attributes()) {
+            if ($cnode_attr && $cnode_attr->isId) {
+                $order{++$count}{'id'} = $cnode_attr->getValue();
+                $order{$count}{'type'} = $cnode->nodeName();
+                $node_types->{$cnode->nodeName()} = 1;
+                my $child_nodes = $self->get_nodes_order( { source => $source, node => $cnode, node_types => $node_types } );
+                $order{$count}{'childs'} = $child_nodes
+                  if (%{$child_nodes});
             }
-            my @child_node = $self->get_nodes_order( { source => $source, node => $node, node_types => $node_types  } );
-            push @order, @child_node
-              if (@child_node);
         }
     }
-
-    return @order;
+    return \%order;
 }
 
 sub build_drupal_book {
@@ -1404,54 +1453,27 @@ sub build_drupal_book {
     my $nodes_order = delete( $args->{nodes_order} )
       || croak( maketext("nodes_order is a mandatory argument for build_drupal_book") );
 
-    my $csv_file = delete $args->{csv_file}
-      || croak maketext("csv_file is the mandatory argument for build_drupal_book");
-
     my $node_types = delete $args->{node_types}
       || croak maketext("node_types is the mandatory argument for build_drupal_book");
 
-    my $tmp_dir                    = $self->{publican}->param('tmp_dir');
-    my $docname                    = $self->{publican}->param('docname');
-    my $doc_url                    = $self->{publican}->param('doc_url');
-    my $prod_url                   = $self->{publican}->param('prod_url');
-    my $product                    = $self->{publican}->param('product');
+    my $parent = delete $args->{parent} || "";
 
+    
+    my $tmp_dir   = $self->{publican}->param('tmp_dir');
+    my $docname = $self->{publican}->param('docname');
+    my $product = $self->{publican}->param('product');
+    my $version = $self->{publican}->param('version');
+
+    my $prefix     = "$product-$version";
+    my $bookname   = "$prefix-$docname";
     my $html_dir   = "$tmp_dir/$lang/html";
-    my $drupal_dir = "$tmp_dir/$lang/drupal-book";
-    #my $dh = undef;
-    #my @html_files;
 
-    #opendir($dh, $dir) || croak "Can't open directory $_ $!";
-    #@html_files = readdir($dh);
-    #closedir($dh);
+    my @outputs;
+    my $weight = -16;
+    my $previous_type = "";
+    foreach my $order_num ( sort { $a <=> $b } keys %{$nodes_order}) {
 
-    my @csv_headers = (
-        "Title",
-        "Book",
-        "Parent item",
-        "Weight",
-        "Menu link title",
-        #"Alias for node which should be used as parent menu",
-        "Body",
-        "Input format",
-        "Authored By",
-        "Published",
-        "URL path settings"
-    );
-
-    print "Writing $csv_file\n";
-
-    my $xs = Text::CSV_XS->new( { binary => 1, always_quote  => 1, eol => $/} );
-
-     open my $fh, ">:encoding(utf8)", "$drupal_dir/$csv_file"
-       || croak "$drupal_dir/$csv_file: $!";
-
-    $xs->combine(@csv_headers);
-    $fh->print ($xs->string);
-
-    my $previous_page ="";
-    foreach my $page (@{$nodes_order}) {
-        $page = ( $page =~ /^book\-/ ) ? 'index' : $page;
+        my $page = ( $nodes_order->{$order_num}{'id'} =~ /^book\-/ ) ? 'index' : $nodes_order->{$order_num}{'id'};
         my $file_name = "$html_dir/$page.html";
 
         if (-e $file_name) {
@@ -1530,7 +1552,9 @@ sub build_drupal_book {
                         foreach my $href (@ahrefs) {
                             my $old_value = $href->attr('href') || undef;
                             if ( $old_value ) {
-                                $href->attr('href', "?q=" . $old_value);   
+                                $old_value =~ s/\.html$//;
+                                $old_value =~ s/\.html\#/\#/;
+                                $href->attr('href', "?q=$prefix-" . $old_value);   
                             }                       
                         }
                     }
@@ -1558,36 +1582,72 @@ sub build_drupal_book {
             my $node = $tree->look_down( '_tag' , 'title' );
             my $title = $node->as_trimmed_text;
 
-            my $alias = "$page.html";
-            my $book  = "$product: $docname";
+            my $alias = "$prefix-$page";
+            my $book  = "$product $version $docname";
+
+            my $section_weight = {preface => 1, chapter => 2, appendix => 3};
+
             if ( $page eq 'index' ) {
-              my $alias = "$product-$docname-index.html";
-              $title = "$product: $docname";
+              $alias = $bookname;
+              $title = $book;
               $book = "";
+              #$menu = "menu-userguide";
+            }
+            else {
+                my $sql = <<SQL;
+                  SELECT id, old_section_id 
+                   FROM clean_id_tracker
+                  WHERE product = '$product' 
+                    AND docname = '$docname' 
+                    AND version = '$version'
+                    AND new_section_id = '$page'
+SQL
+
+                eval {
+                    my $result = $self->{dbh}->selectrow_hashref($sql);
+
+                    if (defined $result->{id}) {
+                        $alias = "$prefix-$result->{old_section_id}";    
+                    }
+                };
+
+                if ($@) {
+                    croak ( maketext("Fail to get section history to set url alias: $@" ) );
+                }
+            }
+
+            if ($previous_type ne $nodes_order->{$order_num}{'type'}) {
+                $weight++;
             }
   
+            $title =~ s/\s+/ /g;
+
             push @csv_row, $title;
             push @csv_row, $book;
-            push @csv_row, $previous_page;
-            push @csv_row, 0;
+            push @csv_row, $parent;
+            push @csv_row, $weight;
             push @csv_row, $title;
-            #push @csv_row, "";
+            #push @csv_row, "menu-userguide";
+            push @csv_row, "";
             push @csv_row, $tree->as_HTML;
             push @csv_row, 2;
             push @csv_row, 'hyu';
             push @csv_row, 'TRUE';
             push @csv_row, $alias;
 
-            $xs->combine(@csv_row) or $xs->error_diag;
-            $fh->print ($xs->string);
+            push @outputs, \@csv_row;
 
-            $previous_page = "$title";
+            if ( defined $nodes_order->{$order_num}{'childs'} ) {
+                my $child_outputs = $self->build_drupal_book( { lang => $lang, nodes_order => $nodes_order->{$order_num}{'childs'}, node_types => $node_types, parent => $title } );
+                push @outputs, @{$child_outputs};
+            }
+
+            $previous_type = $nodes_order->{$order_num}{'type'};
+            #print ">>>>$title>>>$order_num\n";
         }
     }
 
-    $fh->close();
-
-    return;
+    return \@outputs;
 }
 
 
