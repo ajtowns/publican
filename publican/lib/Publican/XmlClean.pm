@@ -51,6 +51,7 @@ Publican::XmlClean tidies XML formatting and filters structure based on input ru
 =cut
 
 my %UPDATED_IDS;
+my %UNIQUE_IDS;
 
 my %MAP_OUT = (
     section    => { block => 1, newline_after => 1 },
@@ -292,6 +293,17 @@ sub new {
     my $publican = Publican->new();
     $self->{publican} = $publican;
 
+
+    $self->{banned_tags} = {};
+    foreach my $btag ( split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) ) {
+        $self->{banned_tags}{$btag} = 1;
+    }
+
+    $self->{banned_attrs} = {};
+    foreach my $battr ( split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) ) {
+        $self->{banned_attrs}{$battr} = 1;
+    }
+
     return $self;
 }
 
@@ -403,8 +415,11 @@ If this node has a title as a child set it's ID else remove the ID
 sub Clean_ID {
     my ( $self, $node ) = @_;
     my $my_id   = "";
-    my $docname = $self->{publican}->param('docname');
-    my $product = $self->{publican}->param('product');
+    my $par_title  = "";
+    my $sect_title = "";
+    my $docname  = $self->{publican}->param('docname');
+    my $product  = $self->{publican}->param('product');
+    my $track_id = $self->{config}->param('track_id');
 
     if ($node) {
         my $tag = $node->{'_tag'};
@@ -418,6 +433,8 @@ sub Clean_ID {
                 if ( ref $$child
                     && $$child->{'_tag'} eq ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
                 {
+                    $sect_title = $$child->as_text;
+
                     $my_id = $$child->as_text;
                     $my_id =~ s/[- ]/_/g;
                     $my_id =~ s/[^a-zA-Z0-9\._]//g;
@@ -450,9 +467,30 @@ sub Clean_ID {
         }
 
         if ( $node->id() && $node->id() ne $my_id ) {
+            #TODO this will break if people add a new same title section in between
+            # will need to think a better way to track them
+            my $conformance = 1;
+            if (  $node->attr( 'conformance') ) {
+                $UNIQUE_IDS{$my_id} = $node->attr( 'conformance');
+                return;
+            }
+            if ( defined $UNIQUE_IDS{$my_id} ) {
+                $conformance = $UNIQUE_IDS{$my_id} + 1;
+                $UNIQUE_IDS{$my_id} += $conformance;
+
+                $my_id = $my_id . '_' . $conformance;
+                $node->attr( 'conformance', $conformance );
+            }
+            else {
+                $UNIQUE_IDS{$my_id} = 1;
+            }
+
             $UPDATED_IDS{ $node->id() } = $my_id;
 
-            $self->track_id( {old_id => $node->id(), new_id => $my_id} );
+            $self->track_id( { old_id      => $node->id(), 
+                               new_id      => $my_id, 
+                               conformance => ( $conformance > 1 ) ? $conformance : 0
+            } )
         }
 
         if ( $my_id eq "" ) {
@@ -468,12 +506,13 @@ sub Clean_ID {
 sub track_id {
     my ( $self, $args ) = @_;
 
-    my $old_id = delete $args->{old_id} || undef;
-    my $new_id = delete $args->{new_id} || undef;
+    my $old_id      = delete $args->{old_id} ||
+      croak ( maketext( "old_id is the mandatory argument for track_id" ) );
 
-    if (!$old_id || !$new_id ) {
-        croak( maketext( "old_id and new_id are mandatory arguments" ) );
-    }
+    my $new_id      = delete $args->{new_id}      || return;
+    my $conformance = delete $args->{conformance} || 0;
+   
+    return if ( $new_id eq $old_id );
 
     my $docname = $self->{publican}->param('docname')
       || croak( maketext( "clean_id failed to get the docname" ) );
@@ -484,41 +523,49 @@ sub track_id {
     my $version = $self->{publican}->param('version')
       || croak( maketext( "clean_id failed to get the version number" ) );
 
-    eval {
-        my $sql = <<SQL;
-          SELECT id 
-           FROM clean_id_tracker
-          WHERE product = '$product' 
-            AND docname = '$docname' 
-            AND version = '$version'
-            AND new_section_id = '$old_id'
+    my $current_file = $self->{current_file}
+      || croak( maketext( "clean_id failed to get the xml filename" ) );
+
+    $current_file =~ s/^\s+|\s+$//;
+ 
+    eval {      
+        # update the all old section ids of this title and update them to the latest section_id.
+        my $sql = <<SQL; 
+          SELECT map_to, section_id 
+            FROM clean_id_tracker 
+           WHERE
+             product    = ? AND
+             docname    = ? AND
+             version    = ? AND
+             xml_file   = ? AND
+             section_id = ?
 SQL
 
-        my $result = $self->{dbh}->selectrow_hashref($sql);
-        my $sth;
+        my $sth = $self->{dbh}->prepare($sql);
+        $sth->execute($product, $docname, $version, $current_file, $old_id);
+        my $result = $sth->fetchrow_hashref();
 
-        if (defined $result->{id}) {
-            my $row_id = $result->{id};
-            my $update_sql = "UPDATE clean_id_tracker SET new_section_id = ? WHERE id = ?";
-            $sth = $self->{dbh}->prepare($update_sql);
-            $sth->execute($new_id, $row_id);
-           
+        my $map_to = $old_id;
+        if ( defined $result && %{$result} ) {
+            $map_to = $result->{map_to};
         }
-        else {
-            my $insert_sql = <<SQL; 
-              INSERT INTO clean_id_tracker 
-                (product, version, docname, old_section_id, new_section_id) 
-              VALUES (?, ?, ?, ?, ?)
+
+        $sth->finish();
+
+        # store the latest section id of this title
+        my $insert_sql = <<SQL; 
+          INSERT INTO clean_id_tracker 
+            (product, version, docname, xml_file, conformance, section_id, map_to) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
 SQL
-            $sth = $self->{dbh}->prepare($insert_sql);
-            $sth->execute($product, $version, $docname, $old_id, $new_id);
-        }
-
-        $sth->finish() if (defined $sth);
+        my $insert_sth = $self->{dbh}->prepare($insert_sql);
+        $insert_sth->execute($product, $version, $docname, $current_file, $conformance, $new_id, $map_to);
+        $insert_sth->finish();
     };
 
     if ($@) {
-        croak ( maketext("Failed to update table: $@") );
+        $self->{dbh}->rollback();
+        croak ( maketext("Error tracking id for '$new_id' in '$current_file': $@") );
     }
 
     return;
@@ -614,6 +661,100 @@ sub print_xml {
     return;
 }
 
+sub update_db {
+    my ( $self, $args ) = @_;
+    my $sect_title = "";
+
+    my $xml_doc = delete( $args->{xml_doc} )
+        || croak( maketext("xml_doc is a mandatory argument") );
+
+    my $tree = $xml_doc->root();
+    my $empty_element_map = $tree->_empty_element_map;
+
+    $empty_element_map->{xref}         = 1;
+    $empty_element_map->{footnoteref}  = 1;
+    $empty_element_map->{'index'}      = 1;
+    $empty_element_map->{'xi:include'} = 1;
+    $empty_element_map->{ulink}        = 1;
+    $empty_element_map->{imagedata}    = 1;
+    $empty_element_map->{area}         = 1;
+
+    my ( $tag, $node, $start );    # per-iteration scratch
+
+    $tree->traverse(
+        sub {
+            ( $node, $start ) = @_;
+            if ( ref $node ) {     # it's an element
+
+                $tag = $node->{'_tag'};
+
+                $self->validate_tags($node, $tag);
+
+                if ($start) {      # on the way in
+                    if ( !$MAP_OUT{$tag}->{no_id} ) {
+                        foreach my $child ( $node->content_refs_list() ) {
+                            if ( ref $$child
+                                && $$child->{'_tag'} eq ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
+                            {
+                                $sect_title = $$child->as_text;
+                                $self->track_id( {new_id => $node->id(), sect_title => $sect_title} );
+                                last;
+                            }
+                        }
+                    }
+                }
+            }
+            1;           # keep traversing
+        }
+    );
+
+    return;
+}
+
+sub validate_tags {
+    my ( $self, $node, $tag ) = @_;
+
+    my $show_unknown = $self->{publican}->param('show_unknown');
+
+    return if (!$node && !$tag );
+
+    if ( $self->{banned_tags}{$tag} ) {
+        croak(
+            maketext(
+                "ERROR: Banned tag ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
+                $tag
+                )
+                . "\n"
+        );
+    }
+
+    foreach my $attr ( keys(%{$self->{banned_attrs}}) ) {
+        if ( $node->attr($attr) ) {
+            croak(
+                maketext(
+                    "ERROR: Banned attribute ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
+                    $attr
+                    )
+                    . "\n\n"
+            );
+        }
+    }
+
+    if ( $show_unknown && !$MAP_OUT{$tag} ) {
+        logger(
+            maketext(
+                "*WARNING: Unvalidated tag: '[_1]'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.",
+                $tag
+                )
+                . "\n",
+                RED
+        );
+    }
+
+    return;
+}
+
+
 =head2 my_as_XML
 
 Traverse tree and output xml as text. Overrides traverse ... evil stuff.
@@ -633,17 +774,6 @@ sub my_as_XML {
     my @xml               = ();
     my $empty_element_map = $tree->_empty_element_map;
 
-    my %banned_tags = ();
-    foreach my $btag ( split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) ) {
-        $banned_tags{$btag} = 1;
-    }
-
-    my %banned_attrs = ();
-    foreach my $battr ( split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) ) {
-        $banned_attrs{$battr} = 1;
-    }
-
-    my $show_unknown = $self->{publican}->param('show_unknown');
     my $clean_id     = $self->{config}->param('clean_id');
     my $lang         = $self->{config}->param('lang');
 
@@ -678,38 +808,9 @@ sub my_as_XML {
                 $tag = $node->{'_tag'};
 
                 if ($start) {      # on the way in
-                    if ( $banned_tags{$tag} ) {
-                        croak(
-                            maketext(
-                                "ERROR: Banned tag ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
-                                $tag
-                                )
-                                . "\n"
-                        );
-                    }
 
-                    foreach my $attr ( keys(%banned_attrs) ) {
-                        if ( $node->attr($attr) ) {
-                            croak(
-                                maketext(
-                                    "ERROR: Banned attribute ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
-                                    $attr
-                                    )
-                                    . "\n\n"
-                            );
-                        }
-                    }
-
-                    if ( $show_unknown && !$MAP_OUT{$tag} ) {
-                        logger(
-                            maketext(
-                                "*WARNING: Unvalidated tag: '[_1]'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.",
-                                $tag
-                                )
-                                . "\n",
-                            RED
-                        );
-                    }
+                    $self->validate_tags($node, $tag);
+                    
                     if ($clean_id) {
                         $self->Clean_ID($node);
                     }
@@ -1020,8 +1121,10 @@ sub process_file {
 
     my $file = delete( $args->{file} )
         || croak( maketext("file is a mandatory argument") );
-    my $out_file = delete( $args->{out_file} )
-        || croak( maketext("out_file is a mandatory argument") );
+    my $out_file = delete( $args->{out_file} ) || undef;
+
+    # set the the current processing filename
+    $self->{current_file} = $file;
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -1032,12 +1135,15 @@ sub process_file {
     my $clean_id        = $self->{config}->param('clean_id');
     my $update_includes = $self->{config}->param('update_includes');
     my $xml_lang        = $self->{publican}->param('xml_lang');
-    my $db_file         = "$xml_lang/clean_id_tracker.db";
 
-    # create database to track section id changes
-    $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
-      || croak( maketext($DBI::errstr) );
-    $self->create_db();
+    if ($clean_id) {
+        # create database to track section id changes
+        my $db_file = "$xml_lang/clean_id_tracker.db";  
+        $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
+          || croak( maketext($DBI::errstr) );
+        $self->{dbh}->{AutoCommit} = 0;
+        $self->create_db();
+    }
 
     my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
@@ -1103,8 +1209,18 @@ sub process_file {
         %UPDATED_IDS = ();
     }
 
-    $self->{dbh}->disconnect()
-      if ( defined $self->{dbh} );
+    if ( defined $self->{dbh} ) {
+        eval {
+            $self->{dbh}->commit();
+        };
+
+        if ($@) {
+            $self->rollback();
+            croak ( maketext("$@") );
+        }
+        
+        $self->{dbh}->disconnect();
+    }
 
     return;
 }
@@ -1126,8 +1242,10 @@ SQL
             product        TEXT NOT NULL,
             version        TEXT NOT NULL,
             docname        TEXT NOT NULL,
-            old_section_id TEXT NOT NULL,
-            new_section_id TEXT NOT NULL
+            xml_file       TEXT NOT NULL,
+            conformance    INT NOT NULL DEFAULT 0,
+            section_id     TEXT NOT NULL,
+            map_to         TEXT NOT NULL
         )
 SQL
 
@@ -1140,6 +1258,7 @@ SQL
     };
 
     if ($@) {
+        $self->{dbh}->rollback();
         croak ( maketext("Failed to create table: $@") );
     }
 

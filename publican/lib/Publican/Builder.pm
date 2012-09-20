@@ -163,7 +163,7 @@ sub build {
         my $rebuild = 1;
 
         # catch html rebuilt for drupal
-        my $html_rebuild = 1;
+        # my $html_rebuild = 1;
 
         foreach my $format ( split( /,/, $formats ) ) {
             logger( "\t" . maketext( "Starting [_1]", $format ) . "\n" );
@@ -177,11 +177,11 @@ sub build {
                     lang     => $lang,
                     embedtoc => $embedtoc,
                     rebuild  => $rebuild,
-                    html_rebuild => $html_rebuild
+                    #html_rebuild => $html_rebuild
                 }
             ) unless ( $format eq 'xml' );
 
-            $html_rebuild = 0 if ( $format eq 'drupal-book' || $format eq 'html' );
+            #$html_rebuild = 0 if ( $format eq 'drupal-book' || $format eq 'html' );
             $rebuild = 0 if ( $format eq 'txt' || $format eq 'html-single' );
 
             if ($publish) {
@@ -781,7 +781,7 @@ sub transform {
         || croak( maketext("format is a mandatory argument") );
     my $embedtoc = delete( $args->{embedtoc} ) || 0;
     my $rebuild  = delete( $args->{rebuild} )  || 0;
-    my $html_rebuild  = delete( $args->{html_rebuild} ) || 0;
+    #my $html_rebuild  = delete( $args->{html_rebuild} ) || 0;
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -834,15 +834,15 @@ sub transform {
         . "$lang.pdf";
 
     # drupal conversion
-    if ( $format eq 'drupal-book' ) {
-        $self->transform( { lang => $lang, format => 'html' } )
-          if (!-e "$tmp_dir/$lang/html" || $html_rebuild );
-
-        $self->drupal_transform( { lang => $lang } );
-        #use Cwd();
-        #print Cwd::getcwd() . "<<<<\n";
-        return;
-    }
+    #if ( $format eq 'drupal-book' ) {
+    #    $self->transform( { lang => $lang, format => 'html' } )
+    #      if (!-e "$tmp_dir/$lang/html" || $html_rebuild );
+    #
+    #    $self->drupal_transform( { lang => $lang } );
+    #    #use Cwd();
+    #    #print Cwd::getcwd() . "<<<<\n";
+    #    return;
+    #}
 
     if ( $format eq 'txt' ) {
         if ( !-e "$tmp_dir/$lang/html-single" || $rebuild ) {
@@ -1058,6 +1058,12 @@ sub transform {
         $xslt_opts{'pop_prod'}             = "'$pop_prod'" if ($pop_prod);
         $xslt_opts{'pop_ver'}              = "'$pop_ver'" if ($pop_ver);
         $xslt_opts{'pop_name'}             = "'$pop_name'" if ($pop_name);
+    }
+    elsif ( $format eq 'drupal-book' ) {
+        $dir = pushd("$tmp_dir/$lang/$format");
+        $xslt_opts{'embedtoc'}             = $embedtoc;
+        $xslt_opts{'chunk.first.sections'} = $chunk_first;
+        $xslt_opts{'chunk.section.depth'}  = $chunk_section_depth;
     }
     elsif ( ( $format =~ /^pdf/ ) and ( -f $xsl_file ) ) {
         $dir = pushd("$tmp_dir/$lang/xml");
@@ -1291,6 +1297,46 @@ sub transform {
 
         # NO-OP?
     }
+    elsif ( $format eq 'drupal-book' ) {
+        $dir = undef;
+
+        my $docname = $self->{publican}->param('docname');
+        my $product = $self->{publican}->param('product');
+        my $version = $self->{publican}->param('version');
+        my $edition = $self->{publican}->param('edition');
+        my $release = $self->{publican}->param('release');
+
+        my $filename   = "$product-$docname-$version-$lang-$edition-$release";
+        my $content_dir = "$lang/$product/$version/$docname";
+
+        $self->drupal_transform( { lang => $lang } );
+
+        dircopy( "$tmp_dir/$lang/xml/images",                "$tmp_dir/$lang/$format/$content_dir/images" );
+        dircopy( "$tmp_dir/$lang/xml/Common_Content/images", "$tmp_dir/$lang/$format/$content_dir/Common_Content/images" )
+          if ( $embedtoc == 0 );
+
+        dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/$content_dir/files" )
+            if ( -e "$xml_lang/files" );
+        dircopy( "$lang/files", "$tmp_dir/$lang/$format/$content_dir/files" )
+            if ( -e "$lang/files" );
+
+        # remove any RCS from the output
+        finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
+
+        $dir = pushd("$tmp_dir/$lang/$format");
+
+        # remove all html files
+        my @htmls = glob "*.html";
+        foreach (@htmls) {
+            unlink($_);
+        }
+
+        print "Zipping $filename.tar.gz\n";
+        system("tar -czf $filename.tar.gz ./$filename.csv ./$lang")
+          && croak ( maketext("Failed to zip $filename.tar.gz\n") );
+
+        $dir = undef;
+    }
     else {
         $dir = undef;
         dircopy( "$tmp_dir/$lang/xml/images",         "$tmp_dir/$lang/$format/images" );
@@ -1329,22 +1375,15 @@ sub drupal_transform {
     my $lang = delete $args->{lang}
       || croak maketext("lang is the mandatory argument for drupal_transform");
 
-    my $tmp_dir   = $self->{publican}->param('tmp_dir');
-    my $main_file = $self->{publican}->param('mainfile');
-    my $docname   = $self->{publican}->param('docname');
-    my $product   = $self->{publican}->param('product');
-    my $version   = $self->{publican}->param('version');
-    my $edition   = $self->{publican}->param('edition');
-    my $xml_lang  = $self->{publican}->param('xml_lang');
-
-    my $prefix     = "$product-$version";
-    my $bookname   = "$prefix-$docname";
+    my $tmp_dir    = $self->{publican}->param('tmp_dir');
+    my $main_file  = $self->{publican}->param('mainfile');
+    my $docname    = $self->{publican}->param('docname');
+    my $product    = $self->{publican}->param('product');
+    my $version    = $self->{publican}->param('version');
+    my $edition    = $self->{publican}->param('edition');
+    my $release    = $self->{publican}->param('release');
+    my $xml_lang   = $self->{publican}->param('xml_lang');
     my $drupal_dir = "$tmp_dir/$lang/drupal-book";
-
-    mkdir "$tmp_dir/$lang/drupal-book";
-
-    #use Cwd();
-    #print Cwd::getcwd() . "<<<<\n";
 
     my $parser = XML::LibXML->new();
     $parser->expand_xinclude(1);
@@ -1354,13 +1393,9 @@ sub drupal_transform {
     eval { $source = $parser->parse_file("$tmp_dir/$lang/xml/$main_file.xml"); };
 
     my %node_types;
-    my $nodes_order = $self->get_nodes_order( { source => $source, node_types => \%node_types } );
+    my %all_nodes;
+    my $nodes_order = $self->get_nodes_order( { source => $source, node_types => \%node_types, all_nodes => \%all_nodes } );
 
-    #use Data::Dumper;
-    #print Dumper($nodes_order);
-
-    #use Data::Dumper;
-    #print Dumper($nodes_order);
     my @csv_headers = (
         "Title",
         "Book",
@@ -1372,10 +1407,11 @@ sub drupal_transform {
         "Input format",
         "Authored By",
         "Published",
-        "URL path settings"
+        "URL path settings",
+        "Redirect Paths"
     );
 
-    my $csv_file = "$bookname-$edition.csv";
+    my $csv_file = "$product-$docname-$version-$lang-$edition-$release.csv";
 
     print "Writing $csv_file\n";
 
@@ -1391,7 +1427,14 @@ sub drupal_transform {
     $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
       || croak ( maketext($DBI::errstr) );
 
-    my $outputs = $self->build_drupal_book( { lang => $lang, nodes_order => $nodes_order, node_types => \%node_types } );
+    # get all section ids mapping info
+    my $sql = 'SELECT section_id, map_to FROM clean_id_tracker';
+    my $section_maps = $self->{dbh}->selectall_hashref($sql, 'section_id');   
+    my $outputs = $self->build_drupal_book( { lang         => $lang, 
+                                              nodes_order  => $nodes_order, 
+                                              node_types   => \%node_types, 
+                                              section_maps => $section_maps,
+                                              all_nodes    => \%all_nodes} );
 
     foreach my $row (@{$outputs}) {
       $xs->combine(@{$row}) or $xs->error_diag;
@@ -1413,6 +1456,7 @@ sub get_nodes_order {
 
     my $node       = delete( $args->{node} ) || undef;
     my $node_types = delete( $args->{node_types} ) || {};
+    my $all_nodes  = delete( $args->{all_nodes} )  || {};
 
     my %order;
     my @node_list;
@@ -1432,10 +1476,15 @@ sub get_nodes_order {
 
         foreach my $cnode_attr ($cnode->attributes()) {
             if ($cnode_attr && $cnode_attr->isId) {
-                $order{++$count}{'id'} = $cnode_attr->getValue();
+                my $value = $cnode_attr->getValue();
+                $order{++$count}{'id'} = $value;
                 $order{$count}{'type'} = $cnode->nodeName();
                 $node_types->{$cnode->nodeName()} = 1;
-                my $child_nodes = $self->get_nodes_order( { source => $source, node => $cnode, node_types => $node_types } );
+                $all_nodes->{$value} = 1;
+                my $child_nodes = $self->get_nodes_order( { source     => $source, 
+                                                            node       => $cnode,
+                                                            node_types => $node_types, 
+                                                            all_nodes  => $all_nodes } );
                 $order{$count}{'childs'} = $child_nodes
                   if (%{$child_nodes});
             }
@@ -1456,17 +1505,20 @@ sub build_drupal_book {
     my $node_types = delete $args->{node_types}
       || croak maketext("node_types is the mandatory argument for build_drupal_book");
 
+    my $section_maps = delete $args->{section_maps} || {};
+    my $all_nodes    = delete $args->{all_nodes}    || {};
+
     my $parent = delete $args->{parent} || "";
 
     
-    my $tmp_dir   = $self->{publican}->param('tmp_dir');
+    my $tmp_dir = $self->{publican}->param('tmp_dir');
     my $docname = $self->{publican}->param('docname');
     my $product = $self->{publican}->param('product');
     my $version = $self->{publican}->param('version');
 
-    my $prefix     = "$product-$version";
-    my $bookname   = "$prefix-$docname";
-    my $html_dir   = "$tmp_dir/$lang/html";
+    my $bookname     = "$product-$docname-$version-$lang";
+    my $drupal_dir   = "$tmp_dir/$lang/drupal-book";
+    my $resource_dir = "$lang/$product/$version/$docname";
 
     my @outputs;
     my $weight = -16;
@@ -1474,7 +1526,7 @@ sub build_drupal_book {
     foreach my $order_num ( sort { $a <=> $b } keys %{$nodes_order}) {
 
         my $page = ( $nodes_order->{$order_num}{'id'} =~ /^book\-/ ) ? 'index' : $nodes_order->{$order_num}{'id'};
-        my $file_name = "$html_dir/$page.html";
+        my $file_name = "$drupal_dir/$page.html";
 
         if (-e $file_name) {
             my @csv_row;
@@ -1486,7 +1538,14 @@ sub build_drupal_book {
             $tree->parse_file($html_file);
             $html_file->close();
 
-            foreach my $tag( qw (meta link ul img object span) ) {
+            my $title_element = $tree->look_down( '_tag' , 'title' );
+            my $title = $title_element->as_trimmed_text;
+
+            #delete html head
+            my $head_element = $tree->look_down( '_tag' , 'head' );
+            $head_element->delete();
+            
+            foreach my $tag( qw (ul img object a) ) {
                 my @nodes;
                 my %to_be_deleted;
                 my $attr_name = 'name';
@@ -1524,38 +1583,58 @@ sub build_drupal_book {
                 elsif ( $tag eq 'object' ) {
                     $attr_name = 'type';
                 }
-                elsif ( $tag eq 'span' ) {
-                    $attr_name = 'class';
+                elsif ( $tag eq 'a' ) {
+                    $attr_name = 'href';
                 }
 
                 foreach my $node (@nodes) {
                     my $node_name = $node->attr($attr_name) || undef;
                     next if ( !$node_name );
 
-                    if ( $tag eq 'link' && $node_name eq 'stylesheet' ) {
-                        my $old_value = $node->attr('href') || undef;
-                        $node->attr('href', "sites/default/files/" . $old_value)
-                          if ($old_value);
-                    }
-                    elsif ( $tag eq 'img' ) {
+                    #if ( $tag eq 'link' && $node_name eq 'stylesheet' ) {
+                    #    my $old_value = $node->attr('href') || undef;
+                    #    $node->attr('href', "sites/default/files/" . $old_value)
+                    #      if ($old_value);
+                    #}
+                    if ( $tag eq 'img' ) {
                         my $old_value = $node->attr('src') || undef;
-                        $node->attr('src', "sites/default/files/" . $old_value)
+                        $node->attr('src', "sites/default/files/$resource_dir/" . $old_value)
                           if ($old_value);
                     }
                     elsif ( $tag eq 'object' && $node_name eq 'image/svg+xml') {
                         my $old_value = $node->attr('data') || undef;
-                        $node->attr('data', "sites/default/files/" . $old_value)
+                        $node->attr('data', "sites/default/files/$resource_dir/" . $old_value)
                           if ($old_value);
                     }
-                    elsif ( $tag eq 'span' && exists $node_types->{$node_name} ) {
-                        my @ahrefs = $node->look_down( '_tag' , 'a' );
-                        foreach my $href (@ahrefs) {
-                            my $old_value = $href->attr('href') || undef;
-                            if ( $old_value ) {
-                                $old_value =~ s/\.html$//;
-                                $old_value =~ s/\.html\#/\#/;
-                                $href->attr('href', "?q=$prefix-" . $old_value);   
-                            }                       
+                    elsif ( $tag eq 'a' ) {
+                        my $old_value = $node->attr('href') || undef;
+                        if ( $old_value ) {
+                            my @links;
+                            my $update_link = 0;
+                            @links = split('#', $old_value);
+                            for ( my $i = 0; $i < @links; $i++ ) {
+                                $links[$i] =~ s/\.html$//;
+                                if ( defined $section_maps->{$links[$i]} ) {
+                                    $links[$i] = $section_maps->{$links[$i]}{'map_to'};
+                                    $update_link = 1;
+                                }
+
+                                unless ($update_link) {
+                                    # check if it is internal page
+                                    if ( defined $all_nodes->{$links[$i]} ) {
+                                        $update_link = 1;
+                                    }
+                                }
+                            }
+
+                            if ($update_link) {
+                                $old_value = join('#', @links);
+                                $node->attr('href', "?q=$bookname-" . $old_value);
+                                $update_link = 0;
+                            }
+                            #else {
+                                #print ">>$old_value>> not found\n";
+                            #}            
                         }
                     }
 
@@ -1579,13 +1658,19 @@ sub build_drupal_book {
                 }
             }
 
-            my $node = $tree->look_down( '_tag' , 'title' );
-            my $title = $node->as_trimmed_text;
-
-            my $alias = "$prefix-$page";
-            my $book  = "$product $version $docname";
+            my $alias = "$bookname-$page";
+            my $book  = "$product $docname $version";
 
             my $section_weight = {preface => 1, chapter => 2, appendix => 3};
+
+            #if ($previous_type ne $nodes_order->{$order_num}{'type'}) {
+            if ( $weight < 30 ) {
+                $weight++;
+            }
+            else {
+                logger( maketext("Reached the maximum page ordering weight(30) that drupal can support. The rest of the pages will be ordered in alphabetical order\n"), RED );
+            }
+            #}
 
             if ( $page eq 'index' ) {
               $alias = $bookname;
@@ -1594,33 +1679,25 @@ sub build_drupal_book {
               #$menu = "menu-userguide";
             }
             else {
-                my $sql = <<SQL;
-                  SELECT id, old_section_id 
-                   FROM clean_id_tracker
-                  WHERE product = '$product' 
-                    AND docname = '$docname' 
-                    AND version = '$version'
-                    AND new_section_id = '$page'
+                my $sql =<<SQL;
+                    SELECT section_id, map_to
+                      FROM clean_id_tracker
+                    WHERE section_id = ?
+                     LIMIT 1
 SQL
+                my $sth = $self->{dbh}->prepare($sql);
+                $sth->execute($page);
+                my $result = $sth->fetchrow_hashref();
 
-                eval {
-                    my $result = $self->{dbh}->selectrow_hashref($sql);
-
-                    if (defined $result->{id}) {
-                        $alias = "$prefix-$result->{old_section_id}";    
-                    }
-                };
-
-                if ($@) {
-                    croak ( maketext("Fail to get section history to set url alias: $@" ) );
+                if (defined $result && %{$result}) {
+                    $alias = "$bookname-$result->{map_to}";
                 }
-            }
-
-            if ($previous_type ne $nodes_order->{$order_num}{'type'}) {
-                $weight++;
             }
   
             $title =~ s/\s+/ /g;
+            my $html_string = $tree->as_HTML;
+            $html_string =~ s/^\<\!DOCTYPE head PUBLIC \"\-\/\/W3C\/\/DTD.*\.dtd\"\>\<html\>//;
+            $html_string =~ s/\<\/html\>//;
 
             push @csv_row, $title;
             push @csv_row, $book;
@@ -1629,9 +1706,10 @@ SQL
             push @csv_row, $title;
             #push @csv_row, "menu-userguide";
             push @csv_row, "";
-            push @csv_row, $tree->as_HTML;
+            #push @csv_row, "";
+            push @csv_row, $html_string;
             push @csv_row, 2;
-            push @csv_row, 'hyu';
+            push @csv_row, '';
             push @csv_row, 'TRUE';
             push @csv_row, $alias;
 
@@ -1643,7 +1721,6 @@ SQL
             }
 
             $previous_type = $nodes_order->{$order_num}{'type'};
-            #print ">>>>$title>>>$order_num\n";
         }
     }
 
@@ -1666,6 +1743,7 @@ sub clean_ids {
     #        croak "unknown args: " . join( ", ", keys %{$args} );
     #    }
     my $directory = delete $args->{directory} || undef;
+    my $track_id  = delete $args->{track_id}  || 0;
 
     my @xml_files;
 
