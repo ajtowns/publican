@@ -364,6 +364,10 @@ my %PARAMS = (
         descr   => maketext('Language in which XML is authored.'),
         default => 'en-US',
     },
+    drupal_author => {
+        descr   => maketext('The author name to be shown in drupal book page. It must be a valid drupal username.'),
+        default => '',
+    },
 
 );
 

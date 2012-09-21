@@ -1408,7 +1408,6 @@ sub drupal_transform {
         "Authored By",
         "Published",
         "URL path settings",
-        "Redirect Paths"
     );
 
     my $csv_file = "$product-$docname-$version-$lang-$edition-$release.csv";
@@ -1515,6 +1514,7 @@ sub build_drupal_book {
     my $docname = $self->{publican}->param('docname');
     my $product = $self->{publican}->param('product');
     my $version = $self->{publican}->param('version');
+    my $author  = $self->{publican}->param('drupal_author') || "";
 
     my $bookname     = "$product-$docname-$version-$lang";
     my $drupal_dir   = "$tmp_dir/$lang/drupal-book";
@@ -1696,7 +1696,7 @@ SQL
   
             $title =~ s/\s+/ /g;
             my $html_string = $tree->as_HTML;
-            $html_string =~ s/^\<\!DOCTYPE head PUBLIC \"\-\/\/W3C\/\/DTD.*\.dtd\"\>\<html\>//;
+            $html_string =~ s/^\<\!DOCTYPE head PUBLIC \"\-\/\/W3C\/\/DTD.*\.dtd\"\>\s+\<html\>//;
             $html_string =~ s/\<\/html\>//;
 
             push @csv_row, $title;
@@ -1709,7 +1709,7 @@ SQL
             #push @csv_row, "";
             push @csv_row, $html_string;
             push @csv_row, 2;
-            push @csv_row, '';
+            push @csv_row, $author;
             push @csv_row, 'TRUE';
             push @csv_row, $alias;
 
