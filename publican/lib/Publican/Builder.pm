@@ -587,9 +587,6 @@ sub setup_xml {
             }
         }
         finddepth( \&del_unwanted_dirs, $tmp_dir );
-
-        # clean Common Content XML
-        $self->clean_ids({ directory => "$tmp_dir/$lang/xml/Common_Content" });
     }
 
     return;
@@ -1428,7 +1425,13 @@ sub drupal_transform {
 
     # get all section ids mapping info
     my $sql = 'SELECT section_id, map_to FROM clean_id_tracker';
-    my $section_maps = $self->{dbh}->selectall_hashref($sql, 'section_id');   
+    my $section_maps = {};
+
+    eval { $section_maps = $self->{dbh}->selectall_hashref($sql, 'section_id'); };
+
+    logger( maketext("Clean id table not exist. Run clean id to create it.\n"), RED )
+      if ($@);
+
     my $outputs = $self->build_drupal_book( { lang         => $lang, 
                                               nodes_order  => $nodes_order, 
                                               node_types   => \%node_types, 

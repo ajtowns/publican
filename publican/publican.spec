@@ -15,8 +15,8 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.0
-Release:        0%{?dist}.t225
+Version:        3.1
+Release:        0%{?dist}.t1
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -88,6 +88,7 @@ BuildRequires:  wkhtmltopdf
 BuildRequires:  docbook-style-xsl >= 1.76.1
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
+BuildRequires:  perl(Text::CSV_XS)
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -100,6 +101,7 @@ Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 4.0
 Requires:       perl-Template-Toolkit
 Requires:       perl(DBD::SQLite)
+Requires:       perl(Text::CSV_XS)
 
 # Lets validate some basics
 Requires:       rpmlint
