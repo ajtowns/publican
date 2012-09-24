@@ -52,6 +52,7 @@ Publican::XmlClean tidies XML formatting and filters structure based on input ru
 
 my %UPDATED_IDS;
 my %UNIQUE_IDS;
+my %MAX_CONFORMANCE;
 
 my %MAP_OUT = (
     section    => { block => 1, newline_after => 1 },
@@ -304,6 +305,25 @@ sub new {
         $self->{banned_attrs}{$battr} = 1;
     }
 
+    my $clean_id        = $self->{config}->param('clean_id');
+    my $xml_lang        = $self->{publican}->param('xml_lang');
+
+    if ( $clean_id ) {
+        # create database to track section id changes
+        my $db_file = "$xml_lang/clean_id_tracker.db";  
+        $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
+          || croak( maketext($DBI::errstr) );
+        $self->{dbh}->{AutoCommit} = 0;
+        $self->create_db();
+
+        my $sql = "select original, max(conformance) as max_count from clean_id_tracker group by original";
+        my $results = $self->{dbh}->selectall_hashref($sql, 'original');
+
+        foreach my $id (keys %{$results}) {
+            $UNIQUE_IDS{$id} = $results->{$id}{max_count};
+        }
+    }
+
     return $self;
 }
 
@@ -459,42 +479,38 @@ sub Clean_ID {
             }
         }
 
+        my $conformance = 1;
         # prepend product & book name (to avoid problems in sets)
         # prepend tag type for translations BZ #427312
         if ( $my_id ne "" ) {
             $my_id = "$product-$docname-$my_id";
             $my_id = substr( $tag, 0, 4 ) . "-$my_id";
-        }
 
-        # no change
-        if ( $node->id()
-             && $node->id() eq $my_id 
-             && $node->attr( 'conformance')
-        ) {
-            $UNIQUE_IDS{$my_id} = $node->attr( 'conformance');
-            return;
+            if ( defined $UNIQUE_IDS{$my_id}  ) {
+                if ( !$node->attr( 'conformance') ) {
+                    $conformance = $UNIQUE_IDS{$my_id} + 1;
+                    $UNIQUE_IDS{$my_id} = $conformance;
+                    $my_id = join('_', $my_id, $conformance);
+                    $node->attr( 'conformance', $conformance);
+                }
+                else {
+                    return;
+                }
+            }
+            else {
+                $node->attr( 'conformance', $conformance);
+                $UNIQUE_IDS{$my_id} = $conformance;
+            }
         }
 
         if ( $node->id() && $node->id() ne $my_id ) {
-            #TODO this will break if people add a new same title section in between
-            # will need to think a better way to track them
-            my $conformance = 1;
-            if ( defined $UNIQUE_IDS{$my_id} ) {
-                $conformance = $UNIQUE_IDS{$my_id} + 1;
-                $UNIQUE_IDS{$my_id} += $conformance;
-
-                $my_id = $my_id . '_' . $conformance;
-                $node->attr( 'conformance', $conformance );
-            }
-            else {
-                $UNIQUE_IDS{$my_id} = 1;
-            }
-
             $UPDATED_IDS{ $node->id() } = $my_id;
+
+            print "change from " . $node->id() . " to $my_id\n";
 
             $self->track_id( { old_id      => $node->id(), 
                                new_id      => $my_id, 
-                               conformance => ( $conformance > 1 ) ? $conformance : 0
+                               conformance => $conformance,
             } )
         }
 
@@ -532,9 +548,13 @@ sub track_id {
       || croak( maketext( "clean_id failed to get the xml filename" ) );
 
     $current_file =~ s/^\s+|\s+$//;
+
+    my $original = $new_id;
+    if ($conformance > 1) {
+        $original =~ s/\_\d+$//;
+    }
  
     eval {      
-        # update the all old section ids of this title and update them to the latest section_id.
         my $sql = <<SQL; 
           SELECT map_to, section_id 
             FROM clean_id_tracker 
@@ -550,22 +570,42 @@ SQL
         $sth->execute($product, $docname, $version, $current_file, $old_id);
         my $result = $sth->fetchrow_hashref();
 
-        my $map_to = $old_id;
+        my $map_to = "";
         if ( defined $result && %{$result} ) {
             $map_to = $result->{map_to};
+
+            my $update_sql = <<SQL; 
+              UPDATE clean_id_tracker 
+                SET section_id  = ?,
+                    conformance = ?,
+                    original    = ?
+                WHERE
+                  product     = ? AND
+                  docname     = ? AND
+                  version     = ? AND
+                  xml_file    = ? AND
+                  section_id  = ? AND
+                  map_to      = ?
+SQL
+            my $update_sth = $self->{dbh}->prepare($update_sql);
+            $update_sth->execute($new_id, $conformance, $original, $product, $docname, $version, $current_file, $old_id, $map_to);
+            $update_sth->finish();           
+        }
+        else {
+            $map_to = $old_id;
+
+            # store the latest section id of this title
+            my $insert_sql = <<SQL; 
+              INSERT INTO clean_id_tracker 
+                (product, docname, version, xml_file, conformance, section_id, map_to, original) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+SQL
+            my $insert_sth = $self->{dbh}->prepare($insert_sql);
+            $insert_sth->execute($product, $docname, $version, $current_file, $conformance, $new_id, $map_to, $original);
+            $insert_sth->finish();         
         }
 
         $sth->finish();
-
-        # store the latest section id of this title
-        my $insert_sql = <<SQL; 
-          INSERT INTO clean_id_tracker 
-            (product, version, docname, xml_file, conformance, section_id, map_to) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-SQL
-        my $insert_sth = $self->{dbh}->prepare($insert_sql);
-        $insert_sth->execute($product, $version, $docname, $current_file, $conformance, $new_id, $map_to);
-        $insert_sth->finish();
     };
 
     if ($@) {
@@ -1091,15 +1131,6 @@ sub process_file {
     my $update_includes = $self->{config}->param('update_includes');
     my $xml_lang        = $self->{publican}->param('xml_lang');
 
-    if ($clean_id) {
-        # create database to track section id changes
-        my $db_file = "$xml_lang/clean_id_tracker.db";  
-        $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
-          || croak( maketext($DBI::errstr) );
-        $self->{dbh}->{AutoCommit} = 0;
-        $self->create_db();
-    }
-
     my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
     $xml_doc->store_pis(1);
@@ -1164,19 +1195,6 @@ sub process_file {
         %UPDATED_IDS = ();
     }
 
-    if ( defined $self->{dbh} ) {
-        eval {
-            $self->{dbh}->commit();
-        };
-
-        if ($@) {
-            $self->rollback();
-            croak ( maketext("$@") );
-        }
-        
-        $self->{dbh}->disconnect();
-    }
-
     return;
 }
 
@@ -1198,6 +1216,7 @@ SQL
             version        TEXT NOT NULL,
             docname        TEXT NOT NULL,
             xml_file       TEXT NOT NULL,
+            original       TEXT NOL NULL,
             conformance    INT NOT NULL DEFAULT 0,
             section_id     TEXT NOT NULL,
             map_to         TEXT NOT NULL
@@ -1218,6 +1237,23 @@ SQL
     }
 
     return;
+}
+
+sub DESTROY {
+    my $self = shift;
+
+    if ( defined $self->{dbh} ) {
+        eval {
+            $self->{dbh}->commit();
+        };
+
+        if ($@) {
+            $self->rollback();
+            croak ( maketext("$@") );
+        }
+        
+        $self->{dbh}->disconnect();
+    }
 }
 
 1;    # Magic true value required at end of module

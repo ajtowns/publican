@@ -1577,9 +1577,11 @@ sub build_drupal_book {
                                 my @links;
                                 my $update_link = 0;
                                 @links = split('#', $old_value);
+
                                 for ( my $i = 0; $i < @links; $i++ ) {
+                                    next if (!$links[$i]);
                                     $links[$i] =~ s/\.html$//;
-                                    if ( defined $section_maps->{$links[$i]} ) {
+                                    if ( defined $section_maps->{$links[$i]}{'map_to'} ) {
                                         $links[$i] = $section_maps->{$links[$i]}{'map_to'};
                                         $update_link = 1;
                                     }
