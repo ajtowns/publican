@@ -1434,7 +1434,6 @@ sub drupal_transform {
 
     my $outputs = $self->build_drupal_book( { lang         => $lang, 
                                               nodes_order  => $nodes_order, 
-                                              node_types   => \%node_types, 
                                               section_maps => $section_maps,
                                               all_nodes    => \%all_nodes} );
 
@@ -1504,20 +1503,20 @@ sub build_drupal_book {
     my $nodes_order = delete( $args->{nodes_order} )
       || croak( maketext("nodes_order is a mandatory argument for build_drupal_book") );
 
-    my $node_types = delete $args->{node_types}
-      || croak maketext("node_types is the mandatory argument for build_drupal_book");
-
     my $section_maps = delete $args->{section_maps} || {};
     my $all_nodes    = delete $args->{all_nodes}    || {};
 
-    my $parent = delete $args->{parent} || "";
+    my $parent       = delete $args->{parent}       || "";
+    my $parent_alias = delete $args->{parent_alias} || "";
 
     
     my $tmp_dir = $self->{publican}->param('tmp_dir');
     my $docname = $self->{publican}->param('docname');
     my $product = $self->{publican}->param('product');
     my $version = $self->{publican}->param('version');
-    my $author  = $self->{publican}->param('drupal_author') || "";
+    my $author  = $self->{publican}->param('drupal_author');
+    my $book_title = $self->{publican}->param('drupal_menu_title');
+    my $menu_block = $self->{publican}->param('drupal_menu_block');
 
     my $bookname     = "$product-$docname-$version-$lang";
     my $drupal_dir   = "$tmp_dir/$lang/drupal-book";
@@ -1548,122 +1547,71 @@ sub build_drupal_book {
             my $head_element = $tree->look_down( '_tag' , 'head' );
             $head_element->delete();
             
-            foreach my $tag( qw (ul img object a) ) {
-                my @nodes;
-                my %to_be_deleted;
-                my $attr_name = 'name';
-                @nodes = $tree->look_down( '_tag' , $tag );
+            $tree->traverse(
+                [ # Callbacks;
+                  # pre-order callback:
+                  sub {
+                        my $node   = $_[0];
+                        my $tag    = $node->{'_tag'};
 
-                if ($tag eq 'meta' ) {
-                    %to_be_deleted = 
-                    ( 
-                      generator   => 1, 
-                      'package'   => 1,
-                      description => 1,
-                    );
-                }
-                elsif ($tag eq 'link' ) {
-                    $attr_name = 'rel';
-                    %to_be_deleted = 
-                    (
-                      up     => 1, 
-                      prev   => 1, 
-                      home   => 1,
-                      'next' => 1,
-                    );
-                }
-                elsif ($tag eq 'ul' ) {
-                    $attr_name = 'class';
-                    %to_be_deleted = 
-                    (
-                      'docnav' => 1,
-                      'docnav top' => 1,
-                    );
-                }
-                elsif ( $tag eq 'img' ) {
-                    $attr_name = 'src';
-                }
-                elsif ( $tag eq 'object' ) {
-                    $attr_name = 'type';
-                }
-                elsif ( $tag eq 'a' ) {
-                    $attr_name = 'href';
-                }
+                        if ( defined $node->attr('id') && defined $section_maps->{$node->attr('id')}{'map_to'}) {
+                            my $id = $node->attr('id');
+                            $node->attr( 'id', $section_maps->{$id}{'map_to'} );
+                        }
 
-                foreach my $node (@nodes) {
-                    my $node_name = $node->attr($attr_name) || undef;
-                    next if ( !$node_name );
+                        if ( $tag eq 'img' && defined $node->attr('src') ) {
+                            my $old_value = $node->attr('src');
+                            $node->attr('src', "sites/default/files/$resource_dir/" . $old_value)
+                              if ($old_value);
+                        }
 
-                    #if ( $tag eq 'link' && $node_name eq 'stylesheet' ) {
-                    #    my $old_value = $node->attr('href') || undef;
-                    #    $node->attr('href', "sites/default/files/" . $old_value)
-                    #      if ($old_value);
-                    #}
-                    if ( $tag eq 'img' ) {
-                        my $old_value = $node->attr('src') || undef;
-                        $node->attr('src', "sites/default/files/$resource_dir/" . $old_value)
-                          if ($old_value);
-                    }
-                    elsif ( $tag eq 'object' && $node_name eq 'image/svg+xml') {
-                        my $old_value = $node->attr('data') || undef;
-                        $node->attr('data', "sites/default/files/$resource_dir/" . $old_value)
-                          if ($old_value);
-                    }
-                    elsif ( $tag eq 'a' ) {
-                        my $old_value = $node->attr('href') || undef;
-                        if ( $old_value ) {
-                            my @links;
-                            my $update_link = 0;
-                            @links = split('#', $old_value);
-                            for ( my $i = 0; $i < @links; $i++ ) {
-                                $links[$i] =~ s/\.html$//;
-                                if ( defined $section_maps->{$links[$i]} ) {
-                                    $links[$i] = $section_maps->{$links[$i]}{'map_to'};
-                                    $update_link = 1;
-                                }
+                        if ( $tag eq 'object' && defined $node->attr('type') && $node->attr('type') eq 'image/svg+xml' ) {
+                            my $old_value = $node->attr('data') || undef;
+                            $node->attr('data', "sites/default/files/$resource_dir/" . $old_value)
+                              if ($old_value);
+                        }
 
-                                unless ($update_link) {
-                                    # check if it is internal page
-                                    if ( defined $all_nodes->{$links[$i]} ) {
+                        if ( $tag eq 'a' && defined $node->attr('href') ) {
+                            my $old_value = $node->attr('href');
+                            if ( $old_value ) {
+                                my @links;
+                                my $update_link = 0;
+                                @links = split('#', $old_value);
+                                for ( my $i = 0; $i < @links; $i++ ) {
+                                    $links[$i] =~ s/\.html$//;
+                                    if ( defined $section_maps->{$links[$i]} ) {
+                                        $links[$i] = $section_maps->{$links[$i]}{'map_to'};
                                         $update_link = 1;
                                     }
+
+                                    unless ($update_link) {
+                                       # check if it is internal page
+                                       if ( defined $all_nodes->{$links[$i]} ) {
+                                           $update_link = 1;
+                                       }
+                                    }
                                 }
-                            }
 
-                            if ($update_link) {
-                                $old_value = join('#', @links);
-                                $node->attr('href', "?q=$bookname-" . $old_value);
-                                $update_link = 0;
+                                if ($update_link) {
+                                    $old_value = join('#', @links);
+                                    $node->attr('href', "?q=$bookname-" . $old_value);
+                                    $update_link = 0;
+                                }
+                                #else {
+                                    #print ">>$old_value>> not found\n";
+                                #}            
                             }
-                            #else {
-                                #print ">>$old_value>> not found\n";
-                            #}            
                         }
-                    }
 
-                    next if ( ! exists $to_be_deleted{$node_name} );
-
-                    #if ( $node_name eq 'docnav' ) {
-                    #    my @all_li = $node->look_down( '_tag' , "li" );
-                    #    foreach my $li (@all_li) {
-                    #        if ( $li->attr('class') eq 'previous' ) {
-                    #            my @links = $li->look_down( '_tag' , "a" );
-                    #            if (@links) {
-                    #                $previous_page = $links[0]->attr('href') || "";
-                    #                $previous_page =~ s/\.html//;
-                    #            }
-                    #              
-                    #        }
-                    #    }
-                    #}
-
-                    $node->delete();
-                }
-            }
+                        return HTML::Element::OK; # keep traversing
+                      },
+                      # post-order callback:
+                      undef
+                ],
+                1, # don't call the callbacks for text nodes
+            );
 
             my $alias = "$bookname-$page";
-            my $book  = "$product $docname $version";
-
             my $section_weight = {preface => 1, chapter => 2, appendix => 3};
 
             #if ($previous_type ne $nodes_order->{$order_num}{'type'}) {
@@ -1675,11 +1623,15 @@ sub build_drupal_book {
             }
             #}
 
+            my $menu_link  = "";
+            my $menu_title = "";
+            my $book       = ($book_title) ? $book_title : "$product $docname $version";
             if ( $page eq 'index' ) {
-              $alias = $bookname;
-              $title = $book;
-              $book = "";
-              #$menu = "menu-userguide";
+              $alias      = $bookname;
+              $title      = $book;
+              $menu_title = $book;
+              $menu_link  = $menu_block;
+              $book       = "";
             }
             else {
                 my $sql =<<SQL;
@@ -1695,6 +1647,11 @@ SQL
                 if (defined $result && %{$result}) {
                     $alias = "$bookname-$result->{map_to}";
                 }
+
+                # show menu hierarchy
+                #$menu_link = ( $parent_alias ) 
+                #           ? join(':', $menu_block, $parent_alias) 
+                #           : join(':', $menu_block, $bookname);
             }
   
             $title =~ s/\s+/ /g;
@@ -1706,9 +1663,8 @@ SQL
             push @csv_row, $book;
             push @csv_row, $parent;
             push @csv_row, $weight;
-            push @csv_row, $title;
-            #push @csv_row, "menu-userguide";
-            push @csv_row, "";
+            push @csv_row, $menu_title;
+            push @csv_row, $menu_link;
             #push @csv_row, "";
             push @csv_row, $html_string;
             push @csv_row, 2;
@@ -1719,7 +1675,11 @@ SQL
             push @outputs, \@csv_row;
 
             if ( defined $nodes_order->{$order_num}{'childs'} ) {
-                my $child_outputs = $self->build_drupal_book( { lang => $lang, nodes_order => $nodes_order->{$order_num}{'childs'}, node_types => $node_types, parent => $title } );
+                my $child_outputs = $self->build_drupal_book( { lang         => $lang, 
+                                                                nodes_order  => $nodes_order->{$order_num}{'childs'}, 
+                                                                parent       => $title,
+                                                                parent_alias => $alias,
+                                                            } );
                 push @outputs, @{$child_outputs};
             }
 
