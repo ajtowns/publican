@@ -466,14 +466,19 @@ sub Clean_ID {
             $my_id = substr( $tag, 0, 4 ) . "-$my_id";
         }
 
+        # no change
+        if ( $node->id()
+             && $node->id() eq $my_id 
+             && $node->attr( 'conformance')
+        ) {
+            $UNIQUE_IDS{$my_id} = $node->attr( 'conformance');
+            return;
+        }
+
         if ( $node->id() && $node->id() ne $my_id ) {
             #TODO this will break if people add a new same title section in between
             # will need to think a better way to track them
             my $conformance = 1;
-            if (  $node->attr( 'conformance') ) {
-                $UNIQUE_IDS{$my_id} = $node->attr( 'conformance');
-                return;
-            }
             if ( defined $UNIQUE_IDS{$my_id} ) {
                 $conformance = $UNIQUE_IDS{$my_id} + 1;
                 $UNIQUE_IDS{$my_id} += $conformance;
@@ -657,56 +662,6 @@ sub print_xml {
         print( $OUTDOC $text );
         close($OUTDOC);
     }
-
-    return;
-}
-
-sub update_db {
-    my ( $self, $args ) = @_;
-    my $sect_title = "";
-
-    my $xml_doc = delete( $args->{xml_doc} )
-        || croak( maketext("xml_doc is a mandatory argument") );
-
-    my $tree = $xml_doc->root();
-    my $empty_element_map = $tree->_empty_element_map;
-
-    $empty_element_map->{xref}         = 1;
-    $empty_element_map->{footnoteref}  = 1;
-    $empty_element_map->{'index'}      = 1;
-    $empty_element_map->{'xi:include'} = 1;
-    $empty_element_map->{ulink}        = 1;
-    $empty_element_map->{imagedata}    = 1;
-    $empty_element_map->{area}         = 1;
-
-    my ( $tag, $node, $start );    # per-iteration scratch
-
-    $tree->traverse(
-        sub {
-            ( $node, $start ) = @_;
-            if ( ref $node ) {     # it's an element
-
-                $tag = $node->{'_tag'};
-
-                $self->validate_tags($node, $tag);
-
-                if ($start) {      # on the way in
-                    if ( !$MAP_OUT{$tag}->{no_id} ) {
-                        foreach my $child ( $node->content_refs_list() ) {
-                            if ( ref $$child
-                                && $$child->{'_tag'} eq ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
-                            {
-                                $sect_title = $$child->as_text;
-                                $self->track_id( {new_id => $node->id(), sect_title => $sect_title} );
-                                last;
-                            }
-                        }
-                    }
-                }
-            }
-            1;           # keep traversing
-        }
-    );
 
     return;
 }

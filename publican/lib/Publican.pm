@@ -366,7 +366,15 @@ my %PARAMS = (
     },
     drupal_author => {
         descr   => maketext('The author name to be shown in drupal book page. It must be a valid drupal username.'),
+        default => 'Redhat',
+    },
+    drupal_menu_title => {
+        descr   => maketext('Override the bookname that will be shown in the drupal menu.'),
         default => '',
+    },
+    drupal_menu_block => {
+        descr   => maketext('The menu where we can find the book. The default value is menu-user-guide'),
+        default => 'menu-user-guide',
     },
 
 );
