@@ -16,13 +16,13 @@ use Cwd qw(abs_path);
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
-$VERSION = '3.0';
+$VERSION = '3.1';
 @ISA     = qw(Exporter);
 
 @EXPORT = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string);
 
 # Track when the SPEC file generation is incompatible.
-$SPEC_VERSION = '3.0';
+$SPEC_VERSION = '3.1';
 
 my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
