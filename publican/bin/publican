@@ -27,7 +27,6 @@ use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path cwd);
 use File::Basename;
 use File::HomeDir;
-use Publican::Drupal::NodeImport;
 
 my $VERSION      = "$Publican::VERSION";
 my $LANG_PATTERN = q|__LANG__|;
@@ -298,10 +297,6 @@ my %actions = (
             'Migrate a website DataBase from Publican < 3 to Publican 3.'),
         'options' => ['site_config'],
     },
-    'import_to_drupal' => {
-        'brief'   => maketext('Import book to drupal'),
-        'options' => ['lang'],
-    }
 );
 
 # Grab to limit options to the valid ones for this action

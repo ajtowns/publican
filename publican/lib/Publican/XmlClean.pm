@@ -479,37 +479,40 @@ sub Clean_ID {
             }
         }
 
-        my $conformance = 1;
+        my $tmp_id = "";
         # prepend product & book name (to avoid problems in sets)
         # prepend tag type for translations BZ #427312
         if ( $my_id ne "" ) {
             $my_id = "$product-$docname-$my_id";
             $my_id = substr( $tag, 0, 4 ) . "-$my_id";
 
-            if ( defined $UNIQUE_IDS{$my_id}  ) {
-                if ( !$node->attr( 'conformance') ) {
-                    $conformance = $UNIQUE_IDS{$my_id} + 1;
-                    $UNIQUE_IDS{$my_id} = $conformance;
-                    $my_id = join('_', $my_id, $conformance);
-                    $node->attr( 'conformance', $conformance);
-                }
-                else {
-                    return;
-                }
+            if ( $node->attr( 'conformance') && 
+                 $node->attr( 'conformance') > 1 
+            ) {
+                $tmp_id = join('_', $my_id, $node->attr( 'conformance'));
             }
             else {
-                $node->attr( 'conformance', $conformance);
-                $UNIQUE_IDS{$my_id} = $conformance;
+                $tmp_id = $my_id;
             }
         }
 
-        if ( $node->id() && $node->id() ne $my_id ) {
-            $UPDATED_IDS{ $node->id() } = $my_id;
+        if ( $node->id() && $node->id() ne $tmp_id ) {
 
-            print "change from " . $node->id() . " to $my_id\n";
+            my $conformance = 1;
+            if ( defined $UNIQUE_IDS{$my_id}  ) {
+                $conformance = $UNIQUE_IDS{$my_id} + 1;  
+            }
+
+            $UNIQUE_IDS{$my_id} = $conformance;
+            $node->attr( 'conformance', $conformance);
+            $tmp_id = ($conformance > 1) ? join('_', $my_id, $conformance) : $my_id;
+
+            $UPDATED_IDS{ $node->id() } = $tmp_id;
+
+            print "change from " . $node->id() . " to $tmp_id\n";
 
             $self->track_id( { old_id      => $node->id(), 
-                               new_id      => $my_id, 
+                               new_id      => $tmp_id, 
                                conformance => $conformance,
             } )
         }
@@ -518,7 +521,7 @@ sub Clean_ID {
             $my_id = undef;
         }
 
-        $node->attr( 'id', $my_id );
+        $node->attr( 'id', $tmp_id );
     }
 
     return;
