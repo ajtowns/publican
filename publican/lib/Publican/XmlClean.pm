@@ -509,7 +509,7 @@ sub Clean_ID {
 
             $UPDATED_IDS{ $node->id() } = $tmp_id;
 
-            print "change from " . $node->id() . " to $tmp_id\n";
+            #print "change from " . $node->id() . " to $tmp_id\n";
 
             $self->track_id( { old_id      => $node->id(), 
                                new_id      => $tmp_id, 
