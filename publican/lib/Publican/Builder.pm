@@ -1303,7 +1303,7 @@ sub transform {
         my $edition = $self->{publican}->param('edition');
         my $release = $self->{publican}->param('release');
 
-        my $filename   = "$product-$docname-$version-$lang-$edition-$release";
+        my $filename   = "$product-$version-$docname-$lang-$edition-$release";
         my $content_dir = "$lang/$product/$version/$docname";
 
         $self->drupal_transform( { lang => $lang } );
@@ -1382,6 +1382,10 @@ sub drupal_transform {
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $drupal_dir = "$tmp_dir/$lang/drupal-book";
 
+    # preprocess. set the unique id for every sections
+    logger( maketext("Preprocessing xml files...\n") );
+    $self->set_unique_ids();
+
     my $parser = XML::LibXML->new();
     $parser->expand_xinclude(1);
     $parser->expand_entities(1);
@@ -1389,9 +1393,9 @@ sub drupal_transform {
     my $source;
     eval { $source = $parser->parse_file("$tmp_dir/$lang/xml/$main_file.xml"); };
 
-    my %node_types;
     my %all_nodes;
-    my $nodes_order = $self->get_nodes_order( { source => $source, node_types => \%node_types, all_nodes => \%all_nodes } );
+    my %section_maps;
+    my $nodes_order = $self->get_nodes_order( { source => $source, section_maps => \%section_maps, all_nodes => \%all_nodes } );
 
     my @csv_headers = (
         "Title",
@@ -1407,7 +1411,7 @@ sub drupal_transform {
         "URL path settings",
     );
 
-    my $csv_file = "$product-$docname-$version-$lang-$edition-$release.csv";
+    my $csv_file = "$product-$version-$docname-$lang-$edition-$release.csv";
 
     print "Writing $csv_file\n";
 
@@ -1419,22 +1423,18 @@ sub drupal_transform {
     $xs->combine(@csv_headers);
     $fh->print ($xs->string);
 
-    my $db_file = "$xml_lang/clean_id_tracker.db";
-    $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
-      || croak ( maketext($DBI::errstr) );
-
+    #my $db_file = "$xml_lang/clean_id_tracker.db";
+    #$self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
+    #  || croak ( maketext($DBI::errstr) );
     # get all section ids mapping info
-    my $sql = 'SELECT section_id, map_to FROM clean_id_tracker';
-    my $section_maps = {};
-
-    eval { $section_maps = $self->{dbh}->selectall_hashref($sql, 'section_id'); };
-
-    logger( maketext("Clean id table not exist. Run clean id to create it.\n"), RED )
-      if ($@);
+    #my $sql = 'SELECT section_id, map_to FROM clean_id_tracker';
+    #eval { $section_maps = $self->{dbh}->selectall_hashref($sql, 'section_id'); };
+    #logger( maketext("Clean id table not exist. Run clean id to create it.\n"), RED )
+    #  if ($@);
 
     my $outputs = $self->build_drupal_book( { lang         => $lang, 
                                               nodes_order  => $nodes_order, 
-                                              section_maps => $section_maps,
+                                              section_maps => \%section_maps,
                                               all_nodes    => \%all_nodes} );
 
     foreach my $row (@{$outputs}) {
@@ -1455,9 +1455,9 @@ sub get_nodes_order {
     my $source = delete( $args->{source} )
         || croak( maketext("source is a mandatory argument") );
 
-    my $node       = delete( $args->{node} ) || undef;
-    my $node_types = delete( $args->{node_types} ) || {};
-    my $all_nodes  = delete( $args->{all_nodes} )  || {};
+    my $node         = delete( $args->{node} )         || undef;
+    my $section_maps = delete( $args->{section_maps} ) || {};
+    my $all_nodes    = delete( $args->{all_nodes} )    || {};
 
     my %order;
     my @node_list;
@@ -1473,19 +1473,25 @@ sub get_nodes_order {
     foreach my $cnode (@node_list) {
         # $cnode->attributes will return namespace too, so we need to skip it here
         next if ( !$cnode->hasAttributes() );
-        #print $cnode->nodeName ."\n";
 
+        my $unique_id = undef;
         foreach my $cnode_attr ($cnode->attributes()) {
+            if ( $cnode_attr->name() eq "conformance" ) {
+                $unique_id = $cnode_attr->getValue();
+                #print "$unique_id\n";
+            }
+
             if ($cnode_attr && $cnode_attr->isId) {
                 my $value = $cnode_attr->getValue();
-                $order{++$count}{'id'} = $value;
-                $order{$count}{'type'} = $cnode->nodeName();
-                $node_types->{$cnode->nodeName()} = 1;
+                $order{++$count}{'id'}  = $value;
+                $order{$count}{'type'}  = $cnode->nodeName();
+                $section_maps->{$value} = $unique_id || $value;
+                  #|| croak ( maketext("missing 'conformance' attribute in $order{$count}{type} where id is $value") );
                 $all_nodes->{$value} = 1;
-                my $child_nodes = $self->get_nodes_order( { source     => $source, 
-                                                            node       => $cnode,
-                                                            node_types => $node_types, 
-                                                            all_nodes  => $all_nodes } );
+                my $child_nodes = $self->get_nodes_order( { source       => $source, 
+                                                            node         => $cnode,
+                                                            section_maps => $section_maps, 
+                                                            all_nodes    => $all_nodes } );
                 $order{$count}{'childs'} = $child_nodes
                   if (%{$child_nodes});
             }
@@ -1518,7 +1524,7 @@ sub build_drupal_book {
     my $book_title = $self->{publican}->param('drupal_menu_title');
     my $menu_block = $self->{publican}->param('drupal_menu_block');
 
-    my $bookname     = "$product-$docname-$version-$lang";
+    my $bookname     = "$product-$version-$docname-$lang";
     my $drupal_dir   = "$tmp_dir/$lang/drupal-book";
     my $resource_dir = "$lang/$product/$version/$docname";
 
@@ -1546,6 +1552,9 @@ sub build_drupal_book {
             #delete html head
             my $head_element = $tree->look_down( '_tag' , 'head' );
             $head_element->delete();
+
+            my $delete_first_header = 1;
+            my %header_tags = ( h1 => 1, h2 => 1, h3 => 1, h4 => 1, h5 => 1 );
             
             $tree->traverse(
                 [ # Callbacks;
@@ -1554,9 +1563,16 @@ sub build_drupal_book {
                         my $node   = $_[0];
                         my $tag    = $node->{'_tag'};
 
-                        if ( defined $node->attr('id') && defined $section_maps->{$node->attr('id')}{'map_to'}) {
+                        # only delete the first header tag because it is already showing
+                        # in the drupal title
+                        if ( defined $header_tags{$tag} && $delete_first_header == 1 ) {
+                            $node->delete();
+                            $delete_first_header = 0;
+                        }
+
+                        if ( defined $node->attr('id') && defined $section_maps->{$node->attr('id')}) {
                             my $id = $node->attr('id');
-                            $node->attr( 'id', $section_maps->{$id}{'map_to'} );
+                            $node->attr( 'id', $section_maps->{$id} );
                         }
 
                         if ( $tag eq 'img' && defined $node->attr('src') ) {
@@ -1581,8 +1597,8 @@ sub build_drupal_book {
                                 for ( my $i = 0; $i < @links; $i++ ) {
                                     next if (!$links[$i]);
                                     $links[$i] =~ s/\.html$//;
-                                    if ( defined $section_maps->{$links[$i]}{'map_to'} ) {
-                                        $links[$i] = $section_maps->{$links[$i]}{'map_to'};
+                                    if ( defined $section_maps->{$links[$i]} ) {
+                                        $links[$i] = $section_maps->{$links[$i]};
                                         $update_link = 1;
                                     }
 
@@ -1627,7 +1643,7 @@ sub build_drupal_book {
 
             my $menu_link  = "";
             my $menu_title = "";
-            my $book       = ($book_title) ? $book_title : "$product $docname $version";
+            my $book       = ($book_title) ? $book_title : "$product $version $docname";
             if ( $page eq 'index' ) {
               $alias      = $bookname;
               $title      = $book;
@@ -1636,24 +1652,8 @@ sub build_drupal_book {
               $book       = "";
             }
             else {
-                my $sql =<<SQL;
-                    SELECT section_id, map_to
-                      FROM clean_id_tracker
-                    WHERE section_id = ?
-                     LIMIT 1
-SQL
-                my $sth = $self->{dbh}->prepare($sql);
-                $sth->execute($page);
-                my $result = $sth->fetchrow_hashref();
-
-                if (defined $result && %{$result}) {
-                    $alias = "$bookname-$result->{map_to}";
-                }
-
-                # show menu hierarchy
-                #$menu_link = ( $parent_alias ) 
-                #           ? join(':', $menu_block, $parent_alias) 
-                #           : join(':', $menu_block, $bookname);
+                $alias = "$bookname-$section_maps->{$page}"
+                  || croak( maketext("Fail to get the mapping for $page") );
             }
   
             $title =~ s/\s+/ /g;
@@ -1667,7 +1667,6 @@ SQL
             push @csv_row, $weight;
             push @csv_row, $menu_title;
             push @csv_row, $menu_link;
-            #push @csv_row, "";
             push @csv_row, $html_string;
             push @csv_row, 2;
             push @csv_row, $author;
@@ -1679,6 +1678,7 @@ SQL
             if ( defined $nodes_order->{$order_num}{'childs'} ) {
                 my $child_outputs = $self->build_drupal_book( { lang         => $lang, 
                                                                 nodes_order  => $nodes_order->{$order_num}{'childs'}, 
+                                                                section_maps => $section_maps,
                                                                 parent       => $title,
                                                                 parent_alias => $alias,
                                                             } );
@@ -1691,7 +1691,6 @@ SQL
 
     return \@outputs;
 }
-
 
 =head2 clean_ids
 
@@ -1708,7 +1707,6 @@ sub clean_ids {
     #        croak "unknown args: " . join( ", ", keys %{$args} );
     #    }
     my $directory = delete $args->{directory} || undef;
-    my $track_id  = delete $args->{track_id}  || 0;
 
     my @xml_files;
 
@@ -1725,6 +1723,25 @@ sub clean_ids {
         next if ( $xml_file =~ m{/extras/} );
         $cleaner->process_file( { file => $xml_file, out_file => $xml_file } );
     }
+
+    return;
+}
+
+sub set_unique_ids {
+    my ( $self, $args ) = @_;
+
+    my @xml_files;
+
+    @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
+
+    my $cleaner = Publican::XmlClean->new( { set_unique_ids => 1 } );
+
+    foreach my $xml_file ( sort(@xml_files) ) {
+        next if ( $xml_file =~ m{/extras/} );
+        $cleaner->process_file( { file => $xml_file, out_file => $xml_file } );
+    }
+
+    $cleaner->set_max_unique_id();
 
     return;
 }

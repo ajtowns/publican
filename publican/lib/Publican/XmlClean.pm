@@ -283,6 +283,7 @@ sub new {
     $config->param( 'donotset_lang',   ( delete( $args->{donotset_lang} ) )   || 1 );
     $config->param( 'distributed_set', ( delete( $args->{distributed_set} ) ) || 0 );
     $config->param( 'exclude_ent',     ( delete( $args->{exclude_ent} ) )     || 0 );
+    $config->param( 'set_unique_ids',  ( delete( $args->{set_unique_ids} ) )  || 0 );
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -305,23 +306,25 @@ sub new {
         $self->{banned_attrs}{$battr} = 1;
     }
 
-    my $clean_id        = $self->{config}->param('clean_id');
+    my $set_unique_ids  = $self->{config}->param('set_unique_ids');
     my $xml_lang        = $self->{publican}->param('xml_lang');
 
-    if ( $clean_id ) {
+    if ($set_unique_ids) {
         # create database to track section id changes
-        my $db_file = "$xml_lang/clean_id_tracker.db";  
+        my $db_file = "$xml_lang/max_unique_id.db";  
         $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
           || croak( maketext($DBI::errstr) );
         $self->{dbh}->{AutoCommit} = 0;
         $self->create_db();
 
-        my $sql = "select original, max(conformance) as max_count from clean_id_tracker group by original";
-        my $results = $self->{dbh}->selectall_hashref($sql, 'original');
+        my $sql = "select max_unique_id from max_unique_id";
+        my $sth = $self->{dbh}->prepare($sql);
+        $sth->execute();
+        my $result = $sth->fetchrow_hashref();
 
-        foreach my $id (keys %{$results}) {
-            $UNIQUE_IDS{$id} = $results->{$id}{max_count};
-        }
+        $self->{unique_id} = $result->{max_unique_id} || 0;
+
+        $sth->finish();
     }
 
     return $self;
@@ -439,7 +442,6 @@ sub Clean_ID {
     my $sect_title = "";
     my $docname  = $self->{publican}->param('docname');
     my $product  = $self->{publican}->param('product');
-    my $track_id = $self->{config}->param('track_id');
 
     if ($node) {
         my $tag = $node->{'_tag'};
@@ -486,39 +488,39 @@ sub Clean_ID {
             $my_id = "$product-$docname-$my_id";
             $my_id = substr( $tag, 0, 4 ) . "-$my_id";
 
-            if ( $node->attr( 'conformance') && 
-                 $node->attr( 'conformance') > 1 
-            ) {
-                $tmp_id = join('_', $my_id, $node->attr( 'conformance'));
-            }
-            else {
+            #if ( $node->attr( 'conformance') && 
+            #     $node->attr( 'conformance') > 1 
+            #) {
+            #    $tmp_id = join('_', $my_id, $node->attr( 'conformance'));
+            #}
+            #else {
                 $tmp_id = $my_id;
-            }
+            #}
         }
 
         if ( $node->id() && $node->id() ne $tmp_id ) {
 
-            my $conformance = 1;
-            if ( defined $UNIQUE_IDS{$my_id}  ) {
-                $conformance = $UNIQUE_IDS{$my_id} + 1;  
-            }
+            #my $conformance = 1;
+            #if ( defined $UNIQUE_IDS{$my_id}  ) {
+            #    $conformance = $UNIQUE_IDS{$my_id} + 1;  
+            #}
 
-            $UNIQUE_IDS{$my_id} = $conformance;
-            $node->attr( 'conformance', $conformance);
-            $tmp_id = ($conformance > 1) ? join('_', $my_id, $conformance) : $my_id;
+            #$UNIQUE_IDS{$my_id} = $conformance;
+            #$node->attr( 'conformance', $conformance);
+            #$tmp_id = ($conformance > 1) ? join('_', $my_id, $conformance) : $my_id;
 
             $UPDATED_IDS{ $node->id() } = $tmp_id;
 
             #print "change from " . $node->id() . " to $tmp_id\n";
 
-            $self->track_id( { old_id      => $node->id(), 
-                               new_id      => $tmp_id, 
-                               conformance => $conformance,
-            } )
+            #$self->track_id( { old_id      => $node->id(), 
+            #                   new_id      => $tmp_id, 
+            #                   conformance => $conformance,
+            #} )
         }
 
-        if ( $my_id eq "" ) {
-            $my_id = undef;
+        if ( $tmp_id eq "" ) {
+            $tmp_id = undef;
         }
 
         $node->attr( 'id', $tmp_id );
@@ -527,93 +529,23 @@ sub Clean_ID {
     return;
 }
 
-sub track_id {
+sub set_max_unique_id {
     my ( $self, $args ) = @_;
 
-    my $old_id      = delete $args->{old_id} ||
-      croak ( maketext( "old_id is the mandatory argument for track_id" ) );
-
-    my $new_id      = delete $args->{new_id}      || return;
-    my $conformance = delete $args->{conformance} || 0;
-   
-    return if ( $new_id eq $old_id );
-
-    my $docname = $self->{publican}->param('docname')
-      || croak( maketext( "clean_id failed to get the docname" ) );
-
-    my $product = $self->{publican}->param('product')
-      || croak( maketext( "clean_id failed to get the product name" ) );
-
-    my $version = $self->{publican}->param('version')
-      || croak( maketext( "clean_id failed to get the version number" ) );
-
-    my $current_file = $self->{current_file}
-      || croak( maketext( "clean_id failed to get the xml filename" ) );
-
-    $current_file =~ s/^\s+|\s+$//;
-
-    my $original = $new_id;
-    if ($conformance > 1) {
-        $original =~ s/\_\d+$//;
-    }
- 
-    eval {      
-        my $sql = <<SQL; 
-          SELECT map_to, section_id 
-            FROM clean_id_tracker 
-           WHERE
-             product    = ? AND
-             docname    = ? AND
-             version    = ? AND
-             xml_file   = ? AND
-             section_id = ?
+    eval {
+        my $update_sql = <<SQL; 
+            UPDATE max_unique_id 
+                SET max_unique_id = $self->{unique_id}
+              WHERE
+                id  = 1
 SQL
 
-        my $sth = $self->{dbh}->prepare($sql);
-        $sth->execute($product, $docname, $version, $current_file, $old_id);
-        my $result = $sth->fetchrow_hashref();
-
-        my $map_to = "";
-        if ( defined $result && %{$result} ) {
-            $map_to = $result->{map_to};
-
-            my $update_sql = <<SQL; 
-              UPDATE clean_id_tracker 
-                SET section_id  = ?,
-                    conformance = ?,
-                    original    = ?
-                WHERE
-                  product     = ? AND
-                  docname     = ? AND
-                  version     = ? AND
-                  xml_file    = ? AND
-                  section_id  = ? AND
-                  map_to      = ?
-SQL
-            my $update_sth = $self->{dbh}->prepare($update_sql);
-            $update_sth->execute($new_id, $conformance, $original, $product, $docname, $version, $current_file, $old_id, $map_to);
-            $update_sth->finish();           
-        }
-        else {
-            $map_to = $old_id;
-
-            # store the latest section id of this title
-            my $insert_sql = <<SQL; 
-              INSERT INTO clean_id_tracker 
-                (product, docname, version, xml_file, conformance, section_id, map_to, original) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-SQL
-            my $insert_sth = $self->{dbh}->prepare($insert_sql);
-            $insert_sth->execute($product, $docname, $version, $current_file, $conformance, $new_id, $map_to, $original);
-            $insert_sth->finish();         
-        }
-
-        $sth->finish();
+       $self->{dbh}->do($update_sql);       
     };
 
     if ($@) {
         $self->{dbh}->rollback();
-        croak ( maketext("Error tracking id for '$new_id' in '$current_file': $@") );
+        croak ( maketext("Error setting max id: $@") );
     }
 
     return;
@@ -752,7 +684,6 @@ sub validate_tags {
     return;
 }
 
-
 =head2 my_as_XML
 
 Traverse tree and output xml as text. Overrides traverse ... evil stuff.
@@ -772,8 +703,9 @@ sub my_as_XML {
     my @xml               = ();
     my $empty_element_map = $tree->_empty_element_map;
 
-    my $clean_id     = $self->{config}->param('clean_id');
-    my $lang         = $self->{config}->param('lang');
+    my $clean_id       = $self->{config}->param('clean_id');
+    my $lang           = $self->{config}->param('lang');
+    my $set_unique_ids = $self->{config}->param('set_unique_ids');
 
     # This flags tags that use  /> instead of end tags IF they are empty.
     $empty_element_map->{xref}         = 1;
@@ -811,6 +743,12 @@ sub my_as_XML {
                     
                     if ($clean_id) {
                         $self->Clean_ID($node);
+                    }
+
+                    if ($set_unique_ids) {
+                        if ( $node->id() && !$node->attr('conformance') ) {
+                            $node->attr('conformance', ++$self->{unique_id});
+                        }
                     }
 
                     if (( $MAP_OUT{$tag}->{'newline'} )
@@ -1209,20 +1147,13 @@ sub create_db {
         my $check_table_sql =<<SQL;
           SELECT name 
             FROM sqlite_master 
-           WHERE name='clean_id_tracker'
+           WHERE name='max_unique_id'
 SQL
 
         my $create_table_sql = <<SQL;
-          CREATE TABLE clean_id_tracker (
+          CREATE TABLE max_unique_id (
             id             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            product        TEXT NOT NULL,
-            version        TEXT NOT NULL,
-            docname        TEXT NOT NULL,
-            xml_file       TEXT NOT NULL,
-            original       TEXT NOL NULL,
-            conformance    INT NOT NULL DEFAULT 0,
-            section_id     TEXT NOT NULL,
-            map_to         TEXT NOT NULL
+            max_unique_id  INTEGER NOT NULL DEFAULT 0
         )
 SQL
 
@@ -1231,6 +1162,15 @@ SQL
         return if ( defined $table->{name} );
 
         $self->{dbh}->do($create_table_sql);
+
+        # create first row and set value to 0
+         my $insert_sql = <<SQL; 
+             INSERT INTO max_unique_id 
+               (max_unique_id) 
+               VALUES (0)
+SQL
+
+        $self->{dbh}->do($insert_sql);
 
     };
 

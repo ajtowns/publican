@@ -167,7 +167,7 @@ my @utility_opts = (
 my %actions = (
     'build' => {
         'brief' => maketext(
-            'Transform XML to other formats (pdf, html, html-single, etc)'),
+            'Transform XML to other formats (pdf, html, html-single, drupal-book, etc)'),
         'options' => [
             'formats',         'langs',   'publish', 'embedtoc',
             'distributed_set', 'novalid', 'src_dir'
@@ -296,6 +296,10 @@ my %actions = (
         'brief' => maketext(
             'Migrate a website DataBase from Publican < 3 to Publican 3.'),
         'options' => ['site_config'],
+    },
+    'set_unique_ids' => {
+        'brief'   => maketext('Set unique ids in xml files'),
+        'options' => [],
     },
 );
 
@@ -844,6 +848,11 @@ if ( $action eq 'clean_set' ) {
 if ( $action eq 'clean_ids' ) {
     my $builder = Publican::Builder->new();
     $builder->clean_ids();
+}
+
+if ( $action eq 'set_unique_ids' ) {
+    my $builder = Publican::Builder->new();
+    $builder->set_unique_ids();
 }
 
 if ( $action eq 'update_pot' ) {
