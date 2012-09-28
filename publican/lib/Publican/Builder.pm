@@ -1058,9 +1058,10 @@ sub transform {
     }
     elsif ( $format eq 'drupal-book' ) {
         $dir = pushd("$tmp_dir/$lang/$format");
-        $xslt_opts{'embedtoc'}             = $embedtoc;
         $xslt_opts{'chunk.first.sections'} = $chunk_first;
         $xslt_opts{'chunk.section.depth'}  = $chunk_section_depth;
+        $xslt_opts{'doc.url'}              = "'$doc_url'";
+        $xslt_opts{'prod.url'}             = "'$prod_url'";
     }
     elsif ( ( $format =~ /^pdf/ ) and ( -f $xsl_file ) ) {
         $dir = pushd("$tmp_dir/$lang/xml");
@@ -1658,7 +1659,9 @@ sub build_drupal_book {
   
             $title =~ s/\s+/ /g;
             my $html_string = $tree->as_HTML;
-            $html_string =~ s/^\<\!DOCTYPE head PUBLIC \"\-\/\/W3C\/\/DTD.*\.dtd\"\>\s+\<html\>//;
+            $html_string =~ s/^\<\!DOCTYPE html PUBLIC \"\-\/\/W3C\/\/DTD.*\.dtd\"\>\n*//;
+            $html_string =~ s/\<html.*\>\s*\<body\>//;
+            $html_string =~ s/\<\/body\>//;
             $html_string =~ s/\<\/html\>//;
 
             push @csv_row, $title;
