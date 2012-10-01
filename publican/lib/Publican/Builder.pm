@@ -1534,6 +1534,7 @@ sub build_drupal_book {
     my $author  = $self->{publican}->param('drupal_author');
     my $book_title = $self->{publican}->param('drupal_menu_title');
     my $menu_block = $self->{publican}->param('drupal_menu_block');
+    my $img_path   = $self->{publican}->param('drupal_image_path');
 
     my $bookname     = "$product-$version-$docname-$lang";
     my $drupal_dir   = "$tmp_dir/$lang/drupal-book";
@@ -1588,13 +1589,13 @@ sub build_drupal_book {
 
                         if ( $tag eq 'img' && defined $node->attr('src') ) {
                             my $old_value = $node->attr('src');
-                            $node->attr('src', "sites/default/files/$resource_dir/" . $old_value)
+                            $node->attr('src', "$img_path$resource_dir/" . $old_value)
                               if ($old_value);
                         }
 
                         if ( $tag eq 'object' && defined $node->attr('type') && $node->attr('type') eq 'image/svg+xml' ) {
                             my $old_value = $node->attr('data') || undef;
-                            $node->attr('data', "sites/default/files/$resource_dir/" . $old_value)
+                            $node->attr('data', "$img_path$resource_dir/" . $old_value)
                               if ($old_value);
                         }
 
@@ -1621,7 +1622,7 @@ sub build_drupal_book {
                                     }
 
                                     if ($links[$i] eq 'ix01') {
-                                        $links[$1] = 'index';
+                                        $links[$i] = 'index';
                                         $update_link = 1;
                                     }
                                 }
