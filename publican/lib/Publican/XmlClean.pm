@@ -283,7 +283,6 @@ sub new {
     $config->param( 'donotset_lang',   ( delete( $args->{donotset_lang} ) )   || 1 );
     $config->param( 'distributed_set', ( delete( $args->{distributed_set} ) ) || 0 );
     $config->param( 'exclude_ent',     ( delete( $args->{exclude_ent} ) )     || 0 );
-    $config->param( 'set_unique_ids',  ( delete( $args->{set_unique_ids} ) )  || 0 );
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -304,27 +303,6 @@ sub new {
     $self->{banned_attrs} = {};
     foreach my $battr ( split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) ) {
         $self->{banned_attrs}{$battr} = 1;
-    }
-
-    my $set_unique_ids  = $self->{config}->param('set_unique_ids');
-    my $xml_lang        = $self->{publican}->param('xml_lang');
-
-    if ($set_unique_ids) {
-        # create database to track section id changes
-        my $db_file = "$xml_lang/max_unique_id.db";  
-        $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
-          || croak( maketext($DBI::errstr) );
-        $self->{dbh}->{AutoCommit} = 0;
-        $self->create_db();
-
-        my $sql = "select max_unique_id from max_unique_id";
-        my $sth = $self->{dbh}->prepare($sql);
-        $sth->execute();
-        my $result = $sth->fetchrow_hashref();
-
-        $self->{unique_id} = $result->{max_unique_id} || 0;
-
-        $sth->finish();
     }
 
     return $self;
@@ -529,28 +507,6 @@ sub Clean_ID {
     return;
 }
 
-sub set_max_unique_id {
-    my ( $self, $args ) = @_;
-
-    eval {
-        my $update_sql = <<SQL; 
-            UPDATE max_unique_id 
-                SET max_unique_id = $self->{unique_id}
-              WHERE
-                id  = 1
-SQL
-
-       $self->{dbh}->do($update_sql);       
-    };
-
-    if ($@) {
-        $self->{dbh}->rollback();
-        croak ( maketext("Error setting max id: $@") );
-    }
-
-    return;
-}
-
 =head2 print_xml
 
 Print out utf8 XML files
@@ -705,7 +661,6 @@ sub my_as_XML {
 
     my $clean_id       = $self->{config}->param('clean_id');
     my $lang           = $self->{config}->param('lang');
-    my $set_unique_ids = $self->{config}->param('set_unique_ids');
 
     # This flags tags that use  /> instead of end tags IF they are empty.
     $empty_element_map->{xref}         = 1;
@@ -743,12 +698,6 @@ sub my_as_XML {
                     
                     if ($clean_id) {
                         $self->Clean_ID($node);
-                    }
-
-                    if ($set_unique_ids) {
-                        if ( $node->id() && !$node->attr('conformance') ) {
-                            $node->attr('conformance', ++$self->{unique_id});
-                        }
                     }
 
                     if (( $MAP_OUT{$tag}->{'newline'} )
@@ -1139,6 +1088,143 @@ sub process_file {
     return;
 }
 
+=head2 set_unique_ids
+
+Set unique ids for every nodes which have id
+
+=cut
+
+sub set_unique_ids {
+    my ( $self, $args ) = @_;
+
+    my $xml_lang  = $self->{publican}->param('xml_lang');
+
+    # create database to track section id changes
+    my $db_file = "$xml_lang/max_unique_id.db";  
+    $self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
+      || croak( maketext($DBI::errstr) );
+    $self->create_db();
+
+    my $sql = "select max_unique_id from max_unique_id";
+    my $sth = $self->{dbh}->prepare($sql);
+    $sth->execute();
+    my $result = $sth->fetchrow_hashref();
+
+    my $unique_id = $result->{max_unique_id} || 0;
+    $sth->finish();
+
+    my @xml_files;
+    @xml_files = dir_list( $xml_lang, '*.xml' );
+
+    my $conformance = 0;
+
+    foreach my $xml_file ( sort(@xml_files) ) {
+        next if ( $xml_file =~ m{/extras/} );
+
+
+        # get declarations
+        my $INDOC;
+        open( $INDOC, "<:encoding(UTF-8)", "$xml_file" )
+            || croak( maketext( "Could not open [_1] for output!", $xml_file ) );
+
+        my $declarations = "";
+        my @lines = <$INDOC>;
+        foreach my $line ( @lines ) {
+            $declarations .= $line;
+            if ( $line =~ /\]\>\s*$/ ) {
+                last;
+            }
+        }
+
+        $INDOC->close();
+
+        my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        $xml_doc->store_comments(1);
+        $xml_doc->store_pis(1);
+
+        $xml_doc->parse_file($xml_file);
+
+        # based on as_HTML
+        my $tree = $xml_doc->root();
+        my $empty_element_map = $tree->_empty_element_map;
+
+        # This flags tags that use  /> instead of end tags IF they are empty.
+        $empty_element_map->{xref}         = 1;
+        $empty_element_map->{footnoteref}  = 1;
+        $empty_element_map->{'index'}      = 1;
+        $empty_element_map->{'xi:include'} = 1;
+        $empty_element_map->{ulink}        = 1;
+        $empty_element_map->{imagedata}    = 1;
+        $empty_element_map->{area}         = 1;
+
+        my ( $tag, $node, $start );    # per-iteration scratch
+
+        # $_[0] = node
+        # $_[1] = startflag
+        # $_[2] = depth
+        # $_[3] = parent
+        # $_[4] = text node index
+
+        $tree->traverse(
+            sub {
+                ( $node, $start ) = @_;
+                if ( ref $node ) {     
+                    $tag = $node->{'_tag'};
+
+                    if (   $start
+                        && $node->id() 
+                        && !$node->attr('conformance') 
+                    ) {      # on the way in
+                        $node->attr('conformance', ++$unique_id);
+                    }
+                }
+                1;            # keep traversing
+            }
+        );
+
+        my $xml = $tree->as_XML();
+        $xml =~ s/&#34;/"/g;
+        $xml =~ s/&#39;/'/g;
+        $xml =~ s/&quot;/"/g;
+        $xml =~ s/&apos;/'/g;
+
+        $xml = $declarations . $xml;
+
+        my $OUTDOC;
+        open( $OUTDOC, ">:encoding(UTF-8)", "$xml_file" )
+            || croak( maketext( "Could not open [_1] for output!", $xml_file ) );
+
+        print( $OUTDOC $xml );
+        close($OUTDOC);
+    }
+
+    eval {
+        my $update_sql = <<SQL; 
+            UPDATE max_unique_id 
+                SET max_unique_id = $unique_id
+              WHERE
+                id  = 1
+SQL
+       $self->{dbh}->do($update_sql);       
+    };
+
+    if ($@) {
+        $self->{dbh}->rollback();
+        $self->{dbh}->disconnect();
+        croak ( maketext("Error setting max id: $@") );
+    }
+    
+    $self->{dbh}->disconnect();
+
+    return;
+}
+
+=head2 create_db
+
+Create a database to track the max unique id
+
+=cut
+
 sub create_db {
     my $self = shift;
     my $sql;
@@ -1180,23 +1266,6 @@ SQL
     }
 
     return;
-}
-
-sub DESTROY {
-    my $self = shift;
-
-    if ( defined $self->{dbh} ) {
-        eval {
-            $self->{dbh}->commit();
-        };
-
-        if ($@) {
-            $self->rollback();
-            croak ( maketext("$@") );
-        }
-        
-        $self->{dbh}->disconnect();
-    }
 }
 
 1;    # Magic true value required at end of module
