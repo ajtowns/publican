@@ -51,7 +51,6 @@ Publican::XmlClean tidies XML formatting and filters structure based on input ru
 =cut
 
 my %UPDATED_IDS;
-my %UNIQUE_IDS;
 my %MAX_CONFORMANCE;
 
 my %MAP_OUT = (
@@ -294,17 +293,6 @@ sub new {
     my $publican = Publican->new();
     $self->{publican} = $publican;
 
-
-    $self->{banned_tags} = {};
-    foreach my $btag ( split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) ) {
-        $self->{banned_tags}{$btag} = 1;
-    }
-
-    $self->{banned_attrs} = {};
-    foreach my $battr ( split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) ) {
-        $self->{banned_attrs}{$battr} = 1;
-    }
-
     return $self;
 }
 
@@ -416,10 +404,8 @@ If this node has a title as a child set it's ID else remove the ID
 sub Clean_ID {
     my ( $self, $node ) = @_;
     my $my_id   = "";
-    my $par_title  = "";
-    my $sect_title = "";
-    my $docname  = $self->{publican}->param('docname');
-    my $product  = $self->{publican}->param('product');
+    my $docname = $self->{publican}->param('docname');
+    my $product = $self->{publican}->param('product');
 
     if ($node) {
         my $tag = $node->{'_tag'};
@@ -433,8 +419,6 @@ sub Clean_ID {
                 if ( ref $$child
                     && $$child->{'_tag'} eq ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
                 {
-                    $sect_title = $$child->as_text;
-
                     $my_id = $$child->as_text;
                     $my_id =~ s/[- ]/_/g;
                     $my_id =~ s/[^a-zA-Z0-9\._]//g;
@@ -459,49 +443,22 @@ sub Clean_ID {
             }
         }
 
-        my $tmp_id = "";
         # prepend product & book name (to avoid problems in sets)
         # prepend tag type for translations BZ #427312
         if ( $my_id ne "" ) {
             $my_id = "$product-$docname-$my_id";
             $my_id = substr( $tag, 0, 4 ) . "-$my_id";
-
-            #if ( $node->attr( 'conformance') && 
-            #     $node->attr( 'conformance') > 1 
-            #) {
-            #    $tmp_id = join('_', $my_id, $node->attr( 'conformance'));
-            #}
-            #else {
-                $tmp_id = $my_id;
-            #}
         }
 
-        if ( $node->id() && $node->id() ne $tmp_id ) {
-
-            #my $conformance = 1;
-            #if ( defined $UNIQUE_IDS{$my_id}  ) {
-            #    $conformance = $UNIQUE_IDS{$my_id} + 1;  
-            #}
-
-            #$UNIQUE_IDS{$my_id} = $conformance;
-            #$node->attr( 'conformance', $conformance);
-            #$tmp_id = ($conformance > 1) ? join('_', $my_id, $conformance) : $my_id;
-
-            $UPDATED_IDS{ $node->id() } = $tmp_id;
-
-            #print "change from " . $node->id() . " to $tmp_id\n";
-
-            #$self->track_id( { old_id      => $node->id(), 
-            #                   new_id      => $tmp_id, 
-            #                   conformance => $conformance,
-            #} )
+        if ( $node->id() && $node->id() ne $my_id ) {
+            $UPDATED_IDS{ $node->id() } = $my_id;
         }
 
-        if ( $tmp_id eq "" ) {
-            $tmp_id = undef;
+        if ( $my_id eq "" ) {
+            $my_id = undef;
         }
 
-        $node->attr( 'id', $tmp_id );
+        $node->attr( 'id', $my_id );
     }
 
     return;
@@ -597,49 +554,6 @@ sub print_xml {
     return;
 }
 
-sub validate_tags {
-    my ( $self, $node, $tag ) = @_;
-
-    my $show_unknown = $self->{publican}->param('show_unknown');
-
-    return if (!$node && !$tag );
-
-    if ( $self->{banned_tags}{$tag} ) {
-        croak(
-            maketext(
-                "ERROR: Banned tag ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
-                $tag
-                )
-                . "\n"
-        );
-    }
-
-    foreach my $attr ( keys(%{$self->{banned_attrs}}) ) {
-        if ( $node->attr($attr) ) {
-            croak(
-                maketext(
-                    "ERROR: Banned attribute ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
-                    $attr
-                    )
-                    . "\n\n"
-            );
-        }
-    }
-
-    if ( $show_unknown && !$MAP_OUT{$tag} ) {
-        logger(
-            maketext(
-                "*WARNING: Unvalidated tag: '[_1]'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.",
-                $tag
-                )
-                . "\n",
-                RED
-        );
-    }
-
-    return;
-}
-
 =head2 my_as_XML
 
 Traverse tree and output xml as text. Overrides traverse ... evil stuff.
@@ -659,8 +573,19 @@ sub my_as_XML {
     my @xml               = ();
     my $empty_element_map = $tree->_empty_element_map;
 
-    my $clean_id       = $self->{config}->param('clean_id');
-    my $lang           = $self->{config}->param('lang');
+    my %banned_tags = ();
+    foreach my $btag ( split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) ) {
+        $banned_tags{$btag} = 1;
+    }
+
+    my %banned_attrs = ();
+    foreach my $battr ( split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) ) {
+        $banned_attrs{$battr} = 1;
+    }
+
+    my $show_unknown = $self->{publican}->param('show_unknown');
+    my $clean_id     = $self->{config}->param('clean_id');
+    my $lang         = $self->{config}->param('lang');
 
     # This flags tags that use  /> instead of end tags IF they are empty.
     $empty_element_map->{xref}         = 1;
@@ -693,9 +618,38 @@ sub my_as_XML {
                 $tag = $node->{'_tag'};
 
                 if ($start) {      # on the way in
+                    if ( $banned_tags{$tag} ) {
+                        croak(
+                            maketext(
+                                "ERROR: Banned tag ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
+                                $tag
+                                )
+                                . "\n"
+                        );
+                    }
 
-                    $self->validate_tags($node, $tag);
-                    
+                    foreach my $attr ( keys(%banned_attrs) ) {
+                        if ( $node->attr($attr) ) {
+                            croak(
+                                maketext(
+                                    "ERROR: Banned attribute ([_1]) detected. Discuss this with your brands owners if you think this is in error.",
+                                    $attr
+                                    )
+                                    . "\n\n"
+                            );
+                        }
+                    }
+
+                    if ( $show_unknown && !$MAP_OUT{$tag} ) {
+                        logger(
+                            maketext(
+                                "*WARNING: Unvalidated tag: '[_1]'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.",
+                                $tag
+                                )
+                                . "\n",
+                            RED
+                        );
+                    }
                     if ($clean_id) {
                         $self->Clean_ID($node);
                     }
@@ -1006,10 +960,8 @@ sub process_file {
 
     my $file = delete( $args->{file} )
         || croak( maketext("file is a mandatory argument") );
-    my $out_file = delete( $args->{out_file} ) || undef;
-
-    # set the the current processing filename
-    $self->{current_file} = $file;
+    my $out_file = delete( $args->{out_file} )
+        || croak( maketext("out_file is a mandatory argument") );
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );

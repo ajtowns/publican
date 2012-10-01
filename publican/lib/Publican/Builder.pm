@@ -169,9 +169,6 @@ sub build {
         # catch txt not being rebuilt BZ #802576
         my $rebuild = 1;
 
-        # catch html rebuilt for drupal
-        # my $html_rebuild = 1;
-
         foreach my $format ( split( /,/, $formats ) ) {
             logger( "\t" . maketext( "Starting [_1]", $format ) . "\n" );
             if ( $format eq 'test' ) {
@@ -183,12 +180,10 @@ sub build {
                 {   format   => $format,
                     lang     => $lang,
                     embedtoc => $embedtoc,
-                    rebuild  => $rebuild,
-                    #html_rebuild => $html_rebuild
+                    rebuild  => $rebuild
                 }
             ) unless ( $format eq 'xml' );
 
-            #$html_rebuild = 0 if ( $format eq 'drupal-book' || $format eq 'html' );
             $rebuild = 0 if ( $format eq 'txt' || $format eq 'html-single' );
 
             if ($publish) {
@@ -796,7 +791,6 @@ sub transform {
         || croak( maketext("format is a mandatory argument") );
     my $embedtoc = delete( $args->{embedtoc} ) || 0;
     my $rebuild  = delete( $args->{rebuild} )  || 0;
-    #my $html_rebuild  = delete( $args->{html_rebuild} ) || 0;
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -1360,7 +1354,6 @@ sub transform {
             if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
     }
 
-
     $xslt       = undef;
     $source     = undef;
     $style_doc  = undef;
@@ -1734,17 +1727,8 @@ sub clean_ids {
     #    if ( %{$args} ) {
     #        croak "unknown args: " . join( ", ", keys %{$args} );
     #    }
-    my $directory = delete $args->{directory} || undef;
 
-    my @xml_files;
-
-    if ($directory && -d $directory) {
-        @xml_files = dir_list( $directory, '*.xml' );
-    }
-    else { 
-        @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
-    }
-
+    my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
     foreach my $xml_file ( sort(@xml_files) ) {
