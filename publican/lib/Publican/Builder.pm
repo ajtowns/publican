@@ -86,7 +86,11 @@ sub new {
     my $novalid = delete( $args->{novalid} ) || 0;
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $self = bless {}, $class;
@@ -118,7 +122,11 @@ sub build {
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $product = $self->{publican}->param('product');
@@ -128,7 +136,8 @@ sub build {
     my $type    = $self->{publican}->param('type');
     my $brand   = $self->{publican}->param('brand');
 
-    if ( ( $type eq 'Set' ) && ( $self->{publican}->{config}->param('scm') ) ) {
+    if ( ( $type eq 'Set' ) && ( $self->{publican}->{config}->param('scm') ) )
+    {
         $self->get_books();
         $self->build_set_books( { langs => $langs } );
     }
@@ -138,7 +147,7 @@ sub build {
     }
 
     my $drupal = 0;
-    if ($formats =~ /drupal-book/ ) {
+    if ( $formats =~ /drupal-book/ ) {
         $drupal = 1;
     }
 
@@ -159,7 +168,9 @@ sub build {
             and ( $self->validate_xml( { lang => $lang } ) == $INVALID ) )
         {
             logger(
-                maketext( "All build formats will be skipped for language: [_1]", $lang )
+                maketext(
+                    "All build formats will be skipped for language: [_1]",
+                    $lang )
                     . "\n",
                 RED
             );
@@ -194,7 +205,8 @@ sub build {
                         if ( -d "$tmp_dir/$lang/$format" );
                 }
                 else {
-                    my $path = "publish/$lang/$product/$version/$format/$docname";
+                    my $path
+                        = "publish/$lang/$product/$version/$format/$docname";
 
                     # The basic layout is for the web system
                     # but these formats are used differently
@@ -205,15 +217,18 @@ sub build {
                         my $web_type = $self->{publican}->param('web_type');
                         if ( $web_type =~ m/^home$/i ) {
                             $path = "publish/home/$lang";
-                            fcopy( 'site_overrides.css', 'publish/home/site_overrides.css' )
+                            fcopy( 'site_overrides.css',
+                                'publish/home/site_overrides.css' )
                                 if ( -f 'site_overrides.css' );
 
                             # Build ADs
                             if ( -f "$tmp_dir/$lang/xml/Ads.xml" ) {
                                 mkpath($path);
-                                my $common_config = $self->{publican}->param('common_config');
+                                my $common_config = $self->{publican}
+                                    ->param('common_config');
 
-                                my $xsl_file = $common_config . "/xsl/carousel.xsl";
+                                my $xsl_file
+                                    = $common_config . "/xsl/carousel.xsl";
 
                                 # required for Windows
                                 $xsl_file =~ s/"//g;
@@ -221,13 +236,15 @@ sub build {
                                 my $xslt   = XML::LibXSLT->new();
                                 my $source;
                                 eval {
-                                    $source = $parser->parse_file("$tmp_dir/$lang/xml/Ads.xml");
+                                    $source
+                                        = $parser->parse_file(
+                                        "$tmp_dir/$lang/xml/Ads.xml");
                                 };
                                 if ($@) {
 
                                     if ( ref($@) ) {
 
-                                        # handle a structured error (XML::LibXML::Error object)
+                       # handle a structured error (XML::LibXML::Error object)
                                         croak(
                                             maketext(
                                                 "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
@@ -240,19 +257,31 @@ sub build {
                                         );
                                     }
                                     else {
-                                        croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+                                        croak(
+                                            maketext(
+                                                "FATAL ERROR: [_1]", $@
+                                            )
+                                        );
                                     }
                                 }
 
-                                my $style_doc  = $parser->parse_file($xsl_file);
-                                my $stylesheet = $xslt->parse_stylesheet($style_doc);
-                                my $results    = $stylesheet->transform($source);
+                                my $style_doc
+                                    = $parser->parse_file($xsl_file);
+                                my $stylesheet
+                                    = $xslt->parse_stylesheet($style_doc);
+                                my $results = $stylesheet->transform($source);
                                 my $outfile;
                                 my $ad_file = "$path/carousel.html";
 
-                                open( $outfile, ">:encoding(UTF-8)", "$ad_file" )
-                                    || croak( maketext( "Can't open ad file: [_1]", $@ ) );
-                                print( $outfile $stylesheet->output_string($results) );
+                                open( $outfile, ">:encoding(UTF-8)",
+                                    "$ad_file" )
+                                    || croak(
+                                    maketext(
+                                        "Can't open ad file: [_1]", $@
+                                    )
+                                    );
+                                print( $outfile $stylesheet->output_string(
+                                        $results) );
                                 close($outfile);
                             }
                         }
@@ -275,14 +304,15 @@ sub build {
 
                     mkpath($path);
                     if ( $format eq 'epub' ) {
-                        fcopy( "$tmp_dir/$lang/" . $self->{epub_name}, "$path/." );
+                        fcopy( "$tmp_dir/$lang/" . $self->{epub_name},
+                            "$path/." );
                     }
                     else {
 ## TODO BUGBUG BZ #648126
-              # for some reason the UTF8 file name is getting munged dep inside rcopy
-              # works from from the command line though O_O
-              # perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
-              #
+# for some reason the UTF8 file name is getting munged dep inside rcopy
+# works from from the command line though O_O
+# perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
+#
 ## Work around BZ #648126 ... gonna need to do an UTF8 audit maybe ...
 ##  Check, UTF8 file names, UTF8 output from XmlClean, Translate, WebSite.
 ## however the work around blows up on Windows :(
@@ -296,7 +326,7 @@ sub build {
                             ) if ( -d "$tmp_dir/$lang/$format" );
                         }
 
-                        # for splash pages, we need to rename them if using a web style 2
+             # for splash pages, we need to rename them if using a web style 2
                         if ($self->{publican}->param('web_type')
 ##                            && $self->{publican}->param('web_style') == 2
                             )
@@ -337,17 +367,24 @@ sub setup_xml {
     my $langs = delete( $args->{langs} )
         || croak( maketext("langs is a mandatory argument") );
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
-    my $drupal          = delete( $args->{drupal} ) || 0;
+    my $drupal          = delete( $args->{drupal} )          || 0;
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     foreach my $lang ( split( /,/, $langs ) ) {
         logger( maketext( "Setting up [_1]", $lang ) . "\n" );
 
         croak(
-            maketext( "Invalid build request: language directory [_1] does not exist.", $lang )
+            maketext(
+                "Invalid build request: language directory [_1] does not exist.",
+                $lang
+            )
         ) if ( !-d $lang );
 
         mkpath("$tmp_dir/$lang/xml");
@@ -355,6 +392,7 @@ sub setup_xml {
         if ( $lang eq $xml_lang ) {
 
             if ($drupal) {
+
                 # preprocess. set the unique id for every sections
                 my $set_ids = Publican::XmlClean->new();
 
@@ -365,21 +403,32 @@ sub setup_xml {
 
             dircopy( $lang, "$tmp_dir/$lang/xml_tmp" );
         }
-        elsif (( $self->{publican}->param('ignored_translations') )
-            && ( $self->{publican}->param('ignored_translations') =~ m/$lang/ ) )
+        elsif ( ( $self->{publican}->param('ignored_translations') )
+            && ($self->{publican}->param('ignored_translations') =~ m/$lang/ )
+            )
         {
-            logger( "\t" . maketext( "Bypassing translation for [_1]", $lang ) . "\n", GREEN );
-            dircopy( $self->{publican}->param('xml_lang'), "$tmp_dir/$lang/xml_tmp" );
+            logger(
+                "\t"
+                    . maketext( "Bypassing translation for [_1]", $lang )
+                    . "\n",
+                GREEN
+            );
+            dircopy( $self->{publican}->param('xml_lang'),
+                "$tmp_dir/$lang/xml_tmp" );
         }
         else {
             my @po_files = dir_list( $lang, '*.po' );
             croak(
-                maketext( "Invalid build request: no PO files exist for language [_1]", $lang )
+                maketext(
+                    "Invalid build request: no PO files exist for language [_1]",
+                    $lang
+                )
             ) unless (@po_files);
 
             mkpath("$tmp_dir/$lang/xml_tmp");
 
-            my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
+            my @xml_files
+                = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
 
             foreach my $xml_file ( sort(@xml_files) ) {
                 my $po_file = $xml_file;
@@ -397,7 +446,9 @@ sub setup_xml {
                 if ( !-f $po_file ) {
                     logger(
                         "\t"
-                            . maketext( "PO file '[_1]' not found! Using base XML!", $po_file )
+                            . maketext(
+                            "PO file '[_1]' not found! Using base XML!",
+                            $po_file )
                             . "\n",
                         CYAN
                     );
@@ -414,11 +465,12 @@ sub setup_xml {
             }
 
             my $rev_file = "Revision_History.xml";
-            $rev_file = $self->{publican}->param('rev_file') if($self->{publican}->param('rev_file'));
+            $rev_file = $self->{publican}->param('rev_file')
+                if ( $self->{publican}->param('rev_file') );
 
             if ( -f "$lang/$rev_file" ) {
                 my $common_config = $self->{publican}->param('common_config');
-                my $xsl_file      = $common_config . "/xsl/merge_revisions.xsl";
+                my $xsl_file = $common_config . "/xsl/merge_revisions.xsl";
                 $xsl_file =~ s/"//g;    # windows
                 my $style_doc = XML::LibXML->load_xml(
                     location => $xsl_file,
@@ -439,11 +491,15 @@ sub setup_xml {
                 if ($@) {
                     if ( ref($@) ) {
 
-                        # handle a structured error (XML::LibXML::Error object)
+                       # handle a structured error (XML::LibXML::Error object)
                         croak(
                             maketext(
                                 "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
-                                $@->domain(), $@->code(), $@->file(), $@->line(), $@->message(),
+                                $@->domain(),
+                                $@->code(),
+                                $@->file(),
+                                $@->line(),
+                                $@->message(),
                             )
                         );
                     }
@@ -462,20 +518,31 @@ sub setup_xml {
             if ( -f $trans_file ) {
                 my $auth_file = "$tmp_dir/$lang/xml_tmp/Author_Group.xml";
 
-                my $auth_doc
-                    = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+                my $auth_doc = XML::TreeBuilder->new(
+                    { 'NoExpand' => "1", 'ErrorContext' => "2" } );
                 $auth_doc->parse_file($auth_file);
-                my $auth_node = eval { $auth_doc->root()->look_down( "_tag", "authorgroup" ); };
+                my $auth_node = eval {
+                    $auth_doc->root()->look_down( "_tag", "authorgroup" );
+                };
                 if ($@) {
-                    croak( maketext( "authorgroup not found in [_1]", $auth_file ) );
+                    croak(
+                        maketext(
+                            "authorgroup not found in [_1]", $auth_file
+                        )
+                    );
                 }
-                my $trans_doc
-                    = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+                my $trans_doc = XML::TreeBuilder->new(
+                    { 'NoExpand' => "1", 'ErrorContext' => "2" } );
                 $trans_doc->parse_file($trans_file);
-                my $trans_node
-                    = eval { $trans_doc->root()->look_down( "_tag", "authorgroup" ); };
+                my $trans_node = eval {
+                    $trans_doc->root()->look_down( "_tag", "authorgroup" );
+                };
                 if ($@) {
-                    croak( maketext( "authorgroup not found in [_1]", $trans_file ) );
+                    croak(
+                        maketext(
+                            "authorgroup not found in [_1]", $trans_file
+                        )
+                    );
                 }
 
                 $auth_doc->push_content( $trans_doc->detach_content() );
@@ -483,7 +550,9 @@ sub setup_xml {
 
                 my $OUTDOC;
                 open( $OUTDOC, ">:encoding(UTF-8)", $auth_file )
-                    || croak( maketext( "Could not open [_1] for output!", $auth_file ) );
+                    || croak(
+                    maketext( "Could not open [_1] for output!", $auth_file )
+                    );
                 print( $OUTDOC $text );
                 close($OUTDOC);
                 $auth_doc->root()->delete();
@@ -504,8 +573,10 @@ sub setup_xml {
 
         # copy css for brand and default images for non-brand
         if ( $type eq 'brand' ) {
-            dircopy( "$xml_lang/css", "$tmp_dir/$lang/xml/css" ) if ( -d "$xml_lang/css" );
-            dircopy( "$lang/css",     "$tmp_dir/$lang/xml/css" ) if ( -d "$lang/css" );
+            dircopy( "$xml_lang/css", "$tmp_dir/$lang/xml/css" )
+                if ( -d "$xml_lang/css" );
+            dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
+                if ( -d "$lang/css" );
         }
 
         dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
@@ -521,7 +592,8 @@ sub setup_xml {
             my $common_content = $self->{publican}->param('common_content');
             my $brand          = $self->{publican}->param('brand');
             my $base_brand
-                = ( $self->{publican}->{brand_config}->param('base_brand') || 'common' );
+                = ( $self->{publican}->{brand_config}->param('base_brand')
+                    || 'common' );
 
             if ( $common_content =~ m/\"/ & $common_content !~ m/\s/ ) {
                 $common_content =~ s/\"//g;
@@ -530,20 +602,31 @@ sub setup_xml {
             my $brand_path = $self->{publican}->param('brand_dir')
                 || $common_content . "/$brand";
 
-            File::Copy::Recursive::rcopy_glob( $common_content . "/$base_brand/en-US/*",
-                "$tmp_dir/$lang/xml/Common_Content" );
-            File::Copy::Recursive::rcopy_glob( $common_content . "/$base_brand/$lang/*",
-                "$tmp_dir/$lang/xml/Common_Content" )
-                if ( $lang ne 'en-US' );
+            File::Copy::Recursive::rcopy_glob(
+                $common_content . "/$base_brand/en-US/*",
+                "$tmp_dir/$lang/xml/Common_Content"
+            );
+            File::Copy::Recursive::rcopy_glob(
+                $common_content . "/$base_brand/$lang/*",
+                "$tmp_dir/$lang/xml/Common_Content"
+            ) if ( $lang ne 'en-US' );
 
-            if ( ( $brand ne $base_brand ) || ( $brand_path ne $common_content . "/$brand" ) ) {
-                my $brand_lang = $self->{publican}->{brand_config}->param('xml_lang');
+            if (   ( $brand ne $base_brand )
+                || ( $brand_path ne $common_content . "/$brand" ) )
+            {
+                my $brand_lang
+                    = $self->{publican}->{brand_config}->param('xml_lang');
 
-                my @files = File::Copy::Recursive::rcopy_glob( $brand_path . "/$brand_lang/*",
-                    "$tmp_dir/$lang/xml/Common_Content" );
+                my @files = File::Copy::Recursive::rcopy_glob(
+                    $brand_path . "/$brand_lang/*",
+                    "$tmp_dir/$lang/xml/Common_Content"
+                );
 
-                croak( maketext( "Brand '[_1]' had no content to copy.", $brand ) )
-                    if ( scalar(@files) == 0 );
+                croak(
+                    maketext(
+                        "Brand '[_1]' had no content to copy.", $brand
+                    )
+                ) if ( scalar(@files) == 0 );
 
                 File::Copy::Recursive::rcopy_glob( "$brand_path/$lang/*",
                     "$tmp_dir/$lang/xml/Common_Content" )
@@ -563,13 +646,15 @@ sub setup_xml {
             dircopy( "$lang/extras", "$tmp_dir/$lang/xml/extras" )
                 if ( -d "$lang/extras" );
 
-            my @com_xml_files = dir_list( "$tmp_dir/$lang/xml/Common_Content", '*.xml' );
+            my @com_xml_files
+                = dir_list( "$tmp_dir/$lang/xml/Common_Content", '*.xml' );
 
             $cleaner->{config}->param( 'common', 1 );
             foreach my $xml_file ( sort(@com_xml_files) ) {
                 my $out_file = $xml_file;
                 chmod( 0664, $out_file );
-                $cleaner->process_file( { file => $xml_file, out_file => $out_file } );
+                $cleaner->process_file(
+                    { file => $xml_file, out_file => $out_file } );
             }
         }
 
@@ -596,7 +681,8 @@ sub setup_xml {
                 my $out_file = $xml_file;
                 $out_file =~ s/xml_tmp/xml/;
 
-                $cleaner->process_file( { file => $xml_file, out_file => $out_file } );
+                $cleaner->process_file(
+                    { file => $xml_file, out_file => $out_file } );
             }
         }
         finddepth( \&del_unwanted_dirs, $tmp_dir );
@@ -618,7 +704,12 @@ sub del_unwanted_dirs {
 
     if ( $dir =~ /^(CVS|\.svn|.*\.swp|.*\.xml~|.directory)$/ ) {
         rmtree($_)
-            || croak( maketext( "couldn't remove unwanted dir '[_1]', error: [_2]", $_, $@ ) );
+            || croak(
+            maketext(
+                "couldn't remove unwanted dir '[_1]', error: [_2]",
+                $_, $@
+            )
+            );
         return;
     }
     return;
@@ -633,7 +724,11 @@ Callback that deletes all unwanted xml from the given directory tree.
 sub del_unwanted_xml {
     if ( $_ =~ /\.xml$/ ) {
         unlink($_)
-            || croak( maketext( "couldn't unlink xml file '[_1]', error: [_2]", $_, $@ ) );
+            || croak(
+            maketext(
+                "couldn't unlink xml file '[_1]', error: [_2]", $_, $@
+            )
+            );
         return;
     }
     return;
@@ -659,7 +754,11 @@ sub validate_xml {
         || croak( maketext("lang is a mandatory argument") );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $docname   = $self->{publican}->param('docname');
@@ -669,7 +768,8 @@ sub validate_xml {
     if (   ( $self->{publican}->param('ignored_translations') )
         && ( $self->{publican}->param('ignored_translations') =~ m/$lang/ ) )
     {
-        logger( maketext( "Bypassing test for language: [_1]", $lang ) . "\n" );
+        logger(
+            maketext( "Bypassing test for language: [_1]", $lang ) . "\n" );
         return (0);
     }
 
@@ -695,7 +795,8 @@ sub validate_xml {
         $parser->expand_xinclude(1);
     }
 
-    croak( maketext( "Cannot locate main XML file: '[_1]'", "$main_file.xml" ) )
+    croak(
+        maketext( "Cannot locate main XML file: '[_1]'", "$main_file.xml" ) )
         unless ( -f "$main_file.xml" );
 
     my $source;
@@ -708,7 +809,11 @@ sub validate_xml {
             croak(
                 maketext(
                     "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
-                    $@->domain(), $@->code(), $@->file(), $@->line(), $@->message(),
+                    $@->domain(),
+                    $@->code(),
+                    $@->file(),
+                    $@->line(),
+                    $@->message(),
                 )
             );
         }
@@ -719,7 +824,8 @@ sub validate_xml {
 
 ## TODO should version be a variable?
     my $dtd_type = qq|-//OASIS//DTD DocBook XML V$dtdver//EN|;
-    my $dtd_path = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
+    my $dtd_path
+        = qq|http://www.oasis-open.org/docbook/xml/$dtdver/docbookx.dtd|;
 
     if ( $dtdver =~ m/^5/ ) {
         $dtd_type = qq|-//OASIS//DTD DocBook XML $dtdver//EN|;
@@ -728,13 +834,17 @@ sub validate_xml {
 
     if ( $^O eq 'MSWin32' ) {
         eval { require Win32::TieRegistry; };
-        croak( maketext( "Failed to load Win32::TieRegistry module. Error: [_1]", $@ ) )
-            if ($@);
+        croak(
+            maketext(
+                "Failed to load Win32::TieRegistry module. Error: [_1]", $@
+            )
+        ) if ($@);
 
-        my $key
-            = new Win32::TieRegistry( "LMachine\\Software\\Publican", { Delimiter => "\\" } );
+        my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
+            { Delimiter => "\\" } );
         if ( $key and $key->GetValue("dtd_path") ) {
-            $dtd_path = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';
+            $dtd_path
+                = 'file:///' . $key->GetValue("dtd_path") . '/docbookx.dtd';
             $dtd_path =~ s/ /%20/g;
             $dtd_path =~ s/\\/\//g;
         }
@@ -754,8 +864,8 @@ sub validate_xml {
     }
     else {
 ## BUGBUG how does this get localised?
-     # e.g. even though /usr/share/xml/docbook5/schema/rng/5.0/catalog.xml contains a local link
-     # setting location = http://docbook.org/xml/5.0/rng/docbook.rng still does a web look up :(
+# e.g. even though /usr/share/xml/docbook5/schema/rng/5.0/catalog.xml contains a local link
+# setting location = http://docbook.org/xml/5.0/rng/docbook.rng still does a web look up :(
 ## BUGBUG also need to change header ... entities?
 # http://www.docbook.org/xml/5.1b2/rng/docbook.rng
 # http://www.docbook.org/xml/5.0/rng/docbook.rng
@@ -793,7 +903,11 @@ sub transform {
     my $rebuild  = delete( $args->{rebuild} )  || 0;
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $dir;
@@ -802,31 +916,33 @@ sub transform {
     my $wkhtmltopdf_cmd = which('wkhtmltopdf');
     my $diefopdie = ( $wkhtmltopdf_cmd && $wkhtmltopdf_cmd ne '' );
 
-    my $tmp_dir                    = $self->{publican}->param('tmp_dir');
-    my $docname                    = $self->{publican}->param('docname');
-    my $common_config              = $self->{publican}->param('common_config');
-    my $common_content             = $self->{publican}->param('common_content');
-    my $brand                      = $self->{publican}->param('brand');
-    my $toc_section_depth          = $self->{publican}->param('toc_section_depth');
-    my $confidential               = $self->{publican}->param('confidential');
-    my $confidential_text          = $self->{publican}->param('confidential_text');
-    my $show_remarks               = $self->{publican}->param('show_remarks');
-    my $generate_section_toc_level = $self->{publican}->param('generate_section_toc_level');
-    my $chunk_section_depth        = $self->{publican}->param('chunk_section_depth');
-    my $doc_url                    = $self->{publican}->param('doc_url');
-    my $prod_url                   = $self->{publican}->param('prod_url');
-    my $chunk_first                = $self->{publican}->param('chunk_first');
-    my $xml_lang                   = $self->{publican}->param('xml_lang');
-    my $classpath                  = $self->{publican}->param('classpath');
-    my $type                       = lc( $self->{publican}->param('type') );
-    my $ec_name                    = $self->{publican}->param('ec_name');
-    my $ec_id                      = $self->{publican}->param('ec_id');
-    my $ec_provider                = $self->{publican}->param('ec_provider');
-    my $product                    = $self->{publican}->param('product');
-    my $bridgehead_in_toc          = $self->{publican}->param('bridgehead_in_toc');
-    my $main_file                  = $self->{publican}->param('mainfile');
-    my $brand_path = $self->{publican}->param('brand_dir') || $common_content . "/$brand";
-    my $web_type   = $self->{publican}->param('web_type') || '';
+    my $tmp_dir           = $self->{publican}->param('tmp_dir');
+    my $docname           = $self->{publican}->param('docname');
+    my $common_config     = $self->{publican}->param('common_config');
+    my $common_content    = $self->{publican}->param('common_content');
+    my $brand             = $self->{publican}->param('brand');
+    my $toc_section_depth = $self->{publican}->param('toc_section_depth');
+    my $confidential      = $self->{publican}->param('confidential');
+    my $confidential_text = $self->{publican}->param('confidential_text');
+    my $show_remarks      = $self->{publican}->param('show_remarks');
+    my $generate_section_toc_level
+        = $self->{publican}->param('generate_section_toc_level');
+    my $chunk_section_depth = $self->{publican}->param('chunk_section_depth');
+    my $doc_url             = $self->{publican}->param('doc_url');
+    my $prod_url            = $self->{publican}->param('prod_url');
+    my $chunk_first         = $self->{publican}->param('chunk_first');
+    my $xml_lang            = $self->{publican}->param('xml_lang');
+    my $classpath           = $self->{publican}->param('classpath');
+    my $type                = lc( $self->{publican}->param('type') );
+    my $ec_name             = $self->{publican}->param('ec_name');
+    my $ec_id               = $self->{publican}->param('ec_id');
+    my $ec_provider         = $self->{publican}->param('ec_provider');
+    my $product             = $self->{publican}->param('product');
+    my $bridgehead_in_toc   = $self->{publican}->param('bridgehead_in_toc');
+    my $main_file           = $self->{publican}->param('mainfile');
+    my $brand_path          = $self->{publican}->param('brand_dir')
+        || $common_content . "/$brand";
+    my $web_type = $self->{publican}->param('web_type') || '';
 
     my $TAR_NAME
         = $self->{publican}->param('product') . '-'
@@ -862,7 +978,7 @@ sub transform {
 
         if ( $formatter eq 'links' ) {
             my $f = HTML::FormatText::WithLinks->new();
-            print( $TXT_FILE $f->parse($tree->as_HTML()) );
+            print( $TXT_FILE $f->parse( $tree->as_HTML() ) );
 
         }
         elsif ( $formatter eq 'tables' ) {
@@ -877,7 +993,8 @@ sub transform {
             );
         }
         else {
-            my $f = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
+            my $f
+                = HTML::FormatText->new( leftmargin => 0, rightmargin => 72 );
             print( $TXT_FILE $f->format($tree) );
         }
 
@@ -899,13 +1016,17 @@ sub transform {
         mkdir "$tmp_dir/$lang/pdf";
 
         my @wkhtmltopdf_args = (
-            $wkhtmltopdf_cmd, '--header-spacing', 5,  '--footer-spacing',
-            3,                '--margin-top',     20, '--margin-left',
-            '15mm',           '--margin-right',   '15mm'
+            $wkhtmltopdf_cmd, '--header-spacing',
+            5,                '--footer-spacing',
+            3,                '--margin-top',
+            20,               '--margin-left',
+            '15mm',           '--margin-right',
+            '15mm'
         );
 
         if ( -f "$common_config/header.html" ) {
-            push( @wkhtmltopdf_args, '--header-html', "$common_config/header.html" );
+            push( @wkhtmltopdf_args,
+                '--header-html', "$common_config/header.html" );
         }
 
         push( @wkhtmltopdf_args,
@@ -914,9 +1035,13 @@ sub transform {
 
         my $result = system(@wkhtmltopdf_args);
         if ($result) {
-            croak( "\n",
-                maketext('wkhtmltopdf died, PDF generation failed. Check log for details.'),
-                "\n" );
+            croak(
+                "\n",
+                maketext(
+                    'wkhtmltopdf died, PDF generation failed. Check log for details.'
+                ),
+                "\n"
+            );
         }
         return;
     }
@@ -997,7 +1122,7 @@ sub transform {
 
         $xslt_opts{'doc.url'}  = "'$doc_url'";
         $xslt_opts{'prod.url'} = "'$prod_url'";
-        $xslt_opts{'package'}  = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
         $xslt_opts{'embedtoc'} = $embedtoc;
         $xslt_opts{'tocpath'}  = "'$toc_path'";
         $xslt_opts{'pop_prod'} = "'$pop_prod'" if ($pop_prod);
@@ -1025,11 +1150,11 @@ sub transform {
         $xslt_opts{'svg.object'} = "0";
         $xslt_opts{'doc.url'}    = "'$doc_url'";
         $xslt_opts{'prod.url'}   = "'$prod_url'";
-        $xslt_opts{'package'}    = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
-        $xslt_opts{'tocpath'}    = "'$toc_path'";
-        $xslt_opts{'pop_prod'}   = "'$pop_prod'" if ($pop_prod);
-        $xslt_opts{'pop_ver'}    = "'$pop_ver'" if ($pop_ver);
-        $xslt_opts{'pop_name'}   = "'$pop_name'" if ($pop_name);
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'tocpath'} = "'$toc_path'";
+        $xslt_opts{'pop_prod'} = "'$pop_prod'" if ($pop_prod);
+        $xslt_opts{'pop_ver'}  = "'$pop_ver'" if ($pop_ver);
+        $xslt_opts{'pop_name'} = "'$pop_name'" if ($pop_name);
     }
     elsif ( $format eq 'html-desktop' ) {
         $xsl_file = $common_config . "/xsl/html-single.xsl";
@@ -1039,16 +1164,16 @@ sub transform {
 
         $xslt_opts{'doc.url'}  = "'$doc_url'";
         $xslt_opts{'prod.url'} = "'$prod_url'";
-        $xslt_opts{'package'}  = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
-        $xslt_opts{'desktop'}  = 1;
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'desktop'} = 1;
 
     }
     elsif ( $format eq 'html' ) {
         $dir = pushd("$tmp_dir/$lang/$format");
 
-        $xslt_opts{'doc.url'}              = "'$doc_url'";
-        $xslt_opts{'prod.url'}             = "'$prod_url'";
-        $xslt_opts{'package'}              = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
+        $xslt_opts{'doc.url'}  = "'$doc_url'";
+        $xslt_opts{'prod.url'} = "'$prod_url'";
+        $xslt_opts{'package'} = "'$TAR_NAME-$lang-$RPM_VERSION-$RPM_RELEASE'";
         $xslt_opts{'embedtoc'}             = $embedtoc;
         $xslt_opts{'tocpath'}              = "'$toc_path'";
         $xslt_opts{'chunk.first.sections'} = $chunk_first;
@@ -1058,7 +1183,7 @@ sub transform {
         $xslt_opts{'pop_name'}             = "'$pop_name'" if ($pop_name);
     }
     elsif ( $format eq 'drupal-book' ) {
-        $dir = pushd("$tmp_dir/$lang/$format");
+        $dir                               = pushd("$tmp_dir/$lang/$format");
         $xslt_opts{'chunk.first.sections'} = $chunk_first;
         $xslt_opts{'chunk.section.depth'}  = $chunk_section_depth;
         $xslt_opts{'doc.url'}              = "'$doc_url'";
@@ -1074,7 +1199,7 @@ sub transform {
         $xslt_opts{'eclipse.plugin.name'}     = "'$ec_name'";
         $xslt_opts{'eclipse.plugin.id'}       = "'$ec_id'";
         $xslt_opts{'eclipse.plugin.provider'} = "'$ec_provider'";
-        $dir                                  = pushd("$tmp_dir/$lang/$format");
+        $dir = pushd("$tmp_dir/$lang/$format");
     }
     elsif ( $format eq 'man' ) {
         $dir = pushd("$tmp_dir/$lang/$format");
@@ -1086,13 +1211,17 @@ sub transform {
     # required for Windows
     $xsl_file =~ s/"//g;
 
-    logger( "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
+    logger(
+        "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
     my $parser = XML::LibXML->new();
     my $xslt   = XML::LibXSLT->new();
-    XML::LibXSLT->register_function( 'urn:perl', 'adjustColumnWidths', \&adjustColumnWidths );
-    XML::LibXSLT->register_function( 'urn:perl', 'highlight',          \&highlight );
-    XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts',     \&insertCallouts );
-    XML::LibXSLT->register_function( 'urn:perl', 'numberLines',        \&numberLines );
+    XML::LibXSLT->register_function( 'urn:perl', 'adjustColumnWidths',
+        \&adjustColumnWidths );
+    XML::LibXSLT->register_function( 'urn:perl', 'highlight', \&highlight );
+    XML::LibXSLT->register_function( 'urn:perl', 'insertCallouts',
+        \&insertCallouts );
+    XML::LibXSLT->register_function( 'urn:perl', 'numberLines',
+        \&numberLines );
     XML::LibXSLT->max_depth(1000);
 
     my $security = XML::LibXSLT::Security->new();
@@ -1114,7 +1243,11 @@ sub transform {
             croak(
                 maketext(
                     "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
-                    $@->domain(), $@->code(), $@->file(), $@->line(), $@->message(),
+                    $@->domain(),
+                    $@->code(),
+                    $@->file(),
+                    $@->line(),
+                    $@->message(),
                 )
             );
         }
@@ -1127,12 +1260,16 @@ sub transform {
 
     if ( $^O eq 'MSWin32' ) {
         eval { require Win32::TieRegistry; };
-        croak( maketext( "Failed to load Win32::TieRegistry module. Error: [_1]", $@ ) )
-            if ($@);
+        croak(
+            maketext(
+                "Failed to load Win32::TieRegistry module. Error: [_1]", $@
+            )
+        ) if ($@);
 
-        my $defualt_href = 'http://docbook.sourceforge.net/release/xsl/current';
-        my $key
-            = new Win32::TieRegistry( "LMachine\\Software\\Publican", { Delimiter => "\\" } );
+        my $defualt_href
+            = 'http://docbook.sourceforge.net/release/xsl/current';
+        my $key = new Win32::TieRegistry( "LMachine\\Software\\Publican",
+            { Delimiter => "\\" } );
 
         my $new_href = 'file:///C:/publican/docbook-xsl-1.76.1';
         if ( $key and $key->GetValue("xsl_path") ) {
@@ -1176,15 +1313,21 @@ sub transform {
         }
 
         if ( system($fop_command) != 0 ) {
-            croak( "\n", maketext("FOP error, PDF generation failed. Check log for details."),
-                "\n" );
+            croak(
+                "\n",
+                maketext(
+                    "FOP error, PDF generation failed. Check log for details."
+                ),
+                "\n"
+            );
         }
 
         $dir = undef;
     }
     elsif ( $format eq 'epub' ) {
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images", "$tmp_dir/$lang/$format/OEBPS/images" );
+        dircopy( "$tmp_dir/$lang/xml/images",
+            "$tmp_dir/$lang/$format/OEBPS/images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/OEBPS/Common_Content"
@@ -1206,16 +1349,34 @@ sub transform {
 ##        );
         unlink("$tmp_dir/$lang/$format/OEBPS/images/icon.svg");
 
-        unless (-f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css") {
+        unless (
+            -f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css" )
+        {
             my $OUTDOC;
-            open( $OUTDOC, ">:encoding(UTF-8)", "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css" )
-            || croak( maketext( "Could not open [_1] for output!", "\$tmp_dir/\$lang/\$format/OEBPS/Common_Content/css/lang.css" ) );
+            open( $OUTDOC, ">:encoding(UTF-8)",
+                "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css" )
+                || croak(
+                maketext(
+                    "Could not open [_1] for output!",
+                    "\$tmp_dir/\$lang/\$format/OEBPS/Common_Content/css/lang.css"
+                )
+                );
             close($OUTDOC);
         }
-        unless (-f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/overrides.css") {
+        unless (
+            -f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/overrides.css"
+            )
+        {
             my $OUTDOC;
-            open( $OUTDOC, ">:encoding(UTF-8)", "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/overrides.css" )
-            || croak( maketext( "Could not open [_1] for output!", "\$tmp_dir/\$lang/\$format/OEBPS/Common_Content/css/lang.css" ) );
+            open( $OUTDOC, ">:encoding(UTF-8)",
+                "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/overrides.css"
+                )
+                || croak(
+                maketext(
+                    "Could not open [_1] for output!",
+                    "\$tmp_dir/\$lang/\$format/OEBPS/Common_Content/css/lang.css"
+                )
+                );
             close($OUTDOC);
         }
 
@@ -1223,11 +1384,14 @@ sub transform {
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
 
         # remove any XML files from common
-        finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/OEBPS/Common_Content" );
+        finddepth( \&del_unwanted_xml,
+            "$tmp_dir/$lang/$format/OEBPS/Common_Content" );
 
-        my @files = dir_list( "$tmp_dir/$lang/$format/OEBPS/Common_Content", '*' );
+        my @files
+            = dir_list( "$tmp_dir/$lang/$format/OEBPS/Common_Content", '*' );
         my $content_file = "$tmp_dir/$lang/$format/OEBPS/content.opf";
-        my $tree = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        my $tree         = XML::TreeBuilder->new(
+            { 'NoExpand' => "1", 'ErrorContext' => "2" } );
         $tree->parse_file("$content_file");
         my $node;
         eval { $node = $tree->look_down( '_tag', "manifest" ); };
@@ -1246,12 +1410,19 @@ sub transform {
             my $id  = $file;
             $id =~ s/\//-/g;
             $node->push_content(
-                [ 'item', { href => "$file", 'media-type' => "image/$ext", id => $id } ] );
+                [   'item',
+                    {   href         => "$file",
+                        'media-type' => "image/$ext",
+                        id           => $id
+                    }
+                ]
+            );
         }
 
         my $OUTDOC;
         open( $OUTDOC, ">:encoding(UTF-8)", "$content_file" )
-            || croak( maketext( "Could not open [_1] for output!", $content_file ) );
+            || croak(
+            maketext( "Could not open [_1] for output!", $content_file ) );
         my $text = $tree->as_XML();
         $text =~ s/&#34;/"/g;
         $text =~ s/&#39;/'/g;
@@ -1289,7 +1460,11 @@ sub transform {
         $self->{epub_name} = $epub_name;
         $zip->writeToFileNamed("../$epub_name") == AZ_OK
             || croak( maketext("epub creation failed.") );
-        logger( maketext( "Wrote epub archive: [_1]", "$tmp_dir/$lang/$epub_name" ) . "\n" );
+        logger(
+            maketext( "Wrote epub archive: [_1]",
+                "$tmp_dir/$lang/$epub_name" )
+                . "\n"
+        );
         $dir = undef;
     }
     elsif ( $format eq 'man' ) {
@@ -1305,16 +1480,19 @@ sub transform {
         my $edition = $self->{publican}->param('edition');
         my $release = $self->{publican}->param('release');
 
-        my $filename   = "$product-$version-$docname-$lang-$edition-$release";
+        my $filename = "$product-$version-$docname-$lang-$edition-$release";
         my $content_dir = "$lang/$product/$version/$docname";
 
         $self->drupal_transform( { lang => $lang } );
 
-        dircopy( "$tmp_dir/$lang/xml/images",                "$tmp_dir/$lang/$format/$content_dir/images" );
-        dircopy( "$tmp_dir/$lang/xml/Common_Content/images", "$tmp_dir/$lang/$format/$content_dir/Common_Content/images" )
-          if ( $embedtoc == 0 );
+        dircopy( "$tmp_dir/$lang/xml/images",
+            "$tmp_dir/$lang/$format/$content_dir/images" );
+        dircopy( "$tmp_dir/$lang/xml/Common_Content/images",
+            "$tmp_dir/$lang/$format/$content_dir/Common_Content/images" )
+            if ( $embedtoc == 0 );
 
-        dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/$content_dir/files" )
+        dircopy( "$xml_lang/files",
+            "$tmp_dir/$lang/$format/$content_dir/files" )
             if ( -e "$xml_lang/files" );
         dircopy( "$lang/files", "$tmp_dir/$lang/$format/$content_dir/files" )
             if ( -e "$lang/files" );
@@ -1332,15 +1510,21 @@ sub transform {
 
         print "Zipping $filename.tar.gz\n";
         system("tar -czf $filename.tar.gz ./$filename.csv ./$lang")
-          && croak ( maketext("Failed to zip $filename.tar.gz\n") );
+            && croak( maketext("Failed to zip $filename.tar.gz\n") );
 
         $dir = undef;
     }
     else {
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images",         "$tmp_dir/$lang/$format/images" );
-        dircopy( "$tmp_dir/$lang/xml/Common_Content", "$tmp_dir/$lang/$format/Common_Content" )
-            if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
+        dircopy( "$tmp_dir/$lang/xml/images",
+            "$tmp_dir/$lang/$format/images" );
+        dircopy(
+            "$tmp_dir/$lang/xml/Common_Content",
+            "$tmp_dir/$lang/$format/Common_Content"
+            )
+            if ( $embedtoc == 0
+            || $format eq 'html-desktop'
+            || $format eq 'html-pdf' );
         dircopy( "$xml_lang/files", "$tmp_dir/$lang/$format/files" )
             if ( -e "$xml_lang/files" );
         dircopy( "$lang/files", "$tmp_dir/$lang/$format/files" )
@@ -1350,8 +1534,11 @@ sub transform {
         finddepth( \&del_unwanted_dirs, "$tmp_dir/$lang/$format" );
 
         # remove any XML files from common
-        finddepth( \&del_unwanted_xml, "$tmp_dir/$lang/$format/Common_Content" )
-            if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
+        finddepth( \&del_unwanted_xml,
+            "$tmp_dir/$lang/$format/Common_Content" )
+            if ( $embedtoc == 0
+            || $format eq 'html-desktop'
+            || $format eq 'html-pdf' );
     }
 
     $xslt       = undef;
@@ -1374,10 +1561,11 @@ Write csv file for drupal node import
 =cut
 
 sub drupal_transform {
-    my ($self, $args) = @_;
+    my ( $self, $args ) = @_;
 
     my $lang = delete $args->{lang}
-      || croak maketext("lang is the mandatory argument for drupal_transform");
+        || croak maketext(
+        "lang is the mandatory argument for drupal_transform");
 
     my $tmp_dir    = $self->{publican}->param('tmp_dir');
     my $main_file  = $self->{publican}->param('mainfile');
@@ -1394,11 +1582,18 @@ sub drupal_transform {
     $parser->expand_entities(1);
 
     my $source;
-    eval { $source = $parser->parse_file("$tmp_dir/$lang/xml/$main_file.xml"); };
+    eval {
+        $source = $parser->parse_file("$tmp_dir/$lang/xml/$main_file.xml");
+    };
 
     my %all_nodes;
     my %section_maps;
-    my $nodes_order = $self->get_nodes_order( { source => $source, section_maps => \%section_maps, all_nodes => \%all_nodes } );
+    my $nodes_order = $self->get_nodes_order(
+        {   source       => $source,
+            section_maps => \%section_maps,
+            all_nodes    => \%all_nodes
+        }
+    );
 
     my @csv_headers = (
         "Title",
@@ -1418,27 +1613,31 @@ sub drupal_transform {
 
     print "Writing $csv_file\n";
 
-    my $xs = Text::CSV_XS->new( { binary => 1, always_quote  => 1, eol => $/} );
+    my $xs
+        = Text::CSV_XS->new( { binary => 1, always_quote => 1, eol => $/ } );
 
     open my $fh, ">:encoding(utf8)", "$drupal_dir/$csv_file"
-      || croak "$drupal_dir/$csv_file: $!";
+        || croak "$drupal_dir/$csv_file: $!";
 
     $xs->combine(@csv_headers);
-    $fh->print ($xs->string);
+    $fh->print( $xs->string );
 
-    my $outputs = $self->build_drupal_book( { lang         => $lang, 
-                                              nodes_order  => $nodes_order, 
-                                              section_maps => \%section_maps,
-                                              all_nodes    => \%all_nodes} );
+    my $outputs = $self->build_drupal_book(
+        {   lang         => $lang,
+            nodes_order  => $nodes_order,
+            section_maps => \%section_maps,
+            all_nodes    => \%all_nodes
+        }
+    );
 
-    foreach my $row (@{$outputs}) {
-      $xs->combine(@{$row}) or $xs->error_diag;
-      $fh->print ($xs->string);
+    foreach my $row ( @{$outputs} ) {
+        $xs->combine( @{$row} ) or $xs->error_diag;
+        $fh->print( $xs->string );
     }
 
     $fh->close();
     $self->{dbh}->disconnect()
-      if ( defined $self->{dbh} );
+        if ( defined $self->{dbh} );
 
     return;
 }
@@ -1450,7 +1649,7 @@ Get all nodes with id from xml files in order
 =cut
 
 sub get_nodes_order {
-    my ($self, $args) = @_;
+    my ( $self, $args ) = @_;
 
     my $source = delete( $args->{source} )
         || croak( maketext("source is a mandatory argument") );
@@ -1461,44 +1660,49 @@ sub get_nodes_order {
 
     my %order;
     my @node_list;
-   
+
     if ( !$node ) {
-        @node_list =$source->getElementsByTagName('book')->[0]->childNodes();
+        @node_list = $source->getElementsByTagName('book')->[0]->childNodes();
     }
-    else  {
+    else {
         @node_list = $node->childNodes();
     }
 
     my $count = 0;
     foreach my $cnode (@node_list) {
-        if ($cnode->nodeName() eq 'index') {
-            $order{++$count}{'id'}  = "ix01";
-            $order{$count}{'type'}  = "index";
+        if ( $cnode->nodeName() eq 'index' ) {
+            $order{ ++$count }{'id'} = "ix01";
+            $order{$count}{'type'} = "index";
         }
 
-        # $cnode->attributes will return namespace too, so we need to skip it here
+    # $cnode->attributes will return namespace too, so we need to skip it here
         next if ( !$cnode->hasAttributes() );
 
         my $unique_id = undef;
-        foreach my $cnode_attr ($cnode->attributes()) {
+        foreach my $cnode_attr ( $cnode->attributes() ) {
             if ( $cnode_attr->name() eq "conformance" ) {
                 $unique_id = $cnode_attr->getValue();
+
                 #print "$unique_id\n";
             }
 
-            if ($cnode_attr && $cnode_attr->isId) {
+            if ( $cnode_attr && $cnode_attr->isId ) {
                 my $value = $cnode_attr->getValue();
-                $order{++$count}{'id'}  = $value;
-                $order{$count}{'type'}  = $cnode->nodeName();
+                $order{ ++$count }{'id'} = $value;
+                $order{$count}{'type'} = $cnode->nodeName();
                 $section_maps->{$value} = $unique_id || $value;
-                  #|| croak ( maketext("missing 'conformance' attribute in $order{$count}{type} where id is $value") );
+
+#|| croak ( maketext("missing 'conformance' attribute in $order{$count}{type} where id is $value") );
                 $all_nodes->{$value} = 1;
-                my $child_nodes = $self->get_nodes_order( { source       => $source, 
-                                                            node         => $cnode,
-                                                            section_maps => $section_maps, 
-                                                            all_nodes    => $all_nodes } );
+                my $child_nodes = $self->get_nodes_order(
+                    {   source       => $source,
+                        node         => $cnode,
+                        section_maps => $section_maps,
+                        all_nodes    => $all_nodes
+                    }
+                );
                 $order{$count}{'childs'} = $child_nodes
-                  if (%{$child_nodes});
+                    if ( %{$child_nodes} );
             }
         }
     }
@@ -1512,13 +1716,16 @@ Convert each html file into csv a row for drupal.
 =cut
 
 sub build_drupal_book {
-    my ($self, $args) = @_;
+    my ( $self, $args ) = @_;
 
     my $lang = delete( $args->{lang} )
-      || croak( maketext("lang is a mandatory argument for build_drupal_book") );
+        || croak(
+        maketext("lang is a mandatory argument for build_drupal_book") );
 
     my $nodes_order = delete( $args->{nodes_order} )
-      || croak( maketext("nodes_order is a mandatory argument for build_drupal_book") );
+        || croak(
+        maketext("nodes_order is a mandatory argument for build_drupal_book")
+        );
 
     my $section_maps = delete $args->{section_maps} || {};
     my $all_nodes    = delete $args->{all_nodes}    || {};
@@ -1526,12 +1733,11 @@ sub build_drupal_book {
     my $parent       = delete $args->{parent}       || "";
     my $parent_alias = delete $args->{parent_alias} || "";
 
-    
-    my $tmp_dir = $self->{publican}->param('tmp_dir');
-    my $docname = $self->{publican}->param('docname');
-    my $product = $self->{publican}->param('product');
-    my $version = $self->{publican}->param('version');
-    my $author  = $self->{publican}->param('drupal_author');
+    my $tmp_dir    = $self->{publican}->param('tmp_dir');
+    my $docname    = $self->{publican}->param('docname');
+    my $product    = $self->{publican}->param('product');
+    my $version    = $self->{publican}->param('version');
+    my $author     = $self->{publican}->param('drupal_author');
     my $book_title = $self->{publican}->param('drupal_menu_title');
     my $menu_block = $self->{publican}->param('drupal_menu_block');
     my $img_path   = $self->{publican}->param('drupal_image_path');
@@ -1541,144 +1747,174 @@ sub build_drupal_book {
     my $resource_dir = "$lang/$product/$version/$docname";
 
     my @outputs;
-    my $weight = -16;
+    my $weight        = -16;
     my $previous_type = "";
-    foreach my $order_num ( sort { $a <=> $b } keys %{$nodes_order}) {
+    foreach my $order_num ( sort { $a <=> $b } keys %{$nodes_order} ) {
 
-        my $page = ( $nodes_order->{$order_num}{'id'} =~ /^book\-/ ) ? 'index' : $nodes_order->{$order_num}{'id'};
+        my $page
+            = ( $nodes_order->{$order_num}{'id'} =~ /^book\-/ )
+            ? 'index'
+            : $nodes_order->{$order_num}{'id'};
         my $file_name = "$drupal_dir/$page.html";
 
-        if (-e $file_name) {
+        if ( -e $file_name ) {
             my @csv_row;
             my $tree = HTML::TreeBuilder->new();
 
             open my $html_file, "<:encoding(utf8)", $file_name
-              or croak "$file_name: $!";
+                or croak "$file_name: $!";
 
             $tree->parse_file($html_file);
             $html_file->close();
 
-            my $title_element = $tree->look_down( '_tag' , 'title' );
+            my $title_element = $tree->look_down( '_tag', 'title' );
             my $title = $title_element->as_trimmed_text;
 
             #delete html head
-            my $head_element = $tree->look_down( '_tag' , 'head' );
+            my $head_element = $tree->look_down( '_tag', 'head' );
             $head_element->delete();
 
             my $delete_first_header = 1;
             my %header_tags = ( h1 => 1, h2 => 1, h3 => 1, h4 => 1, h5 => 1 );
-            
-            $tree->traverse(
-                [ # Callbacks;
-                  # pre-order callback:
-                  sub {
-                        my $node   = $_[0];
-                        my $tag    = $node->{'_tag'};
 
-                        # only delete the first header tag because it is already showing
-                        # in the drupal title
-                        if ( defined $header_tags{$tag} && $delete_first_header == 1 ) {
+            $tree->traverse(
+                [    # Callbacks;
+                        # pre-order callback:
+                    sub {
+                        my $node = $_[0];
+                        my $tag  = $node->{'_tag'};
+
+              # only delete the first header tag because it is already showing
+              # in the drupal title
+                        if ( defined $header_tags{$tag}
+                            && $delete_first_header == 1 )
+                        {
                             $node->delete();
                             $delete_first_header = 0;
                         }
 
-                        if ( defined $node->attr('id') && defined $section_maps->{$node->attr('id')}) {
+                        if (   defined $node->attr('id')
+                            && defined $section_maps->{ $node->attr('id') } )
+                        {
                             my $id = $node->attr('id');
                             $node->attr( 'id', $section_maps->{$id} );
                         }
 
                         if ( $tag eq 'img' && defined $node->attr('src') ) {
                             my $old_value = $node->attr('src');
-                            $node->attr('src', "$img_path$resource_dir/" . $old_value)
-                              if ($old_value);
+                            $node->attr( 'src',
+                                "$img_path$resource_dir/" . $old_value )
+                                if ($old_value);
                         }
 
-                        if ( $tag eq 'object' && defined $node->attr('type') && $node->attr('type') eq 'image/svg+xml' ) {
+                        if (   $tag eq 'object'
+                            && defined $node->attr('type')
+                            && $node->attr('type') eq 'image/svg+xml' )
+                        {
                             my $old_value = $node->attr('data') || undef;
-                            $node->attr('data', "$img_path$resource_dir/" . $old_value)
-                              if ($old_value);
+                            $node->attr( 'data',
+                                "$img_path$resource_dir/" . $old_value )
+                                if ($old_value);
                         }
 
                         if ( $tag eq 'a' && defined $node->attr('href') ) {
                             my $old_value = $node->attr('href');
-                            if ( $old_value ) {
+                            if ($old_value) {
                                 my @links;
                                 my $update_link = 0;
-                                @links = split('#', $old_value);
+                                @links = split( '#', $old_value );
 
                                 for ( my $i = 0; $i < @links; $i++ ) {
-                                    next if (!$links[$i]);
+                                    next if ( !$links[$i] );
                                     $links[$i] =~ s/\.html$//;
-                                    if ( defined $section_maps->{$links[$i]} ) {
-                                        $links[$i] = $section_maps->{$links[$i]};
+                                    if (defined $section_maps->{ $links[$i] }
+                                        )
+                                    {
+                                        $links[$i]
+                                            = $section_maps->{ $links[$i] };
                                         $update_link = 1;
                                     }
 
                                     unless ($update_link) {
-                                       # check if it is internal page
-                                       if ( defined $all_nodes->{$links[$i]} ) {
-                                           $update_link = 1;
-                                       }
+
+                                        # check if it is internal page
+                                        if (defined $all_nodes->{ $links[$i] }
+                                            )
+                                        {
+                                            $update_link = 1;
+                                        }
                                     }
 
-                                    if ($links[$i] eq 'ix01') {
+                                    if ( $links[$i] eq 'ix01' ) {
                                         $links[$i] = 'index';
                                         $update_link = 1;
                                     }
                                 }
 
                                 if ($update_link) {
-                                    $old_value = join('#', @links);
-                                    $node->attr('href', "?q=$bookname-" . $old_value);
+                                    $old_value = join( '#', @links );
+                                    $node->attr( 'href',
+                                        "?q=$bookname-" . $old_value );
                                     $update_link = 0;
                                 }
+
                                 #else {
-                                    #print ">>$old_value>> not found\n";
-                                #}            
+                                #print ">>$old_value>> not found\n";
+                                #}
                             }
                         }
 
-                        return HTML::Element::OK; # keep traversing
-                      },
-                      # post-order callback:
-                      undef
+                        return HTML::Element::OK;    # keep traversing
+                    },
+
+                    # post-order callback:
+                    undef
                 ],
-                1, # don't call the callbacks for text nodes
+                1,    # don't call the callbacks for text nodes
             );
 
             my $alias = "$bookname-$page";
-            my $section_weight = {preface => 1, chapter => 2, appendix => 3};
+            my $section_weight
+                = { preface => 1, chapter => 2, appendix => 3 };
 
             #if ($previous_type ne $nodes_order->{$order_num}{'type'}) {
             if ( $weight < 30 ) {
                 $weight++;
             }
             else {
-                logger( maketext("Reached the maximum page ordering weight(30) that drupal can support. The rest of the pages will be ordered in alphabetical order\n"), RED );
+                logger(
+                    maketext(
+                        "Reached the maximum page ordering weight(30) that drupal can support. The rest of the pages will be ordered in alphabetical order\n"
+                    ),
+                    RED
+                );
             }
+
             #}
 
             my $menu_link  = "";
             my $menu_title = "";
-            my $book       = ($book_title) ? $book_title : "$product $version $docname";
+            my $book
+                = ($book_title) ? $book_title : "$product $version $docname";
             if ( $page eq 'index' ) {
-              $alias      = $bookname;
-              $title      = $book;
-              $menu_title = $book;
-              $menu_link  = $menu_block;
-              $book       = "";
+                $alias      = $bookname;
+                $title      = $book;
+                $menu_title = $book;
+                $menu_link  = $menu_block;
+                $book       = "";
             }
             elsif ( $page eq 'ix01' ) {
-                $alias      = "$bookname-index";
+                $alias = "$bookname-index";
             }
             else {
                 $alias = "$bookname-$section_maps->{$page}"
-                  || croak( maketext("Fail to get the mapping for $page") );
+                    || croak( maketext("Fail to get the mapping for $page") );
             }
-  
+
             $title =~ s/\s+/ /g;
             my $html_string = $tree->as_HTML;
-            $html_string =~ s/^\<\!DOCTYPE html PUBLIC \"\-\/\/W3C\/\/DTD.*\.dtd\"\>\n*//;
+            $html_string
+                =~ s/^\<\!DOCTYPE html PUBLIC \"\-\/\/W3C\/\/DTD.*\.dtd\"\>\n*//;
             $html_string =~ s/\<html.*\>\s*\<body\>//;
             $html_string =~ s/\<\/body\>//;
             $html_string =~ s/\<\/html\>//;
@@ -1698,12 +1934,14 @@ sub build_drupal_book {
             push @outputs, \@csv_row;
 
             if ( defined $nodes_order->{$order_num}{'childs'} ) {
-                my $child_outputs = $self->build_drupal_book( { lang         => $lang, 
-                                                                nodes_order  => $nodes_order->{$order_num}{'childs'}, 
-                                                                section_maps => $section_maps,
-                                                                parent       => $title,
-                                                                parent_alias => $alias,
-                                                            } );
+                my $child_outputs = $self->build_drupal_book(
+                    {   lang         => $lang,
+                        nodes_order  => $nodes_order->{$order_num}{'childs'},
+                        section_maps => $section_maps,
+                        parent       => $title,
+                        parent_alias => $alias,
+                    }
+                );
                 push @outputs, @{$child_outputs};
             }
 
@@ -1734,7 +1972,8 @@ sub clean_ids {
 
     foreach my $xml_file ( sort(@xml_files) ) {
         next if ( $xml_file =~ m{/extras/} );
-        $cleaner->process_file( { file => $xml_file, out_file => $xml_file } );
+        $cleaner->process_file(
+            { file => $xml_file, out_file => $xml_file } );
     }
 
     return;
@@ -1776,7 +2015,8 @@ sub adjustColumnWidths {
 
     my $table_width = $width->string_value();
 
-    debug_msg("TODO: adjustColumnWidths function is not fully implemented!\n");
+    debug_msg(
+        "TODO: adjustColumnWidths function is not fully implemented!\n");
 
     # XML::LibXML::Document
     my $doc       = $content->get_node(1);
@@ -1811,12 +2051,18 @@ sub adjustColumnWidths {
         }
         elsif ( $width =~ m/^(\d+)(cm|mm|in|pc|pt|px)$/ ) {
             logger( "TODO: convert exact to % of table_width", RED );
-            debug_msg("TODO: consider limiting this to matching same units as table_width");
+            debug_msg(
+                "TODO: consider limiting this to matching same units as table_width"
+            );
             $exact++;
         }
         else {
-            logger( maketext( "Unknown width format will be ignored: [_1]", $width ) . "\n",
-                RED );
+            logger(
+                maketext( "Unknown width format will be ignored: [_1]",
+                    $width )
+                    . "\n",
+                RED
+            );
             $width = '1*';
             $prop++;
             $total_prop += 1;
@@ -1829,7 +2075,10 @@ sub adjustColumnWidths {
         my $width = $widths[$i];
 
         if ( $width =~ m/^(\d+)\*$/ ) {
-            $width = floor( ( ( $1 / $total_prop ) * ( $perc_remaining / 100 ) * 100 ) + 0.5 )
+            $width
+                = floor(
+                ( ( $1 / $total_prop ) * ( $perc_remaining / 100 ) * 100 )
+                + 0.5 )
                 . '%';
 
         }
@@ -1970,7 +2219,7 @@ sub insertCallouts {
         $format = 'PDF';
     }
 
-    # This is a hash of arrays, key is line number, array contains indexes on that line.
+# This is a hash of arrays, key is line number, array contains indexes on that line.
     my %callout;
 
     my $index = 0;
@@ -1983,7 +2232,8 @@ sub insertCallouts {
                 if ( $child->nodeName() eq 'area' ) {
                     my $pos = 0;
                     my $col = $child->getAttribute('coords')
-                        || carp( maketext("'area' requires a 'coords' attribute.") );
+                        || carp(
+                        maketext("'area' requires a 'coords' attribute.") );
                     if ( $col =~ m/^(\d+)\s+(\d+)$/ ) {
                         $col = $1;
                         $pos = $2;
@@ -2059,7 +2309,7 @@ sub insertCallouts {
                 if ( $format eq 'PDF' ) {
                     $node
                         = $parser->parse_xml_chunk(
-                              qq|<$tag xmlns:fo="http://www.w3.org/1999/XSL/Format">| 
+                        qq|<$tag xmlns:fo="http://www.w3.org/1999/XSL/Format">|
                             . $line
                             . "</$tag>" );
                 }
@@ -2100,7 +2350,9 @@ sub insertCallouts {
             my $padding = $pos - ( $callout{$count}{'length'} || 0 );
             $out_string .= " " x $padding;
 
-            foreach my $index ( sort( { $a <=> $b } @{ $callout{$count}{lines} } ) ) {
+            foreach my $index (
+                sort( { $a <=> $b } @{ $callout{$count}{lines} } ) )
+            {
                 if ( $mode eq 'gfx' ) {
                     my $gfx_node;
 
@@ -2109,16 +2361,20 @@ sub insertCallouts {
                         $gfx_node->setAttribute( 'class',  'callout' );
                         $gfx_node->setAttribute( 'alt',    $index );
                         $gfx_node->setAttribute( 'border', '0' );
-                        $gfx_node->setAttribute( 'src',    "Common_Content/images/$index.png" );
+                        $gfx_node->setAttribute( 'src',
+                            "Common_Content/images/$index.png" );
                     }
                     elsif ( $format eq 'PDF' ) {
-                        $gfx_node = XML::LibXML::Element->new('fo:external-graphic');
+                        $gfx_node = XML::LibXML::Element->new(
+                            'fo:external-graphic');
                         $gfx_node->setAttribute( 'src',
                             "url(Common_Content/images/$index.svg)" );
                         $gfx_node->setAttribute( 'content-width',  '10pt' );
                         $gfx_node->setAttribute( 'content-height', '10pt' );
-                        $gfx_node->setAttribute( 'content-type', 'content-type:image/svg+xml' );
-                        $gfx_node->setNamespace( 'http://www.w3.org/1999/XSL/Format', 'fo' );
+                        $gfx_node->setAttribute( 'content-type',
+                            'content-type:image/svg+xml' );
+                        $gfx_node->setNamespace(
+                            'http://www.w3.org/1999/XSL/Format', 'fo' );
                     }
                     $out_string .= $gfx_node->toString();
                 }
@@ -2189,7 +2445,11 @@ sub package_brand {
     my $binary = delete( $args->{binary} );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $tmp_dir = $self->{publican}->param('tmp_dir');
@@ -2203,7 +2463,8 @@ sub package_brand {
 
     my $langs     = get_all_langs();
     my @file_list = (
-        'publican.cfg', "publican-$name.spec", 'README', 'COPYING',
+        'publican.cfg', "publican-$name.spec",
+        'README',       'COPYING',
         'defaults.cfg', 'overrides.cfg'
     );
 
@@ -2240,7 +2501,11 @@ sub package_home {
     my $binary = delete( $args->{binary} );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $tmp_dir    = $self->{publican}->param('tmp_dir');
@@ -2314,19 +2579,22 @@ sub package_home {
         embedtoc     => $embedtoc,
     );
 
-    logger( "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
+    logger(
+        "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
 
     my $parser    = XML::LibXML->new();
     my $xslt      = XML::LibXSLT->new();
     my $info_file = "$xml_lang/$type" . '_Info.xml';
-    $info_file = "$xml_lang/" . $self->{publican}->param('info_file') if($self->{publican}->param('info_file'));
+    $info_file = "$xml_lang/" . $self->{publican}->param('info_file')
+        if ( $self->{publican}->param('info_file') );
 
     my $source    = $parser->parse_file($info_file);
     my $style_doc = $parser->parse_file($xsl_file);
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
 
-    my $results = $stylesheet->transform( $source, XML::LibXSLT::xpath_to_string(%xslt_opts) );
+    my $results = $stylesheet->transform( $source,
+        XML::LibXSLT::xpath_to_string(%xslt_opts) );
 
     my $outfile;
     my $spec_name = "$tmp_dir/rpm/$name_start-web-$web_type.spec";
@@ -2359,7 +2627,11 @@ sub build_rpm {
     my $binary = delete( $args->{binary} );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $tmp_dir = $self->{publican}->param('tmp_dir');
@@ -2368,15 +2640,20 @@ sub build_rpm {
     my $dir = abs_path("$tmp_dir/rpm");
 
     # From cspanspec and Fedora Makefile.common
-    my $rpmbuild = ( -x "/usr/bin/rpmbuild" ? "/usr/bin/rpmbuild" : "/bin/rpm" );
+    my $rpmbuild
+        = ( -x "/usr/bin/rpmbuild" ? "/usr/bin/rpmbuild" : "/bin/rpm" );
 
     unless ( -x $rpmbuild ) {
-        logger( maketext("rpmbuild not found, rpm creation aborted.") . "\n", RED );
+        logger( maketext("rpmbuild not found, rpm creation aborted.") . "\n",
+            RED );
         return;
     }
 
-    debug_msg( maketext( "Building rpms from [_1] using [_2] in [_3]", $spec, $rpmbuild, $dir )
-            . "\n" );
+    debug_msg(
+        maketext( "Building rpms from [_1] using [_2] in [_3]",
+            $spec, $rpmbuild, $dir )
+            . "\n"
+    );
 
     my @rpm_args = (
         "--define", "_sourcedir $dir", "--define", "_builddir $dir",
@@ -2399,14 +2676,19 @@ sub build_rpm {
 
     if ( system( $rpmbuild, @rpm_args ) != 0 ) {
         if ( $? == -1 ) {
-            croak maketext( "Failed to execute [_1], error number: [_2]", $rpmbuild, $! )
+            croak maketext( "Failed to execute [_1], error number: [_2]",
+                $rpmbuild, $! )
                 . "\n";
         }
         elsif ( WIFSIGNALED($?) ) {
-            croak maketext( "[_1] died with signal [_2]", $rpmbuild, WTERMSIG($?) ) . "\n";
+            croak maketext( "[_1] died with signal [_2]",
+                $rpmbuild, WTERMSIG($?) )
+                . "\n";
         }
         else {
-            croak maketext( "[_1] exited with value [_2]", $rpmbuild, WEXITSTATUS($?) ) . "\n";
+            croak maketext( "[_1] exited with value [_2]",
+                $rpmbuild, WEXITSTATUS($?) )
+                . "\n";
         }
     }
 
@@ -2433,7 +2715,11 @@ sub package {
     my $binary        = delete( $args->{binary} );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     croak(
@@ -2472,21 +2758,26 @@ sub package {
         $release = undef;
 
         my $rev_file = "$lang/Revision_History.xml";
-        $rev_file = "$lang/" . $self->{publican}->param('rev_file') if($self->{publican}->param('rev_file'));
+        $rev_file = "$lang/" . $self->{publican}->param('rev_file')
+            if ( $self->{publican}->param('rev_file') );
 
         croak( maketext( "Can't locate required file: [_1]", $rev_file ) )
             if ( !-f $rev_file );
 
-        my $rev_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        my $rev_doc = XML::TreeBuilder->new(
+            { 'NoExpand' => "1", 'ErrorContext' => "2" } );
         $rev_doc->parse_file($rev_file);
-        my $VR = eval { $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text(); };
+        my $VR = eval {
+            $rev_doc->root()->look_down( "_tag", "revnumber" )->as_text();
+        };
         if ($@) {
             croak( maketext( "revnumber not found in [_1]", $rev_file ) );
         }
 
         $VR =~ /^([0-9.]*)-([0-9.]*)$/ || croak(
             maketext(
-                "revnumber ([_1]) does not match the required format of '[_2]'", $VR,
+                "revnumber ([_1]) does not match the required format of '[_2]'",
+                $VR,
                 '^([0-9.]*)-([0-9.]*)$/'
             )
         );
@@ -2503,7 +2794,8 @@ sub package {
     $tardir = "$name_start-$lang-$edition" if ($short_sighted);
 
     # distributed sets need to be collected before packaging
-    if ( ( $type eq 'Set' ) && ( $self->{publican}->{config}->param('scm') ) ) {
+    if ( ( $type eq 'Set' ) && ( $self->{publican}->{config}->param('scm') ) )
+    {
         $self->get_books();
         $self->build_set_books( { langs => $lang } );
     }
@@ -2560,7 +2852,7 @@ sub package {
         || '%{_localstatedir}/www/html/docs';
     my $web_cfg = $self->{publican}->param('web_cfg')
         || '/etc/publican-website.cfg';
-    my $web_req = $self->{publican}->param('web_req') || '';
+    my $web_req    = $self->{publican}->param('web_req')    || '';
     my $sort_order = $self->{publican}->param('sort_order') || '';
 
     my $menu_category = $self->{publican}->param('menu_category')
@@ -2568,9 +2860,11 @@ sub package {
     $menu_category .= ';' if ( $menu_category !~ /;\s*$/ );
 
     # store lables for rebuilding translated content
-    $self->{publican}->{config}->param( 'web_product_label', $web_product_label )
+    $self->{publican}->{config}
+        ->param( 'web_product_label', $web_product_label )
         if ($web_product_label);
-    $self->{publican}->{config}->param( 'web_version_label', $web_version_label )
+    $self->{publican}->{config}
+        ->param( 'web_version_label', $web_version_label )
         if ($web_version_label);
     $self->{publican}->{config}->param( 'web_name_label', $web_name_label )
         if ($web_name_label);
@@ -2590,9 +2884,9 @@ sub package {
     $self->{publican}->{config}->param( 'common_config',  $common_config );
     $self->{publican}->{config}->param( 'common_content', $common_content );
     $self->{publican}->{config}->param( 'xml_lang',       $xml_lang );
-    $self->{publican}->{config}->param( 'scm',            $tmp_scm ) if ($tmp_scm);
-    $self->{publican}->{config}->param( 'release',        $release );
-    $self->{publican}->{config}->param( 'edition',        $edition );
+    $self->{publican}->{config}->param( 'scm',     $tmp_scm ) if ($tmp_scm);
+    $self->{publican}->{config}->param( 'release', $release );
+    $self->{publican}->{config}->param( 'edition', $edition );
 
     my $dir = pushd("$tmp_dir/tar");
     my @files = dir_list( $tardir, '*' );
@@ -2676,19 +2970,22 @@ sub package {
         return;
     }
 
-    logger( "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
+    logger(
+        "\t" . maketext( "Using XML::LibXSLT on [_1]", $xsl_file ) . "\n" );
 
     my $parser    = XML::LibXML->new();
     my $xslt      = XML::LibXSLT->new();
     my $info_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
-    $info_file = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file') if($self->{publican}->param('info_file'));
+    $info_file = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file')
+        if ( $self->{publican}->param('info_file') );
 
     my $source    = $parser->parse_file($info_file);
     my $style_doc = $parser->parse_file($xsl_file);
 
     my $stylesheet = $xslt->parse_stylesheet($style_doc);
 
-    my $results = $stylesheet->transform( $source, XML::LibXSLT::xpath_to_string(%xslt_opts) );
+    my $results = $stylesheet->transform( $source,
+        XML::LibXSLT::xpath_to_string(%xslt_opts) );
 
     my $outfile;
     my $spec_name = "$tmp_dir/rpm/$name_start-web-$lang.spec";
@@ -2720,7 +3017,11 @@ sub web_labels {
         || croak( maketext("xml_lang is a mandatory argument") );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $tmp_dir = $self->{publican}->param('tmp_dir');
@@ -2737,7 +3038,8 @@ sub web_labels {
 
     #    if ( $lang ne $xml_lang ) {
     my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
-    $xml_file = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file') if($self->{publican}->param('info_file'));
+    $xml_file = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file')
+        if ( $self->{publican}->param('info_file') );
     croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
         if ( !-f $xml_file );
 
@@ -2746,8 +3048,9 @@ sub web_labels {
 
     # BUGBUG can't translate overridden labels :(
     unless ($web_product_label) {
-        $web_product_label
-            = eval { $xml_doc->root()->look_down( "_tag", "productname" )->as_text(); };
+        $web_product_label = eval {
+            $xml_doc->root()->look_down( "_tag", "productname" )->as_text();
+        };
         if ($@) {
 
             #            croak maketext("productname not found in Info file");
@@ -2757,7 +3060,9 @@ sub web_labels {
         }
     }
     unless ($web_name_label) {
-        $web_name_label = eval { $xml_doc->root()->look_down( "_tag", "title" )->as_text(); };
+        $web_name_label = eval {
+            $xml_doc->root()->look_down( "_tag", "title" )->as_text();
+        };
         if ($@) {
 
             #           croak maketext("title not found in Info file");
@@ -2807,49 +3112,76 @@ sub change_log {
     my $log     = "";
     my $tmp_dir = $self->{publican}->param('tmp_dir');
 
-    my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
 
     my $rev_file = "Revision_History.xml";
-    $rev_file = $self->{publican}->param('rev_file') if($self->{publican}->param('rev_file'));
+    $rev_file = $self->{publican}->param('rev_file')
+        if ( $self->{publican}->param('rev_file') );
 
     my $path = "$tmp_dir/$lang/xml/$rev_file";
     $path = "$lang/$rev_file"
-        if ( $self->{publican}->param('web_home') || $self->{publican}->param('web_type') );
+        if ( $self->{publican}->param('web_home')
+        || $self->{publican}->param('web_type') );
 
     $xml_doc->parse_file("$path");
 
     $xml_doc->root()->look_down( "_tag", "revision" )
         || croak(
-        maketext( "Missing mandatory field '[_1]' in revision history.", 'revision' ) );
+        maketext(
+            "Missing mandatory field '[_1]' in revision history.", 'revision'
+        )
+        );
 
-    foreach my $revision ( $xml_doc->root()->look_down( "_tag", "revision" ) ) {
+    foreach my $revision ( $xml_doc->root()->look_down( "_tag", "revision" ) )
+    {
 
         my $node = $revision->look_down( '_tag', 'date' )
             || croak(
-            maketext( "Missing mandatory field '[_1]' in revision history.", 'date' ) );
+            maketext(
+                "Missing mandatory field '[_1]' in revision history.", 'date'
+            )
+            );
         my $in_date = $node->as_trimmed_text();
         my $dt      = DateTime::Format::DateParse->parse_datetime($in_date)
-            || croak( maketext( "Invalid date: '[_1]' in revision history.", $in_date ) );
+            || croak(
+            maketext( "Invalid date: '[_1]' in revision history.", $in_date )
+            );
         my $date = $dt->strftime("%a %b %e %Y");
 
         $node = $revision->look_down( '_tag', 'firstname' )
             || croak(
-            maketext( "Missing mandatory field '[_1]' in revision history.", 'firstname' ) );
+            maketext(
+                "Missing mandatory field '[_1]' in revision history.",
+                'firstname'
+            )
+            );
         my $firstname = $node->as_trimmed_text();
 
         $node = $revision->look_down( '_tag', 'surname' )
             || croak(
-            maketext( "Missing mandatory field '[_1]' in revision history.", 'surname' ) );
+            maketext(
+                "Missing mandatory field '[_1]' in revision history.",
+                'surname'
+            )
+            );
         my $surname = $node->as_trimmed_text();
 
         $node = $revision->look_down( '_tag', 'email' )
             || croak(
-            maketext( "Missing mandatory field '[_1]' in revision history.", 'email' ) );
+            maketext(
+                "Missing mandatory field '[_1]' in revision history.", 'email'
+            )
+            );
         my $email = $node->as_trimmed_text();
 
         $node = $revision->look_down( '_tag', 'revnumber' )
             || croak(
-            maketext( "Missing mandatory field '[_1]' in revision history.", 'revnumber' ) );
+            maketext(
+                "Missing mandatory field '[_1]' in revision history.",
+                'revnumber'
+            )
+            );
 
         my $revnumber = $node->as_trimmed_text();
 
@@ -2863,11 +3195,15 @@ sub change_log {
             );
         }
 
-        $log .= sprintf( "* %s %s %s <%s> - %s\n", $date, $firstname, $surname, $email,
-            $revnumber );
+        $log .= sprintf( "* %s %s %s <%s> - %s\n",
+            $date, $firstname, $surname, $email, $revnumber );
 
         $revision->look_down( '_tag', 'member' )
-            || croak( maketext( "Missing mandatory field '[_1]' in revision.", 'member' ) );
+            || croak(
+            maketext(
+                "Missing mandatory field '[_1]' in revision.", 'member'
+            )
+            );
         foreach my $member ( $revision->look_down( '_tag', 'member' ) ) {
             $log .= sprintf( "- %s \n", $member->as_trimmed_text() );
         }
@@ -2893,8 +3229,12 @@ sub get_books {
 
     unless ($scm) {
         logger(
-            maketext("Config parameter 'scm' not found; treating set as standalone.") . "\n",
-            RED );
+            maketext(
+                "Config parameter 'scm' not found; treating set as standalone."
+                )
+                . "\n",
+            RED
+        );
         return;
     }
 
@@ -2903,21 +3243,30 @@ sub get_books {
 
     my $books = $self->{publican}->param('books')
         || croak(
-        maketext("'books' is a required configuration parameter for a remote set") . "\n" );
+        maketext(
+            "'books' is a required configuration parameter for a remote set")
+            . "\n"
+        );
     my $repo = $self->{publican}->param('repo')
         || croak(
-        maketext("'repo' is a required configuration parameter for a remote set") . "\n" );
+        maketext(
+            "'repo' is a required configuration parameter for a remote set")
+            . "\n"
+        );
 
     foreach my $book ( split( " ", $books ) ) {
         if ( !-d $book ) {
             logger( maketext( "Fetching [_1] from scm", $book ) . "\n" );
             if ( $scm eq 'svn' ) {
-                debug_msg("TODO: should be using Alien::SVN or similar to access SVN!\n");
+                debug_msg(
+                    "TODO: should be using Alien::SVN or similar to access SVN!\n"
+                );
                 if ( system("svn export --quiet $repo/$book $book") != 0 ) {
                     croak(
                         maketext(
                             "Fatal Error: SVN export failed. Book: [_1]. Error Number: [_2]",
-                            $book, $?
+                            $book,
+                            $?
                         )
                     );
                 }
@@ -2945,14 +3294,19 @@ sub build_set_books {
     }
 
     my $books = $self->{publican}->param('books')
-        || croak( maketext("'books' is a required configuration parameter for a remote set") );
+        || croak(
+        maketext(
+            "'books' is a required configuration parameter for a remote set")
+        );
     my $tmp_dir = $self->{publican}->param('tmp_dir');
 
     foreach my $book ( split( " ", $books ) ) {
         logger( maketext( "Start building [_1]", $book ) . "\n" );
         my $dir = pushd($book);
 
-        logger( maketext("Running clean_ids to prevent inter-book ID clashes.") . "\n" );
+        logger(
+            maketext("Running clean_ids to prevent inter-book ID clashes.")
+                . "\n" );
 
         if ( system("publican clean_ids") != 0 ) {
             croak(
@@ -2964,13 +3318,18 @@ sub build_set_books {
             );
         }
 
-        if ( system("publican build --formats=xml --langs=$langs --distributed_set") != 0 ) {
+        if (system(
+                "publican build --formats=xml --langs=$langs --distributed_set"
+            ) != 0
+            )
+        {
 
             # build failed
             croak(
                 maketext(
                     "Fatal error: Book failed to build! Book: [_1]. Error Number: [_2]",
-                    $book, $?
+                    $book,
+                    $?
                 )
             );
         }
@@ -2978,8 +3337,10 @@ sub build_set_books {
         $dir = undef;
 
         foreach my $lang ( split( /,/, $langs ) ) {
-            dirmove( "$book/$tmp_dir/$lang/xml/images",
-                "$tmp_dir/$lang/xml/images/$book/images" );
+            dirmove(
+                "$book/$tmp_dir/$lang/xml/images",
+                "$tmp_dir/$lang/xml/images/$book/images"
+            );
             dircopy( "$book/$tmp_dir/$lang/xml", "$tmp_dir/$lang/xml/$book" );
         }
         logger( maketext( "Finish building [_1]", $book ) . "\n" );
