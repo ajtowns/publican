@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -CA
 
 #BUGBUG -CAS should allow removing utf8::encode, utf8::decode from Translate.pm
 # See: http://perldoc.perl.org/perlrun.html#*-C-[_number/list_]*
@@ -297,10 +297,6 @@ my %actions = (
             'Migrate a website DataBase from Publican < 3 to Publican 3.'),
         'options' => ['site_config'],
     },
-    'set_unique_ids' => {
-        'brief'   => maketext('Set unique ids in xml files'),
-        'options' => [],
-    },
 );
 
 # Grab to limit options to the valid ones for this action
@@ -462,13 +458,6 @@ if ($help) {
 # Start processing actions
 #
 #######################################################################
-
-
-if ( $action eq 'import_to_drupal' ) {
-    my $node_import = Publican::Drupal::NodeImport->new({ lang => $opts{lang} });
-    $node_import->connect();
-    $node_import->import_nodes();
-}
 
 #pod2usage(1) if ( !$name || $type !~ /[Book|Set|Article]/);
 if ( $action eq 'create' ) {
@@ -848,11 +837,6 @@ if ( $action eq 'clean_set' ) {
 if ( $action eq 'clean_ids' ) {
     my $builder = Publican::Builder->new();
     $builder->clean_ids();
-}
-
-if ( $action eq 'set_unique_ids' ) {
-    my $builder = Publican::Builder->new();
-    $builder->set_unique_ids();
 }
 
 if ( $action eq 'update_pot' ) {

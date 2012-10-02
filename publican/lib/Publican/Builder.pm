@@ -136,10 +136,17 @@ sub build {
     if ( $langs =~ /^all$/i ) {
         $langs = get_all_langs();
     }
+
+    my $drupal = 0;
+    if ($formats =~ /drupal-book/ ) {
+        $drupal = 1;
+    }
+
     $self->setup_xml(
         {   langs           => $langs,
             exlude_common   => ( $type eq 'brand' ),
-            distributed_set => $distributed_set
+            distributed_set => $distributed_set,
+            drupal          => $drupal
         }
     );
 
@@ -162,9 +169,6 @@ sub build {
         # catch txt not being rebuilt BZ #802576
         my $rebuild = 1;
 
-        # catch html rebuilt for drupal
-        # my $html_rebuild = 1;
-
         foreach my $format ( split( /,/, $formats ) ) {
             logger( "\t" . maketext( "Starting [_1]", $format ) . "\n" );
             if ( $format eq 'test' ) {
@@ -176,12 +180,10 @@ sub build {
                 {   format   => $format,
                     lang     => $lang,
                     embedtoc => $embedtoc,
-                    rebuild  => $rebuild,
-                    #html_rebuild => $html_rebuild
+                    rebuild  => $rebuild
                 }
             ) unless ( $format eq 'xml' );
 
-            #$html_rebuild = 0 if ( $format eq 'drupal-book' || $format eq 'html' );
             $rebuild = 0 if ( $format eq 'txt' || $format eq 'html-single' );
 
             if ($publish) {
@@ -335,6 +337,7 @@ sub setup_xml {
     my $langs = delete( $args->{langs} )
         || croak( maketext("langs is a mandatory argument") );
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
+    my $drupal          = delete( $args->{drupal} ) || 0;
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -350,6 +353,16 @@ sub setup_xml {
         mkpath("$tmp_dir/$lang/xml");
 
         if ( $lang eq $xml_lang ) {
+
+            if ($drupal) {
+                # preprocess. set the unique id for every sections
+                my $set_ids = Publican::XmlClean->new();
+
+                logger( maketext("Preprocessing xml files...\n") );
+                $set_ids->set_unique_ids();
+                logger( maketext("Finish preprocess\n") );
+            }
+
             dircopy( $lang, "$tmp_dir/$lang/xml_tmp" );
         }
         elsif (( $self->{publican}->param('ignored_translations') )
@@ -778,7 +791,6 @@ sub transform {
         || croak( maketext("format is a mandatory argument") );
     my $embedtoc = delete( $args->{embedtoc} ) || 0;
     my $rebuild  = delete( $args->{rebuild} )  || 0;
-    #my $html_rebuild  = delete( $args->{html_rebuild} ) || 0;
 
     if ( %{$args} ) {
         croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
@@ -829,17 +841,6 @@ sub transform {
         . $self->{publican}->param('version') . '-'
         . $self->{publican}->param('docname') . '-'
         . "$lang.pdf";
-
-    # drupal conversion
-    #if ( $format eq 'drupal-book' ) {
-    #    $self->transform( { lang => $lang, format => 'html' } )
-    #      if (!-e "$tmp_dir/$lang/html" || $html_rebuild );
-    #
-    #    $self->drupal_transform( { lang => $lang } );
-    #    #use Cwd();
-    #    #print Cwd::getcwd() . "<<<<\n";
-    #    return;
-    #}
 
     if ( $format eq 'txt' ) {
         if ( !-e "$tmp_dir/$lang/html-single" || $rebuild ) {
@@ -1353,7 +1354,6 @@ sub transform {
             if ( $embedtoc == 0 || $format eq 'html-desktop' || $format eq 'html-pdf' );
     }
 
-
     $xslt       = undef;
     $source     = undef;
     $style_doc  = undef;
@@ -1366,6 +1366,12 @@ sub transform {
 
     return;
 }
+
+=head2 drupal_transform
+
+Write csv file for drupal node import
+
+=cut
 
 sub drupal_transform {
     my ($self, $args) = @_;
@@ -1382,10 +1388,6 @@ sub drupal_transform {
     my $release    = $self->{publican}->param('release');
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $drupal_dir = "$tmp_dir/$lang/drupal-book";
-
-    # preprocess. set the unique id for every sections
-    logger( maketext("Preprocessing xml files...\n") );
-    $self->set_unique_ids();
 
     my $parser = XML::LibXML->new();
     $parser->expand_xinclude(1);
@@ -1424,15 +1426,6 @@ sub drupal_transform {
     $xs->combine(@csv_headers);
     $fh->print ($xs->string);
 
-    #my $db_file = "$xml_lang/clean_id_tracker.db";
-    #$self->{dbh} = DBI->connect("dbi:SQLite:dbname=$db_file", "", "", { RaiseError => 1 }) 
-    #  || croak ( maketext($DBI::errstr) );
-    # get all section ids mapping info
-    #my $sql = 'SELECT section_id, map_to FROM clean_id_tracker';
-    #eval { $section_maps = $self->{dbh}->selectall_hashref($sql, 'section_id'); };
-    #logger( maketext("Clean id table not exist. Run clean id to create it.\n"), RED )
-    #  if ($@);
-
     my $outputs = $self->build_drupal_book( { lang         => $lang, 
                                               nodes_order  => $nodes_order, 
                                               section_maps => \%section_maps,
@@ -1450,6 +1443,12 @@ sub drupal_transform {
     return;
 }
 
+=head2 get_nodes_order
+
+Get all nodes with id from xml files in order
+
+=cut
+
 sub get_nodes_order {
     my ($self, $args) = @_;
 
@@ -1464,7 +1463,7 @@ sub get_nodes_order {
     my @node_list;
    
     if ( !$node ) {
-        @node_list =$source->getElementsByTagName('book')->[0]->childNodes();       
+        @node_list =$source->getElementsByTagName('book')->[0]->childNodes();
     }
     else  {
         @node_list = $node->childNodes();
@@ -1472,6 +1471,11 @@ sub get_nodes_order {
 
     my $count = 0;
     foreach my $cnode (@node_list) {
+        if ($cnode->nodeName() eq 'index') {
+            $order{++$count}{'id'}  = "ix01";
+            $order{$count}{'type'}  = "index";
+        }
+
         # $cnode->attributes will return namespace too, so we need to skip it here
         next if ( !$cnode->hasAttributes() );
 
@@ -1501,6 +1505,12 @@ sub get_nodes_order {
     return \%order;
 }
 
+=head2 build_drupal_book
+
+Convert each html file into csv a row for drupal.
+
+=cut
+
 sub build_drupal_book {
     my ($self, $args) = @_;
 
@@ -1524,6 +1534,7 @@ sub build_drupal_book {
     my $author  = $self->{publican}->param('drupal_author');
     my $book_title = $self->{publican}->param('drupal_menu_title');
     my $menu_block = $self->{publican}->param('drupal_menu_block');
+    my $img_path   = $self->{publican}->param('drupal_image_path');
 
     my $bookname     = "$product-$version-$docname-$lang";
     my $drupal_dir   = "$tmp_dir/$lang/drupal-book";
@@ -1578,13 +1589,13 @@ sub build_drupal_book {
 
                         if ( $tag eq 'img' && defined $node->attr('src') ) {
                             my $old_value = $node->attr('src');
-                            $node->attr('src', "sites/default/files/$resource_dir/" . $old_value)
+                            $node->attr('src', "$img_path$resource_dir/" . $old_value)
                               if ($old_value);
                         }
 
                         if ( $tag eq 'object' && defined $node->attr('type') && $node->attr('type') eq 'image/svg+xml' ) {
                             my $old_value = $node->attr('data') || undef;
-                            $node->attr('data', "sites/default/files/$resource_dir/" . $old_value)
+                            $node->attr('data', "$img_path$resource_dir/" . $old_value)
                               if ($old_value);
                         }
 
@@ -1608,6 +1619,11 @@ sub build_drupal_book {
                                        if ( defined $all_nodes->{$links[$i]} ) {
                                            $update_link = 1;
                                        }
+                                    }
+
+                                    if ($links[$i] eq 'ix01') {
+                                        $links[$i] = 'index';
+                                        $update_link = 1;
                                     }
                                 }
 
@@ -1651,6 +1667,9 @@ sub build_drupal_book {
               $menu_title = $book;
               $menu_link  = $menu_block;
               $book       = "";
+            }
+            elsif ( $page eq 'ix01' ) {
+                $alias      = "$bookname-index";
             }
             else {
                 $alias = "$bookname-$section_maps->{$page}"
@@ -1709,42 +1728,14 @@ sub clean_ids {
     #    if ( %{$args} ) {
     #        croak "unknown args: " . join( ", ", keys %{$args} );
     #    }
-    my $directory = delete $args->{directory} || undef;
 
-    my @xml_files;
-
-    if ($directory && -d $directory) {
-        @xml_files = dir_list( $directory, '*.xml' );
-    }
-    else { 
-        @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
-    }
-
+    my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
     foreach my $xml_file ( sort(@xml_files) ) {
         next if ( $xml_file =~ m{/extras/} );
         $cleaner->process_file( { file => $xml_file, out_file => $xml_file } );
     }
-
-    return;
-}
-
-sub set_unique_ids {
-    my ( $self, $args ) = @_;
-
-    my @xml_files;
-
-    @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
-
-    my $cleaner = Publican::XmlClean->new( { set_unique_ids => 1 } );
-
-    foreach my $xml_file ( sort(@xml_files) ) {
-        next if ( $xml_file =~ m{/extras/} );
-        $cleaner->process_file( { file => $xml_file, out_file => $xml_file } );
-    }
-
-    $cleaner->set_max_unique_id();
 
     return;
 }
