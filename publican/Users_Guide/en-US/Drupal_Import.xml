@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Users_Guide-Import_book_into_Drupal">
+	<title>Import book into Drupal</title>
+	<para>
+		<application>Publican 3.1</application> has a new functionality which allow user to create and import a book into Drupal. All xml files in a book are transformed into a single CSV file which will later be used to import into Drupal.
+	</para>
+	<section id="sect-Users_Guide-Import_book_into_Drupal-How_to_build_a_CSV_file">
+		<title>How to build a CSV file for Drupal import</title>
+		<para>
+			The CSV File consists of information that tells Drupal how to import the book. Each row in the CSV file represents a html page.
+		</para>
+		<para>
+			Use the <command>publican build</command> command to create the CSV file for Drupal import. Before running the command, use the cd command to change into the directory where your book is located. For example, if you have a book call "User_Guide" in your home directory, then run the following command.
+			<screen><command>cd User_Guide/</command>
+<command>publican build --langs en-US --formats=drupal-book</command></screen>
+		</para>
+		<para>
+			After running the command, you will see CSV file is created in the <filename>tmp/en-US/drupal-book/</filename> directory.
+		</para>
+		<para>
+			<application>Publican</application> stores all the output files in <filename>/tmp/en-US/drupal-book/</filename> directory. This directory contains the following files:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					CSV file - The naming convention of the file is <filename>$product-$version-$docname-$lang-$edition.csv</filename>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					en-US directory - contains all the html images.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					tar.gz file - the archive of both CSV file and en-US directory.
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<important>
+			<title>Important — Use version control system</title>
+				<para>
+					After running the <command>publican build --langs en-US --formats=drupal-book</command> command, you will notice that the xml files in the <filename>en-US</filename> directory had been changed. The is because <application>Publican</application> added a <parameter>'Conformance'</parameter> attribute for every xml tag that has id. This attribute contains a number which is unique across xml files in the book. If you are using a version control system like <application>git</application> for your xml files, then you need to commit the changes so that the number won't get reset when other users run it. These unique numbers are very important, because they are use as the url path in drupal. Besides, <application>Publican</application> also created a database file name <filename>max_unique_id.db</filename> in the <filename>en-US</filename> directory. This database file is use to track the current maximum unique number in the book, so that <application>Publican</application> can know where you are up to and add a new unique number for your newly created Chapter or Section. Therefore, it is very important to add the database file to the version control and commit it if there is any change.
+				</para>
+		</important>
+	</section>
+	<section id="sect-Users_Guide-Import_book_into_Drupal-The_publican_cfg_file">
+		<title>The publican.cfg file</title>
+		<para>
+			Below are some parameters that can be configure in the publican.cfg file for Drupal import:
+		</para>
+		<variablelist>
+			<varlistentry>
+				<term><parameter>drupal_author</parameter></term>
+				<listitem>
+					<para>
+						specfies the author who should be shown in drupal book page. The name must be a valid Drupal username. 'Redhat' is the default author. Set this parameter in the <filename>publican.cfg</filename> file to override it.
+					</para>
+
+					<important>
+						<title>Important — Setting Author</title>
+						<para>
+							The author must have permission to manage (create, update, delete) nodes in Drupal. If the default author is used, make sure you had created an account with username 'Redhat' in Drupal.
+						</para>
+					</important>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>drupal_menu_title</parameter></term>
+				<listitem>
+					<para>
+						override the bookname that will be shown in the Drupal menu. If nothing is set, <application>publican</application> will use the default value which is "$product $version $docname". For example, Publican 3.1 User_Guide.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>drupal_menu_block</parameter></term>
+				<listitem>
+					<para>
+						specfies which menu block the book should show in Drupal. The default value is <parameter>"user-guide"</parameter>.
+					</para>
+					<important>
+						<title>Important — Setting menu block</title>
+						<para>
+							The menu block must exist in Drupal. For more information about adding a menu block in Drupal. Please refer to <xref linkend="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_add_a_menu_block" />.
+						</para>
+					</important>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><parameter>drupal_image_path</parameter></term>
+				<listitem>
+					<para>
+						specfies the directory where the images should be stored in drupal server. The default value is <filename>"sites/default/files/"</filename>.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</section>
+
+	<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide">
+		<title>Drupal Import Guide</title>
+		<para>
+			Before you can import a book, you need to install a module call <application>'Node Import'</application> in Drupal. This module allows Drupal to import and update content from CSV or TSV files. To install this module, simply download it from <ulink url="http://drupal.org/project/node_import">drupal site</ulink> and extract the downloaded file to the Drupal modules directory. For example if your Drupal is located in <filename>/var/www/html/drupal/</filename> directory, then you should extract the module to <filename>/var/www/html/drupal/sites/all/modules/</filename> directory. To enable the installed module, login to the Drupal site and go to <guilabel>Administer -&gt; Site building -&gt; Modules </guilabel>. In the Development section, tick the <guibutton>checkbox</guibutton> and click <guibutton>Save configuration</guibutton> button to activate the <application>Node Import</application> Module.
+		</para>
+
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/enable_node_import.png" format="PNG" scalefit="1" width="870" />
+			</imageobject>
+		</mediaobject>
+		<important>
+			<title>Important — Enable Drupal Core Modules</title>
+			<para>
+				You also need to enable the following Drupal core modules:
+			</para>
+			<itemizedlist>
+				<listitem>
+					<para>
+						<application>Book</application>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<application>Menu</application>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<application>Path</application>
+					</para>
+				</listitem>
+			</itemizedlist>
+		</important>
+
+		<note>
+			<title>Permission to install Module</title>
+			<para>
+				Please consult your web adminstrator if you don't have permission to install module in drupal.
+			</para>
+		</note>
+
+		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_add_a_menu_block">
+			<title>How to add a menu block</title>
+			<para>
+				You can specify which menu the book should be showing in Drupal. If the specified menu block doesn't exist, Drupal will throw all the imported contents in the primary link. Therefore, if you wish to list your book in a menu block, make sure you create one before importing the book. To add a new menu block, simply login to your Drupal site and go to <guilabel>Administer -&gt; Menus -&gt; Add menu </guilabel>.
+			</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/drupal_add_menu.png" format="PNG" scalefit="1" width="870" />
+				</imageobject>
+			</mediaobject>
+			<itemizedlist>
+				<listitem>
+					<para>
+						Menu name - The unique name for the menu. This is the value that you should set for the <parameter>drupal_menu_block</parameter> parameter in <filename>publican.cfg</filename>.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Title - The title of the menu. It will be displayed on top of the menu block.
+					</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+
+		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-Setting_up_Node_import">
+			<title>Setting up Node import</title>
+
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/drupal_node_import_settings.png" format="PNG" scalefit="1" width="870" />
+				</imageobject>
+			</mediaobject>
+			<itemizedlist>
+				<listitem>
+					<para>
+						<guilabel>Import directory</guilabel> - Where the CSV files to be imported are stored. The default path is <filename>sites/default/files/imports/</filename> .
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<guilabel>FTP settings</guilabel>
+					</para>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<guilabel>Allow FTP uploads</guilabel> - Make sure the checkbox is checked, so that the new CSV file can be auto-detected when it is uploaded into the <filename>import directory</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<guilabel>File owner</guilabel> - The CSV file that you uploaded to the <filename>import directory</filename> will be assigned ownership to this user.
+							</para>
+							<important>
+								<title>Important — File Ownership</title>
+								<para>
+							Users will only be allowed to use files they have uploaded themselves and files owned by anonymous. If you leave this field blank, all files uploaded by FTP will be owned by anonymous and so all users will see those files as being available for them. If you enter a username here, files that are uploaded using FTP will be owned by that user and only that user will be able to see those uploaded files. It is recommended to leave this field blank.
+								</para>
+							</important>
+						</listitem>
+					</itemizedlist>
+				</listitem>
+				<listitem>
+					<para>
+						<guilabel>Allowed extensions</guilabel> - The allowed import file's extension. Other extensions will be ignore by the module.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<guilabel>Default settings</guilabel>
+					</para>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<guilabel>Content type</guilabel> - The default content type that will be used for quick import. Make sure the <parameter>Book Page content type</parameter> is checked.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<guilabel>First row contains column names</guilabel> - This tells the node import module that the first row of the csv file is the headers.
+							</para>
+						</listitem>
+					</itemizedlist>
+				</listitem>
+			</itemizedlist>
+		</section>
+
+		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book">
+			<title>How to import book</title>
+			<procedure id="proc-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book">
+				<title>To import book into Drupal:</title>
+				<step>
+					<para>
+						Follow the steps in <xref linkend="sect-Users_Guide-Import_book_into_Drupal-How_to_build_a_CSV_file" />
+					</para>
+				</step>
+				<step>
+					<para>
+						Upload the CSV file to <filename>import Directory</filename> in the Drupal Server
+					</para>
+				</step>
+				<step>
+					<para>
+						Upload <filename>en-US</filename> directory to the <filename>"sites/default/files/"</filename> directory in the Drupal server. This value can be overriden in the <filename>publican.cfg</filename>. For more details, please read <xref linkend="sect-Users_Guide-Import_book_into_Drupal-The_publican_cfg_file" />
+					</para>
+				</step>
+				<step>
+					<para>
+						Login to the Drupal website, and go to <guilabel>Administer -&gt; Content management -&gt; Import content</guilabel>. You will see the CSV file that you just uploaded is showing in the 'Pending Tasks" table and it is ready to import.
+					</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/drupal_import_task.png" format="PNG" scalefit="1" width="870" />
+						</imageobject>
+					</mediaobject>
+				</step>
+				<step>
+					<para>
+						Click <guibutton>Import now</guibutton> to start importing book. You will be redirect to the next page which is showing the import progress. When the progress bar hit 100%, that means the import is done!
+					</para>
+					<mediaobject>
+						<imageobject>
+								<imagedata fileref="images/drupal_import_progress.png" format="PNG" scalefit="1" width="870" />
+						</imageobject>
+					</mediaobject>
+				</step>
+				<step>
+					<para>
+						The book link should be showing in the specified menu block now.
+					</para>
+					<mediaobject>
+						<imageobject>
+								<imagedata fileref="images/drupal_book.png" format="PNG" scalefit="1" />
+						</imageobject>
+					</mediaobject>
+				</step>
+			</procedure>
+		</section>
+		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_update_book">
+			<title>How to update book</title>
+			<para>
+				Simply repeat the steps in <xref linkend="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book" /> to update the book.
+			</para>
+		</section>
+	</section>
+</chapter>
