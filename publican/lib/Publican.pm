@@ -374,7 +374,7 @@ my %PARAMS = (
     },
     drupal_menu_block => {
         descr   => maketext('The menu where we can find the book. The default value is menu-user-guide'),
-        default => 'menu-user-guide',
+        default => 'user-guide',
     },
     drupal_image_path => {
         descr   => maketext('The directory where the image should be stored in drupal server. The default is "sites/default/files/"'),

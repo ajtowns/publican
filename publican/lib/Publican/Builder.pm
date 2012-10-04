@@ -1657,6 +1657,7 @@ sub get_nodes_order {
     my $node         = delete( $args->{node} )         || undef;
     my $section_maps = delete( $args->{section_maps} ) || {};
     my $all_nodes    = delete( $args->{all_nodes} )    || {};
+    my $check_dups   = delete( $args->{check_dups} )   || {};
 
     my %order;
     my @node_list;
@@ -1692,13 +1693,22 @@ sub get_nodes_order {
                 $order{$count}{'type'} = $cnode->nodeName();
                 $section_maps->{$value} = $unique_id || $value;
 
+                croak(
+                    maketext(
+                        "Duplicate conformance value in section $value which value = $unique_id."
+                    )
+                ) if ( defined $check_dups->{$unique_id} );
+
+                $check_dups->{$unique_id} = 1;
+
 #|| croak ( maketext("missing 'conformance' attribute in $order{$count}{type} where id is $value") );
                 $all_nodes->{$value} = 1;
                 my $child_nodes = $self->get_nodes_order(
                     {   source       => $source,
                         node         => $cnode,
                         section_maps => $section_maps,
-                        all_nodes    => $all_nodes
+                        all_nodes    => $all_nodes,
+                        check_dups   => $check_dups,
                     }
                 );
                 $order{$count}{'childs'} = $child_nodes
@@ -1741,6 +1751,8 @@ sub build_drupal_book {
     my $book_title = $self->{publican}->param('drupal_menu_title');
     my $menu_block = $self->{publican}->param('drupal_menu_block');
     my $img_path   = $self->{publican}->param('drupal_image_path');
+
+    $menu_block = ($menu_block) ? "menu-$menu_block" : "";
 
     my $bookname     = "$product-$version-$docname-$lang";
     my $drupal_dir   = "$tmp_dir/$lang/drupal-book";
