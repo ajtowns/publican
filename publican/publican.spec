@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.1
-Release:        0%{?dist}.t6
+Release:        0%{?dist}.t7
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
