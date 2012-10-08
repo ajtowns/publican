@@ -1693,13 +1693,16 @@ sub get_nodes_order {
                 $order{$count}{'type'} = $cnode->nodeName();
                 $section_maps->{$value} = $unique_id || $value;
 
-                croak(
-                    maketext(
-                        "Duplicate conformance value in section $value which value = $unique_id."
-                    )
-                ) if ( defined $check_dups->{$unique_id} );
+                if ( defined $unique_id ) {
 
-                $check_dups->{$unique_id} = 1;
+                    croak(
+                        maketext(
+                            "Duplicate conformance value in section $value which value = $unique_id."
+                        )
+                    ) if ( defined $check_dups->{$unique_id} );
+
+                    $check_dups->{$unique_id} = 1;
+                }
 
 #|| croak ( maketext("missing 'conformance' attribute in $order{$count}{type} where id is $value") );
                 $all_nodes->{$value} = 1;
