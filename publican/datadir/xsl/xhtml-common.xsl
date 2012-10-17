@@ -2861,6 +2861,9 @@ valign: <xsl:value-of select="@valign"/></xsl:message>
     </xsl:if>
     <xsl:if test="$generate.id.attributes != 0 and not(local-name(.) = 'appendix')">
       <!--xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute-->
+      <xsl:if test="(self::title and substring($id,1,2) = 'id')">
+        <xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
+      </xsl:if>
     </xsl:if>
     <xsl:copy-of select="$title"/>
   </xsl:element>

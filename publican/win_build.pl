@@ -52,7 +52,7 @@ system(qq{perl -CA -I $lib $publican clean --common_config="$common_config" --co
 system(qq{perl -CA -I $lib $publican build --publish --formats=html-desktop --langs=en-US --common_config="$common_config" --common_content="$common_content"});
 $dir = undef;
 
-my $brand_path = 'C:\publican\trunk';
+my $brand_path = 'C:\Users\jfearn\publican';#'C:\publican\trunk';
 
 foreach my $brand (@brands) {
 	print("\nPreparing $brand\n");

@@ -27,7 +27,7 @@ my $publican = Publican->new(
 my $builder = Publican::Builder->new();
 isa_ok( $builder, 'Publican::Builder', 'creating a Publican::Builder' );
 
-eval { $builder->build( { formats => "html,pdf", langs => "en-US" } ) };
+eval { $builder->build( { formats => "html,pdf,drupal-book", langs => "en-US" } ) };
 my $e = $@;
 ok( ( not $e ), "build a book" );
 diag($e) if $e;

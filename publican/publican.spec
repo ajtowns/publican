@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.1
-Release:        0%{?dist}.t7
+Release:        0%{?dist}.t9
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -247,6 +247,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 17 2012 Hao Chang Yu <hyu@redhat.com> 3.1-1
+- drupal 6 support
+
 * Thu Dec 09 2010 Jeff Fearn <jfearn@redhat.com> 3.0-1
 - new upstream package.
 
