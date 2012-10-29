@@ -160,7 +160,7 @@ Requires:       publican
 Website style for common brand.
 
 %prep
-%setup -q -n Publican-%{version}
+%setup -q -n Publican-v%{version}
 
 %build
 %{__perl} Build.PL installdirs=vendor --nocolours=1
