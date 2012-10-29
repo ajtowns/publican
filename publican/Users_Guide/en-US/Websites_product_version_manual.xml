@@ -3,8 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-
-<section  id="sect-Users_Guide-Website-structure-product-version-manual">
+<section conformance="229" id="sect-Users_Guide-Website-structure-product-version-manual">
 	<title>Creating, installing, and updating product pages and version pages</title>
 	<para>
 		<application>Publican</application>-generated product pages and version pages are the localizable pages that provide a general overview of a product or version respectively. Visitors access these pages by clicking on a product or version in the navigation menu. The pages are structured as DocBook <sgmltag>&lt;article&gt;</sgmltag>s with an extra <parameter>web_type:&nbsp;product</parameter> or <parameter>web_type:&nbsp;version</parameter> parameter in their <filename>publican.cfg</filename> files. In their structure and presentation, product pages and version pages are the same as any other article that you produce with <application>Publican</application>. To create a product page or version page:

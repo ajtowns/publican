@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<section id="sect-Users_Guide-Building_a_document">
+<section conformance="123" id="sect-Users_Guide-Building_a_document">
 	<title>Building a document</title>
 	 <note>
 		<title>Note — Customizing output</title>
@@ -57,7 +57,7 @@
 
 	</procedure>
 	
-	 <variablelist id="vari-Users_Guide-Building_a_document-Formats_for_the_build_action">
+	 <variablelist conformance="124" id="vari-Users_Guide-Building_a_document-Formats_for_the_build_action">
 		<title>Formats for the <command>build</command> action</title>
 		 <varlistentry>
 			<term><option>html</option></term>
@@ -221,7 +221,7 @@
 
 	</variablelist>
 	
-	<section id="sect-Users_Guide-Building_a_document-Building_without_validation">
+	<section conformance="125" id="sect-Users_Guide-Building_a_document-Building_without_validation">
 		<title>Building a document without validation</title>
 		<para>
 			<application>Publican</application> validates your XML against the DocBook <firstterm>document type definition</firstterm> (DTD) before it builds the content. However, while a document is under development, you might sometimes want to skip validation while building, especially if the document contains cross-references (<sgmltag>&lt;xref&gt;</sgmltag>s) to sections of the document that do not yet exist. To skip validation, run <command>publican build</command> with the <option>--novalid</option> option. Cross-references to non-existent content appear in the built document as three question marks: <literal>???</literal>.
@@ -231,5 +231,3 @@
 		</para>
 	</section>
 </section>
-
-

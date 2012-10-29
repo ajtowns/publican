@@ -3,19 +3,18 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-
-<section id="sect-Users_Guide-Adding_code_samples">
+<section conformance="117" id="sect-Users_Guide-Adding_code_samples">
 	<title>Adding code samples</title>
 	<para>
 		If your book contains code samples, place them in a directory named <filename>extras/</filename> in your source language directory and use an <sgmltag>&lt;xi:include&gt;</sgmltag> to pull the code file into the XML structure of your document. <application>Publican</application> does not parse any files that it finds in the <filename>extras/</filename> directory as XML. 
 	</para>
 	<para>
-		Certain characters are reserved in XML, in particular, <literal>&amp;</literal> and <literal>&lt;</literal>. If you insert code samples directly into the XML of your document, you must escape these characters, either by marking them as <literal>CDATA</literal> or by replacing them with entities (&amp;amp&semi; and &amp;lt&semi; respectively).<footnote><para>Refer to section 2.4 "Character Data and Markup" in the XML&nbsp;1.0 standard, available from <ulink url="http://www.w3.org/TR/2008/REC-xml-20081126/"/>.</para></footnote> If you place these files in the <filename>extras/</filename> directory, you do not need to escape these characters. This approach saves time, reduces the chances of introducing errors into either the document XML or the code itself, and makes future maintenance of the document and the code easier. 
+		Certain characters are reserved in XML, in particular, <literal>&amp;</literal> and <literal>&lt;</literal>. If you insert code samples directly into the XML of your document, you must escape these characters, either by marking them as <literal>CDATA</literal> or by replacing them with entities (&amp;amp&semi; and &amp;lt&semi; respectively).<footnote><para>Refer to section 2.4 "Character Data and Markup" in the XML&nbsp;1.0 standard, available from <ulink url="http://www.w3.org/TR/2008/REC-xml-20081126/" />.</para></footnote> If you place these files in the <filename>extras/</filename> directory, you do not need to escape these characters. This approach saves time, reduces the chances of introducing errors into either the document XML or the code itself, and makes future maintenance of the document and the code easier. 
 	</para>
 	<para>
 		To include a code sample from the <filename>extras/</filename> directory in your document, follow this procedure: 
 	</para>
-	<procedure id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
+	<procedure conformance="118" id="proc-Users_Guide-Frequently_Asked_Questions-Including_code_samples">
 		<step>
 		      <para>
 			      Create the extras directory
@@ -75,5 +74,3 @@
 		Note the <sgmltag>&lt;area&gt;</sgmltag> elements that define the position of the callouts that will appear on the code sample. The <literal>coords</literal> attributes specify a line number and a column number separated by a space. In this example, callouts are applied to lines 4 and 12 of the code, lined up with each other in column 75. Although this approach means that you might have to adjust <literal>coords</literal> attributes if you ever modify the code to which they apply, it avoids mixing XML <sgmltag>&lt;coords&gt;</sgmltag> tags into the code itself. 
 	</para>
 </section>
-
-

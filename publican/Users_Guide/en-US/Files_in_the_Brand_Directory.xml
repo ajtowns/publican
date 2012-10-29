@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<section id="sect-Users_Guide-Files_in_the_brand_directory">
+<section conformance="168" id="sect-Users_Guide-Files_in_the_brand_directory">
 	<title>Files in the brand directory</title>
 	 <para>
 		Running the <command>publican create_brand --name=<replaceable>brand</replaceable> --lang=<replaceable>language_code</replaceable></command> command creates a directory structure and the required files. The brand directory initially contains: 
@@ -90,7 +90,7 @@
 		</itemizedlist>
 
 	</para>
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_publican.cfg_file">
+	 <section conformance="169" id="sect-Users_Guide-Files_in_the_brand_directory-The_publican.cfg_file">
 		<title>The publican.cfg file</title>
 		 <para>
 			The <filename>publican.cfg</filename> file in a brand serves a similar purpose to the <filename>publican.cfg</filename> file in a document — it configures a number of basic options that define your brand.
@@ -184,7 +184,7 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_defaults.cfg_file_and_overrides.cfg_file">
+	 <section conformance="170" id="sect-Users_Guide-Files_in_the_brand_directory-The_defaults.cfg_file_and_overrides.cfg_file">
 		<title>The defaults.cfg file and overrides.cfg file</title>
 		 <para>
 			Every document built in <application>Publican</application> has a <filename>publican.cfg</filename> file in its root directory, which configures build options for the document. Refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" /> for a full description of these options. The <filename>defaults.cfg</filename> file and <filename>overrides.cfg</filename> file in a brand supply default values for any of the parameters that you can otherwise set with a document's <filename>publican.cfg</filename> file.
@@ -203,7 +203,7 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-publican_brand.spec_file">
+	 <section conformance="171" id="sect-Users_Guide-Files_in_the_brand_directory-publican_brand.spec_file">
 		<title>publican-<replaceable>brand</replaceable>.spec file</title>
 		 <para>
 			Some Linux operating systems use the <application>RPM Package Manager</application> to distribute software, in the form of <firstterm>RPM packages</firstterm>. In general terms, an RPM package contains software files compressed into an archive, accompanied by a <firstterm>spec file</firstterm> that tells the <application>RPM Package Manager</application> how and where to install those files.
@@ -214,7 +214,7 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-README">
+	 <section conformance="172" id="sect-Users_Guide-Files_in_the_brand_directory-README">
 		<title>README</title>
 		 <para>
 			The <filename>README</filename> file contains a brief description of the brand package.
@@ -222,7 +222,7 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-COPYING">
+	 <section conformance="173" id="sect-Users_Guide-Files_in_the_brand_directory-COPYING">
 		<title>COPYING</title>
 		 <para>
 			The <filename>COPYING</filename> file contains details of the copyright license for the package and perhaps the text of the license itself.
@@ -230,12 +230,12 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-Common_Content_for_the_brand">
+	 <section conformance="174" id="sect-Users_Guide-Files_in_the_brand_directory-Common_Content_for_the_brand">
 		<title>Common Content for the brand</title>
 		 <para>
 			Inside the brand directory is a subdirectory named after the default XML language for brand, as set with the <option>--lang</option> option when you created the brand. This subdirectory contains XML and image files that override the default Common Content provided with <application>Publican</application>. Customizing these files provides your brand with its distinctive appearance, including its color scheme and logos.
 		</para>
-		 <section id="sect-Users_Guide-Common_Content_for_the_brand-Feedback.xml">
+		 <section conformance="175" id="sect-Users_Guide-Common_Content_for_the_brand-Feedback.xml">
 			<title><filename>Feedback.xml</filename></title>
 			 <para>
 				The <filename>Feedback.xml</filename> file is included by default in the preface of every book produced in <application>Publican</application>. It invites readers to leave feedback about the document. Customize this file with the contact details of your project. If your project uses a bug tracking system such as <application>Bugzilla</application>, <application>JIRA</application>, or <application>Trac</application>, you could include this information here.
@@ -243,7 +243,7 @@
 
 		</section>
 		
-		 <section id="sect-Users_Guide-Common_Content_for_the_brand-Legal_Notice.xml">
+		 <section conformance="176" id="sect-Users_Guide-Common_Content_for_the_brand-Legal_Notice.xml">
 			<title><filename>Legal_Notice.xml</filename></title>
 			 <para>
 				The <filename>Legal_Notice.xml</filename> file contains the legal notice that appears at the beginning of every document produced by <application>Publican</application>. Insert the details of your chosen copyright license into this file. Typically, this might include the name of the license, a short summary of the license, and a link to the full details of the license.
@@ -254,12 +254,12 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_css_subdirectory">
+	 <section conformance="177" id="sect-Users_Guide-Files_in_the_brand_directory-The_css_subdirectory">
 		<title>The <filename>css</filename> subdirectory</title>
 		 <para>
 			The <filename>css</filename> subdirectory contains a single file: <filename>overrides.css</filename>.
 		</para>
-		 <section id="sect-Users_Guide-The_css_subdirectory-overrides.css">
+		 <section conformance="178" id="sect-Users_Guide-The_css_subdirectory-overrides.css">
 			<title>overrides.css</title>
 			 <para>
 				The <filename>overrides.css</filename> file sets the visual style for your brand. Values in this file override those in <application>Publican</application>'s <filename>Common_Content/common/<replaceable>xml_lang</replaceable>/css/common.css</filename> file.
@@ -270,7 +270,7 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_images_subdirectory">
+	 <section conformance="179" id="sect-Users_Guide-Files_in_the_brand_directory-The_images_subdirectory">
 		<title>The <filename>images</filename> subdirectory</title>
 		 <para>
 			The <filename>images</filename> subdirectory contains 43 images in both <firstterm>portable network graphics</firstterm> (PNG) and <firstterm>scalable vector graphics</firstterm> (SVG) format. These images are placeholders for various navigation icons, admonition graphics, and brand logos. They include:
@@ -367,7 +367,7 @@
 
 	</section>
 	
-	 <section id="sect-Users_Guide-Files_in_the_brand_directory-The_brand_dir_option">
+	 <section conformance="180" id="sect-Users_Guide-Files_in_the_brand_directory-The_brand_dir_option">
 		<title>The brand_dir option</title>
 		<para>The <application>Publican</application> build option brand_dir allows you to specify the location of brand files. These files do not have to be part of an installed brand.</para>
 
@@ -383,5 +383,3 @@ DocBook project ships).</para>
 	</section>
 
 </section>
-
-

@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<preface id="pref-Users_Guide-Introduction">
+<preface conformance="190" id="pref-Users_Guide-Introduction">
 	<title>Introduction</title>
 	 <indexterm>
 		<primary>Introduction 1</primary>
@@ -21,7 +21,7 @@
 	 <para>
 		<application>Publican</application> began life as an internal tool used by Red Hat's Documentation Group (now known as Engineering Content Services). On occasion, this legacy is visible.
 	</para>
-	 <formalpara id="form-Users_Guide-Introduction-Design">
+	 <formalpara conformance="191" id="form-Users_Guide-Introduction-Design">
 		<title>Design</title>
 		 <para>
 			<application>Publican</application> is a publication system, not just a DocBook processing tool. As well as ensuring your DocBook XML is valid, <application>Publican</application> works to ensure your XML is up to publishable standard.
@@ -40,8 +40,8 @@
 	 <para>
 		Entities also present an essentially insurmountable obstacle to quality translation (refer to <xref linkend="sect-Users_Guide-Entities_and_translation" />). Consequently, while we are not reducing the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file's functionality, we are no longer considering requests to add functionality or features associated with entity use. 
 	</para>
-<!--  https://bugzilla.redhat.com/show_bug.cgi?id=604255  -->
-<!-- example>
+<!--   https://bugzilla.redhat.com/show_bug.cgi?id=604255   -->
+<!--  example>
   <title>"Hello world!" in C++</title>
   <programlisting language="C++"><![CDATA[
 #include <qpid/messaging/Connection.h>
@@ -111,7 +111,7 @@ efficient than acknowledging messages individually.</para>
 all senders and receivers managed by each session.</para>
     </callout>
   </calloutlist>
-</example --> <!-- programlistingco>
+</example  --> <!--  programlistingco>
     <areaspec>
  <area id="index1" coords="2 65"/>
  <area id="index2" coords="3 11"/>
@@ -136,8 +136,8 @@ array.
      </para>
  </callout>
     </calloutlist>
-</programlistingco --> 
-<!--
+</programlistingco  --> 
+<!-- 
 <para>
 <equation>
 <title>My MathML example</title>
@@ -151,6 +151,5 @@ array.
 </mml:math>
 </equation>
 </para>
--->
+ -->
 </preface>
-

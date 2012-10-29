@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<section id="sect-Users_Guide-Entities_and_translation">
+<section conformance="154" id="sect-Users_Guide-Entities_and_translation">
 	<title>Entities and translation</title>
 	 <warning>
 		<title>Use entities with extreme caution</title>
@@ -134,7 +134,7 @@ msgstr "Jedoch ergibt ein sorgfältiges Lesen des Nachworts für &lt;citetitle&g
 	 <para>
 		For example, if you write a document that could apply to more than one product, you might be tempted to set an entity such as <sgmltag>&amp;PRODUCT&semi;</sgmltag>. The advantage of this approach is that by simply changing this value in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file, you could easily adjust the book to document (for example) Red Hat Enterprise Linux, Fedora, or CentOS. However, while the proper noun <literal>Fedora</literal> never varies in English, it has multiple forms in other languages. For example, in Czech the name <literal>Fedora</literal> has six different forms, depending on one of seven ways in which you can use it in a sentence:
 	</para>
-	 <table frame="all" id="tabl-Users_Guide-Entities_and_translation-Fedora_in_Czech">
+	 <table conformance="155" frame="all" id="tabl-Users_Guide-Entities_and_translation-Fedora_in_Czech">
 		<title>'Fedora' in Czech</title>
 		 <tgroup align="left" cols="3" colsep="1" rowsep="1">
 			<colspec colname="c1"></colspec>
@@ -304,5 +304,3 @@ msgstr "Jedoch ergibt ein sorgfältiges Lesen des Nachworts für &lt;citetitle&g
 		Now multiply such problems by the more than 40 languages that <application>Publican</application> currently supports. Other than the few non-translated strings that <application>Publican</application> specifies by default in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file, entities might prove useful for version numbers of products. Beyond that, the use of entities is tantamount to a conscious effort to inhibit and reduce the quality of translations. Furthermore, readers of your document in a language that inflects nouns (whether for case, definiteness, or other reasons) will not know that the bad grammar is the result of XML entities that you set — they will probably assume that the translator is incompetent.
 	</para>
 </section>
-
-

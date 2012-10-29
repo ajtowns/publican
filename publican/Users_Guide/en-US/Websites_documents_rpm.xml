@@ -3,8 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-
-<section  id="sect-Users_Guide-Website-structure-documents-rpm">
+<section conformance="226" id="sect-Users_Guide-Website-structure-documents-rpm">
 	<title>Installing, updating and removing documents</title>
 	<para>
 		On your workstation, change into the directory that contains the source for the document and run: 
@@ -23,6 +22,6 @@
 		Remove a document from the webserver with the <command>rpm -e</command> or <command>yum erase</command> command.
 	</para>
 	<para>
-		On large or busy sites, we recommend that you set the <parameter>manual_toc_update</parameter> parameter in the site's configuration file. With this parameter set, you must run the <command>publican update_site</command> command after installing, updating, or removing documents. Refer to <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-manual"/> for more information. 
+		On large or busy sites, we recommend that you set the <parameter>manual_toc_update</parameter> parameter in the site's configuration file. With this parameter set, you must run the <command>publican update_site</command> command after installing, updating, or removing documents. Refer to <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-manual" /> for more information. 
 	</para>
 </section>

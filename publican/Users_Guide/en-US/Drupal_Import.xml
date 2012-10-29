@@ -3,12 +3,12 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-Users_Guide-Import_book_into_Drupal">
+<chapter conformance="144" id="chap-Users_Guide-Import_book_into_Drupal">
 	<title>Import book into Drupal</title>
 	<para>
 		<application>Publican 3.1</application> has a new functionality which allow user to create and import a book into Drupal. All xml files in a book are transformed into a single CSV file which will later be used to import into Drupal.
 	</para>
-	<section id="sect-Users_Guide-Import_book_into_Drupal-How_to_build_a_CSV_file">
+	<section conformance="145" id="sect-Users_Guide-Import_book_into_Drupal-How_to_build_a_CSV_file">
 		<title>How to build a CSV file for Drupal import</title>
 		<para>
 			The CSV File consists of information that tells Drupal how to import the book. Each row in the CSV file represents a html page.
@@ -49,7 +49,7 @@
 				</para>
 		</important>
 	</section>
-	<section id="sect-Users_Guide-Import_book_into_Drupal-The_publican_cfg_file">
+	<section conformance="146" id="sect-Users_Guide-Import_book_into_Drupal-The_publican_cfg_file">
 		<title>The publican.cfg file</title>
 		<para>
 			Below are some parameters that can be configure in the publican.cfg file for Drupal import:
@@ -104,7 +104,7 @@
 		</variablelist>
 	</section>
 
-	<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide">
+	<section conformance="147" id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide">
 		<title>Drupal Import Guide</title>
 		<para>
 			Before you can import a book, you need to install a module call <application>'Node Import'</application> in Drupal. This module allows Drupal to import and update content from CSV or TSV files. To install this module, simply go to <ulink url="http://drupal.org/sandbox/hyu/1819292">drupal site</ulink> and follow the instructions on the website to download it. Once this is done, then you need to copy the downloaded module to the 'modules' directory on the Drupal server. For example if your Drupal is located in <filename>/var/www/html/drupal/</filename> directory, then you should copy the module to <filename>/var/www/html/drupal/sites/all/modules/</filename> directory. To enable the installed module, login to the Drupal site and go to <guilabel>Administer -&gt; Site building -&gt; Modules </guilabel>. In the Development section, tick the <guibutton>checkbox</guibutton> and click <guibutton>Save configuration</guibutton> button to activate the <application>Node Import</application> Module.
@@ -146,7 +146,7 @@
 			</para>
 		</note>
 
-		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_add_a_menu_block">
+		<section conformance="148" id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_add_a_menu_block">
 			<title>How to add a menu block</title>
 			<para>
 				You can specify which menu the book should be showing in Drupal. If the specified menu block doesn't exist, Drupal will throw all the imported contents in the primary link. Therefore, if you wish to list your book in a menu block, make sure you create one before importing the book. To add a new menu block, simply login to your Drupal site and go to <guilabel>Administer -&gt; Menus -&gt; Add menu </guilabel>.
@@ -170,7 +170,7 @@
 			</itemizedlist>
 		</section>
 
-		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-Setting_up_Node_import">
+		<section conformance="149" id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-Setting_up_Node_import">
 			<title>Setting up Node import</title>
 
 			<mediaobject>
@@ -232,9 +232,9 @@
 			</itemizedlist>
 		</section>
 
-		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book">
+		<section conformance="150" id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book">
 			<title>How to import book</title>
-			<procedure id="proc-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book">
+			<procedure conformance="151" id="proc-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book">
 				<title>To import book into Drupal:</title>
 				<step>
 					<para>
@@ -283,7 +283,7 @@
 				</step>
 			</procedure>
 		</section>
-		<section id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_update_book">
+		<section conformance="152" id="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_update_book">
 			<title>How to update book</title>
 			<para>
 				Simply repeat the steps in <xref linkend="sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book" /> to update the book.

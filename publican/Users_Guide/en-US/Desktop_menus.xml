@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<section id="desktop_menus">
+<section conformance="134" id="desktop_menus">
 	<title>Desktop menu entries for documents</title>
 	<para>
 	  By default, RPM packages of <application>Publican</application> documents for desktop use appear on the GNOME desktop under the <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice> menu. When users have large numbers of documents installed on their systems, this menu becomes very cluttered and difficult to navigate. Documentation for many different products and perhaps different languages becomes intermixed, adding to the confusion.
@@ -26,7 +26,7 @@
 	 <para>
 	   Note that the <guimenu>Documentation</guimenu> menu does not group entries under a submenu until two or more documents are installed that belong on that submenu. The first document appears under <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice>.
 	 </para>
-	 <section id="menu_package">
+	 <section conformance="135" id="menu_package">
 	   <title>Creating an desktop menu package</title>
 	   <para>A desktop menu package consists of:</para>
 	   <itemizedlist>
@@ -84,13 +84,13 @@
 	   <example><title>Example .directory file</title><para>
 	     The following file, <filename>menu-example.directory</filename> illustrates the structure of a desktop entry file.
 	   </para>
-<programlisting><xi:include parse="text" href="extras/menu-example.directory" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+<programlisting><xi:include href="extras/menu-example.directory" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
 </example>
 <para>
   The desktop entry file is placed in <filename>/usr/share/desktop-directories/</filename>
 </para>
 <para>
-  For a full description of how desktop entries work, refer to the <citetitle>Desktop Entry Specification</citetitle>, available from <ulink url="http://standards.freedesktop.org/entry-spec/latest/"/>
+  For a full description of how desktop entries work, refer to the <citetitle>Desktop Entry Specification</citetitle>, available from <ulink url="http://standards.freedesktop.org/entry-spec/latest/" />
 	   </para>
 	   <para>
 	     A desktop menu file is an XML file that contains:
@@ -142,15 +142,15 @@
 	   <example><title>Example .menu file</title><para>
 	     The following file, <filename>menu-example.menu</filename> illustrates the structure of a desktop menu file.
 	   </para>
-<programlisting><xi:include parse="text" href="extras/menu-example.menu" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting></example>
+<programlisting><xi:include href="extras/menu-example.menu" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting></example>
 <para>
   The desktop menu file is placed in <filename>/etc/xdg/menus/settings-merged/</filename>
 </para>
 <para>
-	     For a full description of how desktop menus work, refer to the <citetitle>Desktop Menu Specification</citetitle>, available from <ulink url="http://standards.freedesktop.org/desktop-menu-spec/latest/"/>
+	     For a full description of how desktop menus work, refer to the <citetitle>Desktop Menu Specification</citetitle>, available from <ulink url="http://standards.freedesktop.org/desktop-menu-spec/latest/" />
 	   </para>
 	 </section>
-	 <section id="menu_categories">
+	 <section conformance="136" id="menu_categories">
 	   <title>Setting a desktop menu category</title>
 	   <para>To place a document in a submenu of <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice>, set the <parameter>menu_category</parameter> parameter in its <filename>publican.cfg</filename> file to match the content of the <sgmltag>&lt;Includes&gt;</sgmltag> element in the corresponding desktop menu file. For example, consider a desktop menu file that contains the element:</para>
 <programlisting language="XML">&lt;Includes&gt;X-Example-Docs&lt;/Includes&gt;</programlisting>
@@ -170,4 +170,3 @@
 </para>
 	 </section>
 </section>
-

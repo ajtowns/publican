@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="chap-Users_Guide-Publican_Defaults">
+<chapter conformance="207" id="chap-Users_Guide-Publican_Defaults">
 	<title>Publican defaults</title>
 
 	<para>Users can set their own default values for <application>Publican</application> in <filename>~/.publican.cfg</filename>. Currently, <application>Publican</application> supports the following values:</para>
@@ -33,15 +33,15 @@
 		<para>This file is completely different to <filename>publican.cfg</filename> that is used to build a book. It does not accept the same parameters.</para>
 	</note>
 
-	<section id="chap-Users_Guide-Publican_Defaults-Examples">
+	<section conformance="208" id="chap-Users_Guide-Publican_Defaults-Examples">
 		<title>Publican default examples</title>
 			<para>Users can set <replaceable>formats</replaceable>, <replaceable>lang</replaceable>, and <replaceable>langs</replaceable> to their standard build parameters.</para>
 
 			<example>
 				<title>Setting formats and lang</title>
 <screen>
-$ echo 'formats: "html,html-single,pdf,txt"' >> ~/.publican.cfg
-$ echo 'langs: "en-US"' >> ~/.publican.cfg
+$ echo 'formats: "html,html-single,pdf,txt"' &gt;&gt; ~/.publican.cfg
+$ echo 'langs: "en-US"' &gt;&gt; ~/.publican.cfg
 $ publican build
 Setting up en-US
 [...]
@@ -54,9 +54,9 @@ Setting up en-US
 		<example>
 			<title>Setting user details</title>
 <screen>
-$ echo 'firstname: "Dude"' >> ~/.publican.cfg 
-$ echo 'surname: "McPants"' >> ~/.publican.cfg 
-$ echo 'email: "dude.mcpants@awesome.com"' >> ~/.publican.cfg 
+$ echo 'firstname: "Dude"' &gt;&gt; ~/.publican.cfg 
+$ echo 'surname: "McPants"' &gt;&gt; ~/.publican.cfg 
+$ echo 'email: "dude.mcpants@awesome.com"' &gt;&gt; ~/.publican.cfg 
 $ publican add_revision --member "Updated examples in chapter 2." \
 --member "Removed obsolete example in sect 4.1"
 </screen>
@@ -66,4 +66,3 @@ $ publican add_revision --member "Updated examples in chapter 2." \
 
 
 </chapter>
-
