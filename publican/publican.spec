@@ -15,14 +15,14 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.1
-Release:        0%{?dist}.t9
+Version:        3.0.0
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
 Group:          Applications/Publishing
 URL:            https://publican.fedorahosted.org
-Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.tar.gz
+Source0:        https://fedorahosted.org/released/publican/Publican-v%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -247,7 +247,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Oct 17 2012 Hao Chang Yu <hyu@redhat.com> 3.1-1
+* Wed Oct 17 2012 Hao Chang Yu <hyu@redhat.com> 3.0-0
 - drupal 6 support
 
 * Thu Dec 09 2010 Jeff Fearn <jfearn@redhat.com> 3.0-1
