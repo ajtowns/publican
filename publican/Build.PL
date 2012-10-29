@@ -300,6 +300,7 @@ my $builder = $class->new(
         'XML::LibXSLT'                           => 1.67,
         'XML::Simple'                            => 0,
         'XML::TreeBuilder'                       => 4.0,
+        'Text::CSV_XS'                           => 0,
     },
     requires => {
         'Archive::Tar'                           => 0,
@@ -345,6 +346,7 @@ my $builder = $class->new(
         'XML::LibXSLT'                           => 1.67,
         'XML::Simple'                            => 0,
         'XML::TreeBuilder'                       => 4.0,
+        'Text::CSV_XS'                           => 0,
     },
     add_to_cleanup => [
         'publican-*',                            'Publican-*',
