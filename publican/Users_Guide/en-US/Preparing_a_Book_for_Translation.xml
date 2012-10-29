@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<section id="sect-Users_Guide-Preparing_a_document_for_translation">
+<section conformance="202" id="sect-Users_Guide-Preparing_a_document_for_translation">
 	<title>Preparing a document for translation</title>
 	 <para>
 		Support for localization of documents was a key consideration in the design of <application>Publican</application>. The general translation workflow for documents developed in <application>Publican</application> is as follows:
@@ -108,12 +108,10 @@
 
 	</procedure>
 
-	<section id="sect-Users_Guide-Translation_Author_Group">
+	<section conformance="203" id="sect-Users_Guide-Translation_Author_Group">
 		<title>Translation Author Group</title>
 		<para>Translation takes place after a book has been finalized. You do not need to know who will translate your book in order to give them credit. Create <filename>$translation/Author_Group.xml</filename> and add a valid DocBook authorgroup. The translator can add their details to this file and <application>Publican</application> will append it to <filename>$source_lang/Author_Group.xml</filename> when the book is build. This allows authors to finalize the original text without needing to know who will translate the book.</para>
 
 	</section>
 
 </section>
-
-

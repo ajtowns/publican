@@ -3,7 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-<chapter id="sect-Users_Guide-Website">
+<chapter conformance="217" id="sect-Users_Guide-Website">
 	<title>Building a website with Publican</title>
 	<para>
 		<application>Publican</application> not only builds documents for publication but can build and manage a documentation website as well. For a suite of documents that you maintain by yourself, you can use <application>Publican</application> to build a site on your local system; you can then upload the site to a webserver by whatever means you choose. This approach does not scale well, however, so for team-based documentation projects, <application>Publican</application> can generate RPM packages of documentation to install on the webserver. To install <application>Publican</application>-generated RPM packages on a webserver, <application>Publican</application> (version 2.1 or higher) and <application>rpm</application> must be installed on the server. If you build and maintain the website on a workstation and upload it to a webserver for publication,  <application>Publican</application> and <application>rpm</application> do not need to be installed on the webserver.
@@ -44,7 +44,7 @@
 				</listitem>
 				<listitem>
 					<para>
-						<filename>Sitemap</filename> — A Sitemap is a list of the URLs from your website and metadata about them, like update history, change frequency, and importance relative to other URLs in the site. A Sitemap can be supplied to many major search engines, where it is used to help their crawlers index your site more intelligently. A Sitemap does not guarantee that your site will be ranked higher in search results. However, it does help search engines to return the most relevant results from your website in response to user queries. For more information on Sitemaps, visit  <ulink url ="http://www.sitemaps.org/">sitemaps.org</ulink>. 
+						<filename>Sitemap</filename> — A Sitemap is a list of the URLs from your website and metadata about them, like update history, change frequency, and importance relative to other URLs in the site. A Sitemap can be supplied to many major search engines, where it is used to help their crawlers index your site more intelligently. A Sitemap does not guarantee that your site will be ranked higher in search results. However, it does help search engines to return the most relevant results from your website in response to user queries. For more information on Sitemaps, visit  <ulink url="http://www.sitemaps.org/">sitemaps.org</ulink>. 
 					</para>
 				</listitem>
 				<listitem>
@@ -88,10 +88,10 @@
 		</listitem>
 	</itemizedlist>
 	<para>
-		Optionally, the site structure might also include a <firstterm>dump file</firstterm> — an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The site structure might also contain a zipped version of the dump file. Refer to <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-manual"/> and <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-rpm"/> for details of creating a dump file, and to <xref linkend="dump_file"/> for a description of the dump file contents.
+		Optionally, the site structure might also include a <firstterm>dump file</firstterm> — an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The site structure might also contain a zipped version of the dump file. Refer to <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-manual" /> and <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-rpm" /> for details of creating a dump file, and to <xref linkend="dump_file" /> for a description of the dump file contents.
 	</para>
 	
-	<section id="sect-Users_Guide-Website-manual">
+	<section conformance="218" id="sect-Users_Guide-Website-manual">
 		<title>Building a website manually</title>
 		
 		<xi:include href="Websites_structure_manual.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -104,7 +104,7 @@
 		
 	</section>
 	
-	<section id="sect-Users_Guide-Website-rpm">
+	<section conformance="219" id="sect-Users_Guide-Website-rpm">
 		<title>Building a website using RPM packages</title>
 		
 		<xi:include href="Websites_structure_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -115,23 +115,23 @@
 		
 		<xi:include href="Websites_documents_rpm.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	      </section>
-		<section id="sect-Users_Guide-Sitemap_Submission">
+		<section conformance="220" id="sect-Users_Guide-Sitemap_Submission">
 		<title>Submitting Your Sitemap to Search Engines</title>
 		<para>
 		  A Publican website includes an XML Sitemap file. The Sitemap can be submitted to many major search engines, in order to help them index your website more intelligently and thoroughly. Each search engine has its own submission procedure. This section includes documentation on how to submit a Sitemap to Google and Bing. 
 		</para>
-		<section id="sect-Users_Guide-Sitemap_Submission-Google">
+		<section conformance="221" id="sect-Users_Guide-Sitemap_Submission-Google">
 		<title>Submitting Your Sitemap to Google.</title>
-		<procedure id = "proc-Users_Guide-Sitemap_Submission-Google">
+		<procedure conformance="222" id="proc-Users_Guide-Sitemap_Submission-Google">
 		  <title>To Submit Your Sitemap to Google:</title>
 		  <step>
 		    <para>
-		      Sign up for a Google account at <ulink url ="http://www.google.com/webmasters/tools/home">Google Webmaster Tools</ulink>. If you already have a Google account, you can use it.
+		      Sign up for a Google account at <ulink url="http://www.google.com/webmasters/tools/home">Google Webmaster Tools</ulink>. If you already have a Google account, you can use it.
 		    </para>
 		  </step>
 		  <step>
 		    <para>
-		      Sign in to your Google Webmaster Tools account at this URL: <ulink url ="http://www.google.com/webmasters/tools/home">http://www.google.com/webmasters/tools/home</ulink>. 
+		      Sign in to your Google Webmaster Tools account at this URL: <ulink url="http://www.google.com/webmasters/tools/home">http://www.google.com/webmasters/tools/home</ulink>. 
 		    </para>
 		  </step>
 		  <step>
@@ -184,18 +184,18 @@
 		  </step>
 		</procedure>	
 	      </section>
-	      <section id="sect-Users_Guide-Sitemap_Submission-Bing">
+	      <section conformance="223" id="sect-Users_Guide-Sitemap_Submission-Bing">
 		<title>Submitting Your Sitemap to Bing.</title>
-		<procedure id = "proc-Users_Guide-Sitemap_Submission-Bing">
+		<procedure conformance="224" id="proc-Users_Guide-Sitemap_Submission-Bing">
 		  <title>To Submit Your Sitemap to Bing:</title>
 		  <step>
 		    <para>
-		      Sign up for a Bing Webmaster Tools account at <ulink url ="http://www.bing.com/toolbox/webmaster/">Bing Webmaster Tools</ulink>. If you already have a Windows LiveID account, you can use it.
+		      Sign up for a Bing Webmaster Tools account at <ulink url="http://www.bing.com/toolbox/webmaster/">Bing Webmaster Tools</ulink>. If you already have a Windows LiveID account, you can use it.
 		    </para>
 		  </step>
 		  <step>
 		    <para>
-		      Sign in to your Bing Webmaster Tools account at this URL: <ulink url ="http://www.bing.com/toolbox/webmaster/">http://www.bing.com/toolbox/webmaster/</ulink>. 
+		      Sign in to your Bing Webmaster Tools account at this URL: <ulink url="http://www.bing.com/toolbox/webmaster/">http://www.bing.com/toolbox/webmaster/</ulink>. 
 		    </para>
 		  </step>
 		  <step>
@@ -251,4 +251,3 @@
 	      
 	    </section>
 </chapter>
-

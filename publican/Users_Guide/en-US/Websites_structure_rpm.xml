@@ -3,9 +3,7 @@
 <!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
 %BOOK_ENTITIES;
 ]>
-
-
-<section id="sect-Users_Guide-Website-structure-cfg_and_db-rpm">
+<section conformance="232" id="sect-Users_Guide-Website-structure-cfg_and_db-rpm">
 	<title>Creating the website structure</title>
 	<warning>
 		<title>Warning — This procedure replaces files</title>
@@ -119,14 +117,14 @@
 						</varlistentry>
 					</variablelist>
 					<para>
-						Refer to <xref linkend="dump_file"/> for a description of the contents of the dump file.
+						Refer to <xref linkend="dump_file" /> for a description of the contents of the dump file.
 					</para>
 				</step>
 			</substeps>
 		</step>
 		<step>
 			<para>
-			  Create an empty file named <filename>site_overrides.css</filename>. If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend="sect-Users_Guide-Website-homepage-rpm"/>. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, run: 
+			  Create an empty file named <filename>site_overrides.css</filename>. If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend="sect-Users_Guide-Website-homepage-rpm" />. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, run: 
 			</para>
 <screen><command>touch /var/www/html/docs/site_overrides.css</command></screen>
 		</step>
@@ -136,4 +134,3 @@
 	</para>
 <screen><command>publican update_site --site_config /etc/publican-website.cfg</command></screen>
 </section>
-			
