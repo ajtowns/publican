@@ -15,14 +15,14 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.0
-Release:        0%{?dist}.t226
+Version:        3.0.0
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
 Group:          Applications/Publishing
 URL:            https://publican.fedorahosted.org
-Source0:        https://fedorahosted.org/released/publican/Publican-%{version}.tar.gz
+Source0:        https://fedorahosted.org/released/publican/Publican-v%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -88,6 +88,7 @@ BuildRequires:  wkhtmltopdf
 BuildRequires:  docbook-style-xsl >= 1.76.1
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
+BuildRequires:  perl(Text::CSV_XS)
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -100,6 +101,7 @@ Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 4.0
 Requires:       perl-Template-Toolkit
 Requires:       perl(DBD::SQLite)
+Requires:       perl(Text::CSV_XS)
 
 # Lets validate some basics
 Requires:       rpmlint
@@ -158,7 +160,7 @@ Requires:       publican
 Website style for common brand.
 
 %prep
-%setup -q -n Publican-%{version}
+%setup -q -n Publican-v%{version}
 
 %build
 %{__perl} Build.PL installdirs=vendor --nocolours=1

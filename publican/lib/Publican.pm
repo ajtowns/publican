@@ -16,13 +16,13 @@ use Cwd qw(abs_path);
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
-$VERSION = '3.0';
+$VERSION = '3.0.0';
 @ISA     = qw(Exporter);
 
 @EXPORT = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string);
 
 # Track when the SPEC file generation is incompatible.
-$SPEC_VERSION = '3.0';
+$SPEC_VERSION = '3.1';
 
 my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
@@ -363,6 +363,22 @@ my %PARAMS = (
     xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
         default => 'en-US',
+    },
+    drupal_author => {
+        descr   => maketext('The author name to be shown in drupal book page. It must be a valid drupal username.'),
+        default => 'Redhat',
+    },
+    drupal_menu_title => {
+        descr   => maketext('Override the bookname that will be shown in the drupal menu.'),
+        default => '',
+    },
+    drupal_menu_block => {
+        descr   => maketext('The menu where we can find the book. The default value is menu-user-guide'),
+        default => 'user-guide',
+    },
+    drupal_image_path => {
+        descr   => maketext('The directory where the image should be stored in drupal server. The default is "sites/default/files/"'),
+        default => 'sites/default/files/',
     },
 
 );

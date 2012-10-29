@@ -392,6 +392,7 @@ my $builder = $class->new(
         'datadir/xsl/subtitle.xsl'           => 'datadir/xsl/subtitle.xsl',
         'datadir/xsl/merge_revisions.xsl'    => 'datadir/xsl/merge_revisions.xsl',
         'datadir/xsl/db4-upgrade.xsl'        => 'datadir/xsl/db4-upgrade.xsl',
+        'datadir/xsl/drupal-book.xsl'        => 'datadir/xsl/drupal-book.xsl',
     },
     web_files => {
         'web/index.html'              => 'web/index.html',

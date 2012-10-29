@@ -11,6 +11,7 @@ use File::Path;
 use Term::ANSIColor qw(:constants);
 use Publican::Builder;
 use File::Inplace;
+use DBI;
 
 ## Testing collation
 my $test_collate = 1;
@@ -50,6 +51,7 @@ Publican::XmlClean tidies XML formatting and filters structure based on input ru
 =cut
 
 my %UPDATED_IDS;
+my %MAX_CONFORMANCE;
 
 my %MAP_OUT = (
     section    => { block => 1, newline_after => 1 },
@@ -277,12 +279,18 @@ sub new {
     $config->param( 'clean_id', ( delete( $args->{clean_id} ) ) || 0 );
     $config->param( 'show_unknown', delete( $args->{show_unknown} ) )
         if ( $args->{show_unknown} );
-    $config->param( 'donotset_lang',   ( delete( $args->{donotset_lang} ) )   || 1 );
-    $config->param( 'distributed_set', ( delete( $args->{distributed_set} ) ) || 0 );
-    $config->param( 'exclude_ent',     ( delete( $args->{exclude_ent} ) )     || 0 );
+    $config->param( 'donotset_lang',
+        ( delete( $args->{donotset_lang} ) ) || 1 );
+    $config->param( 'distributed_set',
+        ( delete( $args->{distributed_set} ) ) || 0 );
+    $config->param( 'exclude_ent', ( delete( $args->{exclude_ent} ) ) || 0 );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $self = bless {}, $class;
@@ -333,7 +341,8 @@ sub prune_xml {
                 my $node = $xml_doc->look_down(
                     sub {
                         $_[0]->attr('lang')
-                            && $_[0]->attr('lang') !~ ( $self->{config}->param('lang') );
+                            && $_[0]->attr('lang')
+                            !~ ( $self->{config}->param('lang') );
                     }
                 )
                 )
@@ -352,7 +361,8 @@ sub prune_xml {
                 my $node = $xml_doc->look_down(
                     sub {
                         $_[0]->attr('arch')
-                            && $_[0]->attr('arch') !~ ( $self->{publican}->param('arch') );
+                            && $_[0]->attr('arch')
+                            !~ ( $self->{publican}->param('arch') );
                     }
                 )
                 )
@@ -415,7 +425,8 @@ sub Clean_ID {
         elsif ( !$MAP_OUT{$tag}->{no_id} ) {
             foreach my $child ( $node->content_refs_list() ) {
                 if ( ref $$child
-                    && $$child->{'_tag'} eq ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
+                    && $$child->{'_tag'} eq
+                    ( $MAP_OUT{$tag}->{id_node} || 'title' ) )
                 {
                     $my_id = $$child->as_text;
                     $my_id =~ s/[- ]/_/g;
@@ -428,7 +439,8 @@ sub Clean_ID {
                     }
 
                     if ( $node->parent() ) {
-                        my $par_title = $node->parent()->look_up( sub { $_[0]->attr('id'); } );
+                        my $par_title = $node->parent()
+                            ->look_up( sub { $_[0]->attr('id'); } );
                         if ( $my_id ne "" && $par_title ) {
                             my $my_p_id = $par_title->attr('id');
 
@@ -479,7 +491,11 @@ sub print_xml {
         || croak( maketext("out_file is a mandatory argument") );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     my $lvl       = 0;
@@ -515,7 +531,8 @@ sub print_xml {
 
         my $type = $xml_doc->attr("_tag");
         $file =~ m|^(.*/xml/)|;
-        my $text = $self->my_as_XML( { xml_doc => $xml_doc, path => ( $1 || './' ) } );
+        my $text = $self->my_as_XML(
+            { xml_doc => $xml_doc, path => ( $1 || './' ) } );
 ## BUGBUG revert to upstream as_XML?
 ##        my $text = $xml_doc->as_XML();
         $text =~ s/&#34;/"/g;
@@ -527,7 +544,8 @@ sub print_xml {
 
         my $OUTDOC;
         open( $OUTDOC, ">:encoding(UTF-8)", "$out_file" )
-            || croak( maketext( "Could not open [_1] for output!", $out_file ) );
+            || croak(
+            maketext( "Could not open [_1] for output!", $out_file ) );
 
         my $ent_file = undef;
 
@@ -572,12 +590,16 @@ sub my_as_XML {
     my $empty_element_map = $tree->_empty_element_map;
 
     my %banned_tags = ();
-    foreach my $btag ( split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) ) {
+    foreach my $btag (
+        split( /,/, ( $self->{publican}->param('banned_tags') || "" ) ) )
+    {
         $banned_tags{$btag} = 1;
     }
 
     my %banned_attrs = ();
-    foreach my $battr ( split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) ) {
+    foreach my $battr (
+        split( /,/, ( $self->{publican}->param('banned_attrs') || "" ) ) )
+    {
         $banned_attrs{$battr} = 1;
     }
 
@@ -666,10 +688,10 @@ sub my_as_XML {
                     }
                     elsif ( $MAP_OUT{$tag}->{block} ) {
 
-                        # Check to make sure the block is starting on it's own line
-                        # If not add a new line and indent
+                   # Check to make sure the block is starting on it's own line
+                   # If not add a new line and indent
                         if (( $xml[$#xml] && $xml[$#xml] =~ /\S/ )
-                            && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                            && ( ( not defined $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $node->look_up( '_tag', 'para' ) ) )
                             )
@@ -687,7 +709,9 @@ sub my_as_XML {
                         }
 
                         my $img_file = "$path" . $node->attr('fileref');
-                        $img_file = $self->{publican}->param('xml_lang') . "/" . $img_file
+                        $img_file
+                            = $self->{publican}->param('xml_lang') . "/"
+                            . $img_file
                             if ($clean_id);
                         if ( -f $img_file ) {
 
@@ -696,20 +720,24 @@ sub my_as_XML {
                         elsif ( $img_file !~ /Common_Content/ ) {
                             logger(
                                 "\t"
-                                    . maketext( "WARNING: Image missing: [_1]", $img_file )
+                                    . maketext(
+                                    "WARNING: Image missing: [_1]",
+                                    $img_file )
                                     . "\n",
                                 RED
                             );
                         }
 
-                        # when building distrubuted sets, we need to prepend the
-                        # books name to the image path to prevent image name clashes
-                        my $preptxt = 'images/' . $self->{publican}->param('docname');
+                  # when building distrubuted sets, we need to prepend the
+                  # books name to the image path to prevent image name clashes
+                        my $preptxt
+                            = 'images/' . $self->{publican}->param('docname');
 
                         if (   $self->{config}->param('distributed_set')
                             && $node->attr('fileref') !~ /^$preptxt/ )
                         {
-                            $node->attr( 'fileref', "$preptxt/" . $node->attr('fileref') );
+                            $node->attr( 'fileref',
+                                "$preptxt/" . $node->attr('fileref') );
                         }
                     }
 
@@ -718,7 +746,7 @@ sub my_as_XML {
                     {
                         push( @xml, $node->starttag_XML( undef, 1 ) );
                         if ($MAP_OUT{$tag}->{newline_after}
-                            && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                            && ( ( not defined $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $node->look_up( '_tag', 'para' ) ) )
                             )
@@ -732,13 +760,14 @@ sub my_as_XML {
 
                     if ( $MAP_OUT{$tag}->{block} ) {
                         if (   $node->parent()
-                            && $MAP_OUT{ $node->parent()->{'_tag'} }->{'line_wrap'} )
+                            && $MAP_OUT{ $node->parent()->{'_tag'} }
+                            ->{'line_wrap'} )
                         {
                             push( @xml, "\n" );
                         }
                         elsif (
                             ( not $MAP_OUT{$tag}->{verbatim} )
-                            && (   ( not defined $MAP_OUT{$tag}->{mixed_mode} )
+                            && ( ( not defined $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $MAP_OUT{$tag}->{mixed_mode} )
                                 || ( not $node->look_up( '_tag', 'para' ) ) )
                             )
@@ -776,7 +805,8 @@ sub my_as_XML {
                                 $depth--;
                             }
                             elsif ($node->parent()
-                                && $MAP_OUT{ $node->parent()->{'_tag'} }->{'line_wrap'} )
+                                && $MAP_OUT{ $node->parent()->{'_tag'} }
+                                ->{'line_wrap'} )
                             {
                                 $depth--;
                                 push( @xml, "\n" );
@@ -821,8 +851,8 @@ sub my_as_XML {
                     && !( $MAP_OUT{ $parent->{'_tag'} }->{verbatim} ) )
                 {
 
-                    # Don't out put empty tags
-                    # BZ #453067 but spaces between inline tags should be output
+                  # Don't out put empty tags
+                  # BZ #453067 but spaces between inline tags should be output
                     if ( $node !~ /^[\t ]*$/ || $node !~ /\n/ ) {
 
                         # Truncate leading space
@@ -830,7 +860,7 @@ sub my_as_XML {
 
                         if ( $MAP_OUT{ $parent->{'_tag'} }->{block} ) {
 
-                            # for the first child, remove leading space and indent it
+                     # for the first child, remove leading space and indent it
                             if ( $_[4] == 0 ) {
                                 $node =~ s/^ //g;
                             }
@@ -929,7 +959,9 @@ sub sort_glossaries {
     my $Collator = Unicode::Collate->new();
 
     if ($xml_doc) {
-        foreach my $glosslist ( $xml_doc->root->look_down( "_tag", "glosslist" ) ) {
+        foreach
+            my $glosslist ( $xml_doc->root->look_down( "_tag", "glosslist" ) )
+        {
             my @glossentries = sort( {
                     $Collator->cmp(
                         $a->look_down( "_tag", "glossterm" )->as_text(),
@@ -962,16 +994,23 @@ sub process_file {
         || croak( maketext("out_file is a mandatory argument") );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
-    logger( "\t" . maketext( "Processing file [_1] -> [_2]", $file, $out_file ) . "\n" );
+    logger(   "\t"
+            . maketext( "Processing file [_1] -> [_2]", $file, $out_file )
+            . "\n" );
 
     my $clean_id        = $self->{config}->param('clean_id');
     my $update_includes = $self->{config}->param('update_includes');
     my $xml_lang        = $self->{publican}->param('xml_lang');
 
-    my $xml_doc = XML::TreeBuilder->new( { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
     $xml_doc->store_pis(1);
 ##debug_msg("here 1");
@@ -1034,8 +1073,192 @@ sub process_file {
             }
         }
 
-        # clear out changes ... might be better to save them up and do a single pass...
+# clear out changes ... might be better to save them up and do a single pass...
         %UPDATED_IDS = ();
+    }
+
+    return;
+}
+
+=head2 set_unique_ids
+
+Set unique ids for every nodes which have id
+
+=cut
+
+sub set_unique_ids {
+    my ( $self, $args ) = @_;
+
+    my $xml_lang = $self->{publican}->param('xml_lang');
+
+    # create database to track section id changes
+    my $db_file = "$xml_lang/max_unique_id.db";
+    $self->{dbh}
+        = DBI->connect( "dbi:SQLite:dbname=$db_file", "", "",
+        { RaiseError => 1 } )
+        || croak( maketext($DBI::errstr) );
+    $self->create_db();
+
+    my $sql = "select max_unique_id from max_unique_id";
+    my $sth = $self->{dbh}->prepare($sql);
+    $sth->execute();
+    my $result = $sth->fetchrow_hashref();
+
+    my $unique_id = $result->{max_unique_id} || 0;
+    $sth->finish();
+
+    my @xml_files;
+    @xml_files = dir_list( $xml_lang, '*.xml' );
+
+    my $conformance = 0;
+
+    foreach my $xml_file ( sort(@xml_files) ) {
+        next if ( $xml_file =~ m{/extras/} );
+
+        # get declarations
+        my $INDOC;
+        open( $INDOC, "<:encoding(UTF-8)", "$xml_file" )
+            || croak(
+            maketext( "Could not open [_1] for output!", $xml_file ) );
+
+        my $declarations = "";
+        my @lines        = <$INDOC>;
+        foreach my $line (@lines) {
+            $declarations .= $line;
+            if ( $line =~ /\]\>\s*$/ ) {
+                last;
+            }
+        }
+
+        $INDOC->close();
+
+        my $xml_doc = XML::TreeBuilder->new(
+            { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        $xml_doc->store_comments(1);
+        $xml_doc->store_pis(1);
+
+        $xml_doc->parse_file($xml_file);
+
+        # based on as_HTML
+        my $tree              = $xml_doc->root();
+        my $empty_element_map = $tree->_empty_element_map;
+
+        # This flags tags that use  /> instead of end tags IF they are empty.
+        $empty_element_map->{xref}         = 1;
+        $empty_element_map->{footnoteref}  = 1;
+        $empty_element_map->{'index'}      = 1;
+        $empty_element_map->{'xi:include'} = 1;
+        $empty_element_map->{ulink}        = 1;
+        $empty_element_map->{imagedata}    = 1;
+        $empty_element_map->{area}         = 1;
+
+        my ( $tag, $node, $start );    # per-iteration scratch
+
+        # $_[0] = node
+        # $_[1] = startflag
+        # $_[2] = depth
+        # $_[3] = parent
+        # $_[4] = text node index
+
+        $tree->traverse(
+            sub {
+                ( $node, $start ) = @_;
+                if ( ref $node ) {
+                    $tag = $node->{'_tag'};
+
+                    if (   $start
+                        && $node->id()
+                        && !$node->attr('conformance') )
+                    {    # on the way in
+                        $node->attr( 'conformance', ++$unique_id );
+                    }
+                }
+                1;       # keep traversing
+            }
+        );
+
+        my $xml = $tree->as_XML();
+        $xml =~ s/&#34;/"/g;
+        $xml =~ s/&#39;/'/g;
+        $xml =~ s/&quot;/"/g;
+        $xml =~ s/&apos;/'/g;
+
+        $xml = $declarations . $xml;
+
+        my $OUTDOC;
+        open( $OUTDOC, ">:encoding(UTF-8)", "$xml_file" )
+            || croak(
+            maketext( "Could not open [_1] for output!", $xml_file ) );
+
+        print( $OUTDOC $xml );
+        close($OUTDOC);
+    }
+
+    eval {
+        my $update_sql = <<SQL;
+            UPDATE max_unique_id 
+                SET max_unique_id = $unique_id
+              WHERE
+                id  = 1
+SQL
+        $self->{dbh}->do($update_sql);
+    };
+
+    if ($@) {
+        $self->{dbh}->rollback();
+        $self->{dbh}->disconnect();
+        croak( maketext("Error setting max id: $@") );
+    }
+
+    $self->{dbh}->disconnect();
+
+    return;
+}
+
+=head2 create_db
+
+Create a database to track the max unique id
+
+=cut
+
+sub create_db {
+    my $self = shift;
+    my $sql;
+
+    eval {
+        my $check_table_sql = <<SQL;
+          SELECT name 
+            FROM sqlite_master 
+           WHERE name='max_unique_id'
+SQL
+
+        my $create_table_sql = <<SQL;
+          CREATE TABLE max_unique_id (
+            id             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            max_unique_id  INTEGER NOT NULL DEFAULT 0
+        )
+SQL
+
+        my $table = $self->{dbh}->selectrow_hashref($check_table_sql);
+
+        return if ( defined $table->{name} );
+
+        $self->{dbh}->do($create_table_sql);
+
+        # create first row and set value to 0
+        my $insert_sql = <<SQL;
+             INSERT INTO max_unique_id 
+               (max_unique_id) 
+               VALUES (0)
+SQL
+
+        $self->{dbh}->do($insert_sql);
+
+    };
+
+    if ($@) {
+        $self->{dbh}->rollback();
+        croak( maketext("Failed to create table: $@") );
     }
 
     return;
