@@ -7,9 +7,9 @@
   exclude-result-prefixes="exsl">
 
 <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml5/docbook.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml5/chunk.xsl"/>
 
 <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="no" />
 
 </xsl:stylesheet>
-
 
