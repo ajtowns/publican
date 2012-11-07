@@ -247,6 +247,6 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Dec 09 2010 Jeff Fearn <jfearn@redhat.com> 3.0-1
+* Wed Oct 31 2012 Jeff Fearn <jfearn@redhat.com> 3.0.0-0
 - new upstream package.
 

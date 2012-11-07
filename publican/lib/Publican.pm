@@ -22,7 +22,7 @@ $VERSION = '3.0.0';
 @EXPORT = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string);
 
 # Track when the SPEC file generation is incompatible.
-$SPEC_VERSION = '3.1';
+$SPEC_VERSION = '3.0';
 
 my $DEFAULT_CONFIG_FILE = 'publican.cfg';
 my $DEBUG               = undef;
