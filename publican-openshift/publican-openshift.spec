@@ -3,7 +3,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.12
+Version:	0.13
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Tue Nov 20 2012 Bilhar Aulakh <baulakh@redhat.com> 0.13-1
+- updated Legal Notice to include OpenShift trademark
+
 * Mon Jul 2 2012 David O'Brien <davido@redhat.com> 0.12-1
 - updated logos
 
