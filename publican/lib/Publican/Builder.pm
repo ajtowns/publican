@@ -37,6 +37,7 @@ use Text::Wrap qw(fill $columns);
 use IO::String;
 use File::Which;
 use Text::CSV_XS;
+use Publican::ConfigData;
 
 $File::Copy::Recursive::KeepMode = 0;
 
@@ -2866,7 +2867,7 @@ sub package {
     my $web_dir = $self->{publican}->param('web_dir')
         || '%{_localstatedir}/www/html/docs';
     my $web_cfg = $self->{publican}->param('web_cfg')
-        || '/etc/publican-website.cfg';
+        || Publican::ConfigData->config('etc') . '/publican-website.cfg';
     my $web_req    = $self->{publican}->param('web_req')    || '';
     my $sort_order = $self->{publican}->param('sort_order') || '';
 
