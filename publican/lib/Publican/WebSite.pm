@@ -1913,7 +1913,7 @@ sub write_books_index {
 
 sub lang_name {
     my ( $self, $arg ) = @_;
-    my $lang = delete $arg->{lang} || croak "lang_name: lang required";
+    my $lang = delete $arg->{lang} || croak "_regen_toc: lang required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );

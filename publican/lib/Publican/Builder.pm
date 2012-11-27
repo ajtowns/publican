@@ -37,7 +37,6 @@ use Text::Wrap qw(fill $columns);
 use IO::String;
 use File::Which;
 use Text::CSV_XS;
-use Sort::Versions;
 
 $File::Copy::Recursive::KeepMode = 0;
 
@@ -470,51 +469,49 @@ sub setup_xml {
                 if ( $self->{publican}->param('rev_file') );
 
             if ( -f "$lang/$rev_file" ) {
-                my $rev_tree       = $self->{publican}->new_tree();
-                my $trans_rev_tree = $self->{publican}->new_tree();
-
-                $rev_tree->parse_file("$tmp_dir/$lang/xml_tmp/$rev_file");
-                $trans_rev_tree->parse_file("$lang/$rev_file");
-
-                my $merged_rev_tree = XML::Element->new_from_lol(
-                    [   'appendix',
-                        [ 'title', maketext('Revision History') ],
-                        [ 'simpara', ['revhistory'], ],
-                    ],
+                my $common_config = $self->{publican}->param('common_config');
+                my $xsl_file = $common_config . "/xsl/merge_revisions.xsl";
+                $xsl_file =~ s/"//g;    # windows
+                my $style_doc = XML::LibXML->load_xml(
+                    location => $xsl_file,
+                    no_cdata => 1
                 );
-
-                my $node
-                    = $merged_rev_tree->look_down( '_tag', "revhistory" );
-
-                my @revisions = sort {
-                    versioncmp(
-                        $b->look_down( '_tag', "revnumber" )->as_text(),
-                        $a->look_down( '_tag', "revnumber" )->as_text()
-                        )
-                    } (
-                    $rev_tree->look_down( '_tag', "revhistory" ),
-                    $trans_rev_tree->look_down( '_tag', "revhistory" )
-                    );
-
-                $node->push_content(@revisions);
-                my $OUTDOC;
-                open( $OUTDOC, ">:encoding(UTF-8)",
-                    "$tmp_dir/$lang/xml_tmp/$rev_file" )
-                    || croak(
-                    maketext(
-                        "Could not open [_1] for output!",
-                        "$tmp_dir/$lang/xml_tmp/$rev_file",
-                        $@
-                    )
-                    );
-
-                print( $OUTDOC Publican::Builder::dtd_string(
-                        { tag => 'appendix', dtdver => '4.5' }
-                    )
+                my $xslt       = XML::LibXSLT->new();
+                my $stylesheet = $xslt->parse_stylesheet($style_doc);
+                my %opts       = ( trans_rev => abs_path("$lang/$rev_file") );
+                my $result     = $stylesheet->transform_file(
+                    "$tmp_dir/$lang/xml_tmp/$rev_file",
+                    XML::LibXSLT::xpath_to_string(%opts)
                 );
+                eval {
+                    $stylesheet->output_file( $result,
+                        "$tmp_dir/$lang/xml_tmp/$rev_file.tmp" );
+                };
 
-                print( $OUTDOC $merged_rev_tree->as_XML() );
-                close($OUTDOC);
+                if ($@) {
+                    if ( ref($@) ) {
+
+                       # handle a structured error (XML::LibXML::Error object)
+                        croak(
+                            maketext(
+                                "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
+                                $@->domain(),
+                                $@->code(),
+                                $@->file(),
+                                $@->line(),
+                                $@->message(),
+                            )
+                        );
+                    }
+                    else {
+                        croak( maketext( "FATAL ERROR: [_1]", $@ ) );
+                    }
+                }
+
+                fmove(
+                    "$tmp_dir/$lang/xml_tmp/$rev_file.tmp",
+                    "$tmp_dir/$lang/xml_tmp/$rev_file"
+                );
             }
 
             my $trans_file = "$lang/Author_Group.xml";
