@@ -97,12 +97,35 @@ libdbd-sqlite3-perl
 TODO: put the tgz where?
     $ debuild
 
-Windows
+Windows:
+    Make a dir to work in, Publican assumes:
+	mkdir c:\publican
+	cd c:\publican
+
+    Install a decent editor
+	http://www.vim.org/download.php#pc
+
     Install gitbash
+	http://msysgit.googlecode.com/
+
+    Set-Up ssh
+	copy keys to ~/.ssh
+	ssh-agent /bin/bash.exe
+	ssh-add ~/.ssh/id_rsa
+
     clone source repo
+	git clone ssh://git.fedorahosted.org/git/publican.git
+
+    Fetch DocBook files
+	mkdir c:\publican\DTD
+	http://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
+
+	mkdir C:/publican/docbook-xsl-1.76.1
+	http://downloads.sourceforge.net/project/docbook/docbook-xsl/1.76.1/docbook-xsl-1.76.1.zip
+
     Install Perl http://strawberryperl.com/
 	cpan tool
-	install Module::Build Config::Simple Perl::Critic XML::TreeBuilder Locale::Maketext::Gettext File::Inplace
+	install Module::Build Config::Simple Perl::Critic XML::TreeBuilder Locale::Maketext::Gettext
 
 	http://search.cpan.org/CPAN/authors/id/C/CH/CHIPT/File-Inplace-0.20.tar.gz
         https://rt.cpan.org/Public/Bug/Display.html?id=63940
@@ -110,36 +133,19 @@ Windows
 	blah blah
 
 	install Locale::PO String::Similarity DateTime::Format::DateParse Syntax::Highlight::Engine::Kate HTML::FormatText
-	install HTML::FormatText::WithLinks::AndTables Test::Pod
+	install HTML::FormatText::WithLinks::AndTables Test::Pod PAR::Packer
 
     Install NSIS
         http://nsis.sourceforge.net/Download
         http://nsis.sourceforge.net/Environmental_Variables:_append,_prepend,_and_remove_entries
+	C:\Program Files\NSIS\Include
+
         http://nsis.sourceforge.net/NsUnzip_plugin
-    
+	C:\Program Files\NSIS\Plugins
+
     $ cd publican
+    $ set XML_CATALOG_FILES=c:\publican\publican\publican\win_catalog.xml
     $ perl win_build.pl
-
-    C:\Perl\lib\HTML\Element.pm patch from cpan
-    XML-TreeBuilder patch
-    
-TODO: detail building xml2
-
-TODO: Complete details on building required LibXML and LibXSLT modules
-
-    vcvars32.bat
-
-    perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
-    nmake
-    copy D:\Data\temp\Redhat\xml2\bin\*.dll blib\arch\auto\XML\LibXML
-    nmake test
-    nmake install
-
-    perl Makefile.PL INC=-ID:\Data\temp\Redhat\xml2\include LIBS=-LD:\Data\temp\Redhat\xml2\lib
-    nmake
-    copy D:\Data\temp\Redhat\xml2\libxslt-1.1.24.win32\bin\*.dll blib\arch\auto\XML\LibXSLT
-    nmake test
-    nmake install
 
     
 TODO:
