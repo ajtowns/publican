@@ -27,11 +27,12 @@ use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path cwd);
 use File::Basename;
 use File::HomeDir;
+use Publican::ConfigData;
 
 my $VERSION      = "$Publican::VERSION";
 my $LANG_PATTERN = q|__LANG__|;
-## TODO Consider making these parameters
-my $WEB_TEMPLATE_PATH = '/usr/share/publican';
+my $WEB_TEMPLATE_PATH = Publican::ConfigData->config('web');
+my $DATA_DIR = Publican::ConfigData->config('datadir');
 
 # Try to catch SRPMS created using outdated versions of publican in brew/koji/mock
 if (   ( $ENV{RPM_BUILD_DIR} )
@@ -77,7 +78,7 @@ my $bash_comp    = undef;
 #Getopt::Long::Configure("debug");
 
 ## BUGBUG how do we get this after install?
-my @pod_paths = ( './pod1', "/usr/share/doc/publican-$VERSION" );
+my @pod_paths = ( './pod1', Publican::ConfigData->config('docdir') . "/publican-$VERSION" );
 
 # Global options
 my %opts = (
@@ -536,7 +537,7 @@ if ( $action eq 'create_site' ) {
     if ($toc_path) {
         mkpath($toc_path) unless -d $toc_path;
         $config->param( 'toc_path', abs_path($toc_path) );
-        rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", "$toc_path/." )
+        rcopy( "$WEB_TEMPLATE_PATH/*", "$toc_path/." )
             || croak($!);
     }
 
@@ -556,7 +557,7 @@ if ( $action eq 'update_site' ) {
     local $File::Copy::Recursive::RMTrgFil = 1;
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
-    rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", $ws->toc_path() . "/." )
+    rcopy( "$WEB_TEMPLATE_PATH/*", $ws->toc_path() . "/." )
         || croak($!);
     $ws->regen_all_toc( { force => 1 } );
 
@@ -1191,7 +1192,7 @@ _publican()
 
 	COMPREPLY=()
 	cur=`_get_cword`
-        brands=`ls /usr/share/publican/Common_Content`
+        brands=`ls $DATA_DIR/Common_Content`
 
 	commands='$actions'
 

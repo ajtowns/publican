@@ -18,13 +18,14 @@ use Encode qw(is_utf8 decode_utf8 encode_utf8);
 use Time::localtime;
 use XML::Simple;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
+use Publican::ConfigData;
 
 our $VERSION = '1.4';
 
 my $DB_NAME             = 'books';
 my $DEFAULT_LANG        = 'en-US';
-my $DEFAULT_TMPL_PATH   = '/usr/share/publican/templates';
-my $DEFAULT_CONFIG_FILE = '/etc/publican-website.cfg';
+my $DEFAULT_TMPL_PATH   = Publican::ConfigData->config('templates');
+my $DEFAULT_CONFIG_FILE = Publican::ConfigData->config('etc') . '/publican-website.cfg';
 my $DEFAULT_DUMP_FILE   = '/var/www/html/DUMP.xml';
 
 my %LANG_NAME = (

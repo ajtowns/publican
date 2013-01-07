@@ -63,7 +63,7 @@ my $class = Module::Build->subclass(
             my @rpm_files = $rule->in($dir);
             $self->do_system("sudo", "yum", "-y", "localinstall",  "--nogpg", @rpm_files);
         }
-        sub  process_brand_template_files {
+        sub process_brand_template_files {
             my $self = shift;
             use File::Find::Rule;
             use File::Copy::Recursive qw(rcopy);
@@ -72,10 +72,10 @@ my $class = Module::Build->subclass(
             mkpath("$path");
             rcopy( "datadir/Common_Content/brand-template/*", "$path/.");
         }
-        sub  process_common_files {
+        sub ACTION_common_files {
             my $self = shift;
-            # This is how to self host
-            use lib File::Spec->catdir('lib'); 
+            $self->depends_on('build');
+            use lib File::Spec->catdir('blib/lib');
             use Publican;
             use Publican::Builder;
             use File::Path;
@@ -83,8 +83,6 @@ my $class = Module::Build->subclass(
             my $cwd = getcwd();
             my $dir = pushd('datadir/Common_Content/common');
             my $path = "$cwd/blib/datadir/Common_Content";
-            return if(-d $path);
-            die "can't chdir: $@" if $@;
 
             my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
             my $builder = Publican::Builder->new();
@@ -97,10 +95,10 @@ my $class = Module::Build->subclass(
             $builder = undef;
             $publican = undef;
         }
-        sub process_commondb5_files {
+        sub ACTION_commondb5_files {
             my $self = shift;
-            # This is how to self host
-            use lib File::Spec->catdir('lib'); 
+            $self->depends_on('build');
+            use lib File::Spec->catdir('blib/lib'); 
             use Publican;
             $Publican::SINGLETON = undef;
             use Publican::Builder;
@@ -109,8 +107,6 @@ my $class = Module::Build->subclass(
             my $cwd = getcwd();
             my $dir = pushd('datadir/Common_Content/common-db5');
             my $path = "$cwd/blib/datadir/Common_Content";
-            return if(-d "$path/common-db5");
-            die "can't chdir: $@" if $@;
 
             my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
             my $builder = Publican::Builder->new();
@@ -147,7 +143,6 @@ my $class = Module::Build->subclass(
         sub ACTION_authortest {
             my ($self) = @_;
             $self->depends_on('build');
-#            $self->depends_on('manifest');
             $self->depends_on('distmeta');
             $self->test_files( qw< t xt/author > );
             $self->recursive_test_files(1);
@@ -156,9 +151,29 @@ my $class = Module::Build->subclass(
         }
         sub ACTION_distdir {
             my ($self) = @_;
-#            $self->depends_on('authortest');
             $self->depends_on('update_pod');
             return $self->SUPER::ACTION_distdir();
+        }
+        sub ACTION_build {
+            my ($self) = @_;
+            $self->SUPER::ACTION_build();
+            $self->depends_on('common_files');
+            $self->depends_on('commondb5_files');
+        }
+        sub ACTION_test {
+            my ($self) = @_;
+            use Cwd qw(abs_path cwd);
+            $self->config_data('etc', abs_path('blib/etc'));
+            $self->config_data('datadir', abs_path('blib/datadir'));
+            $self->config_data('web', abs_path('blib/web'));
+            $self->config_data('templates', abs_path('blib/templates'));
+            $self->config_data('docdir', abs_path('pod1'));
+            $self->SUPER::ACTION_test();
+            $self->config_data('etc', $self->install_path('etc'));
+            $self->config_data('datadir', $self->install_path('datadir'));
+            $self->config_data('web', $self->install_path('web'));
+            $self->config_data('templates', $self->install_path('templates'));
+            $self->config_data('docdir', $self->install_path('docdir'));
         }
         sub ACTION_update_pod {
             my ($self) = @_;
@@ -369,6 +384,7 @@ my $builder = $class->new(
         'templates'  => '/usr/share/publican/templates',
         'etc'        => '/etc',
         'completion' => '/etc/bash_completion.d',
+        'docdir'     => '/usr/share/doc/',
     },
     data_files => {
         'datadir/rpmlint.cfg'                => 'datadir/rpmlint.cfg',
@@ -444,12 +460,17 @@ if ( $^O eq 'darwin' ) {
     $builder->install_path( 'completion' => '/opt/local/etc/bash_completion.d' );
 }
 
-$builder->add_build_element('common');
-$builder->add_build_element('commondb5');
 $builder->add_build_element('brand_template');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
 $builder->add_build_element('templates');
 $builder->add_build_element('etc');
 $builder->add_build_element('completion');
+$builder->config_data('etc', $builder->install_path('etc'));
+$builder->config_data('datadir', $builder->install_path('datadir'));
+$builder->config_data('web', $builder->install_path('web'));
+$builder->config_data('templates', $builder->install_path('templates'));
+$builder->config_data('docdir', $builder->install_path('docdir'));
+
 $builder->create_build_script();
+

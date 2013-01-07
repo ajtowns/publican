@@ -45,6 +45,14 @@ $ perl -d:NYTProf /usr/bin/publican build --langs en-US --formats html
 $ nytprofhtml
 $ firefox nytprof/index.html 
 
+Q: How do I control where publican looks for files when it's installed?
+
+A: You can override the default paths by specifiying them on the commmand line or in the Build.PL file.
+
+e.g.
+
+perl Build.PL --install_path datadir=/opt/foo/publican --install_path  web=/opt/bar/sitetemplate
+
 Q: How do I build publican from source?
 
 A: It depends on your platform.

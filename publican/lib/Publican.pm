@@ -13,6 +13,7 @@ use XML::LibXSLT;
 use XML::LibXML;
 use Publican::Localise;
 use Cwd qw(abs_path);
+use Publican::ConfigData;
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
@@ -130,12 +131,12 @@ my %PARAMS = (
     },
     common_config => {
         descr   => maketext('Path to publican content.'),
-        default => '/usr/share/publican',
+        default => Publican::ConfigData->config('datadir'),
 
     },
     common_content => {
         descr   => maketext('Path to publican common content.'),
-        default => '/usr/share/publican/Common_Content',
+        default => Publican::ConfigData->config('datadir') . '/Common_Content',
 
     },
     condition => {
