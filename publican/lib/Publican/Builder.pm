@@ -492,8 +492,8 @@ sub setup_xml {
                         $a->look_down( '_tag', "revnumber" )->as_text()
                         )
                     } (
-                    $rev_tree->look_down( '_tag', "revhistory" ),
-                    $trans_rev_tree->look_down( '_tag', "revhistory" )
+                    $rev_tree->look_down( '_tag', "revision" ),
+                    $trans_rev_tree->look_down( '_tag', "revision" )
                     );
 
                 $node->push_content(@revisions);
