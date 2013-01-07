@@ -163,6 +163,7 @@ my $class = Module::Build->subclass(
         sub ACTION_test {
             my ($self) = @_;
             use Cwd qw(abs_path cwd);
+            $self->depends_on('build');
             $self->config_data('etc', abs_path('blib/etc'));
             $self->config_data('datadir', abs_path('blib/datadir'));
             $self->config_data('web', abs_path('blib/web'));
