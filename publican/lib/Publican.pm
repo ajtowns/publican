@@ -939,7 +939,7 @@ sub maketext {
 
 =head2 get_abstract
 
-Return the abstract for the supplied langauge with all white space truncted.
+Return the abstract for the supplied language with all white space truncated.
 
 =cut
 
@@ -978,7 +978,7 @@ sub get_abstract {
 
 =head2 get_subtitle
 
-Return the subtitle for the supplied langauge with white space truncted.
+Return the subtitle for the supplied language with white space truncated.
 
 =cut
 
