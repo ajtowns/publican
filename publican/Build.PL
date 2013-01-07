@@ -4,8 +4,6 @@ use Module::Build;
 use File::Spec;
 use 5.008;
 
-# my $path = install_path('datadir');
-
 my $class = Module::Build->subclass(
     class => 'My::Builder',
     code  => q{
@@ -76,54 +74,62 @@ my $class = Module::Build->subclass(
             my $self = shift;
             $self->depends_on('build');
             use lib File::Spec->catdir('blib/lib');
-            use Publican;
-            use Publican::Builder;
-            use File::Path;
-            use File::Copy::Recursive qw(rcopy);
-            my $cwd = getcwd();
-            my $dir = pushd('datadir/Common_Content/common');
-            my $path = "$cwd/blib/datadir/Common_Content";
+            eval {
+                require Publican;
+                require Publican::Builder;
+                use File::Path;
+                use File::Copy::Recursive qw(rcopy);
+            };
+            unless($@){
+                my $cwd = getcwd();
+                my $dir = pushd('datadir/Common_Content/common');
+                my $path = "$cwd/blib/datadir/Common_Content";
 
-            my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
-            my $builder = Publican::Builder->new();
-            $builder->build(
-                { formats => 'xml', langs => 'all', publish => 1 } );
-            mkpath("$path");
-            rcopy( "publish/*", "$path/.");
-            rcopy('publican.cfg', "$path/common/.");
-            $dir = undef;
-            $builder = undef;
-            $publican = undef;
+                my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
+                my $builder = Publican::Builder->new();
+                $builder->build(
+                    { formats => 'xml', langs => 'all', publish => 1 } );
+                mkpath("$path");
+                rcopy( "publish/*", "$path/.");
+                rcopy('publican.cfg', "$path/common/.");
+                $dir = undef;
+                $builder = undef;
+                $publican = undef;
+            }
         }
         sub ACTION_commondb5_files {
             my $self = shift;
             $self->depends_on('build');
-            use lib File::Spec->catdir('blib/lib'); 
-            use Publican;
-            $Publican::SINGLETON = undef;
-            use Publican::Builder;
-            use File::Path;
-            use File::Copy::Recursive qw(rcopy);
-            my $cwd = getcwd();
-            my $dir = pushd('datadir/Common_Content/common-db5');
-            my $path = "$cwd/blib/datadir/Common_Content";
+            use lib File::Spec->catdir('blib/lib');
+            eval {
+                require Publican;
+                $Publican::SINGLETON = undef;
+                require Publican::Builder;
+            };
+            unless($@){
+                use File::Path;
+                use File::Copy::Recursive qw(rcopy);
+                my $cwd = getcwd();
+                my $dir = pushd('datadir/Common_Content/common-db5');
+                my $path = "$cwd/blib/datadir/Common_Content";
 
-            my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
-            my $builder = Publican::Builder->new();
-            $builder->build(
-                { formats => 'xml', langs => 'all', publish => 1 } );
-            rcopy( "publish/*", "$path/.");
-            rcopy('publican.cfg', "$path/common-db5/.");
-            $dir = undef;
-            $builder = undef;
-            $publican = undef;
+                my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
+                my $builder = Publican::Builder->new();
+                $builder->build(
+                    { formats => 'xml', langs => 'all', publish => 1 } );
+                rcopy( "publish/*", "$path/.");
+                rcopy('publican.cfg', "$path/common-db5/.");
+                $dir = undef;
+                $builder = undef;
+                $publican = undef;
+            }
         }
         sub ACTION_update_pot {
             my $self = shift;
-			# BUGBUG TODO call Locale::Maketext::Extract::Run directly
-			# use Locale::Maketext::Extract::Run 'xgettext';
-			# my @args = qw(-d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* -o po/publican.pot);
-			# xgettext(@ARGV);
+            # BUGBUG TODO call Locale::Maketext::Extract::Run directly
+            # use Locale::Maketext::Extract::Run 'xgettext';
+            # my @args = qw(-d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* -o po/publican.pot);
+            # xgettext(@ARGV);
             $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
         }
         sub ACTION_update_po {
@@ -135,7 +141,7 @@ my $class = Module::Build->subclass(
                 in        => 'po',
                 relative  => 0,
             );
-			# BUGBUG TODO switch to internal merge code
+            # BUGBUG TODO switch to internal merge code
             foreach my $po_file (@po_files) {
                 $self->do_system("msgmerge --quiet --no-wrap --backup=none --update $po_file po/publican.pot");
             }
@@ -163,7 +169,6 @@ my $class = Module::Build->subclass(
         sub ACTION_test {
             my ($self) = @_;
             use Cwd qw(abs_path cwd);
-            $self->depends_on('build');
             $self->config_data('etc', abs_path('blib/etc'));
             $self->config_data('datadir', abs_path('blib/datadir'));
             $self->config_data('web', abs_path('blib/web'));
