@@ -2902,6 +2902,7 @@ sub package {
     $self->{publican}->{config}->delete('strict');
     $self->{publican}->{config}->delete('release');
     $self->{publican}->{config}->delete('edition');
+    $self->{publican}->{config}->delete('brand_dir');
 
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
 
