@@ -1143,7 +1143,6 @@ Version: 1.72.0
           <xsl:value-of select="(@id|@xml:id)[1]"/>
         </xsl:attribute>
       </xsl:if>
-      <p/>
       <xsl:copy-of select="$content"/>
     </div>
   </xsl:variable>
