@@ -857,6 +857,11 @@ sub validate_xml {
         }
     }
 
+    $dtd_type = $self->{publican}->param('dtd_type')
+        if ( $self->{publican}->param('dtd_type') );
+    $dtd_path = $self->{publican}->param('dtd_uri')
+        if ( $self->{publican}->param('dtd_uri') );
+
     if ( $dtdver !~ m/^5/ ) {
         my $dtd = XML::LibXML::Dtd->new( $dtd_type, $dtd_path );
 

@@ -170,6 +170,14 @@ my %PARAMS = (
         default => 'https://fedorahosted.org/publican',
 
     },
+    dtd_type => {
+        descr    => maketext('Override Type for DocType. Must be a complete string.'),
+        limit_to => 'brand',
+    },
+    dtd_uri => {
+        descr    => maketext('Override URI for DocType. Must be a complete string.'),
+        limit_to => 'brand',
+    },
 ## BUGBUG this should be ripped from file header
     dtdver => {
         descr   => maketext('Version of the DocBook DTD on which this project is based.'),
@@ -1162,6 +1170,9 @@ sub dtd_string {
         $uri =~ s/ /%20/g;
         $uri =~ s/\\/\//g;
     }
+
+    $dtd_type = $SINGLETON->param('dtd_type') if($SINGLETON && $SINGLETON->param('dtd_type'));
+    $uri = $SINGLETON->param('dtd_uri') if($SINGLETON && $SINGLETON->param('dtd_uri'));
 
     my $dtd = <<DTDHEAD;
 <?xml version='1.0' encoding='utf-8' ?>
