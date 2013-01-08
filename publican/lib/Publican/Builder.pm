@@ -581,6 +581,11 @@ sub setup_xml {
                 if ( -d "$xml_lang/css" );
             dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
                 if ( -d "$lang/css" );
+
+            dircopy( "$xml_lang/scripts", "$tmp_dir/$lang/xml/scripts" )
+                if ( -d "$xml_lang/scripts" );
+            dircopy( "$lang/scripts", "$tmp_dir/$lang/xml/scripts" )
+                if ( -d "$lang/scripts" );
         }
 
         dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )

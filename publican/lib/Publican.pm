@@ -509,7 +509,7 @@ sub _load_config {
     foreach my $key ( keys(%Config) ) {
         unless ( defined $PARAMS{$key} ) {
             logger(
-                maketext( "WARNING: Unknow config key [_1], ignoring", $key ),
+                maketext( "WARNING: Unknow config key [_1], ignoring.\n", $key ),
                 RED
             );
             next;
@@ -525,7 +525,7 @@ sub _load_config {
         {
             logger(
                 maketext(
-                    "WARNING: config key [_1] is not valid for this type of object, ignoring.",
+                    "WARNING: config key [_1] is not valid for this type of object, ignoring.\n",
                     $key
                 ),
                 RED
