@@ -2886,6 +2886,7 @@ sub package {
 
     my $menu_category = $self->{publican}->param('menu_category')
         || "X-Red-Hat-Base;";
+    $menu_category =~ s/__LANG__/$lang/g;
     $menu_category .= ';' if ( $menu_category !~ /;\s*$/ );
 
     # store lables for rebuilding translated content
