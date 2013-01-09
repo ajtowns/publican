@@ -39,6 +39,7 @@ use File::Which;
 use Text::CSV_XS;
 use Publican::ConfigData;
 use Sort::Versions;
+use Template;
 
 $File::Copy::Recursive::KeepMode = 0;
 
@@ -1041,6 +1042,55 @@ sub transform {
         if ( -f "$common_config/header.html" ) {
             push( @wkhtmltopdf_args,
                 '--header-html', "$common_config/header.html" );
+        }
+
+        if ( $self->{publican}->param('cover_image') ) {
+            my $tmpl_path = "$common_config/book_templates";
+            my $tconf     = { INCLUDE_PATH => $tmpl_path, };
+            my $template  = Template->new($tconf)
+                or croak( Template->error() );
+
+            my $subtitle
+                = $self->{publican}->get_subtitle( { lang => $lang } );
+            $subtitle =~ s/"/\\"/g;
+            $subtitle =~ s/\p{Z}+/ /g;
+            chomp($subtitle);
+
+            my $prod
+                = $web_product_label
+                ? $web_product_label
+                : $self->{publican}->param('product');
+            $prod =~ s/_/ /g;
+
+            my $ver = $web_version_label
+                ? $web_version_label
+                : $self->{publican}->param('version');
+            $ver =~ s/_/ /g;
+
+            my $name = $web_name_label
+                ? $web_name_label
+                : $self->{publican}->param('docname');
+            $name =~ s/_/ /g;
+
+            my $vars = {
+                product  => $prod,
+                docname  => $name,
+                version  => $ver,
+                edition  => $self->{publican}->param('edition'),
+                release  => $self->{publican}->param('release'),
+                subtitle => $subtitle,
+                logo     => $self->{publican}->param('cover_image'),
+            };
+
+            $template->process(
+                'cover.tmpl', $vars,
+                "$tmp_dir/$lang/html-pdf/cover.html",
+                binmode => ':encoding(UTF-8)'
+            ) or croak( $template->error() );
+
+            push( @wkhtmltopdf_args,
+                'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
+
         }
 
         push( @wkhtmltopdf_args,
@@ -2909,6 +2959,7 @@ sub package {
     $self->{publican}->{config}->delete('release');
     $self->{publican}->{config}->delete('edition');
     $self->{publican}->{config}->delete('brand_dir');
+    $self->{publican}->{config}->delete('cover_image');
 
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
 

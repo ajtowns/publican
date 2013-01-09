@@ -620,11 +620,17 @@ sub _load_config {
             $self->{config}->param( 'mainfile', $docname );
         }
 
+        my $cover_image = undef;
+        eval {
+            $cover_image = $xml_doc->root()->look_down( "_tag", "mediaobject", 'role', 'cover' )->look_down('_tag', 'imageobject', 'role', 'front-large')->look_down('_tag', 'imagedata')->attr('fileref');
+        };
+
         $self->{config}->param( 'docname', $docname );
         $self->{config}->param( 'product', $product );
         $self->{config}->param( 'version', $version );
         $self->{config}->param( 'release', $release );
         $self->{config}->param( 'edition', $edition );
+        $self->{config}->param( 'cover_image', $cover_image ) if($cover_image);
 
         my $brand_path = $self->{config}->param('brand_dir')
             || $self->{config}->param('common_content') . "/$brand";

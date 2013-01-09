@@ -10,6 +10,9 @@ my $class = Module::Build->subclass(
         use File::pushd;
         use Cwd;
         my $dir = cwd() . '/tmp/rpm';
+## BUGBUG when I'm impatient
+##        my $common_langs = 'en-US';
+        my $common_langs = 'all';
         sub ACTION_srpm {
             my $self = shift;
             my $os_ver = $self->args('os_ver');
@@ -88,7 +91,7 @@ my $class = Module::Build->subclass(
                 my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
                 my $builder = Publican::Builder->new();
                 $builder->build(
-                    { formats => 'xml', langs => 'all', publish => 1 } );
+                    { formats => 'xml', langs => $common_langs, publish => 1 } );
                 mkpath("$path");
                 rcopy( "publish/*", "$path/.");
                 rcopy('publican.cfg', "$path/common/.");
@@ -116,7 +119,7 @@ my $class = Module::Build->subclass(
                 my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
                 my $builder = Publican::Builder->new();
                 $builder->build(
-                    { formats => 'xml', langs => 'all', publish => 1 } );
+                    { formats => 'xml', langs => $common_langs, publish => 1 } );
                 rcopy( "publish/*", "$path/.");
                 rcopy('publican.cfg', "$path/common-db5/.");
                 $dir = undef;
@@ -173,12 +176,14 @@ my $class = Module::Build->subclass(
             $self->config_data('datadir', abs_path('blib/datadir'));
             $self->config_data('web', abs_path('blib/web'));
             $self->config_data('templates', abs_path('blib/templates'));
+            $self->config_data('book_templates', abs_path('blib/book_templates'));
             $self->config_data('docdir', abs_path('pod1'));
             $self->SUPER::ACTION_test();
             $self->config_data('etc', $self->install_path('etc'));
             $self->config_data('datadir', $self->install_path('datadir'));
             $self->config_data('web', $self->install_path('web'));
             $self->config_data('templates', $self->install_path('templates'));
+            $self->config_data('book_templates', $self->install_path('book_templates'));
             $self->config_data('docdir', $self->install_path('docdir'));
         }
         sub ACTION_update_pod {
@@ -390,6 +395,7 @@ my $builder = $class->new(
         'datadir'    => '/usr/share/publican',
         'web'        => '/usr/share/publican/sitetemplate',
         'templates'  => '/usr/share/publican/templates',
+        'book_templates'  => '/usr/share/publican/book_templates',
         'etc'        => '/etc',
         'completion' => '/etc/bash_completion.d',
         'docdir'     => '/usr/share/doc/',
@@ -455,6 +461,9 @@ my $builder = $class->new(
         'templates/web_2_head.tmpl'        => 'templates/web_2_head.tmpl',
         'templates/Sitemap.tmpl'           => 'templates/Sitemap.tmpl',
     },
+    book_templates_files => {
+        'book_templates/cover.tmpl' => 'book_templates/cover.tmpl',
+    },
     etc_files        => { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
     completion_files => { 'completion/_publican'     => 'completion/_publican', },
 );
@@ -464,6 +473,7 @@ if ( $^O eq 'darwin' ) {
     $builder->install_path( 'generated'  => '/opt/local/share/publican/sitetemplate' );
     $builder->install_path( 'web'        => '/opt/local/share/publican/sitetemplate' );
     $builder->install_path( 'templates'  => '/opt/local/share/publican/templates' );
+    $builder->install_path( 'book_templates'  => '/opt/local/share/publican/book_templates' );
     $builder->install_path( 'etc'        => '/opt/local/etc' );
     $builder->install_path( 'completion' => '/opt/local/etc/bash_completion.d' );
 }
@@ -472,12 +482,14 @@ $builder->add_build_element('brand_template');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
 $builder->add_build_element('templates');
+$builder->add_build_element('book_templates');
 $builder->add_build_element('etc');
 $builder->add_build_element('completion');
 $builder->config_data('etc', $builder->install_path('etc'));
 $builder->config_data('datadir', $builder->install_path('datadir'));
 $builder->config_data('web', $builder->install_path('web'));
 $builder->config_data('templates', $builder->install_path('templates'));
+$builder->config_data('book_templates', $builder->install_path('book_templates'));
 $builder->config_data('docdir', $builder->install_path('docdir'));
 
 $builder->create_build_script();
