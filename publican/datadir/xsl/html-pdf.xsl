@@ -168,19 +168,6 @@ Version:
     </xsl:if>
   </xsl:if>
 
-  <xsl:if test="($draft.mode = 'yes' or                 ($draft.mode = 'maybe' and                 ancestor-or-self::*[@status][1]/@status = 'draft'))                 and $draft.watermark.image != ''">
-    <style type="text/css"><xsl:text>
-body { background-image: url('</xsl:text>
-<xsl:value-of select="$draft.watermark.image"/><xsl:text>');
-       background-repeat: no-repeat;
-       background-position: top left;
-       /* The following properties make the watermark "fixed" on the page. */
-       /* I think that's just a bit too distracting for the reader... */
-       /* background-attachment: fixed; */
-       /* background-position: center center; */
-     }</xsl:text>
-    </style>
-  </xsl:if>
   <xsl:apply-templates select="." mode="head.keywords.content"/>
 </xsl:template>
 

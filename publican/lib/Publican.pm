@@ -13,7 +13,8 @@ use XML::LibXSLT;
 use XML::LibXML;
 use Publican::Localise;
 use Publican::ConfigData;
-use File::Spec::Functions qw(rel2abs);
+use Encode;
+use Cwd qw(abs_path);
 
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
@@ -509,7 +510,9 @@ sub _load_config {
     foreach my $key ( keys(%Config) ) {
         unless ( defined $PARAMS{$key} ) {
             logger(
-                maketext( "WARNING: Unknow config key [_1], ignoring.\n", $key ),
+                maketext(
+                    "WARNING: Unknow config key [_1], ignoring.\n", $key
+                ),
                 RED
             );
             next;
@@ -517,7 +520,8 @@ sub _load_config {
     }
 
     foreach my $key ( keys(%PARAMS) ) {
-        if (defined $Config{$key} && defined $PARAMS{$key}->{limit_to}
+        if (   defined $Config{$key}
+            && defined $PARAMS{$key}->{limit_to}
             && (lc( ( $Config{'type'} || 'book' ) ) ne
                 lc( $PARAMS{$key}->{limit_to} ) )
 
@@ -543,8 +547,7 @@ sub _load_config {
         if ( defined $tmp ) {
             if ( ref $tmp eq "ARRAY" ) {
                 if ( $#{$tmp} >= 0 ) {
-                    $config->param( $key,
-                        join( ',', @{ $Config{$key} } ) );
+                    $config->param( $key, join( ',', @{ $Config{$key} } ) );
                 }
             }
             elsif ( $tmp ne "" ) {
@@ -558,7 +561,9 @@ sub _load_config {
 
     $config->param( 'common_config',  $common_config )  if $common_config;
     $config->param( 'common_content', $common_content ) if $common_content;
-    $config->param( 'brand_dir', rel2abs("$brand_dir") ) if $brand_dir;
+    $config->param( 'brand_dir',
+        decode_utf8( abs_path( encode_utf8($brand_dir) ) ) )
+        if $brand_dir;
 
     $self->{configfile} = $configfile;
     $self->{config}     = $config;
@@ -594,7 +599,8 @@ sub _load_config {
         my $product = $config->param('product');
 
         eval {
-            $product = $xml_doc->root()->look_down( "_tag", "productname" )
+            $product
+                = $xml_doc->root()->look_down( "_tag", "productname" )
                 ->as_text();
         }
             unless defined($product);
@@ -605,7 +611,8 @@ sub _load_config {
 
         my $version = $config->param('version');
         eval {
-            $version = $xml_doc->root()->look_down( "_tag", "productnumber" )
+            $version
+                = $xml_doc->root()->look_down( "_tag", "productnumber" )
                 ->as_text();
         }
             unless defined($version);
@@ -622,15 +629,20 @@ sub _load_config {
 
         my $cover_image = undef;
         eval {
-            $cover_image = $xml_doc->root()->look_down( "_tag", "mediaobject", 'role', 'cover' )->look_down('_tag', 'imageobject', 'role', 'front-large')->look_down('_tag', 'imagedata')->attr('fileref');
+            $cover_image
+                = $xml_doc->root()
+                ->look_down( "_tag", "mediaobject", 'role', 'cover' )
+                ->look_down( '_tag', 'imageobject', 'role', 'front-large' )
+                ->look_down( '_tag', 'imagedata' )->attr('fileref');
         };
 
-        $self->{config}->param( 'docname', $docname );
-        $self->{config}->param( 'product', $product );
-        $self->{config}->param( 'version', $version );
-        $self->{config}->param( 'release', $release );
-        $self->{config}->param( 'edition', $edition );
-        $self->{config}->param( 'cover_image', $cover_image ) if($cover_image);
+        $self->{config}->param( 'docname',     $docname );
+        $self->{config}->param( 'product',     $product );
+        $self->{config}->param( 'version',     $version );
+        $self->{config}->param( 'release',     $release );
+        $self->{config}->param( 'edition',     $edition );
+        $self->{config}->param( 'cover_image', $cover_image )
+            if ($cover_image);
 
         my $brand_path = $self->{config}->param('brand_dir')
             || $self->{config}->param('common_content') . "/$brand";
