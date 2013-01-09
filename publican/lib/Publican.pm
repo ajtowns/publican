@@ -12,8 +12,8 @@ use File::Find::Rule;
 use XML::LibXSLT;
 use XML::LibXML;
 use Publican::Localise;
-use Cwd qw(abs_path);
 use Publican::ConfigData;
+use File::Spec::Functions qw(rel2abs);
 
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
@@ -558,7 +558,7 @@ sub _load_config {
 
     $config->param( 'common_config',  $common_config )  if $common_config;
     $config->param( 'common_content', $common_content ) if $common_content;
-    $config->param( 'brand_dir', abs_path("$brand_dir") ) if $brand_dir;
+    $config->param( 'brand_dir', rel2abs("$brand_dir") ) if $brand_dir;
 
     $self->{configfile} = $configfile;
     $self->{config}     = $config;
