@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.0.0
-Release:        0%{?dist}.t37
+Release:        0%{?dist}.t38
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -119,7 +119,7 @@ Requires:       lohit-malayalam-fonts lohit-marathi-fonts lohit-nepali-fonts
 Requires:       lohit-oriya-fonts lohit-punjabi-fonts lohit-sindhi-fonts
 Requires:       lohit-tamil-fonts lohit-telugu-fonts dejavu-lgc-sans-mono-fonts
 Requires:       dejavu-fonts-common dejavu-serif-fonts dejavu-sans-fonts
-Requires:       dejavu-sans-mono-fonts
+Requires:       dejavu-sans-mono-fonts overpass-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
@@ -128,7 +128,7 @@ BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
-Requires:       lklug-fonts baekmuk-ttf-batang-fonts
+Requires:       lklug-fonts baekmuk-ttf-batang-fonts overpass-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
