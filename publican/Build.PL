@@ -11,8 +11,8 @@ my $class = Module::Build->subclass(
         use Cwd;
         my $dir = cwd() . '/tmp/rpm';
 ## BUGBUG when I'm impatient
-##        my $common_langs = 'en-US';
-        my $common_langs = 'all';
+        my $common_langs = 'en-US';
+##        my $common_langs = 'all';
         sub ACTION_srpm {
             my $self = shift;
             my $os_ver = $self->args('os_ver');
@@ -77,11 +77,12 @@ my $class = Module::Build->subclass(
             my $self = shift;
             $self->depends_on('build');
             use lib File::Spec->catdir('blib/lib');
+            use File::Path;
+            use File::Copy::Recursive qw(rcopy);
             eval {
                 require Publican;
+                $Publican::SINGLETON = undef;
                 require Publican::Builder;
-                use File::Path;
-                use File::Copy::Recursive qw(rcopy);
             };
             unless($@){
                 my $cwd = getcwd();
@@ -104,14 +105,14 @@ my $class = Module::Build->subclass(
             my $self = shift;
             $self->depends_on('build');
             use lib File::Spec->catdir('blib/lib');
+            use File::Path;
+            use File::Copy::Recursive qw(rcopy);
             eval {
                 require Publican;
                 $Publican::SINGLETON = undef;
                 require Publican::Builder;
             };
             unless($@){
-                use File::Path;
-                use File::Copy::Recursive qw(rcopy);
                 my $cwd = getcwd();
                 my $dir = pushd('datadir/Common_Content/common-db5');
                 my $path = "$cwd/blib/datadir/Common_Content";

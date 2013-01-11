@@ -550,7 +550,10 @@ Version: 1.72.0
   <!-- permit customization of class attributes -->
   <!-- Use element name by default -->
   <xsl:attribute name="class">
-    <xsl:value-of select="$class"/>
+    <!--xsl:value-of select="$class"/-->
+    <xsl:apply-templates select="." mode="class.value">
+      <xsl:with-param name="class" select="$class"/>
+    </xsl:apply-templates>
     <xsl:if test="@role">
         <xsl:text> </xsl:text>
         <xsl:value-of select="@role"/>
@@ -970,18 +973,21 @@ because it has to parse lines one by one to place the gfx
   </xsl:if>
 </xsl:template>
 
-<xsl:template name="common.html.attributes">
+<xsl:template match="*" mode="common.html.attributes">
   <xsl:param name="node" select="."/>
-  <xsl:param name="inherit" select="0"/>
   <xsl:param name="class" select="local-name(.)"/>
+  <xsl:param name="inherit" select="0"/>
   <xsl:variable name="id">
     <xsl:call-template name="object.id">
       <xsl:with-param name="object" select="$node"/>
     </xsl:call-template>
   </xsl:variable>
-  <xsl:apply-templates select="." mode="common.html.attributes">
-    <xsl:with-param name="class" select="$class"/>
+  <xsl:call-template name="generate.html.lang"/>
+  <xsl:call-template name="dir">
     <xsl:with-param name="inherit" select="$inherit"/>
+  </xsl:call-template>
+  <xsl:apply-templates select="." mode="class.attribute">
+    <xsl:with-param name="class" select="$class"/>
   </xsl:apply-templates>
   <xsl:if test="$node/@id or $node/@xml:id">
 	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>

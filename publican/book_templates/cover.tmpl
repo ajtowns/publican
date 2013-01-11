@@ -3,19 +3,21 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<link rel="stylesheet" href="Common_Content/css/default.css" type="text/css" />
-<style>
-div.logo {
-	background-image: url([%- logo -%]);
-}
-</style>
+	<link rel="stylesheet" href="Common_Content/css/pdf.css" type="text/css" />
 </head>
 <body class="cover">
 	<div class="logo"></div>
-	<div class="product">[%- product -%]</div>
+	<div class="leader">
+		<div class="product">[%- product -%]</div>
+		<div class="edition">[%- edition -%]</div>
+	</div>
 	<div class="docname">[%- docname -%]</div>
 	<div class="subtitle">[%- subtitle -%]</div>
-	<div class="edition">[%- edition -%]</div>
+	<div class="authors">
+	[%- FOREACH author = authors -%]
+		<div class="author">[%- author -%]</div>
+	[%- END -%]
+	</div>
 </body>
 
 </html>

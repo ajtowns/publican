@@ -254,4 +254,15 @@ Version:
   </div>
 </xsl:template>
 
+<xsl:template match="book|set|article" mode="class.value">
+  <xsl:choose>
+    <xsl:when test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and (self::set | self::book | self::article)[1]/@status = 'draft'))">
+      <xsl:value-of select="local-name(.)"/><xsl:text> draft</xsl:text>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="local-name(.)"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 </xsl:stylesheet>

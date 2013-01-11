@@ -1044,7 +1044,6 @@ sub transform {
                 '--header-html', "$common_config/header.html" );
         }
 
-        if ( $self->{publican}->param('cover_image') ) {
             my $tmpl_path = "$common_config/book_templates";
             my $tconf     = { INCLUDE_PATH => $tmpl_path, };
             my $template  = Template->new($tconf)
@@ -1072,6 +1071,7 @@ sub transform {
                 : $self->{publican}->param('docname');
             $name =~ s/_/ /g;
 
+            my @authors = $self->{publican}->get_author_list( { lang => $lang } );
             my $vars = {
                 product  => $prod,
                 docname  => $name,
@@ -1079,7 +1079,7 @@ sub transform {
                 edition  => $self->{publican}->param('edition'),
                 release  => $self->{publican}->param('release'),
                 subtitle => $subtitle,
-                logo     => $self->{publican}->param('cover_image'),
+                authors  => \@authors,
             };
 
             $template->process(
@@ -1091,7 +1091,6 @@ sub transform {
             push( @wkhtmltopdf_args,
                 'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
 
-        }
 
         push( @wkhtmltopdf_args,
             "$tmp_dir/$lang/html-pdf/index.html",

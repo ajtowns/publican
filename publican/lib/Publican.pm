@@ -627,22 +627,11 @@ sub _load_config {
             $self->{config}->param( 'mainfile', $docname );
         }
 
-        my $cover_image = undef;
-        eval {
-            $cover_image
-                = $xml_doc->root()
-                ->look_down( "_tag", "mediaobject", 'role', 'cover' )
-                ->look_down( '_tag', 'imageobject', 'role', 'front-large' )
-                ->look_down( '_tag', 'imagedata' )->attr('fileref');
-        };
-
         $self->{config}->param( 'docname',     $docname );
         $self->{config}->param( 'product',     $product );
         $self->{config}->param( 'version',     $version );
         $self->{config}->param( 'release',     $release );
         $self->{config}->param( 'edition',     $edition );
-        $self->{config}->param( 'cover_image', $cover_image )
-            if ($cover_image);
 
         my $brand_path = $self->{config}->param('brand_dir')
             || $self->{config}->param('common_content') . "/$brand";
@@ -1150,6 +1139,51 @@ sub get_subtitle {
     $subtitle =~ s/\s+/ /;
 
     return ($subtitle);
+}
+
+=head2 get_subtitle
+
+Return the subtitle for the supplied language with white space truncated.
+
+=cut
+
+sub get_author_list {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my @authors;
+
+    my $tmp_dir = $self->param('tmp_dir');
+    my $file = "$tmp_dir/$lang/xml/Author_Group.xml";
+
+    croak( maketext("author list can not be calculated before building.") )
+        unless ( -f $file );
+
+    my $xml_doc = XML::TreeBuilder->new(
+                    { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    $xml_doc->parse_file($file);
+
+
+
+    foreach my $author ( $xml_doc->root()->look_down( "_tag", "author" ) )
+    {
+        my $fn = $author->look_down( "_tag",'firstname')->as_text;
+        my $sn = $author->look_down( "_tag",'surname')->as_text;
+
+	push(@authors, "$fn $sn" );
+    }
+
+    return (@authors);
 }
 
 =head2 run_xslt
