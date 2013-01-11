@@ -627,11 +627,11 @@ sub _load_config {
             $self->{config}->param( 'mainfile', $docname );
         }
 
-        $self->{config}->param( 'docname',     $docname );
-        $self->{config}->param( 'product',     $product );
-        $self->{config}->param( 'version',     $version );
-        $self->{config}->param( 'release',     $release );
-        $self->{config}->param( 'edition',     $edition );
+        $self->{config}->param( 'docname', $docname );
+        $self->{config}->param( 'product', $product );
+        $self->{config}->param( 'version', $version );
+        $self->{config}->param( 'release', $release );
+        $self->{config}->param( 'edition', $edition );
 
         my $brand_path = $self->{config}->param('brand_dir')
             || $self->{config}->param('common_content') . "/$brand";
@@ -979,8 +979,9 @@ sub get_all_langs {
     foreach my $dir (@dirs) {
         if ( -d $dir ) {
             next
-                if (
-                $dir =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish)$/ );
+                if ( $dir
+                =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish|book_templates)$/
+                );
 
             if ( valid_lang($dir) ) {
                 push( @langs, $dir );
@@ -1164,23 +1165,20 @@ sub get_author_list {
     my @authors;
 
     my $tmp_dir = $self->param('tmp_dir');
-    my $file = "$tmp_dir/$lang/xml/Author_Group.xml";
+    my $file    = "$tmp_dir/$lang/xml/Author_Group.xml";
 
     croak( maketext("author list can not be calculated before building.") )
         unless ( -f $file );
 
     my $xml_doc = XML::TreeBuilder->new(
-                    { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->parse_file($file);
 
+    foreach my $author ( $xml_doc->root()->look_down( "_tag", "author" ) ) {
+        my $fn = $author->look_down( "_tag", 'firstname' )->as_text;
+        my $sn = $author->look_down( "_tag", 'surname' )->as_text;
 
-
-    foreach my $author ( $xml_doc->root()->look_down( "_tag", "author" ) )
-    {
-        my $fn = $author->look_down( "_tag",'firstname')->as_text;
-        my $sn = $author->look_down( "_tag",'surname')->as_text;
-
-	push(@authors, "$fn $sn" );
+        push( @authors, "$fn $sn" );
     }
 
     return (@authors);

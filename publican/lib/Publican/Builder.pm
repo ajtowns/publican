@@ -349,6 +349,11 @@ sub build {
             mkpath($path);
             rcopy( "xsl", "$path/." );
         }
+        if ( $type eq 'brand' && -d 'book_templates' ) {
+            my $path = "publish/$brand/book_templates";
+            mkpath($path);
+            rcopy( "book_templates", "$path/." );
+        }
     }
     debug_msg("end of build\n");
     return;
@@ -1030,67 +1035,76 @@ sub transform {
 
         mkdir "$tmp_dir/$lang/pdf";
 
+        my $header = "$common_config/book_templates/header.html";
+        $header = "$brand_path/book_templates/header.html"
+            if ( -f "$brand_path/book_templates/header.html" );
+
+        my $footer = "$common_config/book_templates/footer.html";
+        $footer = "$brand_path/book_templates/footer.html"
+            if ( -f "$brand_path/book_templates/footer.html" );
+
         my @wkhtmltopdf_args = (
             $wkhtmltopdf_cmd, '--header-spacing',
             5,                '--footer-spacing',
-            3,                '--margin-top',
+            5,                '--margin-top',
+            20,               '--margin-bottom',
             20,               '--margin-left',
             '15mm',           '--margin-right',
-            '15mm'
+            '15mm',           '--header-html',
+            $header,          '--footer-html',
+            $footer
         );
 
-        if ( -f "$common_config/header.html" ) {
-            push( @wkhtmltopdf_args,
-                '--header-html', "$common_config/header.html" );
-        }
+        my $tmpl_path = "$common_config/book_templates";
+        $tmpl_path = "$brand_path/book_templates:$tmpl_path"
+            if ( -d "$brand_path/book_templates" );
 
-            my $tmpl_path = "$common_config/book_templates";
-            my $tconf     = { INCLUDE_PATH => $tmpl_path, };
-            my $template  = Template->new($tconf)
-                or croak( Template->error() );
+        my $tconf = { INCLUDE_PATH => $tmpl_path, };
+        my $template = Template->new($tconf)
+            or croak( Template->error() );
 
-            my $subtitle
-                = $self->{publican}->get_subtitle( { lang => $lang } );
-            $subtitle =~ s/"/\\"/g;
-            $subtitle =~ s/\p{Z}+/ /g;
-            chomp($subtitle);
+        my $subtitle = $self->{publican}->get_subtitle( { lang => $lang } );
+        $subtitle =~ s/"/\\"/g;
+        $subtitle =~ s/\p{Z}+/ /g;
+        chomp($subtitle);
 
-            my $prod
-                = $web_product_label
-                ? $web_product_label
-                : $self->{publican}->param('product');
-            $prod =~ s/_/ /g;
+        my $prod
+            = $web_product_label
+            ? $web_product_label
+            : $self->{publican}->param('product');
+        $prod =~ s/_/ /g;
 
-            my $ver = $web_version_label
-                ? $web_version_label
-                : $self->{publican}->param('version');
-            $ver =~ s/_/ /g;
+        my $ver
+            = $web_version_label
+            ? $web_version_label
+            : $self->{publican}->param('version');
+        $ver =~ s/_/ /g;
 
-            my $name = $web_name_label
-                ? $web_name_label
-                : $self->{publican}->param('docname');
-            $name =~ s/_/ /g;
+        my $name
+            = $web_name_label
+            ? $web_name_label
+            : $self->{publican}->param('docname');
+        $name =~ s/_/ /g;
 
-            my @authors = $self->{publican}->get_author_list( { lang => $lang } );
-            my $vars = {
-                product  => $prod,
-                docname  => $name,
-                version  => $ver,
-                edition  => $self->{publican}->param('edition'),
-                release  => $self->{publican}->param('release'),
-                subtitle => $subtitle,
-                authors  => \@authors,
-            };
+        my @authors = $self->{publican}->get_author_list( { lang => $lang } );
+        my $vars = {
+            product  => $prod,
+            docname  => $name,
+            version  => $ver,
+            edition  => $self->{publican}->param('edition'),
+            release  => $self->{publican}->param('release'),
+            subtitle => $subtitle,
+            authors  => \@authors,
+        };
 
-            $template->process(
-                'cover.tmpl', $vars,
-                "$tmp_dir/$lang/html-pdf/cover.html",
-                binmode => ':encoding(UTF-8)'
-            ) or croak( $template->error() );
+        $template->process(
+            'cover.tmpl', $vars,
+            "$tmp_dir/$lang/html-pdf/cover.html",
+            binmode => ':encoding(UTF-8)'
+        ) or croak( $template->error() );
 
-            push( @wkhtmltopdf_args,
-                'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
-
+        push( @wkhtmltopdf_args,
+            'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
 
         push( @wkhtmltopdf_args,
             "$tmp_dir/$lang/html-pdf/index.html",
@@ -2550,7 +2564,7 @@ sub package_brand {
         rcopy( $file, "$tmp_dir/tar/$tardir/." ) if ( -f $file );
     }
 
-    foreach my $dir ( split( /,/, $langs ), 'pot', 'xsl' ) {
+    foreach my $dir ( split( /,/, $langs ), 'pot', 'xsl', 'book_templates' ) {
         dircopy( "$dir", "$tmp_dir/tar/$tardir/$dir" ) if ( -d $dir );
     }
 

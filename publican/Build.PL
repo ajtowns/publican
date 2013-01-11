@@ -404,9 +404,7 @@ my $builder = $class->new(
     data_files => {
         'datadir/rpmlint.cfg'                => 'datadir/rpmlint.cfg',
         'datadir/default.db'                 => 'datadir/default.db',
-        'datadir/footer.html'                => 'datadir/footer.html',
         'datadir/fop/fop.xconf'              => 'datadir/fop/fop.xconf',
-        'datadir/header.html'                => 'datadir/header.html',
         'datadir/xsl/dt_htmlsingle_spec.xsl' => 'datadir/xsl/dt_htmlsingle_spec.xsl',
         'datadir/xsl/carousel.xsl'           => 'datadir/xsl/carousel.xsl',
         'datadir/xsl/xhtml-common.xsl'       => 'datadir/xsl/xhtml-common.xsl',
@@ -463,7 +461,9 @@ my $builder = $class->new(
         'templates/Sitemap.tmpl'           => 'templates/Sitemap.tmpl',
     },
     book_templates_files => {
-        'book_templates/cover.tmpl' => 'book_templates/cover.tmpl',
+        'book_templates/cover.tmpl'   => 'book_templates/cover.tmpl',
+        'book_templates/footer.html'  => 'book_templates/footer.html',
+        'book_templates/header.html'  => 'book_templates/header.html',
     },
     etc_files        => { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
     completion_files => { 'completion/_publican'     => 'completion/_publican', },

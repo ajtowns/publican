@@ -7,17 +7,13 @@ function subst() {
   if (parseInt(vars[x[2]])%2 == 0){
   	var lefty = document.getElementsByClassName("leftpagenumber");
 	for (var j=0; j<lefty.length; ++j) lefty[j].textContent = vars[x[2]];
-	lefty = document.getElementsByClassName("leftstring");
-	for (var j=0; j<lefty.length; ++j) lefty[j].textContent = decodeURIComponent(escape(vars[x[4]]));
   } else {
-	var righty = document.getElementsByClassName("rightstring");
-	for (var j=0; j<righty.length; ++j) righty[j].textContent = "Red Hat Enterprise Linux 6 Installation Guide";
-	righty = document.getElementsByClassName("rightpagenumber");
+	var righty = document.getElementsByClassName("rightpagenumber");
 	for (var j=0; j<righty.length; ++j) righty[j].textContent = vars[x[2]];
   }
 }
 </script></head><body style="border:0; margin: 0;" onload="subst()">
-<div style="border-top: 1px solid #bbb; width: 100%; color:#888; font-size:8pt;padding-top:7px">
+<div style="border-top: 1px solid #bbb; width: 100%; color:#888; font-size:8pt;padding-top:1px">
 <span class="leftbox" style="float:left;text-align-left;"><span class="leftpagenumber" style="margin-right:20px;font-size:12pt;font-weight:bold"></span><span class="leftstring" style="margin-top:-2px;"></span></span>
 <span class="rightbox" style="float:right;text-align:right;"><span class="rightstring" style="margin-top:-15px;"></span><span class="rightpagenumber" style="font-weight:bold;margin-left:20px;font-size:12pt"></span></span>
 </div>
