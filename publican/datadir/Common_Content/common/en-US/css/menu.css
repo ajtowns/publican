@@ -97,11 +97,18 @@ div.section {
 	page-break-inside: avoid;
 }
 
-p, div.para, div.formalpara {
+p, div.para {
 	padding-top: 0px;
 	margin-top: 0.3em;
 	padding-bottom: 0px;
 	margin-bottom: 1em;
+}
+
+div.formalpara {
+       padding-top: 0px;
+       margin-top: 1em;
+       padding-bottom: 0px;
+       margin-bottom: 1em;
 }
 
 .varlistentry div.para {
@@ -206,11 +213,16 @@ h2 {
 }
 
 
-h2.subtitle, h3.subtitle {
+div.subtitle, h2.subtitle, h3.subtitle {
 	margin-top: 1em;
 	margin-bottom: 1em;
 	font-size: 18px;
 	text-align: center;
+}
+
+div.subtitle {
+       color:  #336699;
+       font-weight: bold;
 }
 
 .preface > div > div > div > h2.title {
@@ -243,12 +255,6 @@ h5 {
 h6 {
 	font-size: 14px;
 	margin-bottom: 0px;
-}
-
-h5.formalpara {
-	font-size: 14px;
-	margin-top:2em;
-	margin-bottom:.8em;
 }
 
 .abstract h6 {
@@ -430,24 +436,29 @@ a.version:focus, a.version:hover {
 	text-align: center;
 }
 
-h3.author,
-h3.editor {
+div.author div.author,
+div.translator div.translator,
+div.othercredit div.othercredit,
+div.editor div.editor,
+div.contrib div.contrib {
 	margin: 0px;
 	padding: 0px;
 	margin-top: 12px;
 	font-size: 14px;
+       font-weight: bold;
+       color: #336699;
 }
 
-h4.editedby {
+div.editedby {
 	margin-top: 15px;
 	margin-bottom: 5px;
 }
 
-.author, 
-.editor, 
-.translator, 
-.othercredit,
-.contrib {
+div.authorgroup .author, 
+div.authorgroup.editor, 
+div.authorgroup.translator, 
+div.authorgroup.othercredit,
+div.authorgroup.contrib {
 	display: block;
 	font-size: 14px;
 	page-break-inside: avoid;
@@ -720,14 +731,20 @@ img {
 	border-left: 3px solid #aaaaaa;
 	padding-top: 1px;
 	padding-bottom: 0.1em;
+       padding-left: 1em;
 }
 
-.example h6 {
-	padding-left: 10px;
+div.title {
+       margin-bottom: 1em;
+       font-weight: 14px;
+       font-weight: bold;
+       color: #336699;
+       page-break-inside: avoid;
+       page-break-after: avoid;
+       word-wrap: break-word;
 }
 
 .example-contents {
-	padding-left: 10px;
 	background-color: #ffffff;
 }
 
@@ -842,7 +859,7 @@ div.warning, div.note, div.important {
 	page-break-inside: avoid;
 }
 
-div.warning h2, div.note h2,div.important h2 {
+div.admonition_header p {
 	margin: 0px;
 	padding: 0px;
 	color: #eeeeec;
@@ -1198,7 +1215,6 @@ div.legalnotice {
 
 div.abstract {
 	page-break-before: always;
-	page-break-after: always;
 }
 
 div.chapter {

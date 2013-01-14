@@ -13,21 +13,7 @@
 <xsl:output method="xml" encoding="UTF-8" indent="no" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" omit-xml-declaration="no" />
 
 <xsl:param name="html.append"/>
-<xsl:param name="generate.toc">
-set toc,title
-book toc,title,qandadiv
-article toc,title
-chapter nop
-qandadiv nop
-qandaset nop
-sect1 nop
-sect2 nop
-sect3 nop
-sect4 nop
-sect5 nop
-section nop
-part nop
-</xsl:param>
+<xsl:param name="generate.toc">nop</xsl:param>
 
 <!--
 From: html/component.xsl

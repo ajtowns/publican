@@ -134,9 +134,9 @@ Version: 1.72.0
 	                <xsl:call-template name="common.html.attributes"/>
 			<xsl:if test="$admon.textlabel != 0 or title">
 				<div class="admonition_header">
-				<h2>
-					<xsl:apply-templates select="." mode="object.title.markup"/>
-				</h2>
+					<p>
+						<strong><xsl:apply-templates select="." mode="object.title.markup"/></strong>
+					</p>
 				</div>
 			</xsl:if>
 		<div class="admonition">
@@ -414,14 +414,16 @@ Version: 1.72.0
 <xsl:template name="user.footer.content">
 	<xsl:param name="node" select="."/>
 	<xsl:if test="$confidential = '1'">
-		<h1 xmlns="http://www.w3.org/1999/xhtml" class="confidential">
+		<div xmlns="http://www.w3.org/1999/xhtml" class="confidential">
 			<xsl:value-of select="$confidential.text"/>
-		</h1>
+		</div>
 	</xsl:if>
-	<div id="site_footer"></div>
-	<script type="text/javascript">
-		$("#site_footer").load("<xsl:value-of select="$tocpath"/>/../footer.html");
-	</script>
+	<xsl:if test="$embedtoc != 0">
+		<div id="site_footer"></div>
+		<script type="text/javascript">
+			$("#site_footer").load("<xsl:value-of select="$tocpath"/>/../footer.html");
+		</script>
+	</xsl:if>
 </xsl:template>
 
 <!--
@@ -457,13 +459,13 @@ Version: 1.72.0
 	<xsl:variable name="titleStr">
 			<xsl:apply-templates/>
 	</xsl:variable>
-	<h5 xmlns="http://www.w3.org/1999/xhtml" class="formalpara">
+	<div xmlns="http://www.w3.org/1999/xhtml" class="title">
       <xsl:call-template name="anchor">
         <xsl:with-param name="node" select=".."/>
         <xsl:with-param name="conditional" select="0"/>
       </xsl:call-template>
 		<xsl:copy-of select="$titleStr"/>
-	</h5>
+	</div>
 </xsl:template>
 
 <!--
@@ -639,7 +641,7 @@ Version: 1.72.0
       <xsl:with-param name="allow-anchors" select="0"/>
     </xsl:apply-templates>
   </xsl:param>
-  <h6><xsl:copy-of select="$title"/></h6>
+  <div class="title"><xsl:copy-of select="$title"/></div>
 </xsl:template>
 
 <!--
@@ -2770,6 +2772,50 @@ snip border rubbish. BZ #875967
     </xsl:if>
     <xsl:copy-of select="$title"/>
   </xsl:element>
+</xsl:template>
+
+<xsl:template name="credits.div">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:call-template name="id.attribute"/>
+    <xsl:if test="self::editor[position()=1] and not($editedby.enabled = 0)">
+      <div class="editedby"><xsl:call-template name="gentext.edited.by"/></div>
+    </xsl:if>
+    <div>
+      <xsl:apply-templates select="." mode="common.html.attributes"/>
+      <xsl:choose>
+        <xsl:when test="orgname">
+          <xsl:apply-templates/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="person.name"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </div>
+    <xsl:if test="not($contrib.inline.enabled = 0)">
+      <xsl:apply-templates mode="titlepage.mode" select="contrib"/>
+    </xsl:if>
+    <xsl:apply-templates mode="titlepage.mode" select="affiliation"/>
+    <xsl:apply-templates mode="titlepage.mode" select="email"/>
+    <xsl:if test="not($blurb.on.titlepage.enabled = 0)">
+      <xsl:choose>
+        <xsl:when test="$contrib.inline.enabled = 0">
+          <xsl:apply-templates mode="titlepage.mode" select="contrib|authorblurb|personblurb"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates mode="titlepage.mode" select="authorblurb|personblurb"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+  </div>
+</xsl:template>
+
+<xsl:template match="subtitle" mode="titlepage.mode">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:call-template name="id.attribute"/>
+    <xsl:apply-templates mode="titlepage.mode"/>
+  </div>
 </xsl:template>
 
 </xsl:stylesheet>
