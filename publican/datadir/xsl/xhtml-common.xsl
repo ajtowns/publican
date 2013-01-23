@@ -59,7 +59,7 @@
 <xsl:param name="othercredit.like.author.enabled" select="0"/>
 <xsl:param name="email.delimiters.enabled">0</xsl:param>
 
-<xsl:param name="generate.id.attributes" select="1"/>
+<xsl:param name="generate.id.attributes" select="0"/>
 <xsl:param name="make.graphic.viewport" select="0"/>
 <xsl:param name="use.embed.for.svg" select="0"/>
 
@@ -460,10 +460,6 @@ Version: 1.72.0
 			<xsl:apply-templates/>
 	</xsl:variable>
 	<div xmlns="http://www.w3.org/1999/xhtml" class="title">
-      <xsl:call-template name="anchor">
-        <xsl:with-param name="node" select=".."/>
-        <xsl:with-param name="conditional" select="0"/>
-      </xsl:call-template>
 		<xsl:copy-of select="$titleStr"/>
 	</div>
 </xsl:template>
@@ -634,22 +630,11 @@ Version: 1.72.0
   </xsl:choose>
 </xsl:template>
 
-<xsl:template name="formal.object.heading">
-  <xsl:param name="object" select="."/>
-  <xsl:param name="title">
-    <xsl:apply-templates select="$object" mode="object.title.markup">
-      <xsl:with-param name="allow-anchors" select="0"/>
-    </xsl:apply-templates>
-  </xsl:param>
-  <div class="title"><xsl:copy-of select="$title"/></div>
-</xsl:template>
-
 <!--
 From: xhtml/qandaset.xsl
 Reason: No stinking tables
 Version: 1.72.0
 -->
-
 <xsl:template name="qandaset">
   <div class="qandaset">
     <xsl:apply-templates select="." mode="class.attribute"/>
@@ -701,10 +686,8 @@ Version: 1.72.0
   </div>
 </xsl:template>
 
-<!-- set id BZ #593892 -->
 <xsl:template match="qandaentry">
-  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
-  <div id="{$id}">
+  <div>
     <xsl:apply-templates select="." mode="class.attribute"/>
     <xsl:apply-templates/>
   </div>
@@ -946,9 +929,9 @@ because it has to parse lines one by one to place the gfx
       </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
-      <div id="{$id}">
+      <div>
         <xsl:apply-templates select="." mode="class.attribute"/>
-        <!--a id="{$id}"/-->
+        <a id="{$id}"/>
 	<h1 class="legalnotice">
     <xsl:call-template name="gentext">
       <xsl:with-param name="key">LegalNotice</xsl:with-param>
@@ -958,78 +941,6 @@ because it has to parse lines one by one to place the gfx
       </div>
     </xsl:otherwise>
   </xsl:choose>
-</xsl:template>
-
-<!-- anchors are bad, mmmk -->
-<!-- but we need to catch formal objects with no ID -->
-<xsl:template name="anchor">
-  <xsl:param name="node" select="."/>
-  <xsl:param name="conditional" select="1"/>
-  <xsl:variable name="id">
-    <xsl:call-template name="object.id">
-      <xsl:with-param name="object" select="$node"/>
-    </xsl:call-template>
-  </xsl:variable>
-  <xsl:if test="(self::title and substring($id,1,2) = 'id') or self::bridgehead">
-    <xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
-  </xsl:if>
-</xsl:template>
-
-<xsl:template match="*" mode="common.html.attributes">
-  <xsl:param name="node" select="."/>
-  <xsl:param name="class" select="local-name(.)"/>
-  <xsl:param name="inherit" select="0"/>
-  <xsl:variable name="id">
-    <xsl:call-template name="object.id">
-      <xsl:with-param name="object" select="$node"/>
-    </xsl:call-template>
-  </xsl:variable>
-  <xsl:call-template name="generate.html.lang"/>
-  <xsl:call-template name="dir">
-    <xsl:with-param name="inherit" select="$inherit"/>
-  </xsl:call-template>
-  <xsl:apply-templates select="." mode="class.attribute">
-    <xsl:with-param name="class" select="$class"/>
-  </xsl:apply-templates>
-  <xsl:if test="$node/@id or $node/@xml:id">
-	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
-  </xsl:if>
-</xsl:template>
-
-<xsl:template match="title" mode="titlepage.mode">
-  <xsl:variable name="id">
-    <xsl:choose>
-      <!-- if title is in an *info wrapper, get the grandparent -->
-      <xsl:when test="contains(local-name(..), 'info')">
-        <xsl:call-template name="object.id">
-          <xsl:with-param name="object" select="../.."/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:call-template name="object.id">
-          <xsl:with-param name="object" select=".."/>
-        </xsl:call-template>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-  <h1>
-    <!-- some blocks with titles don't have their id's set-->
-    <!-- Remove duplictae IDs BZ #788576 -->
-    <!--xsl:if test="substring($id,1,2) = 'id'">
-	<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
-    </xsl:if-->
-    <xsl:apply-templates select="." mode="class.attribute"/>
-    <xsl:choose>
-      <xsl:when test="$show.revisionflag != 0 and @revisionflag">
-	<span class="{@revisionflag}">
-	  <xsl:apply-templates mode="titlepage.mode"/>
-	</span>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:apply-templates mode="titlepage.mode"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </h1>
 </xsl:template>
 
 <xsl:template match="chapter/title" mode="titlepage.mode" priority="2">
@@ -2368,109 +2279,6 @@ snip border rubbish. BZ #875967
   </xsl:choose>
 </xsl:template>
 
-<!-- move call to anchor above separator -->
-<xsl:template match="refentry">
-  <xsl:call-template name="id.warning"/>
-
-  <div>
-    <xsl:call-template name="common.html.attributes">
-      <xsl:with-param name="inherit" select="1"/>
-    </xsl:call-template>
-    <xsl:call-template name="anchor">
-      <xsl:with-param name="conditional" select="0"/>
-    </xsl:call-template>
-    <xsl:if test="$refentry.separator != 0 and preceding-sibling::refentry">
-      <div class="refentry.separator">
-        <hr/>
-      </div>
-    </xsl:if>
-    <xsl:call-template name="refentry.titlepage"/>
-    <xsl:apply-templates/>
-    <xsl:call-template name="process.footnotes"/>
-  </div>
-</xsl:template>
-
-<!-- change anchor to common.html.attributes -->
-<xsl:template name="formal.object">
-  <xsl:param name="placement" select="'before'"/>
-  <xsl:param name="class">
-    <xsl:apply-templates select="." mode="class.value"/>
-  </xsl:param>
-
-  <xsl:call-template name="id.warning"/>
-
-  <xsl:variable name="content">
-    <div class="{$class}">
-      <!--xsl:call-template name="anchor">
-        <xsl:with-param name="conditional" select="0"/>
-      </xsl:call-template-->
-     <xsl:call-template name="common.html.attributes"/>
-
-      <xsl:choose>
-        <xsl:when test="$placement = 'before'">
-          <xsl:call-template name="formal.object.heading"/>
-          <div class="{$class}-contents">
-            <xsl:apply-templates/>
-          </div>
-          <!-- HACK: This doesn't belong inside formal.object; it 
-               should be done by the table template, but I want 
-               the link to be inside the DIV, so... -->
-          <xsl:if test="local-name(.) = 'table'">
-            <xsl:call-template name="table.longdesc"/>
-          </xsl:if>
-    
-          <xsl:if test="$spacing.paras != 0"><p/></xsl:if>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:if test="$spacing.paras != 0"><p/></xsl:if>
-          <div class="{$class}-contents"><xsl:apply-templates/></div>
-          <!-- HACK: This doesn't belong inside formal.object; it 
-               should be done by the table template, but I want 
-               the link to be inside the DIV, so... -->
-          <xsl:if test="local-name(.) = 'table'">
-            <xsl:call-template name="table.longdesc"/>
-          </xsl:if>
-    
-          <xsl:call-template name="formal.object.heading"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </div>
-    <xsl:if test="not($formal.object.break.after = '0')">
-      <br class="{$class}-break"/>
-    </xsl:if>
-  </xsl:variable>
-
-  <xsl:variable name="floatstyle">
-    <xsl:call-template name="floatstyle"/>
-  </xsl:variable>
-
-  <xsl:choose>
-    <xsl:when test="$floatstyle != ''">
-      <xsl:call-template name="floater">
-        <xsl:with-param name="class"><xsl:value-of select="$class"/>-float</xsl:with-param>
-        <xsl:with-param name="floatstyle" select="$floatstyle"/>
-        <xsl:with-param name="content" select="$content"/>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:copy-of select="$content"/>
-    </xsl:otherwise>
-  </xsl:choose>
-
-</xsl:template>
-
-<!-- change anchor to common.html.attributes -->
-<xsl:template match="varlistentry">
-  <dt>
-    <!--xsl:call-template name="anchor"/-->
-    <xsl:call-template name="common.html.attributes"/>
-    <xsl:apply-templates select="term"/>
-  </dt>
-  <dd>
-    <xsl:apply-templates select="listitem"/>
-  </dd>
-</xsl:template>
-
 <xsl:template name="number.rtf.lines">
   <xsl:param name="rtf" select="''"/>
   <xsl:param name="pi.context" select="."/>
@@ -2662,42 +2470,6 @@ snip border rubbish. BZ #875967
   </xsl:choose>
 </xsl:template>
 
-<!-- set id BZ #672439 -->
-<xsl:template match="task">
-  <xsl:variable name="param.placement" select="substring-after(normalize-space($formal.title.placement),                                         concat(local-name(.), ' '))"/>
-
-  <xsl:variable name="placement">
-    <xsl:choose>
-      <xsl:when test="contains($param.placement, ' ')">
-        <xsl:value-of select="substring-before($param.placement, ' ')"/>
-      </xsl:when>
-      <xsl:when test="$param.placement = ''">before</xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$param.placement"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-
-  <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
-
-  <xsl:variable name="preamble" select="*[not(self::title or self::titleabbrev)]"/>
-
-  <div id="{$id}">
-    <xsl:apply-templates select="." mode="common.html.attributes"/>
-    <xsl:call-template name="anchor"/>
-
-    <xsl:if test="title and $placement = 'before'">
-      <xsl:call-template name="formal.object.heading"/>
-    </xsl:if>
-
-    <xsl:apply-templates select="$preamble"/>
-
-    <xsl:if test="title and $placement != 'before'">
-      <xsl:call-template name="formal.object.heading"/>
-    </xsl:if>
-  </div>
-</xsl:template>
-
 <xsl:template name="book.titlepage.separator">
 </xsl:template>
 
@@ -2708,114 +2480,6 @@ snip border rubbish. BZ #875967
 </xsl:template>
 
 <xsl:template name="set.titlepage.separator">
-</xsl:template>
-
- <!-- Remove duplictae IDs BZ #788576 -->
-<xsl:template name="section.heading">
-  <xsl:param name="section" select="."/>
-  <xsl:param name="level" select="1"/>
-  <xsl:param name="allow-anchors" select="1"/>
-  <xsl:param name="title"/>
-  <xsl:param name="class" select="'title'"/>
-
-  <xsl:variable name="id">
-    <xsl:choose>
-      <!-- Make sure the subtitle doesn't get the same id as the title -->
-      <xsl:when test="self::subtitle">
-        <xsl:call-template name="object.id">
-          <xsl:with-param name="object" select="."/>
-        </xsl:call-template>
-      </xsl:when>
-      <!-- if title is in an *info wrapper, get the grandparent -->
-      <xsl:when test="contains(local-name(..), 'info')">
-        <xsl:call-template name="object.id">
-          <xsl:with-param name="object" select="../.."/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:call-template name="object.id">
-          <xsl:with-param name="object" select=".."/>
-        </xsl:call-template>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-
-  <!-- HTML H level is one higher than section level -->
-  <xsl:variable name="hlevel">
-    <xsl:choose>
-      <!-- highest valid HTML H level is H6; so anything nested deeper
-           than 5 levels down just becomes H6 -->
-      <xsl:when test="$level &gt; 5">6</xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$level + 1"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-  <xsl:element name="h{$hlevel}">
-    <xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute>
-    <xsl:if test="$css.decoration != '0'">
-      <xsl:if test="$hlevel&lt;3">
-        <xsl:attribute name="style">clear: both</xsl:attribute>
-      </xsl:if>
-    </xsl:if>
-    <xsl:if test="$allow-anchors != 0 and $generate.id.attributes = 0">
-      <xsl:call-template name="anchor">
-        <xsl:with-param name="node" select="$section"/>
-        <xsl:with-param name="conditional" select="0"/>
-      </xsl:call-template>
-    </xsl:if>
-    <xsl:if test="$generate.id.attributes != 0 and not(local-name(.) = 'appendix')">
-      <!--xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute-->
-      <xsl:if test="(self::title and substring($id,1,2) = 'id')">
-        <xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
-      </xsl:if>
-    </xsl:if>
-    <xsl:copy-of select="$title"/>
-  </xsl:element>
-</xsl:template>
-
-<xsl:template name="credits.div">
-  <div>
-    <xsl:apply-templates select="." mode="common.html.attributes"/>
-    <xsl:call-template name="id.attribute"/>
-    <xsl:if test="self::editor[position()=1] and not($editedby.enabled = 0)">
-      <div class="editedby"><xsl:call-template name="gentext.edited.by"/></div>
-    </xsl:if>
-    <div>
-      <xsl:apply-templates select="." mode="common.html.attributes"/>
-      <xsl:choose>
-        <xsl:when test="orgname">
-          <xsl:apply-templates/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:call-template name="person.name"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </div>
-    <xsl:if test="not($contrib.inline.enabled = 0)">
-      <xsl:apply-templates mode="titlepage.mode" select="contrib"/>
-    </xsl:if>
-    <xsl:apply-templates mode="titlepage.mode" select="affiliation"/>
-    <xsl:apply-templates mode="titlepage.mode" select="email"/>
-    <xsl:if test="not($blurb.on.titlepage.enabled = 0)">
-      <xsl:choose>
-        <xsl:when test="$contrib.inline.enabled = 0">
-          <xsl:apply-templates mode="titlepage.mode" select="contrib|authorblurb|personblurb"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:apply-templates mode="titlepage.mode" select="authorblurb|personblurb"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:if>
-  </div>
-</xsl:template>
-
-<xsl:template match="subtitle" mode="titlepage.mode">
-  <div>
-    <xsl:apply-templates select="." mode="common.html.attributes"/>
-    <xsl:call-template name="id.attribute"/>
-    <xsl:apply-templates mode="titlepage.mode"/>
-  </div>
 </xsl:template>
 
 </xsl:stylesheet>

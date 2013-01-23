@@ -1110,7 +1110,7 @@ sub transform {
         $toc_xsl = "$brand_path/book_templates/toc.xsl"
             if ( -f "$brand_path/book_templates/toc.xsl" );
 
-        push( @wkhtmltopdf_args, 'toc',  '--xsl-style-sheet', $toc_xsl, '--toc-header-text', maketext("Table of Content"),
+        push( @wkhtmltopdf_args, 'toc',  '--xsl-style-sheet', $toc_xsl, '--toc-header-text', maketext("Table of Contents"),
             "$tmp_dir/$lang/html-pdf/index.html",
             "$tmp_dir/$lang/pdf/$pdf_name" );
 
