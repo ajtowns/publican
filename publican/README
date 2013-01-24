@@ -37,6 +37,8 @@ Q: Where are the common files located?
 
 A: By default they are in /usr/share/publican
 
+Publican now uses Build::ConfigData to contorl this. If the default paths are not correct modify the Build time options, via the command line or in Build.PL to set them. Checkout how the options in Build.PL are modified for 'darwin' and do the same for your OS. If you submit a bug with your OS details we will include it.
+
 Q: How do I profile publican?
 
 A: Devel::NYTProf is a good option.
