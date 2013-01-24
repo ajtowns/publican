@@ -1,27 +1,29 @@
 # translation of Conventions.po to
 # Yulia Poyarkova <yulia.poyarkova@redhat.com>, 2007, 2008.
 # Yulia <ypoyarko@redhat.com>, 2009.
+# Aleksandr Brezhnev <abrezhnev@gmail.com>, 2012.
+# mamasun <ikabanova@russianfedora.ru>, 2012. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: Conventions\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2010-09-29T05:30:03\n"
-"PO-Revision-Date: 2009-12-02 07:10-0500\n"
-"Last-Translator: Yulia <ypoyarko@redhat.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2012-09-17 08:09-0400\n"
+"Last-Translator: mamasun <ikabanova@russianfedora.ru>\n"
+"Language-Team: Russian <trans-ru@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Zanata 1.6.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Zanata 2.0.2\n"
 
 #. Tag: title
 # translation auto-copied from project Publican Common, version 3, document
 # Conventions
 #, no-c-format
 msgid "Document Conventions"
-msgstr "Соглашения документа"
+msgstr "tСоглашения документа"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -44,12 +46,12 @@ msgid ""
 "displayed. Note: Red Hat Enterprise Linux 5 and later includes the "
 "Liberation Fonts set by default."
 msgstr ""
-"В PDF и бумажной версиях руководства используются шрифты семейства <ulink "
+"В PDF и бумажной версии документа используются шрифты семейства <ulink "
 "url=\"https://fedorahosted.org/liberation-fonts/\">Liberation</ulink>. Эти "
-"же шрифты будут использоваться для отображения HTML-версии, если они "
-"установлены в вашей системе. В противном случае будут использоваться "
-"аналогичные шрифты. Red Hat Enterprise Linux 5 и более поздние версии "
-"включают в свой состав комплект Liberation по умолчанию."
+"же шрифты используются для отображения HTML-версии, если они установлены в "
+"системе. В противном случае вместо них используются похожие шрифты. Red Hat "
+"Enterprise Linux 5 и более поздние версии включают в свой состав комплект "
+"шрифтов Liberation по умолчанию."
 
 #. Tag: title
 # translation auto-copied from project Publican Common, version 3, document
@@ -83,6 +85,9 @@ msgid ""
 "Used to highlight system input, including shell commands, file names and "
 "paths. Also used to highlight keys and key combinations. For example:"
 msgstr ""
+"Используется для выделения вводимого текста, включая команды оболочки, имена"
+" файлов, пути доступа к ним, а также отдельные клавиши и их комбинации. "
+"Например:"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -96,8 +101,8 @@ msgid ""
 "command."
 msgstr ""
 "Чтобы просмотреть содержимое файла "
-"<filename>my_next_bestselling_novel</filename> в текущем каталоге, в строке "
-"приглашения оболочки введите <command>cat "
+"<filename>my_next_bestselling_novel</filename>, расположенного в текущем "
+"каталоге, в строке приглашения оболочки введите <command>cat "
 "my_next_bestselling_novel</command> и нажмите <keycap>Enter</keycap> для "
 "выполнения этой команды."
 
@@ -107,6 +112,9 @@ msgid ""
 "The above includes a file name, a shell command and a key, all presented in "
 "mono-spaced bold and all distinguishable thanks to context."
 msgstr ""
+"Приведенный выше текст содержит имя файла, команду оболочки и название "
+"клавиши, выделенные моноширинным жирным шрифтом. Все они различаются по "
+"контексту."
 
 #. Tag: para
 #, no-c-format
@@ -114,13 +122,15 @@ msgid ""
 "Key combinations can be distinguished from an individual key by the plus "
 "sign that connects each part of a key combination. For example:"
 msgstr ""
+"Комбинации клавиш отличаются от отдельных клавиш с помощью знака плюс, "
+"который соединяет все клавиши, входящие в комбинацию. Например:"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
 # Conventions
 #, no-c-format
 msgid "Press <keycap>Enter</keycap> to execute the command."
-msgstr "Нажмите <keycap>Enter</keycap> для исполнения команды. "
+msgstr "Нажмите <keycap>Enter</keycap> для исполнения команды."
 
 #. Tag: para
 #, no-c-format
@@ -129,6 +139,9 @@ msgid ""
 "<keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F2</keycap></keycombo>"
 " to switch to a virtual terminal."
 msgstr ""
+"Нажмите "
+"<keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F2</keycap></keycombo>"
+" для перехода в виртуальный терминал."
 
 #. Tag: para
 #, no-c-format
@@ -136,6 +149,9 @@ msgid ""
 "The first example highlights a particular key to press. The second example "
 "highlights a key combination: a set of three keys pressed simultaneously."
 msgstr ""
+"В первом примере выделена отдельная клавиша, которую надо нажать. Во втором "
+"примере выделена комбинация клавиш — три клавиши, которые надо нажать "
+"одновременно."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -146,8 +162,10 @@ msgid ""
 " and returned values mentioned within a paragraph will be presented as "
 "above, in <literal>mono-spaced bold</literal>. For example:"
 msgstr ""
-"Этим же шрифтом выделяются имена классов, методов, функций, переменных и "
-"возвращаемые ими значения. Пример:"
+"Если при описании исходных кодов программы внутри параграфа встречаются "
+"имена классов, методов, функций, переменных и возвращаемые ими значения, то "
+"они тоже выделяются <literal>моноширинным жирным шрифтом</literal>. "
+"Например:"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -159,16 +177,18 @@ msgid ""
 "<classname>dir</classname> for directories. Each class has its own "
 "associated set of permissions."
 msgstr ""
-"Классы файлов включают <classname>filesystem</classname> для файловых "
-"систем, <classname>file</classname> для файлов, <classname>dir</classname> "
-"для каталогов. Каждому классу соответствует набор разрешений."
+"В состав классов, имеющих отношение к обработке файлов, входят классы "
+"<classname>filesystem</classname> для работы с файловыми системами, "
+"<classname>file</classname> для работы с файлами, <classname>dir</classname>"
+" для работы с каталогами. Каждый класс имеет свой собственных набор прав "
+"доступа."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
 # Conventions
 #, no-c-format
 msgid "<application>Proportional Bold</application>"
-msgstr "<application>Пропорциональный жирный</application>"
+msgstr "<application>Пропорциональный жирный шрифт</application>"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -179,9 +199,9 @@ msgid ""
 " names; dialog box text; labeled buttons; check-box and radio button labels;"
 " menu titles and sub-menu titles. For example:"
 msgstr ""
-"Выделяет системные слова и фразы, что включает имена приложений, текст "
-"диалогов, названия меню, текст кнопок, флажков и других элементов "
-"графического интерфейса. Пример:"
+"Выделяет слова и фразы, встречающиеся в системе, такие как имена приложений,"
+" тексты диалоговых окон, надписи на кнопках, метки флажков и переключателей,"
+" названия меню и других элементов графического интерфейса. Например:"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -196,12 +216,14 @@ msgid ""
 "<guibutton>Close</guibutton> to switch the primary mouse button from the "
 "left to the right (making the mouse suitable for use in the left hand)."
 msgstr ""
-"В главном меню выберите "
+"Выберите из главного меню "
 "<menuchoice><guimenu>Система</guimenu><guisubmenu>Параметры</guisubmenu><guimenuitem>"
-" Мышь</guimenuitem></menuchoice> для запуска утилиты <application>Настройки "
-"мыши</application>. На вкладке <guilabel>Кнопки</guilabel> установите флажок"
-" <guilabel>Настроить мышь под левую руку</guilabel> и нажмите кнопку "
-"<guibutton>Закрыть</guibutton>, чтобы настроить мышь для левши."
+" Мышь</guimenuitem></menuchoice> для запуска приложения "
+"<application>Настройка мыши</application>. На вкладке "
+"<guilabel>Кнопки</guilabel> установите флажок <guilabel>Настроить мышь под "
+"левую руку</guilabel> и нажмите кнопку <guibutton>Закрыть</guibutton>, чтобы"
+" правая кнопка мыши стала работать как главная (это делает мышь более "
+"удобной для левши)."
 
 #. Tag: para
 #, no-c-format
@@ -221,6 +243,20 @@ msgid ""
 "<menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice>"
 " from the <application>gedit</application> menu bar."
 msgstr ""
+"Чтобы вставить специальный символ в файл, отрытый в редакторе "
+"<application>gedit</application>, выберите из главного меню "
+"<menuchoice><guimenu>Приложения</guimenu><guisubmenu>Стандартные</guisubmenu><guimenuitem>Таблица"
+" символов</guimenuitem></menuchoice>. Затем в меню приложения "
+"<application>Таблица символов</application> выберите "
+"<menuchoice><guimenu>Поиск</guimenu><guimenuitem>Найти</guimenuitem></menuchoice>,"
+" введите название символа в поле <guilabel>Найти</guilabel> и нажмите кнопку"
+" <guibutton>Найти следующее</guibutton>. Найденный символ будет выделен на "
+"закладке <guilabel>Таблица символов</guilabel>. Дважды щелкните на этом "
+"символе, чтобы вставить его в поле <guilabel>Текст для "
+"копирования</guilabel>, после чего нажмите кнопку "
+"<guibutton>Копировать</guibutton>. Теперь вернитесь в ваш документ и в меню "
+"редактора <application>gedit</application> выберите "
+"<menuchoice><guimenu>Правка</guimenu><guimenuitem>Вставить</guimenuitem></menuchoice>."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -232,8 +268,9 @@ msgid ""
 "interface, all presented in proportional bold and all distinguishable by "
 "context."
 msgstr ""
-"Приведенный выше текст содержит имя приложения, названия меню, кнопок и "
-"текста элементов графического интерфейса."
+"В приведенном выше тексте имена приложений, названия общесистемных пунктов "
+"меню и меню приложений, названия кнопок и текст, относящийся к элементам "
+"графического интерфейса, выделены пропорциональным жирным шрифтом."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -258,9 +295,9 @@ msgid ""
 "input literally or displayed text that changes depending on circumstance. "
 "For example:"
 msgstr ""
-"Оба типа выделения обозначают изменяемый или заменяемый текст. Курсив "
-"сообщает о том, что не следует вводить приведенный текст напрямую, а "
-"изменить в соответствии с вашими настройками. Пример:"
+"Оба типа выделения указывают на изменчивость текста. Использование курсива "
+"означает, что текст не следует вводить буквально, или что он может меняться "
+"при выводе в зависимости от обстоятельств. Например:"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -273,12 +310,12 @@ msgid ""
 "<filename>example.com</filename> and your username on that machine is john, "
 "type <command>ssh john@example.com</command>."
 msgstr ""
-"Для подключения к удаленной машине с помощью SSH в строке приглашения "
-"выполните <command>ssh "
+"Для подключения к удаленной машине с помощью SSH введите в интерпретаторе "
+"команд <command>ssh "
 "<replaceable>имя_пользователя</replaceable>@<replaceable>имя_домена</replaceable></command>."
-" Скажем, имя удаленной машины &ndash; <filename>example.com</filename>, а "
-"ваше имя пользователя &ndash; john, тогда команда будет выглядеть так: "
-"<command>ssh john@example.com</command>."
+" Скажем, если имя удаленной машины — <filename>example.com</filename>, а имя"
+" пользователя — john, то команда будет выглядеть так: <command>ssh "
+"john@example.com</command>."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -291,9 +328,10 @@ msgid ""
 "is <command>mount -o remount /home</command>."
 msgstr ""
 "Команда <command>mount -o remount "
-"<replaceable>файловая_система</replaceable></command> повторно подключит "
-"заданную файловую систему. Например, для <filename>/home</filename> команда "
-"будет выглядеть так: <command>mount -o remount /home</command>."
+"<replaceable>файловая_система</replaceable></command> перемонтирует "
+"указанную файловую систему. Например, для файловой системы "
+"<filename>/home</filename> команда будет выглядеть так: <command>mount -o "
+"remount /home</command>."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -317,6 +355,10 @@ msgid ""
 "package, version and release. Each word is a placeholder, either for text "
 "you enter when issuing a command or for text displayed by the system."
 msgstr ""
+"Обратите внимание на слова, выделенные жирным курсивом: имя_пользователя, "
+"имя_домена, файловая_система, пакет, версия, выпуск. Каждое из них "
+"обозначает место, куда нужно подставить значение во время запуска команды, "
+"или текст, подставляемый системой при выводе."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -326,22 +368,22 @@ msgid ""
 "Aside from standard usage for presenting the title of a work, italics "
 "denotes the first use of a new and important term. For example:"
 msgstr ""
-"Также курсивом выделяются термины, которые встречаются в тексте документа "
-"впервые. Пример:"
+"Помимо заголовка работы курсивом выделяются важные термины, которые "
+"встречаются в тексте документа впервые. Например:"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
 # Conventions
 #, no-c-format
 msgid "Publican is a <firstterm>DocBook</firstterm> publishing system."
-msgstr "Publican &mdash; система публикации <firstterm>DocBook</firstterm>."
+msgstr "Publican — система публикации <firstterm>DocBook</firstterm>."
 
 #. Tag: title
 # translation auto-copied from project Publican Common, version 3, document
 # Conventions
 #, no-c-format
 msgid "Pull-quote Conventions"
-msgstr "Соглашения по выделению текста"
+msgstr "Выделение отрывков текста"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -351,7 +393,8 @@ msgid ""
 "Terminal output and source code listings are set off visually from the "
 "surrounding text."
 msgstr ""
-"Вывод экрана и листинг исходного кода будут отделены от окружающего текста."
+"Вывод на терминал и фрагменты исходного кода программ визуально отделяются "
+"от окружающего текста."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -361,8 +404,8 @@ msgid ""
 "Output sent to a terminal is set in <computeroutput>mono-spaced "
 "roman</computeroutput> and presented thus:"
 msgstr ""
-"Для отображения текста, который вы увидите на экране, используется "
-"<computeroutput>моноширинный шрифт</computeroutput>:"
+"Для отображения текста, выводимого на терминал, используется "
+"<computeroutput>прямой моноширинный шрифт</computeroutput>:"
 
 #. Tag: screen
 #, no-c-format
@@ -370,6 +413,8 @@ msgid ""
 "books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
 "books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 msgstr ""
+"books        Desktop   documentation  drafts  mss    photos   stuff  svn\n"
+"books_tests  Desktop1  downloads      images  notes  scripts  svgs"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -379,15 +424,16 @@ msgid ""
 "Source-code listings are also set in <computeroutput>mono-spaced "
 "roman</computeroutput> but add syntax highlighting as follows:"
 msgstr ""
-"Для отображения содержимого исходного кода используется "
-"<computeroutput>моноширинный шрифт</computeroutput>:"
+"Исходный код программ тоже показывается с помощью <computeroutput>прямого "
+"моноширинного шрифта</computeroutput>, но с выделением синтаксических "
+"конструкций:"
 
 #. Tag: title
 # translation auto-copied from project Publican Common, version 3, document
 # Conventions
 #, no-c-format
 msgid "Notes and Warnings"
-msgstr "Примечания и предупреждения"
+msgstr "Замечания и предупреждения"
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -397,8 +443,8 @@ msgid ""
 "Finally, we use three visual styles to draw attention to information that "
 "might otherwise be overlooked."
 msgstr ""
-"Наконец, чтобы привлечь внимание читателя к важной информации, используются "
-"три стиля."
+"Наконец, в документе используются три визуальных стиля для привлечения "
+"внимания к информации, которую легко упустить."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -409,9 +455,10 @@ msgid ""
 "Ignoring a note should have no negative consequences, but you might miss out"
 " on a trick that makes your life easier."
 msgstr ""
-"Примечания обычно содержат дополнительную информацию. Если вы их "
-"проигнорируете, это не критично, но вы можете пропустить совет, который, "
-"возможно, поможет сэкономить время при выполнении задания."
+"Примечания обычно содержат советы, описания приемов или альтернативных "
+"подходов к решению задач. Игнорирование примечаний не несет негативных "
+"последствий, но при этом можно не узнать о существовании какого-то способа, "
+"который существенно облегчает выполнение работы."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
@@ -423,10 +470,11 @@ msgid ""
 "before an update will apply. Ignoring a box labeled 'Important' will not "
 "cause data loss but may cause irritation and frustration."
 msgstr ""
-"На информацию, отмеченную как важную, следует обратить особое внимание. Она "
-"может включать изменения настроек текущего сеанса или, например, перечень "
-"служб, которые нужно запустить, прежде чем обновления вступят в силу. "
-"Ознакомление с важной информацией значительно облегчит вашу работу."
+"Важные замечания выделяют то, что легко не заметить: изменения настроек, "
+"касающиеся только текущего сеанса, или перечень служб, которые надо "
+"перезапустить, чтобы обновления вступили в силу. Игнорирование замечаний с "
+"пометкой «Важно» не приводит к потере данных, но может вызвать раздражение и"
+" досаду."
 
 #. Tag: para
 # translation auto-copied from project Publican Common, version 3, document
