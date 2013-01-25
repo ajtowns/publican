@@ -503,6 +503,7 @@ sub print_xml {
     my $docname   = $self->{publican}->param('docname');
     my $lang      = $self->{config}->param('lang');
     my $main_file = $self->{publican}->param('mainfile');
+    my $clean_id  = $self->{config}->param('clean_id');
 
     if ($xml_doc) {
         my $file = $out_file;
@@ -553,12 +554,16 @@ sub print_xml {
         if ( $docname && !$self->{config}->param('exclude_ent') ) {
             my $xml_lang = $self->{publican}->param('xml_lang');
             if ( -e "$xml_lang/$main_file.ent" ) {
-                $ent_file = "$path$main_file.ent";
+                $ent_file = "$xml_lang/$main_file.ent";
             }
         }
 
         print( $OUTDOC Publican::dtd_string(
-                { tag => $type, dtdver => $dtdver, ent_file => $ent_file }
+                {   tag      => $type,
+                    dtdver   => $dtdver,
+                    ent_file => $ent_file,
+                    cleaning => $clean_id
+                }
             )
         );
 
@@ -1036,9 +1041,9 @@ sub process_file {
         # Update links in xml
         foreach my $xml_file ( dir_list( $xml_lang, '*.xml' ) ) {
             my $editor = new File::Inplace( file => $xml_file );
-            my $perm   = (stat $editor->{infh})[2] & 07777;
-            my $uid    = (stat $editor->{infh})[4];
-            my $gid    = (stat $editor->{infh})[5];
+            my $perm   = ( stat $editor->{infh} )[2] & 07777;
+            my $uid    = ( stat $editor->{infh} )[4];
+            my $gid    = ( stat $editor->{infh} )[5];
 
             while ( my ($line) = $editor->next_line ) {
                 foreach my $key ( keys(%UPDATED_IDS) ) {
@@ -1049,8 +1054,8 @@ sub process_file {
 
             $editor->commit;
             $editor = undef;
-            chmod($perm | 0600, $xml_file);
-            chown($uid, $gid, $xml_file);
+            chmod( $perm | 0600, $xml_file );
+            chown( $uid, $gid, $xml_file );
         }
 
         # update links in PO files

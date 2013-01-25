@@ -15,11 +15,12 @@ use Publican::Localise;
 use Publican::ConfigData;
 use Encode;
 use Cwd qw(abs_path);
+use Data::Dumper;
 
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
-$VERSION = '3.0.0';
+$VERSION = '3.1.0';
 @ISA     = qw(Exporter);
 
 @EXPORT
@@ -1142,9 +1143,9 @@ sub get_subtitle {
     return ($subtitle);
 }
 
-=head2 get_subtitle
+=head2 get_author_list
 
-Return the subtitle for the supplied language with white space truncated.
+Return the author list for the supplied language.
 
 =cut
 
@@ -1171,7 +1172,7 @@ sub get_author_list {
         unless ( -f $file );
 
     my $xml_doc = XML::TreeBuilder->new(
-        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        { 'NoExpand' => "0", 'ErrorContext' => "2" } );
     $xml_doc->parse_file($file);
 
     foreach my $author ( $xml_doc->root()->look_down( "_tag", "author" ) ) {
@@ -1184,9 +1185,199 @@ sub get_author_list {
     return (@authors);
 }
 
+=head2 get_contributors
+
+Return the contributor hash for the supplied language.
+
+=cut
+
+sub get_contributors {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my %contributors;
+
+    my $tmp_dir = $self->param('tmp_dir');
+    my $file    = "$tmp_dir/$lang/xml/Author_Group.xml";
+
+    croak(
+        maketext("contributor list can not be calculated before building.") )
+        unless ( -f $file );
+
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "0", 'ErrorContext' => "2" } );
+    $xml_doc->parse_file($file);
+
+    foreach my $node ( $xml_doc->root()
+        ->look_down( "_tag", qr/^(?:author|editor|othercredit)$/ ) )
+    {
+        my %person;
+        if ( $node->attr('class') ) {
+            my $role = $node->attr('class');
+            if ( $role eq "copyeditor" ) {
+                $person{role} = maketext("Copy Editor");
+            }
+            elsif ( $role eq "graphicdesigner" ) {
+                $person{role} = maketext("Graphic Designer");
+            }
+            elsif ( $role eq "productioneditor" ) {
+                $person{role} = maketext("Production Editor");
+            }
+            elsif ( $role eq "technicaleditor" ) {
+                $person{role} = maketext("Technical Editor");
+            }
+            elsif ( $role eq "translator" ) {
+                $person{role} = maketext("Translator");
+            }
+        }
+
+        my @fields = qw/firstname surname email contrib orgname orgdiv/;
+        foreach my $field (@fields) {
+            my $field_node = $node->look_down( "_tag", $field );
+            if ($field_node) {
+                $person{$field} = $field_node->as_text();
+            }
+        }
+
+        push( @{ $contributors{ $node->tag() } }, \%person );
+    }
+
+    return ( \%contributors );
+}
+
+=head2 get_keywords
+
+Return the contributor hash for the supplied language.
+
+=cut
+
+sub get_keywords {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my @keywords;
+
+    my $tmp_dir = $self->param('tmp_dir');
+    my $file    = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+
+    croak( maketext("keyword list can not be calculated before building.") )
+        unless ( -f $file );
+
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "0", 'ErrorContext' => "2" } );
+    $xml_doc->parse_file($file);
+
+    foreach my $node ( $xml_doc->root()->look_down( "_tag", 'keyword' ) ) {
+        push( @keywords, $node->as_text() );
+    }
+
+    return (@keywords);
+}
+
+=head2 get_legalnotice
+
+Return the legal notice for the supplied language.
+
+=cut
+
+sub get_legalnotice {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my @keywords;
+
+    my $tmp_dir = $self->param('tmp_dir');
+    my $file    = "$tmp_dir/$lang/xml/Common_Content/Legal_Notice.xml";
+
+    croak( maketext("Legal notice can not be calculated before building.") )
+        unless ( -f $file );
+
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "0", 'ErrorContext' => "2" } );
+    $xml_doc->parse_file($file);
+
+## BUGBUG should this be using run_xslt to get the formatted legal notice?
+
+    return (
+        $xml_doc->root()->look_down( "_tag", 'legalnotice' )->as_text() );
+}
+
+=head2 get_draft
+
+Is the book in draft mode?.
+
+=cut
+
+sub get_draft {
+    my ( $self, $args ) = @_;
+
+    my $lang = delete( $args->{lang} )
+        || croak( maketext("lang is a mandatory argument") );
+
+    if ( %{$args} ) {
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    my $main_file = $self->param('mainfile');
+    my $draft     = 0;
+
+    my $tmp_dir = $self->param('tmp_dir');
+    my $file    = "$tmp_dir/$lang/xml/$main_file.xml";
+
+    croak(
+        maketext(
+            "Main XML file ([_1]) can not be calculated before building.",
+            "$main_file.xml"
+        )
+    ) unless ( -f $file );
+
+    my $xml_doc = XML::TreeBuilder->new(
+        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+    $xml_doc->parse_file($file);
+
+## BUGBUG should this be using run_xslt to get the formatted legal notice?
+    $draft = ( $xml_doc->root()->attr('status')
+            && $xml_doc->root()->attr('status') eq 'draft' );
+    return ($draft);
+}
+
 =head2 run_xslt
 
-Apply the supplied xslt file to teh supplied XML and return a string of the output.
+Apply the supplied xslt file to the supplied XML and return a string of the output.
 
 =cut
 
@@ -1315,6 +1506,7 @@ sub dtd_string {
     my $dtdver = delete( $args->{dtdver} )
         || croak( maketext("dtdver is a mandatory argument") );
     my $ent_file = delete( $args->{ent_file} );
+    my $cleaning = delete( $args->{cleaning} );
 
     if ( %{$args} ) {
         croak(
@@ -1366,12 +1558,20 @@ DTDHEAD
 
     # handle entity file
     if ($ent_file) {
+	if($cleaning) {
         $dtd .= <<ENT;
 <!ENTITY % BOOK_ENTITIES SYSTEM "$ent_file">
 %BOOK_ENTITIES;
 ENT
-    }
-
+} else {
+	my $INFILE;
+        open( $INFILE, "<:encoding(UTF-8)", "$ent_file" )
+        || croak( maketext( "Could not open [_1] for input!", $ent_file ) );
+        my @lines  = <$INFILE>;
+        $INFILE->close();
+        $dtd .= join("", @lines);
+}
+}
     $dtd .= <<DTDTAIL;
 ]>
 DTDTAIL

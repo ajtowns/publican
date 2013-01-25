@@ -1087,14 +1087,34 @@ sub transform {
         $name =~ s/_/ /g;
 
         my @authors = $self->{publican}->get_author_list( { lang => $lang } );
+        my $contributors
+            = $self->{publican}->get_contributors( { lang => $lang } );
+        my $legalnotice
+            = $self->{publican}->get_legalnotice( { lang => $lang } );
+        my $abstract = $self->{publican}->get_abstract( { lang => $lang } );
+        $abstract =~ s/\p{Z}+/ /g;
+
+        my @keywords = $self->{publican}->get_keywords( { lang => $lang } );
+        my $draft = $self->{publican}->get_draft( { lang => $lang } );
+
         my $vars = {
-            product  => $prod,
-            docname  => $name,
-            version  => $ver,
-            edition  => $self->{publican}->param('edition'),
-            release  => $self->{publican}->param('release'),
-            subtitle => $subtitle,
-            authors  => \@authors,
+            draft         => $draft,
+            product       => $prod,
+            docname       => $name,
+            version       => $ver,
+            edition       => $self->{publican}->param('edition'),
+            release       => $self->{publican}->param('release'),
+            subtitle      => $subtitle,
+            authors       => \@authors,
+            editorlabel   => maketext("Edited by"),
+            contributors  => $contributors,
+            contriblabel  => maketext("With contributions from"),
+            legalnotice   => $legalnotice,
+            legaltitle    => maketext("Legal Notice"),
+            abstract      => $abstract,
+            abstracttitle => maketext("Abstract"),
+            keywords      => \@keywords,
+            keywordtitle  => maketext("Keywords"),
         };
 
         $template->process(
@@ -1106,11 +1126,25 @@ sub transform {
         push( @wkhtmltopdf_args,
             'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
 
+        $template->process(
+            'titlepage.tmpl', $vars,
+            "$tmp_dir/$lang/html-pdf/titlepage.html",
+            binmode => ':encoding(UTF-8)'
+        ) or croak( $template->error() );
+
+        push( @wkhtmltopdf_args,
+            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
+
         my $toc_xsl = "$common_config/book_templates/toc.xsl";
         $toc_xsl = "$brand_path/book_templates/toc.xsl"
             if ( -f "$brand_path/book_templates/toc.xsl" );
 
-        push( @wkhtmltopdf_args, 'toc',  '--xsl-style-sheet', $toc_xsl, '--toc-header-text', maketext("Table of Contents"),
+        push( @wkhtmltopdf_args,
+            'toc',
+            '--xsl-style-sheet',
+            $toc_xsl,
+            '--toc-header-text',
+            maketext("Table of Contents"),
             "$tmp_dir/$lang/html-pdf/index.html",
             "$tmp_dir/$lang/pdf/$pdf_name" );
 
@@ -1339,6 +1373,7 @@ sub transform {
 
     my $style_doc = $parser->parse_file($xsl_file);
 
+## BUGBUG get Win32 working with Publican::ConfigData
     if ( $^O eq 'MSWin32' ) {
         eval { require Win32::TieRegistry; };
         croak(
