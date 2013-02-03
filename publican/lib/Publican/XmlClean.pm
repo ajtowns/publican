@@ -1054,8 +1054,20 @@ sub process_file {
 
             $editor->commit;
             $editor = undef;
-            chmod( $perm | 0600, $xml_file );
-            chown( $uid, $gid, $xml_file );
+            chmod( $perm | 0600, $xml_file ) || logger(
+                maketext(
+                    "WARNING: Could not reset file permissions for [_1_] because [_2]",
+                    $xml_file,
+                    $!
+                )
+            );
+            chown( $uid, $gid, $xml_file ) || logger(
+                maketext(
+                    "WARNING: Could not reset file ownership for [_1_] because [_2]",
+                    $xml_file,
+                    $!
+                )
+            );
         }
 
         # update links in PO files
