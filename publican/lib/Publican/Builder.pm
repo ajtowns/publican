@@ -37,6 +37,9 @@ use Text::Wrap qw(fill $columns);
 use IO::String;
 use File::Which;
 use Text::CSV_XS;
+use Publican::ConfigData;
+use Sort::Versions;
+use Template;
 
 $File::Copy::Recursive::KeepMode = 0;
 
@@ -346,6 +349,11 @@ sub build {
             mkpath($path);
             rcopy( "xsl", "$path/." );
         }
+        if ( $type eq 'brand' && -d 'book_templates' ) {
+            my $path = "publish/$brand/book_templates";
+            mkpath($path);
+            rcopy( "book_templates", "$path/." );
+        }
     }
     debug_msg("end of build\n");
     return;
@@ -469,49 +477,51 @@ sub setup_xml {
                 if ( $self->{publican}->param('rev_file') );
 
             if ( -f "$lang/$rev_file" ) {
-                my $common_config = $self->{publican}->param('common_config');
-                my $xsl_file = $common_config . "/xsl/merge_revisions.xsl";
-                $xsl_file =~ s/"//g;    # windows
-                my $style_doc = XML::LibXML->load_xml(
-                    location => $xsl_file,
-                    no_cdata => 1
-                );
-                my $xslt       = XML::LibXSLT->new();
-                my $stylesheet = $xslt->parse_stylesheet($style_doc);
-                my %opts       = ( trans_rev => abs_path("$lang/$rev_file") );
-                my $result     = $stylesheet->transform_file(
-                    "$tmp_dir/$lang/xml_tmp/$rev_file",
-                    XML::LibXSLT::xpath_to_string(%opts)
-                );
-                eval {
-                    $stylesheet->output_file( $result,
-                        "$tmp_dir/$lang/xml_tmp/$rev_file.tmp" );
-                };
+                my $rev_tree       = $self->{publican}->new_tree();
+                my $trans_rev_tree = $self->{publican}->new_tree();
 
-                if ($@) {
-                    if ( ref($@) ) {
+                $rev_tree->parse_file("$tmp_dir/$lang/xml_tmp/$rev_file");
+                $trans_rev_tree->parse_file("$lang/$rev_file");
 
-                       # handle a structured error (XML::LibXML::Error object)
-                        croak(
-                            maketext(
-                                "FATAL ERROR: [_1]:[_2] in [_3] on line [_4]: [_5]",
-                                $@->domain(),
-                                $@->code(),
-                                $@->file(),
-                                $@->line(),
-                                $@->message(),
-                            )
-                        );
-                    }
-                    else {
-                        croak( maketext( "FATAL ERROR: [_1]", $@ ) );
-                    }
-                }
-
-                fmove(
-                    "$tmp_dir/$lang/xml_tmp/$rev_file.tmp",
-                    "$tmp_dir/$lang/xml_tmp/$rev_file"
+                my $merged_rev_tree = XML::Element->new_from_lol(
+                    [   'appendix',
+                        [ 'title', maketext('Revision History') ],
+                        [ 'simpara', ['revhistory'], ],
+                    ],
                 );
+
+                my $node
+                    = $merged_rev_tree->look_down( '_tag', "revhistory" );
+
+                my @revisions = sort {
+                    versioncmp(
+                        $b->look_down( '_tag', "revnumber" )->as_text(),
+                        $a->look_down( '_tag', "revnumber" )->as_text()
+                        )
+                    } (
+                    $rev_tree->look_down( '_tag', "revision" ),
+                    $trans_rev_tree->look_down( '_tag', "revision" )
+                    );
+
+                $node->push_content(@revisions);
+                my $OUTDOC;
+                open( $OUTDOC, ">:encoding(UTF-8)",
+                    "$tmp_dir/$lang/xml_tmp/$rev_file" )
+                    || croak(
+                    maketext(
+                        "Could not open [_1] for output!",
+                        "$tmp_dir/$lang/xml_tmp/$rev_file",
+                        $@
+                    )
+                    );
+
+                print( $OUTDOC Publican::Builder::dtd_string(
+                        { tag => 'appendix', dtdver => '4.5' }
+                    )
+                );
+
+                print( $OUTDOC $merged_rev_tree->as_XML() );
+                close($OUTDOC);
             }
 
             my $trans_file = "$lang/Author_Group.xml";
@@ -577,6 +587,11 @@ sub setup_xml {
                 if ( -d "$xml_lang/css" );
             dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
                 if ( -d "$lang/css" );
+
+            dircopy( "$xml_lang/scripts", "$tmp_dir/$lang/xml/scripts" )
+                if ( -d "$xml_lang/scripts" );
+            dircopy( "$lang/scripts", "$tmp_dir/$lang/xml/scripts" )
+                if ( -d "$lang/scripts" );
         }
 
         dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
@@ -853,6 +868,11 @@ sub validate_xml {
         }
     }
 
+    $dtd_type = $self->{publican}->param('dtd_type')
+        if ( $self->{publican}->param('dtd_type') );
+    $dtd_path = $self->{publican}->param('dtd_uri')
+        if ( $self->{publican}->param('dtd_uri') );
+
     if ( $dtdver !~ m/^5/ ) {
         my $dtd = XML::LibXML::Dtd->new( $dtd_type, $dtd_path );
 
@@ -1015,21 +1035,116 @@ sub transform {
 
         mkdir "$tmp_dir/$lang/pdf";
 
+        my $header = "$common_config/book_templates/header.html";
+        $header = "$brand_path/book_templates/header.html"
+            if ( -f "$brand_path/book_templates/header.html" );
+
+        my $footer = "$common_config/book_templates/footer.html";
+        $footer = "$brand_path/book_templates/footer.html"
+            if ( -f "$brand_path/book_templates/footer.html" );
+
         my @wkhtmltopdf_args = (
             $wkhtmltopdf_cmd, '--header-spacing',
             5,                '--footer-spacing',
-            3,                '--margin-top',
+            5,                '--margin-top',
+            20,               '--margin-bottom',
             20,               '--margin-left',
             '15mm',           '--margin-right',
-            '15mm'
+            '15mm',           '--header-html',
+            $header,          '--footer-html',
+            $footer
         );
 
-        if ( -f "$common_config/header.html" ) {
-            push( @wkhtmltopdf_args,
-                '--header-html', "$common_config/header.html" );
-        }
+        my $tmpl_path = "$common_config/book_templates";
+        $tmpl_path = "$brand_path/book_templates:$tmpl_path"
+            if ( -d "$brand_path/book_templates" );
+
+        my $tconf = { INCLUDE_PATH => $tmpl_path, };
+        my $template = Template->new($tconf)
+            or croak( Template->error() );
+
+        my $subtitle = $self->{publican}->get_subtitle( { lang => $lang } );
+        $subtitle =~ s/"/\\"/g;
+        $subtitle =~ s/\p{Z}+/ /g;
+        chomp($subtitle);
+
+        my $prod
+            = $web_product_label
+            ? $web_product_label
+            : $self->{publican}->param('product');
+        $prod =~ s/_/ /g;
+
+        my $ver
+            = $web_version_label
+            ? $web_version_label
+            : $self->{publican}->param('version');
+        $ver =~ s/_/ /g;
+
+        my $name
+            = $web_name_label
+            ? $web_name_label
+            : $self->{publican}->param('docname');
+        $name =~ s/_/ /g;
+
+        my @authors = $self->{publican}->get_author_list( { lang => $lang } );
+        my $contributors
+            = $self->{publican}->get_contributors( { lang => $lang } );
+        my $legalnotice
+            = $self->{publican}->get_legalnotice( { lang => $lang } );
+        my $abstract = $self->{publican}->get_abstract( { lang => $lang } );
+        $abstract =~ s/\p{Z}+/ /g;
+
+        my @keywords = $self->{publican}->get_keywords( { lang => $lang } );
+        my $draft = $self->{publican}->get_draft( { lang => $lang } );
+
+        my $vars = {
+            draft         => $draft,
+            product       => $prod,
+            docname       => $name,
+            version       => $ver,
+            edition       => $self->{publican}->param('edition'),
+            release       => $self->{publican}->param('release'),
+            subtitle      => $subtitle,
+            authors       => \@authors,
+            editorlabel   => maketext("Edited by"),
+            contributors  => $contributors,
+            contriblabel  => maketext("With contributions from"),
+            legalnotice   => $legalnotice,
+            legaltitle    => maketext("Legal Notice"),
+            abstract      => $abstract,
+            abstracttitle => maketext("Abstract"),
+            keywords      => \@keywords,
+            keywordtitle  => maketext("Keywords"),
+        };
+
+        $template->process(
+            'cover.tmpl', $vars,
+            "$tmp_dir/$lang/html-pdf/cover.html",
+            binmode => ':encoding(UTF-8)'
+        ) or croak( $template->error() );
 
         push( @wkhtmltopdf_args,
+            'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
+
+        $template->process(
+            'titlepage.tmpl', $vars,
+            "$tmp_dir/$lang/html-pdf/titlepage.html",
+            binmode => ':encoding(UTF-8)'
+        ) or croak( $template->error() );
+
+        push( @wkhtmltopdf_args,
+            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
+
+        my $toc_xsl = "$common_config/book_templates/toc.xsl";
+        $toc_xsl = "$brand_path/book_templates/toc.xsl"
+            if ( -f "$brand_path/book_templates/toc.xsl" );
+
+        push( @wkhtmltopdf_args,
+            'toc',
+            '--xsl-style-sheet',
+            $toc_xsl,
+            '--toc-header-text',
+            maketext("Table of Contents"),
             "$tmp_dir/$lang/html-pdf/index.html",
             "$tmp_dir/$lang/pdf/$pdf_name" );
 
@@ -1258,6 +1373,7 @@ sub transform {
 
     my $style_doc = $parser->parse_file($xsl_file);
 
+## BUGBUG get Win32 working with Publican::ConfigData
     if ( $^O eq 'MSWin32' ) {
         eval { require Win32::TieRegistry; };
         croak(
@@ -2487,7 +2603,7 @@ sub package_brand {
         rcopy( $file, "$tmp_dir/tar/$tardir/." ) if ( -f $file );
     }
 
-    foreach my $dir ( split( /,/, $langs ), 'pot', 'xsl' ) {
+    foreach my $dir ( split( /,/, $langs ), 'pot', 'xsl', 'book_templates' ) {
         dircopy( "$dir", "$tmp_dir/tar/$tardir/$dir" ) if ( -d $dir );
     }
 
@@ -2866,12 +2982,13 @@ sub package {
     my $web_dir = $self->{publican}->param('web_dir')
         || '%{_localstatedir}/www/html/docs';
     my $web_cfg = $self->{publican}->param('web_cfg')
-        || '/etc/publican-website.cfg';
+        || Publican::ConfigData->config('etc') . '/publican-website.cfg';
     my $web_req    = $self->{publican}->param('web_req')    || '';
     my $sort_order = $self->{publican}->param('sort_order') || '';
 
     my $menu_category = $self->{publican}->param('menu_category')
         || "X-Red-Hat-Base;";
+    $menu_category =~ s/__LANG__/$lang/g;
     $menu_category .= ';' if ( $menu_category !~ /;\s*$/ );
 
     # store lables for rebuilding translated content
@@ -2893,6 +3010,8 @@ sub package {
     $self->{publican}->{config}->delete('strict');
     $self->{publican}->{config}->delete('release');
     $self->{publican}->{config}->delete('edition');
+    $self->{publican}->{config}->delete('brand_dir');
+    $self->{publican}->{config}->delete('cover_image');
 
     $self->{publican}->{config}->write("$tmp_dir/tar/$tardir/publican.cfg");
 

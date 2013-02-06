@@ -8,15 +8,11 @@ function subst() {
   }
   var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
   if (parseInt(vars[x[2]])%2 == 0){
-  	var lefty = document.getElementsByClassName("leftpagenumber");
-	for (var j=0; j<lefty.length; ++j) lefty[j].textContent = decodeURIComponent(escape(vars[x[2]]));
-	lefty = document.getElementsByClassName("leftstring");
-	for (var j=0; j<lefty.length; ++j) lefty[j].textContent = decodeURIComponent(escape(vars[x[4]]));
+	var lefty = document.getElementsByClassName("leftstring");
+	for (var j=0; j<lefty.length; ++j) lefty[j].textContent = decodeURIComponent(escape(vars['doctitle']));
   } else {
 	var righty = document.getElementsByClassName("rightstring");
-	for (var j=0; j<righty.length; ++j) righty[j].textContent = decodeURIComponent(escape(vars['doctitle']));
-	righty = document.getElementsByClassName("rightpagenumber");
-	for (var j=0; j<righty.length; ++j) righty[j].textContent = decodeURIComponent(escape(vars[x[2]]));
+	for (var j=0; j<righty.length; ++j) righty[j].textContent = decodeURIComponent(escape(vars[x[4]]));
   }
 }
 </script></head><body style="border:0; margin: 0;" onload="subst()">

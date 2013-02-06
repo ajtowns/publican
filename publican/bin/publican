@@ -27,11 +27,12 @@ use Term::ANSIColor qw(:constants);
 use Cwd qw(abs_path cwd);
 use File::Basename;
 use File::HomeDir;
+use Publican::ConfigData;
 
-my $VERSION      = "$Publican::VERSION";
-my $LANG_PATTERN = q|__LANG__|;
-## TODO Consider making these parameters
-my $WEB_TEMPLATE_PATH = '/usr/share/publican';
+my $VERSION           = "$Publican::VERSION";
+my $LANG_PATTERN      = q|__LANG__|;
+my $WEB_TEMPLATE_PATH = Publican::ConfigData->config('web');
+my $DATA_DIR          = Publican::ConfigData->config('datadir');
 
 # Try to catch SRPMS created using outdated versions of publican in brew/koji/mock
 if (   ( $ENV{RPM_BUILD_DIR} )
@@ -77,7 +78,9 @@ my $bash_comp    = undef;
 #Getopt::Long::Configure("debug");
 
 ## BUGBUG how do we get this after install?
-my @pod_paths = ( './pod1', "/usr/share/doc/publican-$VERSION" );
+my @pod_paths = (
+    './pod1', Publican::ConfigData->config('docdir') . "/publican-$VERSION"
+);
 
 # Global options
 my %opts = (
@@ -145,13 +148,13 @@ my %options = (
     'member=s@'   => maketext(
         'An entry to be added to the revision. Can be specified multiple times.'
     ),
-    'firstname=s' => maketext('firstname to use for a revision.'),
-    'surname=s'   => maketext('surname to use for a revision.'),
-    'email=s'     => maketext('email to use for a revision.'),
-    msgmerge      => maketext(q|Use gettext's msgmerge for POT/PO merging.|),
-    web           => maketext(q|Install the web content for a brand.|),
-    'src_dir=s'   => maketext(q|Directory to source publican files from.|),
-    'brand_dir=s' => maketext(q|Directory to source brand files from.|),
+    'firstname=s'  => maketext('firstname to use for a revision.'),
+    'surname=s'    => maketext('surname to use for a revision.'),
+    'email=s'      => maketext('email to use for a revision.'),
+    msgmerge       => maketext(q|Use gettext's msgmerge for POT/PO merging.|),
+    web            => maketext(q|Install the web content for a brand.|),
+    'src_dir=s'    => maketext(q|Directory to source publican files from.|),
+    'brand_dir=s'  => maketext(q|Directory to source brand files from.|),
     'sort_order=s' => maketext('Order to sort a book'),
 );
 
@@ -167,7 +170,8 @@ my @utility_opts = (
 my %actions = (
     'build' => {
         'brief' => maketext(
-            'Transform XML to other formats (pdf, html, html-single, drupal-book, etc)'),
+            'Transform XML to other formats (pdf, html, html-single, drupal-book, etc)'
+        ),
         'options' => [
             'formats',         'langs',   'publish', 'embedtoc',
             'distributed_set', 'novalid', 'src_dir'
@@ -278,7 +282,7 @@ my %actions = (
             'name',          'formats',
             'subtitle',      'abstract',
             'product_label', 'version_label',
-            'name_label', 'sort_order',
+            'name_label',    'sort_order',
         ],
     },
     'add_revision' => {
@@ -342,8 +346,13 @@ GetOptions( \%opts, @optns, )
     );
 
 # catch multiple actions
-if(scalar @ARGV > 1) {
-	croak( maketext("publican only accepts one action you supplied '[_1]': [_2]\n", scalar @ARGV, join(' & ', @ARGV)));
+if ( scalar @ARGV > 1 ) {
+    croak(
+        maketext(
+            "publican only accepts one action you supplied '[_1]': [_2]\n",
+            scalar @ARGV, join( ' & ', @ARGV )
+        )
+    );
 }
 
 # Getopt will remove the options leaving only the action
@@ -536,7 +545,7 @@ if ( $action eq 'create_site' ) {
     if ($toc_path) {
         mkpath($toc_path) unless -d $toc_path;
         $config->param( 'toc_path', abs_path($toc_path) );
-        rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", "$toc_path/." )
+        rcopy( "$WEB_TEMPLATE_PATH/*", "$toc_path/." )
             || croak($!);
     }
 
@@ -556,7 +565,7 @@ if ( $action eq 'update_site' ) {
     local $File::Copy::Recursive::RMTrgFil = 1;
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
-    rcopy( "$WEB_TEMPLATE_PATH/sitetemplate/*", $ws->toc_path() . "/." )
+    rcopy( "$WEB_TEMPLATE_PATH/*", $ws->toc_path() . "/." )
         || croak($!);
     $ws->regen_all_toc( { force => 1 } );
 
@@ -571,12 +580,24 @@ if ( $action eq 'migrate_site' ) {
     $ws->MigrateDB();
     $ws->regen_all_toc( { force => 1 } );
 
-    print(maketext("Now that your site is migrated you will need to rebuild your brands and install the brands web payload on your site.\n\nIt is also recommended that you rebuild and reinstall all books to ensure the layout is properly migrated."));
-    print(maketext('$ cd path/to/brand'), "\n");
-    print(maketext('$ publican build --formats=xml --langs=all --publish'), "\n");
+    print(
+        maketext(
+            "Now that your site is migrated you will need to rebuild your brands and install the brands web payload on your site.\n\nIt is also recommended that you rebuild and reinstall all books to ensure the layout is properly migrated."
+        )
+    );
+    print( maketext('$ cd path/to/brand'), "\n" );
+    print( maketext('$ publican build --formats=xml --langs=all --publish'),
+        "\n" );
 ## BUGBUG should this use siteconfig?
-    print(maketext('$ publican install_brand --web --path=/path/to/site/%{brand}'), "\n");
-    print(maketext('$ publican update_site --site_config /path/to/site/config'), "\n");
+    print(
+        maketext(
+            '$ publican install_brand --web --path=/path/to/site/%{brand}'),
+        "\n"
+    );
+    print(
+        maketext('$ publican update_site --site_config /path/to/site/config'),
+        "\n"
+    );
 
     exit(0);
 }
@@ -738,17 +759,13 @@ if ( $action eq 'install_brand' ) {
     if ( $opts{web} ) {
         foreach my $ln ( split( ',', get_all_langs() ) ) {
             mkpath("$opts{path}/$ln/css") unless ( -f "$opts{path}/$ln/css" );
-            mkpath("$opts{path}/$ln/images")
-                unless ( -f "$opts{path}/$ln/images" );
-            if ( -f "$ln/css/menu.css" ) {
-                rcopy( "$ln/css/menu.css", "$opts{path}/$ln/css/." )
-                    || croak($!);
-            }
-            elsif ( -f "$xml_lang/css/menu.css" ) {
-                rcopy( "$xml_lang/css/menu.css", "$opts{path}/$ln/css/." )
-                    || croak($!);
-            }
-            else {
+
+            dircopy( "$xml_lang/css", "$opts{path}/$ln/css" )
+                if ( -d "$xml_lang/css" );
+            dircopy( "$ln/css", "$opts{path}/$ln/css" )
+                if ( -d "$ln/css" );
+
+            unless ( -f "$opts{path}/$ln/css/menu.css" ) {
                 my $DUMMY_FILE;
                 open( $DUMMY_FILE, '>', "$opts{path}/$ln/css/menu.css" )
                     || croak(
@@ -756,11 +773,28 @@ if ( $action eq 'install_brand' ) {
                     );
                 close($DUMMY_FILE);
             }
+
+            mkpath("$opts{path}/$ln/images")
+                unless ( -f "$opts{path}/$ln/images" );
             rcopy( "$xml_lang/images/*", "$opts{path}/$ln/images/." )
                 || croak($!)
                 if ( -d "$xml_lang/images" );
             rcopy( "$ln/images/*", "$opts{path}/$ln/images/." ) || croak($!)
                 if ( -d "$ln/images" );
+
+            if ( -d "$xml_lang/scripts" ) {
+                mkpath("$opts{path}/$ln/scripts")
+                    unless ( -f "$opts{path}/$ln/scripts" );
+                rcopy( "$xml_lang/scripts/*", "$opts{path}/$ln/scripts/." )
+                    || croak($!);
+            }
+
+            if ( -d "$ln/scripts" ) {
+                mkpath("$opts{path}/$ln/scripts")
+                    unless ( -f "$opts{path}/$ln/scripts" );
+                rcopy( "$ln/scripts/*", "$opts{path}/$ln/scripts/." )
+                    || croak($!);
+            }
         }
     }
     else {
@@ -991,7 +1025,8 @@ if ( $action eq 'install_book' ) {
 ## BUGBUG this is copied from Publican.pm, maybe a sub for these?
         if ( $lang ne $xml_lang ) {
             my $xml_file = "$tmp_dir/$lang/xml/$type" . '_Info.xml';
-            $xml_file = "$tmp_dir/$lang/xml/" . $publican->param('info_file') if($publican->param('info_file'));
+            $xml_file = "$tmp_dir/$lang/xml/" . $publican->param('info_file')
+                if ( $publican->param('info_file') );
 
             croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
                 if ( !-f $xml_file );
@@ -1113,7 +1148,8 @@ if ( $action eq 'rename' ) {
         = $config->param('xml_lang') . '/'
         . ( $config->param('type') || 'Book' )
         . '_Info.xml';
-    $file = $config->param('xml_lang') . "/" . $config->param('info_file') if($config->param('info_file'));
+    $file = $config->param('xml_lang') . "/" . $config->param('info_file')
+        if ( $config->param('info_file') );
 
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
 
@@ -1191,7 +1227,7 @@ _publican()
 
 	COMPREPLY=()
 	cur=`_get_cword`
-        brands=`ls /usr/share/publican/Common_Content`
+        brands=`ls $DATA_DIR/Common_Content`
 
 	commands='$actions'
 
@@ -1213,7 +1249,7 @@ _publican()
 				return 0;
 				;;
 			--formats)
-				COMPREPLY=( \$( compgen -W "eclipse epub html html-single html-desktop man pdf txt xml" -- \$cur ) )
+				COMPREPLY=( \$( compgen -W "eclipse epub drupal-book html html-single html-desktop man pdf txt xml" -- \$cur ) )
 				return 0;
 				;;
 			--type)

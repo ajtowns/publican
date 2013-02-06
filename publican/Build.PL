@@ -4,14 +4,15 @@ use Module::Build;
 use File::Spec;
 use 5.008;
 
-# my $path = install_path('datadir');
-
 my $class = Module::Build->subclass(
     class => 'My::Builder',
     code  => q{
         use File::pushd;
         use Cwd;
         my $dir = cwd() . '/tmp/rpm';
+## BUGBUG when I'm impatient
+        my $common_langs = 'en-US';
+##        my $common_langs = 'all';
         sub ACTION_srpm {
             my $self = shift;
             my $os_ver = $self->args('os_ver');
@@ -63,7 +64,7 @@ my $class = Module::Build->subclass(
             my @rpm_files = $rule->in($dir);
             $self->do_system("sudo", "yum", "-y", "localinstall",  "--nogpg", @rpm_files);
         }
-        sub  process_brand_template_files {
+        sub process_brand_template_files {
             my $self = shift;
             use File::Find::Rule;
             use File::Copy::Recursive qw(rcopy);
@@ -72,62 +73,67 @@ my $class = Module::Build->subclass(
             mkpath("$path");
             rcopy( "datadir/Common_Content/brand-template/*", "$path/.");
         }
-        sub  process_common_files {
+        sub ACTION_common_files {
             my $self = shift;
-            # This is how to self host
-            use lib File::Spec->catdir('lib'); 
-            use Publican;
-            use Publican::Builder;
+            $self->depends_on('build');
+            use lib File::Spec->catdir('blib/lib');
             use File::Path;
             use File::Copy::Recursive qw(rcopy);
-            my $cwd = getcwd();
-            my $dir = pushd('datadir/Common_Content/common');
-            my $path = "$cwd/blib/datadir/Common_Content";
-            return if(-d $path);
-            die "can't chdir: $@" if $@;
+            eval {
+                require Publican;
+                $Publican::SINGLETON = undef;
+                require Publican::Builder;
+            };
+            unless($@){
+                my $cwd = getcwd();
+                my $dir = pushd('datadir/Common_Content/common');
+                my $path = "$cwd/blib/datadir/Common_Content";
 
-            my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
-            my $builder = Publican::Builder->new();
-            $builder->build(
-                { formats => 'xml', langs => 'all', publish => 1 } );
-            mkpath("$path");
-            rcopy( "publish/*", "$path/.");
-            rcopy('publican.cfg', "$path/common/.");
-            $dir = undef;
-            $builder = undef;
-            $publican = undef;
+                my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
+                my $builder = Publican::Builder->new();
+                $builder->build(
+                    { formats => 'xml', langs => $common_langs, publish => 1 } );
+                mkpath("$path");
+                rcopy( "publish/*", "$path/.");
+                rcopy('publican.cfg', "$path/common/.");
+                $dir = undef;
+                $builder = undef;
+                $publican = undef;
+            }
         }
-        sub process_commondb5_files {
+        sub ACTION_commondb5_files {
             my $self = shift;
-            # This is how to self host
-            use lib File::Spec->catdir('lib'); 
-            use Publican;
-            $Publican::SINGLETON = undef;
-            use Publican::Builder;
+            $self->depends_on('build');
+            use lib File::Spec->catdir('blib/lib');
             use File::Path;
             use File::Copy::Recursive qw(rcopy);
-            my $cwd = getcwd();
-            my $dir = pushd('datadir/Common_Content/common-db5');
-            my $path = "$cwd/blib/datadir/Common_Content";
-            return if(-d "$path/common-db5");
-            die "can't chdir: $@" if $@;
+            eval {
+                require Publican;
+                $Publican::SINGLETON = undef;
+                require Publican::Builder;
+            };
+            unless($@){
+                my $cwd = getcwd();
+                my $dir = pushd('datadir/Common_Content/common-db5');
+                my $path = "$cwd/blib/datadir/Common_Content";
 
-            my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
-            my $builder = Publican::Builder->new();
-            $builder->build(
-                { formats => 'xml', langs => 'all', publish => 1 } );
-            rcopy( "publish/*", "$path/.");
-            rcopy('publican.cfg', "$path/common-db5/.");
-            $dir = undef;
-            $builder = undef;
-            $publican = undef;
+                my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
+                my $builder = Publican::Builder->new();
+                $builder->build(
+                    { formats => 'xml', langs => $common_langs, publish => 1 } );
+                rcopy( "publish/*", "$path/.");
+                rcopy('publican.cfg', "$path/common-db5/.");
+                $dir = undef;
+                $builder = undef;
+                $publican = undef;
+            }
         }
         sub ACTION_update_pot {
             my $self = shift;
-			# BUGBUG TODO call Locale::Maketext::Extract::Run directly
-			# use Locale::Maketext::Extract::Run 'xgettext';
-			# my @args = qw(-d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* -o po/publican.pot);
-			# xgettext(@ARGV);
+            # BUGBUG TODO call Locale::Maketext::Extract::Run directly
+            # use Locale::Maketext::Extract::Run 'xgettext';
+            # my @args = qw(-d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* -o po/publican.pot);
+            # xgettext(@ARGV);
             $self->do_system('xgettext.pl -d publican -D lib -D bin -P Locale::Maketext::Extract::Plugin::PPI=* --wrap -o po/publican.pot');
         }
         sub ACTION_update_po {
@@ -139,7 +145,7 @@ my $class = Module::Build->subclass(
                 in        => 'po',
                 relative  => 0,
             );
-			# BUGBUG TODO switch to internal merge code
+            # BUGBUG TODO switch to internal merge code
             foreach my $po_file (@po_files) {
                 $self->do_system("msgmerge --quiet --no-wrap --backup=none --update $po_file po/publican.pot");
             }
@@ -147,7 +153,6 @@ my $class = Module::Build->subclass(
         sub ACTION_authortest {
             my ($self) = @_;
             $self->depends_on('build');
-#            $self->depends_on('manifest');
             $self->depends_on('distmeta');
             $self->test_files( qw< t xt/author > );
             $self->recursive_test_files(1);
@@ -156,9 +161,31 @@ my $class = Module::Build->subclass(
         }
         sub ACTION_distdir {
             my ($self) = @_;
-#            $self->depends_on('authortest');
             $self->depends_on('update_pod');
             return $self->SUPER::ACTION_distdir();
+        }
+        sub ACTION_build {
+            my ($self) = @_;
+            $self->SUPER::ACTION_build();
+            $self->depends_on('common_files');
+            $self->depends_on('commondb5_files');
+        }
+        sub ACTION_test {
+            my ($self) = @_;
+            use Cwd qw(abs_path cwd);
+            $self->config_data('etc', abs_path('blib/etc'));
+            $self->config_data('datadir', abs_path('blib/datadir'));
+            $self->config_data('web', abs_path('blib/web'));
+            $self->config_data('templates', abs_path('blib/templates'));
+            $self->config_data('book_templates', abs_path('blib/book_templates'));
+            $self->config_data('docdir', abs_path('pod1'));
+            $self->SUPER::ACTION_test();
+            $self->config_data('etc', $self->install_path('etc'));
+            $self->config_data('datadir', $self->install_path('datadir'));
+            $self->config_data('web', $self->install_path('web'));
+            $self->config_data('templates', $self->install_path('templates'));
+            $self->config_data('book_templates', $self->install_path('book_templates'));
+            $self->config_data('docdir', $self->install_path('docdir'));
         }
         sub ACTION_update_pod {
             my ($self) = @_;
@@ -289,6 +316,7 @@ my $builder = $class->new(
         'Locale::PO'                             => 0,
         'Module::Build'                          => 0,
         'Pod::Usage'                             => 0,
+        'Sort::Versions'                         => 0,
         'String::Similarity'                     => 0,
         'Syntax::Highlight::Engine::Kate'        => 0,
         'Template'                               => 0,
@@ -335,6 +363,7 @@ my $builder = $class->new(
         'Locale::PO'                             => 0,
         'Module::Build'                          => 0,
         'Pod::Usage'                             => 0,
+        'Sort::Versions'                         => 0,
         'String::Similarity'                     => 0,
         'Syntax::Highlight::Engine::Kate'        => 0,
         'Template'                               => 0,
@@ -367,15 +396,15 @@ my $builder = $class->new(
         'datadir'    => '/usr/share/publican',
         'web'        => '/usr/share/publican/sitetemplate',
         'templates'  => '/usr/share/publican/templates',
+        'book_templates'  => '/usr/share/publican/book_templates',
         'etc'        => '/etc',
         'completion' => '/etc/bash_completion.d',
+        'docdir'     => '/usr/share/doc/',
     },
     data_files => {
         'datadir/rpmlint.cfg'                => 'datadir/rpmlint.cfg',
         'datadir/default.db'                 => 'datadir/default.db',
-        'datadir/footer.html'                => 'datadir/footer.html',
         'datadir/fop/fop.xconf'              => 'datadir/fop/fop.xconf',
-        'datadir/header.html'                => 'datadir/header.html',
         'datadir/xsl/dt_htmlsingle_spec.xsl' => 'datadir/xsl/dt_htmlsingle_spec.xsl',
         'datadir/xsl/carousel.xsl'           => 'datadir/xsl/carousel.xsl',
         'datadir/xsl/xhtml-common.xsl'       => 'datadir/xsl/xhtml-common.xsl',
@@ -431,6 +460,13 @@ my $builder = $class->new(
         'templates/web_2_head.tmpl'        => 'templates/web_2_head.tmpl',
         'templates/Sitemap.tmpl'           => 'templates/Sitemap.tmpl',
     },
+    book_templates_files => {
+        'book_templates/cover.tmpl'     => 'book_templates/cover.tmpl',
+        'book_templates/footer.html'    => 'book_templates/footer.html',
+        'book_templates/header.html'    => 'book_templates/header.html',
+        'book_templates/toc.xsl'        => 'book_templates/toc.xsl',
+        'book_templates/titlepage.tmpl' => 'book_templates/titlepage.tmpl',
+    },
     etc_files        => { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
     completion_files => { 'completion/_publican'     => 'completion/_publican', },
 );
@@ -440,16 +476,24 @@ if ( $^O eq 'darwin' ) {
     $builder->install_path( 'generated'  => '/opt/local/share/publican/sitetemplate' );
     $builder->install_path( 'web'        => '/opt/local/share/publican/sitetemplate' );
     $builder->install_path( 'templates'  => '/opt/local/share/publican/templates' );
+    $builder->install_path( 'book_templates'  => '/opt/local/share/publican/book_templates' );
     $builder->install_path( 'etc'        => '/opt/local/etc' );
     $builder->install_path( 'completion' => '/opt/local/etc/bash_completion.d' );
 }
 
-$builder->add_build_element('common');
-$builder->add_build_element('commondb5');
 $builder->add_build_element('brand_template');
 $builder->add_build_element('data');
 $builder->add_build_element('web');
 $builder->add_build_element('templates');
+$builder->add_build_element('book_templates');
 $builder->add_build_element('etc');
 $builder->add_build_element('completion');
+$builder->config_data('etc', $builder->install_path('etc'));
+$builder->config_data('datadir', $builder->install_path('datadir'));
+$builder->config_data('web', $builder->install_path('web'));
+$builder->config_data('templates', $builder->install_path('templates'));
+$builder->config_data('book_templates', $builder->install_path('book_templates'));
+$builder->config_data('docdir', $builder->install_path('docdir'));
+
 $builder->create_build_script();
+

@@ -15,8 +15,8 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.0.0
-Release:        0%{?dist}
+Version:        3.1.0
+Release:        2%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -84,16 +84,17 @@ BuildRequires:  perl(XML::LibXML) => 1.67
 BuildRequires:  perl(XML::LibXSLT) => 1.67
 BuildRequires:  perl(XML::Simple)
 BuildRequires:  perl(XML::TreeBuilder) => 4.0
-BuildRequires:  wkhtmltopdf
+BuildRequires:  wkhtmltopdf >= 0.10.0_rc2-5
 BuildRequires:  docbook-style-xsl >= 1.76.1
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  perl(Text::CSV_XS)
+BuildRequires:  perl(Sort::Versions)
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires:       perl(Locale::Maketext::Gettext)
-Requires:       wkhtmltopdf
+Requires:       wkhtmltopdf >= 0.10.0_rc2-5
 Requires:       rpm-build
 Requires:       docbook-style-xsl >= 1.76.1
 Requires:       perl(XML::LibXML)  >=  1.67
@@ -118,7 +119,7 @@ Requires:       lohit-malayalam-fonts lohit-marathi-fonts lohit-nepali-fonts
 Requires:       lohit-oriya-fonts lohit-punjabi-fonts lohit-sindhi-fonts
 Requires:       lohit-tamil-fonts lohit-telugu-fonts dejavu-lgc-sans-mono-fonts
 Requires:       dejavu-fonts-common dejavu-serif-fonts dejavu-sans-fonts
-Requires:       dejavu-sans-mono-fonts
+Requires:       dejavu-sans-mono-fonts overpass-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
@@ -127,7 +128,7 @@ BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 %if %{OTHER}
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
-Requires:       lklug-fonts baekmuk-ttf-batang-fonts
+Requires:       lklug-fonts baekmuk-ttf-batang-fonts overpass-fonts
 
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
@@ -224,7 +225,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc Changes README COPYING Artistic pod1/publican
 %{perl_vendorlib}/Publican.pm
-%{perl_vendorlib}/Publican/*
+%{perl_vendorlib}/Publican
 %{_mandir}/man3/Publican*
 %{_mandir}/man1/*
 %{_bindir}/publican
@@ -247,6 +248,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 4 2013 Jeff Fearn <jfearn@redhat.com> 3.1.0-2
+- Fix translated text
+
+* Mon Feb 4 2013 Jeff Fearn <jfearn@redhat.com> 3.1.0-1
+- Warn of failure to chmod/chown.
+
+* Fri Jan 25 2013 Jeff Fearn <jfearn@redhat.com> 3.1.0-0
+- new upstream package.
+
 * Wed Oct 31 2012 Jeff Fearn <jfearn@redhat.com> 3.0.0-0
 - new upstream package.
 

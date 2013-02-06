@@ -18,13 +18,14 @@ use Encode qw(is_utf8 decode_utf8 encode_utf8);
 use Time::localtime;
 use XML::Simple;
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
+use Publican::ConfigData;
 
 our $VERSION = '1.4';
 
 my $DB_NAME             = 'books';
 my $DEFAULT_LANG        = 'en-US';
-my $DEFAULT_TMPL_PATH   = '/usr/share/publican/templates';
-my $DEFAULT_CONFIG_FILE = '/etc/publican-website.cfg';
+my $DEFAULT_TMPL_PATH   = Publican::ConfigData->config('templates');
+my $DEFAULT_CONFIG_FILE = Publican::ConfigData->config('etc') . '/publican-website.cfg';
 my $DEFAULT_DUMP_FILE   = '/var/www/html/DUMP.xml';
 
 my %LANG_NAME = (
@@ -708,7 +709,7 @@ sub regen_all_toc {
         binmode => ':encoding(UTF-8)'
     ) or croak( $self->{Template}->error() );
 
-    # This file contains all the langauges.
+    # This file contains all the languages.
     my $opds_vars;
     $opds_vars->{langs}       = \@opds_lang_list;
     $opds_vars->{update_date} = DateTime->now();
@@ -1117,7 +1118,7 @@ SEARCH
             if ( -f $self->{toc_path} . "/$language/toc.html" );
     }
 
-    # This file contains all products for this langauge.
+    # This file contains all products for this language.
     my $opds_vars;
     $opds_vars->{products}    = \@opds_prod_list;
     $opds_vars->{update_date} = DateTime->now();
@@ -1565,7 +1566,7 @@ SQL
             }
         );
 
-        # write our langauge_index.tmpl
+        # write our language_index.tmpl
         $self->write_language_index(
             {   lang          => $language,
                 book_list     => \%book_list,
@@ -1765,15 +1766,15 @@ sub i_sort {
 sub write_language_index {
     my ( $self, $arg ) = @_;
     my $lang = delete $arg->{lang}
-        || croak "write_langauge_index: lang required";
+        || croak "write_language_index: lang required";
     my $book_list = delete $arg->{book_list}
-        || croak "write_langauge_index: book_list required";
+        || croak "write_language_index: book_list required";
     my $langs = delete $arg->{langs}
-        || croak "write_langauge_index: langs required";
+        || croak "write_language_index: langs required";
     my $labels = delete $arg->{labels}
-        || croak "write_langauge_index: labels required";
+        || croak "write_language_index: labels required";
     my $trans_strings = delete $arg->{trans_strings}
-        || croak "write_langauge_index: trans_strings required";
+        || croak "write_language_index: trans_strings required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -1816,7 +1817,7 @@ sub write_language_labels {
     my $book_list = delete $arg->{book_list}
         || croak "write_language_labels: book_list required";
     my $trans_strings = delete $arg->{trans_strings}
-        || croak "write_langauge_index: trans_strings required";
+        || croak "write_language_index: trans_strings required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -1844,17 +1845,17 @@ sub write_language_labels {
 sub write_books_index {
     my ( $self, $arg ) = @_;
     my $lang = delete $arg->{lang}
-        || croak "write_langauge_index: lang required";
+        || croak "write_language_index: lang required";
     my $book_ver_list = delete $arg->{book_ver_list}
-        || croak "write_langauge_index: book_ver_list required";
+        || croak "write_language_index: book_ver_list required";
     my $book_list = delete $arg->{book_list}
-        || croak "write_langauge_index: book_list required";
+        || croak "write_language_index: book_list required";
     my $langs = delete $arg->{langs}
-        || croak "write_langauge_index: langs required";
+        || croak "write_language_index: langs required";
     my $labels = delete $arg->{labels}
-        || croak "write_langauge_index: labels required";
+        || croak "write_language_index: labels required";
     my $trans_strings = delete $arg->{trans_strings}
-        || croak "write_langauge_index: trans_strings required";
+        || croak "write_language_index: trans_strings required";
 
     if ( %{$arg} ) {
         croak "unknown args: " . join( ", ", keys %{$arg} );
@@ -2130,7 +2131,7 @@ Writes an index page for a book for web 2 style.
 
 =head2 write_language_index
 
-Writes an index page for a langauge for web 2 style.
+Writes an index page for a language for web 2 style.
 
 =head2 write_product_index
 

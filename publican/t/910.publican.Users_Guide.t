@@ -7,8 +7,6 @@ use Cwd qw(abs_path cwd);
 
 diag("Testing bin/publican on the Users_Guide");
 
-my $common_content = abs_path('blib/datadir/Common_Content');
-my $common_config  = abs_path('blib/datadir');
 my $cover_db       = undef;
 $cover_db = abs_path('cover_db') if ( -d 'cover_db' );
 my $coverdb = undef;
@@ -19,8 +17,7 @@ my $publican = abs_path('blib/script/publican');
 my @perl_args = ( 'perl', '-CA', '-I', $lib );
 push @perl_args, $coverdb if defined $coverdb;
 
-my @common_opts
-    = ( '--quiet', '--common_config', $common_config, '--common_content', $common_content );
+my @common_opts = ( '--quiet' );
 
 my $flink = cwd().'/blib';
 

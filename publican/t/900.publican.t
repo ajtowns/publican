@@ -10,15 +10,13 @@ diag("\nTesting blib/script/publican\n");
 my $cover_db = undef;
 $cover_db = abs_path('cover_db') if ( -d 'cover_db' );
 
-my $common_content = abs_path('blib/datadir/Common_Content');
-my $common_config  = abs_path('blib/datadir');
 my $lib            = abs_path('blib/lib');
 my $publican       = abs_path('blib/script/publican');
 my $coverdb        = '';
 $coverdb = qq|-MDevel::Cover=-db,$cover_db| if ($cover_db);
 
 my $common_opts
-    = qq|--quiet --common_config="$common_config" --common_content="$common_content" --nocolours|;
+    = qq|--quiet --nocolours|;
 
 is( system(
         qq{perl -CA $coverdb -I $lib $publican create --name foo2 $common_opts}

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+]>
+<section conformance="233" id="sect-Users_Guide-Linux_operating_systems-OpenSuse_12">
+      <title>OpenSuse 12</title>
+
+      <para><application>Publican</application> has not been usable on
+      OpenSuse up until release 12.1. Certain dependencies were missing and
+      could not be found in any known OpenSuse repository. This is not the
+      case with OpenSuse 12.1 as all dependencies can now be found and
+      installed.</para>
+
+      <para>The following instructions describe installing
+      <application>Publican</application> from source because, as yet, there
+      is no <application>Publican</application> RPM for OpenSuse 12.1. The
+      version of <application>Publican</application> is 2.9 taken directly
+      from the source repository - previous versions have not been tested but
+      may work.</para>
+
+      <para>At the time of writing, Publican 2.8 was the release version and
+      work on 2.9 was still ongoing. For this reason the following
+      instructions are subject to change.</para>
+
+      <para>The OpenSuse install was a default one with the following software
+      categories added at install time:</para>
+
+      <itemizedlist spacing="compact">
+        <listitem>
+          <para>Technical Writing - for the Docbook tools etc.</para>
+        </listitem>
+
+        <listitem>
+          <para>Perl Development</para>
+        </listitem>
+
+        <listitem>
+          <para>Web and LAMP Server</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>The system used had KDE installed which shouldn't make a
+      difference. The following KDE specific categories were also
+      installed:</para>
+
+      <itemizedlist spacing="compact">
+        <listitem>
+          <para>KDE Development</para>
+        </listitem>
+
+        <listitem>
+          <para>Desktop Effects</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Finally, the entire Games category was removed.</para>
+
+      <para>After OpenSuse had completed installing, and all current updates
+      had been applied, the following steps were followed to install
+      <application>Publican</application>.</para>
+
+      <procedure>
+        <step>
+          <para>Open a terminal session.</para>
+        </step>
+
+        <step>
+          <para>Install the dependencies that are available from various
+          online repositories - many of these are not present in the
+          installation DVD repository.</para>
+
+          <screen><command>sudo zypper install perl-Config-Simple perl-DateTime \
+perl-DateTime-Format-DateParse perl-DBD-SQLite perl-DBI \
+perl-File-Find-Rule perl-File-Which perl-HTML-Format \
+perl-Locale-MakeText-Gettext perl-Template-Toolkit \
+perl-Test-Deep perl-Test-Pod perl-XML-LibXSLT \
+perl-YAML liberation-fonts</command></screen>
+
+          <note>
+            <para><filename>Liberation-fonts</filename> is most likely already
+            installed, but it is required. <application>Zypper</application>
+            will not reinstall it if it is already present.</para>
+          </note>
+        </step>
+
+        <step>
+          <para>Use <application>cpan</application> to install the remaining
+          dependencies which cannot be installed by
+          <application>zypper</application>:</para>
+
+          <screen><command>sudo sh
+cpan File::pushd File::Copy::Recursive Locale::PO pp \
+Syntax::Highlight::Engine::Kate XML::TreeBuilder
+exit
+</command></screen>
+        </step>
+
+        <step>
+          <para>Download the source code:</para>
+
+          <screen><command>cd ~
+mkdir -p SourceCode/publican
+cd SourceCode/publican
+svn checkout http://svn.fedorahosted.org/svn/publican/branches/publican-2x ./
+</command></screen>
+        </step>
+
+        <step>
+          <para>Build the <application>Publican</application> build
+          script:</para>
+
+          <screen><command>perl Build.PL
+</command></screen>
+
+          <para>If all the dependencies are installed, you should see the
+          following:</para>
+
+          <screen>perl Build.PL
+WARNING: the following files are missing in your kit:
+        META.yml
+Please inform the author.
+
+Created MYMETA.yml and MYMETA.json
+Creating new 'Build' script for 'Publican' version '2.9'</screen>
+
+          <para>If not, then use <application>cpan</application> (as root) to
+          install the missing modules and run the build again. Replace any
+          forward slashes '/' by a double colon '::' and make sure you use
+          exactly the same letter case, for example: If
+          <filename>File/pushd.pm</filename> is reported as missing, you would
+          use this to install it:</para>
+
+          <screen><command>sudo sh
+cpan File::pushd
+exit
+</command></screen>
+
+          <para>Assuming all went well, the <filename>Build.PL</filename>
+          script will have created a new script named
+          <filename>Build</filename> which we will use to create, test and
+          install <application>Publican</application> 2.9.</para>
+
+          <screen><command>./Build
+</command></screen>
+
+          <para>There will be lots of text scrolling up the screen for a few
+          minutes, you should eventually see the following:</para>
+
+          <screen>DEBUG: Publican::Builder: end of build</screen>
+        </step>
+
+        <step>
+          <para>Test the build:</para>
+
+          <screen><command>./Build test
+</command></screen>
+
+          <para>Again, lots of scrolling text at the end of which you may see
+          the following:</para>
+
+          <screen>Test Summary Report
+-------------------
+t/910.publican.Users_Guide.t (Wstat: 256 Tests: 5 Failed: 1)
+  Failed test:  5
+  Non-zero exit status: 1
+t/pod-coverage.t            (Wstat: 256 Tests: 9 Failed: 1)
+  Failed test:  7
+  Non-zero exit status: 1
+Files=10, Tests=68, 420 wallclock secs ( 0.31 usr  0.17 sys + 246.87 cusr 18.73 csys = 266.08 CPU)
+Result: FAIL
+Failed 2/10 test programs. 2/68 subtests failed.
+</screen>
+
+          <para>Don't worry. This is because of a missing
+          <application>wkhtmltopdf</application> utility which is undergoing
+          tests to be added to <application>Publican</application> in the
+          future to replace Apache <application>FOP</application> as the pdf
+          generation tool of choice. If <application>Publican</application>
+          finds <application>wkhtmltopdf</application> it will use it,
+          otherwise it uses <application>FOP</application>.</para>
+
+          <para>Unfortunately, at the time of writing, because OpenSuse names
+          one of the dependencies of <application>wkhtmltopdf</application>
+          differently (<filename>ghostscript-fonts-std</filename> as opposed
+          to <filename>ghostscript-fonts</filename>)
+          <application>wkhtmltopdf</application> will not run even if force
+          installed with no dependency checks.</para>
+        </step>
+
+        <step>
+          <para>Install <application>wkhtmltopdf</application>.</para>
+
+          <para>This step is optional. At the time of writing
+          <application>wkhtmltopdf</application> did not work on OpenSuse 12.1
+          However, as the problems which prevent it working correctly from
+          <application>Publican</application> may have been resolved, the
+          following instructions give details on installing
+          <application>wkhtmltopdf</application>.</para>
+
+          <note>
+            <para>If you intend to create indices in your generated pdf
+            documents, you are advised to use <application>Apache
+            FOP</application> rather than
+            <application>wkhtmltopdf</application>. With
+            <application>FOP</application> you get actual page numbers which
+            is better in a printed document.</para>
+          </note>
+
+          <screen><command>JFEARN=http://jfearn.fedorapeople.org/wkhtmltopdf/f15
+MYSYSTEM=i686
+## For 64bit system use MYSYSTEM=x86_64 instead.
+wget $JFEARN/$MYSYSTEM/wkhtmltopdf-qt-4.7.1-1.git20110804.fc15.i686.rpm
+wget $JFEARN/$MYSYSTEM/wkhtmltopdf-0.10.0_rc2-1.fc15.i686.rpm
+</command></screen>
+
+          <note>
+            <para>If you use a 64 bit system, make sure to set
+            <envar>MYSYSTEM</envar> appropriately.</para>
+          </note>
+
+          <para>Once downloaded, install both rpms as follows:</para>
+
+          <screen><command>sudo sh
+rpm -ivh wkhtmltopdf-qt*
+rpm -ivh --nodeps wkhtmltopdf-0*
+exit
+</command></screen>
+
+          <para>You have to use the option to ignore dependencies on the
+          latter rpm due to the <filename>ghostscript-fonts</filename> problem
+          described above.</para>
+        </step>
+
+        <step>
+          <para>Install <application>Publican</application>.</para>
+
+          <para>The final stage is to install Publican, even though the
+          testing stage had a couple of sub-tests which failed.</para>
+
+          <screen><command>sudo sh
+./Build test
+exit
+</command></screen>
+
+          <para>The following steps are optional but it's a good idea to test
+          that everything is working before you spend time on your own
+          documents.</para>
+        </step>
+
+        <step>
+          <para>Test the installed <application>Publican</application>
+          build:</para>
+
+          <screen><command>publican create --type=book --product=testing --version=1.2.3 --name=TestPublican</command>
+  Processing file en-US/Author_Group.xml -&gt; en-US/Author_Group.xml
+  Processing file en-US/Book_Info.xml -&gt; en-US/Book_Info.xml
+  Processing file en-US/Chapter.xml -&gt; en-US/Chapter.xml
+  Processing file en-US/Preface.xml -&gt; en-US/Preface.xml
+  Processing file en-US/Revision_History.xml -&gt; en-US/Revision_History.xml
+  Processing file en-US/TestPublican.xml -&gt; en-US/TestPublican.xml
+
+<command>cd TestPublican/
+publican build --lang=all --formats=html,html-single,html-desktop,txt,pdf,epub</command>
+</screen>
+
+          <note>
+            <para>At the time of writing, creating epubs with
+            <application>Publican</application> 2.9 on OpenSuse gave the
+            following error:</para>
+
+            <screen>runtime error: file /usr/share/publican/xsl/epub.xsl element choose
+Variable 'epub.embedded.fonts' has not been declared.
+ at /usr/lib/perl5/site_perl/5.14.2/Publican/Builder.pm line 915</screen>
+
+            <para>No epub file was created. The individual working files were
+            however, and can be built into an epub book using
+            <application>Sigil</application>, if desired.</para>
+          </note>
+
+          <para>Using the <application>Dolphin</application> file manager, you
+          can browse to <filename class="directory">SourceCode/TestPublican/tmp/en-US/</filename> and
+          view the various output formats that you find there.</para>
+        </step>
+      </procedure>
+    </section>
