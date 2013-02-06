@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -248,6 +248,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 4 2013 Jeff Fearn <jfearn@redhat.com> 3.1.0-2
+- Fix translated text
+
+* Mon Feb 4 2013 Jeff Fearn <jfearn@redhat.com> 3.1.0-1
+- Warn of failure to chmod/chown.
+
 * Fri Jan 25 2013 Jeff Fearn <jfearn@redhat.com> 3.1.0-0
 - new upstream package.
 
