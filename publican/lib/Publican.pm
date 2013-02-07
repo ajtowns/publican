@@ -20,7 +20,7 @@ use Data::Dumper;
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
-$VERSION = '3.1.0';
+$VERSION = '3.1.1';
 @ISA     = qw(Exporter);
 
 @EXPORT

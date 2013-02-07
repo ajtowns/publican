@@ -15,8 +15,8 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.1.0
-Release:        2%{?dist}
+Version:        3.1.1
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Feb 7 2013 Jeff Fearn <jfearn@redhat.com> 3.1.1-0
+-  Fix web site CSS for admonitions. BZ #908539
+
 * Mon Feb 4 2013 Jeff Fearn <jfearn@redhat.com> 3.1.0-2
 - Fix translated text
 
