@@ -2482,4 +2482,34 @@ snip border rubbish. BZ #875967
 <xsl:template name="set.titlepage.separator">
 </xsl:template>
 
+<xsl:template match="footnote">
+  <xsl:variable name="href">
+    <xsl:text>#ftn.</xsl:text>
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="conditional" select="0"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+      <xsl:call-template name="anchor">
+        <xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template>
+  <a href="{$href}">
+    <xsl:apply-templates select="." mode="class.attribute"/>
+    <sup>
+      <xsl:apply-templates select="." mode="class.attribute"/>
+      <xsl:call-template name="id.attribute">
+        <xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template>
+<!-- MOVED UP BZ #
+      <xsl:call-template name="anchor">
+        <xsl:with-param name="conditional" select="0"/>
+      </xsl:call-template>
+-->
+      <xsl:text>[</xsl:text>
+      <xsl:apply-templates select="." mode="footnote.number"/>
+      <xsl:text>]</xsl:text>
+    </sup>
+  </a>
+</xsl:template>
+
 </xsl:stylesheet>
