@@ -10,13 +10,13 @@
 # required for desktop file install
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
 
-%define TESTS 0
+%define TESTS 1
 %define brand common
 %define wwwdir /var/www/html/docs
 
 Name:           publican
 Version:        3.1.1
-Release:        0%{?dist}
+Release:        0%{?dist}.t1
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -90,6 +90,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  perl(Text::CSV_XS)
 BuildRequires:  perl(Sort::Versions)
+BuildRequires:  perl(DBD::SQLite)
 
 # Most of these are handled automatically
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))

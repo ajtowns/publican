@@ -10,9 +10,7 @@ my $class = Module::Build->subclass(
         use File::pushd;
         use Cwd;
         my $dir = cwd() . '/tmp/rpm';
-## BUGBUG when I'm impatient
-        my $common_langs = 'en-US';
-##        my $common_langs = 'all';
+        my $common_langs = 'all';
         sub ACTION_srpm {
             my $self = shift;
             my $os_ver = $self->args('os_ver');
@@ -179,7 +177,11 @@ my $class = Module::Build->subclass(
             $self->config_data('templates', abs_path('blib/templates'));
             $self->config_data('book_templates', abs_path('blib/book_templates'));
             $self->config_data('docdir', abs_path('pod1'));
+## BUGBUG TODO This hack is si teh tetsing works with publican uninstalled. BZ #908956
+## The real fix is to either move book_templates to the brand or give it it's own conf setting
+            symlink(abs_path('blib/book_templates'), abs_path('blib/datadir')."/Common_Content/common/book_templates");
             $self->SUPER::ACTION_test();
+	    unlink(abs_path('blib/datadir')."/Common_Content/common/book_templates");
             $self->config_data('etc', $self->install_path('etc'));
             $self->config_data('datadir', $self->install_path('datadir'));
             $self->config_data('web', $self->install_path('web'));

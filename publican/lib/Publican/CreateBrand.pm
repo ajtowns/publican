@@ -75,7 +75,6 @@ sub new {
 
     $config->param( 'type',    'brand' );
     $config->param( 'version', $INIT_VERSION );
-    $config->param( 'release', '0' );
 
     my $self = bless {}, $class;
 

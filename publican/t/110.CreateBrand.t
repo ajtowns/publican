@@ -14,7 +14,7 @@ diag("Testing Publican::CreateBrand $Publican::CreateBrand::VERSION");
 my $creator;
 eval { $creator = Publican::CreateBrand->new( { name => 'Test_Brand' } ); };
 my $e = $@;
-like( $e, qr/^lang is a required parameter/, 'missing mandtaor lang' );
+like( $e, qr/^lang is a required parameter/, 'missing mandatory lang' );
 
 eval {
     $creator
