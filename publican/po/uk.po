@@ -87,8 +87,8 @@ msgstr "%1 є обов’язковим аргументом"
 #. ('surname')
 #. ('email')
 #. ('lang')
-#: lib/Publican.pm:1623 lib/Publican.pm:1629 lib/Publican.pm:1633
-#: lib/Publican.pm:1636 lib/Publican.pm:1639
+#: lib/Publican.pm:1645 lib/Publican.pm:1651 lib/Publican.pm:1655
+#: lib/Publican.pm:1658 lib/Publican.pm:1661
 msgid "%1 is a required option for add_revision"
 msgstr "%1 є обов’язковим параметром для add_revision"
 
@@ -119,12 +119,12 @@ msgstr "«books» є обов’язковим параметром налашт
 msgid "'lang' is a mandatory argument"
 msgstr "«lang» є обов’язковим параметром"
 
-#: lib/Publican.pm:1736
+#: lib/Publican.pm:1758
 msgid "'lang' is a required option for get_ed_rev"
 msgstr "«lang» є обов’язковим параметром для get_ed_rev"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican/XmlClean.pm:586
+#: lib/Publican/XmlClean.pm:590
 msgid "'path' is a mandatory argument"
 msgstr "«path» є обов’язковим параметром"
 
@@ -134,13 +134,13 @@ msgid "'repo' is a required configuration parameter for a remote set"
 msgstr "«repo» є обов’язковим параметром налаштування для віддаленого набору"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican/XmlClean.pm:584
+#: lib/Publican/XmlClean.pm:588
 msgid "'xml_doc' is a mandatory argument"
 msgstr "«xml_doc» є обов’язковим параметром"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($title,$cols,@entries)
-#: lib/Publican/XmlClean.pm:938
+#: lib/Publican/XmlClean.pm:942
 msgid ""
 "*ERROR: Fatal Table Error* Table (%1) contains invalid data\n"
 "Attribute cols (%2) does not match number of entry elements (%3)"
@@ -150,7 +150,7 @@ msgstr ""
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($title)
-#: lib/Publican/XmlClean.pm:930
+#: lib/Publican/XmlClean.pm:934
 msgid ""
 "*ERROR: Fatal Table Error* Table (%1) contains invalid data\n"
 "Attribute cols is mandatory for tgroup"
@@ -160,7 +160,7 @@ msgstr ""
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($tag)
-#: lib/Publican/XmlClean.pm:667
+#: lib/Publican/XmlClean.pm:671
 msgid "*WARNING: Unvalidated tag: '%1'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards."
 msgstr "*ПОПЕРЕДЖЕННЯ: неперевірений прапорець: «%1». Цей теґ ймовірно не буде показано належним чином, він може призвести до створення некоректного xhtml або порушити Розділ 508 стандартів доступності."
 
@@ -235,13 +235,21 @@ msgstr "Запис, який буде додано до запису модиф�
 msgid "Arch to filter output on."
 msgstr "Архітектура для фільтрування виведених даних."
 
+#: lib/Publican.pm:1184
+msgid "Author’s firstname not found in Author_Group.xml as expected."
+msgstr ""
+
+#: lib/Publican.pm:1193
+msgid "Author’s surname not found in Author_Group.xml as expected."
+msgstr ""
+
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1602
+#: lib/Publican.pm:1624
 msgid "Banned attributes:"
 msgstr "Заблоковані атрибути:"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1595
+#: lib/Publican.pm:1617
 msgid "Banned tags:"
 msgstr "Заблоковані теґи:"
 
@@ -296,13 +304,13 @@ msgstr "НЕ ДЛЯ РОЗГОЛОШЕННЯ"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($name)
-#: lib/Publican/CreateBrand.pm:104
+#: lib/Publican/CreateBrand.pm:103
 msgid "Can't create brand, directory 'publican-%1' exists!"
 msgstr "Не вдалося створити позначку, каталог з назвою «publican-%1» вже існує!"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($@)
-#: lib/Publican/CreateBrand.pm:108 lib/Publican/CreateBrand.pm:111
+#: lib/Publican/CreateBrand.pm:107 lib/Publican/CreateBrand.pm:110
 msgid "Can't create directory: %1"
 msgstr "Не вдалося створити каталог: %1"
 
@@ -310,7 +318,7 @@ msgstr "Не вдалося створити каталог: %1"
 #. ($info_file)
 #. ($rev_file)
 #. ($xml_file)
-#: bin/publican:1031 lib/Publican.pm:1743 lib/Publican.pm:582
+#: bin/publican:1031 lib/Publican.pm:1765 lib/Publican.pm:582
 #: lib/Publican/Builder.pm:2895 lib/Publican/Builder.pm:3177
 msgid "Can't locate required file: %1"
 msgstr "Не вдалося виявити потрібний файл: %1"
@@ -339,7 +347,7 @@ msgstr "Не вдалося відкрити файл %1. Помилка: %2"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($file,$@)
-#: bin/fix-zanata-map:69 bin/publican:1160 lib/Publican/XmlClean.pm:1020
+#: bin/fix-zanata-map:69 bin/publican:1160 lib/Publican/XmlClean.pm:1024
 msgid "Can't open file '%1' %2"
 msgstr "Не вдалося відкрити файл «%1» %2"
 
@@ -373,19 +381,19 @@ msgstr "Не вдалося відкрити файл spec: %1"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($cfg_file,Config::Simple->error())
-#: lib/Publican/CreateBrand.pm:272
+#: lib/Publican/CreateBrand.pm:271
 msgid "Can't write to %1: %2"
 msgstr "Не вдалося записати до %1: %2"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. (Config::Simple->error())
-#: lib/Publican/CreateBrand.pm:282
+#: lib/Publican/CreateBrand.pm:281
 msgid "Can't write to defaults.cfg: %1"
 msgstr "Не вдалося виконати запис до файла defaults.cfg: %1"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. (Config::Simple->error())
-#: lib/Publican/CreateBrand.pm:289
+#: lib/Publican/CreateBrand.pm:288
 msgid "Can't write to overrides.cfg: %1"
 msgstr "Не вдалося виконати запис до overrides.cfg: %1"
 
@@ -463,13 +471,13 @@ msgstr "Не виявлено параметра налаштування «scm�
 msgid "Constraint: %1"
 msgstr "Обмеження: %1"
 
-#: lib/Publican.pm:1228
+#: lib/Publican.pm:1248
 msgid "Copy Editor"
 msgstr ""
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($ent_file)
-#: lib/Publican.pm:1569
+#: lib/Publican.pm:1591
 #, fuzzy
 msgid "Could not open %1 for input!"
 msgstr "Не вдалося відкрити %1 для виведення даних!"
@@ -484,18 +492,18 @@ msgstr "Не вдалося відкрити %1 для виведення дан
 #. ($xml_file)
 #. ($out_file,$@)
 #. ($file)
-#: bin/fix-zanata-map:75 lib/Publican.pm:1707 lib/Publican/Builder.pm:1476
+#: bin/fix-zanata-map:75 lib/Publican.pm:1729 lib/Publican/Builder.pm:1476
 #: lib/Publican/Builder.pm:1492 lib/Publican/Builder.pm:1541
 #: lib/Publican/Builder.pm:512 lib/Publican/Builder.pm:564
 #: lib/Publican/CreateBook.pm:372 lib/Publican/Translate.pm:192
-#: lib/Publican/XmlClean.pm:1127 lib/Publican/XmlClean.pm:1196
+#: lib/Publican/XmlClean.pm:1143 lib/Publican/XmlClean.pm:1212
 #: lib/Publican/XmlClean.pm:549
 msgid "Could not open %1 for output!"
 msgstr "Не вдалося відкрити %1 для виведення даних!"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($out_file,$@)
-#: lib/Publican/CreateBrand.pm:125
+#: lib/Publican/CreateBrand.pm:124
 msgid "Could not open %1 for output: %2"
 msgstr "Не вдалося відкрити %1 для виведення даних: %2"
 
@@ -513,17 +521,17 @@ msgstr "Не вдалося відкрити файл пункту. %1"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($out_file)
-#: lib/Publican/CreateBrand.pm:242 lib/Publican/CreateBrand.pm:297
+#: lib/Publican/CreateBrand.pm:241 lib/Publican/CreateBrand.pm:296
 msgid "Could not open file %1 for output!"
 msgstr "Не вдалося відкрити файл %1 для виведення даних!"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican/CreateBrand.pm:370
+#: lib/Publican/CreateBrand.pm:369
 msgid "Could not open file COPYING for output!"
 msgstr "Не вдалося відкрити файл COPYING для виведення даних!"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican/CreateBrand.pm:364
+#: lib/Publican/CreateBrand.pm:363
 msgid "Could not open file README for output!"
 msgstr "Не вдалося відкрити файл README для виведення даних!"
 
@@ -591,6 +599,10 @@ msgstr "Вилучити запис бази даних"
 msgid "Depth of sections to include in the main table of contents."
 msgstr "Мінімальний рівень розділу у ієрархії для включення до основного списку змісту."
 
+#: lib/Publican.pm:1202
+msgid "Did not find any authors in Author_Group.xml"
+msgstr ""
+
 #: bin/publican:157
 msgid "Directory to source brand files from."
 msgstr "Каталог початкових файлів позначки."
@@ -650,14 +662,18 @@ msgid "Do not run the DTD validation"
 msgstr "Не виконувати перевірки DTD"
 
 #. ($attr)
-#: lib/Publican/XmlClean.pm:656
+#: lib/Publican/XmlClean.pm:660
 msgid "ERROR: Banned attribute (%1) detected. Discuss this with your brands owners if you think this is in error."
 msgstr "ПОМИЛКА: виявлено заборонений атрибут (%1). Якщо ви вважаєте, що сталася якась помилка, зверніться до власників вашої версії системи."
 
 #. ($tag)
-#: lib/Publican/XmlClean.pm:645
+#: lib/Publican/XmlClean.pm:649
 msgid "ERROR: Banned tag (%1) detected. Discuss this with your brands owners if you think this is in error."
 msgstr "ПОМИЛКА: виявлено заборонений теґ (%1). Якщо ви вважаєте, що сталася якась помилка, зверніться до власників вашої версії системи."
+
+#: lib/Publican.pm:1171
+msgid "ERROR: Cannot find Author file Author_Group.xml."
+msgstr ""
 
 #. ($revnumber,q|\d[0-9.]*-\d[0-9.]*|)
 #: lib/Publican/Builder.pm:3325
@@ -715,21 +731,21 @@ msgstr "Тут вам слід вказати ваше прізвище."
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($@)
-#: bin/db4-2-db5:50 lib/Publican.pm:1421 lib/Publican/Builder.pm:1370
+#: bin/db4-2-db5:50 lib/Publican.pm:1441 lib/Publican/Builder.pm:1370
 #: lib/Publican/Builder.pm:265 lib/Publican/Builder.pm:836
 msgid "FATAL ERROR: %1"
 msgstr "КРИТИЧНА ПОМИЛКА: %1"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($rev_file,$@)
-#: lib/Publican.pm:1749
+#: lib/Publican.pm:1771
 #, fuzzy
 msgid "FATAL ERROR: %1: %2"
 msgstr "КРИТИЧНА ПОМИЛКА: %1"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($@->domain(),$@->code(),$@->file(),$@->line(),$@->message(),)
-#: bin/db4-2-db5:43 lib/Publican.pm:1411 lib/Publican/Builder.pm:1360
+#: bin/db4-2-db5:43 lib/Publican.pm:1431 lib/Publican/Builder.pm:1360
 #: lib/Publican/Builder.pm:253 lib/Publican/Builder.pm:826
 msgid "FATAL ERROR: %1:%2 in %3 on line %4: %5"
 msgstr "КРИТИЧНА ПОМИЛКА: %1:%2 у %3, рядок %4: %5"
@@ -761,7 +777,7 @@ msgstr "Не вдалося виконати %1, номер помилки: %2"
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($@)
-#: lib/Publican.pm:1431 lib/Publican.pm:1532 lib/Publican.pm:779
+#: lib/Publican.pm:1451 lib/Publican.pm:1552 lib/Publican.pm:779
 #: lib/Publican/Builder.pm:1381 lib/Publican/Builder.pm:854
 msgid "Failed to load Win32::TieRegistry module. Error: %1"
 msgstr "Не вдалося завантажити модуль Win32::TieRegistry. Повідомлення про помилку: %1"
@@ -878,7 +894,7 @@ msgstr "Неточно"
 msgid "Generate table of contents down to the given section depth."
 msgstr "Створити зміст до вказаної глибини у ієрархії розділів."
 
-#: lib/Publican.pm:1231
+#: lib/Publican.pm:1251
 msgid "Graphic Designer"
 msgstr ""
 
@@ -940,7 +956,7 @@ msgstr "Некоректний формат для %1. Значення (%2) н�
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($lang)
-#: lib/Publican/CreateBrand.pm:101
+#: lib/Publican/CreateBrand.pm:100
 msgid "Invalid language supplied: %1"
 msgstr "Вказано некоректну мову: %1"
 
@@ -979,7 +995,7 @@ msgid "Legal Notice"
 msgstr ""
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1322
+#: lib/Publican.pm:1342
 #, fuzzy
 msgid "Legal notice can not be calculated before building."
 msgstr "неможливо визначити резюме до побудови документа."
@@ -991,7 +1007,7 @@ msgstr "Умови ліцензування цього пакунка."
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ("$main_file.xml")
-#: lib/Publican.pm:1363
+#: lib/Publican.pm:1383
 #, fuzzy
 msgid "Main XML file (%1) can not be calculated before building."
 msgstr "неможливо визначити підзаголовок до побудови документа."
@@ -1025,7 +1041,7 @@ msgstr "Пропущено обов’язкове поле «%1» у журна
 msgid "Missing mandatory field '%1' in revision."
 msgstr "Пропущено обов’язкове поле «%1» у полі версії."
 
-#: lib/Publican.pm:1592
+#: lib/Publican.pm:1614
 msgid "NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
 msgstr "ЗАУВАЖЕННЯ: ці списки теґів і атрибутів, пов’язано лише з певною версією системи, вони не є частиною самої системи Publican."
 
@@ -1228,7 +1244,7 @@ msgstr "Обробка файла %1"
 # translation auto-copied from project Publican, version 3, document publican
 #. ($pot_file,$po_file)
 #. ($file,$out_file)
-#: lib/Publican/Translate.pm:249 lib/Publican/XmlClean.pm:1006
+#: lib/Publican/Translate.pm:249 lib/Publican/XmlClean.pm:1010
 msgid "Processing file %1 -> %2"
 msgstr "Обробка файла %1 -> %2"
 
@@ -1243,7 +1259,7 @@ msgid "Product this package covers. Fetched from productname tag in xml_lang/TYP
 msgstr "Продукт, який пов’язано з цим пакунком. Визначається за теґом productname у xml_lang/TYPE_Info.xml"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1234
+#: lib/Publican.pm:1254
 #, fuzzy
 msgid "Production Editor"
 msgstr "Список продуктів"
@@ -1306,7 +1322,7 @@ msgstr "Вивести звіт щодо невідомих теґів під ч
 msgid "Repository from which to fetch remote set books."
 msgstr "Сховище, з якого слід звантажувати віддалені набори книг."
 
-#: lib/Publican.pm:1687 lib/Publican/Builder.pm:488
+#: lib/Publican.pm:1709 lib/Publican/Builder.pm:488
 #: lib/Publican/CreateBook.pm:274
 msgid "Revision History"
 msgstr "Журнал версій"
@@ -1404,7 +1420,7 @@ msgstr "Підзаголовок книги"
 msgid "Table of Contents"
 msgstr ""
 
-#: lib/Publican.pm:1237
+#: lib/Publican.pm:1257
 msgid "Technical Editor"
 msgstr ""
 
@@ -1590,7 +1606,7 @@ msgid "Translation files synchronised with XML sources %1-%2"
 msgstr "Файли перекладів синхронізовано з кодами XML %1–%2."
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1240
+#: lib/Publican.pm:1260
 #, fuzzy
 msgid "Translator"
 msgstr "Перекладено"
@@ -1699,6 +1715,18 @@ msgstr "Версія цього пакунка. Визначається на о
 msgid "Versions"
 msgstr "Версії"
 
+#. ($xml_file,$!)
+#: lib/Publican/XmlClean.pm:1066
+msgid "WARNING: Could not reset file ownership for %1 because %2"
+msgstr ""
+
+# translation auto-copied from project Publican, version 3, document publican
+#. ($xml_file,$!)
+#: lib/Publican/XmlClean.pm:1059
+#, fuzzy
+msgid "WARNING: Could not reset file permissions for %1 because %2"
+msgstr "ПОПЕРЕДЖЕННЯ: не знайдено файла початкових кодів xml для %1"
+
 # translation auto-copied from project Publican, version 3, document publican
 #: lib/Publican/Translate.pm:733
 msgid "WARNING: Fuzzy message in PO file."
@@ -1706,7 +1734,7 @@ msgstr "ПОПЕРЕДЖЕННЯ: неготове повідомлення у �
 
 # translation auto-copied from project Publican, version 3, document publican
 #. ($img_file)
-#: lib/Publican/XmlClean.pm:725
+#: lib/Publican/XmlClean.pm:729
 msgid "WARNING: Image missing: %1"
 msgstr "ПОПЕРЕДЖЕННЯ: не знайдено зображення: %1"
 
@@ -1751,7 +1779,7 @@ msgid "WARNING: config key %1 is not valid for this type of object, ignoring.\n"
 msgstr ""
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican/XmlClean.pm:916
+#: lib/Publican/XmlClean.pm:920
 msgid "WARNING: table validation failed. Could not determine table for tgroup, column numbers cannot be validated"
 msgstr "ПОПЕРЕДЖЕННЯ: помилка під час перевірки коректності таблиці. Не вдалося визначити таблицю для tgroup, кількість стовпчиків неможливо перевірити"
 
@@ -1794,12 +1822,6 @@ msgstr "неможливо визначити резюме до побудови
 msgid "add_revision does not work for brands."
 msgstr "add_revision не працює для версій системи."
 
-# translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1171
-#, fuzzy
-msgid "author list can not be calculated before building."
-msgstr "неможливо визначити резюме до побудови документа."
-
 #. ($auth_file)
 #. ($trans_file)
 #: lib/Publican/Builder.pm:540 lib/Publican/Builder.pm:553
@@ -1833,7 +1855,7 @@ msgid "configfile is a mandatory argument"
 msgstr "configfile є обов’язковим параметром"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1214
+#: lib/Publican.pm:1234
 #, fuzzy
 msgid "contributor list can not be calculated before building."
 msgstr "неможливо визначити резюме до побудови документа."
@@ -1867,7 +1889,7 @@ msgid "directory %1 exists!"
 msgstr "каталог з назвою %1 вже існує!"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1507
+#: lib/Publican.pm:1527
 msgid "dtdver is a mandatory argument"
 msgstr "dtdver є обов’язковим параметром"
 
@@ -1890,7 +1912,7 @@ msgid "epub creation failed."
 msgstr "Помилка під час створення epub."
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican/XmlClean.pm:993
+#: lib/Publican/XmlClean.pm:997
 msgid "file is a mandatory argument"
 msgstr "file є обов’язковим параметром"
 
@@ -1913,15 +1935,15 @@ msgid "formats is a mandatory argument"
 msgstr "formats є обов’язковим параметром"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1283
+#: lib/Publican.pm:1303
 #, fuzzy
 msgid "keyword list can not be calculated before building."
 msgstr "неможливо визначити резюме до побудови документа."
 
 # translation auto-copied from project Publican, version 3, document publican
 #: lib/Publican.pm:1066 lib/Publican.pm:1112 lib/Publican.pm:1156
-#: lib/Publican.pm:1198 lib/Publican.pm:1268 lib/Publican.pm:1307
-#: lib/Publican.pm:1345 lib/Publican/Builder.pm:2843
+#: lib/Publican.pm:1218 lib/Publican.pm:1288 lib/Publican.pm:1327
+#: lib/Publican.pm:1365 lib/Publican/Builder.pm:2843
 #: lib/Publican/Builder.pm:3149 lib/Publican/Builder.pm:769
 #: lib/Publican/Builder.pm:919
 msgid "lang is a mandatory argument"
@@ -1977,7 +1999,7 @@ msgstr "dtdver є обов’язковим параметром"
 
 # translation auto-copied from project Publican, version 3, document publican
 #: lib/Publican/Translate.pm:130 lib/Publican/XmlClean.pm:491
-#: lib/Publican/XmlClean.pm:995
+#: lib/Publican/XmlClean.pm:999
 msgid "out_file is a mandatory argument"
 msgstr "«out_file» є обов’язковим параметром"
 
@@ -2021,17 +2043,17 @@ msgid "report PO statistics"
 msgstr "вивести звіт щодо статистики PO"
 
 #. ($rev_file)
-#: lib/Publican.pm:1700
+#: lib/Publican.pm:1722
 msgid "revhistory not found in %1"
 msgstr "у %1 не знайдено запису журналу версій (revhistory)"
 
 #. ($VR,'^([0-9.]*)-([0-9.]*)$/')
-#: lib/Publican.pm:1761 lib/Publican/Builder.pm:2910
+#: lib/Publican.pm:1783 lib/Publican/Builder.pm:2910
 msgid "revnumber (%1) does not match the required format of '%2'"
 msgstr "формат запису revnumber (%1) не відповідає обов’язковому формату «%2»"
 
 #. ($rev_file)
-#: lib/Publican.pm:1756 lib/Publican/Builder.pm:2905
+#: lib/Publican.pm:1778 lib/Publican/Builder.pm:2905
 msgid "revnumber not found in %1"
 msgstr "у %1 не знайдено запису номера версії (revnumber)"
 
@@ -2070,7 +2092,7 @@ msgid "surname to use for a revision."
 msgstr "прізвище, яким буде позначено модифікацію."
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1505
+#: lib/Publican.pm:1525
 msgid "tag is a mandatory argument"
 msgstr "tag є обов’язковим параметром"
 
@@ -2092,8 +2114,8 @@ msgstr "типом має бути book, set або article"
 # translation auto-copied from project Publican, version 3, document publican
 #. (join( ", ", keys %{$args} ))
 #: lib/Publican.pm:1071 lib/Publican.pm:1117 lib/Publican.pm:1161
-#: lib/Publican.pm:1203 lib/Publican.pm:1273 lib/Publican.pm:1312
-#: lib/Publican.pm:1350 lib/Publican.pm:1394 lib/Publican.pm:1514
+#: lib/Publican.pm:1223 lib/Publican.pm:1293 lib/Publican.pm:1332
+#: lib/Publican.pm:1370 lib/Publican.pm:1414 lib/Publican.pm:1534
 #: lib/Publican.pm:492 lib/Publican.pm:766 lib/Publican/Builder.pm:130
 #: lib/Publican/Builder.pm:2581 lib/Publican/Builder.pm:2637
 #: lib/Publican/Builder.pm:2763 lib/Publican/Builder.pm:2851
@@ -2106,7 +2128,7 @@ msgstr "типом має бути book, set або article"
 #: lib/Publican/Translate.pm:567 lib/Publican/Translate.pm:672
 #: lib/Publican/Translate.pm:770 lib/Publican/Translate.pm:964
 #: lib/Publican/TreeView.pm:138 lib/Publican/TreeView.pm:223
-#: lib/Publican/TreeView.pm:74 lib/Publican/XmlClean.pm:1000
+#: lib/Publican/TreeView.pm:74 lib/Publican/XmlClean.pm:1004
 #: lib/Publican/XmlClean.pm:291 lib/Publican/XmlClean.pm:496
 msgid "unknown arguments: %1"
 msgstr "невідомі параметри: %1"
@@ -2125,7 +2147,7 @@ msgid "xml_doc is a mandatory argument"
 msgstr "xml_doc є обов’язковим параметром"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1387 lib/Publican/Translate.pm:126
+#: lib/Publican.pm:1407 lib/Publican/Translate.pm:126
 msgid "xml_file is a mandatory argument"
 msgstr "xml_file є обов’язковим параметром"
 
@@ -2134,7 +2156,7 @@ msgid "xml_lang is a mandatory argument"
 msgstr "xml_lang є обов’язковим параметром"
 
 # translation auto-copied from project Publican, version 3, document publican
-#: lib/Publican.pm:1389
+#: lib/Publican.pm:1409
 msgid "xsl_file is a mandatory argument"
 msgstr "xsl_file є обов’язковим параметром"
 
@@ -2142,3 +2164,8 @@ msgstr "xsl_file є обов’язковим параметром"
 #: bin/publican:755
 msgid "you need to publish the brand first"
 msgstr "спочатку вам слід оприлюднити позначку"
+
+# translation auto-copied from project Publican, version 3, document publican
+#, fuzzy
+#~ msgid "author list can not be calculated before building."
+#~ msgstr "неможливо визначити резюме до побудови документа."

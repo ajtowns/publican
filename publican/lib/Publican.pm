@@ -1168,7 +1168,7 @@ sub get_author_list {
     my $tmp_dir = $self->param('tmp_dir');
     my $file    = "$tmp_dir/$lang/xml/Author_Group.xml";
 
-    croak( maketext("author list can not be calculated before building.") )
+    croak( maketext("ERROR: Cannot find Author file Author_Group.xml.") )
         unless ( -f $file );
 
     my $xml_doc = XML::TreeBuilder->new(
@@ -1176,10 +1176,30 @@ sub get_author_list {
     $xml_doc->parse_file($file);
 
     foreach my $author ( $xml_doc->root()->look_down( "_tag", "author" ) ) {
-        my $fn = $author->look_down( "_tag", 'firstname' )->as_text;
-        my $sn = $author->look_down( "_tag", 'surname' )->as_text;
+        my ( $fn, $sn );
+        eval { $fn = $author->look_down( "_tag", 'firstname' )->as_text; };
+        if ($@) {
+            croak(
+                maketext(
+                    "Author’s firstname not found in Author_Group.xml as expected."
+                )
+            );
+        }
+
+        eval { $sn = $author->look_down( "_tag", 'surname' )->as_text; };
+        if ($@) {
+            croak(
+                maketext(
+                    "Author’s surname not found in Author_Group.xml as expected."
+                )
+            );
+        }
 
         push( @authors, "$fn $sn" );
+    }
+
+    unless (@authors) {
+        croak( maketext("Did not find any authors in Author_Group.xml") );
     }
 
     return (@authors);
@@ -1558,20 +1578,22 @@ DTDHEAD
 
     # handle entity file
     if ($ent_file) {
-	if($cleaning) {
-        $dtd .= <<ENT;
+        if ($cleaning) {
+            $dtd .= <<ENT;
 <!ENTITY % BOOK_ENTITIES SYSTEM "$ent_file">
 %BOOK_ENTITIES;
 ENT
-} else {
-	my $INFILE;
-        open( $INFILE, "<:encoding(UTF-8)", "$ent_file" )
-        || croak( maketext( "Could not open [_1] for input!", $ent_file ) );
-        my @lines  = <$INFILE>;
-        $INFILE->close();
-        $dtd .= join("", @lines);
-}
-}
+        }
+        else {
+            my $INFILE;
+            open( $INFILE, "<:encoding(UTF-8)", "$ent_file" )
+                || croak(
+                maketext( "Could not open [_1] for input!", $ent_file ) );
+            my @lines = <$INFILE>;
+            $INFILE->close();
+            $dtd .= join( "", @lines );
+        }
+    }
     $dtd .= <<DTDTAIL;
 ]>
 DTDTAIL
