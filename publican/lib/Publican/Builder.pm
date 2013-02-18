@@ -1044,7 +1044,8 @@ sub transform {
             if ( -f "$brand_path/book_templates/footer.html" );
 
         my @wkhtmltopdf_args = (
-            $wkhtmltopdf_cmd, '--header-spacing',
+            $wkhtmltopdf_cmd, '--javascript-delay',
+            0,                '--header-spacing',
             5,                '--footer-spacing',
             5,                '--margin-top',
             20,               '--margin-bottom',

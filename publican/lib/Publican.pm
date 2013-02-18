@@ -1386,7 +1386,7 @@ sub get_draft {
     ) unless ( -f $file );
 
     my $xml_doc = XML::TreeBuilder->new(
-        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        { 'NoExpand' => "0", 'ErrorContext' => "2" } );
     $xml_doc->parse_file($file);
 
 ## BUGBUG should this be using run_xslt to get the formatted legal notice?
