@@ -85,25 +85,26 @@ div.draft {
         background-position: center;	
 }
 
-body.titlepages {
+.titlepages {
+        page-break-before: always;
 	text-align: left;
 }
 
-body.titlepages > div {
+.titlepages > div {
     height: 100%;
 }
-body.titlepages .legalnotice {
+.titlepages .legalnotice {
 	page-break-before: always;
 }
 
-body.titlepages .title {
+.titlepages .title {
 	font-size: 20px;
 	color: black;
 	font-weight: normal;
 	margin-bottom: 0.1em;
 }
 
-body.titlepages .subtitle {
+.titlepages .subtitle {
 	color: black;
 	font-weight: normal;
 	text-align: left;
@@ -112,27 +113,27 @@ body.titlepages .subtitle {
 	margin-bottom: 2em;
 }
 
-body.titlepages .contributor {
+.titlepages .contributor {
 	margin-bottom: 1em;
 	font-size: 12px;
 }
 
-body.titlepages .abstract {
+.titlepages .abstract {
 	page-break-before: avoid !important;
 	font-size: 14px;
 }
 
-body.titlepages h1 {
+.titlepages h1 {
 	color: black;
 	font-size: 14px;
 	font-weight: normal;
 }
 
-body.titlepages .editors h1,
-body.titlepages .othercredit h1,
-body.titlepages .legalnotice h1,
-body.titlepages .keywords h1,
-body.titlepages .abstract h1 {
+.titlepages .editors h1,
+.titlepages .othercredit h1,
+.titlepages .legalnotice h1,
+.titlepages .keywords h1,
+.titlepages .abstract h1 {
 	font-weight: bold;
 }
 

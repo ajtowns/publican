@@ -10,13 +10,13 @@
 # required for desktop file install
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
 
-%define TESTS 1
+%define TESTS 0
 %define brand common
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.1.1
-Release:        0%{?dist}.t7
+Version:        3.1.2
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -249,6 +249,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 18 2013 Jeff Fearn <jfearn@redhat.com> 3.1.2-0
+- Fix tests failing when publican not installed. BZ #908956
+- Fix broken mr-IN/Conventions.po. BZ #908956
+- Fix footnote link unclickable. BZ #909006
+- Fix missing translations for common files. BZ #908976
+- Fix using edition for version on cover pages. BZ #912180
+- Fix nested entities causing XML::TreeBuilder to fail. BZ #912187
+
 * Thu Feb 7 2013 Jeff Fearn <jfearn@redhat.com> 3.1.1-0
 -  Fix web site CSS for admonitions. BZ #908539
 

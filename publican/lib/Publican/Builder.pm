@@ -40,6 +40,7 @@ use Text::CSV_XS;
 use Publican::ConfigData;
 use Sort::Versions;
 use Template;
+use Encode qw(is_utf8 decode_utf8 encode_utf8);
 
 $File::Copy::Recursive::KeepMode = 0;
 
@@ -931,6 +932,14 @@ sub transform {
     }
 
     my $dir;
+    my $lc_lang = $lang;
+    $lc_lang =~ s/-/_/g;
+    my $locale = Publican::Localise->get_handle($lc_lang)
+        || croak(
+        "Could not create a Publican::Localise object for language: [_1]",
+        $lang );
+    $locale->encoding("UTF-8");
+    $locale->textdomain("publican");
 
 ## BUGBUG test an alternative to fop!
     my $wkhtmltopdf_cmd = which('wkhtmltopdf');
@@ -1107,15 +1116,15 @@ sub transform {
             release       => $self->{publican}->param('release'),
             subtitle      => $subtitle,
             authors       => \@authors,
-            editorlabel   => maketext("Edited by"),
+            editorlabel   => decode_utf8( $locale->maketext("Edited by") ),
             contributors  => $contributors,
-            contriblabel  => maketext("With contributions from"),
+            contriblabel  => decode_utf8( $locale->maketext("With contributions from") ),
             legalnotice   => $legalnotice,
-            legaltitle    => maketext("Legal Notice"),
+            legaltitle    => decode_utf8( $locale->maketext("Legal Notice") ),
             abstract      => $abstract,
-            abstracttitle => maketext("Abstract"),
+            abstracttitle => decode_utf8( $locale->maketext("Abstract") ),
             keywords      => \@keywords,
-            keywordtitle  => maketext("Keywords"),
+            keywordtitle  => decode_utf8( $locale->maketext("Keywords") ),
         };
 
         $template->process(
@@ -1127,14 +1136,14 @@ sub transform {
         push( @wkhtmltopdf_args,
             'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
 
-        $template->process(
-            'titlepage.tmpl', $vars,
-            "$tmp_dir/$lang/html-pdf/titlepage.html",
-            binmode => ':encoding(UTF-8)'
-        ) or croak( $template->error() );
+#        $template->process(
+#            'titlepage.tmpl', $vars,
+#            "$tmp_dir/$lang/html-pdf/titlepage.html",
+#            binmode => ':encoding(UTF-8)'
+#        ) or croak( $template->error() );
 
-        push( @wkhtmltopdf_args,
-            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
+#        push( @wkhtmltopdf_args,
+#            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
 
         my $toc_xsl = "$common_config/book_templates/toc.xsl";
         $toc_xsl = "$brand_path/book_templates/toc.xsl"
@@ -1145,10 +1154,11 @@ sub transform {
             '--xsl-style-sheet',
             $toc_xsl,
             '--toc-header-text',
-            maketext("Table of Contents"),
+            decode_utf8( $locale->maketext("Table of Contents")),
             "$tmp_dir/$lang/html-pdf/index.html",
             "$tmp_dir/$lang/pdf/$pdf_name" );
 
+        logger("Running: " . join(" ", @wkhtmltopdf_args) . "\n");
         my $result = system(@wkhtmltopdf_args);
         if ($result) {
             croak(
