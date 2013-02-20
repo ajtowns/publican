@@ -10,13 +10,13 @@
 # required for desktop file install
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
 
-%define TESTS 0
+%define TESTS 1
 %define brand common
 %define wwwdir /var/www/html/docs
 
 Name:           publican
 Version:        3.1.2
-Release:        0%{?dist}
+Release:        0%{?dist}.t2
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0

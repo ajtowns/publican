@@ -1735,7 +1735,7 @@ sub add_revision {
     close($OUTDOC);
     $rev_doc->root()->delete();
 
-    my $cleaner = Publican::XmlClean->new( { exclude_ent => 0 } );
+    my $cleaner = Publican::XmlClean->new( { exclude_ent => 1 } );
     $cleaner->process_file( { file => $rev_file, out_file => $rev_file } );
 
     return;

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" href="Common_Content/css/pdf.css" type="text/css" />
 </head>
 <body class="cover">
-    <div class="[%- IF draft -%] draft[%- END -%]">
+    <div [%- IF draft -%]class="draft"[%- END -%]>
 	<div class="logo"></div>
 	<div class="leader">
 		<div class="product">[%- product -%]</div>
@@ -15,79 +16,79 @@
 	<div class="docname">[%- docname -%]</div>
 	<div class="subtitle">[%- subtitle -%]</div>
 	<div class="authors">
-	[%- FOREACH author = authors -%]
+	[%- FOREACH author = authors %]
 		<div class="author">[%- author -%]</div>
-	[%- END -%]
+	[%- END %]
 	</div>
     </div>
-<div> </div>
 <div class="titlepages">
-    <div class="[%- IF draft -%] draft[%- END -%]">
+    <div [%- IF draft -%]class="draft"[%- END -%]>
 	<div class="title">
 		<span class="product">[%- product -%]</span> <span class="version">[%- version -%]</span> <span class="docname">[%- docname -%]</span>
 	</div>
 	<div class="subtitle">[%- subtitle -%]</div>
 	<div class="authors">
-	[%- FOREACH contributor = contributors.author -%]
+	[%- FOREACH contributor = contributors.author %]
 		<div class="contributor">
 			<div class="name">
-			[%- IF contributor.firstname -%]<span class="firstname">[%- contributor.firstname -%]</span> [%- END -%]
-			[%- IF contributor.surname -%]<span class="surname">[%- contributor.surname -%]</span>[%- END -%]
+				[% IF contributor.firstname -%]<span class="firstname">[%- contributor.firstname -%]</span> [%- END -%]
+				[%- IF contributor.surname -%]<span class="surname">[%- contributor.surname -%]</span>[%- END %]
 			</div>
-			[%- IF contributor.orgname || contributor.orgdiv-%]<div class="org">
-			[%- IF contributor.orgname -%]<span class="">[%- contributor.orgname -%]</span> [%- END -%]
-			[%- IF contributor.orgdiv -%] <span class="">[%- contributor.orgdiv -%]</span>[%- END -%]
-			</div>[%- END -%]
-			[%- IF contributor.email -%]<div class="email">[%- contributor.email -%]</div>[%- END -%]
-			[%- IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END -%]
+			[% IF contributor.orgname || contributor.orgdiv %]<div class="org">
+				[% IF contributor.orgname -%]<span class="">[%- contributor.orgname -%]</span> [%- END -%]
+				[%- IF contributor.orgdiv -%] <span class="">[%- contributor.orgdiv -%]</span>[%- END %]
+			</div>[%- END %]
+			[% IF contributor.email -%]<div class="email">[%- contributor.email -%]</div>[%- END %]
+			[% IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END %]
 		</div>
-	[%- END -%]
+	[%- END %]
 	</div>
-	[%- IF contributors.editor -%]
+	[%- IF contributors.editor %]
 	<div class="editors">
 		<h1>[%- editorlabel -%]</h1>
 	[%- FOREACH contributor = contributors.editor -%]
 		<div class="contributor">
 			<div class="name">
-			[%- IF contributor.firstname -%]<span class="firstname">[%- contributor.firstname -%] </span>[%- END -%]
-			[%- IF contributor.surname -%]<span class="surname">[%- contributor.surname -%]</span>[%- END -%]
+				[% IF contributor.firstname -%]<span class="firstname">[%- contributor.firstname -%] </span>[%- END -%]
+				[%- IF contributor.surname -%]<span class="surname">[%- contributor.surname -%]</span>[%- END %]
 			</div>
-			[%- IF contributor.orgname || contributor.orgdiv-%]<div class="org">
-			[%- IF contributor.orgname -%]<span class="">[%- contributor.orgname -%]</span> [%- END -%]
-			[%- IF contributor.orgdiv -%]<span class="">[%- contributor.orgdiv -%]</span>[%- END -%]
+			[% IF contributor.orgname || contributor.orgdiv %]<div class="org">
+				[% IF contributor.orgname -%]<span class="">[%- contributor.orgname -%]</span> [%- END -%]
+				[%- IF contributor.orgdiv -%]<span class="">[%- contributor.orgdiv -%]</span>[%- END %]
 			</div>[%- END %]
-			[%- IF contributor.email -%]<div class="email">[%- contributor.email -%]</div>[%- END -%]
-			[%- IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END -%]
+			[% IF contributor.email -%]<div class="email">[%- contributor.email -%]</div>[%- END %]
+			[% IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END %]
 		</div>
-	[%- END -%]
+	[%- END %]
 	</div>
 	[%- END -%]
 	[%- IF contributors.othercredit -%]
 	<div class="othercredit">
 		<h1>[%- contriblabel -%]</h1>
-	[%- FOREACH contributor = contributors.othercredit -%]
+	[% FOREACH contributor = contributors.othercredit -%]
 		<div class="contributor">
 			<div class="name">
-			[%- IF contributor.firstname -%]<span class="firstname">[%- contributor.firstname -%]</span> [%- END -%]
+			[% IF contributor.firstname -%]<span class="firstname">[%- contributor.firstname -%]</span> [%- END -%]
 			[%- IF contributor.surname -%]<span class="surname">[%- contributor.surname -%]</span>[%- END -%]
-			[%- IF contributor.role-%] <span class="role">([%- contributor.role -%])</span>[%- END -%]
+			[%- IF contributor.role-%] <span class="role">([%- contributor.role -%])</span>[%- END %]
 			</div>
 			[%- IF contributor.orgname || contributor.orgdiv-%]<div class="org">
 			[%- IF contributor.orgname -%]<span class="">[%- contributor.orgname -%]</span> [%- END -%]
 			[%- IF contributor.orgdiv -%]<span class="">[%- contributor.orgdiv -%]</span>[%- END -%]
 			</div>[%- END -%]
-			[%- IF contributor.email -%]<div class="email">[%- contributor.email -%]</div>[%- END -%]
-			[%- IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END -%]
+			[%- IF contributor.email -%]<div class="email">[%- contributor.email -%]</div>[%- END %]
+			[%- IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END %]
 		</div>
-	[%- END -%]
+	[%- END %]
 	</div>
-	[%- END -%]
+	[%- END %]
 	<div class="legalnotice">
 		<h1>[%- legaltitle -%]</h1>
 		<div>
 			[%- legalnotice -%]
 		</div>
 	</div>
+
 	[%- IF keywords -%]
 	<div class="keywords">
 		<h1>[%- keywordtitle -%]</h1>
@@ -95,7 +96,8 @@
 			[%- FOREACH keyword = keywords -%]<span class="keyword">[% loop.count %]. [%- keyword -%]. </span>[%- END %]
 		</div>
 	</div>
-	[%- END -%]
+	[%- END %]
+
 	[%- IF abstract -%]
 	<div class="abstract">
 		<h1>[%- abstracttitle -%]</h1>
@@ -103,7 +105,7 @@
 			[%- abstract -%]
 		</div>
 	</div>
-	[%- END -%]
+	[%- END %]
     </div>
 </div>
 </body>
