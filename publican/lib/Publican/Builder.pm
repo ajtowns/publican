@@ -377,6 +377,7 @@ sub setup_xml {
         || croak( maketext("langs is a mandatory argument") );
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
     my $drupal          = delete( $args->{drupal} )          || 0;
+    my $cleaning        = delete( $args->{cleaning} )          || 0;
 
     if ( %{$args} ) {
         croak(
@@ -517,7 +518,7 @@ sub setup_xml {
                     );
 
                 print( $OUTDOC Publican::Builder::dtd_string(
-                        { tag => 'appendix', dtdver => '4.5' }
+                        { tag => 'appendix', dtdver => '4.5', cleaning => 1 }
                     )
                 );
 
@@ -576,7 +577,8 @@ sub setup_xml {
         my $cleaner = Publican::XmlClean->new(
             {   lang            => $lang,
                 donotset_lang   => $exlude_common,
-                distributed_set => $distributed_set
+                distributed_set => $distributed_set,
+                cleaning        => $cleaning,
             }
         );
 
@@ -1108,17 +1110,18 @@ sub transform {
         my $draft = $self->{publican}->get_draft( { lang => $lang } );
 
         my $vars = {
-            draft         => $draft,
-            product       => $prod,
-            docname       => $name,
-            version       => $ver,
-            edition       => $self->{publican}->param('edition'),
-            release       => $self->{publican}->param('release'),
-            subtitle      => $subtitle,
-            authors       => \@authors,
-            editorlabel   => decode_utf8( $locale->maketext("Edited by") ),
-            contributors  => $contributors,
-            contriblabel  => decode_utf8( $locale->maketext("With contributions from") ),
+            draft        => $draft,
+            product      => $prod,
+            docname      => $name,
+            version      => $ver,
+            edition      => $self->{publican}->param('edition'),
+            release      => $self->{publican}->param('release'),
+            subtitle     => $subtitle,
+            authors      => \@authors,
+            editorlabel  => decode_utf8( $locale->maketext("Edited by") ),
+            contributors => $contributors,
+            contriblabel =>
+                decode_utf8( $locale->maketext("With contributions from") ),
             legalnotice   => $legalnotice,
             legaltitle    => decode_utf8( $locale->maketext("Legal Notice") ),
             abstract      => $abstract,
@@ -1136,14 +1139,14 @@ sub transform {
         push( @wkhtmltopdf_args,
             'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
 
-#        $template->process(
-#            'titlepage.tmpl', $vars,
-#            "$tmp_dir/$lang/html-pdf/titlepage.html",
-#            binmode => ':encoding(UTF-8)'
-#        ) or croak( $template->error() );
+        #        $template->process(
+        #            'titlepage.tmpl', $vars,
+        #            "$tmp_dir/$lang/html-pdf/titlepage.html",
+        #            binmode => ':encoding(UTF-8)'
+        #        ) or croak( $template->error() );
 
-#        push( @wkhtmltopdf_args,
-#            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
+        #        push( @wkhtmltopdf_args,
+        #            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
 
         my $toc_xsl = "$common_config/book_templates/toc.xsl";
         $toc_xsl = "$brand_path/book_templates/toc.xsl"
@@ -1154,11 +1157,11 @@ sub transform {
             '--xsl-style-sheet',
             $toc_xsl,
             '--toc-header-text',
-            decode_utf8( $locale->maketext("Table of Contents")),
+            decode_utf8( $locale->maketext("Table of Contents") ),
             "$tmp_dir/$lang/html-pdf/index.html",
             "$tmp_dir/$lang/pdf/$pdf_name" );
 
-        logger("Running: " . join(" ", @wkhtmltopdf_args) . "\n");
+        logger( "Running: " . join( " ", @wkhtmltopdf_args ) . "\n" );
         my $result = system(@wkhtmltopdf_args);
         if ($result) {
             croak(
@@ -2942,7 +2945,7 @@ sub package {
         $self->build_set_books( { langs => $lang } );
     }
 
-    $self->setup_xml( { langs => $lang } );
+    $self->setup_xml( { langs => $lang, cleaning => 1 } );
 
     mkpath("$tmp_dir/tar/$tardir");
     dircopy( "$tmp_dir/$lang/xml", "$tmp_dir/tar/$tardir/$lang" );
@@ -3258,7 +3261,7 @@ sub change_log {
     my $tmp_dir = $self->{publican}->param('tmp_dir');
 
     my $xml_doc = XML::TreeBuilder->new(
-        { 'NoExpand' => "1", 'ErrorContext' => "2" } );
+        { 'NoExpand' => "0", 'ErrorContext' => "2" } );
 
     my $rev_file = "Revision_History.xml";
     $rev_file = $self->{publican}->param('rev_file')

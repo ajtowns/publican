@@ -177,7 +177,7 @@ my $class = Module::Build->subclass(
             $self->config_data('templates', abs_path('blib/templates'));
             $self->config_data('book_templates', abs_path('blib/book_templates'));
             $self->config_data('docdir', abs_path('pod1'));
-## BUGBUG TODO This hack is si teh tetsing works with publican uninstalled. BZ #908956
+## BUGBUG TODO This hack is so the tessting works with publican uninstalled. BZ #908956
 ## The real fix is to either move book_templates to the brand or give it it's own conf setting
             symlink(abs_path('blib/book_templates'), abs_path('blib/datadir')."/Common_Content/common/book_templates");
             $self->SUPER::ACTION_test();

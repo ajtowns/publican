@@ -15,8 +15,8 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.1.2
-Release:        0%{?dist}.t2
+Version:        3.1.3
+Release:        1%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -85,7 +85,7 @@ BuildRequires:  perl(XML::LibXSLT) => 1.67
 BuildRequires:  perl(XML::Simple)
 BuildRequires:  perl(XML::TreeBuilder) => 4.0
 BuildRequires:  wkhtmltopdf >= 0.10.0_rc2-5
-BuildRequires:  docbook-style-xsl >= 1.76.1
+BuildRequires:  docbook-style-xsl >= 1.77.1
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  perl(Text::CSV_XS)
@@ -97,7 +97,7 @@ Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versi
 Requires:       perl(Locale::Maketext::Gettext)
 Requires:       wkhtmltopdf >= 0.10.0_rc2-5
 Requires:       rpm-build
-Requires:       docbook-style-xsl >= 1.76.1
+Requires:       docbook-style-xsl >= 1.77.1
 Requires:       perl(XML::LibXML)  >=  1.67
 Requires:       perl(XML::LibXSLT) >=  1.67
 Requires:       perl(XML::TreeBuilder) >= 4.0
@@ -249,6 +249,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 22 2013 Jeff Fearn <jfearn@redhat.com> 3.1.3-1
+- Fix add_revision breaking XML parser. BZ #912985
+- Stronger fix for cover pages causing page number overrun. BZ #912967
+- Fix CSS for article front page subtile. BZ #913016
+
 * Mon Feb 18 2013 Jeff Fearn <jfearn@redhat.com> 3.1.2-0
 - Fix tests failing when publican not installed. BZ #908956
 - Fix broken mr-IN/Conventions.po. BZ #908956

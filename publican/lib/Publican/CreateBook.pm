@@ -149,13 +149,24 @@ sub create {
             node  => XML::Element->new_from_lol(
                 [   'authorgroup',
                     [   'author',
-                        [ 'firstname', maketext('Enter your first name here.') ],
-                        [ 'surname',  maketext('Enter your surname here.') ],
-                        [   'affiliation',
-                            [ 'orgname', maketext(q|Enter your organisation's name here.|) ],
-                            [ 'orgdiv',  maketext('Enter your organisational division here.') ],
+                        [   'firstname',
+                            maketext('Enter your first name here.')
                         ],
-                        [ 'email', maketext('Enter your email address here.') ],
+                        [ 'surname', maketext('Enter your surname here.') ],
+                        [   'affiliation',
+                            [   'orgname',
+                                maketext(
+                                    q|Enter your organisation's name here.|)
+                            ],
+                            [   'orgdiv',
+                                maketext(
+                                    'Enter your organisational division here.'
+                                )
+                            ],
+                        ],
+                        [   'email',
+                            maketext('Enter your email address here.')
+                        ],
                     ],
                 ],
             ),
@@ -217,7 +228,9 @@ sub create {
                         }
                     ],
                     [   'remark',
-                        maketext('NOTE: the href does not contain a language! This is CORRECT!')
+                        maketext(
+                            'NOTE: the href does not contain a language! This is CORRECT!'
+                        )
                     ],
                     [   'remark',
                         '<xi:include href="My_Other_Book/My_Other_Book.xml" xmlns:xi="http://www.w3.org/2001/XInclude">'
@@ -231,15 +244,19 @@ sub create {
             types => 'Book Set Article',
             node  => XML::Element->new_from_lol(
                 [   $lctype . 'info',
-                    [ 'title',         $bookname ],
-                    [ 'subtitle',      maketext('Enter a short description here.') ],
+                    [ 'title', $bookname ],
+                    [   'subtitle',
+                        maketext('Enter a short description here.')
+                    ],
                     [ 'productname',   $product ],
                     [ 'productnumber', $version ],
                     [ 'edition',       $edition ],
                     [ 'pubsnumber',    '0' ],
                     [   'abstract',
                         [   'para',
-                            maketext(q|A short overview and summary of the book's subject and purpose, traditionally no more than one paragraph long. Note: the abstract will appear in the front matter of your book and will also be placed in the description field of the book's RPM spec file.|)
+                            maketext(
+                                q|A short overview and summary of the book's subject and purpose, traditionally no more than one paragraph long. Note: the abstract will appear in the front matter of your book and will also be placed in the description field of the book's RPM spec file.|
+                            )
                         ],
                     ],
                     [   'corpauthor',
@@ -280,14 +297,24 @@ sub create {
                                     DateTime->today()->strftime("%a %b %e %Y")
                                 ],
                                 [   'author',
-                                    [ 'firstname', maketext('Enter your first name here.') ],
-                                    [ 'surname',   maketext('Enter your surname here.') ],
-                                    [ 'email', maketext('Enter your email address here.') ],
+                                    [   'firstname',
+                                        maketext(
+                                            'Enter your first name here.')
+                                    ],
+                                    [   'surname',
+                                        maketext('Enter your surname here.')
+                                    ],
+                                    [   'email',
+                                        maketext(
+                                            'Enter your email address here.')
+                                    ],
                                 ],
                                 [   'revdescription',
                                     [   'simplelist',
                                         [   'member',
-                                            maketext('Initial creation by publican')
+                                            maketext(
+                                                'Initial creation by publican'
+                                            )
                                         ],
                                     ],
                                 ],
@@ -305,14 +332,20 @@ sub create {
                     [ 'para',  maketext('This is a test paragraph') ],
                     [   'section',
                         [ 'title', maketext('Test Section 1') ],
-                        [ 'para',  maketext('This is a test paragraph in a section') ],
+                        [   'para',
+                            maketext('This is a test paragraph in a section')
+                        ],
                     ],
                     [   'section',
                         [ 'title', maketext('Test Section 2') ],
                         [   'para',
                             maketext('This is a test paragraph in Section 2'),
                             [   'orderedlist',
-                                [ 'listitem', [ 'para', maketext('This is a test listitem.') ], ],
+                                [   'listitem',
+                                    [   'para',
+                                        maketext('This is a test listitem.')
+                                    ],
+                                ],
                             ],
                         ],
                     ],
@@ -372,7 +405,7 @@ sub create {
             maketext( "Could not open [_1] for output!", $out_file, $@ ) );
 
         print( $OUTDOC Publican::Builder::dtd_string(
-                { tag => $node_type, dtdver => '4.5' }
+                { tag => $node_type, dtdver => '4.5', cleaning => 1 }
             )
         );
 
@@ -396,7 +429,10 @@ sub create {
     my $OUTDOC;
     open( $OUTDOC, ">:encoding(UTF-8)", "$name/$lang/$name" . ".ent" )
         || croak( maketext( "Could not open entity file. [_1]", $@ ) );
-    my $holder_text = maketext('You need to change the HOLDER entity in the [_1]/[_2].ent file', $lang, $name);
+    my $holder_text
+        = maketext(
+        'You need to change the HOLDER entity in the [_1]/[_2].ent file',
+        $lang, $name );
     print $OUTDOC <<EOL;
 <!ENTITY PRODUCT "$product">
 <!ENTITY BOOKID "$name">

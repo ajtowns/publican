@@ -65,12 +65,18 @@ sub new {
     $config->syntax('http');
 
     $config->param( 'brand',
-        delete( $args->{name} ) || croak( maketext("name is a required parameter") ) );
+        delete( $args->{name} )
+            || croak( maketext("name is a required parameter") ) );
     $config->param( 'xml_lang',
-        delete( $args->{lang} ) || croak( maketext("lang is a required parameter") ) );
+        delete( $args->{lang} )
+            || croak( maketext("lang is a required parameter") ) );
 
     if ( %{$args} ) {
-        croak( maketext( "unknown arguments: [_1]", join( ", ", keys %{$args} ) ) );
+        croak(
+            maketext(
+                "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
     }
 
     $config->param( 'type',    'brand' );
@@ -100,8 +106,11 @@ sub create {
     croak( maketext( "Invalid language supplied: [_1]", $lang ) . "\n" )
         unless ( Publican::valid_lang($lang) );
 
-    croak( maketext( "Can't create brand, directory 'publican-[_1]' exists!", $name ) )
-        if ( -d "publican-$name" );
+    croak(
+        maketext(
+            "Can't create brand, directory 'publican-[_1]' exists!", $name
+        )
+    ) if ( -d "publican-$name" );
 
     mkpath("publican-$name")
         || croak( maketext( "Can't create directory: [_1]", $@ ) );
@@ -121,7 +130,8 @@ sub create {
     $out_file = "$lang/css/overrides.css";
 
     open( $OUT, ">:encoding(UTF-8)", $out_file )
-        || croak( maketext( "Could not open [_1] for output: [_2]", $out_file, $@ ) );
+        || croak(
+        maketext( "Could not open [_1] for output: [_2]", $out_file, $@ ) );
 
     print $OUT <<CSS;
 a:link {
@@ -238,9 +248,13 @@ sub xml_files {
         my $out_file = "$lang/$file" . ".xml";
         my $OUTDOC;
         open( $OUTDOC, ">:encoding(UTF-8)", $out_file )
-            || croak( maketext( "Could not open file [_1] for output!", $out_file ) );
+            || croak(
+            maketext( "Could not open file [_1] for output!", $out_file ) );
 
-        print( $OUTDOC Publican::Builder::dtd_string( { tag => $type, dtdver => '4.5' } ) );
+        print( $OUTDOC Publican::Builder::dtd_string(
+                { tag => $type, dtdver => '4.5', cleaning => 1 }
+            )
+        );
         print( $OUTDOC $text );
         close($OUTDOC);
 
@@ -268,7 +282,12 @@ sub conf_files {
 
     # publican.cfg
     $self->{config}->write($cfg_file)
-        || croak( maketext( "Can't write to [_1]: [_2]", $cfg_file, Config::Simple->error() ) );
+        || croak(
+        maketext(
+            "Can't write to [_1]: [_2]", $cfg_file,
+            Config::Simple->error()
+        )
+        );
 
     debug_msg("TODO: conf_files: COPYING - URL for where to wget it\n");
     debug_msg("TODO: conf_files: TODO README\n");
@@ -278,14 +297,24 @@ sub conf_files {
     $config->param( 'prod_url', 'http://www.SETUP.example.com' );
     $config->param( 'doc_url',  'http://www.SETUP.example.com/docs' );
     $config->write('defaults.cfg')
-        || croak( maketext( "Can't write to defaults.cfg: [_1]", Config::Simple->error() ) );
+        || croak(
+        maketext(
+            "Can't write to defaults.cfg: [_1]",
+            Config::Simple->error()
+        )
+        );
     $config->close();
 
     $config = new Config::Simple();
     $config->syntax('http');
     $config->param( 'strict', 0 );
     $config->write('overrides.cfg')
-        || croak( maketext( "Can't write to overrides.cfg: [_1]", Config::Simple->error() ) );
+        || croak(
+        maketext(
+            "Can't write to overrides.cfg: [_1]",
+            Config::Simple->error()
+        )
+        );
     $config->close();
 
     # spec file
@@ -293,7 +322,8 @@ sub conf_files {
     $out_file = "publican-$lcbrand.spec";
 
     open( $OUT, ">:encoding(UTF-8)", $out_file )
-        || croak( maketext( "Could not open file [_1] for output!", $out_file ) );
+        || croak(
+        maketext( "Could not open file [_1] for output!", $out_file ) );
 
     print $OUT <<SPEC;
 %define brand $brand
@@ -362,7 +392,8 @@ SPEC
     open( $OUT, ">:encoding(UTF-8)", 'README' )
         || croak( maketext("Could not open file README for output!") );
 
-    print( $OUT "SETUP This file should be a short description of your project" );
+    print( $OUT
+            "SETUP This file should be a short description of your project" );
     close($OUT);
 
     open( $OUT, ">:encoding(UTF-8)", 'COPYING' )
@@ -387,8 +418,11 @@ sub images {
     my $lang = $self->{config}->param('xml_lang');
 
     my $common_content = $self->{publican}->param('common_content');
-    File::Copy::Recursive::rcopy_glob( $common_content . "/brand-template/images/*",
-        "$lang/images" ) || croak("can't copy $common_content/brand-template/images/* to $lang/images");
+    File::Copy::Recursive::rcopy_glob(
+        $common_content . "/brand-template/images/*",
+        "$lang/images" )
+        || croak(
+        "can't copy $common_content/brand-template/images/* to $lang/images");
 
     return;
 }

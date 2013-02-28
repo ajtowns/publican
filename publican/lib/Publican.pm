@@ -20,7 +20,7 @@ use Data::Dumper;
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
-$VERSION = '3.1.2';
+$VERSION = '3.1.3';
 @ISA     = qw(Exporter);
 
 @EXPORT
@@ -1728,7 +1728,11 @@ sub add_revision {
     open( $OUTDOC, ">:encoding(UTF-8)", "$rev_file" )
         || croak( maketext( "Could not open [_1] for output!", $rev_file ) );
     print( $OUTDOC dtd_string(
-            { tag => 'appendix', dtdver => $dtdver, ent_file => $ent_file }
+            {   tag      => 'appendix',
+                dtdver   => $dtdver,
+                ent_file => $ent_file,
+                cleaning => 1
+            }
         )
     );
     print( $OUTDOC $rev_doc->root()->as_XML() );

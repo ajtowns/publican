@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 14;
+use Test::More tests => 19;
 use File::pushd;
 use Cwd qw(abs_path cwd);
 
@@ -40,6 +40,19 @@ is( system(qq{perl -CA $coverdb -I $lib $publican help_config $common_opts}),
 is( system(qq{perl -CA $coverdb -I $lib $publican clean_ids $common_opts}),
     0, 'Run cleanids' );
 
+is( system(qq{perl -CA $coverdb -I $lib $publican add_revision $common_opts --member "testing add_revision" --lang 'en-US' --firstname 'Testing' --surname 'Tester' --email 'tt\@example.com' }),
+    0, 'Run add_revision' );
+
+is( system(qq{perl -CA $coverdb -I $lib $publican print_unused $common_opts}),
+    0, 'Run print_unused' );
+
+is( system(qq{perl -CA $coverdb -I $lib $publican print_unused_images $common_opts}),
+    0, 'Run print_unused_images' );
+
+is( system(qq{perl -CA $coverdb -I $lib $publican print_known $common_opts}),
+    0, 'Run print_known' );
+
+
 is( system(qq{perl -CA $coverdb -I $lib $publican update_pot $common_opts}),
     0, 'Run update_pot' );
 
@@ -49,6 +62,10 @@ is( system(
     0,
     'Run update_po doe de-DE'
 );
+
+is( system(qq{perl -CA $coverdb -I $lib $publican lang_stats $common_opts --lang 'all' }),
+    0, 'Run lang_stats' );
+
 
 is( system(
         qq{perl -CA $coverdb -I $lib $publican build --formats=html,pdf --langs=en-US $common_opts --publish}

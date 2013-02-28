@@ -284,6 +284,7 @@ sub new {
     $config->param( 'distributed_set',
         ( delete( $args->{distributed_set} ) ) || 0 );
     $config->param( 'exclude_ent', ( delete( $args->{exclude_ent} ) ) || 0 );
+    $config->param( 'cleaning', ( delete( $args->{cleaning} ) ) || $config->param( 'clean_id') );
 
     if ( %{$args} ) {
         croak(
@@ -504,6 +505,7 @@ sub print_xml {
     my $lang      = $self->{config}->param('lang');
     my $main_file = $self->{publican}->param('mainfile');
     my $clean_id  = $self->{config}->param('clean_id');
+    my $cleaning  = $self->{config}->param('cleaning');
 
     if ($xml_doc) {
         my $file = $out_file;
@@ -562,7 +564,7 @@ sub print_xml {
                 {   tag      => $type,
                     dtdver   => $dtdver,
                     ent_file => $ent_file,
-                    cleaning => $clean_id
+                    cleaning => $cleaning,
                 }
             )
         );
