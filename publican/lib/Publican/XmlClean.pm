@@ -284,7 +284,8 @@ sub new {
     $config->param( 'distributed_set',
         ( delete( $args->{distributed_set} ) ) || 0 );
     $config->param( 'exclude_ent', ( delete( $args->{exclude_ent} ) ) || 0 );
-    $config->param( 'cleaning', ( delete( $args->{cleaning} ) ) || $config->param( 'clean_id') );
+    $config->param( 'cleaning',
+        ( delete( $args->{cleaning} ) ) || $config->param('clean_id') );
 
     if ( %{$args} ) {
         croak(
@@ -557,6 +558,10 @@ sub print_xml {
             my $xml_lang = $self->{publican}->param('xml_lang');
             if ( -e "$xml_lang/$main_file.ent" ) {
                 $ent_file = "$xml_lang/$main_file.ent";
+
+                # damn entities need special handling for when people include
+                # entities in abstracts.
+                $ent_file = "$main_file.ent" if ($cleaning);
             }
         }
 
