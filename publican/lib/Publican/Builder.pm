@@ -1128,6 +1128,7 @@ sub transform {
             abstracttitle => decode_utf8( $locale->maketext("Abstract") ),
             keywords      => \@keywords,
             keywordtitle  => decode_utf8( $locale->maketext("Keywords") ),
+            toctitle  => decode_utf8( $locale->maketext("Table of Contents") ),
         };
 
         $template->process(
@@ -1148,16 +1149,24 @@ sub transform {
         #        push( @wkhtmltopdf_args,
         #            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
 
-        my $toc_xsl = "$common_config/book_templates/toc.xsl";
-        $toc_xsl = "$brand_path/book_templates/toc.xsl"
-            if ( -f "$brand_path/book_templates/toc.xsl" );
+        my $toc_xsl ="$tmp_dir/$lang/html-pdf/toc.xsl";
+
+        $template->process(
+            'toc-xsl.tmpl', $vars,
+            $toc_xsl,
+            binmode => ':encoding(UTF-8)'
+        ) or croak( $template->error() );
+
+##        my $toc_xsl = "$common_config/book_templates/toc.xsl";
+##        $toc_xsl = "$brand_path/book_templates/toc.xsl"
+##            if ( -f "$brand_path/book_templates/toc.xsl" );
 
         push( @wkhtmltopdf_args,
             'toc',
             '--xsl-style-sheet',
             $toc_xsl,
-            '--toc-header-text',
-            decode_utf8( $locale->maketext("Table of Contents") ),
+##            '--toc-header-text',
+##            decode_utf8( $locale->maketext("Table of Contents") ),
             "$tmp_dir/$lang/html-pdf/index.html",
             "$tmp_dir/$lang/pdf/$pdf_name" );
 

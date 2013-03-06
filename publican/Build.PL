@@ -467,6 +467,7 @@ my $builder = $class->new(
         'book_templates/footer.html'    => 'book_templates/footer.html',
         'book_templates/header.html'    => 'book_templates/header.html',
         'book_templates/toc.xsl'        => 'book_templates/toc.xsl',
+        'book_templates/toc-xsl.tmpl'   => 'book_templates/toc-xsl.tmpl',
         'book_templates/titlepage.tmpl' => 'book_templates/titlepage.tmpl',
     },
     etc_files        => { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
