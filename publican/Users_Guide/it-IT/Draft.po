@@ -1,0 +1,155 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-12-16T12:24:54\n"
+"PO-Revision-Date: 2012-01-22 16:31+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Pre-release software and draft documentation"
+msgstr "Software pre-release e documentazione draft"
+
+#. Tag: para
+#, no-c-format
+msgid "Completed documentation for pre-release software is not the same thing as draft documentation."
+msgstr "La documentazione completata per software pre-release non coincide con la documentazione draft (bozza)."
+
+#. Tag: para
+#, no-c-format
+msgid "Drafts are unfinished versions of a book or article, and their unfinished state is unrelated to the status of the software they document."
+msgstr "Un documento draft è una versione incompleta di un libro o articolo, ed il cui stato incompleto non è correlato allo stato del software documentato."
+
+#. Tag: para
+#, no-c-format
+msgid "In both circumstances, however, it is important to make the status of the software, documentation or both clear to users, developers, readers and reviewers."
+msgstr "Tuttavia in ogni caso, è importante comunicare chiaramente lo stato del software, della documentazioni o di entrambi a tutti gli interessati: utenti, sviluppatori, lettori e revisori."
+
+#. Tag: title
+#, no-c-format
+msgid "Denoting pre-release software"
+msgstr "Denotare il software pre-release"
+
+#. Tag: para
+#, no-c-format
+msgid "Documentation for pre-release software, especially pre-release software being distributed to testers, customers and partners, should carry a clear mark denoting the beta-status of the software."
+msgstr "La documentazione per software pre-release, soprattutto quello distribuito a tester, clienti e partner, dovrebbe portare un contrassegno, a denotare lo status beta del software."
+
+#. Tag: para
+#, no-c-format
+msgid "To create that mark do the following:"
+msgstr "Per creare il contrassegno, seguire la seguente procedura:"
+
+#. Tag: para
+#, no-c-format
+msgid "Add the software's pre-release version number, or equivalent state information, to the <sgmltag>&lt;subtitle&gt;</sgmltag> tag in your <filename>Book_Info.xml</filename> file. Place this additional text in <sgmltag>&lt;remark&gt;</sgmltag> tags. For example:"
+msgstr "Aggiungere il numero di versione del software pre-release, o un informazione di stato equivalente, al tag <sgmltag>&lt;subtitle&gt;</sgmltag> nel file <filename>Book_Info.xml</filename>. Inserire questa informazione tra tag <sgmltag>&lt;remark&gt;</sgmltag>. Per esempio:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"&lt;subtitle&gt;Using Red Hat Enterprise Warp Drive&lt;remark&gt; Version 1.1, Beta 2&lt;/remark&gt;&lt;/subtitle&gt;\n"
+"\n"
+msgstr ""
+"&lt;subtitle&gt;Using Red Hat Enterprise Warp Drive&lt;remark&gt; Version 1.1, Beta 2&lt;/remark&gt;&lt;/subtitle&gt;\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "add <varname>show_remarks</varname> to the <filename>publican.cfg</filename> file and set it to '1':"
+msgstr "Aggiungere <varname>show_remarks</varname> al file <filename>publican.cfg</filename> ed impostarlo ad '1':"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"show_remarks: 1\n"
+"\n"
+msgstr ""
+"show_remarks: 1\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "When you build your book with this <sgmltag>&lt;remark&gt;</sgmltag> tag and the <varname>show_remarks</varname> setting in place, the pre-release nature of the software is displayed clearly and unmistakably. PDF builds display the remark on their cover and title pages. HTML builds (both single-page HTML and multiple-page HTML) display the remark near the beginning of <filename>index.html</filename>."
+msgstr "Compilando il libro con questo tag <sgmltag>&lt;remark&gt;</sgmltag> e con l'impostazione <varname>show_remarks</varname>, si definisce in modo chiaro ed inequivocabile la natura pre-release del software. Le compilazioni PDF visualizzano il contrassegno sulla copertina e sulla pagina del titolo. Le compilazioni HTML (sia su pagina singola sia su pagine multiple), visualizzano il contrassegno sulla pagina iniziale del file <filename>index.html</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "Because this approach makes no changes to the information in <filename>Book_Info.xml</filename> used to generate RPMs, it also ensures there is no ambiguity in the RPM subsystem's operation."
+msgstr "Poiché questo approccio non modifica le informazioni nel file <filename>Book_Info.xml</filename> usato per generare gli RPM, esso garantisce anche che non ci sia alcuna ambiguità nelle operazioni del sottosistema RPM."
+
+#. Tag: title
+#, no-c-format
+msgid "Important"
+msgstr "Importante"
+
+#. Tag: para
+#, no-c-format
+msgid "It is the writer's responsibility to remove the <sgmltag>&lt;remark&gt;</sgmltag> tag and its contents and remove or turn off <varname>show_remarks</varname> when documentation is updated for use with the release version of the software."
+msgstr "Rimane una responsabilità del redattore rimuovere il tag <sgmltag>&lt;remark&gt;</sgmltag> con il suo contenuto e rimuovere o disattivare l'attributo <varname>show_remarks</varname> quando la documentazione viene aggiornata con la versione di release del software."
+
+#. Tag: title
+#, no-c-format
+msgid "Denoting draft documentation"
+msgstr "Denotare la documentazione draft"
+
+#. Tag: para
+#, no-c-format
+msgid "Unfinished documentation made available to others for review should be labeled clearly as such."
+msgstr "La documentazione incompleta resa disponibile per revisione dovrebbe essere indicata chiaramente come tale."
+
+#. Tag: para
+#, no-c-format
+msgid "To add the draft watermark to your documentation add the <userinput>status=\"draft\"</userinput> attribute to the <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in your document's root node. For example:"
+msgstr "Per far comparire il contrassegno <emphasis>draft</emphasis> ad un documento, aggiungere l'attributo <userinput>status=\"draft\"</userinput> al tag <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> o <sgmltag>&lt;set&gt;</sgmltag> nel nodo radice del documento. Per esempio:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"&lt;book status=\"draft\"&gt;\n"
+"\n"
+msgstr ""
+"&lt;book status=\"draft\"&gt;\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "By default, your root node is the <sgmltag>&lt;book&gt;</sgmltag> tag in your <filename><replaceable>Doc_Name</replaceable>.xml</filename> file."
+msgstr "Per impostazione, il nodo radice coincide con il tag <sgmltag>&lt;book&gt;</sgmltag> nel file <filename><replaceable>Nome_Doc</replaceable>.xml</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "If you are working on an article or set, the root node is the <sgmltag>&lt;article&gt;</sgmltag> or <sgmltag>&lt;set&gt;</sgmltag> tag in <filename><replaceable>Doc_Name</replaceable>.xml</filename>."
+msgstr "Nel caso di un articolo o set di volumi, il nodo radice coincide con il tag <sgmltag>&lt;article&gt;</sgmltag> o <sgmltag>&lt;set&gt;</sgmltag>, rispettivamente, nel file <filename><replaceable>Nome_Doc</replaceable>.xml</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "Adding the <userinput>status=\"draft\"</userinput> attribute causes each page of the document to show the draft watermark. This is by design."
+msgstr "L'aggiunta dell'attributo <userinput>status=\"draft\"</userinput> causa la comparsa su ciascuna pagina del documento del contrassegno <emphasis>draft</emphasis>."
+
+#. Tag: para
+#, no-c-format
+msgid "Even if you change only a portion of a work before sending it out for review, marking every page as draft will encourage reviewers to report errors or typos they spot in passing. It will also ensure non-reviewers who encounter the work do not mistake a draft for a finished version."
+msgstr "Anche se si modificano solo brevi porzioni di un documento da revisionare, contrassegnare le pagine come draft incoraggia i lettori a riportare gli errori ed i refusi intercettati. Serve anche ad assicurare che lettori occasionali evitino di far danni scambiando un draft per una versione finale."
+
+#. Tag: title
+#, no-c-format
+msgid "Denoting draft documentation of pre-release software"
+msgstr "Denotare come draft la documentazione per software pre-release"
+
+#. Tag: para
+#, no-c-format
+msgid "To denote unfinished documentation of pre-release software properly, do both previously noted procedures."
+msgstr "Per denotare propriamente la documentazione incompleta relativa a software pre-release, seguire entrambe le procedure indicate in precedenza."
+

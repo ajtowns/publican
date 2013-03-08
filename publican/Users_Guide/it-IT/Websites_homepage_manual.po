@@ -1,0 +1,177 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-12-03T18:36:00\n"
+"PO-Revision-Date: 2012-01-22 20:22+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Creating, installing, and updating the home page"
+msgstr "Creare, installare ed aggiornare la home page"
+
+#. Tag: para
+#, no-c-format
+msgid "The <application>Publican</application>-generated home page is the localizable page to which visitors are directed by the site JavaScript and which provides the style for the website structure. The home page is structured as a DocBook <sgmltag>&lt;article&gt;</sgmltag> with an extra <parameter>web_type:&nbsp;home</parameter> parameter in its <filename>publican.cfg</filename> file. In its structure and its presentation, the home page is the same as any other article that you produce with <application>Publican</application>. To create the home page:"
+msgstr "La home page generata da <application>Publican</application> è la pagina di localizzazione a cui sono indirizzati i visitatori dallo JavaScript del sito e che fornisce lo stile alla struttura del sito web. La home page è strutturata come un <sgmltag>&lt;article&gt;</sgmltag> DocBook ma con un parametro ulteriore <parameter>web_type:&nbsp;home</parameter> nel proprio file <filename>publican.cfg</filename>. Nella sua struttura e presentazione, la home page assomiglia ad un articolo di <application>Publican</application>. Per creare la home page:"
+
+#. Tag: para
+#, no-c-format
+msgid "Change into a convenient directory and run the following <command>publican create</command> command:"
+msgstr "Spostarsi in una cartella opportuna ed eseguire il comando di <command>publican create</command>:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican create --type Article --name <replaceable>page_name</replaceable></command>"
+msgstr "<command>publican create --type Article --name <replaceable>nome_pagina</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "For example:"
+msgstr "Per esempio:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican create --type Article --name Home_Page</command>"
+msgstr "<command>publican create --type Article --name Home_Page</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Most brands (including the <literal>common</literal> brand) present the name of the document in large, coloured letters close to the top of the page, underneath the banner that contains the product name (the <option>--name</option> option sets the <sgmltag>&lt;title&gt;</sgmltag> tag). Therefore, by default, the value that you set with the <option>--name</option> option is presented prominently to visitors to your site; in the above example, visitors are greeted with the words <literal>Home Page</literal> underneath the product banner."
+msgstr "La maggior parte dei brand (incluso il brand <literal>common</literal>), presentano il nome del documento in grandi lettere a colori in cima alla pagina, al di sotto del banner contenente il nome del prodotto (l'opzione <option>--name</option> imposta il tag <sgmltag>&lt;title&gt;</sgmltag>). Quindi, per impostazione, il valore impostato con l'opzione <option>--name</option> viene presentata in primo piano ai visitatori del sito; nel precedente esempio, i visitatori vengono salutati con le parole <literal>Home Page</literal> sotto il banner del prodotto."
+
+#. Tag: para
+#, no-c-format
+msgid "Change into the article directory:"
+msgstr "Spostarsi nella cartella dell'articolo:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd <replaceable>page_name</replaceable></command>"
+msgstr "<command>cd <replaceable>nome_pagina</replaceable></command>"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd Home_Page</command>"
+msgstr "<command>cd Home_Page</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Unlink the <filename>Article_Info.xml</filename> file from your root XML file."
+msgstr "Scollegare il file <filename>Article_Info.xml</filename> dal file XML radice."
+
+#. Tag: para
+#, no-c-format
+msgid "Little of the content of the <filename>Article_Info.xml</filename> file is likely to be useful for the home page of your website. Therefore, edit the root XML file of your home page to remove the <sgmltag>&lt;xi:include&gt;</sgmltag> tag that links to <filename>Article_Info.xml</filename>. <application>Publican</application> still uses the information in <filename>Article_Info.xml</filename> for packaging, but does not include it on the page itself."
+msgstr "Il contenuto del file <filename>Article_Info.xml</filename> serve a ben poco alla home page del sito web. Quindi, modificare il file XML radice relativo alla home page, rimuovendo il tag <sgmltag>&lt;xi:include&gt;</sgmltag> che collega <filename>Article_Info.xml</filename>. Ora <application>Publican</application> usa ancora le informazioni in <filename>Article_Info.xml</filename> per creare pacchetti, ma senza includerlo nella home pagina stessa."
+
+#. Tag: para
+#, no-c-format
+msgid "Edit the <filename>publican.cfg</filename> file."
+msgstr "Modificare il file <filename>publican.cfg</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "At the very least, you must add the <parameter>web_type</parameter> parameter and set it to <literal>home</literal>:"
+msgstr "Come minimo, aggiungere il parametro <parameter>web_type</parameter> ed impostarlo a <literal>home</literal>:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "web_type: home"
+msgstr "web_type: home"
+
+#. Tag: para
+#, no-c-format
+msgid "The <parameter>web_type:&nbsp;home</parameter> parameter instructs <application>Publican</application> to process this document differently from product documentation. This is the only mandatory change to the <filename>publican.cfg</filename> file. Other optional changes to the <filename>publican.cfg</filename> file that are frequently useful for <application>Publican</application>-generated websites include:"
+msgstr "Il parametro <parameter>web_type:&nbsp;home</parameter> indica di elaborare questo documento non come una documentazione di prodotto. Questa è l'unica modifica necessaria al file <filename>publican.cfg</filename>. Altre modifiche opzionali al file <filename>publican.cfg</filename>, frequentemente utili a siti web creati con <application>Publican</application> includono:"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>brand</parameter>"
+msgstr "<parameter>brand</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "To style your home page to match your documents, add:"
+msgstr "Per assegnare alla home page lo stile dei propri documenti, aggiungere:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "brand: <replaceable>name_of_brand</replaceable>"
+msgstr "brand: <replaceable>nome_di_brand</replaceable>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>docname</parameter>"
+msgstr "<parameter>docname</parameter>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>product</parameter>"
+msgstr "<parameter>product</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "If the <sgmltag>&lt;title&gt;</sgmltag> or the <sgmltag>&lt;product&gt;</sgmltag> that you set in the <filename>Article_Info</filename> file included anything other than basic, unaccented Latin characters, set the <parameter>docname</parameter> and <parameter>product</parameter> as necessary."
+msgstr "Se il tag <sgmltag>&lt;title&gt;</sgmltag> o <sgmltag>&lt;product&gt;</sgmltag> impostati nel file <filename>Article_Info</filename> includono caratteri diversi dai caratteri di base, come caratteri accentati, impostare come occorre i parametri <parameter>docname</parameter> e <parameter>product</parameter>."
+
+#. Tag: para
+#, no-c-format
+msgid "Edit the content of the <filename><replaceable>page_name</replaceable>.xml</filename> file (for example, <filename>Home_Page.xml</filename>) as you would any other DocBook document."
+msgstr "Modificare il contenuto del file <filename><replaceable>nome_pagina</replaceable>.xml</filename> (per esempio, <filename>Home_Page.xml</filename>) come ogni altro documento DocBook."
+
+#. Tag: para
+#, no-c-format
+msgid "If you remove the <sgmltag>&lt;xi:include&gt;</sgmltag> that links to <filename>Article_Info.xml</filename>, specify a title for your page in the following format:"
+msgstr "Se si rimuove il tag <sgmltag>&lt;xi:include&gt;</sgmltag> che collega a <filename>Article_Info.xml</filename>, specificare un titolo per la pagina nel formato seguente:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "&lt;title role=\"producttitle\"&gt;FooMaster Documentation&lt;/title&gt;"
+msgstr "&lt;title role=\"producttitle\"&gt;FooMaster Documentation&lt;/title&gt;"
+
+#. Tag: para
+#, no-c-format
+msgid "If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <command>publican update_pot</command> and <command>publican update_po</command> commands."
+msgstr "Se si pubblica documentazione in più lingue, creare un set di file POT ed un set di file PO per ciascuna lingua usando i comandi <command>publican update_pot</command> e <command>publican update_po</command>."
+
+#. Tag: para
+#, no-c-format
+msgid "To customize the logo at the top of the navigation menu that provides a link back to the home page, create a PNG image 290&nbsp;px&nbsp;×&nbsp;100&nbsp;px and name it <filename>web_logo.png</filename>. Place this image in the <filename>images/</filename> directory in the document's XML directory, for example <filename>en-US/images/</filename>."
+msgstr "Per personalizzare il logo in cima al menu di navigazione, contenente un link alla home page, creare una immagine PNG 290&nbsp;px&nbsp;×&nbsp;100&nbsp;px, di nome <filename>web_logo.png</filename>. Salvare l'immagine nella cartella <filename>images/</filename> della directory dei file XML del documento, per esempio, <filename>en-US/images/</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "To specify site-specific styles to override the styles set in the website's <filename>interactive.css</filename> file, add styles to a file named <filename>site_overrides.css</filename> and place it in the root of your document source (the same directory that contains <filename>publican.cfg</filename> and the language directories)."
+msgstr "Se si desidera usare degli stili specifici alternativi a quelli forniti da <filename>interactive.css</filename> nel sito web, aggiungere gli stili a un file <filename>site_overrides.css</filename> e salvarlo nella radice dei file sorgenti (la cartella che contiene il file <filename>publican.cfg</filename> e le cartelle linguistiche)."
+
+#. Tag: para
+#, no-c-format
+msgid "Build the home page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:"
+msgstr "Creare la home page in formato HTML su singola pagina con l'opzione <option>--embedtoc</option> ed installarla nella struttura del sito. Per esempio:"
+
+#. Tag: screen
+#, no-c-format
+msgid ""
+"<command>publican build --publish --formats html-single --embedtoc --langs all</command> \n"
+"<command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Language_Code</replaceable></command>"
+msgstr ""
+"<command>publican build --publish --formats html-single --embedtoc --langs all</command> \n"
+"<command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Codice_Lingua</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Note that you can build all languages at the same time, but must install the home page for each language with a separate <command>publican install_book</command> command."
+msgstr "Notare che è possibile creare con un unico comando, gli HTML per tutte le lingue, ma occorre installare la home page di ciascuna lingua con un comando <command>publican install_book</command>, individuale."
+

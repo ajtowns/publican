@@ -1,0 +1,318 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "How do I add a language to my book?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Run <command>publican update_po --langs=<replaceable>language</replaceable></command>, where <replaceable>language</replaceable> is the code for the new language that you want to add. You can add more than one language at a time, with the language codes separated by commas. For example, <command>publican update_po --langs=ja-JP</command> creates the Japanese language directory and Japanese PO files, and <command>publican update_po --langs=ja-JP,ko-KR</command> creates directories and PO files for both Japanese and Korean."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "What if I do not want to use the country code? For example, can I run <command>publican update_po --langs=es,de,fr</command>?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Yes — this command works. However, if you omit the country code, the output might be unpredictable when <application>Publican</application> or a brand has definitions for more than one regional variety of a language — for example, <literal>zh-CN</literal> (Simplified Chinese as used in the People's Republic of China) and <literal>zh-TW</literal> (Traditional Chinese as used in the Republic of China, on Taiwan). Even when only one variety is currently defined, it is always safest to include the country code so that, for example, a future update of <application>Publican</application> does not suddenly cause your German (<literal>de-DE</literal>) documents to switch to Schweizerdeutsch (Swiss German, <literal>de-CH</literal>) Common Content and headings."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "How do I update all po files?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Run the <command>publican update_po --langs=all</command> command."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Where can I get a complete list of <application>Publican</application>'s build options?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Run the <command>publican build --help</command> command."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Where can I get a complete list of parameters that can be set in the <filename>publican.cfg</filename>?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Run the <command>publican help_config</command> command in a directory that holds any <application>Publican</application> document."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Where are the <application>Publican</application> common files located?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "By default, they are in <filename>/usr/share/publican/</filename> on Linux operating systems and in <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/publican/Common_Content</filename>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Is it possible to include arbitrary files in tarballs and RPM packages?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Yes. If you make a directory named <filename>files</filename> in your source language directory it will be included in any tarballs or SRPM packages that <application>Publican</application> creates."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Important"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>files</filename> directory will not be available during the validation process so you can not <sgmltag>xi:include</sgmltag> or otherwise embed any files in this directory in your XML."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Why does <application>Publican</application> give me warnings about unknown tags?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This warning informs you that you are using a tag whose output has not been tested for attractiveness, XHTML 1.0 Strict compliance, or Section 508 (Accessibility) compliance."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<emphasis role=\"strikethrough\">Which brands enable strict mode?</emphasis> Strict mode is not currently enforced."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<emphasis role=\"strikethrough\">Currently the Red Hat and JBoss brands enable strict mode.</emphasis>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "I can build HTML documents fine, but when I try to build PDF documents, I get errors like <computeroutput>java.lang.NullPointerException</computeroutput> and no PDF file is produced. What is wrong?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Try building a PDF version of a different document — perhaps a fresh one that you create with the <command>publican create</command> command. If the problem is not just with one particular document, you probably have a mismatch between the <application>Java Runtime Environment</application> (JRE) and the <application>Java Development Kit</application> (JDK) in use on your system. If you have a JDK installed, <application>FOP</application> requires that the JDK is of the same version as the JRE. Furthermore, <application>FOP</application> cannot use the <application>GNU Compiler for Java</application> (GCJ)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Run <command>alternatives --config java</command> and <command>alternatives --config javac</command> to determine which JRE and JDK are in use, then select versions that match and which do not have <literal>gcj</literal> in their name. For example, the following Java configuration shows a matching JRE and JDK that allow PDFs to build:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "$ alternatives --config java\n"
+"\n"
+"There are 3 programs which provide 'java'.\n"
+"\n"
+"  Selection    Command\n"
+"-----------------------------------------------\n"
+"   1           /usr/lib/jvm/jre-1.5.0-gcj/bin/java\n"
+"*  2           /usr/lib/jvm/jre-1.6.0-openjdk/bin/java\n"
+" + 3           /usr/lib/jvm/jre-1.6.0-openjdk.x86_64/bin/java\n"
+"\n"
+"Enter to keep the current selection[+], or type selection number:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "$ alternatives --config javac\n"
+"\n"
+"There are 3 programs which provide 'javac'.\n"
+"\n"
+"  Selection    Command\n"
+"-----------------------------------------------\n"
+"*+ 1           /usr/lib/jvm/java-1.6.0-openjdk.x86_64/bin/javac\n"
+"   2           /usr/lib/jvm/java-1.6.0-openjdk/bin/javac\n"
+"   3           /usr/lib/jvm/java-1.5.0-gcj/bin/javac\n"
+"\n"
+"Enter to keep the current selection[+], or type selection number: "
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You might need to install an extra JDK if you do not have a JDK on your system that matches any of the JREs."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Some Java installations do not set up the <command>alternatives</command> environment correctly. No fix has been determined for this situation."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "I get an error saying <application>Batik</application> is not in the classpath but <application>Batik</application> is installed! What is wrong?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "We believe this is due to classpath issues caused by having different JRE and JDK versions in use. Refer to the previous question in this FAQ about <computeroutput>java.lang.NullPointerException</computeroutput> errors and using the <command>alternatives</command> command to ensure that the JRE and JDK match."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "I get an error <computeroutput>Exception in thread \"main\" java.lang.OutOfMemoryError: Java heap space</computeroutput> when trying to build PDF. What is wrong?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>publican build</command> run <command>echo \"FOP_OPTS='-Xms50m -Xmx700m'\" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Previous versions of <application>Publican</application> removed empty <sgmltag>&lt;para&gt;</sgmltag> tags. Does <application>Publican</application> still do this?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "No. <application>Publican</application> previously removed empty <sgmltag>&lt;para&gt;</sgmltag> tags while it transformed XML because empty <sgmltag>&lt;para&gt;</sgmltag> tags broke earlier translation toolchains used within Red Hat and the Fedora Project. Empty <sgmltag>&lt;para&gt;</sgmltag> tags are valid DocBook XML, and <application>Publican</application> no longer removes them."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "What happened to the spell check?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Early versions of <application>Publican</application> (up to and including 0.45) ran a spell check while transforming a document's XML. Due to negative feedback from users, this feature was dropped."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Run the following bash script in the root directory of your document to check spellings in your XML files with the <application>aspell</application> command-line spell checker."
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "<xi:include href=\"extras/proof.sh\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+""
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Why don't <sgmltag>&lt;segmentedlist&gt;</sgmltag>s work when I build PDFs?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Check the number of columns in your <sgmltag>&lt;segmentedlist&gt;</sgmltag>s. When <sgmltag>&lt;segmentedlist&gt;</sgmltag>s are formatted as tables, the DocBook XSL limits the number of columns to two, and <application>Publican</application> formats <sgmltag>&lt;segmentedlist&gt;</sgmltag>s as tables."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "What happened to the colors in my images in this PDF?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This is the result of a bug in <application>FOP</application> that distorts colors in 24-bit PNG images. Convert your images to 32-bit PNG images to work around the problem."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When I build my document, I get an error about an &lsquo;undefined language&rsquo; — what's wrong?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Code highlighting in <application>Publican</application> is generated with the <application>Syntax::Highlight::Engine::Kate</application> Perl module. If you specify a language in a <sgmltag>&lt;programlisting&gt;</sgmltag> tag that <application>Syntax::Highlight::Engine::Kate</application> does not recognize, you receive an error when you build your book. The first lines of the error message are similar to:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<computeroutput>undefined language: JAVA at /usr/lib/perl5/vendor_perl/5.10.0/Syntax/Highlight/Engine/Kate.pm</computeroutput>\n"
+"<computeroutput>line 615.</computeroutput>\n"
+"<computeroutput>cannot create plugin for language 'JAVA'</computeroutput>\n"
+""
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language=\"Java\"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language=\"java\"&gt;</sgmltag> and <sgmltag>&lt;programlisting language=\"JAVA\"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Refer to <ulink url=\"http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS\" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "How do I enable bash command-line completion for Publican?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Support for bash command-line completion is a new feature in <application>Publican&nbsp;2.2</application>. To enable this feature:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install the package or packages that provide bash completion for your operating system. For example, on Fedora, run <command>sudo yum install bash-completion</command>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Add the following to your <filename>~/.bashrc</filename> file:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "\n"
+"# Use bash-completion, if available\n"
+"if [ -f /etc/bash_completion ]; then\n"
+"        . /etc/bash_completion\n"
+"fi\n"
+""
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Restart your terminal or run <command>source ~/.bashrc</command>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Why does Jeff call Isaac &lsquo;Ivan&rsquo;?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Because Jeff's memory is pants!"
+msgstr ""
+

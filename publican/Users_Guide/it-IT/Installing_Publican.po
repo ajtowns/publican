@@ -1,0 +1,267 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-11-08T20:02:18\n"
+"PO-Revision-Date: 2012-01-22 19:38+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Installing Publican"
+msgstr "Installare Publican"
+
+#. Tag: title
+#, no-c-format
+msgid "Linux operating systems"
+msgstr "Sistemi Operativi Linux"
+
+#. Tag: title
+#, no-c-format
+msgid "Important — Availability in repositories"
+msgstr "Importante — Disponibilità nei repository"
+
+#. Tag: para
+#, no-c-format
+msgid "The procedures documented in this section assume that <application>Publican</application> and its various dependencies are available in repositories to which your system has access."
+msgstr "Le procedure indicate in questa sezione assumono che <application>Publican</application> e le sue varie dipendenze siano disponibili nei repository cui ha accesso il proprio sistema."
+
+#. Tag: title
+#, no-c-format
+msgid "Fedora"
+msgstr "Fedora"
+
+#. Tag: para
+#, no-c-format
+msgid "Open a terminal."
+msgstr "Aprire un terminale"
+
+#. Tag: para
+#, no-c-format
+msgid "Change to the root user: <command> su - </command>"
+msgstr "Diventare utente root: <command> su - </command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package:"
+msgstr "Eseguire il seguente comando per installare il pacchetto <package>publican</package> ed il pacchetto <package>publican-doc</package> della documentazione:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command> yum install publican publican-doc</command>\n"
+msgstr "<command> yum install publican publican-doc</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Several brand packages are available for use with <application>Publican</application>. Run the following command as the root user to install packages for building branded books:"
+msgstr "Con <application>Publican</application> sono disponibili anche diversi pacchetti di brand. Eseguire il seguente comando come utente root, per installare i pacchetti per la costruzione di libri brand:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command> yum install publican-<replaceable>brand</replaceable></command>\n"
+msgstr "<command> yum install publican-<replaceable>brand</replaceable></command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Replace <replaceable>brand</replaceable> with, for example, <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, or <literal>gimp</literal>. Refer to <xref linkend=\"chap-Users_Guide-Branding\" /> for more information on branding."
+msgstr "Sostituire <replaceable>brand</replaceable> con <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, o <literal>gimp</literal>. Vedere il <xref linkend=\"chap-Users_Guide-Branding\" /> per una spiegazione del branding in <application>Publican</application>."
+
+#. Tag: title
+#, no-c-format
+msgid "Red Hat Enterprise Linux 5"
+msgstr "Red Hat Enterprise Linux 5"
+
+#. Tag: title
+#, no-c-format
+msgid "Important — Unsupported software"
+msgstr "Importante — Software non supportato"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> is not part of the Red Hat Enterprise Linux distribution. Therefore, Red Hat does not offer support for <application>Publican</application>."
+msgstr "<application>Publican</application> non fa parte della distribuzione Red Hat Enterprise Linux. Quindi Red Hat non offre supporto per <application>Publican</application>."
+
+#. Tag: title
+#, no-c-format
+msgid "Important — Dependencies available only internally to Red Hat"
+msgstr "Importante — Dipendenze disponibili soltanto all'interno di Red Hat"
+
+#. Tag: para
+#, no-c-format
+msgid "Installing <application>Publican</application> on Red Hat Enterprise Linux 5 requires a number of dependencies that are presently available only in yum repositories that are internal to Red Hat."
+msgstr "L'installazione di <application>Publican</application> su Red Hat Enterprise Linux 5, richiede un numero di dipendenze che attualmente sono disponibili solo nei repository yum interni a Red Hat."
+
+#. Tag: title
+#, no-c-format
+msgid "Ubuntu"
+msgstr "Ubuntu"
+
+#. Tag: title
+#, no-c-format
+msgid "Important — New in 10.4 \"Lucid Lynx\""
+msgstr "Importante — Novità in 10.4 \"Lucid Lynx\""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> is new in Ubuntu 10.4 \"Lucid Lynx\"."
+msgstr "<application>Publican</application> fa il suo ingresso in Ubuntu 10.4 \"Lucid Lynx\"."
+
+#. Tag: para
+#, no-c-format
+msgid "Run the following command to install the <package>publican</package> package:"
+msgstr "Eseguire il seguente comando per installare il pacchetto <package>publican</package>:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>sudo apt-get install publican</command>\n"
+msgstr "<command>sudo apt-get install publican</command>\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Debian"
+msgstr "Debian"
+
+#. Tag: title
+#, no-c-format
+msgid "Warning — Complete this procedure"
+msgstr "Avviso — Completare questa procedura"
+
+#. Tag: para
+#, no-c-format
+msgid "Complete every step of this procedure. If you do not undo the changes that you make to the <filename>/etc/apt/sources.list</filename> file as described, your system might become unstable."
+msgstr "Completare ogni passaggio di questa procedura. Se non si effettuano, come qui indicate, le operazioni di ripristino alle modifiche apportate al file <filename>/etc/apt/sources.list</filename>, il sistema potrebbe diventare instabile."
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> is not available in the current stable version of Debian (version 5.0, \"Lenny\"), but is available in the current testing version (\"Squeeze\"). To install <application>Publican</application> on a computer that runs Debian, temporarily enable access to the <literal>squeeze</literal> repository. When you enable access to this repository, you allow your computer to install newer software and newer versions of existing software than what is available in the current stable version of Debian. However, not all of the software available in the testing repository has completed quality assurance testing yet. If you do not disable access to this repository after you install <application>Publican</application>, the next time that your system updates, it will replace software packages on your system with newer but possibly untested versions of those packages that it downloads from the testing repository."
+msgstr "<application>Publican</application> non è disponibile nella corrente versione stabile di Debian (version 5.0, \"Lenny\"), ma è disponibile nella corrente versione di test (\"Squeeze\"). Per installare <application>Publican</application> su un computer che esegue Debian, occorre abilitare temporaneamente l'accesso al repository <literal>squeeze</literal>. Abilitando l'accesso a questo repository, si autorizza il computer ad installare nuovo software e nuove versioni di software, rispetto alla corrente versione stabile di Debian. Tuttavia, non tutto il software disponibile nel repository di test ha già superato il controllo di qualità. Quindi, se dopo l'installazione di <application>Publican</application> non si disabilita l'accesso a questo repository, al successivo aggiornamento del sistema, i pacchetti software esistenti verranno sostituiti con nuove versioni scaricate dal repository, e molto probabilmente risulteranno essere versioni non ancora testate."
+
+#. Tag: para
+#, no-c-format
+msgid "Open your <filename>/etc/apt/sources.list</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:"
+msgstr "Con un editor di testo aprire il file <filename>/etc/apt/sources.list</filename>. Per esempio, per modificare il file con <application>gedit</application>, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>sudo gedit /etc/apt/sources.list</command>\n"
+msgstr "<command>sudo gedit /etc/apt/sources.list</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Add the following line to the end of the file:"
+msgstr "Aggiungere la seguente riga alla fine del file:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"deb http://ftp.debian.org/debian/ squeeze main\n"
+"\n"
+msgstr ""
+"deb http://ftp.debian.org/debian/ squeeze main\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Save the file and close the text editor."
+msgstr "Salvare il file e chiudere l'editor."
+
+#. Tag: para
+#, no-c-format
+msgid "Run the following command to update the list of packages available to your computer:"
+msgstr "Eseguire il seguente comando per aggiornare la lista dei pacchetti disponibili nel sistema:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>sudo apt-get update</command>\n"
+msgstr "<command>sudo apt-get update</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Open your <filename>/etc/apt/sources.list</filename> file again, and delete the extra line that you added in this procedure."
+msgstr "Riaprire il file <filename>/etc/apt/sources.list</filename> e rimuovere la riga precedentemente inserita."
+
+#. Tag: para
+#, no-c-format
+msgid "Note that until the release of \"Squeeze\" as the stable version of Debian, you must manually enable and disable access to the testing repository as described in this procedure whenever a new version of <application>Publican</application> becomes available in the testing repository. You can find up-to-date information about the status of <application>Publican</application> for Debian at <ulink url=\"http://packages.debian.org/squeeze/publican\" />, including the version number of <application>Publican</application> available in the repository (2.1 at the time of writing)."
+msgstr "Notare che finché la release \"Squeeze\" non viene rilasciata come versione stabile di Debian, occorre manualmente abilitare e disabilitare l'accesso al repository di test come fin qui descritto, ogniqualvolta diventa disponibile, nel repository di test, una nuova versione di <application>Publican</application>. Per informazioni aggiornate sullo status di <application>Publican</application> per Debian, visitare <ulink url=\"http://packages.debian.org/squeeze/publican\" />, contenente il numero di versione di <application>Publican</application> disponibile nel repository (versione 2.1 al tempo di scrittura di questo documento)."
+
+#. Tag: para
+#, no-c-format
+msgid "When \"Squeeze\" becomes the stable version of Debian, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system."
+msgstr "Nel momento in cui \"Squeeze\" diventa la versione stabile di Debian, per installare <application>Publican</application> su sistemi che eseguono questa versione del sistema operativo, non occorre più abilitare o disabilitare l'accesso a repository extra."
+
+#. Tag: title
+#, no-c-format
+msgid "Windows operating systems"
+msgstr "Sistemi Operativi Windows"
+
+#. Tag: para
+#, no-c-format
+msgid "Download the Publican installer from <ulink url=\"https://fedorahosted.org/releases/p/u/publican/\" />."
+msgstr "Scaricare il programma di installazione di Publican da <ulink url=\"https://fedorahosted.org/releases/p/u/publican/\" />."
+
+#. Tag: para
+#, no-c-format
+msgid "Browse to the folder to which you downloaded <filename>Publican-Installer-<replaceable>version</replaceable>.exe</filename>."
+msgstr "Spostarsi nella cartella in cui si è scaricato l'eseguibile <filename>Publican-Installer-<replaceable>versione</replaceable>.exe</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "Double-click the <filename>Publican-Installer-<replaceable>version</replaceable>.exe</filename> file."
+msgstr "Fare doppio click sul file <filename>Publican-Installer-<replaceable>versione</replaceable>.exe</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "The installer presents you with a series of license agreements. All of the files that constitute a <application>Publican</application> installation are available under a free license. However, because different licenses are more suitable for certain parts of <application>Publican</application> than others, the <application>Publican</application> files are not all available under the same free license. Each license grants you a different set of rights and responsibilities when you copy or modify the files in your <application>Publican</application> installation. We chose this combination of licenses to allow you to use <application>Publican</application> as freely as possible and to allow you to choose whatever license you prefer for the documents that you publish with <application>Publican</application>."
+msgstr "Il programma di installazione inizia presentando una serie di accordi di licenza. Tutti i file che fanno parte di una installazione di <application>Publican</application> sono disponibili sotto licenza libera. Tuttavia, poiché diverse licenze sono più adatte a certe parti di <application>Publican</application> di altre, i file di <application>Publican</application> non vengono tutti distribuiti sotto la stessa licenza libera. Ogni licenza conferisce differenti diritti e responsabilità sulla copia e sulla modifica dei file di una installazione di <application>Publican</application>. Noi usiamo questa combinazione di licenze per consentire di usare <application>Publican</application> il più liberamente possibile e per consentire di scegliere qualunque licenza per i propri documenti, pubblicati usando <application>Publican</application>."
+
+#. Tag: para
+#, no-c-format
+msgid "Read the terms of the various license agreements. If you agree to their terms, click <guibutton>I Agree</guibutton> on each of them, otherwise, click <guibutton>Cancel</guibutton>."
+msgstr "Leggere le condizioni dei vari accordi di licenza. Se si concorda con le condizioni, premere <guibutton>I Agree</guibutton> su ciascuna di esse, altrimenti premere <guibutton>Cancel</guibutton>."
+
+#. Tag: para
+#, no-c-format
+msgid "The installer offers to install several components: <application>Publican</application> itself (labeled <literal>Main</literal> in the installer window), a number of <firstterm>brands</firstterm> (including <literal>RedHat</literal>, <literal>JBoss</literal>, and <literal>fedora</literal>), and two DocBook components (the DocBook <firstterm>Data Type Definition</firstterm> (DTD) and DocBook <firstterm>Extensible Stylesheet Language</firstterm> (XSL) stylesheets). The three brands are grouped under the collapsible heading <literal>Brands</literal> and the DocBook components are grouped under the collapsible heading <literal>DocBook</literal> in the installer window. Refer to <xref linkend=\"chap-Users_Guide-Branding\" /> for an explanation of brands in <application>Publican</application>. <application>Publican</application> uses the DTD and the XSL stylesheets to render XML documents in other presentation formats (such as HTML and PDF). If you do not install these components, <application>Publican</application> must download this data from the Internet every time it processes a document, which creates lengthy delays."
+msgstr "Il programma di installazione propone di installare diversi componenti: <application>Publican</application> (denominato <literal>Main</literal> nella finestra d'installazione), alcuni <firstterm>brand</firstterm> (<literal>RedHat</literal>, <literal>JBoss</literal>, e <literal>fedora</literal>), e due componenti di DocBook (il <firstterm>DTD</firstterm> o Data Type Definition, e l'<firstterm>XSL</firstterm> o Extensible Stylesheet Language). I tre brand si trovano raggruppati sotto il controllo espandibile <literal>Brands</literal>, mentre i componenti di DocBook si trovano nel controllo espandibile <literal>DocBook</literal> nella finestra di installazione. Vedere il <xref linkend=\"chap-Users_Guide-Branding\" /> per una spiegazione dei brand in <application>Publican</application>. Per rendere i documenti XML in presentazioni di altri formati (come HTML e PDF), <application>Publican</application> usa il DTD e gli <emphasis>stylesheet</emphasis> di XSL. Se non si installano questi componenti, <application>Publican</application> deve scaricare questi dati da Internet ogniqualvolta elabora un documento, il che comporta lunghi ritardi."
+
+#. Tag: para
+#, no-c-format
+msgid "All components are selected by default. Click the checkboxes to deselect any components that you do <emphasis>not</emphasis> require and click <guibutton>Next</guibutton> to continue."
+msgstr "Tutti i componenti sono selezionati per impostazione. Deselezionare i componenti eventualmente <emphasis>non</emphasis> richiesti e poi premere <guibutton>Next</guibutton>, per continuare."
+
+#. Tag: para
+#, no-c-format
+msgid "By default, the installer software creates a folder named <filename>Publican</filename> within the <filename><replaceable>%ProgramFiles%</replaceable></filename> folder of your computer — typically <filename>C:\\Program Files\\Publican</filename>. You can manually edit the path displayed in the <guilabel>Destination Folder</guilabel> box to select a different folder."
+msgstr "Per impostazione, il programma di installazione creare una cartella denominata <filename>Publican</filename> nella cartella <filename><replaceable>%ProgramFiles%</replaceable></filename> del proprio computer — tipicamente <filename>C:\\Program Files\\Publican</filename>. Per selezionare una cartella differente, inserire manualmente il percorso alla cartella, nella casella di testo etichettata <guilabel>Destination Folder</guilabel>."
+
+#. Tag: para
+#, no-c-format
+msgid "When you are satisfied with the destination folder, click <guibutton>Install</guibutton>."
+msgstr "Dopo aver impostato la cartella di destinazione, premere <guibutton>Install</guibutton>."
+
+#. Tag: para
+#, no-c-format
+msgid "The installer displays a progress bar as it installs <application>Publican</application>. To see more detailed information about the progress of the installation, click <guibutton>Show details</guibutton>."
+msgstr "A questo punto, durante l'installazione di <application>Publican</application>, viene visualizzata una barra di progressione. Per visualizzare i dettagli sul progresso di installazione, premere <guibutton>Show details</guibutton>."
+
+#. Tag: para
+#, no-c-format
+msgid "When the process finishes, the installer notifies you with the message <computeroutput>Completed</computeroutput>."
+msgstr "Una volta completato, il programma di installazione visualizza il messaggio <computeroutput>Completed</computeroutput>."
+
+#. Tag: para
+#, no-c-format
+msgid "Click <guibutton>Close</guibutton> to close the installer."
+msgstr "Premere <guibutton>Close</guibutton> per chiudere il programma di installazione."
+

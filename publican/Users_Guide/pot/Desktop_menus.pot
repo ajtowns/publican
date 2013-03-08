@@ -1,0 +1,260 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Desktop menu entries for documents"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "By default, RPM packages of <application>Publican</application> documents for desktop use appear on the GNOME desktop under the <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice> menu. When users have large numbers of documents installed on their systems, this menu becomes very cluttered and difficult to navigate. Documentation for many different products and perhaps different languages becomes intermixed, adding to the confusion."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To group documentation for your product under a separate submenu within the GNOME <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice> menu, you must:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "create and distribute a desktop menu package that creates the new submenu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "specify the menu <firstterm>category</firstterm> in the document, and optionally, have the documentation package <firstterm>require</firstterm> the desktop menu package."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that the <guimenu>Documentation</guimenu> menu does not group entries under a submenu until two or more documents are installed that belong on that submenu. The first document appears under <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Creating an desktop menu package"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A desktop menu package consists of:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a <firstterm>desktop entry</firstterm> (<filename>.directory</filename>) file that provides metadata about the new submenu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a <firstterm>desktop menu</firstterm> (<filename>.menu</filename>) file that defines the position of the new submenu within the <guimenu>Documentation</guimenu> menu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The structure for the <filename>.directory</filename> file for <application>Publican</application>-generated documentation is as follows:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "the <firstterm>group header</firstterm> <literal>[Desktop Entry]</literal>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "the <parameter>Name</parameter> parameter, set to the name of the submenu that you want to place under the <guimenu>Documentation</guimenu> menu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "optionally, localizations of the <parameter>Name</parameter> parameter, in the format <parameter>Name[<replaceable>language_code</replaceable>]</parameter> where <replaceable>language_code</replaceable> is a language code in glibc format, <emphasis>not</emphasis> the XML format that <application>Publican</application> uses for language codes."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "the <parameter>Comment</parameter> parameter, set to a description of the new submenu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "optionally, localizations of the <parameter>Comment</parameter> parameter, in the format <parameter>Comment[<replaceable>language_code</replaceable>]</parameter> where <replaceable>language_code</replaceable> is a language code in glibc format, <emphasis>not</emphasis> the XML format that <application>Publican</application> uses for language codes."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "the <parameter>Type</parameter> parameter, set to <literal>Directory</literal>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "the <parameter>Encoding</parameter> parameter, set to <literal>UTF-8</literal>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Example .directory file"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following file, <filename>menu-example.directory</filename> illustrates the structure of a desktop entry file."
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "<xi:include href=\"extras/menu-example.directory\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The desktop entry file is placed in <filename>/usr/share/desktop-directories/</filename>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "For a full description of how desktop entries work, refer to the <citetitle>Desktop Entry Specification</citetitle>, available from <ulink url=\"http://standards.freedesktop.org/entry-spec/latest/\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A desktop menu file is an XML file that contains:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a document type declaration for the freedesktop.org Desktop Menu Specification:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "&lt;!DOCTYPE Menu PUBLIC \"-//freedesktop//DTD Menu 1.0//EN\"\n"
+"\"http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd\"&gt;"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a <firstterm>root element</firstterm>, <sgmltag>&lt;Menu&gt;</sgmltag>, that contains:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a <sgmltag>&lt;Name&gt;</sgmltag> element with the content <literal>Documentation</literal>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "another <sgmltag>&lt;Menu&gt;</sgmltag> element that in turn contains:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a <sgmltag>&lt;Name&gt;</sgmltag> element with the content <literal>Documentation</literal> (just like the root element)"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a <sgmltag>&lt;Directory&gt;</sgmltag> element with its content the name of the desktop entry file you created, for example:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "&lt;Directory&gt;menu-example.directory&lt;/Directory&gt;"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "an <sgmltag>&lt;Includes&gt;</sgmltag> element with the content <literal>X-<replaceable>category_name</replaceable></literal>, where <replaceable>category_name</replaceable> is an identifier for the documents that will be grouped together under this menu entry. For example:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "&lt;Includes&gt;X-Example-Docs&lt;/Includes&gt;"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Example .menu file"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The following file, <filename>menu-example.menu</filename> illustrates the structure of a desktop menu file."
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "<xi:include href=\"extras/menu-example.menu\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The desktop menu file is placed in <filename>/etc/xdg/menus/settings-merged/</filename>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "For a full description of how desktop menus work, refer to the <citetitle>Desktop Menu Specification</citetitle>, available from <ulink url=\"http://standards.freedesktop.org/desktop-menu-spec/latest/\" />"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Setting a desktop menu category"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To place a document in a submenu of <menuchoice><guimenu>System</guimenu><guisubmenu>Documentation</guisubmenu></menuchoice>, set the <parameter>menu_category</parameter> parameter in its <filename>publican.cfg</filename> file to match the content of the <sgmltag>&lt;Includes&gt;</sgmltag> element in the corresponding desktop menu file. For example, consider a desktop menu file that contains the element:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To place a document in the submenu defined by this desktop menu file, the document's <filename>publican.cfg</filename> file should contain:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "menu_category: X-Example-Docs"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Publican will process the string in menu_category and replace <literal>__LANG__</literal> with the current language. This allows menus to be customized on a per language basis."
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "menu_category: X-Example-Docs-__LANG__"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that you can include this parameter in the <filename>defaults.cfg</filename> file or <filename>overrides.cfg</filename> file of a brand so that all documents built with that brand are grouped into this submenu automatically without you having to set the <parameter>menu_category</parameter> parameter in each document."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you ship the desktop menu and desktop entry files in an RPM package, you can make RPM packages of documentation <firstterm>require</firstterm> the desktop menu package. With this dependency set, the desktop menu package is installed automatically on users' systems when they install a documentation package, which ensures that the documentation appears under the submenu you have created for your project. Set the dependency with the <parameter>dt_requires</parameter> parameter in the document's <filename>publican.cfg</filename> file. For example, if you ship a desktop menu package named <package>foodocs-menu</package>, set:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "dt_requires: foodocs-menu"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that you can include this parameter in the <filename>defaults.cfg</filename> file or <filename>overrides.cfg</filename> file of a brand so that all documents built with that brand require the same desktop menu package."
+msgstr ""
+

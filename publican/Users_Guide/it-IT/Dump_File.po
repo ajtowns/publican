@@ -1,0 +1,268 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-12-03T18:35:55\n"
+"PO-Revision-Date: 2012-01-22 16:35+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Contents of the website dump file"
+msgstr "Contenuto del file dump di un sito"
+
+#. Tag: para
+#, no-c-format
+msgid "The dump file for a <application>Publican</application>-generated website contains some basic site configuration details, together with details of every document published on the site. The site configuration details are:"
+msgstr "Il file dump di un sito web generato da <application>Publican</application> contiene i dettagli di alcune configurazioni di base, insieme con i dettagli di ogni documento pubblicato sul sito. I dettagli di configurazione del sito sono:"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;host&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;host&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The URL to the root of the documentation site, as set by the <parameter>host</parameter> parameter in the site configuration file."
+msgstr "L'URL alla radice del sito di documentazione, come impostato dal parametro <parameter>host</parameter>, nel file di configurazione del sito."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;def_lang&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;def_lang&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The default language of the documentation on the website, as set by the <parameter>def_lang</parameter> parameter in the site configuration file."
+msgstr "La lingua predefinita della documentazione sul sito web, come impostato dal parametro <parameter>def_lang</parameter>, nel file di configurazione del sito."
+
+#. Tag: para
+#, no-c-format
+msgid "Each document, in each language, in each format has a separate record. These records contain the following data:"
+msgstr "Ogni documento, in ogni lingua, in ogni formato ha un record separato. Questi record contengono i seguenti dati:"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;name&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;name&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The title of the document, generated from the <sgmltag>&lt;title&gt;</sgmltag> tag in the <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal>, or <literal>Set_Info.xml</literal> file unless overridden by the <parameter>docname</parameter> parameter in the <filename>publican.cfg</filename> file. Any spaces in the title are replaced by underscores."
+msgstr "Il titolo del documento, generato dal tag <sgmltag>&lt;title&gt;</sgmltag> in <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal> o <literal>Set_Info.xml</literal>, superato dal parametro <parameter>docname</parameter> nel file <filename>publican.cfg</filename>. Ogni spazio presente nel titolo è sostituito con un carattere trattino basso."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;ID&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;ID&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "A unique ID number for this document, in this format, in this language."
+msgstr "Un numero ID unico per il documento, in un certo formato e lingua."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;abstract&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;abstract&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "A brief summary of the content of the document, generated from the <sgmltag>&lt;abstract&gt;</sgmltag> tag in the <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal>, or <literal>Set_Info.xml</literal> file. <application>Publican</application> uses this same content to generate the <literal>%description</literal> section of the spec file when it packages a document. If the <sgmltag>&lt;abstract&gt;</sgmltag> is translated, this field contains the translated text."
+msgstr "Una breve descrizione generale del contenuto del documento, generato dal tag <sgmltag>&lt;abstract&gt;</sgmltag> in <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal> o <literal>Set_Info.xml</literal>. <application>Publican</application> usa questo stesso contenuto per generare la sezione <literal>%description</literal> del file spec, usato per creare il pacchetto RPM di un documento. Se l'<sgmltag>&lt;abstract&gt;</sgmltag> è tradotto, questo campo contiene il testo tradotto."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;format&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;format&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The format in which the document is produced — <literal>html</literal> for multi-page html, <literal>html-single</literal> for single-page html, <literal>pdf</literal> for PDF, and <literal>epub</literal> for EPUB."
+msgstr "Il formato in cui il documento è prodotto — <literal>html</literal> per html in pagine multiple, <literal>html-single</literal> per html in pagina singola, <literal>pdf</literal> per PDF ed <literal>epub</literal> per EPUB."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;language&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;language&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The language code for the document. Refer to <xref linkend=\"appe-Users_Guide-Language_codes\" /> for more information about language codes in XML."
+msgstr "Il codice linguistico per il documento. Fare riferimento all'<xref linkend=\"appe-Users_Guide-Language_codes\" />, per maggiori informazioni su questi codici in XML."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;name_label&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;name_label&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The name of the document as it appears in the site table of contents. This label can be set with the <parameter>web_name_label</parameter> parameter in the document's <filename>publican.cfg</filename> file. Otherwise, the field is empty for a document in its original language, or uses the translated title of the document in a translated language. Any spaces in the name label are replaced by underscores."
+msgstr "Il nome del documento che appare nella tabella dei contenuti del sito. Il nome può essere impostato con il parametro <parameter>web_name_label</parameter> nel file <filename>publican.cfg</filename> del documento. Diversamente, il campo è vuoto per un documento in lingua originale o contiene il titolo del documento tradotto. Ogni spazio presente nel nome è sostituito con il carattere trattino basso."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;product&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;product&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The product that the document describes, generated from the <sgmltag>&lt;productname&gt;</sgmltag> tag in the <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal>, or <literal>Set_Info.xml</literal> file unless overridden by the <parameter>product</parameter> parameter in the <filename>publican.cfg</filename> file. Any spaces in the product name are replaced by underscores."
+msgstr "Il prodotto descritto dal documento, generato dal tag <sgmltag>&lt;productname&gt;</sgmltag> in <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal> o <literal>Set_Info.xml</literal>, se non generato dal parametro <parameter>product</parameter> nel file <filename>publican.cfg</filename>. Ogni spazio presente nel nome è sostituito con il carattere trattino basso."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;product_label&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;product_label&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The name of the product as it appears in the site table of contents. This label can be set with the <parameter>web_product_label</parameter> parameter in the document's <filename>publican.cfg</filename> file. Otherwise, the field is empty for a document in its original language, or uses the translated title of the document in a translated language. Any spaces in the name label are replaced by underscores."
+msgstr "Il nome del prodotto che appare nella tabella dei contenuti del sito. Il nome può essere impostato con il parametro  <parameter>web_product_label</parameter> nel file <filename>publican.cfg</filename> del documento. Diversamente, il campo è vuoto per un documento in lingua originale o contiene il titolo del documento tradotto. Ogni spazio presente nel nome è sostituito con il carattere trattino basso."
+
+#. Tag: para
+#, no-c-format
+msgid "If the product label is set to <literal>UNUSED</literal>, no heading for this product appears in the website tables of contents."
+msgstr "Se il nome di prodotto è impostato con <literal>UNUSED</literal>, non viene visualizzata alcuna intestazione nella tabella dei contenuti del sito."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;subtitle&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;subtitle&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "A one-line description of the content of the document, generated from the <sgmltag>&lt;subtitle&gt;</sgmltag> tag in the <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal>, or <literal>Set_Info.xml</literal> file. <application>Publican</application> uses this same content to generate the <literal>Summary</literal> section of the spec file when it packages a document. If the <sgmltag>&lt;subtitle&gt;</sgmltag> is translated, this field contains the translated text."
+msgstr "Un'unica riga descrittiva del contenuto del documento, generato dal tag <sgmltag>&lt;subtitle&gt;</sgmltag> in <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal> o <literal>Set_Info.xml</literal>. <application>Publican</application> usa questo stesso contenuto per generare la sezione <literal>Summary</literal> del file spec, usato per creare il pacchetto RPM di un documento. Se il <sgmltag>&lt;subtitle&gt;</sgmltag> è tradotto, questo campo contiene il testo tradotto."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;update_date&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;update_date&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The date that the document was most recently installed on the site, in the format YYYY-MM-DD."
+msgstr "La data di più recente installazione del documento, sul sito, nel formato YYYY-MM-DD."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;version&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;version&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The version of the product that the document describes (<emphasis>not</emphasis> the version of the document itself), generated from the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal>, or <literal>Set_Info.xml</literal> file unless overridden by the <parameter>version</parameter> parameter in the <filename>publican.cfg</filename> file."
+msgstr "La versione del prodotto descritto dal documento (<emphasis>non</emphasis> la versione del documento), generata dal tag <sgmltag>&lt;productnumber&gt;</sgmltag> in <literal>Book_Info.xml</literal>, <literal>Article_Info.xml</literal> o <literal>Set_Info.xml</literal>, se non generata dal parametro <parameter>version</parameter> nel file <filename>publican.cfg</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;version_label&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;version_label&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The version of the product as it appears in the site table of contents. This label can be set with the <parameter>web_version_label</parameter> parameter in the document's <filename>publican.cfg</filename> file."
+msgstr "La versione del prodotto che compare nella tabella dei contenuti del sito. La versione può essere impostata con il parametro <parameter>web_version_label</parameter> nel file <filename>publican.cfg</filename> del documento."
+
+#. Tag: para
+#, no-c-format
+msgid "If the version label is set to <literal>UNUSED</literal>, no heading for this version of the product appears in the website tables of contents."
+msgstr "Se la versione è impostata con <literal>UNUSED</literal>, non viene visualizzata alcuna intestazione per questa versione del prodotto, nella tabella dei contenuti del sito."
+
+#. Tag: title
+#, no-c-format
+msgid "Sample records from a <filename>DUMP.xml</filename> file"
+msgstr "Record d'esempio da un file <filename>DUMP.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "These two records from a <filename>DUMP.xml</filename> file show the same book, the <citetitle>Red Hat Enterprise Linux 5 Installation Guide</citetitle>, in two different formats and two different languages — an English PDF version and a French multi-page HTML version."
+msgstr "Questi due record da un file <filename>DUMP.xml</filename>, visualizzano lo stesso libro, <citetitle>Red Hat Enterprise Linux 5 Installation Guide</citetitle>, in due formati e due lingue differenti — una versione PDF in lingua inglese ed una versione HTML multi-pagine, in lingua francese."
+
+#. Tag: programlisting
+#, no-c-format
+msgid "<xi:include href=\"extras/DUMP.xmlt\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />"
+msgstr "<xi:include href=\"extras/DUMP.xmlt\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />"
+
+#. Tag: title
+#, no-c-format
+msgid "Computing URLs from the dump file"
+msgstr "Ricavare gli URL dai file dump"
+
+#. Tag: para
+#, no-c-format
+msgid "Using the following fields, you can compute the URL of any document on the site:"
+msgstr "Usando i seguenti campi, si può ricavare l'URL di ogni documento sul sito:"
+
+#. Tag: term
+#, no-c-format
+msgid "muti-page HTML"
+msgstr "HTML multi-pagine"
+
+#. Tag: para
+#, no-c-format
+msgid "<sgmltag>&lt;host&gt;</sgmltag>/<sgmltag>&lt;language&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>/<sgmltag>&lt;version&gt;</sgmltag>/<sgmltag>&lt;format&gt;</sgmltag>/<sgmltag>&lt;name&gt;</sgmltag>/<filename>index.html</filename>"
+msgstr "<sgmltag>&lt;host&gt;</sgmltag>/<sgmltag>&lt;language&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>/<sgmltag>&lt;version&gt;</sgmltag>/<sgmltag>&lt;format&gt;</sgmltag>/<sgmltag>&lt;name&gt;</sgmltag>/<filename>index.html</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "For example, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/html/Accessibility_Guide/index.html</filename>"
+msgstr "Per esempio, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/html/Accessibility_Guide/index.html</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "single-page HTML"
+msgstr "HTML singola-pagina"
+
+#. Tag: para
+#, no-c-format
+msgid "For example, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/html-single/Accessibility_Guide/index.html</filename>"
+msgstr "Per esempio, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/html-single/Accessibility_Guide/index.html</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "PDF"
+msgstr "PDF"
+
+#. Tag: para
+#, no-c-format
+msgid "<sgmltag>&lt;host&gt;</sgmltag>/<sgmltag>&lt;language&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>/<sgmltag>&lt;version&gt;</sgmltag>/<sgmltag>&lt;format&gt;</sgmltag>/<sgmltag>&lt;name&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>-<sgmltag>&lt;version&gt;</sgmltag>-<sgmltag>&lt;name&gt;</sgmltag>-<sgmltag>&lt;language&gt;</sgmltag>.<filename>pdf</filename>"
+msgstr "<sgmltag>&lt;host&gt;</sgmltag>/<sgmltag>&lt;language&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>/<sgmltag>&lt;version&gt;</sgmltag>/<sgmltag>&lt;format&gt;</sgmltag>/<sgmltag>&lt;name&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>-<sgmltag>&lt;version&gt;</sgmltag>-<sgmltag>&lt;name&gt;</sgmltag>-<sgmltag>&lt;language&gt;</sgmltag>.<filename>pdf</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "For example, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/pdf/Accessibility_Guide/Fedora-14-Accessibility_Guide-en-US.pdf</filename>"
+msgstr "Per esempio, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/pdf/Accessibility_Guide/Fedora-14-Accessibility_Guide-en-US.pdf</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "EPUB"
+msgstr "EPUB"
+
+#. Tag: para
+#, no-c-format
+msgid "<sgmltag>&lt;host&gt;</sgmltag>/<sgmltag>&lt;language&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>/<sgmltag>&lt;version&gt;</sgmltag>/<sgmltag>&lt;format&gt;</sgmltag>/<sgmltag>&lt;name&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>-<sgmltag>&lt;version&gt;</sgmltag>-<sgmltag>&lt;name&gt;</sgmltag>-<sgmltag>&lt;language&gt;</sgmltag>.<filename>epub</filename>"
+msgstr "<sgmltag>&lt;host&gt;</sgmltag>/<sgmltag>&lt;language&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>/<sgmltag>&lt;version&gt;</sgmltag>/<sgmltag>&lt;format&gt;</sgmltag>/<sgmltag>&lt;name&gt;</sgmltag>/<sgmltag>&lt;product&gt;</sgmltag>-<sgmltag>&lt;version&gt;</sgmltag>-<sgmltag>&lt;name&gt;</sgmltag>-<sgmltag>&lt;language&gt;</sgmltag>.<filename>epub</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "For example, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/pdf/Accessibility_Guide/Fedora-14-Accessibility_Guide-en-US.epub</filename>"
+msgstr "Per esempio, <filename>http://docs.fedoraproject.org/en-US/Fedora/14/pdf/Accessibility_Guide/Fedora-14-Accessibility_Guide-en-US.epub</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "Note that the <sgmltag>&lt;product_label&gt;</sgmltag>, <sgmltag>&lt;version_label&gt;</sgmltag>, and <sgmltag>&lt;name_label&gt;</sgmltag> fields have no significance for URLs, even when these fields are suppressed in tables of contents by the <literal>UNUSED</literal> setting."
+msgstr "Notare che i campi <sgmltag>&lt;product_label&gt;</sgmltag>, <sgmltag>&lt;version_label&gt;</sgmltag> e <sgmltag>&lt;name_label&gt;</sgmltag> sono privi di significato per gli URL, anche quando sono esplicitamente rimossi dalla tabella dei contenuti con l'impostazione <literal>UNUSED</literal>."
+

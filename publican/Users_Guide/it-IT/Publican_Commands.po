@@ -1,0 +1,452 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Francesco D'Aluisio, 2010.
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:17\n"
+"PO-Revision-Date: 2012-01-22 20:10+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+# N.d.T. lewis41@fedoraproject.org
+# Al momento (8/11/2010) il pacchetto publican non risulta ancora tradotto, quindi lascio in inglese i vari termini tecnici:
+# command_option: opzione_di_comando
+# action: azione
+# action_options: opzioni_di_azione
+#. Tag: title
+#, no-c-format
+msgid "Publican commands"
+msgstr "Comandi di Publican"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> is a command-line tool. To use <application>Publican</application> on a computer with a Linux operating system, you must either start a terminal emulator program (such as <application>GNOME Terminal</application> or <application>Konsole</application>) or switch to a virtual console. To use <application>Publican</application> on a computer with a Windows operating system, run the <command>cmd</command> command from the <guimenu>Start menu</guimenu> to open a command prompt."
+msgstr "<application>Publican</application> è uno strumento da riga di comando. Per usare <application>Publican</application> su un computer con Sistema Operativo Linux, occorre avviare un emulatore di terminale (come <application>GNOME Terminal</application> o <application>Konsole</application>) oppure passare ad una console virtuale. Per usare <application>Publican</application> su un computer con sistema operativo Windows, avviare la riga di comando, digitando <command>cmd</command> nello <guimenu>Start menu</guimenu> "
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> commands take one of the following formats:"
+msgstr "I comandi di <application>Publican</application> hanno uno dei seguenti formati:"
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican <replaceable>command_option</replaceable></command>"
+msgstr "<command>publican <replaceable>opzione_comando</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "The <replaceable>command_option</replaceable> is any of several options for the <command>publican</command> command itself."
+msgstr "<replaceable>opzione_comando</replaceable> è una delle opzioni accettate dal comando <command>publican</command>."
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican <replaceable>action</replaceable> <replaceable>action_options</replaceable></command>"
+msgstr "<command>publican <replaceable>azione</replaceable> <replaceable>opzioni_azione</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document's XML files. The <replaceable>action_options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document."
+msgstr "<replaceable>azione</replaceable> è una richiesta di elaborazione per <application>Publican</application>, come creare i file XML per un nuovo documento o creare un documento in HTML dai corrispondenti file XML. Le <replaceable>opzioni_azione</replaceable> si applicano ad una <replaceable>azione</replaceable>, per specificare per esempio la lingua di un documento."
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican <replaceable>command_option</replaceable> <replaceable>action</replaceable> <replaceable>action_options</replaceable></command>"
+msgstr "<command>publican <replaceable>opzione_comando</replaceable> <replaceable>azione</replaceable> <replaceable>opzioni_azione</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Some <replaceable>command_options</replaceable> affect the output of <replaceable>actions</replaceable>, for example, whether <application>Publican</application> should use ANSI colors in its output."
+msgstr "Alcune <replaceable>opzioni_comando</replaceable> influenzano il risultato di una <replaceable>azione</replaceable>, come quando si richiede, per esempio, a <application>Publican</application> di usare nell'output la colorazione ANSI."
+
+#. Tag: title
+#, no-c-format
+msgid "Command options"
+msgstr "Opzioni di comando"
+
+#. Tag: para
+#, no-c-format
+msgid "The options for the <command>publican</command> command are:"
+msgstr "Le opzioni per il comando <command>publican</command>, sono:"
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--help</option>"
+msgstr "<option>--help</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "This option displays a help message, a condensed version of the contents of this chapter."
+msgstr "Questa opzione visualizza i formati del comando ed un sommario delle azioni valide, descritte in questo capitolo."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--man</option>"
+msgstr "<option>--man</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "This option displays the man page for <application>Publican</application>, which includes the same information as the <option>--help</option> option supplies, in addition to information about licensing and dependencies."
+msgstr "Questa opzione visualizza la pagina di man su <application>Publican</application> integrando le informazioni dell'opzione <option>--help</option>, oltre a fornire informazioni su licenze e dipendenze."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--help_actions</option>"
+msgstr "<option>--help_actions</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "This option displays a list of valid <application>Publican</application> <firstterm>actions</firstterm>."
+msgstr "Questa opzione visualizza un elenco di <firstterm>azioni</firstterm> valide di <application>Publican</application>."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>-v</option>"
+msgstr "<option>-v</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "This option displays the version number of your <application>Publican</application> installation."
+msgstr "Questa opzione visualizza il numero di versione di una installazione di <application>Publican</application>."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--config <replaceable>file</replaceable></option>"
+msgstr "<option>--config <replaceable>file</replaceable></option>"
+
+#. Tag: para
+#, no-c-format
+msgid "This option allows you to specify a config file for a document, in place of the default <filename>publican.cfg</filename>."
+msgstr "Questa opzione specifica per un documento, un file di configurazione alternativo al file predefinito <filename>publican.cfg</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--nocolours</option>"
+msgstr "<option>--nocolours</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "This option disables ANSI colors in <application>Publican</application> logging."
+msgstr "Questa opzione disabilita la colorazione ANSI nei messaggi di log di <application>Publican</application>."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--quiet</option>"
+msgstr "<option>--quiet</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "This option disables all logging."
+msgstr "Questa opzione disabilita tutti i messaggi di log."
+
+#. Tag: title
+#, no-c-format
+msgid "Actions"
+msgstr "Azioni"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> can perform the following actions:"
+msgstr "<application>Publican</application> è in grado di effettuare le seguenti elaborazioni:"
+
+#. Tag: term
+#, no-c-format
+msgid "add_revision"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "adds an entry in <filename>Revision_History.xml</filename>."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "build"
+msgstr "build"
+
+#. Tag: para
+#, no-c-format
+msgid "transforms XML to other formats (for example: PDF, single-page HTML, or multiple-page HTML). Refer to <xref linkend=\"sect-Users_Guide-Building_a_document\" /> for more details and a description of the available options."
+msgstr "trasforma i file XML in altri formati (per esempio: PDF, HTML su pagina singola o HTML su pagine multiple). Fare riferimento alla <xref linkend=\"sect-Users_Guide-Building_a_document\" /> per maggiori dettagli ed una descrizione delle opzioni disponibili."
+
+#. Tag: term
+#, no-c-format
+msgid "clean"
+msgstr "clean"
+
+#. Tag: para
+#, no-c-format
+msgid "removes all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running the <command>publican build</command> command to build a document, such as <command>publican build --formats=html --langs=en-US</command>."
+msgstr "rimuove tutti i file e le cartelle nella sotto-cartella <filename>tmp/</filename>. La cartella <filename>tmp/</filename> viene creata durante l'esecuzione del comando <command>publican build</command>, usato per generare un documento, come <command>publican build --formats=html --langs=it-IT</command>."
+
+#. Tag: term
+#, no-c-format
+msgid "clean_ids"
+msgstr "clean_ids"
+
+#. Tag: para
+#, no-c-format
+msgid "changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after you run <command>publican clean_ids</command>: <sgmltag>&lt;section id=\"Test_Book-First_Section\"&gt;</sgmltag>"
+msgstr "modifica tutti gli ID in un formato standard. Questo formato è <replaceable>Nome_Libro-titolo</replaceable>. Per esempio, una sezione con titolo <literal>First Section</literal>, in un libro con titolo <literal>Test_Book</literal> avrà il seguente ID dopo l'esecuzione del comando <command>clean_ids</command>: <sgmltag>&lt;section id=\"Test_Book-First_Section\"&gt;</sgmltag>."
+
+#. Tag: title
+#, no-c-format
+msgid "Warning — <command>publican clean_ids</command>"
+msgstr "Avviso — <command>publican clean_ids</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "To make translation easier, <command>publican clean_ids</command> uses the first four characters of the tag as a prefix for the ID. Consequently, you must check out the latest versions of the XML source and translations before running this command."
+msgstr "Per facilitare la traduzione, <command>publican clean_ids</command> usa i primi quattro caratteri del tag come prefisso dell'ID. Quindi, prima di eseguire questo comando, controllare le ultime versioni dei sorgenti XML e le corrispondenti traduzioni."
+
+#. Tag: para
+#, no-c-format
+msgid "If you do not have the current versions of the PO files checked out before running <command>publican clean_ids</command>, the XML and PO files will no longer be in synchrony with each other. In this case, all links in the PO files must be manually updated."
+msgstr "Se prima di eseguire il comando <command>publican clean_ids</command>, non si sono controllate le versioni correnti dei file PO, i file XML e PO non risulteranno più allineati. In tal caso, tutti i link nei file PO dovranno essere aggiornati manualmente."
+
+#. Tag: title
+#, no-c-format
+msgid "Important — ID conflicts can occur"
+msgstr "Importante — Possono verificarsi conflitti tra ID "
+
+#. Tag: para
+#, no-c-format
+msgid "The <command>publican clean_ids</command> command is intended to facilitate building a DocBook structure around documents ported from other formats such as HTML. However, <command>publican clean_ids</command> is file-based and and only has access to information in the XML file that it is currently processing and to the document name. Therefore, nodes of the same type that have the same title receive the same IDs. These duplicate IDs will prevent the document from building."
+msgstr "Il comando <command>publican clean_ids</command> serve a facilitare la costruzione di una struttura di DocBook in quei documenti provenienti da altri formati come HTML. Tuttavia, il comando <command>publican clean_ids</command> è file-based, e ricava le informazioni basandosi solo su file XML e sul nome del documento. Perciò, i nodi dello stesso tipo che hanno lo stesso identico titolo ricevono lo stesso ID. Questa duplicazione di ID inevitabilmente impedirà la compilazione del documento."
+
+#. Tag: para
+#, no-c-format
+msgid "Use the <command>publican clean_ids</command> command to assist you in laying out your document, but expect that some manual adjustment to IDs might be necessary. We recommend that you do not run <command>publican clean_ids</command> on an already well established document."
+msgstr "Usare il comando <command>publican clean_ids</command> per creare una struttura del documento, ed aggiustare manualmente eventuali duplicazioni di ID. Si raccomanda di non eseguire <command>publican clean_ids</command> su un documento già ben strutturato."
+
+#. Tag: term
+#, no-c-format
+msgid "clean_set"
+msgstr "clean_set"
+
+#. Tag: para
+#, no-c-format
+msgid "removes local copies of remote books in a distributed set. Refer to <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" /> for details of using distributed sets."
+msgstr "rimuove le copie locali di libri remoti facenti parte di un set distribuito. Vedere la <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" /> per i dettagli sull'uso di set distribuiti."
+
+#. Tag: term
+#, no-c-format
+msgid "create"
+msgstr "create"
+
+#. Tag: para
+#, no-c-format
+msgid "creates a new book, article, or set. Refer to <xref linkend=\"chap-Users_Guide-Creating_a_document\" /> for details of creating a book or article, and to <xref linkend=\"chap-Users_Guide-Using_sets\" /> for details of using sets."
+msgstr "crea un nuovo libro, articolo o un nuovo set. Vedere il <xref linkend=\"chap-Users_Guide-Creating_a_document\" /> per i dettagli su come creare un libro o articolo, ed il <xref linkend=\"chap-Users_Guide-Using_sets\" /> per i dettagli sull'uso dei set."
+
+#. Tag: term
+#, no-c-format
+msgid "create_brand"
+msgstr "create_brand"
+
+#. Tag: para
+#, no-c-format
+msgid "creates a new brand. Refer to <xref linkend=\"sect-Users_Guide-Creating_a_brand\" /> for details of creating a brand."
+msgstr "crea un nuovo brand. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Creating_a_brand\" /> per i dettagli."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "migrate_site"
+msgstr "create_site"
+
+#. Tag: para
+#, no-c-format
+msgid "creates a documentation website. Refer to <xref linkend=\"sect-Users_Guide-Website\" /> for details."
+msgstr "crea un sito web di documentazione. Fare riferimento al <xref linkend=\"sect-Users_Guide-Website\" /> per i dettagli."
+
+#. Tag: term
+#, no-c-format
+msgid "help_config"
+msgstr "help_config"
+
+#. Tag: para
+#, no-c-format
+msgid "displays help text for the configuration file contained in each book or brand, <filename>publican.cfg</filename>. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> for more detail."
+msgstr "visualizza un elenco di parametri di configurazione del file <filename>publican.cfg</filename>, contenuto in ciascun libro o brand. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> per maggiori dettagli."
+
+#. Tag: term
+#, no-c-format
+msgid "install_book"
+msgstr "install_book"
+
+#. Tag: para
+#, no-c-format
+msgid "installs a document on a documentation website. Refer to <xref linkend=\"sect-Users_Guide-Website\" /> for details."
+msgstr "installa un documento su un sito web di documentazione. Vedere il <xref linkend=\"sect-Users_Guide-Website\" /> per i dettagli."
+
+#. Tag: term
+#, no-c-format
+msgid "install_brand"
+msgstr "install_brand"
+
+#. Tag: para
+#, no-c-format
+msgid "configures a brand for installation. Refer to <xref linkend=\"sect-Users_Guide-Installing_a_brand\" /> for details of installing a brand."
+msgstr "configura l'installazione di un brand. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Installing_a_brand\" /> per i dettagli. "
+
+#. Tag: term
+#, no-c-format
+msgid "lang_stats --lang=<replaceable>language_code</replaceable>"
+msgstr "lang_stats --lang=<replaceable>codice_lingua</replaceable>"
+
+#. Tag: para
+#, no-c-format
+msgid "generates a translation report for the language specified by <replaceable>language_code</replaceable>. For every PO file generated by <application>Publican</application>, a table displays the number of untranslated strings in all <literal>msgid</literal>s; the number of fuzzy strings (counts the strings contained in <literal>msgid</literal>s whose content changed since the last POT generation) and the number of translated strings, coinciding after translation, with the the number of strings contained in the <literal>msgid</literal>."
+msgstr "genera un report statistico di traduzione per la lingua specificata da <replaceable>codice_lingua</replaceable>. Per ogni file PO generato da <application>Publican</application>, una tabella mostra il numero delle stringhe non tradotte in tutti i <literal>msgid</literal>; il numero delle stringhe fuzzy (conteggia le stringhe contenute in <literal>msgid</literal>, il cui contenuto è variato dall'ultima generazione dei POT), ed il numero delle stringhe tradotte, coincidente, a traduzione avvenuta, con il numero delle stringhe contenute nel <literal>msgid</literal>."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "migrate_site"
+msgstr "create_site"
+
+#. Tag: para
+#, no-c-format
+msgid "migrates a website database from <application>Publican</application> 2.x to <application>Publican</application> 3."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "package"
+msgstr "package"
+
+#. Tag: para
+#, no-c-format
+msgid "packages a book, article, set, or brand for shipping as an RPM package. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" /> and <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" /> for more detail."
+msgstr "crea un pacchetto un RPM di un libro, articolo, set o brand. Vedere la <xref linkend=\"sect-Users_Guide-Packaging_a_book\" /> e la <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" /> per maggiori dettagli."
+
+#. Tag: term
+#, no-c-format
+msgid "print_banned"
+msgstr "print_banned"
+
+#. Tag: para
+#, no-c-format
+msgid "prints a list of DocBook tags banned by <application>Publican</application>. Refer to <xref linkend=\"appe-Users_Guide-Disallowed_elements_and_attributes\" /> for a discussion of banned tags."
+msgstr "visualizza l'elenco dei tag di DocBook non raccomandati da <application>Publican</application>. Vedere l'<xref linkend=\"appe-Users_Guide-Disallowed_elements_and_attributes\" /> per una discussione sull'uso di tag non raccomandati."
+
+#. Tag: term
+#, no-c-format
+msgid "print_known"
+msgstr "print_known"
+
+#. Tag: para
+#, no-c-format
+msgid "prints a list of DocBook tags supported by <application>Publican</application>. <firstterm>Supported</firstterm> are those tags whose output has undergone at least cursory verification for quality when used in <application>Publican</application> — refer to <xref linkend=\"appe-Users_Guide-Disallowed_elements_and_attributes\" />."
+msgstr "visualizza l'elenco dei tag di DocBook supportati da <application>Publican</application>. I tag <firstterm>supportati</firstterm> sono quelli che hanno superato una minima verifica di qualità per l'uso in <application>Publican</application>. Fare riferimento all'<xref linkend=\"appe-Users_Guide-Disallowed_elements_and_attributes\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "print_tree"
+msgstr "print_tree"
+
+#. Tag: para
+#, no-c-format
+msgid "prints a tree of the XML files included with the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in a book, article, or set."
+msgstr "visualizza la struttura ad albero dei file XML inclusi, con il tag <sgmltag>&lt;xi:include&gt;</sgmltag>, in un libro, articolo o set."
+
+#. Tag: term
+#, no-c-format
+msgid "print_unused"
+msgstr "print_unused"
+
+#. Tag: para
+#, no-c-format, fuzzy
+msgid "prints a list of the image files <emphasis>not</emphasis> referenced by an <sgmltag>&lt;imagedata&gt;</sgmltag> tag in a book, article, or set."
+msgstr "visualizza l'elenco dei file XML <emphasis>non</emphasis> inclusi, con il tag <sgmltag>&lt;xi:include&gt;</sgmltag>, in un libro, articolo o set."
+
+#. Tag: term
+#, no-c-format
+msgid "publican print_unused_images"
+msgstr ""
+
+#. Tag: para
+#, no-c-format, fuzzy
+msgid "prints a list of the image files <emphasis>not</emphasis> referenced by an <sgmltag>&lt;imagedata&gt;</sgmltag> tag in a book, article, or set."
+msgstr "visualizza l'elenco dei file XML <emphasis>non</emphasis> inclusi, con il tag <sgmltag>&lt;xi:include&gt;</sgmltag>, in un libro, articolo o set."
+
+#. Tag: term
+#, no-c-format
+msgid "remove_book"
+msgstr "remove_book"
+
+#. Tag: para
+#, no-c-format
+msgid "removes a document from a documentation website. Refer to <xref linkend=\"sect-Users_Guide-Website\" /> for details."
+msgstr "rimuove un documento da un sito web di documentazione. Vedere il <xref linkend=\"sect-Users_Guide-Website\" /> per i dettagli."
+
+#. Tag: term
+#, no-c-format
+msgid "rename"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "renames a <application>Publican</application> book."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "site_stats"
+msgstr "site_stats"
+
+#. Tag: para
+#, no-c-format
+msgid "generates a site report for a documentation website."
+msgstr "genera un report statistico di un sito web di documentazione."
+
+#. Tag: term
+#, no-c-format
+msgid "update_po"
+msgstr "update_po"
+
+#. Tag: para
+#, no-c-format
+msgid "updates the <firstterm>portable object</firstterm> (PO) files. Refer to <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" /> for more detail."
+msgstr "aggiorna i file <firstterm>PO</firstterm> (Portable Object). Vedere la <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" /> per maggiori dettagli."
+
+#. Tag: term
+#, no-c-format
+msgid "update_pot"
+msgstr "update_pot"
+
+#. Tag: para
+#, no-c-format
+msgid "updates the <firstterm>portable object template</firstterm> (POT) files. Refer to <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" /> for more detail."
+msgstr "aggiorna i file <firstterm>POT</firstterm> (Portable Object Template). Vedere la <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" /> per maggiori dettagli."
+
+#. Tag: term
+#, no-c-format
+msgid "update_site"
+msgstr "update_site"
+
+#. Tag: para
+#, no-c-format
+msgid "updates the templated content of the documentation website. Refer to <xref linkend=\"sect-Users_Guide-Website\" /> for details."
+msgstr "aggiorna i template del sito web di documentazione. Consultare il <xref linkend=\"sect-Users_Guide-Website\" /> per i dettagli."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "creates a <filename>publican.cfg</filename> file based on the <filename>Makefile</filename> of a book, article, or set originally created with a developmental version of <application>Publican</application> (versions up to and including <application>Publican 0.45</application>). Refer to <xref linkend=\"sect-Users_Guide-Building_a_document-Building_a_document_created_with_Publican_0\" /> for more detail."
+#~ msgstr "crea un file <filename>publican.cfg</filename> a partire da un <filename>Makefile</filename> di un libro, articolo o set, originariamente creato con una versione sperimentale di <application>Publican</application> (versioni fino a <application>Publican 0.45</application>, inclusa). Fare riferimento alla <xref linkend=\"sect-Users_Guide-Building_a_document-Building_a_document_created_with_Publican_0\" /> per maggiori dettagli. "
+
+#. Tag: term
+#, no-c-format
+#~ msgid "old2new"
+#~ msgstr "old2new"
+
+#~ msgid "generates a translation report for the language specified by <replaceable>language_code</replaceable>."
+#~ msgstr "genera un report statistico di traduzione per la lingua specificata da <replaceable>codice_lingua</replaceable>."
+

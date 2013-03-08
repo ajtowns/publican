@@ -1,0 +1,264 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Building a website with Publican"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> not only builds documents for publication but can build and manage a documentation website as well. For a suite of documents that you maintain by yourself, you can use <application>Publican</application> to build a site on your local system; you can then upload the site to a webserver by whatever means you choose. This approach does not scale well, however, so for team-based documentation projects, <application>Publican</application> can generate RPM packages of documentation to install on the webserver. To install <application>Publican</application>-generated RPM packages on a webserver, <application>Publican</application> (version 2.1 or higher) and <application>rpm</application> must be installed on the server. If you build and maintain the website on a workstation and upload it to a webserver for publication, <application>Publican</application> and <application>rpm</application> do not need to be installed on the webserver."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The websites that <application>Publican</application> creates consist of four parts: the website structure, a home page, product and version description pages, and the documents published on the site. The website structure itself consists of:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a configuration file."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "an SQLite database file."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "a subdirectory for the published documents, which contains:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>index.html</filename> — an index page that redirects to localized versions of a home page for the site."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>interactive.css</filename> — a CSS stylesheet that contains styles for the navigation menu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>opds.xml</filename> — an Open Publication Distribution System (OPDS) catalog to allow compliant eBook readers to find EPUB documents on your site easily."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Sitemap</filename> — A Sitemap is a list of the URLs from your website and metadata about them, like update history, change frequency, and importance relative to other URLs in the site. A Sitemap can be supplied to many major search engines, where it is used to help their crawlers index your site more intelligently. A Sitemap does not guarantee that your site will be ranked higher in search results. However, it does help search engines to return the most relevant results from your website in response to user queries. For more information on Sitemaps, visit <ulink url=\"http://www.sitemaps.org/\">sitemaps.org</ulink>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>site_overrides.css</filename> — a CSS stylesheet that overrides the styles contained in <filename>interactive.css</filename> to provide site-specific styles. This file is not created by the site creation process, but must be added manually later, or supplied by the site <firstterm>home page</firstterm>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>toc.js</filename> — a JavaScript script that directs visitors to localized content based on the locale set in their browser and which controls the presentation of the navigation menu."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "subdirectories for each language in which you publish. Initially, this contains <filename>opds.xml</filename> and <filename>toc.html</filename>. Later it also contains <filename>opds-<replaceable>product</replaceable>.xml</filename>:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>opds.xml</filename> — an OPDS catalog of EPUB documents in this language."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>opds-<replaceable>product</replaceable>.xml</filename> — an OPDS catalog of EPUB documents for each product for which you publish documentation in this language. Within each product catalog, documentation is divided into <sgmltag>&lt;category&gt;</sgmltag>s for different versions of the same product."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>toc.html</filename> — the table of contents for that language, initially without links to any documents."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A subdirectory for each product for which you publish documentation in this language."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Optionally, the site structure might also include a <firstterm>dump file</firstterm> — an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The site structure might also contain a zipped version of the dump file. Refer to <xref linkend=\"sect-Users_Guide-Website-structure-cfg_and_db-manual\" /> and <xref linkend=\"sect-Users_Guide-Website-structure-cfg_and_db-rpm\" /> for details of creating a dump file, and to <xref linkend=\"dump_file\" /> for a description of the dump file contents."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Building a website manually"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Building a website using RPM packages"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Submitting Your Sitemap to Search Engines"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A Publican website includes an XML Sitemap file. The Sitemap can be submitted to many major search engines, in order to help them index your website more intelligently and thoroughly. Each search engine has its own submission procedure. This section includes documentation on how to submit a Sitemap to Google and Bing."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Submitting Your Sitemap to Google."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "To Submit Your Sitemap to Google:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign up for a Google account at <ulink url=\"http://www.google.com/webmasters/tools/home\">Google Webmaster Tools</ulink>. If you already have a Google account, you can use it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign in to your Google Webmaster Tools account at this URL: <ulink url=\"http://www.google.com/webmasters/tools/home\">http://www.google.com/webmasters/tools/home</ulink>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "First you must verify you are the owner of your Publican site. Click the <guibutton>Add A Site</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A dialog box is displayed for you to <guilabel>Add a site</guilabel> with. Enter the URL of your Publican site in the text entry field and click <guibutton>Continue</guibutton>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Follow the instructions that display and upload the HTML file that Google provides to the document root of your website."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have confirmed that the provided HTML file has been uploaded to the required location by accessing it in a web browser, click the <guibutton>Verify</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have successfully verified the ownership of your Publican website to Google, return to the Webmaster Tools home page. Your Publican site is listed. Click on it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You are taken to the Webmaster Tools configuration page for your Publican site. On the left side of the page there is a menu. Click on the <guilabel>Site configuration</guilabel> menu entry to expand it. Its expanded contents includes a <guilabel>Sitemaps</guilabel> entry. Click it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You are taken to a Sitemap submission page. Click the <guibutton>Submit a Sitemap</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A text entry field displays, including the base URL of your Publican site, with room to enter the URL of your Sitemap XML file. Enter its location and click the <guibutton>Submit Sitemap</guibutton> button. The details of the Sitemap are displayed in a table."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Result"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The Sitemap for your Publican site has been successfully submitted to Google."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Submitting Your Sitemap to Bing."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "To Submit Your Sitemap to Bing:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign up for a Bing Webmaster Tools account at <ulink url=\"http://www.bing.com/toolbox/webmaster/\">Bing Webmaster Tools</ulink>. If you already have a Windows LiveID account, you can use it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign in to your Bing Webmaster Tools account at this URL: <ulink url=\"http://www.bing.com/toolbox/webmaster/\">http://www.bing.com/toolbox/webmaster/</ulink>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Click the <guibutton>Add Site</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Add Site</guilabel> dialog box is displayed. Enter the URL of your Publican site in the text entry field and click <guibutton>Submit</guibutton>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Verify Ownership</guilabel> dialog displays, with three options. Follow the instructions given when the <guilabel>Option 1: Place an XML file on your web server</guilabel> has been expanded. Upload the <systemitem>BingSiteAuth.xml</systemitem> file that Bing provides to the document root of your website."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have confirmed that the provided <systemitem>BingSiteAuth.xml</systemitem> file has been uploaded to the required location by accessing it in a web browser, click the <guibutton>Verify</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have successfully verified your ownership of your Publican website to Bing, return to the Bing Webmaster Tools home page. Your Publican site is listed. Click on it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select the <guibutton>Crawl</guibutton> tab."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select <guilabel>Sitemaps</guilabel> and then <guilabel>Add Feed</guilabel>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Add Feed</guilabel> dialog displays. Enter the URL of your Sitemap file and click <guibutton>Submit</guibutton>. The details of the Sitemap are displayed."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Result:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The Sitemap for your Publican site has been successfully submitted to Bing."
+msgstr ""
+

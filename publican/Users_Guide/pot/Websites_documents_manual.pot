@@ -1,0 +1,55 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Installing, updating, and removing documents"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To install a document on a website that you are building manually, change into the directory that contains the source for the document and run:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican build --embedtoc --formats=<replaceable>list_of_formats</replaceable> --langs=<replaceable>language_codes</replaceable> --publish</command> \n"
+"<command>publican install_book --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg --lang <replaceable>language_code</replaceable></command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that you can run a single <command>publican build</command> command for all languages that you want to publish, but must run a separate <command>publican install_book</command> for each language. You must include <literal>html</literal> as one of the formats in the <command>publican build</command> command; optionally, include any or all of the following formats in a comma-separated list: <literal>html-single</literal>, <literal>pdf</literal>, and <literal>epub</literal>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To update a document, change into the directory that contains the updated source for the document and run the same commands as if you were installing the document for the first time. <application>Publican</application> replaces the old version with the new version."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To remove a document, change into the directory that contains the source for the document and run:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican remove_book --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg --lang <replaceable>language_code</replaceable></command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have installed the documents, the website is ready to upload to your webserver by whatever process you usually use, for example <application>scp</application>, <application>rsync</application>, or an FTP client."
+msgstr ""
+

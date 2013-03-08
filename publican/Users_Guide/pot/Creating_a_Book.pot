@@ -1,0 +1,171 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Creating a document"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This chapter describes creating books and articles: the main configuration files, example document files, and how to build a document."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use the <command>publican create</command> command to create a new document, including all the necessary files for the document."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <command>publican create</command> command accepts several options, detailed in this chapter. When an option can accept a value, separate the option from the value with a space or an equals sign; for example, <command>publican create --name New_Book</command> or <command>publican create --name=New_Book</command>."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--help</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "print a list of all <command>publican create</command> command options."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--name<replaceable> Doc_Name</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "set <replaceable>Doc_Name</replaceable> as the name of the book or article. This variable must not contain any spaces. For example, the command <command>create_book --name Test_Book</command> creates a book named <literal>Test_Book</literal> with all the necessary files to build the book, and sets the <parameter>BOOKID</parameter> in the <filename>Test_Book.ent</filename> file."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--lang<replaceable> Language_Code</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "set <replaceable>Language_Code</replaceable> as the language code of the language in which the book or article will be authored. If you do not specify a language code, <application>Publican</application> defaults to <literal>en-US</literal> (American English). The <option>--lang</option> option sets the <parameter>xml_lang</parameter> in the <filename>publican.cfg</filename> file and creates a directory with this name in the document directory. When initially created, this directory contains some boilerplate XML files. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> for more information on <filename>publican.cfg</filename> parameters and <xref linkend=\"appe-Users_Guide-Language_codes\" /> for more detail on language codes."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--version<replaceable> version</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "set <replaceable>version</replaceable> as the version number of the product that the book describes. For example, for Red Hat Enterprise Linux&nbsp;5.1 you would use <literal>5.1</literal>. The default version is <literal>0.1</literal>. The <option>--version</option> option sets the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml\" />."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--edition<replaceable> edition</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "set <replaceable>edition</replaceable> as the edition number of the book. This number indicates to users when a new edition of the book is released. The initial <firstterm>general availability</firstterm> (GA) release of the book should be edition <literal>1.0</literal>. The default value is <literal>0</literal>. The <option>--edition</option> option sets the <sgmltag>&lt;edition&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename> file. For more information refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-Book_Info.xml\" />."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--product<replaceable> Product_Name</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "set <replaceable>Product_Name</replaceable> as the name of the product that the book describes. This variable must not contain any spaces. For example, set this to <literal>Fedora</literal> for core Fedora documentation, and the name of the product for other products, for example, <literal>Fedora_Directory_Server</literal>. The default value is <literal>Documentation</literal>. The <option>--product</option> option sets the <sgmltag>&lt;product name&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file or <filename>Article_Info.xml</filename> file and the <parameter>PRODUCT</parameter> entity in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--type Article --name<replaceable> Article_Name</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "create an article instead of a book. Replace <replaceable>Article_Name</replaceable> with the article name. This variable must not contain any spaces. The <option>--type</option> option sets the <parameter>type</parameter> in the <filename>publican.cfg</filename> file. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> for more information on <filename>publican.cfg</filename> parameters."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--type Set --name<replaceable> Set_Name</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "create a set of documents instead of a book. Replace <replaceable>Set_Name</replaceable> with the set name. This variable must not contain any spaces. The <option>--type</option> option sets the <parameter>type</parameter> in the <filename>publican.cfg</filename> file. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> for more information on <filename>publican.cfg</filename> parameters and to <xref linkend=\"chap-Users_Guide-Using_sets\" /> for details on using sets."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--brand <replaceable>brand</replaceable></option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "set <replaceable>brand</replaceable> as the <firstterm>brand</firstterm> to use to style the output of this document, for example, <literal>RedHat</literal>, <literal>fedora</literal>, <literal>JBoss</literal>, <literal>oVirt</literal>, or <literal>GIMP</literal>. The default value is <literal>common</literal>, a default brand shipped with <application>Publican</application>. The <option>--brand</option> option sets the <parameter>brand</parameter> parameter in the <filename>publican.cfg</filename> file. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> for more information on <filename>publican.cfg</filename> parameters. This option requires the appropriate <application>Publican</application> brand package to be installed. For example, to build Red Hat branded books, you must install the <package>publican-redhat</package> package. Refer to <xref linkend=\"sect-Users_Guide-Installing_a_brand\" /> for instructions on installing brand packages for <application>Publican</application>. If you do not specify a brand, <application>Publican</application> uses its built-in, default brand. Refer to <xref linkend=\"chap-Users_Guide-Branding\" /> for more information."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Before running the <command>publican create</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named <literal>Test_Book</literal> in the <filename>my_books/</filename> directory, run the following commands:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd my_books/</command> \n"
+"<command>publican create --name Test_Book</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To see the results of this command on a computer with a Linux operating system, run the following:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>ls</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The output should be similar to the following:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<computeroutput>Test_Book/</computeroutput>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To see the contents of the new <filename>Test_Book/</filename> directory on a computer with a Linux operating system, run the following:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd Test_Book/</command>\n"
+"<command>ls</command>"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<computeroutput>en-US/ publican.cfg</computeroutput>"
+msgstr ""
+

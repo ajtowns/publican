@@ -1,0 +1,187 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010, 2011.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:20\n"
+"PO-Revision-Date: 2012-01-22 20:24+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Creating, installing, and updating product pages and version pages"
+msgstr "Creare, installare ed aggiornare pagine di prodotto e di versione"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application>-generated product pages and version pages are the localizable pages that provide a general overview of a product or version respectively. Visitors access these pages by clicking on a product or version in the navigation menu. The pages are structured as DocBook <sgmltag>&lt;article&gt;</sgmltag>s with an extra <parameter>web_type:&nbsp;product</parameter> or <parameter>web_type:&nbsp;version</parameter> parameter in their <filename>publican.cfg</filename> files. In their structure and presentation, product pages and version pages are the same as any other article that you produce with <application>Publican</application>. To create a product page or version page:"
+msgstr "Le pagine di prodotto e le pagine di versione generate con <application>Publican</application>, sono pagine localizzabili che offrono una panoramica generale, rispettivamente, su un prodotto o una versione. I visitatori accedono a queste pagine cliccando su prodotto o versione nel menu di navigazione. Le pagine sono strutturate come un <sgmltag>&lt;article&gt;</sgmltag> DocBook con un ulteriore parametro <parameter>web_type:&nbsp;product</parameter> o <parameter>web_type:&nbsp;version</parameter> nel proprio file <filename>publican.cfg</filename>. Nella loro struttura e presentazione, le pagine prodotto e quelle di versione sono pressoché identiche ad ogni altro articolo prodotto con <application>Publican</application>. Per creare una pagina prodotto o di versione:"
+
+#. Tag: para
+#, no-c-format
+msgid "Change into a convenient directory and run the following <command>publican create</command> command:"
+msgstr "Spostarsi in una cartella opportuna ed eseguire il seguente comando di <command>publican create</command>:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican create --type Article --name <replaceable>page_name</replaceable></command>"
+msgstr "<command>publican create --type Article --name <replaceable>nome_pagina</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "For example, a product page might be:"
+msgstr "Per esempio, per una pagina prodotto si avrebbe:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican create --type Article --name FooMaster</command>"
+msgstr "<command>publican create --type Article --name FooMaster</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "or a version page might be:"
+msgstr "o per una pagina di versione:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican create --type Article --name FooMaster_3</command>"
+msgstr "<command>publican create --type Article --name FooMaster_3</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Change into the article directory:"
+msgstr "Spostarsi nella cartella dell'articolo:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd <replaceable>page_name</replaceable></command>"
+msgstr "<command>cd <replaceable>nome_pagina</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "For example:"
+msgstr "Per esempio:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd FooMaster</command>"
+msgstr "<command>cd FooMaster</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Unlink the <filename>Article_Info.xml</filename> file from your root XML file."
+msgstr "Scollegare il file <filename>Article_Info.xml</filename> dal file XML radice."
+
+#. Tag: para
+#, no-c-format
+msgid "Little of the content of the <filename>Article_Info.xml</filename> file is likely to be useful for product pages or version pages. Therefore, edit the root XML file of your page to remove the <sgmltag>&lt;xi:include&gt;</sgmltag> tag that links to <filename>Article_Info.xml</filename>. <application>Publican</application> still uses the information in <filename>Article_Info.xml</filename> for packaging, but does not include it on the page itself."
+msgstr "Il contenuto del file <filename>Article_Info.xml</filename> serve a ben poco alle pagine prodotto o versione. Quindi, modificare il file XML radice relativo alla pagina, rimuovendo il tag <sgmltag>&lt;xi:include&gt;</sgmltag> che collega <filename>Article_Info.xml</filename>. Ora <application>Publican</application> usa ancora le informazioni in <filename>Article_Info.xml</filename> per creare pacchetti, ma senza includerlo nella home pagina stessa."
+
+#. Tag: para
+#, no-c-format
+msgid "Edit the <filename>publican.cfg</filename> file."
+msgstr "Modificare il file <filename>publican.cfg</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "At the very least, you must add the <parameter>web_type</parameter> parameter and set it to <literal>product</literal> or <literal>version</literal>:"
+msgstr "Come minimo, aggiungere il parametro <parameter>web_type</parameter> ed impostarlo a <literal>product</literal> o <literal>version</literal>:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "web_type: product"
+msgstr "web_type: product"
+
+#. Tag: para
+#, no-c-format
+msgid "or"
+msgstr "o"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "web_type: version"
+msgstr "web_type: version"
+
+#. Tag: para
+#, no-c-format
+msgid "The <parameter>web_type</parameter> parameter instructs <application>Publican</application> to process this document differently from product documentation. This is the only mandatory change to the <filename>publican.cfg</filename> file. Other optional changes to the <filename>publican.cfg</filename> file that are frequently useful for product pages or version pages include:"
+msgstr "Il parametro <parameter>web_type</parameter> indica di elaborare questo documento non come una documentazione di prodotto. Questa è l'unica modifica necessaria al file <filename>publican.cfg</filename>. Altre modifiche opzionali al file <filename>publican.cfg</filename>, frequentemente utili a pagine prodotto o di versione includono:"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>brand</parameter>"
+msgstr "<parameter>brand</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "To style your home page to match your documents, add:"
+msgstr "Per assegnare alla home page lo stile dei propri documenti, aggiungere:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "brand: <replaceable>name_of_brand</replaceable>"
+msgstr "brand: <replaceable>nome_di_brand</replaceable>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>docname</parameter>"
+msgstr "<parameter>docname</parameter>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>product</parameter>"
+msgstr "<parameter>product</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "If the <sgmltag>&lt;title&gt;</sgmltag> or the <sgmltag>&lt;product&gt;</sgmltag> that you set in the <filename>Article_Info</filename> file included anything other than basic, unaccented Latin characters, set the <parameter>docname</parameter> and <parameter>product</parameter> as necessary."
+msgstr "Se il tag <sgmltag>&lt;title&gt;</sgmltag> o <sgmltag>&lt;product&gt;</sgmltag> impostati nel file <filename>Article_Info</filename> includono caratteri diversi dai caratteri di base non accentati, impostare come occorre  i parametri <parameter>docname</parameter> e <parameter>product</parameter>."
+
+#. Tag: para
+#, no-c-format
+msgid "Edit the content of the <filename><replaceable>page_name</replaceable>.xml</filename> file (for example, <filename>FooMaster.xml</filename>) as you would any other DocBook document."
+msgstr "Modificare il contenuto del file <filename><replaceable>nome_pagina</replaceable>.xml</filename> (per esempio, <filename>FooMaster.xml</filename>) come ogni altro documento DocBook."
+
+#. Tag: para
+#, no-c-format
+msgid "If you remove the <sgmltag>&lt;xi:include&gt;</sgmltag> that links to <filename>Article_Info.xml</filename>, specify a title for your page in the following format:"
+msgstr "Se si rimuove il tag <sgmltag>&lt;xi:include&gt;</sgmltag> che collega a <filename>Article_Info.xml</filename>, specificare un titolo per la pagina nel formato seguente:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "&lt;title role=\"producttitle\"&gt;FooMaster Documentation&lt;/title&gt;"
+msgstr "&lt;title role=\"producttitle\"&gt;FooMaster Documentation&lt;/title&gt;"
+
+#. Tag: para
+#, no-c-format
+msgid "If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <command>publican update_pot</command> and <command>publican update_po</command> commands."
+msgstr "Se si pubblica documentazione in più lingue, creare un set di file POT ed un set di file PO per ciascuna lingua usando i comandi <command>publican update_pot</command> e <command>publican update_po</command>."
+
+#. Tag: para
+#, no-c-format
+msgid "Build the product page or version page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:"
+msgstr "Creare la pagina prodotto o di versione in formato HTML su singola pagina con l'opzione <option>--embedtoc</option> ed installarla nella struttura del sito. Per esempio:"
+
+#. Tag: screen
+#, no-c-format
+msgid ""
+"<command>publican build --publish --formats html-single --embedtoc --langs all</command> \n"
+"<command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Language_Code</replaceable></command>"
+msgstr ""
+"<command>publican build --publish --formats html-single --embedtoc --langs all</command> \n"
+"<command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>codice_lingua</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Note that you can build all languages at the same time, but must install the product page or version page for each language with a separate <command>publican install_book</command> command."
+msgstr "Notare che è possibile creare con un unico comando, gli HTML per tutte le lingue, ma che occorre installare la pagina prodotto o di versione di ciascuna lingua con un comando <command>publican install_book</command>, individuale."
+

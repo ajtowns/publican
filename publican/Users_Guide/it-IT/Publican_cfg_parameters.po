@@ -1,0 +1,667 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Francesco D'Aluisio, 2010.
+# Luigi Votta <lewis41@fedoraproject.org>, 2010, 2011.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:18\n"
+"PO-Revision-Date: 2012-01-22 20:06+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "publican.cfg parameters"
+msgstr "Parametri di publican.cfg"
+
+#. Tag: para
+#, no-c-format
+msgid "Every book, article, document set, or brand has a <filename>publican.cfg</filename> file in its root directory. Parameters that can be set in the <filename>publican.cfg</filename> file are:"
+msgstr "Ogni libro, articolo, documento, set o brand ha un file <filename>publican.cfg</filename> nella propria cartella radice. I parametri che possono essere configurati nel file <filename>publican.cfg</filename> sono:"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>docname</parameter>"
+msgstr "<parameter>docname</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the document name, set by the <option>--name</option> option."
+msgstr "il nome del documento, impostato con l'opzione <option>--name</option>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>version</parameter>"
+msgstr "<parameter>version</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the product version, set by the <option>--version</option> option."
+msgstr "la versione del prodotto, impostata con l'opzione <option>--version</option>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>xml_lang</parameter>"
+msgstr "<parameter>xml_lang</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the language of the source XML files, set by the <option>--lang</option> option."
+msgstr "la lingua dei file XML sorgenti, impostata con l'opzione <option>--lang</option>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>edition</parameter>"
+msgstr "<parameter>edition</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the edition number for this documentation, set by the <option>--edition</option> option."
+msgstr "il numero di edizione della documentazione, impostato con l'opzione <option>--edition</option>"
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>dtd_type</parameter>"
+msgstr "<parameter>type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, set by the <option>--type</option> option."
+msgstr "il tipo di documento — un <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> o <sgmltag>&lt;set&gt;</sgmltag> DocBook, impostato con l'opzione <option>--type</option>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>brand</parameter>"
+msgstr "<parameter>brand</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the <firstterm>brand</firstterm> of the document, set by the <option>--brand</option> option."
+msgstr "il <firstterm>brand</firstterm> del documento, impostato con l'opzione <option>--brand</option>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>product</parameter>"
+msgstr "<parameter>product</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the product to which this documentation applies, set by the <option>--product</option> option."
+msgstr "il prodotto a cui è rivolta la documentazione, impostato con l'opzione <option>--product</option>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>arch</parameter>"
+msgstr "<parameter>arch</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the computer <firstterm>architecture</firstterm> for this document."
+msgstr "l'<firstterm>architettura</firstterm> hardware del computer per il documento"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>books</parameter>"
+msgstr "<parameter>books</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "a space-separated list of books used in a remote set."
+msgstr "una lista di book, separati da virgole, parte di un set remoto"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>brew_dist</parameter>"
+msgstr "<parameter>brew_dist</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the build target to use for building the desktop RPM package in <application>Brew</application>. (Default: <literal>docs-5E</literal>)"
+msgstr "il target usato per compilare il pacchetto RPM desktop in <application>Brew</application>. (Per impostazione: <literal>docs-5E</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>bridgehead_in_toc</parameter>"
+msgstr "<parameter>bridgehead_in_toc</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "whether <sgmltag>bridgehead</sgmltag>s should be included in tables of contents. (Default: <literal>0</literal> — <sgmltag>bridgehead</sgmltag>s are not included in tables of contents)."
+msgstr "specifica se includere <sgmltag>bridgehead</sgmltag> nelle tabelle dei contenuti. (Per impostazione: <literal>0</literal> — <sgmltag>bridgehead</sgmltag> non sono inclusi)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>chunk_first</parameter>"
+msgstr "<parameter>chunk_first</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "whether the first section should appear on the same page as its parent when rendered in HTML. (Default: <literal>0</literal> — the first section starts a new HTML page)."
+msgstr "specifica se visualizzare la prima sezione sulla stessa pagina del parent nelle presentazioni in HTML. (Per impostazione: <literal>0</literal> — la prima sezione inizia su una nuova pagina HTML)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>chunk_section_depth</parameter>"
+msgstr "<parameter>chunk_section_depth</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the point at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. (Default: <literal>4</literal>)"
+msgstr "il livello a partire da cui le sottosezioni sono visualizzati su una stessa pagina, nelle presentazioni HTML. (Per impostazione: <literal>4</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>classpath</parameter>"
+msgstr "<parameter>classpath</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the path to the jar files for <application>FOP</application>. (Default for Linux operating systems: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>)"
+msgstr "il percorso ai file jar indispensabili a <application>FOP</application>. (Per impostazione, nei Sistemi Oprativi Linux: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>common_config</parameter>"
+msgstr "<parameter>common_config</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the path to the <application>Publican</application> installation. (Default for Linux operating systems: <filename>/usr/share/publican</filename>, default for Windows operating systems: <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — most usually <filename>C:/Program Files/publican</filename>)"
+msgstr "il percorso all'installazione di <application>Publican</application>. (Per impostazione nei Sistemi Operativi Linux: <filename>/usr/share/publican</filename>; nei sistemi operativi Windows: <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — solitamente <filename>C:/Program Files/publican</filename>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>common_content</parameter>"
+msgstr "<parameter>common_content</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the path to the <application>Publican</application>'s <firstterm>Common Content</firstterm> files. (Default for Linux operating systems: <filename>/usr/share/publican/Common_Content</filename>, default for Windows operating systems: <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>)"
+msgstr "il percorso ai file <firstterm>Common Content</firstterm> di <application>Publican</application>. (Per impostazione nei Sistemi Operativi Linux: <filename>/usr/share/publican/Common_Content</filename>: nei sistemi operativi Windows: <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — solitamente <filename>C:/Program Files/publican/Common_Content</filename>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>condition</parameter>"
+msgstr "<parameter>condition</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "conditions on which to prune XML before transformation."
+msgstr "condizioni di filtraggio degli XML prima della trasformazione"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>confidential</parameter>"
+msgstr "<parameter>confidential</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "marks a document as confidential. (Default: <literal>0</literal> — not confidential)."
+msgstr "contrassegna un documento come confidenziale. (Per impostazione:  <literal>0</literal> — non confidenziale)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>confidential_text</parameter>"
+msgstr "<parameter>confidential_text</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the text with which to mark a document as confidential. (Default: <literal>CONFIDENTIAL</literal>)."
+msgstr "imposta il testo con cui contrassegnare come confidenziale un documento. (Per impostazione: <literal>CONFIDENTIAL</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>debug</parameter>"
+msgstr "<parameter>debug</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "whether <application>Publican</application> should display debugging messages as it works. (Default: <literal>0</literal> — suppress messages)"
+msgstr "specifica se visualizzare il messaggi di debug generati da <application>Publican</application>. (Per impostazione: <literal>0</literal> — messaggi disabilitati)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>def_lang</parameter>"
+msgstr "<parameter>def_lang</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the default language for a <application>Publican</application>-managed website. Tables of contents for languages other than the default language will link to documents in the default language when translations are not available. (Default: <literal>en-US</literal> — American English)"
+msgstr "la lingua predefinita per il sito web gestito via <application>Publican</application>. Le tabelle dei contenuti, per le altre lingue, sono collegate ai documenti in lingua predefinita in assenza di traduzioni. (Per impostazione: <literal>en-US</literal> — inglese degli Stati Uniti d'America)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>doc_url</parameter>"
+msgstr "<parameter>doc_url</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "URL for the documentation team for this package. (Default: <literal>https://fedorahosted.org/publican</literal>)"
+msgstr "URL del team di documentazione del pacchetto. (Per impostazione: <literal>https://fedorahosted.org/publican</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>dt_obsoletes</parameter>"
+msgstr "<parameter>dt_obsoletes</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "a package that a desktop package obsoletes."
+msgstr "un pacchetto che il pacchetto desktop rende obsoleto"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>dt_requires</parameter>"
+msgstr "<parameter>dt_requires</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "a package that the desktop package requires, for example, a documentation menu package. Refer to <xref linkend=\"desktop_menus\" />."
+msgstr "un pacchetto richiesto dal pacchetto desktop, per esempio, un pacchetto di menu del desktop, per documentazione. Fare riferimento alla <xref linkend=\"desktop_menus\" />."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>dtd_uri</parameter>"
+msgstr "<parameter>dtdver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. (Default: <literal>4.5</literal>)"
+msgstr "la versione del <firstterm>DTD</firstterm> (Document Type Definition) di DocBook XML su cui si basa il progetto. (Per impostazione: <literal>4.5</literal>)"
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>dtd_type</parameter>"
+msgstr "<parameter>type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "Override Type for DocType. Must be a complete string."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This parameter is only permitted in a brand."
+msgstr ""
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>dtd_uri</parameter>"
+msgstr "<parameter>dtdver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "Override URI for DocType. Must be a complete string."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ec_id</parameter>"
+msgstr "<parameter>ec_id</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the ID for an <application>Eclipse</application> help plugin (Default: <replaceable>product</replaceable>.<replaceable>docname</replaceable>)"
+msgstr "l'ID del plugin d'aiuto di <application>Eclipse</application>. (Per impostazione: <replaceable>prodotto</replaceable>.<replaceable>nomedoc</replaceable>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ec_name</parameter>"
+msgstr "<parameter>ec_name</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the name of an <application>Eclipse</application> help plugin (Default: <replaceable>product</replaceable> <replaceable>docname</replaceable>)"
+msgstr "il nome del plugin d'aiuto di <application>Eclipse</application>. (Per impostazione: <replaceable>prodotto</replaceable> <replaceable>nomedoc</replaceable>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ec_provider</parameter>"
+msgstr "<parameter>ec_provider</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the provider name for an <application>Eclipse</application> help plugin (Default: <replaceable>Publican</replaceable>-<replaceable>Publican version</replaceable>)"
+msgstr "il nome del fornitore del plugin d'aiuto di <application>Eclipse</application>. (Per impostazione: <replaceable>Publican</replaceable>-<replaceable>versione Publican</replaceable>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>generate_section_toc_level</parameter>"
+msgstr "<parameter>generate_section_toc_level</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the section depth at which <application>Publican</application> generates a table of contents. (Default: <literal>0</literal> — no tables of contents in sections)"
+msgstr "il livello di profondità delle sezioni per cui generare una tabella di contenuti. (Per impostazione: <literal>0</literal> — nessun indice nelle sezioni)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ignored_translations</parameter>"
+msgstr "<parameter>ignored_translations</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "translations to ignore."
+msgstr "traduzioni da ignorare"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>info_file</parameter>"
+msgstr "<parameter>mainfile</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "override the default Info file. Use the full filename without the path."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>license</parameter>"
+msgstr "<parameter>license</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the license this package uses. (Default: GNU Free Documentation License)."
+msgstr "la licenza usata dal pacchetto. (Per impostazione: GNU Free Documentation License)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>info_file</parameter>"
+msgstr "<parameter>mainfile</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the name of the XML file in your document that contains the root XML node <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag>, or <sgmltag>&lt;set&gt;</sgmltag>, and the name of the corresponding <filename>.ent</filename> file that contains the document's entities. For example, if you set <literal>mainfile: master</literal>, <application>Publican</application> looks for the root XML node in <filename>master.xml</filename> and the document entities in <filename>master.ent</filename>."
+msgstr "il nome del file XML contenente il nodo XML radice di <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> o <sgmltag>&lt;set&gt;</sgmltag>, ed il nome del file <filename>.ent</filename> corrispondente, che contiene le entità del documento. Per esempio, se si imposta <literal>mainfile: master</literal>, <application>Publican</application> cerca il nodo XML radice in <filename>master.xml</filename> e le entità del documento in <filename>master.ent</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "If <parameter>mainfile</parameter> is not set, <application>Publican</application> looks for the root XML node in a file that matches the <sgmltag>&lt;title&gt;</sgmltag> of the document set in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file, and looks for the document entities in a file with a corresponding name."
+msgstr "Se <parameter>mainfile</parameter> non è impostato, <application>Publican</application> cerca il nodo XML radice in un file che corrisponde al <sgmltag>&lt;title&gt;</sgmltag> del documento in <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename> o <filename>Set_Info.xml</filename>, e poi cerca le entità in un file con il nome corrispondente."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>max_image_width</parameter>"
+msgstr "<parameter>max_image_width</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the maximum width allowable for images in the document, unless specifically overriden in the <sgmltag>&lt;imagedata&gt;</sgmltag> tag for a specific image. (Default: <literal>444</literal> — 444 pixels wide)"
+msgstr "la larghezza massima consentita alle immagini nel documento, se non specificato diversamente con il tag <sgmltag>&lt;imagedata&gt;</sgmltag> per una certa immagine. (Per impostazione: <literal>444</literal> — larghezza di 444 pixel)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>menu_category</parameter>"
+msgstr "<parameter>menu_category</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the desktop menu category (as defined by a corresponding <filename>.menu</filename> file) in which a document should appear when installed from a desktop RPM package. Refer to <xref linkend=\"desktop_menus\" />."
+msgstr "la categoria del desktop menu (come definito dal file <filename>.menu</filename> corrispondente), in cui far comparire un documento quando installato da un pacchetto RPM per desktop. Fare riferimento alla <xref linkend=\"desktop_menus\" />."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>sort_order</parameter>"
+msgstr "<parameter>os_ver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the operating system for which to build packages. (Default: <literal>.el5</literal> — Red Hat Enterprise Linux 5)"
+msgstr "il sistema operativo per cui creare il pacchetto. (Per impostazione: <literal>.el5</literal> — Red Hat Enterprise Linux 5)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>prod_url</parameter>"
+msgstr "<parameter>prod_url</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "URL for the product to which this document applies. (Default: <literal>https://fedorahosted.org/publican</literal>)"
+msgstr "URL del prodotto cui si applica il documento. (Per impostazione: <literal>https://fedorahosted.org/publican</literal>)"
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>rev_file</parameter>"
+msgstr "<parameter>release</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the release number of this package. Defaults to the value of <literal>xml_lang</literal>, fetched from the title tag in <filename>xml_lang/TYPE_Info.xml</filename> or <literal>Project-Id-Version</literal> in <filename>lang/TYPE_Info.po</filename>."
+msgstr "il numero di release del pacchetto. (Per impostazione: il valore in <literal>xml_lang</literal>, ricavato dal tag title in <filename>xml_lang/TYPE_Info.xml</filename> o <literal>Project-Id-Version</literal> in <filename>lang/TYPE_Info.po</filename>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>repo</parameter>"
+msgstr "<parameter>repo</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the repository from which to fetch remote books that form part of a distributed set."
+msgstr "il repository da cui scaricare libri remoti, parte di un set distribuito."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>rev_file</parameter>"
+msgstr "<parameter>release</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "override the default Revision History file. Use the full filename without the path."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>scm</parameter>"
+msgstr "<parameter>scm</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the version control system used in the repository in that stores the remote books in a distributed set. (Default: <literal>SVN</literal>)"
+msgstr "il sistema controllo di versione usato nel repository che contiene i libri remoti, parte di un set distribuito. (Per impostazione: <literal>SVN</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>show_remarks</parameter>"
+msgstr "<parameter>show_remarks</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "whether to display remarks in transformed output. (Default: <literal>0</literal> — hide remarks)"
+msgstr "specifica se visualizzare gli avvisi nelle presentazioni. (Per impostazione: <literal>0</literal> — avvisi non visibili)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>show_unknown</parameter>"
+msgstr "<parameter>show_unknown</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "whether <application>Publican</application> reports unknown tags when processing XML. (Default: <literal>1</literal> — report unknown tags)"
+msgstr "specifica se segnalare i tag sconosciuti durante l'elaborazione degli XML. (Per impostazione: <literal>1</literal> — tag sconosciuti segnalati)"
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>sort_order</parameter>"
+msgstr "<parameter>os_ver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "override the default sort weighting for books in a <application>Publican</application> website. Defaults to 50."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>src_url</parameter>"
+msgstr "<parameter>src_url</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "URL at which to find tarballs of source files."
+msgstr "URL in cui trovare i tarball dei file sorgenti"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>strict</parameter>"
+msgstr "<parameter>strict</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "<emphasis role=\"strikethrough\">use <firstterm>strict mode</firstterm> (Default: <literal>0</literal> — not strict)</emphasis> Strict mode is not currently enforced."
+msgstr "<emphasis role=\"strikethrough\">usa <firstterm>strict mode</firstterm> (Per impostazione: <literal>0</literal> — non strict)</emphasis> attualmente la modalità strict non è abilitata"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>tmp_dir</parameter>"
+msgstr "<parameter>tmp_dir</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the directory for <application>Publican</application> output. (Default: <literal>tmp</literal>)"
+msgstr "la cartella di output di <application>Publican</application>. (Per impostazione: <literal>tmp</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "--toc_path"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "path to the directory in which to create the top-level <filename>toc.html</filename> file (mandatory)."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>toc_section_depth</parameter>"
+msgstr "<parameter>toc_section_depth</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the depth of sections that <application>Publican</application> includes in the main table of contents. (Default: <literal>2</literal>)"
+msgstr "la profondità di livello delle sezioni incluse nella tabella dei contenuti. (Per impostazione: <literal>2</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "--tmpl_path"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "path to the template directory (by default, <filename>/usr/share/publican/templates</filename>)."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_brew_dist</parameter>"
+msgstr "<parameter>web_brew_dist</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the <application>brew</application> build target to use for the web RPM package. (Defaults to <literal>docs-5E</literal>)"
+msgstr "il target di compilazione <application>brew</application> da usare per il pacchetto RPM web. (Per impostazione: <literal>docs-5E</literal>)"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_formats</parameter>"
+msgstr "<parameter>web_formats</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "a comma-separated list of formats to include in the web RPM package. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+msgstr "un elenco di formati, separati da virgole, da includere nel pacchetto RPM per web. Vedere la <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_home</parameter>"
+msgstr "<parameter>web_home</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies that the document is the home page of a documentation website, not a standard document."
+msgstr "specifica che il documento è la home page di un sito di documentazione, non un documento standard"
+
+#. Tag: title
+#, no-c-format
+msgid "Important — <literal>web_home</literal> is deprecated"
+msgstr "Importante — <literal>web_home</literal> è deprecato"
+
+#. Tag: para
+#, no-c-format
+msgid "In <application>Publican</application>&nbsp;2.2, <literal>web_home</literal> is replaced by <literal>web_type: home</literal>. Support for <literal>web_home</literal> will be removed in a future version of <application>Publican</application>."
+msgstr "In <application>Publican</application>&nbsp;2.2, <literal>web_home</literal> è sostituito da <literal>web_type: home</literal>. Supporto a <literal>web_home</literal> sarà interrotto in future versioni di <application>Publican</application>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_name_label</parameter>"
+msgstr "<parameter>web_name_label</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "overrides the book name as it appears on the menu of a <application>Publican</application>-managed website."
+msgstr "sostituisce il nome di book che appare nel menu di un sito web gestito da <application>Publican</application>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_obsoletes</parameter>"
+msgstr "<parameter>web_obsoletes</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "packages that the web RPM package obsoletes."
+msgstr "pacchetti resi obsoleti dal pacchetto RPM web"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_product_label</parameter>"
+msgstr "<parameter>web_product_label</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "overrides the product name as it appears on the menu of a <application>Publican</application>-managed website."
+msgstr "sostituisce il nome di prodotto che appare nel menu di un sito web gestito da <application>Publican</application>"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_type</parameter>"
+msgstr "<parameter>web_type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies that the document is descriptive content for a <application>Publican</application>-managed website rather than product documentation. This content includes the home page of the website (<literal>web_type:&nbsp;home</literal>), product description pages (<literal>web_type:&nbsp;product</literal>), and version description pages (<literal>web_type:&nbsp;version</literal>). Refer to <xref linkend=\"sect-Users_Guide-Website\" />."
+msgstr "specifica che il documento è un contenuto descrittivo di un sito web gestito da <application>Publican</application> e non una documentazione di prodotto. Questo contenuto include la home page del sito (<literal>web_type:&nbsp;home</literal>), pagine descrittive di prodotto (<literal>web_type:&nbsp;product</literal>) e di versione (<literal>web_type:&nbsp;version</literal>). Vedere il <xref linkend=\"sect-Users_Guide-Website\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_version_label</parameter>"
+msgstr "<parameter>web_version_label</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "overrides the version number as it appears on the menu of a <application>Publican</application>-managed website."
+msgstr "sostituisce il numero di versione che appare nel menu di un sito web gestito da <application>Publican</application>"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the CVS branch into which to import the SRPM."
+#~ msgstr "il branch CVS in cui importare il pacchetto SRPM"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the CVS root into which to import the SRPM."
+#~ msgstr "la root CVS in cui importare il pacchetto SRPM"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the CVS package into which to import the SRPM. This parameter takes the literal string <literal>__LANG__</literal> and replaces it with the langauge supplied to the package action at run time."
+#~ msgstr "il pacchetto CVS in cui importare l'SRPM. Il parametro accetta la stringa <literal>__LANG__</literal>, sostituendola con il codice della lingua durante l'elaborazione del pacchetto"
+
+#~ msgid "the desktop packages that this package obsoletes."
+#~ msgstr "i pacchetti desktop resi obsoleti dal pacchetto"
+

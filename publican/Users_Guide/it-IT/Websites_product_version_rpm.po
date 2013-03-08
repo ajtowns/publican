@@ -1,0 +1,58 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-11-29T17:43:52\n"
+"PO-Revision-Date: 2012-01-22 20:25+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Creating, installing, and updating product pages and version pages"
+msgstr "Creare, installare ed aggiornare pagine di prodotto e di versione"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application>-generated product pages and version pages are the localizable pages that provide a general overview of a product or version respectively. Visitors access these pages by clicking on a product or version in the navigation menu. The pages are structured as DocBook <sgmltag>&lt;article&gt;</sgmltag>s with an extra <parameter>web_type:&nbsp;product</parameter> or <parameter>web_type:&nbsp;version</parameter> parameter in their <filename>publican.cfg</filename> files. In their structure and presentation, product pages and version pages are the same as any other article that you produce with <application>Publican</application> and are packaged the same way."
+msgstr "Le pagine di prodotto e le pagine di versione generate con <application>Publican</application>, sono pagine localizzabili che offrono una panoramica generale, rispettivamente, su un prodotto o una versione. I visitatori accedono a queste pagine cliccando su prodotto o versione nel menu di navigazione. Le pagine sono strutturate come un <sgmltag>&lt;article&gt;</sgmltag> DocBook con un ulteriore parametro <parameter>web_type:&nbsp;product</parameter> o <parameter>web_type:&nbsp;version</parameter> nel proprio file <filename>publican.cfg</filename>. Nella loro struttura e presentazione, le pagine prodotto e quelle di versione sono pressoché identiche ad ogni altro articolo prodotto con <application>Publican</application>, i cui pacchetti vengono creati allo stesso modo."
+
+#. Tag: para
+#, no-c-format
+msgid "On a workstation, create a home page using the procedure described in <xref linkend=\"sect-Users_Guide-Website-structure-product-version-manual\" />."
+msgstr "Usando il procedimento della <xref linkend=\"sect-Users_Guide-Website-structure-product-version-manual\" />, su una macchina creare una pagina prodotto o di versione."
+
+#. Tag: para
+#, no-c-format
+msgid "In the directory in which you created the product page or version page, run:"
+msgstr "Nella cartella contenente la pagina prodotto o di versione, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican package --binary</command>"
+msgstr "<command>publican package --binary</command>"
+
+#. Tag: para
+#, no-c-format, fuzzy
+msgid "<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the product page or version page. Note that by default, <application>Publican</application> generates an RPM package to install on a server that runs Red Hat Enterprise Linux&nbsp;5. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_ver</parameter> parameter in the <filename>publican.cfg</filename> file of the product page or version page."
+msgstr "<application>Publican</application> crea un pacchetto RPM, salvandolo nella cartella <filename>/tmp/rpms/noarch/</filename> della pagina prodotto o di versione. Notare che per impostazione predefinita, <application>Publican</application> genera un pacchetto RPM da installare su un server che esegua Red Hat Enterprise Linux&nbsp;5. Per creare un RPM da installare su un server con un sistema operativo differente, impostare il parametro <parameter>os_var</parameter> nel file <filename>publican.cfg</filename> della pagina prodotto o di versione."
+
+#. Tag: para
+#, no-c-format
+msgid "Either upload the package to the webserver and install it with the <command>rpm -i</command> or <command>yum localinstall</command> command, or place the package in a repository and configure the webserver to install from that repository when you run <command>yum install</command>."
+msgstr "Caricare il pacchetto sul server web ed installarlo con <command>rpm -i</command> o <command>yum localinstall</command>, oppure salvare il pacchetto in un repository e configurare il server perché possa installarlo dal repository eseguendo il comando <command>yum install</command>."
+
+#. Tag: para
+#, no-c-format
+msgid "To update the product page or version page, build a new package with a higher <sgmltag>&lt;edition&gt;</sgmltag> number or <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Article_Info.xml</filename>. <application>Publican</application> uses these values to set the version and release numbers for the RPM package. When you install this package on your webserver, <application>yum</application> can replace the old version with the new when you run <command>yum localinstall</command> for a local package, or <command>yum update</command> for a package fetched from a repository."
+msgstr "Per aggiornare la pagina prodotto o di versione, creare un nuovo pacchetto con un numero più alto di <sgmltag>&lt;edition&gt;</sgmltag> o di <sgmltag>&lt;pubsnumber&gt;</sgmltag>, presenti in <filename>Article_Info.xml</filename>. <application>Publican</application> usa questi valori per impostare i numeri di versione e di release del pacchetto RPM. In tal modo, quando si installa il pacchetto sul server, <application>yum</application> può sostituire la versione precedente con la nuova, sia usando <command>yum localinstall</command> per un pacchetto locale, sia <command>yum update</command> per un pacchetto scaricato da un repository."
+

@@ -1,0 +1,54 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Installing, updating and removing documents"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "On your workstation, change into the directory that contains the source for the document and run:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican package --binary --lang <replaceable>language_code</replaceable></command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the document. Note that by default, <application>Publican</application> generates an RPM package to install on a server that runs Red Hat Enterprise Linux&nbsp;5. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_ver</parameter> parameter in the document's <filename>publican.cfg</filename> file."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Either upload the document packages to the webserver and install them with the <command>rpm -i</command> or <command>yum localinstall</command> command, or place the packages in a repository and configure the webserver to install from that repository when you run <command>yum install</command>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To update a document, build a new package with a higher <sgmltag>&lt;edition&gt;</sgmltag> number or <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> or <filename>Article_Info.xml</filename>. <application>Publican</application> uses these values to set the version and release numbers for the RPM package. When you install this package on your webserver, <application>yum</application> can replace the old version with the new when you run <command>yum localinstall</command> for a local package, or <command>yum update</command> for a package fetched from a repository."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Remove a document from the webserver with the <command>rpm -e</command> or <command>yum erase</command> command."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "On large or busy sites, we recommend that you set the <parameter>manual_toc_update</parameter> parameter in the site's configuration file. With this parameter set, you must run the <command>publican update_site</command> command after installing, updating, or removing documents. Refer to <xref linkend=\"sect-Users_Guide-Website-structure-cfg_and_db-manual\" /> for more information."
+msgstr ""
+

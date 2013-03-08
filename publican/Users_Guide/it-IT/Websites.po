@@ -1,0 +1,383 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-12-03T18:35:59\n"
+"PO-Revision-Date: 2012-01-22 20:19+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Building a website with Publican"
+msgstr "Creare un sito web con Publican"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> not only builds documents for publication but can build and manage a documentation website as well. For a suite of documents that you maintain by yourself, you can use <application>Publican</application> to build a site on your local system; you can then upload the site to a webserver by whatever means you choose. This approach does not scale well, however, so for team-based documentation projects, <application>Publican</application> can generate RPM packages of documentation to install on the webserver. To install <application>Publican</application>-generated RPM packages on a webserver, <application>Publican</application> (version 2.1 or higher) and <application>rpm</application> must be installed on the server. If you build and maintain the website on a workstation and upload it to a webserver for publication, <application>Publican</application> and <application>rpm</application> do not need to be installed on the webserver."
+msgstr "<application>Publican</application> non solo crea documenti per pubblicazione ma può creare e gestire anche un sito web di documentazione. Se occorre mantenere una raccolta di documenti, si può usare <application>Publican</application> per creare un sito sul sistema locale e poi caricare il sito su un server web. Tuttavia questo approccio non è molto scalabile, per cui nei progetti di documentazione basati su team, <application>Publican</application> permette di creare pacchetti RPM di documentazione da installare sul server web. Per installare su un server i pacchetti RPM creati con <application>Publican</application>, occorre che sul server sia installato <application>Publican</application> (versione 2.1 o superiore) e l'applicazione <application>rpm</application>. Se si crea e mantiene il sito su una workstation e poi lo si carica su un server web per pubblicazione, allora non occorre che <application>Publican</application> ed <application>rpm</application> siano installati sul server web."
+
+#. Tag: para
+#, no-c-format
+msgid "The websites that <application>Publican</application> creates consist of four parts: the website structure, a home page, product and version description pages, and the documents published on the site. The website structure itself consists of:"
+msgstr "Il sito web creato da <application>Publican</application> consiste di quattro parti: la struttura del sito, una home page, pagine descrittive su prodotto e versione, e i documenti pubblicati sul sito. La struttura del  sito, a sua volta consiste di:"
+
+#. Tag: para
+#, no-c-format
+msgid "a configuration file."
+msgstr "un file di configurazione"
+
+#. Tag: para
+#, no-c-format
+msgid "an SQLite database file."
+msgstr "un file di database SQLite"
+
+#. Tag: para
+#, no-c-format
+msgid "a subdirectory for the published documents, which contains:"
+msgstr "una sottocartella per i documenti pubblicati, contenente:"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>index.html</filename> — an index page that redirects to localized versions of a home page for the site."
+msgstr "<filename>index.html</filename> — una pagina indice che indirizza alle versioni localizzate di una home page per il sito."
+
+#. Tag: para
+#, no-c-format, fuzzy
+msgid "<filename>interactive.css</filename> — a CSS stylesheet that contains styles for the navigation menu."
+msgstr "<filename>interactive.css</filename> — un foglio di stile CSS contenente gli stili per il menu di navigazione, per le pagine map e per le statistiche sul sito."
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>opds.xml</filename> — an Open Publication Distribution System (OPDS) catalog to allow compliant eBook readers to find EPUB documents on your site easily."
+msgstr "<filename>opds.xml</filename> — un catalogo OPDS (Open Publication Distribution System) per permettere ai lettori di eBook compatibili di individuare facilmente i documenti sul sito."
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Sitemap</filename> — A Sitemap is a list of the URLs from your website and metadata about them, like update history, change frequency, and importance relative to other URLs in the site. A Sitemap can be supplied to many major search engines, where it is used to help their crawlers index your site more intelligently. A Sitemap does not guarantee that your site will be ranked higher in search results. However, it does help search engines to return the most relevant results from your website in response to user queries. For more information on Sitemaps, visit <ulink url=\"http://www.sitemaps.org/\">sitemaps.org</ulink>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>site_overrides.css</filename> — a CSS stylesheet that overrides the styles contained in <filename>interactive.css</filename> to provide site-specific styles. This file is not created by the site creation process, but must be added manually later, or supplied by the site <firstterm>home page</firstterm>."
+msgstr "<filename>site_overrides.css</filename> — un foglio di stile CSS alternativo a quelli presenti in <filename>interactive.css</filename>, per offrire stili specifici per il sito. Questo file non è creato dal processo di creazione del sito, ma deve essere aggiunto manualmente, successivamente o fornito dalla <firstterm>home page</firstterm> del sito."
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>toc.js</filename> — a JavaScript script that directs visitors to localized content based on the locale set in their browser and which controls the presentation of the navigation menu."
+msgstr "<filename>toc.js</filename> — uno script JavaScript che in base all'impostazione nel browser, indirizza i visitatori al contenuto in lingua locale e che controlla la presentazione del menu di navigazione."
+
+#. Tag: para
+#, no-c-format
+msgid "subdirectories for each language in which you publish. Initially, this contains <filename>opds.xml</filename> and <filename>toc.html</filename>. Later it also contains <filename>opds-<replaceable>product</replaceable>.xml</filename>:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>opds.xml</filename> — an OPDS catalog of EPUB documents in this language."
+msgstr "<filename>opds.xml</filename> — un catalogo OPDS di documenti EPUB in questa lingua."
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>opds-<replaceable>product</replaceable>.xml</filename> — an OPDS catalog of EPUB documents for each product for which you publish documentation in this language. Within each product catalog, documentation is divided into <sgmltag>&lt;category&gt;</sgmltag>s for different versions of the same product."
+msgstr "<filename>opds-<replaceable>prodotto</replaceable>.xml</filename> — un catalogo OPDS di documenti EPUB per ogni prodotto da pubblicare in questa lingua. All'interno di ogni catalogo, per versioni differenti dello stesso prodotto, la documentazione è suddivisa in <sgmltag>&lt;category&gt;</sgmltag>."
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>toc.html</filename> — the table of contents for that language, initially without links to any documents."
+msgstr "<filename>toc.html</filename> — l'indice ai contenuti per la lingua, inizialmente senza alcun link a documento."
+
+#. Tag: para
+#, no-c-format
+msgid "A subdirectory for each product for which you publish documentation in this language."
+msgstr "Una sotto-cartella per ciascun prodotto da pubblicare in questa lingua."
+
+#. Tag: para
+#, no-c-format
+msgid "Optionally, the site structure might also include a <firstterm>dump file</firstterm> — an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The site structure might also contain a zipped version of the dump file. Refer to <xref linkend=\"sect-Users_Guide-Website-structure-cfg_and_db-manual\" /> and <xref linkend=\"sect-Users_Guide-Website-structure-cfg_and_db-rpm\" /> for details of creating a dump file, and to <xref linkend=\"dump_file\" /> for a description of the dump file contents."
+msgstr "Opzionalmente, la struttura del sito può contenere anche un <firstterm>file dump</firstterm> — un file XML che fornisce il dettaglio completo sul contenuto del sito per servire altri servizi, come feed web o ricerca personalizzata di pagine. La struttura potrebbe contenere anche una versione zippata del file dump. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Website-structure-cfg_and_db-manual\" /> ed alla <xref linkend=\"sect-Users_Guide-Website-structure-cfg_and_db-rpm\" /> per i dettagli sulla creazione di un file dump; mentre per una descrizione del contenuto di un file dump, vedere l'<xref linkend=\"dump_file\" />."
+
+#. Tag: title
+#, no-c-format
+msgid "Building a website manually"
+msgstr "Creare manualmente un sito web"
+
+#. Tag: title
+#, no-c-format
+msgid "Building a website using RPM packages"
+msgstr "Creare un sito web usando pacchetti RPM"
+
+#. Tag: title
+#, no-c-format
+msgid "Submitting Your Sitemap to Search Engines"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A Publican website includes an XML Sitemap file. The Sitemap can be submitted to many major search engines, in order to help them index your website more intelligently and thoroughly. Each search engine has its own submission procedure. This section includes documentation on how to submit a Sitemap to Google and Bing."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Submitting Your Sitemap to Google."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "To Submit Your Sitemap to Google:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign up for a Google account at <ulink url=\"http://www.google.com/webmasters/tools/home\">Google Webmaster Tools</ulink>. If you already have a Google account, you can use it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign in to your Google Webmaster Tools account at this URL: <ulink url=\"http://www.google.com/webmasters/tools/home\">http://www.google.com/webmasters/tools/home</ulink>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "First you must verify you are the owner of your Publican site. Click the <guibutton>Add A Site</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A dialog box is displayed for you to <guilabel>Add a site</guilabel> with. Enter the URL of your Publican site in the text entry field and click <guibutton>Continue</guibutton>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Follow the instructions that display and upload the HTML file that Google provides to the document root of your website."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have confirmed that the provided HTML file has been uploaded to the required location by accessing it in a web browser, click the <guibutton>Verify</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have successfully verified the ownership of your Publican website to Google, return to the Webmaster Tools home page. Your Publican site is listed. Click on it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You are taken to the Webmaster Tools configuration page for your Publican site. On the left side of the page there is a menu. Click on the <guilabel>Site configuration</guilabel> menu entry to expand it. Its expanded contents includes a <guilabel>Sitemaps</guilabel> entry. Click it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You are taken to a Sitemap submission page. Click the <guibutton>Submit a Sitemap</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "A text entry field displays, including the base URL of your Publican site, with room to enter the URL of your Sitemap XML file. Enter its location and click the <guibutton>Submit Sitemap</guibutton> button. The details of the Sitemap are displayed in a table."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Result"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The Sitemap for your Publican site has been successfully submitted to Google."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Submitting Your Sitemap to Bing."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "To Submit Your Sitemap to Bing:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign up for a Bing Webmaster Tools account at <ulink url=\"http://www.bing.com/toolbox/webmaster/\">Bing Webmaster Tools</ulink>. If you already have a Windows LiveID account, you can use it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Sign in to your Bing Webmaster Tools account at this URL: <ulink url=\"http://www.bing.com/toolbox/webmaster/\">http://www.bing.com/toolbox/webmaster/</ulink>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Click the <guibutton>Add Site</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Add Site</guilabel> dialog box is displayed. Enter the URL of your Publican site in the text entry field and click <guibutton>Submit</guibutton>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Verify Ownership</guilabel> dialog displays, with three options. Follow the instructions given when the <guilabel>Option 1: Place an XML file on your web server</guilabel> has been expanded. Upload the <systemitem>BingSiteAuth.xml</systemitem> file that Bing provides to the document root of your website."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have confirmed that the provided <systemitem>BingSiteAuth.xml</systemitem> file has been uploaded to the required location by accessing it in a web browser, click the <guibutton>Verify</guibutton> button."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "When you have successfully verified your ownership of your Publican website to Bing, return to the Bing Webmaster Tools home page. Your Publican site is listed. Click on it."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select the <guibutton>Crawl</guibutton> tab."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Select <guilabel>Sitemaps</guilabel> and then <guilabel>Add Feed</guilabel>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <guilabel>Add Feed</guilabel> dialog displays. Enter the URL of your Sitemap file and click <guibutton>Submit</guibutton>. The details of the Sitemap are displayed."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Result:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The Sitemap for your Publican site has been successfully submitted to Bing."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+#~ msgid "If your webserver periodically checks for updated packages in the repository in which <application>Koji</application> places built packages, the webserver can automatically install updated versions of your documents."
+#~ msgstr "Se il server web controlla periodicamente la presenza di aggiornamenti nel repository in cui <application>Koji</application> salva i pacchetti creati, il webserver può automaticamente installare le versioni aggiornate dei documenti."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the name of the <firstterm>branch</firstterm> for the package; typically, a particular software version."
+#~ msgstr "il nome del <firstterm>branch</firstterm> per il pacchetto: tipicamente una particolare versione software."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "imports the SRPM into the CVS root for the <application>Koji</application> instance specified in the document's <filename>publican.cfg</filename> file"
+#~ msgstr "importa l'SRPM nella radice del CVS secondo l'istanza di <application>Koji</application> specificata nel file <filename>publican.cfg</filename> del documento"
+
+#. Tag: term
+#, no-c-format
+#~ msgid "<parameter>cvs_branch</parameter>"
+#~ msgstr "<parameter>cvs_branch</parameter>"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "You might also implement a system of tags where a writer or translator could run <command>koji tag-pkg</command> to apply a <firstterm>tag</firstterm> to the built package. You can then have different webservers install the package, depending on which tags are applied to it. For example, you could configure a server on your intranet to install any packages tagged <literal>draft</literal> and make them available internally for proofreading and technical review. You could then configure the server that publishes documents publicly on the web to install packages only when they are tagged <literal>public</literal>."
+#~ msgstr "Si può anche implementare un sistema di tag in cui un redattore o traduttore può eseguire il comando <command>koji tag-pkg</command> per applicare un'etichetta o <firstterm>tag</firstterm>, al pacchetto creato. In tal modo è possibile avere differenti webserver su cui installare i pacchetti, in base ai tag applicati. Per esempio, si potrebbe configurare un server su una intranet per installare tutti i pacchetti con tag <literal>draft</literal> per renderli disponibili internamente per revisione e rilettura tecnica. E poi si potrebbe configurare il server che pubblica i documenti sul web in modo da installare i pacchetti solo se con tag <literal>public</literal>."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the name of the package in CVS. <application>Publican</application> defaults to: <literal><replaceable>product</replaceable>-<replaceable>title</replaceable>-<replaceable>product_version</replaceable>-web-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable></literal>"
+#~ msgstr "il nome del pacchetto in CVS. Per impostazione, in <application>Publican</application> coincide con: <literal><replaceable>prodotto</replaceable>-<replaceable>titolo</replaceable>-<replaceable>versione_prodotto</replaceable>-web-<replaceable>lingua</replaceable>-<replaceable>edizione</replaceable>-<replaceable>numeropub</replaceable></literal>."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "<filename>Site_Statistics.html</filename> — an overview of the documentation installed on the site."
+#~ msgstr "<filename>Site_Statistics.html</filename> — un sommario sulla documentazione installata sul sito."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "subdirectories for each language in which you publish. Initially, this contains <filename>Site_Tech.html</filename> but later contains:"
+#~ msgstr "sottocartelle per ogni lingua in cui pubblicare. Inizialmente, essa contiene solo <filename>Site_Tech.html</filename>, poi:"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "<filename>Sitemap</filename> — an XML Sitemap to assist search engines to crawl the site."
+#~ msgstr "<filename>Sitemap</filename> — una mappa del sito in XML che coadiuva i motori di ricerca nella scansione del sito."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the CVS root into which to import the SRPM. For example, the CVS root for the Fedora Project's <application>Koji</application> instance is <literal>:ext:USERNAME@cvs.fedoraproject.org:/cvs/pkgs</literal>"
+#~ msgstr "la radice di CVS in cui importare l'SRPM. Per esempio, la radice CVS per l'istanza <application>Koji</application> del Fedora Project è <literal>:ext:USERNAME@cvs.fedoraproject.org:/cvs/pkgs</literal>."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "For more information about <application>Koji</application>, visit <ulink url=\"https://fedorahosted.org/koji/wiki\" />."
+#~ msgstr "Per maggiori informazioni su <application>Koji</application>, visitare <ulink url=\"https://fedorahosted.org/koji/wiki\" />."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "To prepare a document for building in a <application>Koji</application> instance, edit the <filename>publican.cfg</filename> file to specify:"
+#~ msgstr "Per preparare un documento da compilare tramite una istanza di <application>Koji</application>, modificare il file <filename>publican.cfg</filename>, specificando:"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "runs <command>cvs up</command>"
+#~ msgstr "esegue <command>cvs up</command>"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "<application>Publican</application> then carries out the following actions:"
+#~ msgstr "A questo punto, <application>Publican</application> effettua le seguenti operazioni:"
+
+#. Tag: screen
+#, no-c-format
+#~ msgid "<command>publican package --cvs</command>"
+#~ msgstr "<command>publican package --cvs</command>"
+
+#. Tag: title
+#, no-c-format
+#~ msgid "Automating publishing"
+#~ msgstr "Automatizzare la pubblicazione"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "generates an SRPM"
+#~ msgstr "genera un SRPM"
+
+#. Tag: term
+#, no-c-format
+#~ msgid "<parameter>cvs_pkg</parameter>"
+#~ msgstr "<parameter>cvs_pkg</parameter>"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "<filename>toc.html</filename> — a static map of the documents on the site, to assist visitors to the site who do not have JavaScript enabled on their browsers."
+#~ msgstr "<filename>toc.html</filename> — una mappa statica dei documenti presenti sul sito, che coadiuva i visitatori con JavaScript non abilitato nei loro browser."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "runs <command>make build</command>"
+#~ msgstr "esegue <command>make build</command>"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "Because <application>Publican</application> can generate RPM packages, you can use <application>Publican</application> together with an RPM build system like <application>Koji</application> to automate your publishing process. When a document is ready for publication, the writer or translator runs the following command:"
+#~ msgstr "Dato che <application>Publican</application> è in grado di creare pacchetti RPM, <application>Publican</application> può essere usato insieme ad un sistema di creazione di RPM come <application>Koji</application> per automatizzare il processo di pubblicazione. Quando un documento è pronto per la pubblicazione, il redattore o il traduttore eseguono il seguente comando:"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "<filename>Site_Tech.html</filename> — an overview of the technology used to build the site."
+#~ msgstr "<filename>Site_Tech.html</filename> — un sommario sulla tecnologia usata per creare il sito."
+
+#. Tag: term
+#, no-c-format
+#~ msgid "<parameter>cvs_root</parameter>"
+#~ msgstr "<parameter>cvs_root</parameter>"
+
