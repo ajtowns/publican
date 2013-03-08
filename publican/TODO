@@ -65,3 +65,9 @@ migrate_site
 rename
 update_db
 
+
+/usr/share/perl5/Locale/Maketext/Gettext.pm
+        # convert gettext %1 to maketext [_1]
+        $stro =~ s/\%(\d)+/\[_$1\]/g;
+        $strt =~ s/\%(\d)+/\[_$1\]/g;
+

@@ -1670,6 +1670,15 @@ sub add_revision {
         $date = DateTime->now()->strftime("%a %b %e %Y");
     }
 
+    my $lc_lang = $lang;
+    $lc_lang =~ s/-/_/g;
+    my $locale = Publican::Localise->get_handle($lc_lang)
+        || croak(
+        "Could not create a Publican::Localise object for language: [_1]",
+        $lang );
+    $locale->encoding("UTF-8");
+    $locale->textdomain("publican");
+
     my $revision = XML::Element->new_from_lol(
         [   'revision',
             [ 'revnumber', $revnumber ],
@@ -1706,7 +1715,7 @@ sub add_revision {
         $rev_doc->root()->tag('appendix');
         my $rev_hist
             = XML::Element->new_from_lol(
-            [ 'title', maketext('Revision History') ],
+            [ 'title', $locale->maketext('Revision History') ],
             );
 
         $rev_doc->root()->push_content($rev_hist);

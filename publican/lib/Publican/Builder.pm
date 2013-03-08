@@ -377,7 +377,7 @@ sub setup_xml {
         || croak( maketext("langs is a mandatory argument") );
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
     my $drupal          = delete( $args->{drupal} )          || 0;
-    my $cleaning        = delete( $args->{cleaning} )          || 0;
+    my $cleaning        = delete( $args->{cleaning} )        || 0;
 
     if ( %{$args} ) {
         croak(
@@ -398,6 +398,16 @@ sub setup_xml {
         ) if ( !-d $lang );
 
         mkpath("$tmp_dir/$lang/xml");
+
+        my $lc_lang = $lang;
+        $lc_lang =~ s/-/_/g;
+        my $locale = Publican::Localise->get_handle($lc_lang)
+            || croak(
+            "Could not create a Publican::Localise object for language: [_1]",
+            $lang
+            );
+        $locale->encoding("UTF-8");
+        $locale->textdomain("publican");
 
         if ( $lang eq $xml_lang ) {
 
@@ -487,7 +497,7 @@ sub setup_xml {
 
                 my $merged_rev_tree = XML::Element->new_from_lol(
                     [   'appendix',
-                        [ 'title', maketext('Revision History') ],
+                        [ 'title', $locale->maketext('Revision History') ],
                         [ 'simpara', ['revhistory'], ],
                     ],
                 );
@@ -1128,7 +1138,7 @@ sub transform {
             abstracttitle => decode_utf8( $locale->maketext("Abstract") ),
             keywords      => \@keywords,
             keywordtitle  => decode_utf8( $locale->maketext("Keywords") ),
-            toctitle  => decode_utf8( $locale->maketext("Table of Contents") ),
+            toctitle => decode_utf8( $locale->maketext("Table of Contents") ),
         };
 
         $template->process(
@@ -1149,26 +1159,26 @@ sub transform {
         #        push( @wkhtmltopdf_args,
         #            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
 
-        my $toc_xsl ="$tmp_dir/$lang/html-pdf/toc.xsl";
+        my $toc_xsl = "$tmp_dir/$lang/html-pdf/toc.xsl";
 
-        $template->process(
-            'toc-xsl.tmpl', $vars,
-            $toc_xsl,
-            binmode => ':encoding(UTF-8)'
-        ) or croak( $template->error() );
+        $template->process( 'toc-xsl.tmpl', $vars, $toc_xsl,
+            binmode => ':encoding(UTF-8)' )
+            or croak( $template->error() );
 
 ##        my $toc_xsl = "$common_config/book_templates/toc.xsl";
 ##        $toc_xsl = "$brand_path/book_templates/toc.xsl"
 ##            if ( -f "$brand_path/book_templates/toc.xsl" );
 
-        push( @wkhtmltopdf_args,
+        push(
+            @wkhtmltopdf_args,
             'toc',
             '--xsl-style-sheet',
             $toc_xsl,
 ##            '--toc-header-text',
 ##            decode_utf8( $locale->maketext("Table of Contents") ),
             "$tmp_dir/$lang/html-pdf/index.html",
-            "$tmp_dir/$lang/pdf/$pdf_name" );
+            "$tmp_dir/$lang/pdf/$pdf_name"
+        );
 
         logger( "Running: " . join( " ", @wkhtmltopdf_args ) . "\n" );
         my $result = system(@wkhtmltopdf_args);

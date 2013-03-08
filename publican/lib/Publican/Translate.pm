@@ -7,6 +7,7 @@ use 5.008;
 use Carp qw(carp croak cluck);
 use Publican;
 use Publican::Builder;
+use Publican::Localise;
 use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);
 use File::Path;
 use Term::ANSIColor qw(:constants);
@@ -14,6 +15,7 @@ use DateTime;
 use Locale::PO;
 use XML::TreeBuilder;
 use String::Similarity;
+use Encode qw(is_utf8 decode_utf8 encode_utf8);
 
 use vars qw($VERSION);
 
@@ -254,6 +256,19 @@ sub update_po {
             next;
         }
 
+        my $lc_lang = $lang;
+        $lc_lang =~ s/-/_/g;
+        my $locale = Publican::Localise->get_handle($lc_lang)
+            || croak(
+            maketext(
+                "Could not create a Publican::Localise object for language: [_1]",
+                $lang
+            )
+            );
+        $locale->encoding("UTF-8");
+        $locale->textdomain("publican");
+##        $locale->die_for_lookup_failures(1);
+
         # If asked to update a  non-existing language, create it
         mkdir $lang if ( !-d $lang );
 
@@ -316,10 +331,12 @@ sub update_po {
                 = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
 
             my @members = (
-                maketext(
-                    "Translation files synchronised with XML sources [_1]-[_2]",
-                    $edition,
-                    $release
+                decode_utf8(
+                    $locale->maketext(
+                        "Translation files synchronised with XML sources [_1]-[_2]",
+                        $edition,
+                        $release
+                    )
                 )
             );
 
