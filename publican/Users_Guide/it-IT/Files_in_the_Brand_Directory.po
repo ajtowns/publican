@@ -1,0 +1,428 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:12\n"
+"PO-Revision-Date: 2012-01-22 17:13+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Files in the brand directory"
+msgstr "File nella directory brand"
+
+#. Tag: para
+#, no-c-format
+msgid "Running the <command>publican create_brand --name=<replaceable>brand</replaceable> --lang=<replaceable>language_code</replaceable></command> command creates a directory structure and the required files. The brand directory initially contains:"
+msgstr "L'esecuzione del comando <command>publican create_brand --name=<replaceable>brand</replaceable> --lang=<replaceable>codice_linguistico</replaceable></command> crea la struttura delle cartelle e i file necessari. La cartella brand, inizialmente contiene:"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>COPYING</filename>"
+msgstr "<filename>COPYING</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>defaults.cfg</filename>"
+msgstr "<filename>defaults.cfg</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>overrides.cfg</filename>"
+msgstr "<filename>overrides.cfg</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>publican.cfg</filename>"
+msgstr "<filename>publican.cfg</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>publican-<replaceable>brand</replaceable>.spec</filename>, where <replaceable>brand</replaceable> is the name of the brand."
+msgstr "<filename>publican-<replaceable>brand</replaceable>.spec</filename>, dove <replaceable>brand</replaceable> è il nome del brand."
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>README</filename>"
+msgstr "<filename>README</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "a subdirectory for the brand's XML files, CSS stylesheets, and default images. The subdirectory is named with the language code of the original language of the brand (for example, <filename>en-US</filename>). These files are:"
+msgstr "una sotto-cartella contenente i file XML di brand, fogli di stile CSS e immagini predefinite. La sotto-cartella ha lo stesso nome del codice linguistico della lingua originale del brand (per esempio, <filename>en-US</filename>). Questi file sono:"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Feedback.xml</filename>"
+msgstr "<filename>Feedback.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Legal_Notice.xml</filename>"
+msgstr "<filename>Legal_Notice.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "the <filename>css</filename> subdirectory, which contains:"
+msgstr "la sotto-cartella <filename>css</filename>, contenente:"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>overrides.css</filename>"
+msgstr "<filename>overrides.css</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "the <filename>images</filename> subdirectory, which contains 43 images in both raster (PNG) and vector (SVG) formats."
+msgstr "la sotto-cartella <filename>images</filename>, contenente 43 immagini in formato raster o bitmap (PNG) e vettoriale (SVG)."
+
+#. Tag: title
+#, no-c-format
+msgid "The publican.cfg file"
+msgstr "Il file publican.cfg"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>publican.cfg</filename> file in a brand serves a similar purpose to the <filename>publican.cfg</filename> file in a document — it configures a number of basic options that define your brand."
+msgstr "Il file <filename>publican.cfg</filename>, in un brand, svolge una funzione simile al file <filename>publican.cfg</filename> in un documento — configura un certo numero di opzioni di base per definire il brand."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>version</parameter>"
+msgstr "<parameter>version</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the version number for the brand. When you create the brand with <command>publican create_brand</command>, the version number is set to <literal>0.1</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the <filename>publican-<replaceable>brand</replaceable>.spec</filename> file when you prepare a new version of the brand."
+msgstr "specifica il numero di versione del brand. Quando si crea un brand con il comando <command>publican create_brand</command>, la versione è impostata a <literal>0.1</literal>. Aggiornare questo numero di versione presente  in <filename>publican.cfg</filename> e in <filename>publican.spec</filename> del brand, in occasione della preparazione di una nuova versione del brand."
+
+#. Tag: para
+#, no-c-format
+msgid "Note that this parameter is unrelated to the version number of documents built with this brand. For example, the <citetitle>Fedora 12 Installation Guide</citetitle> has its version set as <literal>12</literal> in its <filename>publican.cfg</filename> file, but might be built with version 1.0 of the <package>publican-fedora</package> brand."
+msgstr "Notare che questo parametro non è correlato al numero di versione dei documenti creati con questo brand. Per esempio, <citetitle>Fedora 12 Installation Guide</citetitle> ha la versione impostata a <literal>12</literal> nel proprio file <filename>publican.cfg</filename>, ma potrebbe essere compilato con la versione 1.0 del brand <package>publican-fedora</package>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>xml_lang</parameter>"
+msgstr "<parameter>xml_lang</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the language of the source XML files for the brand's Common Content, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create_brand</command>."
+msgstr "specifica la lingua dei file sorgenti XML per il Common Content del brand, per esempio <literal>en-US</literal>, come impostato nell'opzione <option>--lang</option> del comando <command>publican create_brand</command>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>release</parameter>"
+msgstr "<parameter>release</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the release number for the brand. When you create the brand with <command>publican create_brand</command>, the release number is set to <literal>0</literal>. Update the version number here in the brand <filename>publican.cfg</filename> file and in the <filename>publican-<replaceable>brand</replaceable>.spec</filename> file when you prepare a new release of an existing version of the brand."
+msgstr "specifica il numero di release per il brand. Quando si crea un brand con il comando <command>publican create_brand</command>, la release è impostata a <literal>0</literal>. Aggiornare il numero di release nei file <filename>publican.cfg</filename> e <filename>publican-<replaceable>brand</replaceable>.spec</filename> , in occasione della preparazione di una nuova release per un brand esistente."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>web_cfg</parameter>"
+msgstr "<parameter>type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "when set to <literal>type: brand</literal>, this parameter identifies the contents of this directory as a brand, rather than a book, article, or set."
+msgstr "impostato a <literal>type: brand</literal>, questo parametro identifica il contenuto nella cartella come un brand invece che come un libro, articolo o set."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>web_req</parameter>"
+msgstr "<parameter>brand</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the name of the brand, as set by the <option>--name</option> option for <command>publican create_brand</command>."
+msgstr "specifica il nome del brand, come impostato dall'opzione <option>--name</option> nel comando <command>publican create_brand</command>."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>web_cfg</parameter>"
+msgstr "<parameter>type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the full path for the <application>Publican</application> site configuration file for non standard RPM websites."
+msgstr ""
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>web_req</parameter>"
+msgstr "<parameter>brand</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the full path to where files will be installed. You must also set <replaceable>wwwdir</replaceable> in <filename>publican-<replaceable>brand</replaceable>.spec</filename>."
+msgstr ""
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>web_req</parameter>"
+msgstr "<parameter>brand</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the name of the RPM package that will supply the Publican site config file."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The defaults.cfg file and overrides.cfg file"
+msgstr "I file defaults.cfg e overrides.cfg"
+
+#. Tag: para
+#, no-c-format
+msgid "Every document built in <application>Publican</application> has a <filename>publican.cfg</filename> file in its root directory, which configures build options for the document. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> for a full description of these options. The <filename>defaults.cfg</filename> file and <filename>overrides.cfg</filename> file in a brand supply default values for any of the parameters that you can otherwise set with a document's <filename>publican.cfg</filename> file."
+msgstr "Ogni documento creato in <application>Publican</application>, ha un file <filename>publican.cfg</filename> nella cartella radice, per configurare le opzioni di creazione dei documenti. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> per una completa descrizione di queste opzioni. I file <filename>defaults.cfg</filename> e <filename>overrides.cfg</filename> in un brand, forniscono  valori predefiniti ai parametri, che è possibile impostare nel file <filename>publican.cfg</filename> di un documento."
+
+#. Tag: para
+#, no-c-format
+msgid "When you build a document with a particular brand, <application>Publican</application> first applies the values in the brand's <filename>defaults.cfg</filename> file before it applies the values in the document's <filename>publican.cfg</filename> file. Values in the document's <filename>publican.cfg</filename> file therefore override those in the brand's <filename>defaults.cfg</filename> file."
+msgstr "Quando si compila un documento con un particolare brand, <application>Publican</application> dapprima applica i valori nel file <filename>defaults.cfg</filename> del brand e poi i valori impostati nel file <filename>publican.cfg</filename> del documento. Quindi i valori di <filename>publican.cfg</filename> hanno la precedenza su quelli impostati nel file <filename>defaults.cfg</filename> del brand."
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> next applies the values in the brand's <filename>overrides.cfg</filename> file, which therefore override any values in the brand's <filename>defaults.cfg</filename> file and the document's <filename>publican.cfg</filename> file."
+msgstr "Poi <application>Publican</application> applica i valori impostati nel file <filename>overrides.cfg</filename> del brand, per cui quest'ultimo non tiene conto dei valori impostati in <filename>defaults.cfg</filename> del brand e in <filename>publican.cfg</filename> del documento."
+
+#. Tag: para
+#, no-c-format
+msgid "Use the <filename>defaults.cfg</filename> file to set values that you routinely apply to your brand but want to allow writers to change in particular books; use the <filename>overrides.cfg</filename> file for values that you do not want to allow writers to change."
+msgstr "Usare il file <filename>defaults.cfg</filename> per impostare valori da applicare per routine al brand e per consentire ai redattori di modificarli nei libri; usare il file <filename>overrides.cfg</filename> per impostare quei valori che non si desidera vengano modificati dai redattori."
+
+#. Tag: para
+#, no-c-format
+msgid "You can add a list of banned tags or attributes using <replaceable>banned_tags</replaceable> and <replaceable>banned_attrs</replaceable> respectively to either <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename>. These will be listed by the <application>Publican</application> action <replaceable>print_banned</replaceable>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "publican-<replaceable>brand</replaceable>.spec file"
+msgstr "File publican-<replaceable>brand</replaceable>.spec"
+
+#. Tag: para
+#, no-c-format
+msgid "Some Linux operating systems use the <application>RPM Package Manager</application> to distribute software, in the form of <firstterm>RPM packages</firstterm>. In general terms, an RPM package contains software files compressed into an archive, accompanied by a <firstterm>spec file</firstterm> that tells the <application>RPM Package Manager</application> how and where to install those files."
+msgstr "Alcuni Sistemi Operativi Linux, usano un <application>Gestore di pacchetti RPM</application> per distribuire software, sotto forma di <firstterm>pacchetti RPM</firstterm>. In termini generali, un pacchetto RPM contiene i file di software compressi in un archivio, insieme ad un <firstterm>file spec</firstterm> che indica al <application>Gestore di pacchetti RPM</application> come e dove installare questi file."
+
+#. Tag: para
+#, no-c-format
+msgid "When you create a brand, <application>Publican</application> generates the outline of an RPM spec file for the brand. The automatically generated spec file provides you with a starting point from which to create an RPM package to distribute your brand. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" /> to learn how to configure the spec file and use it to produce an RPM package."
+msgstr "Quando si crea un brand, <application>Publican</application> genera lo schema di un file spec di RPM per il brand. Il file spec generato (automaticamente), fornisce uno schema di partenza da cui creare il pacchetto RPM con cui distribuire il brand. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" /> per sapere come configurare il file spec e come usarlo per produrre un pacchetto RPM."
+
+#. Tag: title
+#, no-c-format
+msgid "README"
+msgstr "README"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>README</filename> file contains a brief description of the brand package."
+msgstr "Il file <filename>README</filename> contiene una breve descrizione del pacchetto di brand."
+
+#. Tag: title
+#, no-c-format
+msgid "COPYING"
+msgstr "COPYING"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>COPYING</filename> file contains details of the copyright license for the package and perhaps the text of the license itself."
+msgstr "Il file <filename>COPYING</filename> contiene i dettagli riguardanti la licenza o COPYRIGHT sul pacchetto e presumibilmente il testo della stessa licenza."
+
+#. Tag: title
+#, no-c-format
+msgid "Common Content for the brand"
+msgstr "Common Content per il brand"
+
+#. Tag: para
+#, no-c-format
+msgid "Inside the brand directory is a subdirectory named after the default XML language for brand, as set with the <option>--lang</option> option when you created the brand. This subdirectory contains XML and image files that override the default Common Content provided with <application>Publican</application>. Customizing these files provides your brand with its distinctive appearance, including its color scheme and logos."
+msgstr "All'interno della cartella del brand, si trova una sotto-cartella denominata con il nome della lingua predefinita dei file XML, come impostata con l'opzione <option>--lang</option> al momento della creazione del brand. Questa cartella contiene i file XML e le immagini, che si sovrappongono al Common Content predefinito fornito con <application>Publican</application>. La personalizzazione di questi file permette ad un brand di acquisire il suo aspetto distintivo, con il suo schema di colori e i suoi loghi."
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>Feedback.xml</filename> file is included by default in the preface of every book produced in <application>Publican</application>. It invites readers to leave feedback about the document. Customize this file with the contact details of your project. If your project uses a bug tracking system such as <application>Bugzilla</application>, <application>JIRA</application>, or <application>Trac</application>, you could include this information here."
+msgstr "Il file <filename>Feedback.xml</filename> è incluso, per impostazione predefinita, nella prefazione di ogni libro prodotto con <application>Publican</application>. Con questo file si invitano i lettori ad inviare commenti sul documento. Personalizzare questo file inserendo i recapiti del progetto. Se il progetto usa un sistema di tracciamento di bug come <application>Bugzilla</application>, <application>JIRA</application> o <application>Trac</application> si potrebbe includere qui questo tipo di informazione."
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>Legal_Notice.xml</filename> file contains the legal notice that appears at the beginning of every document produced by <application>Publican</application>. Insert the details of your chosen copyright license into this file. Typically, this might include the name of the license, a short summary of the license, and a link to the full details of the license."
+msgstr "Il file <filename>Legal_Notice.xml</filename> contiene le informazioni legali che appaiono all'inizio di ogni documento prodotto con <application>Publican</application>. Inserire i dettagli riguardanti la propria licenza sul diritto d'autore in questo file. Tipicamente, ciò potrebbe includere il nome della licenza, con un breve descrizione ed un link ai dettagli completi sulla licenza."
+
+#. Tag: title
+#, no-c-format
+msgid "The <filename>css</filename> subdirectory"
+msgstr "La sotto-cartella <filename>css</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>css</filename> subdirectory contains a single file: <filename>overrides.css</filename>."
+msgstr "La sotto-cartella <filename>css</filename> contiene un solo file: <filename>overrides.css</filename>."
+
+#. Tag: title
+#, no-c-format
+msgid "overrides.css"
+msgstr "overrides.css"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>overrides.css</filename> file sets the visual style for your brand. Values in this file override those in <application>Publican</application>'s <filename>Common_Content/common/<replaceable>xml_lang</replaceable>/css/common.css</filename> file."
+msgstr "Il file <filename>overrides.css</filename> imposta l'apparenza stilistica del brand. I valori in questo file sopravanzano i valori nel file <filename>Common_Content/common/<replaceable>lingua_xml</replaceable>/css/common.css</filename> di <application>Publican</application>."
+
+#. Tag: title
+#, no-c-format
+msgid "The <filename>images</filename> subdirectory"
+msgstr "La sotto-cartella <filename>images</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>images</filename> subdirectory contains 43 images in both <firstterm>portable network graphics</firstterm> (PNG) and <firstterm>scalable vector graphics</firstterm> (SVG) format. These images are placeholders for various navigation icons, admonition graphics, and brand logos. They include:"
+msgstr "La sotto-cartella <filename>images</filename> contiene 43 immagini in formato <firstterm>PNG</firstterm> (Portable Network Graphics) ed <firstterm>SVG</firstterm> (Scalable Vector Graphics). Queste immagini sono segnaposti per varie icone di navigazione, riquadri contenenti note/suggerimenti/avvisi/, e loghi di brand. Essi includono: "
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>image_left</filename>"
+msgstr "<filename>image_left</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "is a logo for the product to which this document applies. It appears at the top left corner of HTML pages, where it contains a hyperlink to a web page for the product, as defined by <parameter>prod_url</parameter> in the <filename>publican.cfg</filename> file for the document. Consider setting <parameter>prod_url</parameter> in the brand's <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file."
+msgstr "è un logo per il prodotto cui fa riferimento il documento. Esso compare in alto, nell'angolo sinistro delle pagine HTML, in cui contiene un link alla pagina web per il prodotto, come definito nel parametro <parameter>prod_url</parameter> del file <filename>publican.cfg</filename> del documento. Si consideri di impostare <parameter>prod_url</parameter> nei file <filename>defaults.cfg</filename> o <filename>overrides.cfg</filename> del brand."
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>image_right</filename>"
+msgstr "<filename>image_right</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "is a logo for the team that produced this documentation. It appears at the top right corner of HTML pages, where it contains a hyperlink to a web page for the documentation team, as defined by <parameter>doc_url</parameter> in the <filename>publican.cfg</filename> file for the document. If all the documentation for this brand is produced by the same team, consider setting <parameter>doc_url</parameter> in the brand's <filename>defaults.cfg</filename> or <filename>overrides.cfg</filename> file."
+msgstr "è un logo per il team che ha prodotto la documentazione. Esso compare in alto, nell'angolo destro delle pagine HTML, in cui contiene un link alla pagina web per il team, come definito nel parametro <parameter>doc_url</parameter> del file <filename>publican.cfg</filename> del documento. Se tutta la documentazione per questo brand è prodotta dallo stesso team, si consideri di impostare <parameter>doc_url</parameter> nei file <filename>defaults.cfg</filename> o <filename>overrides.cfg</filename> del brand."
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>title_logo</filename>"
+msgstr "<filename>title_logo</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "is a larger version of your product logo, which appears on the title page of PDF documents and at the start of HTML documents."
+msgstr "è una versione più grande del logo del prodotto, che compare sulla pagina del titolo nei documenti PDF ed all'inizio nei documenti HTML."
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>note</filename>"
+msgstr "<filename>note</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>important</filename>"
+msgstr "<filename>important</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>warning</filename>"
+msgstr "<filename>warning</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "are icons that accompany the XML admonitions <sgmltag>&lt;note&gt;</sgmltag>, <sgmltag>&lt;important&gt;</sgmltag>, and <sgmltag>&lt;warning&gt;</sgmltag>."
+msgstr "sono icone che si accompagnano agli avvisi XML <sgmltag>&lt;note&gt;</sgmltag>, <sgmltag>&lt;important&gt;</sgmltag> e <sgmltag>&lt;warning&gt;</sgmltag>."
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>dot</filename>"
+msgstr "<filename>dot</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>dot2</filename>"
+msgstr "<filename>dot2</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "are bullets used for <sgmltag>&lt;listitem&gt;</sgmltag>s in <sgmltag>&lt;itemizedlist&gt;</sgmltag>s."
+msgstr "sono i punti elenco usati con <sgmltag>&lt;listitem&gt;</sgmltag> in <sgmltag>&lt;itemizedlist&gt;</sgmltag>."
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>stock-go-back</filename>"
+msgstr "<filename>stock-go-back</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>stock-go-forward</filename>"
+msgstr "<filename>stock-go-forward</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>stock-go-up</filename>"
+msgstr "<filename>stock-go-up</filename>"
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>stock-home</filename>"
+msgstr "<filename>stock-home</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "are navigation icons for HTML pages."
+msgstr "sono le icone di navigazione per le pagine HTML."
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>h1-bg</filename>"
+msgstr "<filename>h1-bg</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "is a background for the heading that contains the name of your product, as it appears at the very beginning of a HTML document."
+msgstr "è uno sfondo per l'intestazione, contenente il nome del prodotto, come appare all'inizio di un documento HTML."
+
+#. Tag: term
+#, no-c-format
+msgid "<filename>watermark_draft</filename>"
+msgstr "<filename>watermark_draft</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "is a watermark that appears on pages of draft documentation. Refer to <xref linkend=\"sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_draft_documentation\" />."
+msgstr "è un contrassegno che appare nelle pagine di documentazione in draft (bozza). Fare riferimento alla <xref linkend=\"sect-Users_Guide-Pre_release_software_and_draft_documentation-Denoting_draft_documentation\" />."
+
+#. Tag: title
+#, no-c-format
+msgid "The brand_dir option"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <application>Publican</application> build option brand_dir allows you to specify the location of brand files. These files do not have to be part of an installed brand."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You can ship custom XSL in a folder named <filename>xsl</filename> in your brand: it sits at the same level as the various language files for your brand. Publican uses any XSL that it finds in that directory to override the XSL templates that we ship in the common brand (which in turn override the XSL templates that the DocBook project ships)."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Brands that supply XSL files need to change the relative path to a URI."
+msgstr ""
+

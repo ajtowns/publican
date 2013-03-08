@@ -1,0 +1,65 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-11-23T10:10:53\n"
+"PO-Revision-Date: 2012-01-22 20:14+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Root nodes and conditional tagging"
+msgstr "Nodi root e tag condizionale"
+
+#. Tag: para
+#, no-c-format
+msgid "If the root node of an XML file is excluded with a conditional, your document will not build, because empty files are not valid XML. For example, if <filename>Installation_and_configuration_on_Fedora.xml</filename> contains a single chapter:"
+msgstr "Se il nodo di root di un file XML viene escluso da un tag condizionale, il documento non compila, poiché file vuoti non sono file XML validi. Per esempio, se il file <filename>Installation_and_configuration_on_Fedora.xml</filename> contiene un solo capitolo:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"\n"
+"&lt;?xml version='1.0' encoding='utf-8' ?&gt;\n"
+"&lt;!DOCTYPE chapter PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"]&gt;\n"
+"&lt;chapter id=\"chap-Installation_and_configuration_on_Fedora\" condition=\"Fedora\"&gt;\n"
+"&lt;title&gt;Installation and configuration on Fedora&lt;/title&gt;\n"
+"\n"
+"[text of chapter]\n"
+"\n"
+"&lt;/chapter&gt;\n"
+"\n"
+msgstr ""
+"\n"
+"&lt;?xml version='1.0' encoding='utf-8' ?&gt;\n"
+"&lt;!DOCTYPE chapter PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"]&gt;\n"
+"&lt;chapter id=\"chap-Installation_and_configuration_on_Fedora\" condition=\"Fedora\"&gt;\n"
+"&lt;title&gt;Installation and configuration on Fedora&lt;/title&gt;\n"
+"\n"
+"[text of chapter]\n"
+"\n"
+"&lt;/chapter&gt;\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: Ubuntu</command> set in the <filename>publican.cfg</filename> file."
+msgstr "ed il capitolo è incluso in <filename>User_Guide.xml</filename> con un tag <sgmltag>&lt;xi:include&gt;</sgmltag>, il documento non compila se è presente l'impostazione <command>condition: Ubuntu</command> nel file <filename>publican.cfg</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "To exclude this chapter, add a condition to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration_on_Fedora.xml</filename>."
+msgstr "Per escludere il capitolo, aggiungere un attributo condizionale al tag <sgmltag>&lt;xi:include&gt;</sgmltag> in <filename>User_Guide.xml</filename>, e non al tag <sgmltag>&lt;chapter&gt;</sgmltag> in <filename>Installation_and_configuration_on_Fedora.xml</filename>."
+

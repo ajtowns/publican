@@ -1,0 +1,103 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2011.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:18\n"
+"PO-Revision-Date: 2012-01-22 20:11+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Renaming a document"
+msgstr "Rinominare un documento"
+
+#. Tag: para
+#, no-c-format
+msgid "The <command>publican rename</command> command makes it easy for you to rename a document to give it a new title, or to change the name or version of the product to which the document applies. The command accepts up to three options:"
+msgstr "Il comando <command>publican rename</command> permette di rinominare facilmente un documento con un nuovo titolo o di modificare il nome o la versione di prodotto, a cui si riferisce il documento. Il comando accetta fino a tre opzioni: "
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--name</option> <replaceable>new_title</replaceable>"
+msgstr "<option>--name</option> <replaceable>nuovo_titolo</replaceable>"
+
+#. Tag: para
+#, no-c-format
+msgid "changes the title of the document. For example, to rename a document from <citetitle>Server Configuration Guide</citetitle> to <citetitle>Server Deployment Guide</citetitle>, change into the document's root directory and run:"
+msgstr "modifica il titolo del documento. Per esempio, per rinominare <citetitle>Server Deployment Guide</citetitle> il documento <citetitle>Server Configuration Guide</citetitle>, spostarsi nella directory radice del documento ed eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --name \"Server Deployment Guide\"</command>"
+msgstr "<command>publican rename --name \"Server Deployment Guide\"</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Specifically, the command changes the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file, and sets a value for the <parameter>mainfile</parameter> parameter in the <filename>publican.cfg</filename> file so that <application>Publican</application> can still find the root XML node and the entities for the document."
+msgstr "Nello specifico, il comando cambia il contenuto del tag <sgmltag>&lt;title&gt;</sgmltag> in <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename> o <filename>Set_Info.xml</filename>, ed imposta un valore nel parametro <parameter>mainfile</parameter> in <filename>publican.cfg</filename>, in modo che <application>publican</application> possa trovare il nodo XML radice e le entità relative al documento."
+
+#. Tag: para
+#, no-c-format
+msgid "Note that the <command>publican rename</command> command does not change any file names. Therefore, the root XML node and the document entities are still located in files named after the original title of the document — <filename>Server_Configuration_Guide</filename> in the previous example."
+msgstr "Notare che il comando <command>publican rename</command> non modifica il nome di nessun file. Quindi, il nodo XML radice e le entità del documento sono localizzate sempre nei file relativi al titolo originale del documento — <filename>Server_Configuration_Guide</filename>, nel precedente esempio."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--product</option> <replaceable>new_product</replaceable>"
+msgstr "<option>--product</option> <replaceable>nuovo_prodotto</replaceable>"
+
+#. Tag: para
+#, no-c-format
+msgid "changes the name of the product to which the document applies. For example, if the product was previously named <productname>ForceRivet</productname> but is now called <productname>PendantFarm</productname>, change into the document's root directory and run:"
+msgstr "modifica il nome del prodotto cui si applica il documento. Per esempio, se il prodotto era <productname>ForceRivet</productname> ed ora è denominato <productname>PendantFarm</productname>, spostarsi nella directory radice del documento ed eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --product PendantFarm</command>"
+msgstr "<command>publican rename --product PendantFarm</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "The command changes the content of the <sgmltag>&lt;productname&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file."
+msgstr "Il comando modifica il contenuto del tag <sgmltag>&lt;productname&gt;</sgmltag> in <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename> o <filename>Set_Info.xml</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--version</option> <replaceable>new_version</replaceable>"
+msgstr "<option>--version</option> <replaceable>nuova_versione</replaceable>"
+
+#. Tag: para
+#, no-c-format
+msgid "changes the product version to which the document applies. For example, if the product version was previously <productnumber>1.0</productnumber> but is now <productnumber>2.0</productnumber>, change into the document's root directory and run:"
+msgstr "modifica la versione di prodotto cui si applica il documento. Per esempio, se la versione precedente era <productnumber>1.0</productnumber> ma ora è cambiata in <productnumber>2.0</productnumber>, spostarsi nella directory radice del documento ed eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --version 2.0</command>"
+msgstr "<command>publican rename --version 2.0</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "The command changes the content of the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file."
+msgstr "Il comando modifica il contenuto del tag <sgmltag>&lt;productnumber&gt;</sgmltag> in <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename> o <filename>Set_Info.xml</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "You can combine any combination of these options into a single command. For example:"
+msgstr "In un comando, è possibile usare una loro qualsiasi combinazione. Per esempio: "
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --name \"Server Deployment Guide\" --product PendantFarm --version 2.0</command>"
+msgstr "<command>publican rename --name \"Server Deployment Guide\" --product PendantFarm --version 2.0</command>"
+

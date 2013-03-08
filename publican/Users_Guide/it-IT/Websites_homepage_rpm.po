@@ -1,0 +1,58 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-11-25T18:01:59\n"
+"PO-Revision-Date: 2012-01-22 20:23+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Creating, installing, and updating the home page"
+msgstr "Creare, installare ed aggiornare la home page"
+
+#. Tag: para
+#, no-c-format
+msgid "The <application>Publican</application>-generated home page is the localizable page to which visitors are directed by the site JavaScript and which provides the style for the website structure. The home page is structured as a DocBook <sgmltag>&lt;article&gt;</sgmltag> with an extra <parameter>web_type:&nbsp;home</parameter> parameter in its <filename>publican.cfg</filename> file. In its structure and its presentation, the home page is the same as any other article that you produce with <application>Publican</application> and is packaged the same way."
+msgstr "La home page generata da <application>Publican</application> è la pagina di localizzazione a cui sono indirizzati i visitatori dallo JavaScript del sito e che fornisce lo stile alla struttura del sito web. La home page è strutturata come un <sgmltag>&lt;article&gt;</sgmltag> DocBook ma con un parametro ulteriore <parameter>web_type:&nbsp;home</parameter> nel proprio file <filename>publican.cfg</filename>. Nella sua struttura e presentazione, la home page assomiglia ad un articolo di <application>Publican</application>, il cui pacchetto viene creato allo stesso modo."
+
+#. Tag: para
+#, no-c-format
+msgid "On a workstation, create a home page using the procedure described in <xref linkend=\"sect-Users_Guide-Website-homepage-manual\" />."
+msgstr "Usando il procedimento indicato nella <xref linkend=\"sect-Users_Guide-Website-homepage-manual\" />, su una macchina creare una home page."
+
+#. Tag: para
+#, no-c-format
+msgid "In the directory in which you created the home page, run:"
+msgstr "Nella cartella contenente la home page creata, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican package --binary</command>"
+msgstr "<command>publican package --binary</command>"
+
+#. Tag: para
+#, no-c-format, fuzzy
+msgid "<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the home page. Note that by default, <application>Publican</application> generates an RPM package to install on a server that runs Red Hat Enterprise Linux&nbsp;5. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_ver</parameter> parameter in the home page's <filename>publican.cfg</filename> file."
+msgstr "<application>Publican</application> crea un pacchetto RPM, salvandolo nella cartella <filename>/tmp/rpms/noarch/</filename> della home page. Notare che per impostazione predefinita, <application>Publican</application> genera un pacchetto RPM da installare su un server che esegua Red Hat Enterprise Linux&nbsp;5. Per creare un RPM da installare su un server con un sistema operativo differente, impostare il parametro <parameter>os_var</parameter> nel file <filename>publican.cfg</filename> della home page."
+
+#. Tag: para
+#, no-c-format
+msgid "Either upload the home page package to the webserver and install it with the <command>rpm -i</command> or <command>yum localinstall</command> command, or place the package in a repository and configure the webserver to install from that repository when you run <command>yum install</command>."
+msgstr "Caricare il pacchetto sul server web ed installarlo con <command>rpm -i</command> o <command>yum localinstall</command>, oppure salvare il pacchetto in un repository e configurare il server perché possa installarlo dal repository eseguendo il comando <command>yum install</command>."
+
+#. Tag: para
+#, no-c-format
+msgid "To update the home page, build a new package with a higher <sgmltag>&lt;edition&gt;</sgmltag> number or <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Article_Info.xml</filename>. <application>Publican</application> uses these values to set the version and release numbers for the RPM package. When you install this package on your webserver, <application>yum</application> can replace the old version with the new when you run <command>yum localinstall</command> for a local package, or <command>yum update</command> for a package fetched from a repository."
+msgstr "Per aggiornare la home page, creare un nuovo pacchetto con un numero più alto di <sgmltag>&lt;edition&gt;</sgmltag> o di <sgmltag>&lt;pubsnumber&gt;</sgmltag>, presenti in <filename>Article_Info.xml</filename>. <application>Publican</application> usa questi valori per impostare i numeri di versione e di release del pacchetto RPM. In tal modo, quando si installa il pacchetto sul server, <application>yum</application> può sostituire la versione precedente con la nuova, sia usando <command>yum localinstall</command> per un pacchetto locale, sia <command>yum update</command> per un pacchetto scaricato da un repository."
+

@@ -1,0 +1,208 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-12-03T18:36:00\n"
+"PO-Revision-Date: 2012-01-22 20:31+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Creating the website structure"
+msgstr "Creare la struttura del sito web"
+
+#. Tag: title
+#, no-c-format
+msgid "Warning — This procedure replaces files"
+msgstr "Avviso — Questa procedura sostituisce i file"
+
+#. Tag: para
+#, no-c-format
+msgid "When you create the website structure, <application>Publican</application> places files in the <filename>/var/www/html/docs</filename> directory. Existing files in this directory might be overwritten by this procedure."
+msgstr "Quando si costruisce la struttura del sito web, <application>Publican</application> salva i file nella cartella <filename>/var/www/html/docs</filename>. Quindi usando questa procedura, i file esistenti nella cartella vengono sovrascritti."
+
+#. Tag: para
+#, no-c-format
+msgid "Perform the following steps on your webserver. You must have an account with root privileges."
+msgstr "Sul server web, effettuare i seguenti passaggi. Occorre accedere con un account con privilegi di root."
+
+#. Tag: para
+#, no-c-format
+msgid "Log into the webserver."
+msgstr "Autenticarsi sul server web."
+
+#. Tag: para
+#, no-c-format
+msgid "Become root:"
+msgstr "Diventare utente root:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>su -</command>"
+msgstr "<command>su -</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Install <application>Publican</application>. For example, on a webserver with a Fedora operating system, run:"
+msgstr "Installare <application>Publican</application>. Per esempio, su un server con Sistema Operativo Fedora, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>yum install publican</command>"
+msgstr "<command>yum install publican</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Edit the <filename>/etc/publican-website.cfg</filename> file to specify the name of the site, the web host, and optionally, search parameters, default language, and dump file settings for the site:"
+msgstr "Modificare il file <filename>/etc/publican-website.cfg</filename>, specificando il nome del sito, il web host ed opzionalmente impostare i parametri di ricerca, la lingua predefinita e il file dump per il sito:"
+
+#. Tag: para
+#, no-c-format
+msgid "Specify the title with the <parameter>title</parameter> parameter, for example:"
+msgstr "Specificare il titolo con il parametro <parameter>title</parameter>, per esempio:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "title: \"Foomaster Documentation\""
+msgstr "title: \"Foomaster Documentation\""
+
+#. Tag: para
+#, no-c-format
+msgid "Normally, visitors to your website do not see this title because the site's JavaScript redirects them to a homepage. However, this title is likely to be found and indexed by search engines."
+msgstr "Normalmente, i visitatori del sito non visualizzano questo titolo perché rediretti alla home page dallo JavaScript del sito. Comunque questo titolo è individuato ed indicizzato dai motori di ricerca."
+
+#. Tag: para
+#, no-c-format
+msgid "Specify the web host with the <parameter>host</parameter> parameter as a full URL, including the protocol (for example, <literal>http://</literal>). For example:"
+msgstr "Specificare il web host con il parametro <parameter>host</parameter> come un URL completo, includente il protocollo. Per esempio:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "host: http://docs.example.com"
+msgstr "host: http://docs.example.com"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> uses the value set for <parameter>host</parameter> to construct the URLs in the XML <filename>Sitemap</filename> that it creates for search engine crawlers, and to limit searches submitted through the search box in the navigation menu to results on your site only."
+msgstr "<application>Publican</application> usa il valore impostato in <parameter>host</parameter> per costruire gli URL nel file XML, <filename>Sitemap</filename>, usato dai motori di ricerca e per limitare le ricerche dalla casella relativa nel menu di navigazione, soltanto ai documenti presenti nel sito."
+
+#. Tag: para
+#, no-c-format
+msgid "Optionally, construct a search engine query to use with the search box in the navigation menu and specify the entire content of a HTML <sgmltag>&lt;form&gt;</sgmltag> with the <parameter>search</parameter> parameter. If you do not specify a custom web search, <application>Publican</application> creates a Google search limited to the host that you specified in the <parameter>host</parameter> parameter."
+msgstr "Opzionalmente, costruire un motore di ricerca da usare con la casella ricerca nel menu di navigazione, e specificare l'intero contenuto del <sgmltag>&lt;form&gt;</sgmltag> HTML con il parametro <parameter>search</parameter>. Se non si specifica alcun criterio di ricerca, <application>Publican</application> crea una ricerca basata su Google, limitando la ricerca all'host specificato nel parametro <parameter>host</parameter>."
+
+#. Tag: para
+#, no-c-format
+msgid "For example, to construct a Yahoo! search limited to <literal>docs.example.com</literal>, set:"
+msgstr "Per esempio, per costruire una ricerca basata su Yahoo!, limitatamente all'host <literal>docs.example.com</literal>, impostare:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "search: '&lt;form target=\"_top\" method=\"get\" action=\"http://search.yahoo.com/search\"&gt; &lt;div class=\"search\"&gt; &lt;input type=\"text\" name=\"p\" value=\"\" /&gt; &lt;input type=\"hidden\" name=\"vs\" value=\"docs.example.com\" /&gt; &lt;input type=\"submit\" value=\"###Search###\" /&gt; &lt;/div&gt; &lt;/form&gt;'"
+msgstr "search: '&lt;form target=\"_top\" method=\"get\" action=\"http://search.yahoo.com/search\"&gt; &lt;div class=\"search\"&gt; &lt;input type=\"text\" name=\"p\" value=\"\" /&gt; &lt;input type=\"hidden\" name=\"vs\" value=\"docs.example.com\" /&gt; &lt;input type=\"submit\" value=\"###Search###\" /&gt; &lt;/div&gt; &lt;/form&gt;'"
+
+#. Tag: para
+#, no-c-format
+msgid "Refer to the documentation of your chosen search engine for details of how to construct custom searches."
+msgstr "Fare riferimento alla documentazione del motore di ricerca scelto, per i dettagli su come creare criteri di ricerca personalizzati."
+
+#. Tag: para
+#, no-c-format
+msgid "If you set <literal>value=\"###Search###\"</literal> in the code for a submit button, <application>Publican</application> uses the word <literal>Search</literal> on the button, localized into any language that <application>Publican</application> supports."
+msgstr "Se nel codice di un pulsante di ricerca, si imposta <literal>value=\"###Search###\"</literal>, <application>Publican</application> visualizza il termine <literal>Search</literal> sul pulsante, ovviamente tradotto in ogni lingua supportata da <application>Publican</application>."
+
+#. Tag: title
+#, no-c-format
+msgid "Important — the search parameter is not validated"
+msgstr "Importante — il parametro <parameter>search</parameter> non è validato"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> does not validate the <parameter>search</parameter> parameter, but builds the value of this parameter into the navigation menu exactly as you specify it. Be especially careful when you use this feature."
+msgstr "<application>Publican</application> non controlla la validità del parametro <parameter>search</parameter>, ma crea il valore di questo parametro nel menu di navigazione, così come specificato. Prestare particolare attenzione nell'usare questa proprietà."
+
+#. Tag: para
+#, no-c-format
+msgid "Optionally, set the default language of the website. <application>Publican</application> creates a separate, translatable navigation menu for each language in which you publish documentation. However, if a document is not available in a particular language, <application>Publican</application> links visitors to the untranslated version of that document. To specify the default, untranslated language for the site, set <parameter>def_lang</parameter> with a language code. For example:"
+msgstr "Opzionalmente, impostare la lingua predefinita del sito web. <application>Publican</application> crea un menu di navigazione distinto e tradotto, per ogni lingua in cui si pubblica la documentazione. Comunque, se un documento non è disponibile in una particolare lingua, <application>Publican</application> indirizza i visitatori alla versione in lingua originale del documento. Per specificare la lingua predefinita, originale del sito, impostare il parametro <parameter>def_lang</parameter> con il codice linguistico relativo. Per esempio:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "def_lang: fr-FR"
+msgstr "def_lang: it-IT"
+
+#. Tag: para
+#, no-c-format
+msgid "With <parameter>def_lang</parameter> set to <literal>fr-FR</literal>, visitors viewing the navigation menu in (for example) Spanish are presented with a link to the original French version of the document if the document has not yet been translated into Spanish."
+msgstr "Impostando il parametro <parameter>def_lang</parameter> con il codice <literal>it-IT</literal>, i visitatori che visualizzano il menu di navigazione, per esempio in spagnolo, vengono diretti alla versione italiana del documento se non è presente una traduzione in spagnolo."
+
+#. Tag: para
+#, no-c-format
+msgid "Optionally, configure a <firstterm>dump file</firstterm> for the website. <application>Publican</application> can output an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The file is updated whenever a book is installed or removed from the site, or the <command>publican update_site</command> command is run. Configure the <parameter>dump</parameter>, <parameter>dump_file</parameter>, and <parameter>zip_dump</parameter> parameters as follows:"
+msgstr "Opzionalmente, configurare un <firstterm>file dump</firstterm> per il sito web. <application>Publican</application> può produrre un file XML con i dettagli completi del contenuto del sito per offrire altri servizi, come feed web o pagine di ricerca personalizzate. Questo file viene aggiornato ad ogni installazione o rimozione di un libro dal sito, oppure eseguendo il comando <command>publican update_site</command>. Configurare come indicato di seguito, i parametri <parameter>dump</parameter>, <parameter>dump_file</parameter> e <parameter>zip_dump</parameter>:"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>dump</parameter>"
+msgstr "<parameter>dump</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "Set <literal>dump: 1</literal> to enable the dump file function. This parameter defaults to <literal>0</literal> (off)."
+msgstr "Impostare <literal>dump: 1</literal> per abilitare la funzione di file dump. Il parametro, in modo predefinito, è impostato su <literal>0</literal> (disattivato)."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>dump_file</parameter>"
+msgstr "<parameter>dump_file</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "Set <literal>dump_file: <replaceable>name</replaceable></literal> to specify the name of the dump file and the directory in which <application>Publican</application> stores it. This parameter defaults to <literal>/var/www/html/DUMP.xml</literal>."
+msgstr "Impostare <literal>dump_file: <replaceable>nome</replaceable></literal> per specificare il nome del file dump e la cartella in cui salvare il file. Il parametro, in modo predefinito, è impostato su <literal>/var/www/html/DUMP.xml</literal>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>zip_dump</parameter>"
+msgstr "<parameter>zip_dump</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "Set <literal>zip_dump: 1</literal> to specify that <application>Publican</application> should create a zipped version of the XML file together with the XML version. This parameter defaults to <literal>0</literal> (off)."
+msgstr "Impostare <literal>zip_dump: 1</literal> per creare anche una versione zippata del file XML. Il parametro, in modo predefinito, è impostato su <literal>0</literal> (disattivato)."
+
+#. Tag: para
+#, no-c-format
+msgid "Refer to <xref linkend=\"dump_file\" /> for a description of the contents of the dump file."
+msgstr "Fare riferimento all'<xref linkend=\"dump_file\" /> per una descrizione del contenuto del file dump."
+
+#. Tag: para
+#, no-c-format
+msgid "Create an empty file named <filename>site_overrides.css</filename>. If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend=\"sect-Users_Guide-Website-homepage-rpm\" />. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, run:"
+msgstr "Creare un file vuoto di nome  <filename>site_overrides.css</filename>. Se si desidera usare degli stili specifici alternativi a quelli forniti da <filename>interactive.css</filename>, aggiungere un file <filename>site_overrides.css</filename> al documento che fornisce la <firstterm>home page</firstterm>  del sito — vedere la <xref linkend=\"sect-Users_Guide-Website-homepage-rpm\" />. Se non si usa uno stile specifico, il file vuoto aggiunto impedirà la comparsa dell'errore 404 sul server. Su un sistema Linux, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>touch /var/www/html/docs/site_overrides.css</command>"
+msgstr "<command>touch /var/www/html/docs/site_overrides.css</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "To make <application>Publican</application> refresh the site structure at any time, run:"
+msgstr "Per dire a <application>Publican</application> di aggiornare la struttura del sito, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican update_site --site_config /etc/publican-website.cfg</command>"
+msgstr "<command>publican update_site --site_config /etc/publican-website.cfg</command>"
+

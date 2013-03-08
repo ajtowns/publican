@@ -1,0 +1,62 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-11-25T18:01:59\n"
+"PO-Revision-Date: 2012-01-22 20:20+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Installing, updating, and removing documents"
+msgstr "Installare, aggiornare e rimuovere documenti"
+
+#. Tag: para
+#, no-c-format
+msgid "To install a document on a website that you are building manually, change into the directory that contains the source for the document and run:"
+msgstr "Per installare un documento su un sito web da creare manualmente, spostarsi nella cartella contenente il sorgente del documento ed eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid ""
+"<command>publican build --embedtoc --formats=<replaceable>list_of_formats</replaceable> --langs=<replaceable>language_codes</replaceable> --publish</command> \n"
+"<command>publican install_book --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg --lang <replaceable>language_code</replaceable></command>"
+msgstr ""
+"<command>publican build --embedtoc --formats=<replaceable>lista_dei_formati</replaceable> --langs=<replaceable>codici_lingua</replaceable> --publish</command> \n"
+"<command>publican install_book --site_config <replaceable>percorso_al_file_di_configurazione_del_sito</replaceable>.cfg --lang <replaceable>codici_lingua</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Note that you can run a single <command>publican build</command> command for all languages that you want to publish, but must run a separate <command>publican install_book</command> for each language. You must include <literal>html</literal> as one of the formats in the <command>publican build</command> command; optionally, include any or all of the following formats in a comma-separated list: <literal>html-single</literal>, <literal>pdf</literal>, and <literal>epub</literal>."
+msgstr "Notare che è possibile creare con un unico comando di <command>publican build</command>, le pubblicazioni per tutte le lingue, ma che occorre un comando <command>publican install_book</command>, individuale per ciascuna lingua. Nel comando <command>publican build</command>, occorre includere <literal>html</literal> come uno dei formato d'uscita ; opzionalmente, è possibile includere anche uno o più dei seguenti formati, separandoli con virgole: <literal>html-single</literal>, <literal>pdf</literal> ed <literal>epub</literal>."
+
+#. Tag: para
+#, no-c-format
+msgid "To update a document, change into the directory that contains the updated source for the document and run the same commands as if you were installing the document for the first time. <application>Publican</application> replaces the old version with the new version."
+msgstr "Per aggiornare un documento, spostarsi nella cartella contenente i sorgenti del documento ed eseguire gli stessi comandi relativi ad una prima installazione di un documento. In tal modo, <application>Publican</application> sostituisce la precedente con la nuova versione."
+
+#. Tag: para
+#, no-c-format
+msgid "To remove a document, change into the directory that contains the source for the document and run:"
+msgstr "Per rimuovere un documento, spostarsi nella cartella contenente i sorgenti del documento ed eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican remove_book --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg --lang <replaceable>language_code</replaceable></command>"
+msgstr "<command>publican remove_book --site_config <replaceable>percorso_al_file_di_configurazione_del_sito</replaceable>.cfg --lang <replaceable>codice_lingua</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "When you have installed the documents, the website is ready to upload to your webserver by whatever process you usually use, for example <application>scp</application>, <application>rsync</application>, or an FTP client."
+msgstr "Una volta installati i documenti, il sito è pronto per essere caricato sul server web attraverso un qualsiasi metodo solitamente usato, come <application>scp</application>, <application>rsync</application> o un client FTP."
+

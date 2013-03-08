@@ -1,0 +1,294 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Francesco D'Aluisio, 2010.
+# Luigi Votta <lewis41@fedoraproject.org>, 2010, 2011.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:04\n"
+"PO-Revision-Date: 2012-01-16 21:17+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Building a document"
+msgstr "Creare un documento"
+
+#. Tag: title
+#, no-c-format
+msgid "Note — Customizing output"
+msgstr "Nota — Personalizzare la presentazione"
+
+#. Tag: para
+#, no-c-format
+msgid "The parameters set in the document configuration file (by default, <filename>publican.cfg</filename>) allow you to control many aspects of the way in which a document is presented — refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" />."
+msgstr "I parametri impostati nel file di configurazione del documento (per impostazione <filename>publican.cfg</filename>), permettono di controllare molti aspetti riguardanti la presentazione di un documento — fare riferimento a <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" />."
+
+#. Tag: para
+#, no-c-format
+msgid "If you maintain multiple versions of a document, you can create a configuration file for each version. When building the document, you can use the <option>--config</option> to specify which configuration file (and therefore which set of parameters) to use in a particular build, for example:"
+msgstr "Se si mantengono versioni multiple di un documento, si può creare un file di configurazione per ciascuna versione. Quando si crea un documento, si può usare l'opzione <option>--config</option> per specificare il file da usare per una particolare compilazione, per esempio:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>"
+msgstr "<command>publican build --formats html,pdf --langs en-US,de-DE,it-IT --config community.cfg</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "To build a document:"
+msgstr "Per creare un documento:"
+
+#. Tag: para
+#, no-c-format
+msgid "Confirm the <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities have been configured in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file, as described in <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent\" />."
+msgstr "Verificare che nel file <filename><replaceable>Nome_Doc</replaceable>.ent</filename>, siano state configurate le entità <parameter>YEAR</parameter> e <parameter>HOLDER</parameter>, come descritto nella <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent\" />."
+
+#. Tag: para
+#, no-c-format
+msgid "Change into the root directory of the document. For example, if the document is named <literal>Test_Book</literal> and is located in the <filename>~/books/</filename> directory, run the following command:"
+msgstr "Spostarsi nella cartella radice del documento. Per esempio, se il documento ha il nome <literal>Libro_di_Prova</literal> e si trova in <filename>~/libri/</filename>, eseguire il seguente comando:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd ~/books/Test_Book</command>"
+msgstr "<command>cd ~/libri/Libro_di_Prova</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Run a test for any errors that would stop the book from building in your chosen language, for example:"
+msgstr "Eseguire un test, per evitare che ci siano errori di compilazione nel linguaggio desiderato, per esempio:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican build --formats=test --langs=en-US</command>"
+msgstr "<command>publican build --formats=test --langs=it-IT</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Run the following command to build the book:"
+msgstr "Eseguire il seguente comando per creare il libro:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican build --formats=<replaceable>formats</replaceable> --langs=<replaceable>languages</replaceable></command>"
+msgstr "<command>publican build --formats=<replaceable>formati</replaceable> --langs=<replaceable>lingue</replaceable></command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Replace <replaceable>formats</replaceable> with a comma-separated list of the formats that you want to build; for example, <literal>html,html-single,pdf</literal>. Replace <replaceable>langs</replaceable> with a comma-separated list of the languages that you want to build; for example, <literal>en-US,sv-SE,uk-UA,ko-KR</literal>."
+msgstr "Sostituire <replaceable>formati</replaceable> con la lista dei formati d'uscita, separati da virgole, per esempio  <literal>html,html-single,pdf</literal>. Sostituire <replaceable>lingue</replaceable> con la lista dei codici linguistici, separati da virgole, per esempio <literal>en-US,sv-SE,it-IT,ko-KR</literal>."
+
+#. Tag: title
+#, no-c-format
+msgid "Formats for the <command>build</command> action"
+msgstr "Formati per l'azione <command>build</command>"
+
+#. Tag: term
+#, no-c-format
+msgid "<option>html</option>"
+msgstr "<option>html</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as in multiple HTML pages, with each chapter and major section on a separate page. <application>Publican</application> places an index at the start of the document, and places navigational elements on each page."
+msgstr "<application>Publican</application> presenta il documento in multiple pagine HTML, con ciascun capitolo e le principali sezioni su pagine separate. <application>Publican</application> crea un indice all'inizio del documento e posiziona controlli di navigazione su ogni pagina."
+
+#. Tag: para
+#, no-c-format
+msgid "Use the <parameter>chunk_first</parameter> and <parameter>chunk_section depth</parameter> parameters in the <filename>publican.cfg</filename> file to control how <application>Publican</application> chunks sections in this format."
+msgstr "Usare i parametri <parameter>chunk_first</parameter> e <parameter>chunk_section depth</parameter> nel file <filename>publican.cfg</filename>, per controllare il tipo di suddivisione delle sezioni in questo formato d'uscita."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>html-single</option>"
+msgstr "<option>html-single</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as a single HTML page with the table of contents near the top of the page."
+msgstr "<application>Publican</application> presenta il documento in una singola pagina HTML con la tabella dei contenuti posta in cima alla pagina."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>html-desktop</option>"
+msgstr "<option>html-desktop</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as a single HTML page with the table of contents located in a separate pane on the left side of the document."
+msgstr "<application>Publican</application> presenta il documento in una singola pagina HTML con la la tabella dei contenuti posta in un pannello separato a sinistra del documento."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>man</option>"
+msgstr "<option>man</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as a manual page (\"man page\") for use with Linux, UNIX, and similar operating systems."
+msgstr "<application>Publican</application> presenta il documento in pagine di manuale (o \"man page\"), in uso nei Sistemi Operativi Linux, Unix e simili."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>pdf</option>"
+msgstr "<option>pdf</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as a PDF file."
+msgstr "<application>Publican</application> presenta il documento in un file PDF."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>test</option>"
+msgstr "<option>test</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> validates the XML structure of the book, but does not transform the XML into another format."
+msgstr "<application>Publican</application> controlla la validità della struttura XML del libro, senza effettuare nessuna trasformazione."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>txt</option>"
+msgstr "<option>txt</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as a single text file."
+msgstr "<application>Publican</application> presenta il documento in un singolo file di testo."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>epub</option>"
+msgstr "<option>epub</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as an e-book in EPUB format."
+msgstr "<application>Publican</application> presenta il documento in un e-book in formato EPUB."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>eclipse</option>"
+msgstr "<option>eclipse</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> outputs the document as an <application>Eclipse</application> help plugin. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> for details of specifying <application>Eclipse</application>'s <parameter>id</parameter>, <parameter>name</parameter>, and <parameter>provider-name</parameter> parameters with <application>Publican</application>'s <parameter>ec_id</parameter>, <parameter>ec_name</parameter>, and <parameter>ec_provider</parameter> parameters."
+msgstr "<application>Publican</application> presenta il documento come un plugin d'aiuto di <application>Eclipse</application>. Vedere la <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" /> per i dettagli sui parametri d'impostazione <parameter>ec_id</parameter>, <parameter>ec_name</parameter> ed <parameter>ec_provider</parameter>."
+
+#. Tag: para
+#, no-c-format
+msgid "The following examples demonstrate commonly used <command>publican build</command> commands:"
+msgstr "I seguenti esempi mostrano alcuni comandi comunemente usati con <command>publican build</command>:"
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican build --help</command>"
+msgstr "<command>publican build --help</command>"
+
+#. Tag: para
+#, no-c-format
+msgid "List available <command>publican build</command> options for building a book."
+msgstr "Elenca le opzioni disponibili in <command>publican build</command> per creare un libro."
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican build --formats=test --langs=<replaceable>languages</replaceable></command>"
+msgstr "<command>publican build --formats=test --langs=<replaceable>lingue</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Check that the book can be built correctly. Build <command>--formats=test</command> before running any other <command>publican build</command> command, and before checking a book back into a version-controlled repository from which other contributors might download it."
+msgstr "Controlla che il libro compili correttamente. Compilare con <command>--formats=test</command> prima di eseguire ogni altro comando <command>publican build</command>, e prima di riportarlo su un repository di controllo versione, da cui altri contributori possano scaricarlo. "
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican build --formats=html --langs=<replaceable>languages</replaceable></command>"
+msgstr "<command>publican build --formats=html --langs=<replaceable>lingue</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Build the book in multi-page HTML format. The HTML output will be located in the <filename><replaceable>Doc_Name</replaceable>/tmp/<replaceable>language</replaceable>/html/</filename> directory. Each chapter and major section is placed in a separate HTML file. You can control the depth at which <application>Publican</application> places subsections into separate HTML files with the <literal>chunk-section-depth</literal> parameter in the <filename>publican.cfg</filename> — refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" />."
+msgstr "Compila il libro in formato HTML su pagine multiple. Il documento in HTML viene salvato nella directory <filename><replaceable>Nome_Doc</replaceable>/tmp/<replaceable>lingua</replaceable>/html/</filename>. Ogni capitolo e ogni sezione principale viene disposto in un file HTML separato. E' possibile controllare il livello di suddivisione delle sotto-sezioni da presentare su pagine HTML separate, con il parametro <literal>chunk-section-depth</literal> in <filename>publican.cfg</filename> — fare riferimento alla <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican build --formats=html-single --langs=<replaceable>languages</replaceable></command>"
+msgstr "<command>publican build --formats=html-single --langs=<replaceable>lingue</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Build the book in single-page HTML format. The output will be a single HTML file located in the <filename><replaceable>Doc_Name</replaceable>/tmp/<replaceable>language</replaceable>/html-single/</filename> directory."
+msgstr "Crea il libro in formato HTML su una pagina singola. Il documento è un unico file HTML salvato nella directory <filename><replaceable>Nome_Doc</replaceable>/tmp/<replaceable>lingua</replaceable>/html-single/</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican build --formats=pdf --langs=<replaceable>languages</replaceable></command>"
+msgstr "<command>publican build --formats=pdf --langs=<replaceable>lingue</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Build the book as a PDF file. <application>Publican</application> relies on an external application, <application>FOP</application> to render PDF. Therefore, building PDF might not be available on all systems, depending on the availability of <application>FOP</application>. The output will be a single PDF file located in the <filename><replaceable>Doc_Name</replaceable>/tmp/<replaceable>language</replaceable>/pdf/</filename> directory."
+msgstr "Crea il libro in formato PDF. <application>Publican</application> si appoggia ad una applicazione esterna, <application>FOP</application> per rendere il PDF. Quindi, la compilazione per PDF potrebbe non essere disponibile su tutti i sistemi, dipendendo dalla disponibilità di <application>FOP</application>. Il documento è un unico file PDF salvato nella directory <filename><replaceable>Nome_Doc</replaceable>/tmp/<replaceable>lingua</replaceable>/pdf/</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<command>publican build --formats=html,html-single,pdf --langs=<replaceable>languages</replaceable></command>"
+msgstr "<command>publican build --formats=html,html-single,pdf --langs=<replaceable>lingue</replaceable></command>"
+
+#. Tag: para
+#, no-c-format
+msgid "Build the book in multi-page HTML, single-page HTML, and PDF formats."
+msgstr "Crea il libro nei formati HTML su pagine multiple e su pagina singola, e PDF."
+
+#. Tag: title
+#, no-c-format
+msgid "Building a document without validation"
+msgstr "Compilare un documento senza controllo di validità"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> validates your XML against the DocBook <firstterm>document type definition</firstterm> (DTD) before it builds the content. However, while a document is under development, you might sometimes want to skip validation while building, especially if the document contains cross-references (<sgmltag>&lt;xref&gt;</sgmltag>s) to sections of the document that do not yet exist. To skip validation, run <command>publican build</command> with the <option>--novalid</option> option. Cross-references to non-existent content appear in the built document as three question marks: <literal>???</literal>."
+msgstr "<application>Publican</application> controlla la validità della struttura XML con il <firstterm>DTD</firstterm> (Document Type Definition) prima di compilare il contenuto. Tuttavia in certe situazioni, come quando un documento è in fase di sviluppo, si potrebbe voler saltare la validazione durante la compilazione, soprattutto se il documento contiene riferimenti incrociati (<sgmltag>&lt;xref&gt;</sgmltag>) a sezioni del documento che ancora non esistono. Per saltare la validazione, eseguire <command>publican build</command> con l'opzione <option>--novalid</option>. I riferimenti a contenuto non esistente, nel documento creato, appaiono con tre punti interrogativi, <literal>???</literal>."
+
+#. Tag: para
+#, no-c-format
+msgid "Because the document has not been validated against the DTD, the quality of the output produced when you build with the <option>--novalid</option> option is highly suspect. Do not publish documentation that you have built with the <option>--novalid</option> option."
+msgstr "Poiché il documento non risulta validato con il DTD, la qualità della presentazione prodotta usando l'opzione <option>--novalid</option> è quantomeno sospetta. Non pubblicare i documenti compilati con l'opzione <option>--novalid</option>."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "Change into the document directory, the one that holds the <filename>Makefile</filename>."
+#~ msgstr "Spostarsi nella cartella del documento, contenente il <filename>Makefile</filename>."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "Documents produced with early versions of <application>Publican</application> (versions up to and including 0.45) did not have a <filename>publican.cfg</filename> file; a similar set of parameters was defined in a <filename>Makefile</filename>. Before you build such a document in a current version of <application>Publican</application> (version 0.99 onwards), you must convert the <filename>Makefile</filename> into a <filename>publican.cfg</filename> file. <application>Publican</application> can do this conversion automatically:"
+#~ msgstr "I documenti prodotti con precedenti versioni di <application>Publican</application> (versioni fino alla 0.45, inclusa) non hanno un file <filename>publican.cfg</filename>; un insieme di parametri simili veniva definito in un <filename>Makefile</filename>. Prima di compilare un tale documento con una versione corrente di <application>Publican</application> (versione 0.99 in poi), occorre convertire il <filename>Makefile</filename> in un file <filename>publican.cfg</filename>. <application>Publican</application> è in grado di fare automaticamente questa conversione:"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "Run <command>publican old2new</command>. <application>Publican</application> parses the <filename>Makefile</filename> and creates a <filename>publican.cfg</filename> file with equivalent parameters wherever available."
+#~ msgstr "Eseguire <command>publican old2new</command>. <application>Publican</application> analizza il <filename>Makefile</filename> e crea un file <filename>publican.cfg</filename> con parametri equivalenti, quando possibile."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "When you run <command>publican old2new</command>, <application>Publican</application> does not alter or delete the original <filename>Makefile</filename>. A <filename>Makefile</filename> and a <filename>publican.cfg</filename> file can coexist in the same document."
+#~ msgstr "Eseguendo il comando <command>publican old2new</command>, <application>Publican</application> non modifica o elimina il <filename>Makefile</filename> originale. Un <filename>Makefile</filename> ed un file  <filename>publican.cfg</filename> possono coesistere nello stesso documento."
+
+#. Tag: title
+#, no-c-format
+#~ msgid "Building a document created with Publican 0"
+#~ msgstr "Compilare un documento creato con Publican 0"
+

@@ -1,0 +1,111 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:15\n"
+"PO-Revision-Date: 2012-01-22 19:57+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Packaging a brand"
+msgstr "Creare il pacchetto di un brand"
+
+#. Tag: para
+#, no-c-format
+msgid "After you create a brand (as described in <xref linkend=\"sect-Users_Guide-Creating_a_brand\" />), <application>Publican</application> can help you to distribute the brand to members of your documentation project as <firstterm>RPM packages</firstterm>. RPM packages are used to distribute software to computers with Linux operating systems that use the <application>RPM Package Manager</application>. These operating systems include Red Hat Enterprise Linux, Fedora, Mandriva Linux, SUSE Linux Enterprise, openSUSE, Turbolinux, and Yellow Dog Linux, to name just a few."
+msgstr "Dopo aver creato un brand (come descritto nella <xref linkend=\"sect-Users_Guide-Creating_a_brand\" />), <application>Publican</application> permette di distribuire il brand ai membri di un team di documentazione come <firstterm>pacchetti RPM</firstterm>. I pacchetti RPM vengono impiegati per distribuire software ai computer con sistemi operativi Linux che usano un <application>Gestore di pacchetti RPM</application>. Tra questi sistemi operativi figurano Red Hat Enterprise Linux, Fedora, Mandriva Linux, SUSE Linux Enterprise, openSUSE, Turbolinux e Yellow Dog Linux, per citarne solo alcuni."
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> can produce both <firstterm>source RPM packages</firstterm> (<firstterm>SRPM packages</firstterm>) and <firstterm>binary RPM packages</firstterm>. As part of this process, it also creates the <firstterm>spec file</firstterm> — the file that contains the details of how a package is configured and installed."
+msgstr "<application>Publican</application>  è in grado di produrre sia <firstterm>pacchetti RPM di sorgenti</firstterm> (<firstterm>pacchetti SRPM</firstterm>) sia <firstterm>pacchetti RPM di binari</firstterm>. Come parte del processo, crea anche il <firstterm>file spec</firstterm> — il file contenente i dettagli di come configurare ed installare il pacchetto."
+
+#. Tag: para
+#, no-c-format
+msgid "SRPM packages contain the source code used to generate software rather than the software itself. To use an SRPM package, a computer must <firstterm>compile</firstterm> the source code into software. SRPM packages of <application>Publican</application> brands contain the configuration files, XML files, and image files that define the brand in its original language, plus the PO files that generate the Common Content files in translated languages. You cannot install documentation directly from SRPM packages with current versions of the <application>RPM Package Manager</application>."
+msgstr "Un pacchetto SRPM contiene il codice sorgente da cui generare il software, invece del software stesso. Per usare un pacchetto SRPM, un sistema deve <firstterm>compilare</firstterm> il codice sorgente trasformandolo in software. I pacchetti SRPM di brand creati con <application>Publican</application>, contengono file di configurazione, file XML e file di immagini che definiscono il brand nella propria lingua originale, più i file PO che generano i file di Common Content nelle varie lingue. Non è possibile installare direttamente i documenti da un pacchetto SRPM con la versione attuale di <application>RPM Package Manager</application>."
+
+#. Tag: para
+#, no-c-format
+msgid "Conversely, binary RPM packages contain software — in this case, a <application>Publican</application> brand — that is ready to copy to a location in the computer's file system and use immediately. The contents of the binary RPM package do not need to be compiled by the computer onto which they are installed, and therefore, the computer does not need to have <application>Publican</application> installed."
+msgstr "Al contrario, i pacchetti RPM di binari contengono software — in questo caso, un brand di <application>Publican</application> — pronto per essere salvato nel file system del computer ed immediatamente usato. I contenuti del pacchetto RPM binario non devono essere prima compilati sul sistema da installare, e quindi il sistema non deve aver <application>Publican</application>, installato."
+
+#. Tag: para
+#, no-c-format
+msgid "To package a brand, use the <command>publican package</command> command in the brand directory. When used without any further options, <application>Publican</application> produces an SRPM package. The options for packaging a brand are as follows:"
+msgstr "Per creare il pacchetto di un brand, usare il comando <command>publican package</command> nella cartella del brand. Quando usato senza opzioni, <application>Publican</application> crea un pacchetto SRPM. Le opzioni disponibili sono:"
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--binary</option>"
+msgstr "<option>--binary</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies that <application>Publican</application> should build the package as a binary RPM package."
+msgstr "specifica di compilare il pacchetto come un pacchetto RPM binario."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--brew</option>"
+msgstr "<option>--brew</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies that <application>Publican</application> should push the completed package to <application>Brew</application>. <application>Brew</application> is the build system used internally by Red Hat; this option is meaningless outside Red Hat."
+msgstr "specifica di inviare su <application>Brew</application> il pacchetto completato. <application>Brew</application> è il sistema di compilazione interno a Red Hat; questa opzione non ha senso all'esterno di Red Hat."
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--scratch</option>"
+msgstr "<option>--scratch</option>"
+
+#. Tag: para
+#, no-c-format
+msgid "when used together with the <option>--brew</option> option, specifies that a SRPM package should be built as a <firstterm>scratch build</firstterm> when sent to <application>Brew</application>. Scratch builds are used to verify that a SRPM package is structured correctly, without updating the package database to use the resulting package."
+msgstr "se usato insieme all'opzione <option>--brew</option>, specifica di compilare il pacchetto SRPM da inviare su <application>Brew</application>, come uno <firstterm>scratch build</firstterm> (compilazione di prova). Uno scratch build è usato per verificare la correttezza strutturale del pacchetto SRPM, senza aggiornare il database dei pacchetti con il pacchetto risultante."
+
+#. Tag: para
+#, no-c-format
+msgid "The <option>--lang</option>, <option>--desktop</option> and <option>--short_sighted</option> options that apply when you package books (described in <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />) are meaningless when you package brands. In particular, note that although the <option>--lang</option> option is mandatory when you package a book, you do not need to use it when you package a brand."
+msgstr "Le opzioni <option>--lang</option>, <option>--desktop</option> e <option>--short_sighted</option> che si applicano quando si crea il pacchetto di un libro (descritto nella <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />) non hanno senso nel caso dei brand. In particolare, notare che sebbene l'opzione <option>--lang</option> sia necessaria per la creazione del pacchetto di un libro, essa non occorre quando si crea il pacchetto di un brand."
+
+#. Tag: para
+#, no-c-format
+msgid "By default, <application>Publican</application> brand packages are named:"
+msgstr "Per impostazione predefinita, i pacchetti di brand di <application>Publican</application> sono denominati:"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>publican-<replaceable>brand</replaceable>-<replaceable>version</replaceable>-<replaceable>release</replaceable>.<replaceable>build_target</replaceable>.noarch.<replaceable>file_extension</replaceable></filename>."
+msgstr "<filename>publican-<replaceable>brand</replaceable>-<replaceable>versione</replaceable>-<replaceable>release</replaceable>.<replaceable>build_target</replaceable>.noarch.<replaceable>estensione_file</replaceable></filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> uses the information in the <filename>publican.cfg</filename> file to supply the various parameters in the file name. Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_brand_directory-The_publican.cfg_file\" /> for details of configuring this file. Additionally:"
+msgstr "<application>Publican</application> usa le informazioni nel file <filename>publican.cfg</filename> per fornire i vari parametri nel nome di file. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Files_in_the_brand_directory-The_publican.cfg_file\" /> per i dettagli sulla configurazione di questo file. Inoltre:"
+
+#. Tag: para
+#, no-c-format
+msgid "SRPM packages have the file extension <literal>.src.rpm</literal> but binary RPM packages have the file extension <literal>.rpm</literal>"
+msgstr "i pacchetti SRPM hanno estensione <literal>.src.rpm</literal> mentre i pacchetti RPM di binari hanno estensione <literal>.rpm</literal>"
+
+#. Tag: para
+#, no-c-format
+msgid "binary RPM packages include <literal><replaceable>build_target</replaceable>.noarch</literal> before the file extension, where <replaceable>[build_target]</replaceable> represents the operating system and version that the package is built for as set by the <parameter>os_ver</parameter> parameter in the <filename>publican.cfg</filename> file. The <literal>noarch</literal> element specifies that the package can be installed on any system, regardless of the system architecture."
+msgstr "i pacchetti RPM di binari include prima dell'estensione, l'elemento <literal><replaceable>build_target</replaceable>.noarch</literal>, dove <replaceable>build_target</replaceable> rappresenta il sistema operativo e la versione, per cui il pacchetto viene compilato, come impostato dal parametro <parameter>os_ver</parameter> nel file <filename>publican.cfg</filename>. L'elemento <literal>noarch</literal> specifica che il pacchetto può essere installato su ogni sistema, a prescindere dall'architettura."
+
+#~ msgid "An SRPM package contains the source code used to generate software rather than the software itself. To use an SRPM package, a computer must <firstterm>compile</firstterm> the source code into software. SRPM packages of <application>Publican</application> brands contain the configuration files, XML files, and image files that define the brand in its original language, plus the PO files that generate the Common Content files in translated languages. To install a brand from its SRPM package to a computer, the computer must have <application>Publican</application> installed on it. When you try to install the SRPM package on a computer that does not have <application>Publican</application> installed, the <application>RPM Package Manager</application> looks for <application>Publican</application> in the software repositories that are available to it. The <application>RPM Package Manager</application> installs <application>Publican</application> first, so that it can build and install the brand contained in the SRPM package. If the <application>RPM Package Manager</application> cannot find and install <application>Publican</application>, installation of the SRPM package will fail."
+#~ msgstr "Un pacchetto SRPM contiene il codice sorgente da cui generare il software, invece del software stesso. Per usare un pacchetto SRPM, un sistema deve <firstterm>compilare</firstterm> il codice sorgente trasformandolo in software. I pacchetti SRPM di brand creati con <application>Publican</application>, contengono file di configurazione, file XML e file di immagini che definiscono il brand nella sua lingua originale, più i file PO che generano i file in Common Content nella lingua tradotta. Per installare il brand da un pacchetto SRPM, il sistema deve aver installato <application>Publican</application> Quando si tenta di installare un pacchetto SRPM privo di <application>Publican</application>, il <application>Gestore dei pacchetti RPM</application> cerca automaticamente <application>Publican</application> nei repository software disponibili. Poi, il <application>Gestore dei pacchetti RPM</application> installa <application>Publican</application> in modo da poter compilare ed installare il brand contenuto nel pacchetto SRPM. Se il <application>Gestore dei pacchetti RPM</application> non riesce a trovare e ad installare <application>Publican</application>, l'installazione dell'SRPM fallisce."
+

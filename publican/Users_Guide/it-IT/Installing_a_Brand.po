@@ -1,0 +1,258 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Luigi Votta <lewis41@fedoraproject.org>, 2010.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2010-11-23T10:10:53\n"
+"PO-Revision-Date: 2012-01-22 19:33+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Installing a brand"
+msgstr "Installare un brand"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> brands for Fedora, Genome, and oVirt documents are available as RPM packages in Fedora. Similarly, Red Hat internally distributes RPM packages containing <application>Publican</application> brands for GIMP, JBoss, and Red Hat documents. Providing that you have access to the relevant repositories, you can install these brands on a computer that runs Red Hat Enterprise Linux or Fedora — or an operating system derived from either — with the command <command>yum install publican-<replaceable>brand</replaceable></command> or with a graphical package manager such as <application>PackageKit</application>."
+msgstr "In Fedora, i brand <application>Publican</application> per documenti Fedora, Genome e oVirt sono disponibili come pacchetti RPM. Analogamente, Red Hat distribuisce pacchetti RPM contenenti brand di <application>Publican</application> per documenti GIMP, JBoss e Red Hat. Accedendo ai repository dedicati, è possibile installare questi brand su computer che eseguono Red Hat Enterprise Linux o Fedora — o un sistema operativo derivato — con il comando <command>yum install publican-<replaceable>brand</replaceable></command> o con un gestore grafico di pacchetti come <application>PackageKit</application>."
+
+#. Tag: para
+#, no-c-format
+msgid "If you use <application>Publican</application> on an operating system that does not use RPM packages, your documentation project might provide its brand in another format. Whatever the format in which the brand is supplied, you must place the brand files in a subdirectory of the <application>Publican</application> <filename>Common_Content</filename> directory. By default, this directory is located at <filename>/usr/share/publican/Common_Content</filename> on Linux operating systems and at <filename>%SystemDrive%/%ProgramFiles%/Publican/Common_Content</filename> on Windows operating systems — typically, <filename>C:/Program Files/Publican/Common_Content</filename>"
+msgstr "Se si usa <application>Publican</application> su un sistema operativo che non utilizza pacchetti RPM, il progetto di documentazione può fornire il proprio brand in un altro formato. Qualunque sia il formato di distribuzione del brand, i file di brand devono trovarsi in una sotto-cartella della cartella <filename>Common_Content</filename> di <application>Publican</application>. Per impostazione, questa cartella si trova in <filename>/usr/share/publican/Common_Content</filename> nei Sistemi Operativi Linux, e in <filename>%SystemDrive%/%ProgramFiles%/Publican/Common_Content</filename> nei sistemi operativi Windows — tipicamente <filename>C:/Program Files/Publican/Common_Content</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "Each currently available brand is distributed under a brand-specific license as follows:"
+msgstr "Ciascun brand attualmente disponibile, viene distribuito sotto una licenza specifica per brand, come indicato di seguito."
+
+#. Tag: para
+#, no-c-format
+msgid "To install the brand:"
+msgstr "Installare il brand:"
+
+#. Tag: para
+#, no-c-format
+msgid "If the brand was supplied to you in an archive of some kind, for example, a tarball or ZIP file, unpack the brand into a new directory on your system."
+msgstr "Se il brand è distribuito come un archivio, per esempio, un file tarball o ZIP, estrarre il brand in una nuova cartella."
+
+#. Tag: para
+#, no-c-format
+msgid "Change into the directory in which you created or unpacked the brand:"
+msgstr "Spostarsi nella cartella contenente il brand estratto:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd publican-<replaceable>brand</replaceable></command>\n"
+msgstr "<command>cd publican-<replaceable>brand</replaceable></command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "where <replaceable>brand</replaceable> is the name of the brand."
+msgstr "dove <replaceable>brand</replaceable> è il nome del brand."
+
+#. Tag: para
+#, no-c-format
+msgid "Build the brand:"
+msgstr "Compilare il brand:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican build --formats xml --langs all --publish</command>\n"
+msgstr "<command>publican build --formats xml --langs all --publish</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "Install the brand:"
+msgstr "Installare il brand:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>sudo publican install_brand --path <replaceable>path</replaceable></command>\n"
+msgstr "<command>sudo publican install_brand --path <replaceable>path</replaceable></command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "where <replaceable>path</replaceable> is the path to the <application>Publican</application> Common Content files. For example, on a Linux system, run:"
+msgstr "dove <replaceable>path</replaceable> è il percorso ai file Common Content di <application>Publican</application>. Per esempio, su un sistema Linux, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>sudo publican install_brand --path /usr/share/publican/Common_Content</command>\n"
+msgstr "<command>sudo publican install_brand --path /usr/share/publican/Common_Content</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "or on a Windows system, run"
+msgstr "o su un sistema Windows, eseguire:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican install_brand --path \"C:/Program Files/Publican/Common_Content\"</command>\n"
+msgstr "<command>publican install_brand --path \"C:/Program Files/Publican/Common_Content\"</command>\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Current Brands and their packages"
+msgstr "Brand correnti e relativi pacchetti"
+
+#. Tag: entry
+#, no-c-format
+msgid "Brand"
+msgstr "Brand"
+
+#. Tag: entry
+#, no-c-format
+msgid "License of Common Content files"
+msgstr "Licenza sui file in Common Content"
+
+#. Tag: entry
+#, no-c-format
+msgid "Default license for documents"
+msgstr "Licenza predefinita sui documenti"
+
+#. Tag: entry
+#, no-c-format
+msgid "Package"
+msgstr "Pacchetto"
+
+#. Tag: entry
+#, no-c-format
+msgid "Comment"
+msgstr "Commento"
+
+#. Tag: entry
+#, no-c-format
+msgid "common"
+msgstr "common"
+
+#. Tag: entry
+#, no-c-format
+msgid "<ulink url=\"http://creativecommons.org/publicdomain/zero/1.0/\">CC0 1.0</ulink>"
+msgstr "<ulink url=\"http://creativecommons.org/publicdomain/zero/1.0/\">CC0 1.0</ulink>"
+
+#. Tag: entry
+#, no-c-format
+msgid "<ulink url=\"http://www.gnu.org/licenses/fdl.html\">GFDL Version 1.2</ulink>"
+msgstr "<ulink url=\"http://www.gnu.org/licenses/fdl.html\">GFDL Version 1.2</ulink>"
+
+#. Tag: entry
+#, no-c-format
+msgid "publican"
+msgstr "publican"
+
+#. Tag: entry
+#, no-c-format
+msgid "GPL compatible license. No options."
+msgstr "Licenza GPL compatibile. Nessuna opzione."
+
+#. Tag: entry
+#, no-c-format
+msgid "RedHat"
+msgstr "RedHat"
+
+#. Tag: entry
+#, no-c-format
+msgid "<ulink url=\"http://creativecommons.org/licenses/by-sa/3.0/\">CC-BY-SA 3.0</ulink>"
+msgstr "<ulink url=\"http://creativecommons.org/licenses/by-sa/3.0/\">CC-BY-SA 3.0</ulink>"
+
+#. Tag: entry
+#, no-c-format
+msgid "<phrase>CC-BY-SA 3.0</phrase>"
+msgstr "<phrase>CC-BY-SA 3.0</phrase>"
+
+#. Tag: entry
+#, no-c-format
+msgid "publican-redhat"
+msgstr "publican-redhat"
+
+#. Tag: entry
+#, no-c-format
+msgid "Fedora"
+msgstr "Fedora"
+
+#. Tag: entry
+#, no-c-format
+msgid "publican-fedora"
+msgstr "publican-fedora"
+
+#. Tag: entry
+#, no-c-format
+msgid "JBoss"
+msgstr "JBoss"
+
+#. Tag: entry
+#, no-c-format
+msgid "publican-jboss"
+msgstr "publican-jboss"
+
+#. Tag: entry
+#, no-c-format
+msgid "No Options."
+msgstr "Nessuna opzione."
+
+#. Tag: entry
+#, no-c-format
+msgid "oVirt"
+msgstr "oVirt"
+
+#. Tag: entry
+#, no-c-format
+msgid "<ulink url=\"http://www.opencontent.org/openpub/\">OPL 1.0</ulink>"
+msgstr "<ulink url=\"http://www.opencontent.org/openpub/\">OPL 1.0</ulink>"
+
+#. Tag: entry
+#, no-c-format
+msgid "<phrase>OPL 1.0</phrase>"
+msgstr "<phrase>OPL 1.0</phrase>"
+
+#. Tag: entry
+#, no-c-format
+msgid "publican-ovirt"
+msgstr "publican-ovirt"
+
+#. Tag: entry
+#, no-c-format
+msgid "GIMP"
+msgstr "GIMP"
+
+#. Tag: entry
+#, no-c-format
+msgid "<phrase>GFDL Version 1.2</phrase>"
+msgstr "<phrase>GFDL Version 1.2</phrase>"
+
+#. Tag: entry
+#, no-c-format
+msgid "publican-gimp"
+msgstr "publican-gimp"
+
+#. Tag: entry
+#, no-c-format
+msgid "Matches the license for existing GIMP documentation."
+msgstr "Coincidente con la licenza sulla documentazione GIMP esistente."
+
+#. Tag: entry
+#, no-c-format
+msgid "Genome"
+msgstr "Genome"
+
+#. Tag: entry
+#, no-c-format
+msgid "publican-genome"
+msgstr "publican-genome"
+
+#. Tag: para
+#, no-c-format
+msgid "Note the difference in licensing between the common content files provided in the common brand (CC0) and the default license set for books generated with the common brand (GFDL). The CC0 license allows you to redistribute and relicense the files that make up the common brand (including the CSS and image files) to suit your project. <application>Publican</application> suggests the GFDL for documentation by default because <application>Publican</application> is developed primarily to build documentation for software. The GFDL is compatible with the GPL, which is the most commonly used license for open-source software."
+msgstr "Notare, nel brand common, la differenza di licenza tra i file di common content (CC0) e la licenza predefinita (GFDL), impostata sui libri generati con il brand common. La licenza CC0 consente di re-distribuire e licenziare i file (inclusi i file CSS e le immagini), che fanno parte del common brand per soddisfare alle proprie esigenze progettuali. <application>Publican</application> suggerisce la licenza GFDL per la documentazione, per impostazione predefinita, poiché <application>Publican</application> è sviluppato in primo luogo per creare documentazione per software. La licenza GFDL è compatibile con la licenza GPL, che è la licenza più comunemente usata per il software open-source. "
+

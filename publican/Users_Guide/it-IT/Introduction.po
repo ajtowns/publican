@@ -1,0 +1,65 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Francesco D'Aluisio, 2010 
+# Luigi Votta <lewis41@fedoraproject.org>, 2010 
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:14\n"
+"PO-Revision-Date: 2010-11-05T15:45:02\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Italian <trans-it@lists-fedoraproject.org>MIME-Version: 1.0\n"
+"Language: \n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Introduction"
+msgstr "Introduzione"
+
+#. Tag: indexterm
+#, no-c-format
+msgid "<primary>Introduction 1</primary>"
+msgstr "<primary>Introduzione 1</primary>"
+
+#. Tag: para
+#, no-c-format
+msgid "<indexterm> <primary>Introduction 2</primary> </indexterm> <application>Publican</application> <indexterm> <primary>Introduction 3</primary> <secondary>Introduction 3</secondary> </indexterm> is a tool for publishing material authored in DocBook XML. This guide explains how to create and build books and articles using <application>Publican</application>. It is not a general DocBook XML tutorial; refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner, available at <ulink url=\"http://www.docbook.org/tdg/en/html/docbook.html\" /> for more general help with DocBook XML."
+msgstr "<indexterm> <primary>Introduzione 2</primary> </indexterm> <application>Publican</application> <indexterm> <primary>Introduzione 3</primary> </indexterm> è uno strumento per pubblicare materiale scritto in DocBook XML. Questa guida spiega come creare e compilare libri ed articoli usando <application>Publican</application>. Non si tratta di un tutorial su DocBook XML; per supporto su DocBook XML, fare invece riferimento alla Guida <citetitle>DocBook: The Definitive Guide</citetitle> di Norman Walsh e Leonard Muellner, disponibile su <ulink url=\"http://www.docbook.org/tdg/en/html/docbook.html\" />."
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> began life as an internal tool used by Red Hat's Documentation Group (now known as Engineering Content Services). On occasion, this legacy is visible."
+msgstr "<application>Publican</application> è nato come strumento interno al Red Hat's Documentation Group (ora noto come Engineering Content Services). All'occorrenza questa eredità verrà evidenziata."
+
+#. Tag: title
+#, no-c-format
+msgid "Design"
+msgstr "Progetto"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> is a publication system, not just a DocBook processing tool. As well as ensuring your DocBook XML is valid, <application>Publican</application> works to ensure your XML is up to publishable standard."
+msgstr "<application>Publican</application> è un sistema di pubblicazione, non solo uno strumento di elaborazione di DocBook. Oltre ad assicurare la validità di un DocBook XML, <application>Publican</application> assicura che ogni file XML sia conforme allo standard di pubblicazione."
+
+#. Tag: para
+#, no-c-format
+msgid "The branding functionality allows you to create your own presentation rules and look, overriding many parts of the default style to meet your publishing needs. Choices executed in code, however, are not changeable."
+msgstr "Le funzionalità di brand consentono di creare regole di presentazione e look personalizzati, in alternativa allo stile predefinito, per soddisfare le proprie esigenze editoriali. Le scelte effettuate nel codice, tuttavia, non sono modificabili."
+
+#. Tag: para
+#, no-c-format
+msgid "Entities, for example, can be validly defined in any XML file. However, to ensure the DTD declaration is present, valid and standardized, <application>Publican</application> rewrites the declaration in every XML file before it builds a book or article. Consequently, all entities declared in all XML files are lost. <application>Publican</application>, therefore, requires you define entities in the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file (refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent\" />)."
+msgstr "Per esempio, le entità possono essere validamente definite in ogni file XML. Tuttavia per garantire che la dichiarazione DTD sia presente, valida e standardizzata, <application>Publican</application> riscrive la dichiarazione in ogni file XML prima di compilare un testo o articolo. Di conseguenza, tutte le entità dichiarate nei file XML vengono perse. Quindi <application>Publican</application> richiede di definire le entità nel file <filename><replaceable>Nome_Doc</replaceable>.ent</filename> (vedere la <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-Doc_Name.ent\" />)."
+
+#. Tag: para
+#, no-c-format
+msgid "As publishing workflows grow, unrestrained entity definition leads to entity duplication and other practices that cause maintenance difficulties. Consolidating entity definitions in a single, predictable place alleviates these maintenance issues and helps the automation of the build process stay robust."
+msgstr "Al crescere del lavoro editoriale, la definizione di entità senza restrizioni porta alla duplicazione di entità e ad altre pratiche che causano difficoltà di mantenimento. Consolidare la definizione delle entità in un unico posto noto, serve ad alleviare i problemi di mantenimento e contribuisce ad irrobustire l'automazione del processo di compilazione."
+
+#. Tag: para
+#, no-c-format
+msgid "Entities also present an essentially insurmountable obstacle to quality translation (refer to <xref linkend=\"sect-Users_Guide-Entities_and_translation\" />). Consequently, while we are not reducing the <filename><replaceable>Doc_Name</replaceable>.ent</filename> file's functionality, we are no longer considering requests to add functionality or features associated with entity use."
+msgstr "Inoltre le entità presentano un ostacolo sostanzialmente insormontabile sulla qualità della traduzione (fare riferimento alla <xref linkend=\"sect-Users_Guide-Entities_and_translation\" />). Quindi, si ritiene opportuno mantenere le attuali funzionalità del file <filename><replaceable>Nome_Doc</replaceable>.ent</filename> senza aggiungere altre funzionalità o caratteristiche associate all'uso delle entità."
+

@@ -1,0 +1,99 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Renaming a document"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The <command>publican rename</command> command makes it easy for you to rename a document to give it a new title, or to change the name or version of the product to which the document applies. The command accepts up to three options:"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--name</option> <replaceable>new_title</replaceable>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "changes the title of the document. For example, to rename a document from <citetitle>Server Configuration Guide</citetitle> to <citetitle>Server Deployment Guide</citetitle>, change into the document's root directory and run:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --name \"Server Deployment Guide\"</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Specifically, the command changes the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file, and sets a value for the <parameter>mainfile</parameter> parameter in the <filename>publican.cfg</filename> file so that <application>Publican</application> can still find the root XML node and the entities for the document."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Note that the <command>publican rename</command> command does not change any file names. Therefore, the root XML node and the document entities are still located in files named after the original title of the document — <filename>Server_Configuration_Guide</filename> in the previous example."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--product</option> <replaceable>new_product</replaceable>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "changes the name of the product to which the document applies. For example, if the product was previously named <productname>ForceRivet</productname> but is now called <productname>PendantFarm</productname>, change into the document's root directory and run:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --product PendantFarm</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The command changes the content of the <sgmltag>&lt;productname&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<option>--version</option> <replaceable>new_version</replaceable>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "changes the product version to which the document applies. For example, if the product version was previously <productnumber>1.0</productnumber> but is now <productnumber>2.0</productnumber>, change into the document's root directory and run:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --version 2.0</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The command changes the content of the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You can combine any combination of these options into a single command. For example:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican rename --name \"Server Deployment Guide\" --product PendantFarm --version 2.0</command>"
+msgstr ""
+

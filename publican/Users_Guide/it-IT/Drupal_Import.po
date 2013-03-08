@@ -1,0 +1,330 @@
+# 
+# AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2013-03-08T03:26:30\n"
+"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: None\n"
+"MIME-Version: 1.0\n"
+"Content-Type: application/x-publican; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Import book into Drupal"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican 3.1</application> has a new functionality which allow user to create and import a book into Drupal. All xml files in a book are transformed into a single CSV file which will later be used to import into Drupal."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "How to build a CSV file for Drupal import"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The CSV File consists of information that tells Drupal how to import the book. Each row in the CSV file represents a html page."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Use the <command>publican build</command> command to create the CSV file for Drupal import. Before running the command, use the cd command to change into the directory where your book is located. For example, if you have a book call \"User_Guide\" in your home directory, then run the following command."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>cd User_Guide/</command>\n"
+"<command>publican build --langs en-US --formats=drupal-book</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "After running the command, you will see CSV file is created in the <filename>tmp/en-US/drupal-book/</filename> directory."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> stores all the output files in <filename>/tmp/en-US/drupal-book/</filename> directory. This directory contains the following files:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "CSV file - The naming convention of the file is <filename>$product-$version-$docname-$lang-$edition.csv</filename>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "en-US directory - contains all the html images."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "tar.gz file - the archive of both CSV file and en-US directory."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Important — Use version control system"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "After running the <command>publican build --langs en-US --formats=drupal-book</command> command, you will notice that the xml files in the <filename>en-US</filename> directory had been changed. This is because <application>Publican</application> added a <parameter>'Conformance'</parameter> attribute for every xml tag that has id. This attribute contains a number which is unique across xml files in the book. If you are using a version control system like <application>git</application> for your xml files, then you need to commit the changes so that the number won't get reset when other users run it. These unique numbers are very important, because they are use as the url path in drupal. Besides, <application>Publican</application> also created a database file name <filename>max_unique_id.db</filename> in the <filename>en-US</filename> directory. This database file is use to track the current maximum unique number in the book, so that <application>Publican</application> can know where you are up to and add a new unique number for your newly created Chapter or Section. Therefore, it is very important to add the database file to the version control and commit it if there is any change. If you add a new section in the xml, don't set the <parameter>'Comformance'</parameter> attribute yourself as that will make the database outdated. Just leave it for <application>publican</application> to set it."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "The publican.cfg file"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Below are some parameters that can be configure in the publican.cfg file for Drupal import:"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>drupal_author</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "specfies the author who should be shown in drupal book page. The name must be a valid Drupal username. 'Redhat' is the default author. Set this parameter in the <filename>publican.cfg</filename> file to override it."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Important — Setting Author"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The author must have permission to manage (create, update, delete) nodes in Drupal. If the default author is used, make sure you had created an account with username 'Redhat' in Drupal."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>drupal_menu_title</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "override the bookname that will be shown in the Drupal menu. If nothing is set, <application>publican</application> will use the default value which is \"$product $version $docname\". For example, Publican 3.1 User_Guide."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>drupal_menu_block</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "specfies which menu block the book should show in Drupal. The default value is <parameter>\"user-guide\"</parameter>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Important — Setting menu block"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The menu block must exist in Drupal. For more information about adding a menu block in Drupal. Please refer to <xref linkend=\"sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_add_a_menu_block\" />."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>drupal_image_path</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "specfies the directory where the images should be stored in drupal server. The default value is <filename>\"sites/default/files/\"</filename>."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Drupal Import Guide"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Before you can import a book, you need to install a module call <application>'Node Import'</application> in Drupal. This module allows Drupal to import and update content from CSV or TSV files. To install this module, simply go to <ulink url=\"http://drupal.org/sandbox/hyu/1819292\">drupal site</ulink> and follow the instructions on the website to download it. Once this is done, then you need to copy the downloaded module to the 'modules' directory on the Drupal server. For example if your Drupal is located in <filename>/var/www/html/drupal/</filename> directory, then you should copy the module to <filename>/var/www/html/drupal/sites/all/modules/</filename> directory. To enable the installed module, login to the Drupal site and go to <guilabel>Administer -&gt; Site building -&gt; Modules </guilabel>. In the Development section, tick the <guibutton>checkbox</guibutton> and click <guibutton>Save configuration</guibutton> button to activate the <application>Node Import</application> Module."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Important — Enable Drupal Core Modules"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You also need to enable the following Drupal core modules:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Book</application>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Menu</application>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Path</application>"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Permission to install Module"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Please consult your web adminstrator if you don't have permission to install module in drupal."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "How to add a menu block"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You can specify which menu the book should be showing in Drupal. If the specified menu block doesn't exist, Drupal will throw all the imported contents in the primary link. Therefore, if you wish to list your book in a menu block, make sure you create one before importing the book. To add a new menu block, simply login to your Drupal site and go to <guilabel>Administer -&gt; Menus -&gt; Add menu </guilabel>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>Menu name</guilabel> - The unique name for the menu. This is the value that you should set for the <parameter>drupal_menu_block</parameter> parameter in <filename>publican.cfg</filename>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>Title</guilabel> - The title of the menu. It will be displayed on top of the menu block."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Setting up Node import"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>Import directory</guilabel> - Where the CSV files to be imported are stored. The default path is <filename>sites/default/files/imports/</filename> ."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>FTP settings</guilabel>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>Allow FTP uploads</guilabel> - Make sure the checkbox is checked, so that the new CSV file can be auto-detected when it is uploaded into the <filename>import directory</filename>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>File owner</guilabel> - The CSV file that you uploaded to the <filename>import directory</filename> will be assigned ownership to this user."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Important — File Ownership"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Users will only be allowed to use files they have uploaded themselves and files owned by anonymous. If you leave this field blank, all files uploaded by FTP will be owned by anonymous and so all users will see those files as being available for them. If you enter a username here, files that are uploaded using FTP will be owned by that user and only that user will be able to see those uploaded files. It is recommended to leave this field blank."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>Allowed extensions</guilabel> - The allowed import file's extension. Other extensions will be ignore by the module."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>Default settings</guilabel>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>Content type</guilabel> - The default content type that will be used for quick import. Make sure the <parameter>Book Page content type</parameter> is checked."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<guilabel>First row contains column names</guilabel> - This tells the node import module that the first row of the csv file is the headers."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "How to import book"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "To import book into Drupal:"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Follow the steps in <xref linkend=\"sect-Users_Guide-Import_book_into_Drupal-How_to_build_a_CSV_file\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Upload the CSV file to <filename>import Directory</filename> in the Drupal Server"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Upload <filename>en-US</filename> directory to the <filename>\"sites/default/files/\"</filename> directory in the Drupal server. This value can be overriden in the <filename>publican.cfg</filename>. For more details, please read <xref linkend=\"sect-Users_Guide-Import_book_into_Drupal-The_publican_cfg_file\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Login to the Drupal website, and go to <guilabel>Administer -&gt; Content management -&gt; Import content</guilabel>. You will see the CSV file that you just uploaded is showing in the 'Pending Tasks\" table and it is ready to import."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Click <guibutton>Import now</guibutton> to start importing book. You will be redirect to the next page which is showing the import progress. When the progress bar hit 100%, that means the import is done!"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The book link should be showing in the specified menu block now."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "How to update book"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Simply repeat the steps in <xref linkend=\"sect-Users_Guide-Import_book_into_Drupal-Drupal_Import_Guide-How_to_import_book\" /> to update the book."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Warning — Section Chunking"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you update the book with smaller chunks, than the missing chunks will be deleted by Drupal and the URL path for the deleted chunks will be deleted as well."
+msgstr ""
+

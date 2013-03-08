@@ -1,0 +1,1565 @@
+# translation of Publican Users' Guide to Italiano
+#
+# Francesco D'Aluisio, 2010.
+# Luigi Votta <lewis41@fedoraproject.org>, 2010, 2011.
+# Mario Santagiuliana <fedora at marionline.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0\n"
+"POT-Creation-Date: 2011-09-09T14:23:11\n"
+"PO-Revision-Date: 2012-01-22 17:05+0100\n"
+"Last-Translator: Mario Santagiuliana <fedora at marionline.it>\n"
+"Language-Team: Italian <fedora-trans-it at redhat.com>\n"
+"Language: it-IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Files in the book directory"
+msgstr "I file nella directory del libro"
+
+#. Tag: para
+#, no-c-format
+msgid "If you run the command <command>publican create --name Test_Book --lang en-US</command>, <application>Publican</application> creates a directory structure and required files, similar to the following:"
+msgstr "Se si esegue il comando <command>publican create --name Libro_di_Prova --lang it-IT</command>, <application>Publican</application> crea una directory con i file richiesti, che generalmente sono:"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>publican.cfg</filename>"
+msgstr "<filename>publican.cfg</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>en-US</filename> (directory)"
+msgstr "<filename>it-IT</filename> (una directory)"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Test_Book.xml</filename>"
+msgstr "<filename>Libro_di_Prova.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Test_Book.ent</filename>"
+msgstr "<filename>Libro_di_Prova.ent</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Revision_History.xml</filename>"
+msgstr "<filename>Revision_History.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Preface.xml</filename>"
+msgstr "<filename>Preface.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Chapter.xml</filename>"
+msgstr "<filename>Chapter.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Book_Info.xml</filename>"
+msgstr "<filename>Book_Info.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Author_Group.xml</filename>"
+msgstr "<filename>Author_Group.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>images</filename> (directory)"
+msgstr "<filename>images</filename> (una directory)"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>icon.svg</filename>"
+msgstr "<filename>icon.svg</filename>"
+
+#. Tag: title
+#, no-c-format
+msgid "The publican.cfg file"
+msgstr "Il file publican.cfg"
+
+#. Tag: title
+#, no-c-format
+msgid "Note — Customizing output"
+msgstr "Nota — Personalizzare l'output"
+
+#. Tag: para
+#, no-c-format
+msgid "If you maintain multiple versions of a document, you can create a configuration file for each version. When building or packaging the document, you can use the <option>--config</option> to specify a configuration file other than the <filename>publican.cfg</filename> file and therefore a different set of parameters to use in a particular build. For example:"
+msgstr "Se si mantengono diverse versioni di un documento, si può creare un file di configurazione per ogni versione. Quando si crea un documento o il pacchetto relativo, si può usare l'opzione <option>--config</option> per specificare un file di configurazione diverso dal file <filename>publican.cfg</filename>, e quindi usare un insieme differente di parametri per una particolare compilazione. Per esempio:"
+
+#. Tag: screen
+#, no-c-format
+msgid "<command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>\n"
+msgstr "<command>publican build --formats html,pdf --langs de-DE,en-US,it-IT --config community.cfg</command>\n"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>publican.cfg</filename> file configures build options, and is located in the root of the book directory. The following is an example <filename>publican.cfg</filename> file, with a description of <filename>publican.cfg</filename> parameters following afterwards:"
+msgstr "Il file <filename>publican.cfg</filename> configura le opzioni di compilazione, e si trova nella cartella radice del libro. Di seguito si riporta un esempio di file <filename>publican.cfg</filename>, con una descrizione dei parametri ivi presenti:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"<xi:include href=\"extras/publican.cfg\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+msgstr ""
+"<xi:include href=\"extras/publican.cfg\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Default parameters"
+msgstr "Parametri predefiniti"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>xml_lang</parameter>"
+msgstr "<parameter>xml_lang</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the language of the source XML files, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create</command>."
+msgstr "specifica la lingua dei file XML sorgenti, per esempio <literal>en-US</literal>, come impostato con l'opzione <option>--lang</option> nel comando <command>publican create</command>."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>toc_type</parameter>"
+msgstr "<parameter>type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, as set by the <option>--type</option> option for <command>publican create</command>."
+msgstr "specifica il tipo di documento — un <sgmltag>&lt;article&gt;</sgmltag> DocBook, un <sgmltag>&lt;book&gt;</sgmltag> DocBook o un <sgmltag>&lt;set&gt;</sgmltag> DocBook, come impostato con l'opzione <option>--type</option> nel comando <command>publican create</command>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>brand</parameter>"
+msgstr "<parameter>brand</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <command>publican create</command>. If you do not specify a brand, <application>Publican</application> uses its default brand. Refer to <xref linkend=\"chap-Users_Guide-Branding\" /> for more information."
+msgstr "imposta il <firstterm>brand</firstterm> del documento, per esempio <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> o <computeroutput>GIMP</computeroutput>, come impostato con l'opzione <option>--brand</option> nel comando <command>publican create</command>. Se non si specifica un brand, <application>Publican</application> usa il brand predefinito. Fare riferimento al <xref linkend=\"chap-Users_Guide-Branding\" /> per maggiori informazioni."
+
+#. Tag: title
+#, no-c-format
+msgid "Advanced parameters"
+msgstr "Parametri avanzati"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>arch</parameter>"
+msgstr "<parameter>arch</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "filters output by computer <firstterm>architecture</firstterm>. For example, if you set <literal>arch: x86_64</literal> in the <filename>publican.cfg</filename> file, <application>Publican</application> will only include XML elements tagged with the equivalent attribute, such as <sgmltag>&lt;para arch=\"x86_64\"&gt;</sgmltag>."
+msgstr "filtra l'output in base all'<firstterm>architettura</firstterm> della macchina. Per esempio, impostando <literal>arch: x86_64</literal> nel file <filename>publican.cfg</filename>, l'applicazione <application>Publican</application> include solo gli elementi XML contenenti l'attributo equivalente, per esempio <sgmltag>&lt;para arch=\"x86_64\"&gt;</sgmltag>."
+
+#. Tag: title
+#, no-c-format
+msgid "Use with caution"
+msgstr "Usare con cautela"
+
+#. Tag: para
+#, no-c-format
+msgid "As with conditional tagging more generally, <literal>arch</literal> can cause great difficulties when translating documents. Refer to <xref linkend=\"sect-Users_Guide-Conditional_tagging-Conditional_tagging_and_translation\" /> for an explanation of the issues."
+msgstr "Come accade più in generale con i tag condizionali, il parametro <literal>arch</literal> può causare notevoli problemi in fase di traduzione di un documento. Vedere la <xref linkend=\"sect-Users_Guide-Conditional_tagging-Conditional_tagging_and_translation\" /> per una spiegazione di questi problemi."
+
+#. Tag: title
+#, no-c-format
+msgid "arch set for root nodes"
+msgstr "parametro arch in nodi radice"
+
+#. Tag: para
+#, no-c-format
+msgid "If the root node of an XML file is excluded by the <parameter>arch</parameter> attribute, your document will not build, because empty files are not valid XML. For example, if <filename>Installation_and_configuration-PPC.xml</filename> contains a single chapter:"
+msgstr "Se il nodo radice di un file XML viene escluso dal parametro <parameter>arch</parameter>, il documento non può essere compilato, poiché file vuoti non sono file XML validi. Per esempio, se il file <filename>Installation_and_configuration-PPC.xml</filename> è costituito da un solo capitolo:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"\n"
+"&lt;?xml version='1.0' encoding='utf-8' ?&gt;\n"
+"&lt;!DOCTYPE chapter PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"]&gt;\n"
+"&lt;chapter id=\"chap-Installation_and_configuration_on_PowerPC\" arch=\"PowerPC\"&gt;\n"
+"&lt;title&gt;Installation and configuration on PowerPC&lt;/title&gt;\n"
+"\n"
+"[text of chapter]\n"
+"\n"
+"&lt;/chapter&gt;\n"
+"\n"
+msgstr ""
+"\n"
+"&lt;?xml version='1.0' encoding='utf-8' ?&gt;\n"
+"&lt;!DOCTYPE chapter PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\" [\n"
+"]&gt;\n"
+"&lt;chapter id=\"chap-Installation_and_configuration_on_PowerPC\" arch=\"PowerPC\"&gt;\n"
+"&lt;title&gt;Installation and configuration on PowerPC&lt;/title&gt;\n"
+"\n"
+"[text of chapter]\n"
+"\n"
+"&lt;/chapter&gt;\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: x86</command> set in the <filename>publican.cfg</filename> file."
+msgstr "ed il capitolo è incluso nel file <filename>User_Guide.xml</filename> con un tag <sgmltag>&lt;xi:include&gt;</sgmltag>, il documento non compilerà se viene impostata la <command>condition: x86</command> nel file <filename>publican.cfg</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>."
+msgstr "Per escludere il capitolo, aggiungere il parametro <parameter>arch</parameter> al tag <sgmltag>&lt;xi:include&gt;</sgmltag> in <filename>User_Guide.xml</filename>, invece che al tag <sgmltag>&lt;chapter&gt;</sgmltag> in <filename>Installation_and_configuration-PPC.xml</filename>."
+
+#. Tag: title
+#, no-c-format
+msgid "xrefs and the arch attribute"
+msgstr "xrefs e parametro arch"
+
+#. Tag: para
+#, no-c-format
+msgid "If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend=\"Itanium_installation\"&gt;</sgmltag> pointing to <sgmltag>&lt;section id=\"Itanium_installation\" arch=\"IA64\"&gt;</sgmltag>."
+msgstr "Se un <sgmltag>&lt;xref&gt;</sgmltag> punta ad un contenuto escluso dalla compilazione dal parametro <parameter>arch</parameter>, la compilazione fallisce. Per esempio, impostando <literal>arch: x86</literal> nel file <filename>publican.cfg</filename>, il comando <command>publican build --formats=pdf --langs=en-US</command> fallisce se il libro ha il tag <sgmltag>&lt;xref linkend=\"Itanium_installation\"&gt;</sgmltag> che punta a <sgmltag>&lt;section id=\"Itanium_installation\" arch=\"IA64\"&gt;</sgmltag>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>books</parameter>"
+msgstr "<parameter>books</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies a space-separated list of books used in a remote set. Refer to <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" /> for more information on distributed sets."
+msgstr "specifica un elenco di libri, separati da spazio, usati in un set remoto. Vedere la <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" /> per maggiori informazioni sui set distribuiti."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>brew_dist</parameter>"
+msgstr "<parameter>brew_dist</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the build target to use for building the desktop RPM package in <application>Brew</application>, Red Hat's internal build system. This parameter defaults to <literal>docs-5E</literal>. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" /> and <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" /> for more information on building RPM packages."
+msgstr "specifica il target da usare per creare il pacchetto RPM desktop in <application>Brew</application>, il sistema di creazione di pacchetti interno a Red Hat. Il valore predefinito è <literal>docs-5E</literal>. Vedere la <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" /> e la <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" /> per maggiori informazioni sulla compilazione di pacchetti RPM."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>bridgehead_in_toc</parameter>"
+msgstr "<parameter>bridgehead_in_toc</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies whether the contents of <sgmltag>&lt;bridgehead&gt;</sgmltag> elements (free-floating titles) should be included among other titles (such as section titles and chapter titles) in tables of contents. To enable this feature, set <literal>bridgehead_in_toc: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and <sgmltag>&lt;bridgehead&gt;</sgmltag>s are not included in tables of contents."
+msgstr "specifica se includere gli elementi DocBook <sgmltag>&lt;bridgehead&gt;</sgmltag> (o intestazioni svincolate) tra gli altri titoli (di sezione e di capitoli), nelle tabelle dei contenuti. Per abilitare questa proprietà, impostare <literal>bridgehead_in_toc: 1</literal>. Per impostazione, quest'ultimo parametro è impostato a <literal>0</literal> e gli elementi <sgmltag>&lt;bridgehead&gt;</sgmltag> non sono inclusi nel sommario dei contenuti."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>chunk_first</parameter>"
+msgstr "<parameter>chunk_first</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "controls whether the first section should appear on a new page when rendered in HTML. To make the first section appear on a new HTML page, set this parameter to <literal>chunk_first: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and the first section appears on the same page of its chapter."
+msgstr "controlla se visualizzare la prima sezione in una nuova pagina, nel rendering HTML. Per visualizzare la sezione in una nuova pagina HTML, impostare il parametro su <literal>chunk_first: 1</literal>. Per impostazione, il valore predefinito è <literal>0</literal>, e la prima sezione viene visualizzata nella stessa pagina del proprio capitolo."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>chunk_section_depth</parameter>"
+msgstr "<parameter>chunk_section_depth</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "controls the section depth at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. By default, this value is set to <literal>4</literal>."
+msgstr "controlla il livello di sotto-sezione a partire da cui queste non vengono riportate su una nuova pagina, nel rendering HTML. Per impostazione, il valore predefinito è <literal>4</literal>."
+
+#. Tag: title
+#, no-c-format
+msgid "Controlling the section depth with chunk_section_depth"
+msgstr "Controllare il livello di sotto-sezione con chunk_section_depth"
+
+#. Tag: term
+#, no-c-format
+msgid "chunk_section_depth: 0"
+msgstr "chunk_section_depth: 0"
+
+#. Tag: para
+#, no-c-format
+msgid "no section split. All sections with their sub-sections appear on the same page of the chapter they belong. The page succession is chapter 1, chapter 2, chapter 3, &hellip;"
+msgstr "nessuna suddivisione di sezioni. Tutte le sezioni e sotto-sezioni appaiono nella stessa pagina del capitolo cui appartengono. La successione della pagine è capitolo 1, capitolo 2, capitolo 3, &hellip;"
+
+#. Tag: term
+#, no-c-format
+msgid "chunk_section_depth: 1"
+msgstr "chunk_section_depth: 1"
+
+#. Tag: para
+#, no-c-format
+msgid "the split is at \"level 1\" section. Each level section one with its sub-sections, appear on a new page. The page succession is chapter 1, 1.2, 1.3, 1.4 &hellip; chapter 2, 2.1, 2.2, 2.3 &hellip;"
+msgstr "la suddivisione di sezione è a \"livello 1\". Ogni sezione di livello uno, con le relative sotto-sezioni, appaiono su una nuova pagina. La successione delle pagine è capitolo 1, 1.2, 1.3, 1.4 &hellip; capitolo 2, 2.1, 2.2, &hellip; 2.3 &hellip;"
+
+#. Tag: term
+#, no-c-format
+msgid "chunk_section_depth: 2"
+msgstr "chunk_section_depth: 2"
+
+#. Tag: para
+#, no-c-format
+msgid "the split is at \"level 2\" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.3, 1.2.4 &hellip; 1.3, 1.3.2, 1.3.3 &hellip;"
+msgstr "la suddivisione di sezione è a \"livello 2\". La successione delle pagine è capitolo 1, 1.2, 1.2.2, 1.2.3, 1.2.4 &hellip; 1.3, 1.3.2, 1.3.3 &hellip;"
+
+#. Tag: term
+#, no-c-format
+msgid "chunk_section_depth: 3"
+msgstr "chunk_section_depth: 3"
+
+#. Tag: para
+#, no-c-format
+msgid "the split is at \"level 3\" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.3, 1.2.2.4 &hellip; 1.3, 1.3.2, 1.3.2.2, 1.3.2.3 &hellip;"
+msgstr "la suddivisione di sezione è a \"livello 3\". La successione delle pagine è capitolo 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.3, 1.2.2.4 &hellip; 1.3, 1.3.2, 1.3.2.2, 1.3.2.3 &hellip;"
+
+#. Tag: term
+#, no-c-format
+msgid "chunk_section_depth: 4 (default)"
+msgstr "chunk_section_depth: 4 (predefinito)"
+
+#. Tag: para
+#, no-c-format
+msgid "the split is at \"level 4\" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.2.2, 1.2.2.2.3, 1.2.2.2.4 &hellip; 1.2.3, 1.2.3.2, 1.2.3.2.2, 1.2.3.2.3 &hellip;"
+msgstr "la suddivisione di sezione è a \"livello 4\". La successione delle pagine è capitolo 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.2.2, 1.2.2.2.3, 1.2.2.2.4 &hellip; 1.2.3, 1.2.3.2, 1.2.3.2.2, 1.2.3.2.3 &hellip;"
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>tmpl_path</parameter>"
+msgstr "<parameter>classpath</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the path to the <firstterm>Java archive</firstterm> (<firstterm>jar</firstterm>) files for <application>FOP</application>. <application>Publican</application> relies on Apache <application>FOP</application> — a Java application — to render documents as PDF files. The default path for <application>FOP</application>'s jar files on a computer with a Linux operating system is: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>"
+msgstr "imposta il percorso ai file <firstterm>jar</firstterm> (<firstterm>Java archive</firstterm>) per <application>FOP</application> (<firstterm>Formatting Objects Processor</firstterm>). <application>Publican</application> si basa su Apache <application>FOP</application> — una applicazione Java — per rendere i documenti in file PDF. Il percorso predefinito ai file jar di <application>FOP</application>, su un computer con Sistema Operativo Linux è: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>common_config</parameter>"
+msgstr "<parameter>common_config</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the path to the <application>Publican</application> installation. The default location on a computer with a Linux operating system is <filename>/usr/share/publican</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — most usually <filename>C:/Program Files/publican</filename>."
+msgstr "imposta il percorso ai file d'installazione di <application>Publican</application>. La locazione predefinita su un Sistema Operativo Linux è <filename>/usr/share/publican</filename>. Su un computer con sistema operativo Windows, la locazione predefinita è <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — solitamente <filename>C:/Program Files/publican</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>common_content</parameter>"
+msgstr "<parameter>common_content</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the path to the <application>Publican</application> <firstterm>common content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>."
+msgstr "imposta il percorso alla cartella dei file <firstterm>comuni</firstterm> di <application>Publican</application>. I file contenuti forniscono formattazione predefinita, alcuni modelli e grafica generica. La locazione predefinita su un Sistema Operativo Linux è <filename>/usr/share/publican/Common_Content</filename>. Su un computer con sistema operativo Windows, la locazione predefinita è <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — solitamente <filename>C:/Program Files/publican/Common_Content</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>condition</parameter>"
+msgstr "<parameter>condition</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies conditions on which to prune XML before transformation. Refer to <xref linkend=\"sect-Users_Guide-Conditional_tagging\" /> for more information."
+msgstr "specifica, prima di una trasformazione, le condizioni per escludere file XML. Vedere la <xref linkend=\"sect-Users_Guide-Conditional_tagging\" /> per maggiori informazioni."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>confidential</parameter>"
+msgstr "<parameter>confidential</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "marks a document as confidential. When this parameter is set to <literal>1</literal>, <application>Publican</application> adds the text specified by the <parameter>confidential_text</parameter> parameter (by default, <literal>CONFIDENTIAL</literal>) to the foot of each HTML page and the head of every page in a PDF document. The default value is <literal>0</literal> (no header or footer)."
+msgstr "contrassegna un documento come confidenziale. Impostando su <literal>1</literal> questo parametro, <application>Publican</application> aggiunge il testo specificato nel parametro <parameter>confidential_text</parameter> (per impostazione, <literal>CONFIDENTIAL</literal>) a piè di pagina o in testa ad ogni pagina di un documento HTML o PDF, rispettivamente. Il valore predefinito è <literal>0</literal> (nessuna intestazione o piè di pagina)."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>confidential_text</parameter>"
+msgstr "<parameter>confidential_text</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the text to use when the <parameter>confidential</parameter> parameter is set to <literal>1</literal>. The default text is <literal>CONFIDENTIAL</literal>."
+msgstr "specifica il testo da usare quando il parametro <parameter>confidential</parameter> è impostato ad <literal>1</literal>. Il testo predefinito è <literal>CONFIDENTIAL</literal>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>debug</parameter>"
+msgstr "<parameter>debug</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "controls whether <application>Publican</application> should display debugging messages as it works. When set to its default of <literal>0</literal>, <application>Publican</application> does not display debugging messages. Change this value to <literal>1</literal> to view these messages."
+msgstr "controlla se visualizzare il messaggi di debug durante l'elaborazione. Con il valore predefinito impostato a <literal>0</literal>, <application>Publican</application> non visualizza messaggi. Modificare il valore ad <literal>1</literal> per vedere i messaggi di debug."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>def_lang</parameter>"
+msgstr "<parameter>def_lang</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the default language for a <application>Publican</application>-managed website. Tables of contents for languages other than the default language will link to documents in the default language when translations are not available. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+msgstr "imposta la lingua predefinita per un sito web gestito da <application>Publican</application>. La tabelle dei contenuti delle altre lingue fanno riferimento ai documenti della lingua predefinita, se non sono disponibili traduzioni. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" /> per maggiori informazioni."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>doc_url</parameter>"
+msgstr "<parameter>doc_url</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "provides a URL for the documentation team for this package. In HTML output, <application>Publican</application> links to this URL at the top right of each page, through the <filename>image_right.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>"
+msgstr "fornisce un URL al team di documentazione del pacchetto. In documenti HTML, <application>Publican</application> crea un link a questo URL in alto a destra di ogni pagina, attraverso l'immagine <filename>image_right.png</filename> nella cartella <filename>Common_Content/images</filename> del brand. Il valore predefinito è <literal>https://fedorahosted.org/publican</literal>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>docname</parameter>"
+msgstr "<parameter>docname</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the document name. If set, this value overrides the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must contain only upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;)."
+msgstr "specifica il nome del documento. Se impostato, questo parametro non tiene conto del contenuto del tag <sgmltag>&lt;title&gt;</sgmltag> nel file <filename>Book_Info.xml</filename> in fase di costruzione del pacchetto del documento. Questo valore può contenere solo lettere maiuscole/minuscole non accentate, cifre, il carattere trattino basso ed il carattere spazio (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, e &lsquo;_&rsquo; e &lsquo;&nbsp;&rsquo;)."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>dt_obsoletes</parameter>"
+msgstr "<parameter>dt_obsoletes</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "a package that a desktop package obsoletes."
+msgstr "il pacchetto reso obsoleto dal pacchetto desktop."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>dt_requires</parameter>"
+msgstr "<parameter>dt_requires</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "a package that the desktop package requires, for example, a documentation menu package. Refer to <xref linkend=\"desktop_menus\" />."
+msgstr "il pacchetto richiesto dal pacchetto desktop, per esempio, il pacchetto del menu di una documentazione. Fare riferimento alla <xref linkend=\"desktop_menus\" />."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>sort_order</parameter>"
+msgstr "<parameter>dtdver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. <application>Publican</application> defaults to version 4.5. The specification for DocBook XML DTD version 4.5 is available from <ulink url=\"http://www.docbook.org/specs/docbook-4.5-spec.html\" />."
+msgstr "specifica la versione del <firstterm>DTD</firstterm> (Document Type Definition) di DocBook XML su cui si basa il progetto. <application>Publican</application> fa riferimento alla versione 4.5. Le specifiche della versione DTD 4.5 di DocBook XML sono disponibili su <ulink url=\"http://www.docbook.org/specs/docbook-4.5-spec.html\" />."
+
+#. Tag: title
+#, no-c-format
+msgid "A different DTD might slow your build"
+msgstr "Un DTD differente potrebbe rallentare la compilazione"
+
+#. Tag: para
+#, no-c-format
+msgid "When you install <application>Publican</application>, you also install a local copy of the DocBook XML DTD version 4.5 and accompanying <firstterm>Extensible Stylesheet Language</firstterm> (XSL). If you set a version of the DTD for which there is no local support, <application>Publican</application> must download the appropriate DTD and XSL from an online source every time that it builds the document. Building your document is delayed while this download takes place. The combined size of the required files is around 70&nbsp;MB."
+msgstr "Quando si installa <application>Publican</application>, si installa anche una copia locale della definizione DTD versione 4.5 di DocBook XML in accompagnamento ad <firstterm>XSL</firstterm> (Extensible Stylesheet Language). Se si imposta una versione di DTD per cui non risulta disponibile una versione locale, <application>Publican</application> deve scaricare DTD ed XSL appropriati da una sorgente in rete, ad ogni compilazione di un documento. In tal caso la compilazione del documento risulta ritardata dal completamento di questo scaricamento. La dimensione complessiva dei file è di circa 70&nbsp;MB."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>toc_type</parameter>"
+msgstr "<parameter>type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "Override Type for DocType. Must be a complete string."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This parameter is only permitted in a brand."
+msgstr ""
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>sort_order</parameter>"
+msgstr "<parameter>dtdver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "Override URI for DocType. Must be a complete string."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ec_id</parameter>"
+msgstr "<parameter>ec_id</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the ID for an <application>Eclipse</application> help plugin. Every <application>Eclipse</application> help plugin must have a unique ID, and these generally follow Java package naming conventions — refer to <ulink url=\"http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html\" />. By default, <application>Publican</application> sets the ID to <replaceable>org.product</replaceable>.<replaceable>docname</replaceable>. The ID that you set here also determines the directory name for this plugin in the <filename>plugin</filename> directory."
+msgstr "imposta l'ID per un plugin d'aiuto di <application>Eclipse</application>. Ogni plugin deve possedere un unico ID che generalmente segue le convenzioni sui nomi dei pacchetti JAVA (<ulink url=\"http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html\" />). Per impostazione, <application>Publican</application> imposta l'ID con <replaceable>org.prodotto</replaceable>.<replaceable>nomedoc</replaceable>. L'ID impostato determina anche il nome della cartella del plugin, nella cartella <filename>plugin</filename>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ec_name</parameter>"
+msgstr "<parameter>ec_name</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the name of an <application>Eclipse</application> help plugin. This is the human-readable name visible in the help list in <application>Eclipse</application>. This name does not need to be unique or to follow a special convention. By default, <application>Publican</application> sets the name to <replaceable>product</replaceable> <replaceable>docname</replaceable>."
+msgstr "imposta il nome per un plugin d'aiuto di <application>Eclipse</application>. E' un nome leggibile che compare nell'elenco d'aiuto di <application>Eclipse</application>. Il nome non deve essere unico o rispettare particolari convenzioni. Per impostazione, <application>Publican</application> imposta il nome con <replaceable>prodotto</replaceable> <replaceable>nomedoc</replaceable>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ec_provider</parameter>"
+msgstr "<parameter>ec_provider</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "sets the provider name for an <application>Eclipse</application> help plugin. This should be your name, or the name of your project or organization. This name is presented to users and does not need to be unique or follow a special convention. By default, <application>Publican</application> sets the provider name to <replaceable>Publican</replaceable>-<replaceable>Publican version</replaceable>."
+msgstr "imposta il nome del fornitore per un plugin d'aiuto di <application>Eclipse</application>. Può essere un nome di persona, o il nome di un progetto o organizzazione. Questo è visibile agli utenti e non deve essere unico o rispettare particolari convenzioni. Per impostazione, <application>Publican</application> imposta il nome del fornitore con <replaceable>Publican</replaceable>-<replaceable>version di Publican</replaceable>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>edition</parameter>"
+msgstr "<parameter>edition</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the edition number for this document. If set, this value overrides the content of the <sgmltag>&lt;edition&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;)."
+msgstr "specifica il numero di edizione del documento. Se impostato, questo parametro non tiene conto del contenuto del tag <sgmltag>&lt;edition&gt;</sgmltag> nel file <filename>Book_Info.xml</filename> in fase di costruzione del pacchetto. Questo valore può contenere solo cifre ed il carattere punto (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; e &lsquo;.&rsquo;)."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>generate_section_toc_level</parameter>"
+msgstr "<parameter>generate_section_toc_level</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value is set to <literal>1</literal>, tables of contents also appear in each \"level 1\" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in \"level 2\" sections, such as sections 1.1.1, 1.1.2, and 1.2.1."
+msgstr "controlla il livello di sottosezione nelle tabelle dei contenuti. Con il valore predefinito, <literal>0</literal>, <application>Publican</application> genera tabelle contenenti parti, capitoli ed appendici, ma senza sezioni. Se per esempio, il valore è impostato su <literal>2</literal>, le tabelle dei contenuti conterranno anche sezioni di \"livello 2\", come le sezioni 1.1.1, 1.1.2, ed 1.2.1."
+
+#. Tag: title
+#, no-c-format
+msgid "Setting the section depth at which tables of contents appear"
+msgstr "Impostare il livello di sezione nelle tabelle dei contenuti"
+
+#. Tag: term
+#, no-c-format
+msgid "generate_section_toc_level: 0 (default)"
+msgstr "generate_section_toc_level: 0 (predefinito)"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections."
+msgstr "<application>Publican</application> genera le tabelle dei contenuti all'inizio del documento e nelle parti, nei capitoli e in appendice, ma non nelle sezioni."
+
+#. Tag: term
+#, no-c-format
+msgid "generate_section_toc_level: 1"
+msgstr "generate_section_toc_level: 1"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> will generate tables of contents also at the start of each \"level 1\" section, such as sections 1.1, 1.2 &hellip; 2.1, 2.2 &hellip;"
+msgstr "<application>Publican</application> genera le tabelle dei contenuti anche all'inizio delle sezioni di \"livello 1\", come le sezioni 1.1, 1.2 &hellip; 2.1, 2.2 &hellip;"
+
+#. Tag: term
+#, no-c-format
+msgid "generate_section_toc_level: 2"
+msgstr "generate_section_toc_level: 2"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> will generate tables of contents also at the start of each \"level 2\" section, such as as sections 1.1.1, 1.1.2. 1.1.3 &hellip; 1.2.1., 1.2.2, 1.2.3 &hellip;"
+msgstr "<application>Publican</application> genera le tabelle dei contenuti anche all'inizio delle sezioni di \"livello 2\", come le sezioni 1.1.1, 1.1.2. 1.1.3 &hellip; 1.2.1., 1.2.2, 1.2.3 &hellip;"
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>ignored_translations</parameter>"
+msgstr "<parameter>ignored_translations</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies translations to ignore as comma-separated XML language codes; for example, <literal>es-ES,it-IT</literal>. If you build or package a book for a language filtered by this parameter, <application>Publican</application> ignores any translations that exist for this language, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" />, and to <xref linkend=\"appe-Users_Guide-Language_codes\" />."
+msgstr "specifica le traduzioni da ignorare, specificando i codici linguistici separati da virgola, per esempio, <literal>es-ES,it-IT</literal>. Se si crea un libro o il pacchetto di un libro per una lingua filtrata da questo parametro, <application>Publican</application> ignora ogni traduzione in questa lingua, e crea invece il libro o il pacchetto relativo, nella lingua dei sorgenti XML. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" /> ed all'<xref linkend=\"appe-Users_Guide-Language_codes\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>info_file</parameter>"
+msgstr "<parameter>mainfile</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "overrides the default Info file. Specifies where <application>Publican</application> looks for info fields. Use the full filename without the path."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>license</parameter>"
+msgstr "<parameter>license</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the license this package uses. By default, <application>Publican</application> selects the GNU Free Documentation License (GFDL). Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+msgstr "specifica la licenza usata dal pacchetto. Per impostazione, <application>Publican</application> seleziona la licenza GFDL (GNU Free Documentation License). Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>max_image_width</parameter>"
+msgstr "<parameter>max_image_width</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the maximum width allowable for images in the document in pixels. By default, <application>Publican</application> scales down any images wider than 444 pixels so that they fit within this limit. Keeping images no wider than 444 pixels ensures that they present no wider than the right-hand margin of the text in HTML output and that they fit within the pages of PDF output. Refer to <xref linkend=\"sect-Users_Guide-Adding_images\" /> for more information on using images."
+msgstr "per le immagini in un documento, specifica la massima larghezza possibile, in pixel. Per impostazione, <application>Publican</application> ridimensiona le immagini più larghe di 444 pixel fino ad adattarle a questo limite. Il limite di 444 pixel assicura che le immagini non eccedano nel margine destro delle pagine HTML e si adattino all'interno delle pagine PDF. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Adding_images\" /> per maggiori informazioni sull'uso delle immagini."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>info_file</parameter>"
+msgstr "<parameter>mainfile</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the name of the XML file in your document that contains the root XML node <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag>, or <sgmltag>&lt;set&gt;</sgmltag>, and the name of the corresponding <filename>.ent</filename> file that contains the document's entities. For example, if you set <literal>mainfile: master</literal>, <application>Publican</application> looks for the root XML node in <filename>master.xml</filename> and the document entities in <filename>master.ent</filename>."
+msgstr "specifica il nome del file XML, contenente il nodo XML radice di <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> o <sgmltag>&lt;set&gt;</sgmltag>, e il nome del file <filename>.ent</filename> corrispondente, con le entità del documento. Per esempio, impostando <literal>mainfile: master</literal>, <application>Publican</application> cerca il nodo XML radice in <filename>master.xml</filename> e le entità in <filename>master.ent</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "If <parameter>mainfile</parameter> is not set, <application>Publican</application> looks for the root XML node in a file that matches the <sgmltag>&lt;title&gt;</sgmltag> of the document set in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file, and looks for the document entities in a file with a corresponding name."
+msgstr "Se il parametro <parameter>mainfile</parameter> non è impostato, <application>Publican</application> cerca il nodo XML radice in un file che corrisponda al <sgmltag>&lt;title&gt;</sgmltag> del documento in <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, o <filename>Set_Info.xml</filename>, e cerca le entità in un file con un nome corrispondente."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>menu_category</parameter>"
+msgstr "<parameter>menu_category</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "the desktop menu category (as defined by a corresponding <filename>.menu</filename> file) in which a document should appear when installed from a desktop RPM package. Refer to <xref linkend=\"desktop_menus\" />."
+msgstr "la categoria del menu del desktop (come definito dal file <filename>.menu</filename> corrispondente), in cui inserire il documento installato con un pacchetto RPM desktop. Fare riferimento alla <xref linkend=\"desktop_menus\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>os_ver</parameter>"
+msgstr "<parameter>os_ver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the operating system for which to build packages. <application>Publican</application> appends the value that you provide here to the RPM packages that it builds. For example, <literal>.fc15</literal> for Fedora&nbsp;15. The default value is <literal>.el5</literal>, which signifies Red Hat Enterprise Linux 5 and operating systems derived from it. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" /> and <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" />."
+msgstr "specifica il sistema operativo per cui costruire il pacchetto. <application>Publican</application> appende questo valore al nome del pacchetto RPM. Per esempio, <literal>.fc15</literal> for Fedora&nbsp;15. Il valore predefinito è <literal>.el5</literal>, che significa Red Hat Enterprise Linux 5 e sistemi operativi derivati. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" /> ed alla <xref linkend=\"sect-Users_Guide-Packaging_a_brand\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>prod_url</parameter>"
+msgstr "<parameter>prod_url</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "provides a URL for the product to which this document applies. In HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>."
+msgstr "fornisce un URL per il prodotto a cui fa riferimento il documento. In documenti HTML, <application>Publican</application> crea un link a questo URL nella parte in alto a sinistra, usando l'immagine <filename>image_left.png</filename> nella cartella <filename>Common_Content/images</filename> del brand. Il valore predefinito è <literal>https://fedorahosted.org/publican</literal>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>product</parameter>"
+msgstr "<parameter>product</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the product to which this documentation applies. If set, this value overrides the content of the <sgmltag>&lt;productname&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;)."
+msgstr "specifica il prodotto cui fa riferimento il documento. Se impostato, questo parametro non tiene conto del contenuto del tag <sgmltag>&lt;productname&gt;</sgmltag> nel file <filename>Book_Info.xml</filename>, durante la  creazione del pacchetto. Questo valore può contenere solo lettere maiuscole/minuscole non accentate, cifre, il carattere trattino basso ed il carattere spazio (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, e &lsquo;_&rsquo; e &lsquo;&nbsp;&rsquo;)."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>rev_file</parameter>"
+msgstr "<parameter>release</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the release number of this package. If set, this value overrides the value of <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;)."
+msgstr "specifica il numero di rilascio del pacchetto. Se impostato, questo parametro non tiene conto del contenuto del tag <sgmltag>&lt;pubsnumber&gt;</sgmltag> nel file <filename>Book_Info.xml</filename>, durante la creazione del pacchetto. Il valore può contenere solo cifre (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;)."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>repo</parameter>"
+msgstr "<parameter>repo</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the repository from which to fetch remote books that form part of a distributed set. Refer to <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" />."
+msgstr "specifica il repository da cui prelevare i libri remoti che fanno parte di un set distribuito. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" />."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>rev_file</parameter>"
+msgstr "<parameter>release</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "override the default Revision History file. Specifies where <application>Publican</application> looks for revision fields. Use the full filename without the path. When combined with the <application>Publican</application> action add_revision, it enables you to build a book without a <filename>Revision_History.xml</filename>."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>scm</parameter>"
+msgstr "<parameter>scm</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the version control (or <firstterm>source code management</firstterm>) system used in the repository in that stores the remote books in a distributed set. At present, <application>Publican</application> can use only <application>Subversion</application> (SVN), and therefore uses <literal>SVN</literal> as its default setting. Refer to <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" />."
+msgstr "specifica il <firstterm>sistema di controllo versione</firstterm> (o source code management), usato nel repository contenente i libri remoti di un set distribuito. Al momento, <application>Publican</application> può usare solo <application>SVN</application> (Subversion), e quindi il valore predefinito è  <literal>SVN</literal>. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>show_remarks</parameter>"
+msgstr "<parameter>show_remarks</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "controls whether to display DocBook <sgmltag>&lt;remark&gt;</sgmltag>s in transformed output. By default, this value is set to <literal>0</literal>, which causes <application>Publican</application> to hide remarks. Set this value to <literal>1</literal> to display remarks. In <application>Publican</application>'s <literal>common</literal> brand, displayed remarks are highlighted in magenta."
+msgstr "controlla se visualizzare gli elementi <sgmltag>&lt;remark&gt;</sgmltag> nel documento. Per impostazione, il parametro è impostato sul valore <literal>0</literal> che nasconde i remark. Impostare questo valore su <literal>1</literal> per visualizzare i remark. Nel brand <literal>common</literal> di <application>Publican</application>, il testo incluso è evidenziato con colore viola."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>show_unknown</parameter>"
+msgstr "<parameter>show_unknown</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output. <emphasis role=\"strikethrough\"><application>Publican</application> ignores this parameter in <firstterm>strict mode</firstterm>.</emphasis>"
+msgstr "controlla se segnalare tag sconosciuti durante la trasformazione dei file XML. Per impostazione, questo parametro ha il valore <literal>1</literal> segnalando i tag sconosciuti. Impostare questo valore su <literal>0</literal> per non visualizzare questi avvisi. <emphasis role=\"strikethrough\"><application>Publican</application> ignora questo parametro in <firstterm>strict mode</firstterm>.</emphasis>"
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>sort_order</parameter>"
+msgstr "<parameter>dtdver</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "override the default sort weighting for books in a <application>Publican</application> website. Books are displayed on the website in descending sort order. For example, a book with sort order 10 appears before a book with sort order 5. By default, this value is set to 50."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>src_url</parameter>"
+msgstr "<parameter>src_url</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the URL at which to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+msgstr "specifica l'URL in cui trovare i tarball dei file sorgente. Questo parametro completa il campo <literal>Source:</literal> nell'intestazione del file <emphasis>spec</emphasis> dell'RPM. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>strict</parameter>"
+msgstr "<parameter>strict</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "<emphasis role=\"strikethrough\">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is not currently enforced."
+msgstr "<emphasis role=\"strikethrough\">imposta <application>Publican</application> in modalità <firstterm>strict</firstterm> per impedire l'uso di tag inutilizzabili in documenti professionali e traduzioni. Per impostazione, il parametro <literal>strict</literal> è impostato sul valore <literal>0</literal>, disabilitando la modalità strict. Per abilitare la modalità strict, impostare il valore su <literal>1</literal></emphasis>. Correntemente la modalità strict non viene applicata."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>tmp_dir</parameter>"
+msgstr "<parameter>tmp_dir</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the directory for <application>Publican</application> output. By default, this is set to <literal>tmp</literal>, which creates a directory named <filename>tmp</filename> inside the directory that holds your article or book."
+msgstr "specifica la cartella dei prodotti di <application>Publican</application>. Per impostazione, il valore è <literal>tmp</literal> corrispondente ad una cartella di nome <filename>tmp</filename>, inclusa nella cartella contenente l'articolo o libro."
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>tmpl_path</parameter>"
+msgstr "<parameter>classpath</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the path to <application>Publican</application> templates. By default, this is set to <filename>/usr/share/publican/templates</filename>."
+msgstr ""
+
+#. Tag: term
+#, no-c-format, fuzzy
+msgid "<parameter>toc_type</parameter>"
+msgstr "<parameter>type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the name of a custom TOC template. By default, <application>Publican</application> looks for <filename>toc-<replaceable>$toc_type</replaceable>.tmpl</filename> in <filename>/usr/share/publican/templates</filename>. You can override this by setting an alternative path with <filename>tmpl_path</filename>."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>toc_section_depth</parameter>"
+msgstr "<parameter>toc_section_depth</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "controls the depth of sections that <application>Publican</application> includes in the main table of contents. By default, this value is set to <literal>2</literal>. With the default setting, sections 1.1 and 1.1.1 will appear in the main table of contents, but section 1.1.1.1 will not. (Note that the first digit in these examples represents a chapter, not a section)."
+msgstr "controlla fino a che livello rappresentare le sotto-sezioni nel sommario principale dei contenuti. Per impostazione, il valore predefinito è <literal>2</literal>. Con questa impostazione, appaiono le sezioni 1.1 ed 1.1.1, ma non la sezione 1.1.1.1 . (Notare che il primo numero indica un capitolo, non una sezione)."
+
+#. Tag: title
+#, no-c-format
+msgid "Controlling the depth of sections in the main table of contents"
+msgstr "Controllare il livello di sezioni nella tabella dei contenuti principale"
+
+#. Tag: term
+#, no-c-format
+msgid "toc_section_depth: 0"
+msgstr "toc_section_depth: 0"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> will generate a main table of contents only for chapters."
+msgstr "<application>Publican</application> genera un sommario principale solo di capitoli."
+
+#. Tag: term
+#, no-c-format
+msgid "toc_section_depth: 1"
+msgstr "toc_section_depth: 1"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> will generate a main table of contents only for chapters and \"level 1\" sections, such as 1, 1.1, 1.2, 1.3 &hellip; 9, 9.1, 9.2 &hellip; but not for sections 1.1.1, 1.1.2 &hellip;"
+msgstr "<application>Publican</application> genera un sommario principale solo per i capitoli e le sezioni di \"livello 1\", come 1, 1.1, 1.2, 1.3 &hellip; 9, 9.1, 9.2 &hellip; ma non per sezioni 1.1.1, 1.1.2 &hellip;"
+
+#. Tag: term
+#, no-c-format
+msgid "toc_section_depth: 2 (default)"
+msgstr "toc_section_depth: 2 (predefinito)"
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Publican</application> will generate tables of contents for chapters and \"level 1 and \"level 2\" sections, such as 1, 1.1, 1.1.1, &hellip; 1,2, 1.2.1, 1.2.2 &hellip; but not for deeper sections x.x.x.x ."
+msgstr "<application>Publican</application> genera un sommario principale per i capitoli e le sezioni di \"livello 1\" e \"livello 2\", come 1, 1.1, 1.1.1, &hellip; 1,2, 1.2.1, 1.2.2 &hellip; ma non per le sezioni più interne tipo x.x.x.x ."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>version</parameter>"
+msgstr "<parameter>version</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the version number of that product to which this document applies. If set, this value overrides the content of the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;)."
+msgstr "specifica il numero di versione del prodotto a cui fa riferimento il documento. Se impostato, questo parametro non tiene conto del contenuto del tag <sgmltag>&lt;productnumber&gt;</sgmltag> nel file <filename>Book_Info.xml</filename>, per la creazione del pacchetto. Il valore può contenere solo cifre ed il carattere punto (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;)."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_brew_dist</parameter>"
+msgstr "<parameter>web_brew_dist</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies the <application>brew</application> build target to use for building the web RPM packages. <application>Brew</application> is the internal build system used by Red Hat. By default, this value is set to <literal>docs-5E</literal>, representing documentation packages for Red Hat Enterprise Linux 5. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+msgstr "specifica il target di compilazione <application>brew</application> da usare per la creazione di pacchetti RPM per il web. <application>Brew</application> è il sistema di creazione di pacchetti interno a Red Hat. Per impostazione, questo valore è impostato su <literal>docs-5E</literal>, rappresentando i pacchetti per la documentazione Red Hat Enterprise Linux 5. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_formats</parameter>"
+msgstr "<parameter>web_formats</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "a comma-separated list of formats to include in the web RPM package. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+msgstr "una lista di formati, separati da virgola, da includere nel pacchetto RPM per il web. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_home</parameter>"
+msgstr "<parameter>web_home</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies that the document is the home page of a documentation website, not a standard document. Refer to <xref linkend=\"sect-Users_Guide-Website\" />."
+msgstr "specifica che il documento è la home page di un sito web di documentazione, non un documento standard. Fare riferimento al <xref linkend=\"sect-Users_Guide-Website\" />."
+
+#. Tag: title
+#, no-c-format
+msgid "Important — <literal>web_home</literal> is deprecated"
+msgstr "Importante — <parameter>web_home</parameter> è deprecato"
+
+#. Tag: para
+#, no-c-format
+msgid "In <application>Publican</application>&nbsp;2.2, <literal>web_home</literal> is replaced by <literal>web_type: home</literal>. Support for <literal>web_home</literal> will be removed in a future version of <application>Publican</application>."
+msgstr "In <application>Publican</application>&nbsp;2.2, <literal>web_home</literal> è stato sostituito da <literal>web_type: home</literal>. Supporto a <literal>web_home</literal> verrà interrotto nelle future versioni di <application>Publican</application>."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_name_label</parameter>"
+msgstr "<parameter>web_name_label</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "overrides the book name as it appears on the menu of a <application>Publican</application>-managed website. Refer to <xref linkend=\"sect-Users_Guide-Website\" />."
+msgstr "visualizza il valore impostato, invece del nome del libro, nel menu di un sito web gestito da <application>Publican</application>. Fare riferimento al <xref linkend=\"sect-Users_Guide-Website\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_obsoletes</parameter>"
+msgstr "<parameter>web_obsoletes</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies packages that the web RPM obsoletes. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+msgstr "specifica i pacchetti resi obsoleti da questo RPM per il web. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_product_label</parameter>"
+msgstr "<parameter>web_product_label</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "overrides the product name as it appears on the menu of a <application>Publican</application>-managed website. Refer to <xref linkend=\"sect-Users_Guide-Website\" />."
+msgstr "visualizza il valore impostato, invece del nome del prodotto, nel menu di un sito web gestito da <application>Publican</application>. Fare riferimento al <xref linkend=\"sect-Users_Guide-Website\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_type</parameter>"
+msgstr "<parameter>web_type</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "specifies that the document is descriptive content for a <application>Publican</application>-managed website rather than product documentation. This content includes the home page of the website (<literal>web_type:&nbsp;home</literal>), product description pages (<literal>web_type:&nbsp;product</literal>), and version description pages (<literal>web_type:&nbsp;version</literal>). Refer to <xref linkend=\"sect-Users_Guide-Website\" />."
+msgstr "specifica che si tratta di un documento descrittivo per un sito web gestito da <application>Publican</application>, e non del documento di un prodotto. Il contenuto include la home page del sito web (<literal>web_type:&nbsp;home</literal>), pagine descrittive di prodotto (<literal>web_type:&nbsp;product</literal>), e pagine descrittive di versione (<literal>web_type:&nbsp;version</literal>). Fare riferimento al <xref linkend=\"sect-Users_Guide-Website\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>web_version_label</parameter>"
+msgstr "<parameter>web_version_label</parameter>"
+
+#. Tag: para
+#, no-c-format
+msgid "overrides the version number as it appears on the menu of a <application>Publican</application>-managed website. Set this value to <literal>UNUSED</literal> for general documentation that does not apply to any particular version of a product. Refer to <xref linkend=\"sect-Users_Guide-Website\" />."
+msgstr "visualizza il valore impostato, invece del numero di versione, nel menu di un sito web gestito da <application>Publican</application>. Impostare il valore su <literal>UNUSED</literal> per una documentazione generale che non si applica ad una particolare versione di un prodotto. Fare riferimento al <xref linkend=\"sect-Users_Guide-Website\" />."
+
+#. Tag: title
+#, no-c-format
+msgid "Help from the command line"
+msgstr "Aiuto da riga di comando"
+
+#. Tag: para
+#, no-c-format
+msgid "Run the <command>publican help_config</command> command in the root directory of a book for a summary of these parameters."
+msgstr "Eseguire il comando <command>publican help_config</command> nella cartella radice di un libro per un elenco di questi parametri."
+
+#. Tag: title
+#, no-c-format
+msgid "Book_Info.xml"
+msgstr "Book_Info.xml"
+
+#. Tag: title
+#, no-c-format
+msgid "<filename>Article_Info.xml</filename> and <filename>Set_Info.xml</filename>"
+msgstr "<filename>Article_Info.xml</filename> e <filename>Set_Info.xml</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "This description of the <filename>Book_Info.xml</filename> file applies to <filename>Article_Info.xml</filename> and <filename>Set_Info.xml</filename> files too. However, for the sake of simplicity, the file is referred to as <filename>Book_Info.xml</filename> throughout this section."
+msgstr "Questa descrizione del file <filename>Book_Info.xml</filename> si applica anche ai file <filename>Article_Info.xml</filename> e <filename>Set_Info.xml</filename>. Quindi, per semplificare, nel corso di questa sezione si farà riferimento al file <filename>Book_Info.xml</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>Book_Info.xml</filename> file contains the key metadata concerning a book: the book's ID; title; subtitle; author and edition number. It also contains the name and version of the product that is documented, and an abstract."
+msgstr "Il file <filename>Book_Info.xml</filename> contiene i metadati chiave di un libro: ID del libro; titolo; sottotitolo; autore e numero editoriale. Contiene anche nome e versione del prodotto documentato, ed un abstract."
+
+#. Tag: para
+#, no-c-format
+msgid "Aside from constituting much of a book's front matter, this metadata is also used when building books as RPM packages. Usually, if you distribute a book as an RPM package, several of the tags included by default in <filename>Book_Info.xml</filename> must have appropriate data within them, and that data must conform to the requirements of the RPM format. You can override the data in these tags by using equivalent fields in the <filename>publican.cfg</filename> file, as discussed in this section."
+msgstr "Oltre a costituire gli elementi introduttivi di un libro, questi metadati sono usati anche per creare il pacchetto RPM di un libro. Solitamente, se si distribuisce un libro come un pacchetto RPM, i vari tag inclusi in maniera predefinita in <filename>Book_Info.xml</filename> devono contenere dati che siano conformi alle richieste del formato RPM. E' possibile non tenere conto di questi tag, usando i campi equivalenti nel file <filename>publican.cfg</filename>, come discusso in questa sezione."
+
+#. Tag: para
+#, no-c-format
+msgid "Unless overridden in the <filename>publican.cfg</filename> file, data from seven of the default tags in <filename>Book_Info.xml</filename> is required to build books as RPMs. Most immediately, the file name of a book built as an RPM package is constructed as follows:"
+msgstr "A meno che non siano specificati nel file <filename>publican.cfg</filename>, per realizzare l'RPM di un libro, sono necessari i dati di sette tag predefiniti in <filename>Book_Info.xml</filename>. Per lo più, il nome di file del pacchetto RPM di un libro è costruito come:"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-<replaceable>edition</replaceable>-<replaceable>pubsnumber</replaceable>.src.rpm</filename>"
+msgstr "<filename><replaceable>nome_prodotto</replaceable>-<replaceable>titolo</replaceable>-<replaceable>numero_prodotto</replaceable>-<replaceable>codice_lingua</replaceable>-<replaceable>edizione</replaceable>-<replaceable>numero_pub</replaceable>.src.rpm</filename>"
+
+#. Tag: para
+#, no-c-format
+msgid "Everything but <replaceable>language</replaceable> above is pulled from <filename>Book_Info.xml</filename> — you specify <replaceable>language</replaceable> when you build the book. As well, the <sgmltag>&lt;subtitle&gt;</sgmltag> and <sgmltag>&lt;abstract&gt;</sgmltag> are used in the RPM spec file, to provide the <parameter>Summary:</parameter> field in the header and the <parameter>%description</parameter> field, respectively."
+msgstr "Ogni dato, escluso <replaceable>codice_lingua</replaceable>, è ricavato dal file <filename>Book_Info.xml</filename> — la <replaceable>lingua</replaceable> è specificata durante la creazione del libro. Come pure <sgmltag>&lt;subtitle&gt;</sgmltag> e <sgmltag>&lt;abstract&gt;</sgmltag> usati nel file <emphasis>spec</emphasis> dell'RPM per fornire il campo <parameter>Summary:</parameter> nell'intestazione ed il campo <parameter>%description</parameter>, rispettivamente."
+
+#. Tag: para
+#, no-c-format
+msgid "An example <filename>Book_Info.xml</filename> file, for the <literal>Test_Book</literal> book, is presented below. Details regarding this file, and what the RPM format requirements are for each tag, follow."
+msgstr "Appresso, si riporta un esempio di file <filename>Book_Info.xml</filename>, per un <literal>Libro_di_Prova</literal>. Seguono i dettagli riguardanti questo file, e le richieste di conformità al formato RPM per ciascun tag."
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"\n"
+"<xi:include href=\"Book_Info.xml\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+msgstr ""
+"\n"
+"<xi:include href=\"Book_Info.xml\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;bookinfo id=\"<replaceable>book_id</replaceable>\"&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;bookinfo id=\"<replaceable>id_libro</replaceable>\"&gt;</sgmltag>"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;articleinfo id=\"<replaceable>article_id</replaceable>\"&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;articleinfo id=\"<replaceable>id_articolo</replaceable>\"&gt;</sgmltag>"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;setinfo id=\"<replaceable>set_id</replaceable>\"&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;setinfo id=\"<replaceable>id_set</replaceable>\"&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The document ID is used internally and is not displayed to readers when the book is built. If you run the <command>publican clean_ids</command> command, any manually entered ID, including this one, changes to a <replaceable>Doc_Name-Title</replaceable> format, where <replaceable>Title</replaceable> is the title of the associated book, article, section, or chapter."
+msgstr "L'ID del documento è usato internamente e non viene visualizzato ai lettori. Se si esegue il comando <command>publican clean_ids</command>, ogni ID inserito manualmente, inclusi questi, viene modificato in un formato <replaceable>Nome_Doc-Titolo</replaceable>, dove <replaceable>Titolo</replaceable> è il titolo associato al libro, articolo, sezione o capitolo."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;productname&gt;<replaceable>productname</replaceable>&lt;/productname&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;productname&gt;<replaceable>nomeprodotto</replaceable>&lt;/productname&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The name of the product or product stream to which the book, article, or set applies, for example: <literal>Red Hat Enterprise Linux</literal> or <literal>JBoss Enterprise Application Platform</literal>. When building a book as an RPM package, data in the <sgmltag>&lt;productname&gt;</sgmltag> tag is used as part of the file name of the package."
+msgstr "Il nome del prodotto o gruppo di prodotto cui si riferisce il libro, articolo, o set, per esempio:  <literal>Red Hat Enterprise Linux</literal> o <literal>JBoss Enterprise Application Platform</literal>. Quando si crea il pacchetto RPM di un libro, il valore nel tag <sgmltag>&lt;productname&gt;</sgmltag> viene usato come parte del nome di file dell'RPM."
+
+#. Tag: para
+#, no-c-format
+msgid "Override this tag with the <parameter>product</parameter> variable in the <filename>publican.cfg</filename> file if the name of your product contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore."
+msgstr "Per non tenere conto di questo tag, usare il parametro <parameter>product</parameter> nel file <filename>publican.cfg</filename>, in particolare se il nome_prodotto contiene caratteri non-latini, caratteri accentati o caratteri di punteggiatura diversi dal trattino basso."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;title&gt;<replaceable>title</replaceable>&lt;/title&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;title&gt;<replaceable>titolo</replaceable>&lt;/title&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The title of the document (for example, <sgmltag>&lt;title&gt;Server Configuration Guide&lt;/title&gt;</sgmltag>). The title appears under the product name in both HTML and PDF editions. A title is required to build an RPM package. When building a book as an RPM package the title is used as the part of the file name of the package."
+msgstr "Abbastanza ovvio, il titolo del documento (per esempio <sgmltag>&lt;title&gt;Server Configuration Guide&lt;/title&gt;</sgmltag>). Il titolo compare sotto il nome del prodotto in entrambe le presentazioni, HTML e PDF. Un titolo è necessario per la creazione del pacchetto RPM. Quando si crea l'RPM di un libro, il titolo è usato come parte integrante nel nome di file del pacchetto."
+
+#. Tag: para
+#, no-c-format
+msgid "The names of RPM packages can only contain certain basic ASCII characters. If the title of your document contains non-Latin characters, accented Latin characters, or punctuation marks other than the underscore, use the <parameter>docname</parameter> parameter in the <filename>publican.cfg</filename> file to set a name for the document in ASCII characters. When you build the document, the title appears as you set it with the <sgmltag>&lt;title&gt;</sgmltag> tag, but when you package the document, the value that you used in the <parameter>docname</parameter> parameter is used in the file name of the RPM package."
+msgstr "I nomi dei pacchetti RPM possono contenere solo particolari caratteri ASCII. Se il titolo di un documento contiene caratteri non latini, caratteri latini accentati o di punteggiatura (escluso il trattino basso), usare il parametro <parameter>docname</parameter> nel file <filename>publican.cfg</filename> per impostare il nome del documento in caratteri ASCII. Compilando il documento, il titolo risultante è quello impostato con il tag <sgmltag>&lt;title&gt;</sgmltag>, mentre per il nome di pacchetto del documento, il valore usato è quello impostato con il parametro <parameter>docname</parameter>."
+
+#. Tag: para
+#, no-c-format
+msgid "By default, <application>Publican</application> also uses the contents of the <sgmltag>&lt;title&gt;</sgmltag> tag to find the file that contains the root XML node: <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag>, or <sgmltag>&lt;set&gt;</sgmltag>. For example, if you set the title to <sgmltag>&lt;title&gt;Server Configuration Guide&lt;/title&gt;</sgmltag>, <application>Publican</application> expects the root XML node to be in a file named <filename>Server_Configuration_Guide.xml</filename> and the document entities to be in a file named <filename>Server_Configuration_Guide.ent</filename>. To use a different name for these files, set the <parameter>mainfile</parameter> parameter in the document configuration file (by default, <filename>publican.cfg</filename>). Refer to <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" />."
+msgstr "Per impostazione, <application>Publican</application> usa il contenuto di <sgmltag>&lt;title&gt;</sgmltag> per individuare il file contenente il nodo XML radice: <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag> o <sgmltag>&lt;set&gt;</sgmltag>. Per esempio, se si imposta il titolo <sgmltag>&lt;title&gt;Server Configuration Guide&lt;/title&gt;</sgmltag>, <application>Publican</application> si aspetta di trovare il nodo XML radice in un file di nome <filename>Server_Configuration_Guide.ent</filename>. Per usare un nome differente per questi file, impostare il parametro <parameter>mainfile</parameter> nel file di configurazione (per impostazione, <filename>publican.cfg</filename>). Fare riferimento alla <xref linkend=\"sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;subtitle&gt;<replaceable>subtitle</replaceable>&lt;/subtitle&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;subtitle&gt;<replaceable>sottotitolo</replaceable>&lt;/subtitle&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The book's subtitle: an alternative, and commonly explanatory title for the book (for example: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). The subtitle appears under the title in both HTML and PDF editions. A subtitle is also required to make a book available as an RPM package. When building a book as an RPM package, the subtitle is used as the <parameter>Summary</parameter> in the RPM spec file. The <command>rpm -qi</command> command returns the contents of several spec file fields, including the <computeroutput>Summary</computeroutput> field."
+msgstr "Analogamente ovvio come il precedente, il sottotitolo del libro; un titolo alternativo, generalmente esplicativo per il libro (per esempio: <emphasis>Server Configuration Guide: Preparing Red Hat Enterprise Linux for Production Use</emphasis>). Il sottotitolo compare sotto il titolo in entrambe le presentazioni, HTML e PDF. Un sottotitolo è necessario anche per la creazione del pacchetto RPM. In tal caso, il sottotitolo è usato nel <parameter>Summary</parameter> del file <emphasis>spec</emphasis> dell'RPM, reso disponibile insieme agli altri campi dello spec file, con il comando <command>rpm -qi</command>."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;productnumber&gt;<replaceable>productnumber</replaceable>&lt;/productnumber&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;productnumber&gt;<replaceable>numeroprodotto</replaceable>&lt;/productnumber&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The version number of the product the book covers, for example &lsquo;5.2&rsquo; for Red Hat Enterprise Linux 5.2 and &lsquo;4.3&rsquo; for JBoss EAP 4.3."
+msgstr "Il numero di versione del prodotto cui si riferisce il documento, per esempio &lsquo;5.2&rsquo; per Red Hat Enterprise Linux 5.2 e &lsquo;4.3&rsquo; per JBoss EAP 4.3."
+
+#. Tag: para
+#, no-c-format
+msgid "Running the <command>publican create --name <replaceable>Doc_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the product number."
+msgstr "L'esecuzione del comando <command>publican create --name <replaceable>Nome_Doc</replaceable> --version <replaceable>versione</replaceable></command> configura propriamente il numero di prodotto."
+
+#. Tag: para
+#, no-c-format
+msgid "Override this tag with the <parameter>version</parameter> variable in the <filename>publican.cfg</filename> file if the product version is anything other than a number."
+msgstr "Per non tenere conto di questo tag, usare il parametro <parameter>version</parameter> nel file <filename>publican.cfg</filename>, in particolare se il termine versione di prodotto, non contiene solo cifre."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;edition&gt;<replaceable>edition</replaceable>&lt;/edition&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;edition&gt;<replaceable>edizione</replaceable>&lt;/edition&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "This is the edition number of the book. The first edition of the book should be 1.0 (unless you use 0.<replaceable>x</replaceable> for pre-release versions of a book). Subsequent editions should increment the 1.<replaceable>x</replaceable> to indicate to readers that the book is a new edition. The edition changes the version number in the file name when building a book with the <command>publican package</command> command."
+msgstr "Il numero di edizione del libro. La prima edizione di un libro dovrebbe coincidere con 1.0 (a meno di usare 0.<replaceable>x</replaceable> per versioni pre-release di un libro). Le edizioni successive dovrebbero incrementare 1.<replaceable>x</replaceable> per indicare ai lettori una nuova edizione del libro. Questo tag imposta il numero di versione nel nome di file di un RPM, creato con <command>publican package</command>."
+
+#. Tag: para
+#, no-c-format
+msgid "For example, setting the edition to <filename>1.2</filename> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-1.2-0.src.rpm</filename>."
+msgstr "Per esempio, impostando edition ad <filename>1.2</filename> e compilando il libro con il comando <command>publican package --binary --lang=en-US</command>, si crea un file RPM di nome <filename><replaceable>nomeprodotto</replaceable>-<replaceable>titolo</replaceable>-<replaceable>numeroprodotto</replaceable>-en-US-1.2-0.src.rpm</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "Running the <command>publican create --name<replaceable> Doc_Name</replaceable> --edition <replaceable>x</replaceable>.<replaceable>y</replaceable></command> command correctly configures the edition."
+msgstr "L'esecuzione del comando <command>publican create --name<replaceable> Nome_Doc</replaceable> --edition <replaceable>x</replaceable>.<replaceable>y</replaceable></command> configura propriamente l'edizione."
+
+#. Tag: para
+#, no-c-format
+msgid "Override this tag with the <parameter>edition</parameter> variable in the <filename>publican.cfg</filename> file if the edition of your document is identified by anything other than a number."
+msgstr "Per non tenere conto di questo tag, usare il parametro <parameter>edition</parameter> nel file <filename>publican.cfg</filename>, in particolare se il termine edizione non contiene solo cifre."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;pubsnumber&gt;<replaceable>pubsnumber</replaceable>&lt;/pubsnumber&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;pubsnumber&gt;<replaceable>numero_pub</replaceable>&lt;/pubsnumber&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "The pubsnumber sets the release number (the last digit in the file name) when building a book with the <command>publican package</command> command. For example, setting the pubsnumber to <literal>1</literal> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>."
+msgstr "Il pubsnumber imposta il numero di release (l'ultima cifra) nel nome di file di un RPM, creato con <command>publican package</command>. Per esempio, impostando il pubsumber a <filename>1</filename> e compilando il libro con il comando <command>publican package --binary --lang=en-US</command>, si crea un file RPM di nome <filename><replaceable>nomeprodotto</replaceable>-<replaceable>titolo</replaceable>-<replaceable>numeroprodotto</replaceable>-en-US-<replaceable>edizione</replaceable>-1.src.rpm</filename>."
+
+#. Tag: para
+#, no-c-format
+msgid "Override this tag with the <parameter>release</parameter> variable in the <filename>publican.cfg</filename> file if the release number of your document contains anything other than whole numbers."
+msgstr "Per non tenere conto di questo tag, usare il parametro <parameter>release</parameter> nel file <filename>publican.cfg</filename>, in particolare se il numero di release del documento non contiene solo cifre."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;&lt;/abstract&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;abstract&gt;&lt;para&gt;<replaceable>abstract</replaceable>&lt;/para&gt;&lt;/abstract&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "A short overview and summary of the book's subject and purpose, traditionally no more than a paragraph long. The abstract appears before the table of contents in HTML editions and on the second page of PDF editions. When a book is built as an RPM package, the abstract sets the <parameter>Description</parameter> field of the RPM's spec file. This makes the abstract for a package available via the <command>rpm -qi</command> command."
+msgstr "Una breve descrizione e sintesi sull'argomento e sulla finalità del libro, generalmente non più lungo di un paragrafo. L'abstract compare prima del sommario dei contenuti nelle presentazioni HTML e nella seconda pagina nelle presentazioni PDF. Se si compila il pacchetto RPM per un libro, il tag abstract imposta il campo <parameter>Description</parameter> nel file <emphasis>spec</emphasis> dell'RPM. Ciò rende disponibile l'abstract con il comando <command>rpm -qi</command>."
+
+#. Tag: para
+#, no-c-format
+msgid "You can add extra metadata to the <filename>Book_Info.xml</filename> file of a document, to support specific features in various output formats:"
+msgstr "Si possono aggiungere metadati extra al file <filename>Book_Info.xml</filename> di un documento, a supporto di specifiche proprietà nei vari formati d'uscita:"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;keywordset&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;keywordset&gt;</sgmltag>"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;keyword&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;keyword&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "Terms tagged with <sgmltag>&lt;keyword&gt;</sgmltag> and placed within a <sgmltag>&lt;keywordset&gt;</sgmltag> are added to a <sgmltag>&lt;meta name=\"keywords\"&gt;</sgmltag> entry in the head of HTML files and to the <literal>Keywords</literal> field of the properties of a PDF document."
+msgstr "I termini con il tag <sgmltag>&lt;keyword&gt;</sgmltag> contenuti in un <sgmltag>&lt;keywordset&gt;</sgmltag>, sono inseriti all'interno di tag <sgmltag>&lt;meta name=\"keywords\"&gt;</sgmltag>, presenti nel tag head dei file HTML e nel campo <literal>Keywords</literal> delle proprietà di un documento PDF."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;subjectset&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;subjectset&gt;</sgmltag>"
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;subject&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;subject&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "Terms tagged with <sgmltag>&lt;subject&gt;</sgmltag> and placed within a <sgmltag>&lt;subjectset&gt;</sgmltag> are added to the <literal>Subject</literal> field of the properties of a PDF document and in the metadata of an ebook in EPUB format."
+msgstr "I termini con il tag <sgmltag>&lt;subject&gt;</sgmltag> contenuti in un <sgmltag>&lt;subjectset&gt;</sgmltag> sono aggiunti al campo <literal>Subject</literal> delle proprietà di un documento PDF e nei metadati di un e-book in formato EPUB."
+
+#. Tag: para
+#, no-c-format
+msgid "Consider using a <firstterm>controlled vocabulary</firstterm> when defining the subject of your document, for example, the <firstterm>Library of Congress Subject Headings</firstterm> (LCSH). Identify the chosen vocabulary with the <parameter>scheme</parameter> attibute in the <sgmltag>&lt;subjectset&gt;</sgmltag> tag, for example, <sgmltag>&lt;subjectset scheme=\"libraryofcongress\"&gt;</sgmltag>. You can search for LCSH subject headings through the Library of Congress <citetitle>Authorities &amp; Vocabularies</citetitle> page: <ulink url=\"http://id.loc.gov/authorities/search/\" />."
+msgstr "Si consideri di usare un <firstterm>vocabolario controllato</firstterm> per la definizione del soggetto di un documento, per esempio, il descrittore di soggetto dell'<firstterm>LCSH</firstterm> (Library of Congress Subject Headings). Si identifichi il vocabolario scelto con l'attributo <parameter>scheme</parameter> nel tag <sgmltag>&lt;subjectset&gt;</sgmltag>, per esempio <sgmltag>&lt;subjectset scheme=\"libraryofcongress\"&gt;</sgmltag>. In tal modo è possibile ricercare tra i descrittori di LCSH, nella pagina <citetitle>Authorities &amp; Vocabularies</citetitle> di Library of Congress: <ulink url=\"http://id.loc.gov/authorities/search/\" />."
+
+#. Tag: term
+#, no-c-format
+msgid "<sgmltag>&lt;mediaobject role=\"cover\" id=\"epub_cover\"&gt;</sgmltag>"
+msgstr "<sgmltag>&lt;mediaobject role=\"cover\" id=\"epub_cover\"&gt;</sgmltag>"
+
+#. Tag: para
+#, no-c-format
+msgid "Use a <sgmltag>&lt;mediaobject&gt;</sgmltag> tag with the <literal>role=\"cover\"</literal> and <literal>id=\"epub_cover\"</literal> attributes to set cover art for an ebook in EPUB format. For example:"
+msgstr "Usare un tag <sgmltag>&lt;mediaobject&gt;</sgmltag> con attributi <literal>role=\"cover\"</literal> e <literal>id=\"epub_cover\"</literal> per impostare cover-art per e-book in formato EPUB. Per esempio:"
+
+#. Tag: programlisting
+#, no-c-format, fuzzy
+msgid ""
+"&lt;mediaobject role=\"cover\" id=\"epub_cover\"&gt;\n"
+"	&lt;imageobject role=\"front-large\" remap=\"lrg\"&gt;\n"
+"		&lt;imagedata width=\"600px\" format=\"PNG\" fileref=\"images/front_cover.png\"/&gt;\n"
+"	&lt;/imageobject&gt;\n"
+"	&lt;imageobject role=\"front\" remap=\"s\"&gt;\n"
+"		&lt;imagedata format=\"PNG\" fileref=\"images/front_cover.png\"/&gt;\n"
+"	&lt;/imageobject&gt;\n"
+"	&lt;imageobject role=\"front-small\" remap=\"xs\"&gt;\n"
+"		&lt;imagedata format=\"PNG\" fileref=\"images/front_cover.png\"/&gt;\n"
+"	&lt;/imageobject&gt;\n"
+"	&lt;imageobject role=\"thumbnail\" remap=\"cs\"&gt;\n"
+"		&lt;imagedata format=\"PNG\" fileref=\"images/front_cover_thumbnail.png\"/&gt;\n"
+"	&lt;/imageobject&gt;\n"
+"&lt;/mediaobject&gt;\n"
+"\n"
+msgstr ""
+"&lt;mediaobject role=\"cover\" id=\"epub_cover\"&gt;\n"
+"\t&lt;imageobject role=\"front-large\" remap=\"lrg\"&gt;\n"
+"\t\t&lt;imagedata width=\"600px\" format=\"PNG\" fileref=\"images/front_cover.png\"/&gt;\n"
+"\t&lt;/imageobject&gt;\n"
+"\t&lt;imageobject role=\"front\" remap=\"s\"&gt;\n"
+"\t\t&lt;imagedata format=\"PNG\" fileref=\"images/front_cover.png\"/&gt;\n"
+"\t&lt;/imageobject&gt;\n"
+"\t&lt;imageobject role=\"front-small\" remap=\"xs\"&gt;\n"
+"\t\t&lt;imagedata format=\"PNG\" fileref=\"images/front_cover.png\"/&gt;\n"
+"\t&lt;/imageobject&gt;\n"
+"\t&lt;imageobject role=\"thumbnail\" remap=\"cs\"&gt;\n"
+"\t\t&lt;imagedata format=\"PNG\" fileref=\"images/front_cover_thumbnail.png\"/&gt;\n"
+"\t&lt;/imageobject&gt;\n"
+"&lt;/mediaobject&gt;\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "As with all the other images in your document, place the cover images in the <filename>images</filename> subdirectory."
+msgstr "Come per le altre immagini in documenti, salvare le cover-art nella sotto-cartella <filename>images</filename>."
+
+#. Tag: title
+#, no-c-format
+msgid "RPM packages, editions, impressions and versions"
+msgstr "Pacchetti RPM, edizioni, ristampe e versioni"
+
+#. Tag: para
+#, no-c-format
+msgid "As noted above, the default <filename>Book_Info.xml</filename> used by <application>Publican</application> includes an <parameter>&lt;edition&gt;</parameter> tag."
+msgstr "Come già notato, il file predefinito <filename>Book_Info.xml</filename> usato da <application>Publican</application>, include un tag <parameter>&lt;edition&gt;</parameter>."
+
+#. Tag: para
+#, no-c-format
+msgid "If you distribute a book as an RPM package, the data placed within this tag sets the first two digits of the version number in the RPM file name."
+msgstr "Se si distribuisce un libro come un pacchetto RPM, i dati di questo tag impostano le prime due cifre del numero di versione del file RPM."
+
+#. Tag: para
+#, no-c-format
+msgid "So, an edition of '1.0' becomes a version of '1.0'."
+msgstr "Quindi una edizione '1.0' diventa una versione '1.0'."
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Book_Info.xml</filename> also includes the <parameter>&lt;pubsnumber&gt;</parameter> tag. Any data placed within this tag changes the release number of RPM-packaged books."
+msgstr "Il file <filename>Book_Info.xml</filename> contiene anche il tag <parameter>&lt;pubsnumber&gt;</parameter>. I dati di questo tag modificano il numero di release del pacchetto RPM."
+
+#. Tag: para
+#, no-c-format
+msgid "A book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, release 5 (1.0-5)."
+msgstr "Un libro con edizione 1.0 e pubsumber 5, diventerebbe la versione 1.0 e release 5 (1.0-5)."
+
+#. Tag: para
+#, no-c-format
+msgid "The edition and pubsnumber are not tied to the <parameter>&lt;productnumber&gt;</parameter> tag also found in <filename>Book_Info.xml</filename>: <parameter>&lt;productnumber&gt;</parameter> denotes the version number of the product being documented or otherwise written about."
+msgstr "I tag edition e pubsumber non sono correlati al tag <parameter>&lt;productnumber&gt;</parameter>, anch'esso presente in <filename>Book_Info.xml</filename>: infatti <parameter>&lt;productnumber&gt;</parameter> specifica la versione del prodotto documentato o descritto."
+
+#. Tag: para
+#, no-c-format
+msgid "It is entirely possible to have a 2nd edition of a book pertaining to a particular version of a product."
+msgstr "Del resto, è naturale avere la II edizione di un libro per una particolare versione di un prodotto."
+
+#. Tag: para
+#, no-c-format
+msgid "In bibliography, two copies of a book are the same edition if they are printed using substantially the same type-set master plates or pages. ('Substantially' offers some allowance for typo corrections and other inconsequential changes.)"
+msgstr "In bibliografia, due copie di un libro fanno parte della stessa edizione se risultano stampati usando sostanzialmente la stessa composizione tipografica o di pagina. ('Sostanzialmente' sono tollerati solo correzioni tipografiche ed altre correzioni minori)."
+
+#. Tag: para
+#, no-c-format
+msgid "Book collectors routinely conflate 'first edition' with 'first print run', while bibliographers pay attention to the text commonly placed in the front matter of a book, which calls a 2nd print run off the same (or substantially the same) plates a '1st edition, 2nd impression' or '1st edition, 2nd printing'."
+msgstr "Diversamente, i collezionisti di libri solitamente si riferiscono alla 'prima edizione' come alla 'prima uscita di stampa'; i bibliografi invece prestano attenzione al testo solitamente situato nelle prime pagine interne di un libro, in cui si specifica per esempio, 'II ristampa' o 'IV edizione'."
+
+#. Tag: para
+#, no-c-format
+msgid "We recommend following bibliographic practice in this regard. When using <application>Publican</application> to re-publish a book from 'substantially the same XML', increment the <parameter>&lt;pubsnumber&gt;</parameter> tag, not the <parameter>&lt;edition&gt;</parameter> tag. It functions as a near-equivalent to the impression or printing number of traditional publishing."
+msgstr "Noi raccomandiamo di seguire il metodo seguito dai bibliografi. Quando si usa <application>Publican</application> per ripubblicare un libro da un file XML <emphasis>sostanzialmente identico</emphasis>, incrementare il tag <parameter>&lt;pubsnumber&gt;</parameter>. Esso ha una funzione molto simile alla ristampa nella editoria tradizionale. "
+
+#. Tag: para
+#, no-c-format
+msgid "As for changing the edition number, we recommend changing this in the same circumstances traditional publishers change the edition of a work: when it is revised and re-written significantly. What constitutes significant, and how much re-writing is needed to increment an edition number by a whole number and how much is needed to increment it by one-tenth of a whole number, is a matter of editorial discretion."
+msgstr "Per il cambio di <parameter>&lt;edition&gt;</parameter>, si raccomanda di usare lo stesso criterio degli editori tradizionali: nel caso di revisione o di riscrittura <emphasis>significativa</emphasis>. Su cosa sia significativo e su quanto debba essere consistente una riscrittura, da richiedere un incremento intero o decimale nel numero di edizione, resta a discrezione dell'editore."
+
+#. Tag: title
+#, no-c-format
+msgid "Author_Group.xml"
+msgstr "Author_Group.xml"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Author_Group.xml</filename> is not required but is the standard place to record author, editor, artist and other credit details. The following is an example <filename>Author_Group.xml</filename> file:"
+msgstr "Il file <filename>Author_Group.xml</filename> non è richiesto ed è la locazione standard in cui inserire autore, editore, grafico ed altri dettagli di merito. Il seguente è un esempio di file <filename>Author_Group.xml</filename>:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"<xi:include href=\"extras/Author_Group.xml\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+msgstr ""
+"<xi:include href=\"extras/Author_Group.xml\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "<filename>Author_Group.xml</filename> does not have to contain all of the above information: include as much or as little as required."
+msgstr "Il file <filename>Author_Group.xml</filename> non necessariamente deve contenere tutte queste informazioni: inserire a discrezione quelle richieste."
+
+#. Tag: title
+#, no-c-format
+msgid "Chapter.xml"
+msgstr "Chapter.xml"
+
+#. Tag: title
+#, no-c-format
+msgid "Articles and chapters"
+msgstr "Articoli e Capitoli"
+
+#. Tag: para
+#, no-c-format
+msgid "DocBook articles cannot contain chapters. If you use the <option>--type=article</option> option with <command>publican create</command>, <application>Publican</application> does not create a <filename>Chapter.xml</filename> file. Use sections to organize content within articles."
+msgstr "Gli articoli di DocBook non possono contenere capitoli. Se si usa l'opzione <option>--type=article</option> con il comando <command>publican create</command>, <application>Publican</application> non crea anche un file  <filename>Chapter.xml</filename>. Usare le sezioni per organizzare il contenuto degli articoli."
+
+#. Tag: para
+#, no-c-format
+msgid "Refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner available at <ulink url=\"http://www.docbook.org/tdg/en/html/docbook.html\" /> for details of the different ways that sets, books, articles, parts, chapters, and sections interact. In particular, note that articles can be stand-alone documents, or can be incorporated into books."
+msgstr "Fare riferimento alla Guida <citetitle>DocBook: The Definitive Guide</citetitle> di Norman Walsh e Leonard Muellner, disponibile su <ulink url=\"http://www.docbook.org/tdg/en/html/docbook.html\" />, per i dettagli sui vari modi di interazioni tra set, book, articoli, part, capitoli e sezioni. In particolare, notare che gli articoli possono essere documenti a se stanti, o possono essere incorporati in libri."
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created by the <command>publican create</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:"
+msgstr "Il file <filename>Chapter.xml</filename> è un modello per creare file di capitoli. Questi file costituiscono il contenuto di un libro. Di seguito si riporta un modello di capitolo (<filename>Chapter.xml</filename>) creato dal comando <command>publican create</command>. Notare che <filename>DOCTYPE</filename> è impostato a <filename>chapter</filename>:"
+
+#. Tag: programlisting
+#, no-c-format
+msgid ""
+"<xi:include href=\"extras/Chapter.xmlt\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+msgstr ""
+"<xi:include href=\"extras/Chapter.xmlt\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "This chapter has two sections, <filename>Section 1 Test</filename> and <filename>Section 2 Test</filename>. Refer to <ulink url=\"http://docbook.org/tdg/en/html/chapter.html\" /> for further information about chapters."
+msgstr "Il capitolo presenta due sezioni, <filename>Section 1 Test</filename> e <filename>Section 2 Test</filename>. Per ulteriori informazioni sui capitoli, fare riferimento a <ulink url=\"http://docbook.org/tdg/en/html/chapter.html\" /> della sopra citata guida."
+
+#. Tag: title
+#, no-c-format
+msgid "Note"
+msgstr "Nota"
+
+#. Tag: para
+#, no-c-format
+msgid "The chapter file should be renamed to reflect the chapter subject. For example, a chapter on product installation could be named <filename>Installation.xml</filename>, whereas a chapter on setting up a piece of software would be better called <filename>Setup.xml</filename> or <filename>Configuration.xml</filename>."
+msgstr "Il file di capitolo dovrebbe essere rinominato in modo da rispecchiare l'argomento contenuto. Per esempio, un capitolo sull'installazione di un prodotto dovrebbe essere denominato <filename>Installation.xml</filename>, mentre un capitolo sull'impostazione di un software sarebbe meglio denominato, <filename>Setup.xml</filename> o <filename>Configuration.xml</filename>."
+
+#. Tag: title
+#, no-c-format
+msgid "<replaceable>Doc_Name</replaceable>.xml"
+msgstr "<replaceable>Nome_Doc</replaceable>.xml"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename><replaceable>Doc_Name</replaceable>.xml</filename> file contains <literal>xi:include</literal> directives to include the other necessary XML files for the document, including chapters or sections contained in other XML files. For example, a book's <filename><replaceable>Doc_Name</replaceable>.xml</filename> file brings together chapters that are contained in separate XML files."
+msgstr "Il file <filename><replaceable>Nome_Doc</replaceable>.xml</filename> contiene le direttive <literal>xi:include</literal> per includere gli altri file XML indispensabili al documento, tra cui i capitoli e le sezioni contenute nei vari file XML. Per esempio, il file <filename><replaceable>Nome_Doc</replaceable>.xml</filename> di un libro riunisce i capitoli contenuti in distinti file XML."
+
+#. Tag: para
+#, no-c-format
+msgid "The following is an example <filename><replaceable>Doc_Name</replaceable>.xml</filename> file that describes a DocBook book — note the <parameter>DOCTYPE</parameter> is set to <literal>book</literal>."
+msgstr "Ecco un esempio di <filename><replaceable>Nome_Doc</replaceable>.xml</filename> che descrive un libro di DocBook — notare il parametro <parameter>DOCTYPE</parameter> impostato con <literal>book</literal>."
+
+#. Tag: title
+#, no-c-format
+msgid "A DocBook book"
+msgstr "Un libro DocBook"
+
+#. Tag: programlisting
+#, no-c-format
+msgid "<xi:include href=\"extras/Book_Name.xmlt\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+msgstr "<xi:include href=\"extras/Book_Name.xmlt\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+
+#. Tag: para
+#, no-c-format
+msgid "This example loads the <filename>Book_Info.xml</filename>, <filename>Preface.xml</filename>, <filename>Chapter.xml</filename>, and <filename>Appendix.xml</filename> XML files."
+msgstr "Questo esempio carica i file XML <filename>Book_Info.xml</filename>, <filename>Preface.xml</filename>, <filename>Chapter.xml</filename> e <filename>Appendix.xml</filename>."
+
+#. Tag: title
+#, no-c-format
+msgid "Important"
+msgstr "Importante"
+
+#. Tag: para
+#, no-c-format
+msgid "The order in which chapters are listed matters. When this example book is built, <filename>Book_Info.xml</filename> will precede <filename>Preface.xml</filename> which will precede <filename>Chapter.xml</filename>, and so on."
+msgstr "L'ordinamento dei capitoli è importante. La creazione di questo libro, prevede che <filename>Book_Info.xml</filename> preceda <filename>Preface.xml</filename> che a sua volta preceda <filename>Chapter.xml</filename>, e così via."
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename><replaceable>Doc_Name</replaceable>.xml</filename> file is not limited to using <literal>xi:include</literal> directives. You can create documents with a single XML file. The following is an example of a book created using a single XML file:"
+msgstr "Il file <filename><replaceable>Nome_Doc</replaceable>.xml</filename> non si limita all'uso delle direttive <literal>xi:include</literal>. Si possono creare documenti anche con un solo file XML. Di seguito si riporta un esempio di libro, usando un singolo file XML:"
+
+#. Tag: programlisting
+#, no-c-format, fuzzy
+msgid ""
+"&lt;book&gt;\n"
+"\n"
+"&lt;chapter&gt;\n"
+"&lt;title&gt;Chapter 1&lt;/title&gt;\n"
+"&lt;para&gt;\n"
+"	A paragraph in Chapter 1.\n"
+"&lt;/para&gt;\n"
+"&lt;section id=\"section1\"&gt;\n"
+"&lt;title&gt;Chapter 1 Section 1&lt;/title&gt;\n"
+"	&lt;para&gt;\n"
+"		A paragraph in Section 1.\n"
+"	&lt;/para&gt;\n"
+"&lt;/section&gt;\n"
+"&lt;section id=\"section2\"&gt;\n"
+"&lt;title&gt;Chapter 1 Section 2&lt;/title&gt;\n"
+"	&lt;para&gt;\n"
+"		A paragraph in Section 2.\n"
+"	&lt;/para&gt;\n"
+"&lt;/section&gt;\n"
+"&lt;/chapter&gt;\n"
+"\n"
+"&lt;chapter&gt;\n"
+"&lt;title&gt;Chapter 2&lt;/title&gt;\n"
+"&lt;para&gt;\n"
+"	A paragraph in Chapter 2.\n"
+"&lt;/para&gt;\n"
+"&lt;/chapter&gt;\n"
+"\n"
+"&lt;/book&gt;\n"
+"\n"
+msgstr ""
+"&lt;book&gt;\n"
+"\n"
+"&lt;chapter&gt;\n"
+"&lt;title&gt;Chapter 1&lt;/title&gt;\n"
+"&lt;para&gt;\n"
+"\tA paragraph in Chapter 1.\n"
+"&lt;/para&gt;\n"
+"&lt;section id=\"section1\"&gt;\n"
+"&lt;title&gt;Chapter 1 Section 1&lt;/title&gt;\n"
+"\t&lt;para&gt;\n"
+"\t\tA paragraph in Section 1.\n"
+"\t&lt;/para&gt;\n"
+"&lt;/section&gt;\n"
+"&lt;section id=\"section2\"&gt;\n"
+"&lt;title&gt;Chapter 1 Section 2&lt;/title&gt;\n"
+"\t&lt;para&gt;\n"
+"\t\tA paragraph in Section 2.\n"
+"\t&lt;/para&gt;\n"
+"&lt;/section&gt;\n"
+"&lt;/chapter&gt;\n"
+"\n"
+"&lt;chapter&gt;\n"
+"&lt;title&gt;Chapter 2&lt;/title&gt;\n"
+"&lt;para&gt;\n"
+"\tA paragraph in Chapter 2.\n"
+"&lt;/para&gt;\n"
+"&lt;/chapter&gt;\n"
+"\n"
+"&lt;/book&gt;\n"
+"\n"
+
+#. Tag: para
+#, no-c-format
+msgid "This book contains two chapters. Chapter one contains two sections. Refer to <ulink url=\"http://docbook.org/tdg/en/html/section.html\" /> for further information about sections, and <ulink url=\"http://docbook.org/tdg/en/html/book.html\" /> for further information about books."
+msgstr "Questo libro contiene due capitoli, in cui il I capitolo è costituito da due sezioni. Per ulteriori informazioni su sezioni e book vedere rispettivamente, <ulink url=\"http://docbook.org/tdg/en/html/section.html\" /> e <ulink url=\"http://docbook.org/tdg/en/html/book.html\" />."
+
+#. Tag: title
+#, no-c-format
+msgid "<replaceable>Doc_Name</replaceable>.ent"
+msgstr "<replaceable>Nome_Doc</replaceable>.ent"
+
+#. Tag: para
+#, no-c-format
+msgid "The <filename><replaceable>Doc_Name</replaceable>.ent</filename> file is used to define local entities. The <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities are used for copyright information. By default, <application>Publican</application> sets <parameter>YEAR</parameter> to the current year, and inserts a message into <parameter>HOLDER</parameter> to remind you to specify the copyright holder for the document. If the <parameter>YEAR</parameter> and <parameter>HOLDER</parameter> entities are missing altogether, the document will not build."
+msgstr "Il file <filename><replaceable>Nome_Doc</replaceable>.ent</filename> è usato per definire entità locali. Le entità <parameter>YEAR</parameter> e <parameter>HOLDER</parameter> sono usate per informazioni di copyright. Per impostazione, <application>Publican</application> imposta <parameter>YEAR</parameter> con l'anno corrente, ed inserisce un messaggio in <parameter>HOLDER</parameter> che richiama di specificare la licenza per il documento. Se mancano entrambe le entità <parameter>YEAR</parameter> e <parameter>HOLDER</parameter>, il documento non compila."
+
+#. Tag: para
+#, no-c-format
+msgid "Other entities might be required by the <firstterm>brand</firstterm> applied to your document. For example, the <application>Publican</application> brand for Fedora documents uses the entity <computeroutput>BOOKID</computeroutput> to specify how readers should refer to a document when they submit feedback about it."
+msgstr "Altre entità potrebbero essere richieste dal <firstterm>brand</firstterm> applicato al documento. Per esempio, il brand per i documenti Fedora, usa l'entità <computeroutput>BOOKID</computeroutput> per indicare l'identificativo del documento ai lettori che desiderano inviare commenti."
+
+#. Tag: screen
+#, no-c-format
+msgid ""
+"<xi:include href=\"extras/Book_Name.ent\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+msgstr ""
+"<xi:include href=\"extras/Book_Name.ent\" parse=\"text\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" />\n"
+"\n"
+
+#. Tag: title
+#, no-c-format
+msgid "Revision_History.xml"
+msgstr "Revision_History.xml"
+
+#. Tag: para
+#, no-c-format
+msgid "The <command>publican package</command> command searches for the first XML file in the document's XML directory containing a <literal>&lt;revhistory&gt;</literal> tag. <application>Publican</application> then uses that file to build the RPM revision history."
+msgstr "Durante la sua elaborazione, il comando <command>publican package</command> individua nella directory dei file XML, il primo file contenente un tag <literal>&lt;revhistory&gt;</literal>. Successivamente <application>publican</application> usa questo file per compilare la cronologia di revisione del pacchetto RPM."
+
+#~ msgid "As noted above, the default <filename>Book_Info.xml</filename> used by <application>Publican</application> includes an <parameter>&lt;edition&gt;</parameter> tag. If you distribute a book as an RPM package, the data placed within this tag sets the first two digits of the version number in the RPM file name. So, an edition of '1.0' becomes <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-1.0-<replaceable>pubsnumber</replaceable>.src.rpm</filename>, a version of '1.0'. <filename>Book_Info.xml</filename> also includes the <parameter>&lt;pubsnumber&gt;</parameter> tag. Any data placed within this tag sets the release number of RPM-packaged books."
+#~ msgstr "Come già notato in precedenza, il file predefinito <filename>Book_Info.xml</filename> usato da <application>Publican</application> include un tag <parameter>&lt;edition&gt;</parameter>. Se si distribuisce un libro come un pacchetto RPM, i dati all'interno di questo tag impostano, nel nome di file dell'RPM, le prime due cifre della versione. Quindi, una edizione '1.0' diventa una versione '1.0'. Il file <filename>Book_Info.xml</filename> include anche il tag <parameter>&lt;pubsnumber&gt;</parameter>. I dati all'interno di questo tag impostano la release del pacchetto RPM di un libro."
+
+#~ msgid "controls whether <application>Publican</application> should generate a table of contents at the start of sections and its level depth; at the default value of <literal>0</literal>, <application>Publican</application> will generate no tables of contents in sections, but only at the start of the document and in parts, chapters and appendix."
+#~ msgstr "controlla se generare un sommario dei contenuti all'inizio delle sezioni ed il livello di profondità; con il valore predefinito <literal>0</literal>, non viene generato alcun sommario nelle sezioni, ma soltanto all'inizio del documento e nelle parti, nei capitoli e in appendice."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the CVS root into which to import the SRPM. Specify this parameter when packaging a document with the <option>--cvs</option> option — refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+#~ msgstr "la radice in CVS in cui importare l'SRPM. Specificare questo parametro quando si crea il pacchetto di un documento con l'opzione <option>--cvs</option> — fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the CVS branch into which to import the SRPM. Specify this parameter when packaging a document with the <option>--cvs</option> option — refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+#~ msgstr "il ramo in CVS in cui importare l'SRPM. Specificare questo parametro quando si crea il pacchetto di un documento con l'opzione <option>--cvs</option> — fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+
+#~ msgid "toc_section_depth - Examples"
+#~ msgstr "toc_section_depth - Esempi"
+
+#~ msgid "chunk_section_depth - Sub-section splitting examples"
+#~ msgstr "chunk_section_depth - Esempi di suddivisione di sotto-sezioni"
+
+#~ msgid "Some successions of HTML pages as they appear in a document structured with chapters and subsections, for various values of parameter <parameter>chunk_section_depth</parameter>."
+#~ msgstr "Come si presentano alcune successioni di pagine HTML in un documento strutturato con capitoli e sotto-sezioni, per vari valori del parametro <parameter>chunk_section_depth</parameter>."
+
+#~ msgid "So, for example, a book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, release 5 (1.0-5), like <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-1.0-<replaceable>5</replaceable>.src.rpm</filename>."
+#~ msgstr "Quindi, per esempio, un libro con edizione 1.0 e con pubsumber 5, coinciderebbe con la versione 1.0 e la release 5 (1.0-5), come <filename><replaceable>nomeprodotto</replaceable>-<replaceable>titolo</replaceable>-<replaceable>numeroprodotto</replaceable>-<replaceable>codice_lingua</replaceable>-1.0-5.src.rpm</filename>."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "the CVS package into which to import the SRPM. Specify this parameter when packaging a document with the <option>--cvs</option> option — refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+#~ msgstr "il pacchetto in CVS in cui importare l'SRPM. Specificare questo parametro quando si crea il pacchetto di un documento con l'opzione <option>--cvs</option> — fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+
+#~ msgid "generate_section_toc_level - Examples"
+#~ msgstr "generate_section_toc_level - Esempi"
+
+#~ msgid "Note the first digit in these examples represents a chapter."
+#~ msgstr "Nota che la prima cifra negli esempi, rappresenta un capitolo."
+
+#~ msgid "Republishing: Increment <parameter>&lt;pubsnumber&gt;</parameter> and <parameter>&lt;edition&gt;</parameter>"
+#~ msgstr "Ripubblicazione: Incrementare <parameter>&lt;pubsnumber&gt;</parameter> and <parameter>&lt;edition&gt;</parameter>"
+
