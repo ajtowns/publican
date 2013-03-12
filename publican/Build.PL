@@ -380,52 +380,64 @@ my $builder = $class->new(
         'Text::CSV_XS'                           => 0,
     },
     add_to_cleanup => [
-        'publican-*',                            'Publican-*',
-        'tmp',                                   'blib',
-        'foo*',                                  'Test_*',
-        'Users_Guide/build',                     'Users_Guide/publish',
-        'Users_Guide/tmp',                       'Users_Guide/de-DE',
-        'Users_Guide/pot',                       'datadir/Common_Content/common/tmp',
-        'datadir/Common_Content/common/publish', 'MANIFEST.bak',
-        'Site_Tech/tmp',                         'Site_Tech/publish',
-        'META.yml',                              'Splash_Page/tmp/tmp',
-        'Splash_Page/tmp/publish',               'datadir/Common_Content/common-db5/tmp',
-        'datadir/Common_Content/common-db5/publish', 'META.json',
+        'publican-*',
+        'Publican-*',
+        'tmp',
+        'blib',
+        'foo*',
+        'Test_*',
+        'Users_Guide/build',
+        'Users_Guide/publish',
+        'Users_Guide/tmp',
+        'Users_Guide/de-DE',
+        'datadir/Common_Content/common/tmp',
+        'datadir/Common_Content/common/publish',
+        'MANIFEST.bak',
+        'Site_Tech/tmp',
+        'Site_Tech/publish',
+        'META.yml',
+        'Splash_Page/tmp/tmp',
+        'Splash_Page/tmp/publish',
+        'datadir/Common_Content/common-db5/tmp',
+        'datadir/Common_Content/common-db5/publish',
+        'META.json',
     ],
     script_files => [ 'bin/publican', 'bin/db5-valid', 'bin/db4-2-db5' ],
     bindoc_dirs  => ['pod1'],
     install_path => {
-        'datadir'    => '/usr/share/publican',
-        'web'        => '/usr/share/publican/sitetemplate',
-        'templates'  => '/usr/share/publican/templates',
-        'book_templates'  => '/usr/share/publican/book_templates',
-        'etc'        => '/etc',
-        'completion' => '/etc/bash_completion.d',
-        'docdir'     => '/usr/share/doc/',
+        'datadir'        => '/usr/share/publican',
+        'web'            => '/usr/share/publican/sitetemplate',
+        'templates'      => '/usr/share/publican/templates',
+        'book_templates' => '/usr/share/publican/book_templates',
+        'etc'            => '/etc',
+        'completion'     => '/etc/bash_completion.d',
+        'docdir'         => '/usr/share/doc/',
     },
     data_files => {
-        'datadir/rpmlint.cfg'                => 'datadir/rpmlint.cfg',
-        'datadir/default.db'                 => 'datadir/default.db',
-        'datadir/fop/fop.xconf'              => 'datadir/fop/fop.xconf',
-        'datadir/xsl/dt_htmlsingle_spec.xsl' => 'datadir/xsl/dt_htmlsingle_spec.xsl',
-        'datadir/xsl/carousel.xsl'           => 'datadir/xsl/carousel.xsl',
-        'datadir/xsl/xhtml-common.xsl'       => 'datadir/xsl/xhtml-common.xsl',
-        'datadir/xsl/html-pdf.xsl'           => 'datadir/xsl/html-pdf.xsl',
-        'datadir/xsl/html.xsl'               => 'datadir/xsl/html.xsl',
-        'datadir/xsl/txt.xsl'                => 'datadir/xsl/txt.xsl',
-        'datadir/xsl/web-spec.xsl'           => 'datadir/xsl/web-spec.xsl',
-        'datadir/xsl/web-home-spec.xsl'      => 'datadir/xsl/web-home-spec.xsl',
-        'datadir/xsl/defaults.xsl'           => 'datadir/xsl/defaults.xsl',
-        'datadir/xsl/html-single.xsl'        => 'datadir/xsl/html-single.xsl',
-        'datadir/xsl/pdf.xsl'                => 'datadir/xsl/pdf.xsl',
-        'datadir/xsl/epub.xsl'               => 'datadir/xsl/epub.xsl',
-        'datadir/xsl/eclipse.xsl'            => 'datadir/xsl/eclipse.xsl',
-        'datadir/xsl/man.xsl'                => 'datadir/xsl/man.xsl',
-        'datadir/xsl/abstract.xsl'           => 'datadir/xsl/abstract.xsl',
-        'datadir/xsl/subtitle.xsl'           => 'datadir/xsl/subtitle.xsl',
-        'datadir/xsl/merge_revisions.xsl'    => 'datadir/xsl/merge_revisions.xsl',
-        'datadir/xsl/db4-upgrade.xsl'        => 'datadir/xsl/db4-upgrade.xsl',
-        'datadir/xsl/drupal-book.xsl'        => 'datadir/xsl/drupal-book.xsl',
+        'datadir/rpmlint.cfg'   => 'datadir/rpmlint.cfg',
+        'datadir/default.db'    => 'datadir/default.db',
+        'datadir/fop/fop.xconf' => 'datadir/fop/fop.xconf',
+        'datadir/xsl/dt_htmlsingle_spec.xsl' =>
+            'datadir/xsl/dt_htmlsingle_spec.xsl',
+        'datadir/xsl/carousel.xsl'      => 'datadir/xsl/carousel.xsl',
+        'datadir/xsl/xhtml-common.xsl'  => 'datadir/xsl/xhtml-common.xsl',
+        'datadir/xsl/html-pdf.xsl'      => 'datadir/xsl/html-pdf.xsl',
+        'datadir/xsl/html.xsl'          => 'datadir/xsl/html.xsl',
+        'datadir/xsl/txt.xsl'           => 'datadir/xsl/txt.xsl',
+        'datadir/xsl/web-spec.xsl'      => 'datadir/xsl/web-spec.xsl',
+        'datadir/xsl/web-home-spec.xsl' => 'datadir/xsl/web-home-spec.xsl',
+        'datadir/xsl/defaults.xsl'      => 'datadir/xsl/defaults.xsl',
+        'datadir/xsl/html-single.xsl'   => 'datadir/xsl/html-single.xsl',
+        'datadir/xsl/pdf.xsl'           => 'datadir/xsl/pdf.xsl',
+        'datadir/xsl/epub.xsl'          => 'datadir/xsl/epub.xsl',
+        'datadir/xsl/eclipse.xsl'       => 'datadir/xsl/eclipse.xsl',
+        'datadir/xsl/man.xsl'           => 'datadir/xsl/man.xsl',
+        'datadir/xsl/abstract.xsl'      => 'datadir/xsl/abstract.xsl',
+        'datadir/xsl/subtitle.xsl'      => 'datadir/xsl/subtitle.xsl',
+        'datadir/xsl/merge_revisions.xsl' =>
+            'datadir/xsl/merge_revisions.xsl',
+        'datadir/xsl/db4-upgrade.xsl' => 'datadir/xsl/db4-upgrade.xsl',
+        'datadir/xsl/drupal-book.xsl' => 'datadir/xsl/drupal-book.xsl',
     },
     web_files => {
         'web/index.html'              => 'web/index.html',
@@ -442,25 +454,27 @@ my $builder = $class->new(
         'web/static.css'              => 'web/static.css',
     },
     templates_files => {
-        'templates/books_index.tmpl'       => 'templates/books_index.tmpl',
-        'templates/books_format_menu.tmpl' => 'templates/books_format_menu.tmpl',
-        'templates/books_lang_menu.tmpl'   => 'templates/books_lang_menu.tmpl',
-        'templates/books_menu.tmpl'        => 'templates/books_menu.tmpl',
-        'templates/index.tmpl'             => 'templates/index.tmpl',
-        'templates/labels.tmpl'            => 'templates/labels.tmpl',
-        'templates/language_index.tmpl'    => 'templates/language_index.tmpl',
-        'templates/language_index_style_1.tmpl'  => 'templates/language_index_style_1.tmpl',
-        'templates/opds.tmpl'              => 'templates/opds.tmpl',
-        'templates/opds-langs.tmpl'        => 'templates/opds-langs.tmpl',
-        'templates/opds-prods.tmpl'        => 'templates/opds-prods.tmpl',
-        'templates/products_index.tmpl'    => 'templates/products_index.tmpl',
-        'templates/products_menu.tmpl'     => 'templates/products_menu.tmpl',
-        'templates/toc.tmpl'               => 'templates/toc.tmpl',
-        'templates/versions_index.tmpl'    => 'templates/versions_index.tmpl',
-        'templates/versions_menu.tmpl'     => 'templates/versions_menu.tmpl',
-        'templates/web_2_footer.tmpl'      => 'templates/web_2_footer.tmpl',
-        'templates/web_2_head.tmpl'        => 'templates/web_2_head.tmpl',
-        'templates/Sitemap.tmpl'           => 'templates/Sitemap.tmpl',
+        'templates/books_index.tmpl' => 'templates/books_index.tmpl',
+        'templates/books_format_menu.tmpl' =>
+            'templates/books_format_menu.tmpl',
+        'templates/books_lang_menu.tmpl' => 'templates/books_lang_menu.tmpl',
+        'templates/books_menu.tmpl'      => 'templates/books_menu.tmpl',
+        'templates/index.tmpl'           => 'templates/index.tmpl',
+        'templates/labels.tmpl'          => 'templates/labels.tmpl',
+        'templates/language_index.tmpl'  => 'templates/language_index.tmpl',
+        'templates/language_index_style_1.tmpl' =>
+            'templates/language_index_style_1.tmpl',
+        'templates/opds.tmpl'           => 'templates/opds.tmpl',
+        'templates/opds-langs.tmpl'     => 'templates/opds-langs.tmpl',
+        'templates/opds-prods.tmpl'     => 'templates/opds-prods.tmpl',
+        'templates/products_index.tmpl' => 'templates/products_index.tmpl',
+        'templates/products_menu.tmpl'  => 'templates/products_menu.tmpl',
+        'templates/toc.tmpl'            => 'templates/toc.tmpl',
+        'templates/versions_index.tmpl' => 'templates/versions_index.tmpl',
+        'templates/versions_menu.tmpl'  => 'templates/versions_menu.tmpl',
+        'templates/web_2_footer.tmpl'   => 'templates/web_2_footer.tmpl',
+        'templates/web_2_head.tmpl'     => 'templates/web_2_head.tmpl',
+        'templates/Sitemap.tmpl'        => 'templates/Sitemap.tmpl',
     },
     book_templates_files => {
         'book_templates/cover.tmpl'     => 'book_templates/cover.tmpl',
@@ -470,18 +484,24 @@ my $builder = $class->new(
         'book_templates/toc-xsl.tmpl'   => 'book_templates/toc-xsl.tmpl',
         'book_templates/titlepage.tmpl' => 'book_templates/titlepage.tmpl',
     },
-    etc_files        => { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
-    completion_files => { 'completion/_publican'     => 'completion/_publican', },
+    etc_files =>
+        { 'etc/publican-website.cfg' => 'etc/publican-website.cfg', },
+    completion_files => { 'completion/_publican' => 'completion/_publican', },
 );
 
 if ( $^O eq 'darwin' ) {
-    $builder->install_path( 'datadir'    => '/opt/local/share/publican' );
-    $builder->install_path( 'generated'  => '/opt/local/share/publican/sitetemplate' );
-    $builder->install_path( 'web'        => '/opt/local/share/publican/sitetemplate' );
-    $builder->install_path( 'templates'  => '/opt/local/share/publican/templates' );
-    $builder->install_path( 'book_templates'  => '/opt/local/share/publican/book_templates' );
-    $builder->install_path( 'etc'        => '/opt/local/etc' );
-    $builder->install_path( 'completion' => '/opt/local/etc/bash_completion.d' );
+    $builder->install_path( 'datadir' => '/opt/local/share/publican' );
+    $builder->install_path(
+        'generated' => '/opt/local/share/publican/sitetemplate' );
+    $builder->install_path(
+        'web' => '/opt/local/share/publican/sitetemplate' );
+    $builder->install_path(
+        'templates' => '/opt/local/share/publican/templates' );
+    $builder->install_path(
+        'book_templates' => '/opt/local/share/publican/book_templates' );
+    $builder->install_path( 'etc' => '/opt/local/etc' );
+    $builder->install_path(
+        'completion' => '/opt/local/etc/bash_completion.d' );
 }
 
 $builder->add_build_element('brand_template');
@@ -491,12 +511,13 @@ $builder->add_build_element('templates');
 $builder->add_build_element('book_templates');
 $builder->add_build_element('etc');
 $builder->add_build_element('completion');
-$builder->config_data('etc', $builder->install_path('etc'));
-$builder->config_data('datadir', $builder->install_path('datadir'));
-$builder->config_data('web', $builder->install_path('web'));
-$builder->config_data('templates', $builder->install_path('templates'));
-$builder->config_data('book_templates', $builder->install_path('book_templates'));
-$builder->config_data('docdir', $builder->install_path('docdir'));
+$builder->config_data( 'etc',       $builder->install_path('etc') );
+$builder->config_data( 'datadir',   $builder->install_path('datadir') );
+$builder->config_data( 'web',       $builder->install_path('web') );
+$builder->config_data( 'templates', $builder->install_path('templates') );
+$builder->config_data( 'book_templates',
+    $builder->install_path('book_templates') );
+$builder->config_data( 'docdir', $builder->install_path('docdir') );
 
 $builder->create_build_script();
 

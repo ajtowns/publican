@@ -497,7 +497,11 @@ sub setup_xml {
 
                 my $merged_rev_tree = XML::Element->new_from_lol(
                     [   'appendix',
-                        [ 'title', decode_utf8($locale->maketext('Revision History')) ],
+                        [   'title',
+                            decode_utf8(
+                                $locale->maketext('Revision History')
+                            )
+                        ],
                         [ 'simpara', ['revhistory'], ],
                     ],
                 );
