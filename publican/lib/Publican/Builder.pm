@@ -1125,12 +1125,12 @@ sub transform {
 
         my $vars = {
             draft        => $draft,
-            product      => $prod,
-            docname      => $name,
-            version      => $ver,
-            edition      => $self->{publican}->param('edition'),
-            release      => $self->{publican}->param('release'),
-            subtitle     => $subtitle,
+            product      => decode_utf8($prod),
+            docname      => decode_utf8($name),
+            version      => decode_utf8($ver),
+            edition      => decode_utf8($self->{publican}->param('edition')),
+            release      => decode_utf8($self->{publican}->param('release')),
+            subtitle     => decode_utf8($subtitle),
             authors      => \@authors,
             editorlabel  => decode_utf8( $locale->maketext("Edited by") ),
             contributors => $contributors,
