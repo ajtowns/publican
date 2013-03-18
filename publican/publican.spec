@@ -15,8 +15,8 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.1.4
-Release:        0%{?dist}.t1
+Version:        3.1.5
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -249,6 +249,17 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 18 2013 Jeff Fearn <jfearn@redhat.com> 3.1.5-0
+- Fix translated PDS encode issue when build from packaged books.
+
+* Tue Mar 12 2013 Jeff Fearn <jfearn@redhat.com> 3.1.4-0
+- Fix entities in Book_Info braking build. BZ #917898
+- add translations of "Revision History". BZ #918365
+- Fix TOC title not translated in PDF. BZ #918365
+- Fix translated strings with parameters. BZ #891166
+- update translations
+- add it-IT translation of PUG via <fedora@marionline.it> BZ #797515
+
 * Fri Feb 22 2013 Jeff Fearn <jfearn@redhat.com> 3.1.3-1
 - Fix add_revision breaking XML parser. BZ #912985
 - Stronger fix for cover pages causing page number overrun. BZ #912967
