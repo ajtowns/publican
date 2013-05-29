@@ -57,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Apr 22 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.0-1
 - update legal notice per rfontana
+- replace logos
+- update documentation URL
 
 * Tue Aug 28 2012 Leticia de Lima <ldelima@redhat.com> 2.99-4
 - Update pt-BR translation
