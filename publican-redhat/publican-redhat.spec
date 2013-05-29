@@ -3,8 +3,8 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	2.99
-Release:	4%{?dist}
+Version:	3.0
+Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,7 +55,6 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
-
 * Tue Apr 16 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.0-1
 - Punctuation fix BZ#952490
 - revise legal notice per rfontana
