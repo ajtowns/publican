@@ -55,14 +55,12 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
-<<<<<<< HEAD
-=======
+
 * Tue Apr 16 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.0-1
 - Punctuation fix BZ#952490
 - revise legal notice per rfontana
 - update documentation URL
 
->>>>>>> 3696067... legalnotice, documentation URL
 * Tue Feb 21 2012 Jeff Fearn <jfearn@redhat.com> 2.99-1
 - Port to Publican 3.0
 
