@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Mon Jun 3 2013 Rüdiger Landmann <r.landmann@redhat.com> 0.14-1
+- revise legal notice per rfontana
+
 * Tue Nov 20 2012 Bilhar Aulakh <baulakh@redhat.com> 0.13-1
 - updated Legal Notice to include OpenShift trademark
 
