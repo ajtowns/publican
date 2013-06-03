@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Mon Jun 3 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.0-2
+- revise legal notice per rfontana
+
 * Mon Apr 22 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.0-1
 - update legal notice per rfontana
 - replace logos
