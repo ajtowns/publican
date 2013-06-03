@@ -3,7 +3,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.13
+Version:	0.14
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
