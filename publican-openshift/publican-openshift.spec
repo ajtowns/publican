@@ -3,7 +3,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.17.2
+Version:	0.18
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -55,6 +55,8 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Fri Jun 14 2013 Rüdiger Landmann <r.landmann@redhat.com> 0.18-1
+- SVG fixes
 
 * Thu Jun 13 2013 Bilhar Aulakh <baulakh@redhat.com> 0.17-2
 - Added separate logo images for Online and Enterprise in SVG format for PDF builds
