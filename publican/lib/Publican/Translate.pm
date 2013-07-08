@@ -27,7 +27,7 @@ my $TRANSTAGS
 
 # Blocks that contain translatable tags that need to be kept inline
 my $IGNOREBLOCKS
-    = qr/^(?:footnote|citerefentry|indexterm|productname|phrase|textobject)$/;
+    = qr/^(?:footnote|citerefentry|indexterm|orgname|productname|phrase|textobject)$/;
 
 # Preserve white space in these tags
 my $VERBATIM = qr/^(?:screen|programlisting|literallayout)$/;
@@ -543,7 +543,8 @@ sub get_msgs {
                 my $inner = $_[0];
 ## an index term NOT in a translatable tag should be translated as a block.
 ## An indexterm in a translatable tag should be translated inline
-                if ( $inner->tag() =~ /indexterm|productname|phrase/ ) {
+                if ( $inner->tag() =~ /indexterm|orgname|productname|phrase/ )
+                {
                     not defined(
                         $inner->look_up(
                             '_tag',
