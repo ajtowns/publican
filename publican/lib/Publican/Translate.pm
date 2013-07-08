@@ -340,9 +340,23 @@ sub update_po {
                 )
             );
 
+            my $rev_num = "$edition-$release.1";
+            my ( $t_edition, $t_release );
+            eval {
+                ( $t_edition, $t_release )
+                    = $self->{publican}->get_ed_rev( { lang => $lang } );
+            };
+
+            if (   ( !$@ )
+                && ( $t_edition eq $edition )
+                && ( $t_release =~ /^$release\.(\d+)$/ ) )
+            {
+                $rev_num = "$edition-$release." . ( 1 + $1 );
+            }
+
             $self->{publican}->add_revision(
                 {   lang      => $lang,
-                    revnumber => "$edition-$release.1",
+                    revnumber => "$rev_num",
                     members   => \@members,
                     email     => $email,
                     firstname => $firstname,
