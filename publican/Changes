@@ -1,6 +1,7 @@
 3.1.6 UNRELEASED
   - Fix typo in common content BZ #952490
   - Stop menu bouncing. BZ #953716
+  - Fix ID missing from admonitions. BZ #966494
 
 3.1.5 Mon Mar 18 2013
   - Fix translated PDF encode issue when build from packaged books. BZ #922618
@@ -139,6 +140,23 @@
   - When update the drupal book, the index displays twice. BZ #861374
   - Cannot generate drupal book in publican-doc-3.1-0.el6eng.t7 BZ #863927
   - Fix DocBook5 subtitle support. BZ #850497
+
+2.8 Thu Sep 22 2011
+  - Fix draft mode always on in PDF. BZ #740123
+  - Remove rpmlint checks. BZ #735688
+  - Fix Too late for -CA messages in tests. BZ #738161
+
+2.7 Tue Sep 06 2011
+  - Relax version constraint. BZ #729824
+  - Only set dist for rpmbuild if os_ver set. BZ #729826
+  - Re-enable draft mode. BZ #727756
+  - Don't wait for brew unless told to. BZ #731601
+  - Place icons directory in lang dir when packaging. BZ #732608
+  - Fix eclipse not loading eclipse help output. BZ #727739
+  - Fix part TOC layout. BZ #671304
+  - Add code to test wkhtmltopdf.
+  - Change default web_formats order to make wkhtmltopdf faster.
+  - Fix quote being escaped in TOC. BZ #734290
 
 2.6-3 Thu Jul 28 2011 
   - Force publican to use UTF8 for command line options.

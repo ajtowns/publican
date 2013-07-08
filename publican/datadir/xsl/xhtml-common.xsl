@@ -125,22 +125,26 @@ Version: 1.72.0
 
 	<div xmlns="http://www.w3.org/1999/xhtml">
 		<xsl:apply-templates select="." mode="class.attribute"/>
-			<xsl:if test="$admon.style != ''">
-				<xsl:attribute name="style">
-					<xsl:value-of select="$admon.style"/>
-				</xsl:attribute>
-			</xsl:if>
-
-	                <xsl:call-template name="common.html.attributes"/>
-			<xsl:if test="$admon.textlabel != 0 or title">
-				<div class="admonition_header">
-					<p>
-						<strong><xsl:apply-templates select="." mode="object.title.markup"/></strong>
-					</p>
-				</div>
-			</xsl:if>
+		<xsl:if test="$admon.style != ''">
+			<xsl:attribute name="style">
+				<xsl:value-of select="$admon.style"/>
+			</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="@id or @xml:id">
+			<xsl:attribute name="id">
+				<xsl:value-of select="(@id|@xml:id)[1]"/>
+			</xsl:attribute>
+		</xsl:if>
+                <xsl:call-template name="common.html.attributes"/>
+		<xsl:if test="$admon.textlabel != 0 or title">
+			<div class="admonition_header">
+				<p>
+					<strong><xsl:apply-templates select="." mode="object.title.markup"/></strong>
+				</p>
+			</div>
+		</xsl:if>
 		<div class="admonition">
-		<xsl:apply-templates/>
+			<xsl:apply-templates/>
 		</div>
 	</div>
 </xsl:template>
