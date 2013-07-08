@@ -536,9 +536,9 @@ sub get_msgs {
                             qr/$IGNOREBLOCKS/,
                             sub {
                                 $_[0]->tag() =~ /$TRANSTAGS/
-                                    && $inner->parent()
-                                    && $inner->parent()->tag()
-                                    =~ /$TRANSTAGS/;
+                                    && $inner->look_up( '_tag',
+                                    qr/$TRANSTAGS/,
+                                    sub { $_[0]->pos() != $inner->pos() } );
                             },
                         )
                     );
