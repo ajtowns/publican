@@ -22,11 +22,12 @@ use Publican::ConfigData;
 
 our $VERSION = '1.4';
 
-my $DB_NAME             = 'books';
-my $DEFAULT_LANG        = 'en-US';
-my $DEFAULT_TMPL_PATH   = Publican::ConfigData->config('templates');
-my $DEFAULT_CONFIG_FILE = Publican::ConfigData->config('etc') . '/publican-website.cfg';
-my $DEFAULT_DUMP_FILE   = '/var/www/html/DUMP.xml';
+my $DB_NAME           = 'books';
+my $DEFAULT_LANG      = 'en-US';
+my $DEFAULT_TMPL_PATH = Publican::ConfigData->config('templates');
+my $DEFAULT_CONFIG_FILE
+    = Publican::ConfigData->config('etc') . '/publican-website.cfg';
+my $DEFAULT_DUMP_FILE = '/var/www/html/DUMP.xml';
 
 my %LANG_NAME = (
     'ar-SA'      => 'العربية',
@@ -116,11 +117,16 @@ my %tmpl_strings = (
     ),
     index_toc =>
         $locale->maketext('Click here to view a static Table of Contents'),
-    ProductLinkTitle => $locale->maketext('Information'),
-    ProductList      => $locale->maketext('Product List'),
-    Hide_Menu        => $locale->maketext('Hide Menu'),
-    Show_Menu        => $locale->maketext('Show Menu'),
-    Formats          => $locale->maketext('Formats'),
+    ProductLinkTitle      => $locale->maketext('Information'),
+    ProductList           => $locale->maketext('Product List'),
+    Hide_Menu             => $locale->maketext('Hide Menu'),
+    Show_Menu             => $locale->maketext('Show Menu'),
+    Formats               => $locale->maketext('Formats'),
+    Knowledge             => $locale->maketext('Knowledge'),
+    Document              => $locale->maketext('Document'),
+    Document_Language     => $locale->maketext('Document Language'),
+    Document_Home         => $locale->maketext('Document Home'),
+    Product_Documentation => $locale->maketext('Product Documentation'),
 );
 
 sub new {
