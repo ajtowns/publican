@@ -1175,27 +1175,44 @@ sub get_author_list {
         { 'NoExpand' => "0", 'ErrorContext' => "2" } );
     $xml_doc->parse_file($file);
 
-    foreach my $author ( $xml_doc->root()->look_down( "_tag", "author" ) ) {
-        my ( $fn, $sn );
-        eval { $fn = $author->look_down( "_tag", 'firstname' )->as_text; };
-        if ($@) {
-            croak(
-                maketext(
-                    "Author’s firstname not found in Author_Group.xml as expected."
-                )
-            );
-        }
+    foreach my $author (
+        $xml_doc->root()->look_down( "_tag", qr/author|corpauthor/ ) )
+    {
+        if ( $author->tag() eq 'corpauthor' ) {
+            my $name;
 
-        eval { $sn = $author->look_down( "_tag", 'surname' )->as_text; };
-        if ($@) {
-            croak(
-                maketext(
-                    "Author’s surname not found in Author_Group.xml as expected."
-                )
-            );
+            eval { $name = $author->as_text; };
+            if ($@) {
+                croak(
+                    maketext(
+                        "corpauthor can not be converted to text as expected."
+                    )
+                );
+            }
+            push( @authors, "$name" );
         }
+        else {
+            my ( $fn, $sn );
+            eval { $fn = $author->look_down( "_tag", 'firstname' )->as_text; };
+            if ($@) {
+                croak(
+                    maketext(
+                        "Author’s firstname not found in Author_Group.xml as expected."
+                    )
+                );
+            }
 
-        push( @authors, "$fn $sn" );
+            eval { $sn = $author->look_down( "_tag", 'surname' )->as_text; };
+            if ($@) {
+                croak(
+                    maketext(
+                        "Author’s surname not found in Author_Group.xml as expected."
+                    )
+                );
+            }
+
+            push( @authors, "$fn $sn" );
+        }
     }
 
     unless (@authors) {
@@ -1239,7 +1256,7 @@ sub get_contributors {
     $xml_doc->parse_file($file);
 
     foreach my $node ( $xml_doc->root()
-        ->look_down( "_tag", qr/^(?:author|editor|othercredit)$/ ) )
+        ->look_down( "_tag", qr/^(?:author|editor|othercredit|corpauthor)$/ ) )
     {
         my %person;
         if ( $node->attr('class') ) {
@@ -1261,7 +1278,7 @@ sub get_contributors {
             }
         }
 
-        my @fields = qw/firstname surname email contrib orgname orgdiv/;
+        my @fields = qw/firstname surname email contrib orgname orgdiv corpauthor/;
         foreach my $field (@fields) {
             my $field_node = $node->look_down( "_tag", $field );
             if ($field_node) {

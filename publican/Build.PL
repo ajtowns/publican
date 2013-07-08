@@ -166,7 +166,7 @@ my $class = Module::Build->subclass(
             my ($self) = @_;
             $self->SUPER::ACTION_build();
             $self->depends_on('common_files');
-            $self->depends_on('commondb5_files');
+##            $self->depends_on('commondb5_files');
         }
         sub ACTION_test {
             my ($self) = @_;

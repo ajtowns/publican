@@ -42,6 +42,13 @@
 			[% IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END %]
 		</div>
 	[%- END %]
+	[%- FOREACH contributor = contributors.corpauthor %]
+		<div class="contributor">
+			<div class="name">
+				<span class="">[%- contributor.corpauthor -%]</span>
+			</div>
+		</div>
+	[%- END %]
 	</div>
 	[%- IF contributors.editor %]
 	<div class="editors">
