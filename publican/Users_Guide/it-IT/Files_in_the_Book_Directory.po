@@ -132,9 +132,9 @@ msgid "specifies the language of the source XML files, for example, <literal>en-
 msgstr "specifica la lingua dei file XML sorgenti, per esempio <literal>en-US</literal>, come impostato con l'opzione <option>--lang</option> nel comando <command>publican create</command>."
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>toc_type</parameter>"
-msgstr "<parameter>type</parameter>"
+#, no-c-format
+msgid "<parameter>type</parameter>"
+msgstr "<parameter>web_type</parameter>"
 
 #. Tag: para
 #, no-c-format
@@ -339,8 +339,8 @@ msgid "the split is at \"level 4\" section. The page succession is chapter 1, 1.
 msgstr "la suddivisione di sezione è a \"livello 4\". La successione delle pagine è capitolo 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.2.2, 1.2.2.2.3, 1.2.2.2.4 &hellip; 1.2.3, 1.2.3.2, 1.2.3.2.2, 1.2.3.2.3 &hellip;"
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>tmpl_path</parameter>"
+#, no-c-format
+msgid "<parameter>classpath</parameter>"
 msgstr "<parameter>classpath</parameter>"
 
 #. Tag: para
@@ -419,8 +419,8 @@ msgid "sets the default language for a <application>Publican</application>-manag
 msgstr "imposta la lingua predefinita per un sito web gestito da <application>Publican</application>. La tabelle dei contenuti delle altre lingue fanno riferimento ai documenti della lingua predefinita, se non sono disponibili traduzioni. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" /> per maggiori informazioni."
 
 #. Tag: term
-#, no-c-format
-msgid "<parameter>doc_url</parameter>"
+#, no-c-format, fuzzy
+msgid "<parameter>dtd_uri</parameter>"
 msgstr "<parameter>doc_url</parameter>"
 
 #. Tag: para
@@ -459,9 +459,9 @@ msgid "a package that the desktop package requires, for example, a documentation
 msgstr "il pacchetto richiesto dal pacchetto desktop, per esempio, il pacchetto del menu di una documentazione. Fare riferimento alla <xref linkend=\"desktop_menus\" />."
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>sort_order</parameter>"
-msgstr "<parameter>dtdver</parameter>"
+#, no-c-format
+msgid "<parameter>dtdver</parameter>"
+msgstr "<parameter>os_ver</parameter>"
 
 #. Tag: para
 #, no-c-format
@@ -479,8 +479,8 @@ msgid "When you install <application>Publican</application>, you also install a 
 msgstr "Quando si installa <application>Publican</application>, si installa anche una copia locale della definizione DTD versione 4.5 di DocBook XML in accompagnamento ad <firstterm>XSL</firstterm> (Extensible Stylesheet Language). Se si imposta una versione di DTD per cui non risulta disponibile una versione locale, <application>Publican</application> deve scaricare DTD ed XSL appropriati da una sorgente in rete, ad ogni compilazione di un documento. In tal caso la compilazione del documento risulta ritardata dal completamento di questo scaricamento. La dimensione complessiva dei file è di circa 70&nbsp;MB."
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>toc_type</parameter>"
+#, no-c-format
+msgid "<parameter>dtd_type</parameter>"
 msgstr "<parameter>type</parameter>"
 
 #. Tag: para
@@ -495,8 +495,8 @@ msgstr ""
 
 #. Tag: term
 #, no-c-format, fuzzy
-msgid "<parameter>sort_order</parameter>"
-msgstr "<parameter>dtdver</parameter>"
+msgid "<parameter>dtd_uri</parameter>"
+msgstr "<parameter>doc_url</parameter>"
 
 #. Tag: para
 #, no-c-format
@@ -599,8 +599,8 @@ msgid "specifies translations to ignore as comma-separated XML language codes; f
 msgstr "specifica le traduzioni da ignorare, specificando i codici linguistici separati da virgola, per esempio, <literal>es-ES,it-IT</literal>. Se si crea un libro o il pacchetto di un libro per una lingua filtrata da questo parametro, <application>Publican</application> ignora ogni traduzione in questa lingua, e crea invece il libro o il pacchetto relativo, nella lingua dei sorgenti XML. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" /> ed all'<xref linkend=\"appe-Users_Guide-Language_codes\" />."
 
 #. Tag: term
-#, no-c-format
-msgid "<parameter>info_file</parameter>"
+#, no-c-format, fuzzy
+msgid "<parameter>mainfile</parameter>"
 msgstr "<parameter>mainfile</parameter>"
 
 #. Tag: para
@@ -609,8 +609,8 @@ msgid "overrides the default Info file. Specifies where <application>Publican</a
 msgstr ""
 
 #. Tag: term
-#, no-c-format
-msgid "<parameter>license</parameter>"
+#, no-c-format, fuzzy
+msgid "<parameter>release</parameter>"
 msgstr "<parameter>license</parameter>"
 
 #. Tag: para
@@ -629,8 +629,8 @@ msgid "specifies the maximum width allowable for images in the document in pixel
 msgstr "per le immagini in un documento, specifica la massima larghezza possibile, in pixel. Per impostazione, <application>Publican</application> ridimensiona le immagini più larghe di 444 pixel fino ad adattarle a questo limite. Il limite di 444 pixel assicura che le immagini non eccedano nel margine destro delle pagine HTML e si adattino all'interno delle pagine PDF. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Adding_images\" /> per maggiori informazioni sull'uso delle immagini."
 
 #. Tag: term
-#, no-c-format
-msgid "<parameter>info_file</parameter>"
+#, no-c-format, fuzzy
+msgid "<parameter>mainfile</parameter>"
 msgstr "<parameter>mainfile</parameter>"
 
 #. Tag: para
@@ -655,7 +655,7 @@ msgstr "la categoria del menu del desktop (come definito dal file <filename>.men
 
 #. Tag: term
 #, no-c-format
-msgid "<parameter>os_ver</parameter>"
+msgid "<parameter>dtdver</parameter>"
 msgstr "<parameter>os_ver</parameter>"
 
 #. Tag: para
@@ -685,8 +685,8 @@ msgstr "specifica il prodotto cui fa riferimento il documento. Se impostato, que
 
 #. Tag: term
 #, no-c-format, fuzzy
-msgid "<parameter>rev_file</parameter>"
-msgstr "<parameter>release</parameter>"
+msgid "<parameter>release</parameter>"
+msgstr "<parameter>license</parameter>"
 
 #. Tag: para
 #, no-c-format
@@ -704,7 +704,7 @@ msgid "specifies the repository from which to fetch remote books that form part 
 msgstr "specifica il repository da cui prelevare i libri remoti che fanno parte di un set distribuito. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Using_sets-Distributed_sets\" />."
 
 #. Tag: term
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "<parameter>rev_file</parameter>"
 msgstr "<parameter>release</parameter>"
 
@@ -744,7 +744,7 @@ msgid "controls whether <application>Publican</application> reports unknown tags
 msgstr "controlla se segnalare tag sconosciuti durante la trasformazione dei file XML. Per impostazione, questo parametro ha il valore <literal>1</literal> segnalando i tag sconosciuti. Impostare questo valore su <literal>0</literal> per non visualizzare questi avvisi. <emphasis role=\"strikethrough\"><application>Publican</application> ignora questo parametro in <firstterm>strict mode</firstterm>.</emphasis>"
 
 #. Tag: term
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "<parameter>sort_order</parameter>"
 msgstr "<parameter>dtdver</parameter>"
 
@@ -784,8 +784,8 @@ msgid "specifies the directory for <application>Publican</application> output. B
 msgstr "specifica la cartella dei prodotti di <application>Publican</application>. Per impostazione, il valore è <literal>tmp</literal> corrispondente ad una cartella di nome <filename>tmp</filename>, inclusa nella cartella contenente l'articolo o libro."
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>tmpl_path</parameter>"
+#, no-c-format
+msgid "<parameter>classpath</parameter>"
 msgstr "<parameter>classpath</parameter>"
 
 #. Tag: para
@@ -794,8 +794,8 @@ msgid "specifies the path to <application>Publican</application> templates. By d
 msgstr ""
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>toc_type</parameter>"
+#, no-c-format
+msgid "<parameter>dtd_type</parameter>"
 msgstr "<parameter>type</parameter>"
 
 #. Tag: para
@@ -930,7 +930,7 @@ msgstr "visualizza il valore impostato, invece del nome del prodotto, nel menu d
 
 #. Tag: term
 #, no-c-format
-msgid "<parameter>web_type</parameter>"
+msgid "<parameter>type</parameter>"
 msgstr "<parameter>web_type</parameter>"
 
 #. Tag: para
@@ -1200,7 +1200,7 @@ msgid "Use a <sgmltag>&lt;mediaobject&gt;</sgmltag> tag with the <literal>role=\
 msgstr "Usare un tag <sgmltag>&lt;mediaobject&gt;</sgmltag> con attributi <literal>role=\"cover\"</literal> e <literal>id=\"epub_cover\"</literal> per impostare cover-art per e-book in formato EPUB. Per esempio:"
 
 #. Tag: programlisting
-#, no-c-format, fuzzy
+#, no-c-format
 msgid ""
 "&lt;mediaobject role=\"cover\" id=\"epub_cover\"&gt;\n"
 "	&lt;imageobject role=\"front-large\" remap=\"lrg\"&gt;\n"
@@ -1418,7 +1418,7 @@ msgid "The <filename><replaceable>Doc_Name</replaceable>.xml</filename> file is 
 msgstr "Il file <filename><replaceable>Nome_Doc</replaceable>.xml</filename> non si limita all'uso delle direttive <literal>xi:include</literal>. Si possono creare documenti anche con un solo file XML. Di seguito si riporta un esempio di libro, usando un singolo file XML:"
 
 #. Tag: programlisting
-#, no-c-format, fuzzy
+#, no-c-format
 msgid ""
 "&lt;book&gt;\n"
 "\n"
