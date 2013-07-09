@@ -808,11 +808,21 @@ pre {
 	white-space: -o-pre-wrap; /* Opera 7 */
 	word-wrap: break-word; /* Internet Explorer 5.5+ */
 	font-size: 0.9em;
-	border-style:none; box-shadow: 0 2px 5px #AAAAAA inset;
+	border-style:none;
+	box-shadow: 0 2px 5px #AAAAAA inset;
 	-moz-box-shadow:  0 2px 5px #AAAAAA inset;
 	-webkit-box-shadow: 0 2px 5px #AAAAAA inset;
 	-o-box-shadow: 0 2px 5px #AAAAAA inset;
 }
+
+body.pdf pre {
+	border: 1px solid #AAAAAA;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	-o-box-shadow: none;
+}
+
 
 pre .replaceable, 
 pre .keycap {
