@@ -1256,7 +1256,8 @@ sub get_contributors {
     $xml_doc->parse_file($file);
 
     foreach my $node ( $xml_doc->root()
-        ->look_down( "_tag", qr/^(?:author|editor|othercredit|corpauthor)$/ ) )
+        ->look_down( "_tag", qr/^(?:author|editor|othercredit|corpauthor)$/ )
+        )
     {
         my %person;
         if ( $node->attr('class') ) {
@@ -1278,7 +1279,8 @@ sub get_contributors {
             }
         }
 
-        my @fields = qw/firstname surname email contrib orgname orgdiv corpauthor/;
+        my @fields
+            = qw/firstname surname email contrib orgname orgdiv corpauthor/;
         foreach my $field (@fields) {
             my $field_node = $node->look_down( "_tag", $field );
             if ($field_node) {
@@ -1315,7 +1317,9 @@ sub get_keywords {
     my @keywords;
 
     my $tmp_dir = $self->param('tmp_dir');
-    my $file    = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    my $info
+        = ( $self->param('info_file') || $self->param('type') . '_Info.xml' );
+    my $file = "$tmp_dir/$lang/xml/$info";
 
     croak( maketext("keyword list can not be calculated before building.") )
         unless ( -f $file );
