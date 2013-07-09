@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.1.5
-Release:        0%{?dist}.t18
+Release:        0%{?dist}.t19
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -74,7 +74,7 @@ BuildRequires:  perl(Locale::PO)
 BuildRequires:  perl(Module::Build)
 BuildRequires:  perl(Pod::Usage)
 BuildRequires:  perl(String::Similarity)
-BuildRequires:  perl(Syntax::Highlight::Engine::Kate)
+BuildRequires:  perl(Syntax::Highlight::Engine::Kate) >= 0.07-5
 BuildRequires:  perl(Template)
 BuildRequires:  perl(Template::Constants)
 BuildRequires:  perl(Term::ANSIColor)
@@ -104,6 +104,7 @@ Requires:       perl(XML::TreeBuilder) >= 4.0
 Requires:       perl-Template-Toolkit
 Requires:       perl(DBD::SQLite)
 Requires:       perl(Text::CSV_XS)
+Requires:       perl(Syntax::Highlight::Engine::Kate) >= 0.07-5
 
 # Lets validate some basics
 Requires:       rpmlint

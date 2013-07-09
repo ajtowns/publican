@@ -2314,8 +2314,7 @@ sub highlight {
         },
     );
 
-    my $tmp = $hl->languagePlug($language) || croak(
-        "\n\t"
+    $language = $hl->languagePlug($language, 1) || croak(        "\n\t"
             . maketext(
             "'[_1]' is not a valid language for highlighting. Language names are case sensitive.",
             $language
