@@ -156,6 +156,9 @@ my %options = (
     'src_dir=s'    => maketext(q|Directory to source publican files from.|),
     'brand_dir=s'  => maketext(q|Directory to source brand files from.|),
     'sort_order=s' => maketext('Order to sort a book'),
+    'pdftool=s'    => maketext(
+        'Override the tool to use when creating PDFs. Valid options are wkhtmltopdf and fop.'
+    ),
 );
 
 # Options all actions use
@@ -174,7 +177,7 @@ my %actions = (
         ),
         'options' => [
             'formats',         'langs',   'publish', 'embedtoc',
-            'distributed_set', 'novalid', 'src_dir'
+            'distributed_set', 'novalid', 'src_dir', 'pdftool'
         ],
     },
     'clean' => {
@@ -921,6 +924,7 @@ if ( $action eq 'build' ) {
             publish         => $opts{publish},
             embedtoc        => $opts{embedtoc},
             distributed_set => $opts{distributed_set},
+            pdftool         => $opts{pdftool},
         }
     );
 }

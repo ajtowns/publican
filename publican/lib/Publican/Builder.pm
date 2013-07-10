@@ -124,6 +124,7 @@ sub build {
     my $publish         = delete( $args->{publish} )         || undef;
     my $embedtoc        = delete( $args->{embedtoc} )        || undef;
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
+    my $pdftool         = delete( $args->{pdftool} )         || undef;
 
     if ( %{$args} ) {
         croak(
@@ -195,7 +196,9 @@ sub build {
                 {   format   => $format,
                     lang     => $lang,
                     embedtoc => $embedtoc,
-                    rebuild  => $rebuild
+                    rebuild  => $rebuild,
+                    pdftool  => $pdftool,
+
                 }
             ) unless ( $format eq 'xml' );
 
@@ -945,11 +948,21 @@ sub transform {
         || croak( maketext("format is a mandatory argument") );
     my $embedtoc = delete( $args->{embedtoc} ) || 0;
     my $rebuild  = delete( $args->{rebuild} )  || 0;
+    my $pdftool  = delete( $args->{pdftool} )  || undef;
 
     if ( %{$args} ) {
         croak(
             maketext(
                 "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    if ( defined($pdftool) && ( $pdftool !~ /^(?:fop|wkhtmltopdf)$/ ) ) {
+        croak(
+            maketext(
+                "pdftool only supports fop or wkhtmltopdf, not: [_1]",
+                $pdftool
             )
         );
     }
@@ -967,6 +980,7 @@ sub transform {
 ## BUGBUG test an alternative to fop!
     my $wkhtmltopdf_cmd = which('wkhtmltopdf');
     my $diefopdie = ( $wkhtmltopdf_cmd && $wkhtmltopdf_cmd ne '' );
+    $diefopdie = 0 if ( $pdftool && $pdftool eq 'fop' );
 
     my $tmp_dir           = $self->{publican}->param('tmp_dir');
     my $docname           = $self->{publican}->param('docname');
