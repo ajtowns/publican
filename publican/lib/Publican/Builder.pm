@@ -54,6 +54,55 @@ my $INVALID = 1;
 my $DEFAULT_WRAP = 82;
 $columns = $DEFAULT_WRAP;
 
+my %LANG_MAP = (
+    ar => 'ar-SA',
+    as => 'as-IN',
+    bg => 'bg-BG',
+    bn => 'bn-IN',
+    bs => 'bs-BA',
+    ca => 'ca-ES',
+    cs => 'cs-CZ',
+    da => 'da-DK',
+    de => 'de-DE',
+    el => 'el-GR',
+    en => 'en-US',
+    es => 'es-ES',
+    fa => 'fa-IR',
+    fi => 'fi-FI',
+    fr => 'fr-FR',
+    gu => 'gu-IN',
+    he => 'he-IL',
+    hi => 'hi-IN',
+    hr => 'hr-HR',
+    hu => 'hu-HU',
+    id => 'id-ID',
+    is => 'is-IS',
+    it => 'it-IT',
+    ja => 'ja-JP',
+    kn => 'kn-IN',
+    ko => 'ko-KR',
+    lv => 'lv-LV',
+    ml => 'ml-IN',
+    mr => 'mr-IN',
+    ms => 'ms-MY',
+    nb => 'nb-NO',
+    nl => 'nl-NL',
+    or => 'or-IN',
+    pa => 'pa-IN',
+    pl => 'pl-PL',
+    pt => 'pt-PT',
+    ru => 'ru-RU',
+    si => 'si-LK',
+    sk => 'sk-SK',
+    sr => 'sr-Latn-RS',
+    sv => 'sv-SE',
+    ta => 'ta-IN',
+    te => 'te-IN',
+    th => 'th-TH',
+    tr => 'tr-TR',
+    uk => 'uk-UA',
+);
+
 =head1 NAME
 
 Publican::Builder - A module to Convert XML to various output formats
@@ -648,11 +697,31 @@ sub setup_xml {
                 $common_content . "/$base_brand/en-US/*",
                 "$tmp_dir/$lang/xml/Common_Content"
             );
-            File::Copy::Recursive::rcopy_glob(
-                $common_content . "/$base_brand/$lang/*",
-                "$tmp_dir/$lang/xml/Common_Content"
-            ) if ( $lang ne 'en-US' );
 
+            if ( $lang ne 'en-US' ) {
+                if ( -d $common_content . "/$base_brand/$lang" ) {
+                    File::Copy::Recursive::rcopy_glob(
+                        $common_content . "/$base_brand/$lang/*",
+                        "$tmp_dir/$lang/xml/Common_Content"
+                    );
+                }
+                elsif (
+                    defined( $LANG_MAP{$lang} )
+                    && (  -d $common_content
+                        . "/$base_brand/"
+                        . $LANG_MAP{$lang} )
+                    )
+                {
+                    File::Copy::Recursive::rcopy_glob(
+                        $common_content
+                            . "/$base_brand/"
+                            . $LANG_MAP{$lang} . "/*",
+                        "$tmp_dir/$lang/xml/Common_Content"
+                    );
+
+                }
+
+            }
             if (   ( $brand ne $base_brand )
                 || ( $brand_path ne $common_content . "/$brand" ) )
             {
