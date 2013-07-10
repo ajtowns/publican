@@ -345,15 +345,22 @@ sub build {
     }
 
     if ($publish) {
-        if ( $type eq 'brand' && -d 'xsl' ) {
-            my $path = "publish/$brand/xsl";
-            mkpath($path);
-            rcopy( "xsl", "$path/." );
-        }
-        if ( $type eq 'brand' && -d 'book_templates' ) {
-            my $path = "publish/$brand/book_templates";
-            mkpath($path);
-            rcopy( "book_templates", "$path/." );
+        if ( $type eq 'brand' ) {
+            if ( -d 'xsl' ) {
+                my $path = "publish/$brand/xsl";
+                mkpath($path);
+                rcopy( "xsl", "$path/." );
+            }
+            if ( -d 'book_templates' ) {
+                my $path = "publish/$brand/book_templates";
+                mkpath($path);
+                rcopy( "book_templates", "$path/." );
+            }
+            if ( -d 'templates' ) {
+                my $path = "publish/$brand/templates";
+                mkpath($path);
+                rcopy( "templates", "$path/." );
+            }
         }
     }
     debug_msg("end of build\n");
@@ -1124,15 +1131,15 @@ sub transform {
         my $draft = $self->{publican}->get_draft( { lang => $lang } );
 
         my $vars = {
-            draft        => $draft,
-            product      => decode_utf8($prod),
-            docname      => decode_utf8($name),
-            version      => decode_utf8($ver),
-            edition      => decode_utf8($self->{publican}->param('edition')),
-            release      => decode_utf8($self->{publican}->param('release')),
-            subtitle     => decode_utf8($subtitle),
-            authors      => \@authors,
-            editorlabel  => decode_utf8( $locale->maketext("Edited by") ),
+            draft       => $draft,
+            product     => decode_utf8($prod),
+            docname     => decode_utf8($name),
+            version     => decode_utf8($ver),
+            edition     => decode_utf8( $self->{publican}->param('edition') ),
+            release     => decode_utf8( $self->{publican}->param('release') ),
+            subtitle    => decode_utf8($subtitle),
+            authors     => \@authors,
+            editorlabel => decode_utf8( $locale->maketext("Edited by") ),
             contributors => $contributors,
             contriblabel =>
                 decode_utf8( $locale->maketext("With contributions from") ),
@@ -2314,7 +2321,8 @@ sub highlight {
         },
     );
 
-    $language = $hl->languagePlug($language, 1) || croak(        "\n\t"
+    $language = $hl->languagePlug( $language, 1 ) || croak(
+        "\n\t"
             . maketext(
             "'[_1]' is not a valid language for highlighting. Language names are case sensitive.",
             $language

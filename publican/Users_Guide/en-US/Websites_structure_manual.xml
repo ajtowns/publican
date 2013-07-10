@@ -152,6 +152,15 @@
 						Normally, <application>Publican</application> updates the site's tables of contents every time a documentation package is added or removed. On a site with a large number of documents on it (more than a few hundred), or where documents are updated very frequently (dozens of updates per week), this process is very demanding on a server. On a large or busy site, we recommend that you set this parameter and then periodically update the tables of contents with the <command>publican update_site</command> command. 
 					</para>
 				</step>
+				<step>
+					<para>
+						Optionally, override the default JavaScript for the site with the <parameter>toc_js</parameter> parameter, for example:
+					</para>
+<programlisting>toc_js: "mybrand/scripts/megafoo.js"</programlisting>
+					<para>
+						This file will be symlinked as <parameter>toc_path</parameter>/toc.js with the <command>publican update_site</command> command. This path should be relative to the <parameter>toc_path</parameter> parameter.
+					</para>
+				</step>
 			</substeps>
 		</step>
 		<step>

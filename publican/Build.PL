@@ -441,7 +441,7 @@ my $builder = $class->new(
     },
     web_files => {
         'web/index.html'              => 'web/index.html',
-        'web/toc.js'                  => 'web/toc.js',
+        'web/default.js'              => 'web/default.js',
         'web/interactive.css'         => 'web/interactive.css',
         'web/images/arrows.png'       => 'web/images/arrows.png',
         'web/images/close.png'        => 'web/images/close.png',

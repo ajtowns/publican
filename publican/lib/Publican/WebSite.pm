@@ -167,6 +167,7 @@ sub new {
     my $dump_file = $config->param('dump_file') || $DEFAULT_DUMP_FILE;
     my $zip_dump  = $config->param('zip_dump')  || undef;
     my $toc_type  = $config->param('toc_type')  || 'toc';
+    my $toc_js    = $config->param('toc_js')    || 'default.js';
     my $manual_toc_update = $config->param('manual_toc_update') || 0;
     my $debug             = $config->param('debug')             || 0;
     my $footer            = $config->param('footer')            || "";
@@ -190,6 +191,7 @@ sub new {
     $self->{dump_file}         = $dump_file;
     $self->{zip_dump}          = $zip_dump;
     $self->{toc_type}          = $toc_type;
+    $self->{toc_js}            = $toc_js;
     $self->{manual_toc_update} = $manual_toc_update;
     $self->{debug}             = $debug;
     $self->{web_style}         = $web_style;
@@ -734,6 +736,9 @@ sub regen_all_toc {
 
     $self->splash_pages() if ( $self->{web_style} == 2 );
 
+    unlink( $self->{toc_path} . '/toc.js' );
+    symlink( $self->{toc_path} . '/' . $self->{toc_js},
+        $self->{toc_path} . '/toc.js' );
     return;
 }
 
@@ -1395,7 +1400,7 @@ SQL
                         book_list     => $book_list{$product}{$version},
                         labels        => \%labels,
                         trans_strings => $vars,
-	                book_ver_list => \%book_ver_list,
+                        book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1407,7 +1412,7 @@ SQL
                         langs         => \@all_lang_array,
                         labels        => \%labels,
                         trans_strings => $vars,
-	                book_ver_list => \%book_ver_list,
+                        book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1433,7 +1438,7 @@ SQL
                         langs         => \@all_lang_array,
                         labels        => \%labels,
                         trans_strings => $vars,
-                	book_ver_list => \%book_ver_list,
+                        book_ver_list => \%book_ver_list,
                     }
                 );
 
