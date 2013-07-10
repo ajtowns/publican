@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.1.5
-Release:        0%{?dist}.t19
+Release:        0%{?dist}.t20
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -251,7 +251,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Mar 18 2013 Jeff Fearn <jfearn@redhat.com> 3.1.5-0
-- Fix translated PDS encode issue when build from packaged books.
+- Fix translated PDF encode issue when build from packaged books. BZ #922618
 
 * Tue Mar 12 2013 Jeff Fearn <jfearn@redhat.com> 3.1.4-0
 - Fix entities in Book_Info braking build. BZ #917898
