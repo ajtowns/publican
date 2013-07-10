@@ -1395,6 +1395,7 @@ SQL
                         book_list     => $book_list{$product}{$version},
                         labels        => \%labels,
                         trans_strings => $vars,
+	                book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1406,6 +1407,7 @@ SQL
                         langs         => \@all_lang_array,
                         labels        => \%labels,
                         trans_strings => $vars,
+	                book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1431,6 +1433,7 @@ SQL
                         langs         => \@all_lang_array,
                         labels        => \%labels,
                         trans_strings => $vars,
+                	book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1548,6 +1551,7 @@ SQL
                 langs         => \@all_lang_array,
                 labels        => \%labels,
                 trans_strings => $vars,
+                book_ver_list => \%book_ver_list,
             }
         );
 
@@ -1559,6 +1563,7 @@ SQL
                 langs         => \@all_lang_array,
                 labels        => \%labels,
                 trans_strings => $vars,
+                book_ver_list => \%book_ver_list,
             }
         );
 
@@ -1611,6 +1616,8 @@ sub write_version_index {
         || croak "write_version_index: labels required";
     my $trans_strings = delete $arg->{trans_strings}
         || croak "write_version_index: trans_strings required";
+    my $book_ver_list = delete $arg->{book_ver_list}
+        || croak "write_version_index: book_ver_list required";
 
     #    my $    = delete $arg->{}    || croak "_regen_toc:  required";
 
@@ -1633,6 +1640,7 @@ sub write_version_index {
     $index_vars->{trans_strings}    = $trans_strings;
     $index_vars->{footer}           = $self->{footer};
     $index_vars->{site_title}       = $self->{title};
+    $index_vars->{book_ver_list}    = $book_ver_list;
 
     $self->{Template}->process(
         'versions_index.tmpl', $index_vars,
@@ -1665,6 +1673,8 @@ sub write_product_index {
         || croak "write_product_index: labels required";
     my $trans_strings = delete $arg->{trans_strings}
         || croak "write_product_index: trans_strings required";
+    my $book_ver_list = delete $arg->{book_ver_list}
+        || croak "write_product_index: book_ver_list required";
 
     #    my $    = delete $arg->{}    || croak "_regen_toc:  required";
 
@@ -1687,6 +1697,7 @@ sub write_product_index {
     $index_vars->{trans_strings} = $trans_strings;
     $index_vars->{footer}        = $self->{footer};
     $index_vars->{site_title}    = $self->{title};
+    $index_vars->{book_ver_list} = $book_ver_list;
 
     $self->{Template}->process(
         'products_index.tmpl', $index_vars,
