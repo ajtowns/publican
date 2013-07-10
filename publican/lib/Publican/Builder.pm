@@ -554,8 +554,12 @@ sub setup_xml {
                 $rev_tree->parse_file("$tmp_dir/$lang/xml_tmp/$rev_file");
                 $trans_rev_tree->parse_file("$lang/$rev_file");
 
+                my $id = undef;
+
+                my $anode = $rev_tree->look_down( '_tag', "appendix" );
+                $id = $anode->id() if($anode &&  $anode->id());
                 my $merged_rev_tree = XML::Element->new_from_lol(
-                    [   'appendix',
+                    [   'appendix', { id => $id },
                         [   'title',
                             decode_utf8(
                                 $locale->maketext('Revision History')
