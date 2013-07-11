@@ -14,7 +14,7 @@
 			<para>
 				On your workstation, create a new directory and change into it. For example, on a Linux system, run:
 			</para>
-<screen><command>mkdir ~/docsite</command>
+<screen><prompt>$</prompt> <command>mkdir ~/docsite</command>
 <command>cd ~/docsite</command></screen>
 		</step>
 		<step>
@@ -51,7 +51,7 @@
 			<para>
 				For example:
 			</para>
-<screen><command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
+<screen><prompt>$</prompt> <command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
 			<para>
 				You might give names to the site configuration file and database file that help you to recognize the site to which they belong. For example, for the <application>FooMaster</application> documentation site, you might call these files <filename>foomaster.cfg</filename> and <filename>foomaster.db</filename>. You can set <parameter>--toc_path</parameter> to whatever you choose.
 			</para>
@@ -167,11 +167,11 @@
 			<para>
 			  Create an empty file named <filename>site_overrides.css</filename> in the directory that you specified with <option>doc_path</option> (the directory that contains <filename>interactive.css</filename> and the various language directories). If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend="sect-Users_Guide-Website-homepage-manual" />. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, change into the directory that you specified with <option>doc_path</option> and run: 
 			</para>
-<screen><command>touch site_overrides.css</command></screen>
+<screen><prompt>$</prompt> <command>touch site_overrides.css</command></screen>
 		</step>
 	</procedure>
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 
 	</para>
-<screen><command>publican update_site --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg</command></screen>
+<screen><prompt>$</prompt> <command>publican update_site --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg</command></screen>
 </section>

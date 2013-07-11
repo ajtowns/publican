@@ -29,7 +29,7 @@
 				Change into the directory in which you created or unpacked the brand:
 			</para>
 			 
-<screen><command>cd publican-<replaceable>brand</replaceable></command>
+<screen><prompt>$</prompt> <command>cd publican-<replaceable>brand</replaceable></command>
 </screen>
 			 <para>
 				where <replaceable>brand</replaceable> is the name of the brand.
@@ -41,7 +41,7 @@
 				Build the brand:
 			</para>
 			 
-<screen><command>publican build --formats xml --langs all --publish</command>
+<screen><prompt>$</prompt> <command>publican build --formats xml --langs all --publish</command>
 </screen>
 
 		</step>
@@ -50,19 +50,19 @@
 				Install the brand:
 			</para>
 			 
-<screen><command>sudo publican install_brand --path <replaceable>path</replaceable></command>
+<screen><prompt>$</prompt> <command>sudo publican install_brand --path <replaceable>path</replaceable></command>
 </screen>
 			 <para>
 				where <replaceable>path</replaceable> is the path to the <application>Publican</application> Common Content files. For example, on a Linux system, run:
 			</para>
 			 
-<screen><command>sudo publican install_brand --path /usr/share/publican/Common_Content</command>
+<screen><prompt>$</prompt> <command>sudo publican install_brand --path /usr/share/publican/Common_Content</command>
 </screen>
 			 <para>
 				or on a Windows system, run
 			</para>
 			 
-<screen><command>publican install_brand --path "C:/Program Files/Publican/Common_Content"</command>
+<screen><prompt>$</prompt> <command>publican install_brand --path "C:/Program Files/Publican/Common_Content"</command>
 </screen>
 
 		</step>

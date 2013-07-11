@@ -8,7 +8,7 @@
 	<para>
 		On your workstation, change into the directory that contains the source for the document and run: 
 	</para>
-<screen><command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
 	<para>
 		<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the document. Note that by default, <application>Publican</application> generates an RPM package to install on a server that runs Red Hat Enterprise Linux&nbsp;5. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_ver</parameter> parameter in the document's <filename>publican.cfg</filename> file. 
 	</para>
