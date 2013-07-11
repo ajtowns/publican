@@ -460,8 +460,8 @@ msgstr "il pacchetto richiesto dal pacchetto desktop, per esempio, il pacchetto 
 
 #. Tag: term
 #, no-c-format, fuzzy
-msgid "<parameter>os_ver</parameter>"
-msgstr "<parameter>os_ver</parameter>"
+msgid "<parameter>dtd_uri</parameter>"
+msgstr "<parameter>doc_url</parameter>"
 
 #. Tag: para
 #, no-c-format
@@ -494,7 +494,7 @@ msgid "This parameter is only permitted in a brand."
 msgstr ""
 
 #. Tag: term
-#, no-c-format
+#, no-c-format, fuzzy
 msgid "<parameter>dtd_uri</parameter>"
 msgstr "<parameter>doc_url</parameter>"
 
@@ -654,7 +654,7 @@ msgid "the desktop menu category (as defined by a corresponding <filename>.menu<
 msgstr "la categoria del menu del desktop (come definito dal file <filename>.menu</filename> corrispondente), in cui inserire il documento installato con un pacchetto RPM desktop. Fare riferimento alla <xref linkend=\"desktop_menus\" />."
 
 #. Tag: term
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "<parameter>os_ver</parameter>"
 msgstr "<parameter>os_ver</parameter>"
 
@@ -735,16 +735,6 @@ msgstr "controlla se visualizzare gli elementi <sgmltag>&lt;remark&gt;</sgmltag>
 
 #. Tag: term
 #, no-c-format
-msgid "<parameter>show_unknown</parameter>"
-msgstr "<parameter>show_unknown</parameter>"
-
-#. Tag: para
-#, no-c-format
-msgid "controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output. <emphasis role=\"strikethrough\"><application>Publican</application> ignores this parameter in <firstterm>strict mode</firstterm>.</emphasis>"
-msgstr "controlla se segnalare tag sconosciuti durante la trasformazione dei file XML. Per impostazione, questo parametro ha il valore <literal>1</literal> segnalando i tag sconosciuti. Impostare questo valore su <literal>0</literal> per non visualizzare questi avvisi. <emphasis role=\"strikethrough\"><application>Publican</application> ignora questo parametro in <firstterm>strict mode</firstterm>.</emphasis>"
-
-#. Tag: term
-#, no-c-format
 msgid "<parameter>sort_order</parameter>"
 msgstr "<parameter>dtdver</parameter>"
 
@@ -762,16 +752,6 @@ msgstr "<parameter>src_url</parameter>"
 #, no-c-format
 msgid "specifies the URL at which to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
 msgstr "specifica l'URL in cui trovare i tarball dei file sorgente. Questo parametro completa il campo <literal>Source:</literal> nell'intestazione del file <emphasis>spec</emphasis> dell'RPM. Fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book\" />."
-
-#. Tag: term
-#, no-c-format
-msgid "<parameter>strict</parameter>"
-msgstr "<parameter>strict</parameter>"
-
-#. Tag: para
-#, no-c-format
-msgid "<emphasis role=\"strikethrough\">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is not currently enforced."
-msgstr "<emphasis role=\"strikethrough\">imposta <application>Publican</application> in modalità <firstterm>strict</firstterm> per impedire l'uso di tag inutilizzabili in documenti professionali e traduzioni. Per impostazione, il parametro <literal>strict</literal> è impostato sul valore <literal>0</literal>, disabilitando la modalità strict. Per abilitare la modalità strict, impostare il valore su <literal>1</literal></emphasis>. Correntemente la modalità strict non viene applicata."
 
 #. Tag: term
 #, no-c-format
@@ -1546,6 +1526,11 @@ msgstr "Durante la sua elaborazione, il comando <command>publican package</comma
 #~ msgid "Some successions of HTML pages as they appear in a document structured with chapters and subsections, for various values of parameter <parameter>chunk_section_depth</parameter>."
 #~ msgstr "Come si presentano alcune successioni di pagine HTML in un documento strutturato con capitoli e sotto-sezioni, per vari valori del parametro <parameter>chunk_section_depth</parameter>."
 
+#. Tag: para
+#, no-c-format
+#~ msgid "<emphasis role=\"strikethrough\">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is not currently enforced."
+#~ msgstr "<emphasis role=\"strikethrough\">imposta <application>Publican</application> in modalità <firstterm>strict</firstterm> per impedire l'uso di tag inutilizzabili in documenti professionali e traduzioni. Per impostazione, il parametro <literal>strict</literal> è impostato sul valore <literal>0</literal>, disabilitando la modalità strict. Per abilitare la modalità strict, impostare il valore su <literal>1</literal></emphasis>. Correntemente la modalità strict non viene applicata."
+
 #~ msgid "So, for example, a book with an edition of 1.0 and a pubsnumber of 5, would be version 1.0, release 5 (1.0-5), like <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-<replaceable>language</replaceable>-1.0-<replaceable>5</replaceable>.src.rpm</filename>."
 #~ msgstr "Quindi, per esempio, un libro con edizione 1.0 e con pubsumber 5, coinciderebbe con la versione 1.0 e la release 5 (1.0-5), come <filename><replaceable>nomeprodotto</replaceable>-<replaceable>titolo</replaceable>-<replaceable>numeroprodotto</replaceable>-<replaceable>codice_lingua</replaceable>-1.0-5.src.rpm</filename>."
 
@@ -1553,6 +1538,11 @@ msgstr "Durante la sua elaborazione, il comando <command>publican package</comma
 #, no-c-format
 #~ msgid "the CVS package into which to import the SRPM. Specify this parameter when packaging a document with the <option>--cvs</option> option — refer to <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
 #~ msgstr "il pacchetto in CVS in cui importare l'SRPM. Specificare questo parametro quando si crea il pacchetto di un documento con l'opzione <option>--cvs</option> — fare riferimento alla <xref linkend=\"sect-Users_Guide-Packaging_a_book-The_publican_package_command\" />."
+
+#. Tag: para
+#, no-c-format
+#~ msgid "controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output. <emphasis role=\"strikethrough\"><application>Publican</application> ignores this parameter in <firstterm>strict mode</firstterm>.</emphasis>"
+#~ msgstr "controlla se segnalare tag sconosciuti durante la trasformazione dei file XML. Per impostazione, questo parametro ha il valore <literal>1</literal> segnalando i tag sconosciuti. Impostare questo valore su <literal>0</literal> per non visualizzare questi avvisi. <emphasis role=\"strikethrough\"><application>Publican</application> ignora questo parametro in <firstterm>strict mode</firstterm>.</emphasis>"
 
 #~ msgid "generate_section_toc_level - Examples"
 #~ msgstr "generate_section_toc_level - Esempi"

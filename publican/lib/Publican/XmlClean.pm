@@ -277,8 +277,6 @@ sub new {
     $config->param( 'update_includes', delete( $args->{update_includes} ) )
         if ( $args->{update_includes} );
     $config->param( 'clean_id', ( delete( $args->{clean_id} ) ) || 0 );
-    $config->param( 'show_unknown', delete( $args->{show_unknown} ) )
-        if ( $args->{show_unknown} );
     $config->param( 'donotset_lang',
         ( delete( $args->{donotset_lang} ) ) || 1 );
     $config->param( 'distributed_set',
@@ -615,7 +613,6 @@ sub my_as_XML {
         $banned_attrs{$battr} = 1;
     }
 
-    my $show_unknown = $self->{publican}->param('show_unknown');
     my $clean_id     = $self->{config}->param('clean_id');
     my $lang         = $self->{config}->param('lang');
 
@@ -672,16 +669,6 @@ sub my_as_XML {
                         }
                     }
 
-                    if ( $show_unknown && !$MAP_OUT{$tag} ) {
-                        logger(
-                            maketext(
-                                "*WARNING: Unvalidated tag: '[_1]'. This tag may not be displayed correctly, may generate invalid xhtml, or may breach Section 508 Accessibility standards.",
-                                $tag
-                                )
-                                . "\n",
-                            RED
-                        );
-                    }
                     if ($clean_id) {
                         $self->Clean_ID($node);
                     }

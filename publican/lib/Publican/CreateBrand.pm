@@ -307,7 +307,6 @@ sub conf_files {
 
     $config = new Config::Simple();
     $config->syntax('http');
-    $config->param( 'strict', 0 );
     $config->write('overrides.cfg')
         || croak(
         maketext(

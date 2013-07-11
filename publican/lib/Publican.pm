@@ -286,11 +286,6 @@ my %PARAMS = (
         default => 0,
 
     },
-    show_unknown => {
-        descr   => maketext('Report unknown tags when processing XML.'),
-        default => 1,
-
-    },
     sort_order => {
         descr =>
             maketext('Override the default sort weighting. Defaults to 50.'),

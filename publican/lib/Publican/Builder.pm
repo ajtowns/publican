@@ -3139,7 +3139,6 @@ sub package {
     $self->{publican}->{config}->delete('common_config');
     my $common_content = $self->{publican}->param('common_content');
     $self->{publican}->{config}->delete('common_content');
-    $self->{publican}->{config}->delete('strict');
     $self->{publican}->{config}->delete('release');
     $self->{publican}->{config}->delete('edition');
     $self->{publican}->{config}->delete('brand_dir');

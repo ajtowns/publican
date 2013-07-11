@@ -670,16 +670,6 @@
 
 			</varlistentry>
 			 <varlistentry>
-				<term><parameter>show_unknown</parameter></term>
-				 <listitem>
-					<para>
-						controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output. <emphasis role="strikethrough"><application>Publican</application> ignores this parameter in <firstterm>strict mode</firstterm>.</emphasis>
-					</para>
-
-				</listitem>
-
-			</varlistentry>
-			 <varlistentry>
 				<term><parameter>sort_order</parameter></term>
 				 <listitem>
 					<para>
@@ -694,16 +684,6 @@
 				 <listitem>
 					<para>
 						specifies the URL at which to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
-					</para>
-
-				</listitem>
-
-			</varlistentry>
-			 <varlistentry>
-				<term><parameter>strict</parameter></term>
-				 <listitem>
-					<para>
-						<emphasis role="strikethrough">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is not currently enforced.
 					</para>
 
 				</listitem>
