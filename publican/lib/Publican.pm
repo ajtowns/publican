@@ -81,6 +81,10 @@ my %PARAMS = (
         descr => maketext('Arch to filter output on.'),
 
     },
+    audience => {
+        descr => maketext('audience to filter output on.'),
+
+    },
     books => {
         descr => maketext(
             'A space-separated list of books used in this remote set.'),
@@ -161,6 +165,10 @@ my %PARAMS = (
             maketext('The text used to indicate content is confidential.'),
         default => maketext('CONFIDENTIAL'),
     },
+    conformance => {
+        descr => maketext('conformance to filter output on.'),
+
+    },
     debug => {
         descr   => maketext('Print out extra messages?'),
         default => 0,
@@ -240,6 +248,10 @@ my %PARAMS = (
         default => 'images',
     },
     info_file => { descr => maketext('Override the default Info file.'), },
+    lang => {
+        descr => maketext('lang to filter output on.'),
+
+    },
     license   => {
         descr   => maketext('License this package uses.'),
         default => 'GFDL',
@@ -260,6 +272,10 @@ my %PARAMS = (
             'Brand option to disable embedding the navigational toc in web packages'
         ),
         limit_to => 'brand',
+    },
+    os => {
+        descr => maketext('os to filter output on.'),
+
     },
     os_ver  => { descr => maketext('The OS for which to build packages.'), },
     product => {
@@ -285,6 +301,22 @@ my %PARAMS = (
     },
     rev_file =>
         { descr => maketext('Override the default Revision History file.'), },
+    revision => {
+        descr => maketext('revision to filter output on.'),
+
+    },
+    revisionflag => {
+        descr => maketext('revisionflag to filter output on.'),
+
+    },
+    role => {
+        descr => maketext('role to filter output on.'),
+
+    },
+    security => {
+        descr => maketext('security to filter output on.'),
+
+    },
     show_remarks => {
         descr   => maketext('Display remarks in transformed output.'),
         default => 0,
@@ -297,6 +329,10 @@ my %PARAMS = (
     src_url => {
         descr => maketext(
             'URL to find tar of source files. Used in RPM Spec files.'),
+    },
+    status => {
+        descr => maketext('status to filter output on.'),
+
     },
     tmp_dir => {
         descr   => maketext('Directory to use for building.'),
@@ -321,6 +357,14 @@ my %PARAMS = (
             maketext('Choose the formatter to use when creating txt output.'),
         constraint => '^(links{1}|tables{1}|default)$',
         default    => 'default',
+    },
+    userlevel => {
+        descr => maketext('userlevel to filter output on.'),
+
+    },
+    vendor => {
+        descr => maketext('vendor to filter output on.'),
+
     },
     version => {
         descr => maketext(
@@ -403,6 +447,10 @@ my %PARAMS = (
             'Name of site package for non standard RPM websites. Required to ensure the site is installed.'
         ),
         limit_to => 'brand',
+    },
+    wordsize => {
+        descr => maketext('wordsize to filter output on.'),
+
     },
     xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
