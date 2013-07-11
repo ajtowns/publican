@@ -730,7 +730,7 @@ sub my_as_XML {
                   # when building distrubuted sets, we need to prepend the
                   # books name to the image path to prevent image name clashes
                         my $preptxt
-                            = 'images/' . $self->{publican}->param('docname');
+                            = $self->{publican}->param('img_dir') . '/' . $self->{publican}->param('docname');
 
                         if (   $self->{config}->param('distributed_set')
                             && $node->attr('fileref') !~ /^$preptxt/ )

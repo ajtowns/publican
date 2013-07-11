@@ -235,6 +235,10 @@ my %PARAMS = (
         ),
 
     },
+    img_dir => {
+        descr   => maketext('Directory where images are located.'),
+        default => 'images',
+    },
     info_file => { descr => maketext('Override the default Info file.'), },
     license   => {
         descr   => maketext('License this package uses.'),

@@ -675,11 +675,13 @@ sub setup_xml {
                 if ( -d "$lang/scripts" );
         }
 
-        dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
-            if ( -d "$xml_lang/images" );
+        my $images = $self->{publican}->param('img_dir');
 
-        dircopy( "$lang/images", "$tmp_dir/$lang/xml/images" )
-            if ( -d "$lang/images" );
+        dircopy( "$xml_lang/$images", "$tmp_dir/$lang/xml/$images" )
+            if ( -d "$xml_lang/$images" );
+
+        dircopy( "$lang/$images", "$tmp_dir/$lang/xml/$images" )
+            if ( -d "$lang/$images" );
 
         unless ($exlude_common) {
             mkpath("$tmp_dir/$lang/xml/Common_Content");
@@ -1574,8 +1576,9 @@ sub transform {
     }
     elsif ( $format eq 'epub' ) {
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/OEBPS/images" );
+        my $images = $self->{publican}->param('img_dir');
+        dircopy( "$tmp_dir/$lang/xml/$images",
+            "$tmp_dir/$lang/$format/OEBPS/$images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/OEBPS/Common_Content"
@@ -1595,7 +1598,7 @@ sub transform {
 ##            "$tmp_dir/$lang/xml/Common_Content/images/title_logo.svg",
 ##            "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg"
 ##        );
-        unlink("$tmp_dir/$lang/$format/OEBPS/images/icon.svg");
+        unlink("$tmp_dir/$lang/$format/OEBPS/$images/icon.svg");
 
         unless (
             -f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css" )
@@ -1732,9 +1735,10 @@ sub transform {
         my $content_dir = "$lang/$product/$version/$docname";
 
         $self->drupal_transform( { lang => $lang } );
+        my $images = $self->{publican}->param('img_dir');
 
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/$content_dir/images" );
+        dircopy( "$tmp_dir/$lang/xml/$images",
+            "$tmp_dir/$lang/$format/$content_dir/$images" );
         dircopy( "$tmp_dir/$lang/xml/Common_Content/images",
             "$tmp_dir/$lang/$format/$content_dir/Common_Content/images" )
             if ( $embedtoc == 0 );
@@ -1763,9 +1767,10 @@ sub transform {
         $dir = undef;
     }
     else {
+        my $images = $self->{publican}->param('img_dir');
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/images" );
+        dircopy( "$tmp_dir/$lang/xml/$images",
+            "$tmp_dir/$lang/$format/$images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"

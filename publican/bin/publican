@@ -781,13 +781,14 @@ if ( $action eq 'install_brand' ) {
                 close($DUMMY_FILE);
             }
 
-            mkpath("$opts{path}/$ln/images")
-                unless ( -f "$opts{path}/$ln/images" );
-            rcopy( "$xml_lang/images/*", "$opts{path}/$ln/images/." )
+            my $images = $publican->param('img_dir');
+            mkpath("$opts{path}/$ln/$images")
+                unless ( -f "$opts{path}/$ln/$images" );
+            rcopy( "$xml_lang/$images/*", "$opts{path}/$ln/$images/." )
                 || croak($!)
-                if ( -d "$xml_lang/images" );
-            rcopy( "$ln/images/*", "$opts{path}/$ln/images/." ) || croak($!)
-                if ( -d "$ln/images" );
+                if ( -d "$xml_lang/$images" );
+            rcopy( "$ln/$images/*", "$opts{path}/$ln/$images/." ) || croak($!)
+                if ( -d "$ln/$images" );
 
             if ( -d "$xml_lang/scripts" ) {
                 mkpath("$opts{path}/$ln/scripts")
