@@ -50,10 +50,10 @@ _publican()
 					options='--date --email --firstname --lang --member --revnumber --surname '
 					;;
 				build)
-					options='--distributed_set --embedtoc --formats --langs --novalid --pdftool --publish --src_dir '
+					options='--distributed_set --embedtoc --formats --langs --novalid --pdftool --pub_dir --publish --src_dir '
 					;;
 				clean)
-					options=''
+					options='--pub_dir '
 					;;
 				clean_ids)
 					options=''
@@ -77,7 +77,7 @@ _publican()
 					options='--lang --site_config '
 					;;
 				install_brand)
-					options='--path --web '
+					options='--path --pub_dir --web '
 					;;
 				lang_stats)
 					options='--lang '
@@ -86,7 +86,7 @@ _publican()
 					options='--site_config '
 					;;
 				package)
-					options='--binary --brew --desktop --lang --scratch --short_sighted --wait '
+					options='--binary --brew --desktop --lang --pub_dir --scratch --short_sighted --wait '
 					;;
 				print_banned)
 					options=''

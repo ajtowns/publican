@@ -174,6 +174,7 @@ sub build {
     my $embedtoc        = delete( $args->{embedtoc} )        || undef;
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
     my $pdftool         = delete( $args->{pdftool} )         || undef;
+    my $pub_dir         = delete( $args->{pub_dir} ) || croak( maketext("pub_dir is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
@@ -255,26 +256,26 @@ sub build {
 
             if ($publish) {
                 if ( $type eq 'brand' ) {
-                    my $path = "publish/$brand/$lang";
+                    my $path = "$pub_dir/$brand/$lang";
                     mkpath($path);
                     rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
                         if ( -d "$tmp_dir/$lang/$format" );
                 }
                 else {
                     my $path
-                        = "publish/$lang/$product/$version/$format/$docname";
+                        = "$pub_dir/$lang/$product/$version/$format/$docname";
 
                     # The basic layout is for the web system
                     # but these formats are used differently
                     if ( $self->{publican}->param('web_home') ) {
-                        $path = "publish/home/$lang";
+                        $path = "$pub_dir/home/$lang";
                     }
                     elsif ( $self->{publican}->param('web_type') ) {
                         my $web_type = $self->{publican}->param('web_type');
                         if ( $web_type =~ m/^home$/i ) {
-                            $path = "publish/home/$lang";
+                            $path = "$pub_dir/home/$lang";
                             fcopy( 'site_overrides.css',
-                                'publish/home/site_overrides.css' )
+                                "$pub_dir/home/site_overrides.css" )
                                 if ( -f 'site_overrides.css' );
 
                             # Build ADs
@@ -342,20 +343,20 @@ sub build {
                             }
                         }
                         elsif ( $web_type =~ m/^product$/i ) {
-                            $path = "publish/home/$lang/$product";
+                            $path = "$pub_dir/home/$lang/$product";
                         }
                         elsif ( $web_type =~ m/^version$/i ) {
-                            $path = "publish/home/$lang/$product/$version";
+                            $path = "$pub_dir/home/$lang/$product/$version";
                         }
                     }
                     elsif ( $format eq 'html-desktop' ) {
-                        $path = "publish/desktop/$lang";
+                        $path = "$pub_dir/desktop/$lang";
                     }
                     elsif ( $format eq 'xml' ) {
-                        $path = "publish/xml/$lang";
+                        $path = "$pub_dir/xml/$lang";
                     }
                     elsif ( $format eq 'eclipse' ) {
-                        $path = "publish/eclipse/$lang";
+                        $path = "$pub_dir/eclipse/$lang";
                     }
 
                     mkpath($path);
@@ -399,17 +400,17 @@ sub build {
     if ($publish) {
         if ( $type eq 'brand' ) {
             if ( -d 'xsl' ) {
-                my $path = "publish/$brand/xsl";
+                my $path = "$pub_dir/$brand/xsl";
                 mkpath($path);
                 rcopy( "xsl", "$path/." );
             }
             if ( -d 'book_templates' ) {
-                my $path = "publish/$brand/book_templates";
+                my $path = "$pub_dir/$brand/book_templates";
                 mkpath($path);
                 rcopy( "book_templates", "$path/." );
             }
             if ( -d 'templates' ) {
-                my $path = "publish/$brand/templates";
+                my $path = "$pub_dir/$brand/templates";
                 mkpath($path);
                 rcopy( "templates", "$path/." );
             }

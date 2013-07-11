@@ -92,6 +92,7 @@ build
         --novalid                 Do not run the DTD validation
         --src_dir=<SRC_DIR>       Directory to source publican files from.
         --pdftool=<PDFTOOL>       Override the tool to use when creating PDFs. Valid options are wkhtmltopdf and fop.
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 clean
@@ -105,6 +106,7 @@ clean
         --nocolours               Disable ANSI colourisation of logging.
         --quiet                   Disable all logging.
         --brand_dir=s             Directory to source brand files from.
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 clean_ids
@@ -227,6 +229,7 @@ install_brand
         --brand_dir=s             Directory to source brand files from.
         --path=<PATH>             /path/to/install/to
         --web                     Install the web content for a brand.
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 lang_stats
@@ -275,6 +278,7 @@ package
         --short_sighted           Create package without using version in package name
         --binary                  Build binary rpm when running package
         --wait                    Wait for brew to finish building
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 print_banned

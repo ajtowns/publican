@@ -90,7 +90,7 @@ my $class = Module::Build->subclass(
                 my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
                 my $builder = Publican::Builder->new();
                 $builder->build(
-                    { formats => 'xml', langs => $common_langs, publish => 1 } );
+                    { formats => 'xml', langs => $common_langs, publish => 1, pub_dir => 'publish' } );
                 mkpath("$path");
                 rcopy( "publish/*", "$path/.");
                 rcopy('publican.cfg', "$path/common/.");
@@ -192,7 +192,6 @@ my $class = Module::Build->subclass(
         sub ACTION_update_pod {
             my ($self) = @_;
             use List::MoreUtils qw|uniq|;
-            $self->depends_on('build');
             my $POD_FILE;
             open($POD_FILE, '>', 'pod1/publican') || die("can't open POD file");
             print($POD_FILE <<EOL);
