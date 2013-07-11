@@ -319,13 +319,7 @@ sub print_known_tags {
 
 =head2 prune_xml($node)
 
-Remove unwanted nodes.
-
-If $lang is set then delete all nodes that have lang set and do not contain $lang
-
-If $arch is set then delete all nodes that have arch set and do not contain $arch
-
-If $condition is set then delete all nodes that have condition set and do not contain $condition 
+Remove unwanted nodes. i.e. 'profile' in DocBook speak.
 
 =cut
 
@@ -333,67 +327,39 @@ sub prune_xml {
     my ( $self, $xml_doc ) = @_;
 
     my $original_tag = $xml_doc->root()->{'_tag'};
+    my @prune_attrs
+        = qw/arch audience condition conformance lang os revision revisionflag role security status userlevel vendor wordsize/;
 
     if ($xml_doc) {
-        if ( $self->{config}->param('lang') ) {
-            $xml_doc->pos( $xml_doc->root() );
-            while (
-                my $node = $xml_doc->look_down(
-                    sub {
-                        $_[0]->attr('lang')
-                            && $_[0]->attr('lang')
-                            !~ ( $self->{config}->param('lang') );
-                    }
-                )
-                )
-            {
-                croak(
-                    maketext(
-                        "FATAL ERROR: language profiling would prune root node. Do NOT set lang in a root node."
-                    )
-                ) if ( $node->same_as( $xml_doc->root() ) );
-                $node->delete();
-            }
-        }
-        if ( $self->{publican}->param('arch') ) {
-            $xml_doc->pos( $xml_doc->root() );
-            while (
-                my $node = $xml_doc->look_down(
-                    sub {
-                        $_[0]->attr('arch')
-                            && $_[0]->attr('arch')
-                            !~ ( $self->{publican}->param('arch') );
-                    }
-                )
-                )
-            {
-                croak(
-                    maketext(
-                        "FATAL ERROR: arch profiling would prune root node. Do NOT set arch in a root node."
-                    )
-                ) if ( $node->same_as( $xml_doc->root() ) );
-                $node->delete();
-            }
-        }
 
-        if ( $self->{publican}->param('condition') ) {
-            $xml_doc->pos( $xml_doc->root() );
-            while (
-                my $node = $xml_doc->look_down(
-                    sub {
-                        $_[0]->attr('condition')
-                            && $_[0]->attr('condition')
-                            !~ ( $self->{publican}->param('condition') );
-                    }
-                )
-                )
-            {
-                croak(
-                    maketext(
-                        "FATAL ERROR: condition profiling would prune root node. Do NOT set condition in a root node."
+        foreach my $attr (@prune_attrs) {
+            my $cond = $self->{publican}->param($attr);
+            $cond = $self->{config}->param($attr)
+                if ( $attr eq 'lang' );    ## Always prune on language
+            if ($cond) {
+                $xml_doc->pos( $xml_doc->root() );
+                $cond =~ s/;/|/g;
+                my $regex = qr/(?:$cond)/;
+                while (
+                    my $node = $xml_doc->look_down(
+                        sub {
+                                   $_[0]->attr($attr)
+                                && $_[0]->attr($attr) !~ /^$regex$/
+                                && $_[0]->attr($attr) !~ /^$regex;/
+                                && $_[0]->attr($attr) !~ /;$regex$/
+                                && $_[0]->attr($attr) !~ /;$regex;/;
+                        }
                     )
-                ) if ( $node->same_as( $xml_doc->root() ) );
-                $node->delete();
+                    )
+                {
+                    croak(
+                        maketext(
+                            "FATAL ERROR: profiling would prune root node. Do NOT set attributes to prune on in a root node. Offending attibute: [_1]",
+                            $attr
+                        )
+                    ) if ( $node->same_as( $xml_doc->root() ) );
+                    $node->delete();
+                }
             }
         }
     }
@@ -613,8 +579,8 @@ sub my_as_XML {
         $banned_attrs{$battr} = 1;
     }
 
-    my $clean_id     = $self->{config}->param('clean_id');
-    my $lang         = $self->{config}->param('lang');
+    my $clean_id = $self->{config}->param('clean_id');
+    my $lang     = $self->{config}->param('lang');
 
     # This flags tags that use  /> instead of end tags IF they are empty.
     $empty_element_map->{xref}         = 1;
@@ -730,7 +696,8 @@ sub my_as_XML {
                   # when building distrubuted sets, we need to prepend the
                   # books name to the image path to prevent image name clashes
                         my $preptxt
-                            = $self->{publican}->param('img_dir') . '/' . $self->{publican}->param('docname');
+                            = $self->{publican}->param('img_dir') . '/'
+                            . $self->{publican}->param('docname');
 
                         if (   $self->{config}->param('distributed_set')
                             && $node->attr('fileref') !~ /^$preptxt/ )
