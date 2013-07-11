@@ -370,7 +370,7 @@ my %PARAMS = (
         descr => maketext(
             'Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml'
         ),
-        constraint => '^[0-9]',
+        constraint => '^[0-9][^\p{IsSpace}]*$',
     },
     web_brew_dist => {
         descr   => maketext('The brew dist to use for building the web rpm.'),
