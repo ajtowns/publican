@@ -140,11 +140,20 @@ sub update_pot {
         $xml_doc->pos( $xml_doc->root() );
 
         my $msg_list = $self->get_msgs( { doc => $xml_doc } );
-##debug_msg( "hash: " . join( "\n\n", keys( %{$msgids} ) ) . "\n\n" );
+##debug_msg( "hash: " . $msg_list->content_list() . "\n\n" );
         $self->print_msgs( { msg_list => $msg_list, pot_file => $pot_file } );
 
         # Remove pot files with no content
-        unlink($pot_file) if ( -z $pot_file );
+        if ( ( -z $pot_file ) || ( $msg_list->content_list() == 0 ) ) {
+            unlink($pot_file);
+            logger(
+                "\t"
+                    . maketext(
+                    "deleted empty pot file: [_1]" . "\n", $pot_file
+                    )
+            );
+        }
+
     }
 
     return;
