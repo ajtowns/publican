@@ -22,7 +22,8 @@ Version:       <xsl:value-of select="$rpmver"/>
 Release:       <xsl:value-of select="$rpmrel"/>%{?dist}
 <xsl:if test="$translation = '1'">Summary:      <xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
 Summary(<xsl:value-of select="$lang"/>):       <xsl:value-of select="$full_subtitle"/></xsl:if>
-<xsl:if test="$translation != '1'">Summary:       <xsl:value-of select="$full_subtitle"/></xsl:if>
+<xsl:if test="$translation != '1'">
+Summary:       <xsl:value-of select="$full_subtitle"/></xsl:if>
 Group:         Documentation
 License:       <xsl:value-of select="$license"/>
 URL:           <xsl:value-of select="$url"/>
@@ -32,15 +33,20 @@ BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: publican >= <xsl:value-of select="$spec_version"/>
 BuildRequires: desktop-file-utils
 Requires:      publican >= <xsl:value-of select="$spec_version"/>
-<xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
-<xsl:if test="$web_obsoletes != ''">Obsoletes:    <xsl:value-of select="$web_obsoletes"/></xsl:if>
-<xsl:if test="$web_req != ''">Requires:    <xsl:value-of select="$web_req"/></xsl:if>
+<xsl:if test="$brand != 'publican-common'">
+BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
+<xsl:if test="$web_obsoletes != ''">
+Obsoletes:    <xsl:value-of select="$web_obsoletes"/></xsl:if>
+<xsl:if test="$web_req != ''">
+Requires:    <xsl:value-of select="$web_req"/></xsl:if>
 Requires:      <xsl:value-of select="$brand"/>-web
 
 %description
 <xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$book-title"/>
 
 %description -l <xsl:value-of select="$lang"/> </xsl:if>
+<xsl:text>
+</xsl:text> 
 <xsl:value-of select="$abstract" />
 
 %package -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
@@ -57,11 +63,16 @@ Requires:    htmlview
 %else
 Requires:    xdg-utils
 %endif
-<xsl:if test="$dt_obsoletes != ''">Obsoletes:    <xsl:value-of select="$dt_obsoletes"/></xsl:if>
-<xsl:if test="$dt_requires != ''">Requires:    <xsl:value-of select="$dt_requires"/></xsl:if>
+<xsl:if test="$dt_obsoletes != ''">
+Obsoletes:    <xsl:value-of select="$dt_obsoletes"/></xsl:if>
+<xsl:if test="$dt_requires != ''">
+Requires:    <xsl:value-of select="$dt_requires"/></xsl:if>
 
 %description  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>
-<xsl:if test="$translation = '1'"><xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
+<xsl:if test="$translation = '1'">
+<xsl:text>
+</xsl:text> 
+<xsl:value-of select="$language"/> translation of <xsl:value-of select="$docname"/>
 
 %description -l <xsl:value-of select="$lang"/>  -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/> </xsl:if>
 <xsl:text>
@@ -118,7 +129,7 @@ publican update_db --del --lang="<xsl:value-of select="$lang"/>" --formats="<xsl
 fi
 
 %post -n <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$lang"/>
-publican update_db --add --lang="<xsl:value-of select="$lang"/>" --formats="<xsl:value-of select="$web_formats_comma" />" --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --subtitle="<xsl:value-of select="$full_subtitle"/>" --abstract="<xsl:value-of select="$full_abstract" />" <xsl:if test="$name_label != ''">--name_label="<xsl:value-of select="$name_label" />"</xsl:if> <xsl:if test="$version_label != ''">--version_label="<xsl:value-of select="$version_label" />"</xsl:if> <xsl:if test="$product_label != ''">--product_label="<xsl:value-of select="$product_label" />"</xsl:if> --site_config="<xsl:value-of select="$web_cfg"/>" <xsl:if test="$sort_order != ''">--sort_order="<xsl:value-of select="$sort_order" />"</xsl:if>
+publican update_db --add --lang="<xsl:value-of select="$lang"/>" --formats="<xsl:value-of select="$web_formats_comma" />" --name="<xsl:value-of select="$docname" />" --version="<xsl:value-of select="$prodver" />" --product="<xsl:value-of select="$prod" />" --subtitle="<xsl:value-of select="$full_subtitle"/>" --abstract="<xsl:value-of select="$full_abstract" />" <xsl:if test="$name_label != ''">--name_label="<xsl:value-of select="$name_label" /> "</xsl:if> <xsl:if test="$version_label != ''">--version_label="<xsl:value-of select="$version_label" /> "</xsl:if> <xsl:if test="$product_label != ''">--product_label="<xsl:value-of select="$product_label" /> "</xsl:if> --site_config="<xsl:value-of select="$web_cfg"/>" <xsl:if test="$sort_order != ''">--sort_order="<xsl:value-of select="$sort_order" /> "</xsl:if>
 
 # Update Icon cache if it exists
 %post -n <xsl:value-of select="$book-title"/>-<xsl:value-of select="$lang"/>

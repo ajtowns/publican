@@ -16,7 +16,8 @@ BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: publican >= <xsl:value-of select="$spec_version"/>
 Requires:      publican >= <xsl:value-of select="$spec_version"/>
-<xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
+<xsl:if test="$brand != 'publican-common'">
+BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
 
 %description
 This is Publican Website <xsl:value-of select="$web_type"/> page using the brand: <xsl:value-of select="$brand"/>
