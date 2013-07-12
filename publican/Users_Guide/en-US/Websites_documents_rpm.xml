@@ -10,7 +10,7 @@
 	</para>
 <screen><command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
 	<para>
-		<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the document. Note that by default, <application>Publican</application> generates an RPM package to install on a server that runs Red Hat Enterprise Linux&nbsp;5. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_ver</parameter> parameter in the document's <filename>publican.cfg</filename> file. 
+		<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the document. By default, <application>Publican</application> builds the RPM package for the operating system within which you are running <application>Publican</application>. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_ver</parameter> parameter in the document's <filename>publican.cfg</filename> file. 
 	</para>
 	<para>
 		Either upload the document packages to the webserver and install them with the <command>rpm -i</command> or <command>yum localinstall</command> command, or place the packages in a repository and configure the webserver to install from that repository when you run <command>yum install</command>.
