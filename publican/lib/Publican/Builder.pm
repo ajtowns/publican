@@ -1222,6 +1222,20 @@ sub transform {
         my @keywords = $self->{publican}->get_keywords( { lang => $lang } );
         my $draft = $self->{publican}->get_draft( { lang => $lang } );
 
+        my $xml_file = "$tmp_dir/$lang/xml/" . ucfirst($type) . '_Info.xml';
+        $xml_file
+            = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file')
+            if ( $self->{publican}->param('info_file') );
+        croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
+            if ( !-f $xml_file );
+
+        my $xml_doc = XML::TreeBuilder->new();
+        $xml_doc->parse_file($xml_file);
+        my $logo = eval {
+            $xml_doc->root()->look_down( "_tag", "corpauthor" )
+                ->look_down( "_tag", "imagedata" )->attr('fileref');
+        };
+
         my $vars = {
             draft       => $draft,
             product     => decode_utf8($prod),
@@ -1242,6 +1256,7 @@ sub transform {
             keywords      => \@keywords,
             keywordtitle  => decode_utf8( $locale->maketext("Keywords") ),
             toctitle => decode_utf8( $locale->maketext("Table of Contents") ),
+            logo     => ( $logo || 'Common_Content/images/title_logo.svg' ),
         };
 
         $template->process(
