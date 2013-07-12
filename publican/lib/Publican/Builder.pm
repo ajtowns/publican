@@ -174,7 +174,8 @@ sub build {
     my $embedtoc        = delete( $args->{embedtoc} )        || undef;
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
     my $pdftool         = delete( $args->{pdftool} )         || undef;
-    my $pub_dir         = delete( $args->{pub_dir} ) || croak( maketext("pub_dir is a mandatory argument") );
+    my $pub_dir         = delete( $args->{pub_dir} )
+        || croak( maketext("pub_dir is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
@@ -558,9 +559,10 @@ sub setup_xml {
                 my $id = undef;
 
                 my $anode = $rev_tree->look_down( '_tag', "appendix" );
-                $id = $anode->id() if($anode &&  $anode->id());
+                $id = $anode->id() if ( $anode && $anode->id() );
                 my $merged_rev_tree = XML::Element->new_from_lol(
-                    [   'appendix', { id => $id },
+                    [   'appendix',
+                        { id => $id },
                         [   'title',
                             decode_utf8(
                                 $locale->maketext('Revision History')
@@ -664,21 +666,19 @@ sub setup_xml {
 
         # copy css for brand and default images for non-brand
         if ( $type eq 'brand' ) {
-            dircopy( "$xml_lang/css", "$tmp_dir/$lang/xml/css" )
-                if ( -d "$xml_lang/css" );
             dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
                 if ( -d "$lang/css" );
 
-            dircopy( "$xml_lang/scripts", "$tmp_dir/$lang/xml/scripts" )
-                if ( -d "$xml_lang/scripts" );
             dircopy( "$lang/scripts", "$tmp_dir/$lang/xml/scripts" )
                 if ( -d "$lang/scripts" );
         }
 
         my $images = $self->{publican}->param('img_dir');
 
-        dircopy( "$xml_lang/$images", "$tmp_dir/$lang/xml/$images" )
-            if ( -d "$xml_lang/$images" );
+        if ( $type ne 'brand' ) {
+            dircopy( "$xml_lang/$images", "$tmp_dir/$lang/xml/$images" )
+                if ( -d "$xml_lang/$images" );
+        }
 
         dircopy( "$lang/$images", "$tmp_dir/$lang/xml/$images" )
             if ( -d "$lang/$images" );
