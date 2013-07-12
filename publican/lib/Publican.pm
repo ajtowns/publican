@@ -1036,7 +1036,7 @@ sub get_all_langs {
         if ( -d $dir ) {
             next
                 if ( $dir
-                =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish|book_templates)$/
+                =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish|book_templates|trans_drop)$/
                 );
 
             if ( valid_lang($dir) ) {

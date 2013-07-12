@@ -77,6 +77,35 @@ sub new {
     return $self;
 }
 
+=head2 trans_drop
+
+Snapshot the source to give translation a stable base.
+
+=cut
+
+sub trans_drop {
+    my ($self) = shift();
+
+    my $trans_drop = 'trans_drop';
+
+    mkdir $trans_drop if ( !-d $trans_drop );
+
+    my $source_dir = $self->{publican}->param('xml_lang');
+
+    my @files = dir_list( $source_dir, '*' );
+    foreach my $file ( sort(@files) ) {
+        logger( "\t" . maketext( "Processing file [_1]", $file ) . "\n" );
+        my $new_file = $file;
+        $new_file =~ s/^$source_dir/$trans_drop/;
+        $new_file =~ m|^(.*)/[^/]+$|;
+        my $path = $1;
+        mkpath($path) if ( !-d $path );
+        fcopy( $file, $new_file );
+    }
+
+    return;
+}
+
 =head2 update_pot
 
 Update the pot files
@@ -88,15 +117,18 @@ sub update_pot {
 
     mkdir 'pot' if ( !-d 'pot' );
 
-    my $xml_lang = $self->{publican}->param('xml_lang');
-    my @xml_files = dir_list( $xml_lang, '*.xml' );
+    my $source_dir = $self->{publican}->param('xml_lang');
+    $source_dir = 'trans_drop' if ( -d 'trans_drop' );
+    my $extras = $self->{publican}->param('extras_dir');
+
+    my @xml_files = dir_list( $source_dir, '*.xml' );
     foreach my $xml_file ( sort(@xml_files) ) {
-        next if ( $xml_file =~ m|$xml_lang/extras/| );
-        next if ( $xml_file =~ m|$xml_lang/Legal_Notice.xml| );
+        next if ( $xml_file =~ m|$source_dir/$extras/| );
+        next if ( $xml_file =~ m|$source_dir/Legal_Notice.xml| );
         logger( "\t" . maketext( "Processing file [_1]", $xml_file ) . "\n" );
         my $pot_file = $xml_file;
         $pot_file =~ s/\.xml/\.pot/;
-        $pot_file =~ s/^$xml_lang/pot/;
+        $pot_file =~ s/^$source_dir/pot/;
         $pot_file =~ m|^(.*)/[^/]+$|;
         my $path = $1;
         mkpath($path) if ( !-d $path );
@@ -239,15 +271,18 @@ sub update_po {
         );
     }
 
-    my $docname  = $self->{publican}->param('docname');
-    my $version  = $self->{publican}->param('version');
-    my $type     = $self->{publican}->param('type');
-    my $xml_lang = $self->{publican}->param('xml_lang');
+    my $docname    = $self->{publican}->param('docname');
+    my $version    = $self->{publican}->param('version');
+    my $type       = $self->{publican}->param('type');
+    my $xml_lang   = $self->{publican}->param('xml_lang');
+    my $source_dir = $xml_lang;
+    $source_dir = 'trans_drop' if ( -d 'trans_drop' );
 
     my @pot_files = dir_list( 'pot', '*.pot' );
 
     foreach my $lang ( sort( split( /,/, $langs ) ) ) {
         next if ( $lang eq $xml_lang );
+        next if ( $lang eq $source_dir );
 
         unless ( Publican::valid_lang($lang) ) {
             logger(
@@ -316,7 +351,7 @@ sub update_po {
             }
 
             my $xml_file = $pot_file;
-            $xml_file =~ s/^pot/$xml_lang/;
+            $xml_file =~ s/^pot/$source_dir/;
             $xml_file =~ s/pot$/xml/;
             logger(
                 maketext( "WARNING: No source xml file exists for [_1]",
@@ -328,7 +363,7 @@ sub update_po {
 
         if ( $self->{publican}->param('type') ne 'brand' ) {
             my ( $edition, $release )
-                = $self->{publican}->get_ed_rev( { lang => $xml_lang } );
+                = $self->{publican}->get_ed_rev( { lang => $source_dir } );
 
             my @members = (
                 decode_utf8(
