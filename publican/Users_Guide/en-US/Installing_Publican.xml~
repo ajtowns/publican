@@ -379,49 +379,8 @@
 				</para>
 			</step>
 		</procedure>
-		<procedure>
-			<title>Install a brand</title>
-			<step>
-				<para>
-					Fix the permissions of the Commons Brand. You have to do this only once. This is a bug that will be addressed eventually.
-				</para>
-					<screen><prompt>$</prompt> <command>find /opt/local/share/publican</command> <option>-type f</option> |<command>xargs sudo chmod 644</command></screen>
-			</step>
-			<step>
-				<para>
-					Either check out the SVN for your brand, or get a pre-built brand from a friend.
-				</para>
-				<substeps role="alternatives">
-					<step>
-						<para>
-							The SVN location for the brands supplied by Red Hat is <ulink url="http://svn.fedorahosted.org/svn/publican"/>
-						</para>
-					</step>
-					<step>
-						<para>
-							If you use a pre-built brand, extract it as necessary.
-						</para>
-					</step>
-				</substeps>
-			</step>
-			<step>
-				<para>
-					If you got the brand from SVN, build it.
-				</para>
-					<screen><prompt>$</prompt> <command>cd publican/publican-jboss</command></screen>
-					<screen><prompt>$</prompt> <command>publican build</command> <option>--formats=xml --langs=all --publish</option></screen>
-			</step>
-			<step>
-				<para>
-					Install the brand.
-				</para>
-					<screen><prompt>$</prompt> <command>sudo publican install_brand</command> <option>--path=/opt/local/share/publican/Common_Content</option></screen>
-				<para>
-					You can now use the brand in your books by editing your book's <filename>publican.cfg</filename> file or specifying the <option>--brand</option> option when creating your book.
-				</para>
-			</step>
-		</procedure>
 	</section>
+
 
 
 
