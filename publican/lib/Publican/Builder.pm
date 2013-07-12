@@ -510,16 +510,20 @@ sub setup_xml {
 
             mkpath("$tmp_dir/$lang/xml_tmp");
 
-            my @xml_files
-                = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
+            my $source_dir = $self->{publican}->param('xml_lang');
+            $source_dir = 'trans_drop' if ( -d 'trans_drop' );
+            my $extras = $self->{publican}->param('extras_dir');
+
+            my @xml_files = dir_list( $source_dir, '*.xml' );
 
             foreach my $xml_file ( sort(@xml_files) ) {
+                next if ( $xml_file =~ m|$source_dir/$extras/| );
                 my $po_file = $xml_file;
                 $po_file =~ s/\.xml/\.po/;
-                $po_file =~ s/$xml_lang/$lang/;
+                $po_file =~ s/$source_dir/$lang/;
 
                 my $out_file = $xml_file;
-                $out_file =~ s/$xml_lang//;
+                $out_file =~ s/$source_dir//;
 
                 $out_file =~ m|^(.*)/[^/]+$|;
                 my $path = ( $1 || undef );
@@ -822,7 +826,7 @@ sub del_unwanted_dirs {
     my $dir      = $_;
     my @unwanted = qw(  );
 
-    if ( $dir =~ /^(CVS|\.svn|.*\.swp|.*\.xml~|.directory)$/ ) {
+    if ( $dir =~ /^(CVS|\.svn|\.git|.*\.swp|.*\.xml~|.directory)$/ ) {
         rmtree($_)
             || croak(
             maketext(

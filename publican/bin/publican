@@ -157,8 +157,10 @@ my %options = (
     'brand_dir=s'  => maketext(q|Directory to source brand files from.|),
     'sort_order=s' => maketext('Order to sort a book'),
     'pdftool=s'    => maketext(
-        'Override the tool to use when creating PDFs. Valid options are wkhtmltopdf and fop.'),
-    'pub_dir=s'    => maketext(q|Directory to publish files to. Defaults to publish.|)
+        'Override the tool to use when creating PDFs. Valid options are wkhtmltopdf and fop.'
+    ),
+    'pub_dir=s' =>
+        maketext(q|Directory to publish files to. Defaults to publish.|)
 );
 
 # Options all actions use
@@ -177,12 +179,13 @@ my %actions = (
         ),
         'options' => [
             'formats',         'langs',   'publish', 'embedtoc',
-            'distributed_set', 'novalid', 'src_dir', 'pdftool', 'pub_dir'
+            'distributed_set', 'novalid', 'src_dir', 'pdftool',
+            'pub_dir'
         ],
     },
     'clean' => {
         'brief'   => maketext('Remove all temporary files and directories'),
-        'options' => [ 'pub_dir' ],
+        'options' => ['pub_dir'],
     },
 
     'clean_set' => {
@@ -303,6 +306,11 @@ my %actions = (
         'brief' => maketext(
             'Migrate a website DataBase from Publican < 3 to Publican 3.'),
         'options' => ['site_config'],
+    },
+    'trans_drop' => {
+        'brief' =>
+            maketext('Snapshot the source language for use in translation.'),
+        'options' => [],
     },
 );
 
@@ -711,7 +719,7 @@ if ( defined( $opts{src_dir} ) ) {
 }
 
 if ( !defined( $opts{pub_dir} ) ) {
-   $opts{pub_dir} = 'publish';
+    $opts{pub_dir} = 'publish';
 }
 
 my $publican = Publican->new(
@@ -806,9 +814,9 @@ if ( $action eq 'install_brand' ) {
         }
     }
     else {
-        rcopy( "$opts{pub_dir}/*",    "$opts{path}/." )        || croak($!);
-        rcopy( "publican.cfg", "$opts{path}/$brand/." ) || croak($!);
-        rcopy( "defaults.cfg", "$opts{path}/$brand/." ) || croak($!)
+        rcopy( "$opts{pub_dir}/*", "$opts{path}/." )        || croak($!);
+        rcopy( "publican.cfg",     "$opts{path}/$brand/." ) || croak($!);
+        rcopy( "defaults.cfg",     "$opts{path}/$brand/." ) || croak($!)
             if ( -f "defaults.cfg" );
         rcopy( "overrides.cfg", "$opts{path}/$brand/." ) || croak($!)
             if ( -f "overrides.cfg" );
@@ -860,7 +868,7 @@ if ( $action eq 'clean' || $action eq 'package' ) {
     my $error;
 
     rmtree( $publican->param('tmp_dir') );
-    rmtree($opts{pub_dir});
+    rmtree( $opts{pub_dir} );
 
     my $books = $publican->param('books') || "";
     foreach my $book ( split( " ", $books ) ) {
@@ -879,6 +887,11 @@ if ( $action eq 'clean_set' ) {
 if ( $action eq 'clean_ids' ) {
     my $builder = Publican::Builder->new();
     $builder->clean_ids();
+}
+
+if ( $action eq 'trans_drop' ) {
+    my $translater = Publican::Translate->new();
+    $translater->trans_drop();
 }
 
 if ( $action eq 'update_pot' ) {
@@ -1024,8 +1037,12 @@ if ( $action eq 'install_book' ) {
         my $subtitle = $publican->get_subtitle( { lang => $lang } );
         my $abstract = $publican->get_abstract( { lang => $lang } );
 
-        croak( maketext( "can't find publish directory '[_1]/[_2]'", $opts{pub_dir}, $lang ) )
-            unless ( -d "$opts{pub_dir}/$lang" );
+        croak(
+            maketext(
+                "can't find publish directory '[_1]/[_2]'", $opts{pub_dir},
+                $lang
+            )
+        ) unless ( -d "$opts{pub_dir}/$lang" );
 
         my $type     = $publican->param('type');
         my $xml_lang = $publican->param('xml_lang');
@@ -1078,7 +1095,8 @@ if ( $action eq 'install_book' ) {
 
         mkpath( $ws->toc_path() . "/$lang" )
             unless ( -d $ws->toc_path() . "/$lang" );
-        rcopy( "$opts{pub_dir}/$lang/*", $ws->toc_path() . "/$lang/." ) || croak($!);
+        rcopy( "$opts{pub_dir}/$lang/*", $ws->toc_path() . "/$lang/." )
+            || croak($!);
 
 ##        my @formats = split( /,/, $publican->param('web_formats') );
 ##        foreach my $format (@formats) {

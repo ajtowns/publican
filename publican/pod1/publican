@@ -43,6 +43,7 @@ Valid actions are:
     remove_book   Remove a book from a WebSite.
     rename        Rename a publican book
     site_stats    Report on the contents of a WebSite
+    trans_drop    Snapshot the source language for use in translation.
     update_db     Add or remove database entries. Used for processing pre-build books, such as when building packages.
     update_po     Update the PO files
     update_pot    Update the POT files
@@ -389,6 +390,19 @@ site_stats
         --quiet                   Disable all logging.
         --brand_dir=s             Directory to source brand files from.
         --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+
+
+trans_drop
+    Snapshot the source language for use in translation.
+
+	Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --brand_dir=s             Directory to source brand files from.
 
 
 update_db
