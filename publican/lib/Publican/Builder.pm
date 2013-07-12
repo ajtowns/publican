@@ -448,6 +448,8 @@ sub setup_xml {
         );
     }
 
+    my $extras = $self->{publican}->param('extras_dir');
+
     foreach my $lang ( split( /,/, $langs ) ) {
         logger( maketext( "Setting up [_1]", $lang ) . "\n" );
 
@@ -759,10 +761,10 @@ sub setup_xml {
             $ent_file = "$lang/$main_file.ent";
             rcopy( $ent_file, "$tmp_dir/$lang/xml/." ) if ( -e $ent_file );
 
-            dircopy( "$xml_lang/extras", "$tmp_dir/$lang/xml/extras" )
-                if ( -d "$xml_lang/extras" );
-            dircopy( "$lang/extras", "$tmp_dir/$lang/xml/extras" )
-                if ( -d "$lang/extras" );
+            dircopy( "$xml_lang/$extras", "$tmp_dir/$lang/xml/$extras" )
+                if ( -d "$xml_lang/$extras" );
+            dircopy( "$lang/$extras", "$tmp_dir/$lang/xml/$extras" )
+                if ( -d "$lang/$extras" );
 
             my @com_xml_files
                 = dir_list( "$tmp_dir/$lang/xml/Common_Content", '*.xml' );
@@ -795,7 +797,7 @@ sub setup_xml {
         }
         else {
             foreach my $xml_file ( sort(@xml_files) ) {
-                next if ( $xml_file =~ m{/extras/} );
+                next if ( $xml_file =~ m{/$extras/} );
                 my $out_file = $xml_file;
                 $out_file =~ s/xml_tmp/xml/;
 
@@ -2237,9 +2239,10 @@ sub clean_ids {
 
     my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
+    my $extras = $self->{publican}->param('extras_dir');
 
     foreach my $xml_file ( sort(@xml_files) ) {
-        next if ( $xml_file =~ m{/extras/} );
+        next if ( $xml_file =~ m{/$extras/} );
         $cleaner->process_file(
             { file => $xml_file, out_file => $xml_file } );
     }

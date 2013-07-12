@@ -231,6 +231,10 @@ my %PARAMS = (
             'Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION
         ),
     },
+    extras_dir => {
+        descr   => maketext('Directory where images are located.'),
+        default => 'extras',
+    },
     generate_section_toc_level => {
         descr => maketext(
             'Generate table of contents down to the given section depth.'),
@@ -248,11 +252,11 @@ my %PARAMS = (
         default => 'images',
     },
     info_file => { descr => maketext('Override the default Info file.'), },
-    lang => {
+    lang      => {
         descr => maketext('lang to filter output on.'),
 
     },
-    license   => {
+    license => {
         descr   => maketext('License this package uses.'),
         default => 'GFDL',
 
@@ -999,10 +1003,14 @@ sub dir_list {
     }
 
     $rule->start($dir);
+
+    my $extras = $SINGLETON->param('extras_dir');
+    my $images = $SINGLETON->param('img_dir');
+
     while ( my $file = $rule->match ) {
         push( @filelist, $file )
             unless ( $clean_images
-            and $file =~ m{(/extras/|/icons/|images/icon.svg)} );
+            and $file =~ m{(/$extras/|/icons/|$images/icon.svg)} );
     }
 
     return @filelist;
