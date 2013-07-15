@@ -258,6 +258,7 @@ my %MAP_OUT = (
     subject       => { block => 1 },
     subjectterm   => { newline_after => 1 },
     superscript   => {},
+    '~cdata'      => { verbatim => 1 },
 );
 
 =head2 new
@@ -503,10 +504,10 @@ sub print_xml {
             { xml_doc => $xml_doc, path => ( $1 || './' ) } );
 ## BUGBUG revert to upstream as_XML?
 ##        my $text = $xml_doc->as_XML();
-        $text =~ s/&#34;/"/g;
-        $text =~ s/&#39;/'/g;
-        $text =~ s/&quot;/"/g;
-        $text =~ s/&apos;/'/g;
+        #        $text =~ s/&#34;/"/g;
+        #        $text =~ s/&#39;/'/g;
+        #        $text =~ s/&quot;/"/g;
+        #        $text =~ s/&apos;/'/g;
 
         $xml_doc->root()->delete();
 
@@ -612,6 +613,8 @@ sub my_as_XML {
 
                 $tag = $node->{'_tag'};
 
+                #print(STDERR "tag: $tag\n");
+
                 if ($start) {      # on the way in
                     if ( $banned_tags{$tag} ) {
                         croak(
@@ -648,7 +651,7 @@ sub my_as_XML {
                         push( @xml, "\n", $indent x $depth );
                     }
 
-                    if ( $MAP_OUT{$tag}->{verbatim} ) {
+                    if ( $MAP_OUT{$tag}->{verbatim} && $tag ne '~cdata' ) {
                         push( @xml, "\n" );
                     }
                     elsif ( $MAP_OUT{$tag}->{block} ) {
@@ -707,7 +710,10 @@ sub my_as_XML {
                         }
                     }
 
-                    if ( $empty_element_map->{$tag}
+                    if ( $tag eq '~cdata' ) {
+                        push( @xml, '<![CDATA[' );
+                    }
+                    elsif ( $empty_element_map->{$tag}
                         and !@{ $node->content_array_ref() } )
                     {
                         push( @xml, $node->starttag_XML( undef, 1 ) );
@@ -787,7 +793,12 @@ sub my_as_XML {
                     unless ( $empty_element_map->{$tag}
                         and !@{ $node->content_array_ref() } )
                     {
-                        push( @xml, $node->endtag_XML() );
+                        if ( $tag eq '~cdata' ) {
+                            push( @xml, qq|]]>\n| );
+                        }
+                        else {
+                            push( @xml, $node->endtag_XML() );
+                        }
                     }    # otherwise it will have been an <... /> tag.
 
                     if (( $MAP_OUT{$tag}->{newline_after} )
@@ -833,23 +844,28 @@ sub my_as_XML {
                         }
 
                         $tree->_xml_escape($node);
-
-                        # zero width space to allow Chinese to wrap
-##                        if ( $lang
-##                            && ( $lang eq 'zh-CN' || $lang eq 'zh-TW' ) )
-##                        {
-##                            $node =~ s/([\x{2000}-\x{AFFF}])/$1\&\#x200B\;/g;
-##                        }
+                        $node =~ s/&#34;/"/g;
+                        $node =~ s/&#39;/'/g;
+                        $node =~ s/&quot;/"/g;
+                        $node =~ s/&apos;/'/g;
 
                         push( @xml, $node );
                     }
                 }
                 else {    # Verbatim
-                    $tree->_xml_escape($node);
+                    if ( $parent->{'_tag'} ne '~cdata' ) {
+                        $tree->_xml_escape($node);
+                        $node =~ s/&#34;/"/g;
+                        $node =~ s/&#39;/'/g;
+                        $node =~ s/&quot;/"/g;
+                        $node =~ s/&apos;/'/g;
+
+                    }
+
                     push( @xml, $node );
                 }
             }
-            1;            # keep traversing
+            1;    # keep traversing
         }
     );
 
@@ -979,6 +995,7 @@ sub process_file {
         { 'NoExpand' => "1", 'ErrorContext' => "2" } );
     $xml_doc->store_comments(1);
     $xml_doc->store_pis(1);
+    $xml_doc->store_cdata(1);
 ##debug_msg("here 1");
 
     $xml_doc->parse_file($file)
