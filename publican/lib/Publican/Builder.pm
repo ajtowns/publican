@@ -366,23 +366,8 @@ sub build {
                             "$path/." );
                     }
                     else {
-## TODO BUGBUG BZ #648126
-# for some reason the UTF8 file name is getting munged dep inside rcopy
-# works from from the command line though O_O
-# perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
-#
-## Work around BZ #648126 ... gonna need to do an UTF8 audit maybe ...
-##  Check, UTF8 file names, UTF8 output from XmlClean, Translate, WebSite.
-## however the work around blows up on Windows :(
-                        if ( $^O eq 'MSWin32' ) {
-                            rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
-                                if ( -d "$tmp_dir/$lang/$format" );
-                        }
-                        else {
-                            system(
-                                qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|
-                            ) if ( -d "$tmp_dir/$lang/$format" );
-                        }
+                        rcopy( encode_utf8("$tmp_dir/$lang/$format/*"), encode_utf8("$path/.") )
+                            if ( -d "$tmp_dir/$lang/$format" );
 
              # for splash pages, we need to rename them if using a web style 2
                         if ($self->{publican}->param('web_type')
@@ -1790,8 +1775,8 @@ sub transform {
     else {
         my $images = $self->{publican}->param('img_dir');
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/$images",
-            "$tmp_dir/$lang/$format/$images" );
+        dircopy( encode_utf8("$tmp_dir/$lang/xml/$images"),
+            encode_utf8("$tmp_dir/$lang/$format/$images") );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"
