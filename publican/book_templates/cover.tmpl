@@ -14,7 +14,9 @@
 		<div class="version">[%- version -%]</div>
 	</div>
 	<div class="docname">[%- docname -%]</div>
-	<div class="subtitle">[%- subtitle -%]</div>
+	<div class="subtitle">[%- subtitle -%]
+	[% IF edition -%]<div class="edition">[%- edition -%]</div>[%- END %]
+	</div>
 	<div class="authors">
 	[%- FOREACH author = authors %]
 		<div class="author">[%- author -%]</div>
@@ -26,7 +28,9 @@
 	<div class="title">
 		<span class="product">[%- product -%]</span> <span class="version">[%- version -%]</span> <span class="docname">[%- docname -%]</span>
 	</div>
-	<div class="subtitle">[%- subtitle -%]</div>
+	<div class="subtitle">[%- subtitle -%]
+	[% IF edition -%]<div class="edition">[%- edition -%]</div>[%- END %]
+	</div>
 	<div class="authors">
 	[%- FOREACH contributor = contributors.author %]
 		<div class="contributor">
@@ -118,3 +122,4 @@
 </body>
 
 </html>
+

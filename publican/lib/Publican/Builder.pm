@@ -366,7 +366,8 @@ sub build {
                             "$path/." );
                     }
                     else {
-                        rcopy( encode_utf8("$tmp_dir/$lang/$format/*"), encode_utf8("$path/.") )
+                        rcopy( encode_utf8("$tmp_dir/$lang/$format/*"),
+                            encode_utf8("$path/.") )
                             if ( -d "$tmp_dir/$lang/$format" );
 
              # for splash pages, we need to rename them if using a web style 2
@@ -1169,8 +1170,10 @@ sub transform {
             $footer
         );
 
-        if($self->{publican}->param('wkhtmltopdf_opts')) {
-            push(@wkhtmltopdf_args, split(/\s+/, $self->{publican}->param('wkhtmltopdf_opts')));
+        if ( $self->{publican}->param('wkhtmltopdf_opts') ) {
+            push( @wkhtmltopdf_args,
+                split( /\s+/, $self->{publican}->param('wkhtmltopdf_opts') )
+            );
         }
 
         my $tmpl_path = "$common_config/book_templates";
@@ -1229,12 +1232,17 @@ sub transform {
                 ->look_down( "_tag", "imagedata" )->attr('fileref');
         };
 
+        my $edition = eval {
+            $xml_doc->root()->look_down( "_tag", "edition" )->as_text();
+        };
+
         my $vars = {
-            draft       => $draft,
-            product     => decode_utf8($prod),
-            docname     => decode_utf8($name),
-            version     => decode_utf8($ver),
-            edition     => decode_utf8( $self->{publican}->param('edition') ),
+            draft   => $draft,
+            product => decode_utf8($prod),
+            docname => decode_utf8($name),
+            version => decode_utf8($ver),
+            edition =>
+                decode_utf8( $locale->maketext( 'Edition [_1]', $edition ) ),
             release     => decode_utf8( $self->{publican}->param('release') ),
             subtitle    => decode_utf8($subtitle),
             authors     => \@authors,
@@ -1766,8 +1774,10 @@ sub transform {
     else {
         my $images = $self->{publican}->param('img_dir');
         $dir = undef;
-        dircopy( encode_utf8("$tmp_dir/$lang/xml/$images"),
-            encode_utf8("$tmp_dir/$lang/$format/$images") );
+        dircopy(
+            encode_utf8("$tmp_dir/$lang/xml/$images"),
+            encode_utf8("$tmp_dir/$lang/$format/$images")
+        );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"
