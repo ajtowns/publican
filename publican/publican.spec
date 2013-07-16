@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.1.5
-Release:        0%{?dist}.t44
+Release:        0%{?dist}.t48
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -128,7 +128,7 @@ BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 %endif
 %if %{OTHER}
-Requir974353es:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
+Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 Requires:       lklug-fonts baekmuk-ttf-batang-fonts overpass-fonts
 

@@ -452,6 +452,11 @@ my %PARAMS = (
         ),
         limit_to => 'brand',
     },
+    wkhtmltopdf_opts => {
+        descr => maketext(
+            'Extra options to pass to wkhtmltopdf. e.g. wkhtmltopdf_opts: "-O landscape -s A3"'
+        ),
+    },
     wordsize => {
         descr => maketext('wordsize to filter output on.'),
 

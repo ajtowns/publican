@@ -1169,6 +1169,10 @@ sub transform {
             $footer
         );
 
+        if($self->{publican}->param('wkhtmltopdf_opts')) {
+            push(@wkhtmltopdf_args, split(/\s+/, $self->{publican}->param('wkhtmltopdf_opts')));
+        }
+
         my $tmpl_path = "$common_config/book_templates";
         $tmpl_path = "$brand_path/book_templates:$tmpl_path"
             if ( -d "$brand_path/book_templates" );
@@ -1257,24 +1261,11 @@ sub transform {
         push( @wkhtmltopdf_args,
             'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
 
-        #        $template->process(
-        #            'titlepage.tmpl', $vars,
-        #            "$tmp_dir/$lang/html-pdf/titlepage.html",
-        #            binmode => ':encoding(UTF-8)'
-        #        ) or croak( $template->error() );
-
-        #        push( @wkhtmltopdf_args,
-        #            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
-
         my $toc_xsl = "$tmp_dir/$lang/html-pdf/toc.xsl";
 
         $template->process( 'toc-xsl.tmpl', $vars, $toc_xsl,
             binmode => ':encoding(UTF-8)' )
             or croak( $template->error() );
-
-##        my $toc_xsl = "$common_config/book_templates/toc.xsl";
-##        $toc_xsl = "$brand_path/book_templates/toc.xsl"
-##            if ( -f "$brand_path/book_templates/toc.xsl" );
 
         push(
             @wkhtmltopdf_args,

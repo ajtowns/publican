@@ -23,29 +23,29 @@ msgstr ""
 "\n"
 "Žádné nepoužité soubory XML"
 
-#: bin/publican:595
+#: bin/publican:599
 msgid "$ cd path/to/brand"
 msgstr "$ cd cesta/k/vizualnimu/stylu(brand)"
 
-#: bin/publican:596
+#: bin/publican:600
 msgid "$ publican build --formats=xml --langs=all --publish"
 msgstr "$ publican build --formats=xml --langs=all --publish"
 
-#: bin/publican:601
+#: bin/publican:605
 msgid "$ publican install_brand --web --path=/path/to/site/%{brand}"
 msgstr "$ publican install_brand --web --path=/cesta/k/webu/%{brand}"
 
-#: bin/publican:605
+#: bin/publican:609
 msgid "$ publican update_site --site_config /path/to/site/config"
 msgstr "$ publican update_site --site_config /cesta/ke/konfiguracnimu/souboru/webu"
 
 #. ($rpmbuild,WTERMSIG($?))
-#: lib/Publican/Builder.pm:2974
+#: lib/Publican/Builder.pm:2950
 msgid "%1 died with signal %2"
 msgstr "Proces %1 byl ukončen se signálem %2"
 
 #. ($rpmbuild,WEXITSTATUS($?))
-#: lib/Publican/Builder.pm:2979
+#: lib/Publican/Builder.pm:2955
 msgid "%1 exited with value %2"
 msgstr "Proces %1 skončil s hodnotou %2"
 
@@ -71,10 +71,10 @@ msgstr "Pole %1 je v konfiguračním souboru webu povinné. Zkontrolujte validit
 #. ('subtitle')
 #. ('abstract')
 #. ('path')
-#: bin/publican:1025 bin/publican:1122 bin/publican:444 bin/publican:529
-#: bin/publican:531 bin/publican:533 bin/publican:634 bin/publican:636
-#: bin/publican:641 bin/publican:644 bin/publican:646 bin/publican:653
-#: bin/publican:655 bin/publican:764
+#: bin/publican:1028 bin/publican:1130 bin/publican:448 bin/publican:533
+#: bin/publican:535 bin/publican:537 bin/publican:638 bin/publican:640
+#: bin/publican:645 bin/publican:648 bin/publican:650 bin/publican:657
+#: bin/publican:659 bin/publican:768
 msgid "%1 is a required argument"
 msgstr "%1 je povinný argument"
 
@@ -83,51 +83,51 @@ msgstr "%1 je povinný argument"
 #. ('surname')
 #. ('email')
 #. ('lang')
-#: lib/Publican.pm:1721 lib/Publican.pm:1727 lib/Publican.pm:1731
-#: lib/Publican.pm:1734 lib/Publican.pm:1737
+#: lib/Publican.pm:1726 lib/Publican.pm:1732 lib/Publican.pm:1736
+#: lib/Publican.pm:1739 lib/Publican.pm:1742
 msgid "%1 is a required option for add_revision"
 msgstr "%1 je povinná volba pro add_revision"
 
 #. ($action)
-#: bin/publican:436
+#: bin/publican:440
 msgid "'%1' is an unknown action!"
 msgstr "'%1' je neznámá akce!"
 
 #. ($language)
-#: lib/Publican/Builder.pm:2442
+#: lib/Publican/Builder.pm:2418
 msgid "'%1' is not a valid language for highlighting. Language names are case sensitive."
 msgstr "'%1' není platným jazykem pro zvýraznění. U názvů jazyků se rozlišují velká a malá písmena."
 
-#: lib/Publican/Builder.pm:2526 lib/Publican/Builder.pm:2541
+#: lib/Publican/Builder.pm:2502 lib/Publican/Builder.pm:2517
 msgid "'area' requires a 'coords' attribute."
 msgstr "'area' vyžaduje vlastnost 'coords'."
 
-#: lib/Publican/Builder.pm:3539 lib/Publican/Builder.pm:3591
+#: lib/Publican/Builder.pm:3515 lib/Publican/Builder.pm:3567
 msgid "'books' is a required configuration parameter for a remote set"
 msgstr "'books' je povinný konfigurační parametr pro vzdálený set"
 
-#: lib/Publican/Translate.pm:1121
+#: lib/Publican/Translate.pm:1130
 msgid "'lang' is a mandatory argument"
 msgstr "'lang' je povinný argument"
 
-#: lib/Publican.pm:1847
+#: lib/Publican.pm:1852
 msgid "'lang' is a required option for get_ed_rev"
 msgstr "'lang' je povinná volba pro get_ed_rev"
 
-#: lib/Publican/XmlClean.pm:561
+#: lib/Publican/XmlClean.pm:562
 msgid "'path' is a mandatory argument"
 msgstr "'path' je povinný argument"
 
-#: lib/Publican/Builder.pm:3545
+#: lib/Publican/Builder.pm:3521
 msgid "'repo' is a required configuration parameter for a remote set"
 msgstr "'repo' je povinný konfigurační parametr pro vzdálený set"
 
-#: lib/Publican/XmlClean.pm:559
+#: lib/Publican/XmlClean.pm:560
 msgid "'xml_doc' is a mandatory argument"
 msgstr "'xml_doc' je povinný argument"
 
 #. ($title,$cols,@entries)
-#: lib/Publican/XmlClean.pm:903
+#: lib/Publican/XmlClean.pm:919
 msgid ""
 "*ERROR: Fatal Table Error* Table (%1) contains invalid data\n"
 "Attribute cols (%2) does not match number of entry elements (%3)"
@@ -136,7 +136,7 @@ msgstr ""
 "Vlastnost cols (%2) neodpovídá počtu vstupních prvků (%3)"
 
 #. ($title)
-#: lib/Publican/XmlClean.pm:895
+#: lib/Publican/XmlClean.pm:911
 msgid ""
 "*ERROR: Fatal Table Error* Table (%1) contains invalid data\n"
 "Attribute cols is mandatory for tgroup"
@@ -172,7 +172,7 @@ msgstr "Krátký přehled a shrnutí předmětu a účelu knihy, obvykle jeden o
 msgid "A space-separated list of books used in this remote set."
 msgstr "Čárkou oddělený seznam knih, které se použijí v této vzdálené sadě."
 
-#: lib/Publican/Builder.pm:1259
+#: lib/Publican/Builder.pm:1248
 msgid "Abstract"
 msgstr "Abstrakt"
 
@@ -180,7 +180,7 @@ msgstr "Abstrakt"
 msgid "Abstract for a book"
 msgstr "Abstrakt knihy"
 
-#: bin/publican:424
+#: bin/publican:428
 msgid "Action required!"
 msgstr "Vyžaduje se akce!"
 
@@ -188,11 +188,11 @@ msgstr "Vyžaduje se akce!"
 msgid "Add a database entry"
 msgstr "Přidejte záznam do databáze"
 
-#: bin/publican:292
+#: bin/publican:295
 msgid "Add an entry to the revision history"
 msgstr "Přidejte záznam do přehledu změn"
 
-#: bin/publican:279
+#: bin/publican:282
 msgid "Add or remove database entries. Used for processing pre-build books, such as when building packages."
 msgstr "Přidejte nebo odstraňte záznamy databáze. Užito pro zpracování předsestavených (pre-build) knih, jako např. při sestavování balíčků."
 
@@ -209,19 +209,19 @@ msgstr "Záznam, který se přidá do přehledu změn. Lze ho uvést vícekrát.
 msgid "Arch to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
-#: lib/Publican.pm:1255
+#: lib/Publican.pm:1260
 msgid "Author’s firstname not found in Author_Group.xml as expected."
 msgstr ""
 
-#: lib/Publican.pm:1264
+#: lib/Publican.pm:1269
 msgid "Author’s surname not found in Author_Group.xml as expected."
 msgstr ""
 
-#: lib/Publican.pm:1700
+#: lib/Publican.pm:1705
 msgid "Banned attributes:"
 msgstr "Nepovolené atributy"
 
-#: lib/Publican.pm:1693
+#: lib/Publican.pm:1698
 msgid "Banned tags:"
 msgstr "Nepovolené tagy:"
 
@@ -235,7 +235,7 @@ msgid "Books"
 msgstr "Knihy"
 
 #. ($brand)
-#: lib/Publican/Builder.pm:751
+#: lib/Publican/Builder.pm:736
 msgid "Brand '%1' had no content to copy."
 msgstr "Vizuální styl '%1' nemá obsah, který lze zkopírovat."
 
@@ -248,17 +248,17 @@ msgid "Build binary rpm when running package"
 msgstr "Sestav binární rpm při spuštění balíčku."
 
 #. ($spec,$rpmbuild,$dir)
-#: lib/Publican/Builder.pm:2943
+#: lib/Publican/Builder.pm:2919
 msgid "Building rpms from %1 using %2 in %3"
 msgstr "Sestav soubory rpm ze specifikace %1 použitím %2 v adresáři %3"
 
 #. ($lang)
-#: lib/Publican/Builder.pm:896
+#: lib/Publican/Builder.pm:881
 msgid "Bypassing test for language: %1"
 msgstr "Vynechání testu pro jazyk: %1"
 
 #. ($lang)
-#: lib/Publican/Builder.pm:495
+#: lib/Publican/Builder.pm:480
 msgid "Bypassing translation for %1"
 msgstr "Vynechání překladu pro jazyk %1"
 
@@ -279,13 +279,13 @@ msgstr "Nelze vytvořit adresář: %1"
 #. ($info_file)
 #. ($rev_file)
 #. ($xml_file)
-#: bin/publican:1051 lib/Publican.pm:1854 lib/Publican.pm:633
-#: lib/Publican/Builder.pm:1233 lib/Publican/Builder.pm:3054
-#: lib/Publican/Builder.pm:3335
+#: bin/publican:1058 lib/Publican.pm:1859 lib/Publican.pm:638
+#: lib/Publican/Builder.pm:1222 lib/Publican/Builder.pm:3030
+#: lib/Publican/Builder.pm:3311
 msgid "Can't locate required file: %1"
 msgstr "Nelze nalézt vyžadovaný soubor: %1"
 
-#: bin/publican:1009
+#: bin/publican:1012
 msgid "Can't locate srpm, packaging aborted"
 msgstr "Nelze nalézt srpm, balíčkování zrušeno."
 
@@ -295,25 +295,25 @@ msgid "Can't open ad file: %1"
 msgstr "Nelze otevřít reklamní soubor: %1"
 
 #. ($@)
-#: lib/Publican.pm:1031
+#: lib/Publican.pm:1036
 msgid "Can't open directory: %1"
 msgstr "Nelze otevřít adresář: %1"
 
 #. ($xml_file,$@)
-#: lib/Publican/Translate.pm:139 lib/Publican/Translate.pm:188
+#: lib/Publican/Translate.pm:139 lib/Publican/Translate.pm:197
 msgid "Can't open file %1. Error: %2"
 msgstr "Nelze otevřít soubor %1. Chyba: %2"
 
 #. ($file,$@)
-#: bin/fix-zanata-map:69 bin/publican:1180 lib/Publican/XmlClean.pm:985
+#: bin/fix-zanata-map:69 bin/publican:1188 lib/Publican/XmlClean.pm:1002
 msgid "Can't open file '%1' %2"
 msgstr "Nelze otevřít soubor '%1' %2"
 
-#: lib/Publican/Builder.pm:1122
+#: lib/Publican/Builder.pm:1107
 msgid "Can't open file for html input!"
 msgstr "Nelze otevřít soubor pro vstup html!"
 
-#: lib/Publican/Builder.pm:1118
+#: lib/Publican/Builder.pm:1103
 msgid "Can't open file for text output!"
 msgstr "Nelze otevřít soubor pro textový výstup!"
 
@@ -324,12 +324,12 @@ msgstr "Nelze otevřít soubor pro textový výstup!"
 msgid "Can't open file: %1: %2"
 msgstr "Nelze otevřít soubor: %1: %2"
 
-#: lib/Publican/Builder.pm:1708
+#: lib/Publican/Builder.pm:1684
 msgid "Can't open mimetype file: "
 msgstr "Nelze otevřít soubor s mime typy:"
 
 #. ($@)
-#: lib/Publican/Builder.pm:2893 lib/Publican/Builder.pm:3288
+#: lib/Publican/Builder.pm:2869 lib/Publican/Builder.pm:3264
 msgid "Can't open spec file: %1"
 msgstr "Nelze otevřít soubor specifikace: %1"
 
@@ -349,19 +349,19 @@ msgid "Can't write to overrides.cfg: %1"
 msgstr "Nelze zapisovat do overrides.cfg: %1"
 
 #. ("$main_file.xml")
-#: lib/Publican/Builder.pm:923
+#: lib/Publican/Builder.pm:908
 msgid "Cannot locate main XML file: '%1'"
 msgstr "Nelze nalézt hlavní soubor XML: '%1'"
 
-#: bin/publican:1204
+#: bin/publican:1212
 msgid "Cannot locate productname tag in Info file!"
 msgstr "Nelze nalézt tag productname v souboru Info! "
 
-#: bin/publican:1213
+#: bin/publican:1221
 msgid "Cannot locate productnumber tag in Info file!"
 msgstr "Nelze nalézt tag productnumber v souboru Info!"
 
-#: bin/publican:1195
+#: bin/publican:1203
 msgid "Cannot locate title tag in Info file!"
 msgstr "Nelze nalézt tag title v souboru Info!"
 
@@ -370,7 +370,7 @@ msgid "Choose the formatter to use when creating txt output."
 msgstr "Vyberte generátor formátu (formatter), které se má použít pro vytvoření výstupu txt."
 
 #. ($publican->param('tmp_dir'))
-#: bin/publican:859
+#: bin/publican:863
 msgid "Clean: Removing %1 and publish directories."
 msgstr "Čištění: Odstraňování (dočasného adresáře) %1 a publikačních adresářů."
 
@@ -394,35 +394,35 @@ msgstr "Čárkou oddělený seznam jazyků, např. en-US,de-DE,all"
 msgid "Conditions on which to prune XML before transformation."
 msgstr "Podmínky, za kterých zredukovat (prune) XML před transformací."
 
-#: bin/publican:540
+#: bin/publican:544
 msgid "Config file exists, you must supply a non-existent filename."
 msgstr "Konfigurační soubor existuje, je nutné zadat neexistující název souboru."
 
 #. ($configfile)
-#: lib/Publican.pm:549
+#: lib/Publican.pm:554
 msgid "Config file not found: %1."
 msgstr "Konfigurační soubor nenalezen: %1"
 
-#: lib/Publican/Builder.pm:3525
+#: lib/Publican/Builder.pm:3501
 msgid "Config parameter 'scm' not found; treating set as standalone."
 msgstr "Konfigurační parametr 'scm' nenalezen: nakládám se sadou samostatně."
 
 #. ($PARAMS{$param}->{constraint})
-#: lib/Publican.pm:966
+#: lib/Publican.pm:971
 msgid "Constraint: %1"
 msgstr "Omezení: %1"
 
-#: lib/Publican.pm:1321
+#: lib/Publican.pm:1326
 msgid "Copy Editor"
 msgstr "Korektor"
 
 #. ($lang)
-#: lib/Publican/Translate.pm:299
+#: lib/Publican/Translate.pm:308
 msgid "Could not create a Publican::Localise object for language: %1"
 msgstr ""
 
 #. ($ent_file)
-#: lib/Publican.pm:1667
+#: lib/Publican.pm:1672
 msgid "Could not open %1 for input!"
 msgstr ""
 
@@ -435,12 +435,12 @@ msgstr ""
 #. ($xml_file)
 #. ($out_file,$@)
 #. ($file)
-#: bin/fix-zanata-map:75 lib/Publican.pm:1814 lib/Publican/Builder.pm:1632
-#: lib/Publican/Builder.pm:1648 lib/Publican/Builder.pm:1697
-#: lib/Publican/Builder.pm:600 lib/Publican/Builder.pm:652
-#: lib/Publican/CreateBook.pm:405 lib/Publican/Translate.pm:236
-#: lib/Publican/XmlClean.pm:1104 lib/Publican/XmlClean.pm:1173
-#: lib/Publican/XmlClean.pm:516
+#: bin/fix-zanata-map:75 lib/Publican.pm:1819 lib/Publican/Builder.pm:1608
+#: lib/Publican/Builder.pm:1624 lib/Publican/Builder.pm:1673
+#: lib/Publican/Builder.pm:585 lib/Publican/Builder.pm:637
+#: lib/Publican/CreateBook.pm:405 lib/Publican/Translate.pm:245
+#: lib/Publican/XmlClean.pm:1121 lib/Publican/XmlClean.pm:1190
+#: lib/Publican/XmlClean.pm:517
 msgid "Could not open %1 for output!"
 msgstr "Nelze otevřít soubor %1 pro výstup!"
 
@@ -487,15 +487,15 @@ msgstr "Nelze otevřít soubor s ikonou. %1"
 msgid "Could not open search file for output: %1"
 msgstr "Nelze otevřít vyhledávací (search) soubor pro výstup: %1"
 
-#: bin/publican:257
+#: bin/publican:260
 msgid "Create a new WebSite in the supplied location."
 msgstr "Vytvořit nový web v zadaném umístění."
 
-#: bin/publican:218
+#: bin/publican:221
 msgid "Create a new book, set, or article"
 msgstr "Vytvořit novou knihu, sadu nebo článek"
 
-#: bin/publican:225
+#: bin/publican:228
 msgid "Create a new brand"
 msgstr "Vytvořit nový vizuální styl (brand)"
 
@@ -507,7 +507,7 @@ msgstr "Namísto webového vytvořit balíček pro desktop"
 msgid "Create package without using version in package name"
 msgstr "Vytvořit balíček bez uvedení verze v názvu"
 
-#: lib/Publican/Builder.pm:989
+#: lib/Publican/Builder.pm:974
 msgid "DTD Validation failed: "
 msgstr "Validace DTD selhala:"
 
@@ -516,7 +516,7 @@ msgid "Date to use for a revision."
 msgstr "Datum změny (revize)."
 
 #. ($PARAMS{$param}->{default})
-#: lib/Publican.pm:962
+#: lib/Publican.pm:967
 msgid "Default: %1"
 msgstr "Výchozí: %1"
 
@@ -528,11 +528,11 @@ msgstr "Smazat databázový záznam"
 msgid "Depth of sections to include in the main table of contents."
 msgstr "Hloubka (od)dílů, které budou uvedeny v obsahu."
 
-#: lib/Publican.pm:1274
+#: lib/Publican.pm:1279
 msgid "Did not find any authors in Author_Group.xml"
 msgstr ""
 
-#: bin/publican:161
+#: bin/publican:163
 #, fuzzy
 msgid "Directory to publish files to. Defaults to publish."
 msgstr "Adresář, který je zdroj pro soubory publican."
@@ -573,7 +573,7 @@ msgstr "Zobrazit celou stránku man"
 msgid "Display help message"
 msgstr "Zobrazit zprávu nápovědy"
 
-#: bin/publican:248
+#: bin/publican:251
 msgid "Display help text for the configuration file"
 msgstr "Zobrazit text nápovědy pro konfigurační soubor"
 
@@ -603,21 +603,21 @@ msgid "Document Language"
 msgstr "Jazyky celkem"
 
 #. ($attr)
-#: lib/Publican/XmlClean.pm:630
+#: lib/Publican/XmlClean.pm:633
 msgid "ERROR: Banned attribute (%1) detected. Discuss this with your brands owners if you think this is in error."
 msgstr "CHYBA: Odhalen nepovolený atribut (%1). Prodiskutujte s autory/vlastníky vizuálního stylu, domníváte-li se, že by se nemělo jednat o chybu."
 
 #. ($tag)
-#: lib/Publican/XmlClean.pm:619
+#: lib/Publican/XmlClean.pm:622
 msgid "ERROR: Banned tag (%1) detected. Discuss this with your brands owners if you think this is in error."
 msgstr "CHYBA: Odhalen nepovolený tag (%1). Prodiskutujte s autory/vlastníky vizuálního stylu domníváte-li se, že by se nemělo jednat o chybu."
 
-#: lib/Publican.pm:1226
+#: lib/Publican.pm:1231
 msgid "ERROR: Cannot find Author file Author_Group.xml."
 msgstr ""
 
 #. ($revnumber,q|\d[0-9.]*-\d[0-9.]*|)
-#: lib/Publican/Builder.pm:3483
+#: lib/Publican/Builder.pm:3459
 msgid "ERROR: revnumber '%1' does not match required format %2. e.g. '1-1'.\n"
 msgstr "CHYBA: Pořadové číslo změny (revize) '%1' se neshoduje s vyžadovaným formátem %2, např. '1-1'.\n"
 
@@ -634,7 +634,7 @@ msgstr "Název zásuvného modulu Eclipse. Standardně \"$product $docname\""
 msgid "Eclipse plugin provider. Defaults to \"Publican-%1\""
 msgstr "Poskytovatel zásuvného modulu Eclipse. Standardně \"Publican-%1\""
 
-#: lib/Publican/Builder.pm:1252
+#: lib/Publican/Builder.pm:1241
 msgid "Edited by"
 msgstr "Sestavil"
 
@@ -666,112 +666,116 @@ msgstr "Zde zadejte organizační útvar vaší organizace."
 msgid "Enter your surname here."
 msgstr "Zde zadejte vaše příjmení."
 
+#: lib/Publican.pm:457
+msgid "Extra options to pass to wkhtmltopdf. e.g. wkhtmltopdf_opts: \"-O landscape -s A3\""
+msgstr ""
+
 #. ($@)
-#: bin/db4-2-db5:50 lib/Publican.pm:1517 lib/Publican/Builder.pm:1525
-#: lib/Publican/Builder.pm:320 lib/Publican/Builder.pm:945
+#: bin/db4-2-db5:50 lib/Publican.pm:1522 lib/Publican/Builder.pm:1501
+#: lib/Publican/Builder.pm:320 lib/Publican/Builder.pm:930
 msgid "FATAL ERROR: %1"
 msgstr "KRITICKÁ CHYBA: %1"
 
 #. ($rev_file,$@)
-#: lib/Publican.pm:1860
+#: lib/Publican.pm:1865
 msgid "FATAL ERROR: %1: %2"
 msgstr "KRITICKÁ CHYBA: %1: %2"
 
 #. ($@->domain(),$@->code(),$@->file(),$@->line(),$@->message(),)
-#: bin/db4-2-db5:43 lib/Publican.pm:1507 lib/Publican/Builder.pm:1515
-#: lib/Publican/Builder.pm:308 lib/Publican/Builder.pm:935
+#: bin/db4-2-db5:43 lib/Publican.pm:1512 lib/Publican/Builder.pm:1491
+#: lib/Publican/Builder.pm:308 lib/Publican/Builder.pm:920
 msgid "FATAL ERROR: %1:%2 in %3 on line %4: %5"
 msgstr "KRITICKÁ CHYBA: %1:%2 v souboru %3 na řádku %4: %5"
 
 #. ($attr)
-#: lib/Publican/XmlClean.pm:357
+#: lib/Publican/XmlClean.pm:358
 #, fuzzy
 msgid "FATAL ERROR: profiling would prune root node. Do NOT set attributes to prune on in a root node. Offending attibute: %1"
 msgstr "KTITICKÁ CHYBA: profilování archu by mohlo zredukovat (prune) kořenový uzel (root node). NENASTAVUJTE arch v kořenovém uzlu."
 
-#: lib/Publican/Builder.pm:1590
+#: lib/Publican/Builder.pm:1566
 msgid "FOP error, PDF generation failed. Check log for details."
 msgstr "chyba FOP, generování PDF selhalo. Zkontrolujte protokol pro zjištění podrobností."
 
 #. ($rpmbuild,$!)
-#: lib/Publican/Builder.pm:2969
+#: lib/Publican/Builder.pm:2945
 msgid "Failed to execute %1, error number: %2"
 msgstr "Vykonání %1 selhalo, číslo chyby: %2"
 
 #. ($@)
-#: lib/Publican.pm:1527 lib/Publican.pm:1628 lib/Publican.pm:830
-#: lib/Publican/Builder.pm:1536 lib/Publican/Builder.pm:963
+#: lib/Publican.pm:1532 lib/Publican.pm:1633 lib/Publican.pm:835
+#: lib/Publican/Builder.pm:1512 lib/Publican/Builder.pm:948
 msgid "Failed to load Win32::TieRegistry module. Error: %1"
 msgstr "Načtení modulu Win32::TieRegistry do paměti selhalo. Chyba: %1"
 
-#: lib/Publican.pm:696
+#: lib/Publican.pm:701
 msgid "Failed to load brand defaults.cfg file"
 msgstr "Načtení souboru defaults.cfg vizuálního stylu (brand) selhalo"
 
 #. ("$brand_path/publican.cfg")
-#: lib/Publican.pm:727
+#: lib/Publican.pm:732
 msgid "Failed to load brand file: %1"
 msgstr "Načtení souboru vizuálního stylu selhalo: %1"
 
-#: lib/Publican.pm:716
+#: lib/Publican.pm:721
 msgid "Failed to load brand overrides.cfg file"
 msgstr "Načtení souboru overrides.cfg vizuálního stylu selhalo"
 
 #. ($configfile)
-#: lib/Publican.pm:556
+#: lib/Publican.pm:561
 msgid "Failed to load config file: %1"
 msgstr "Načtení konfiguračního souboru selhalo: %1"
 
 #. ($configfile)
-#: bin/publican:737
+#: bin/publican:741
 msgid "Failed to load user config file: %1"
 msgstr "Selhalo načtení konfiguračního souboru uživatele: %1"
 
 #. ($pot_file,$@)
-#: lib/Publican/Translate.pm:929
+#: lib/Publican/Translate.pm:938
 msgid "Failed to open output file %1. Error: %2"
 msgstr "Otevření výstupního souboru %1 selhalo. Chyba: %2"
 
 #. ($book,$?)
-#: lib/Publican/Builder.pm:3559
+#: lib/Publican/Builder.pm:3535
 msgid "Fatal Error: SVN export failed. Book: %1. Error Number: %2"
 msgstr "Kritická chyba: SVN export selhal. Kniha: %1. Číslo chyby: %2"
 
 #. ($pot_file,$po_file)
-#: lib/Publican/Translate.pm:345
+#: lib/Publican/Translate.pm:354
 msgid "Fatal Error: msgmerge failed to merge updates. POT File: %1. Po File: %2"
 msgstr "Kritická chyba: sloučení aktulizací programem msgmerge selhalo. POT soubor: %1. Po soubor: %2"
 
 #. ($book,$?)
-#: lib/Publican/Builder.pm:3622
+#: lib/Publican/Builder.pm:3598
 msgid "Fatal error: Book failed to build! Book: %1. Error Number: %2"
 msgstr "Kritická chyba: Selhalo sestavení knihy! Kniha: %1. Číslo chyby: %2"
 
 #. ($book,$?)
-#: lib/Publican/Builder.pm:3606
+#: lib/Publican/Builder.pm:3582
 msgid "Fatal error: Book failed to run clean_ids! Book: %1. Error Number: %2"
 msgstr "Kritická chyba: Selhalo spuštění clean_ids knihy! Kniha: %1. Číslo chyby: %2"
 
 #. ($book)
-#: lib/Publican/Builder.pm:3551
+#: lib/Publican/Builder.pm:3527
 msgid "Fetching %1 from scm"
 msgstr "Získávám %1 z scm"
 
-#: lib/Publican/Translate.pm:1144
+#: lib/Publican/Translate.pm:1153
 msgid "File Name"
 msgstr "Název souboru"
 
 #. ($book)
-#: lib/Publican/Builder.pm:3638
+#: lib/Publican/Builder.pm:3614
 msgid "Finish building %1"
 msgstr "Dokončení sestavení %1"
 
-#: lib/Publican/Builder.pm:484
+#: lib/Publican/Builder.pm:469
 msgid "Finish preprocess\n"
 msgstr "Dokončit předzpracování\n"
 
 #. ($format)
-#: lib/Publican/Builder.pm:242 lib/Publican/Builder.pm:397
+#: lib/Publican/Builder.pm:242 lib/Publican/Builder.pm:382
 msgid "Finished %1"
 msgstr "Dokončen formát %1"
 
@@ -791,7 +795,7 @@ msgstr "Formáty"
 msgid "Full path for the publican site configuration file for non standard RPM websites."
 msgstr "Úplná cesta ke konfiguračnímu souboru publican stránky pro nestandardní webové stránky RPM."
 
-#: lib/Publican/Translate.pm:1146
+#: lib/Publican/Translate.pm:1155
 msgid "Fuzzy"
 msgstr "Zmatečné"
 
@@ -799,7 +803,7 @@ msgstr "Zmatečné"
 msgid "Generate table of contents down to the given section depth."
 msgstr "Vytvořit obsah do uvedené hloubky oddílů. "
 
-#: lib/Publican.pm:1324
+#: lib/Publican.pm:1329
 msgid "Graphic Designer"
 msgstr "Grafický designér"
 
@@ -815,11 +819,11 @@ msgstr "Informace"
 msgid "Initial creation by publican"
 msgstr "První vytvoření programem publican"
 
-#: bin/publican:266
+#: bin/publican:269
 msgid "Install a book in to a WebSite."
 msgstr "Instalovat knihu na webovou stránku."
 
-#: bin/publican:244
+#: bin/publican:247
 msgid "Install a brand to the supplied location"
 msgstr "Instalovat obchodní značku do uvedeného místa"
 
@@ -832,22 +836,22 @@ msgid "Install the web content for a brand."
 msgstr "Instalovat webový obsah pro obchodní značku."
 
 #. ($lang)
-#: lib/Publican/Builder.pm:458
+#: lib/Publican/Builder.pm:443
 msgid "Invalid build request: language directory %1 does not exist."
 msgstr "Neplatný požadavek na sestavení: adresář jazyka %1 neexistuje."
 
 #. ($lang)
-#: lib/Publican/Builder.pm:506
+#: lib/Publican/Builder.pm:491
 msgid "Invalid build request: no PO files exist for language %1"
 msgstr "Neplatný požadavek na sestavení: PO soubor pro jazyk %1 neexistuje"
 
 #. ($in_date)
-#: lib/Publican/Builder.pm:3440
+#: lib/Publican/Builder.pm:3416
 msgid "Invalid date: '%1' in revision history."
 msgstr "Neplatné datum: '%1' v přehledu změn."
 
 #. ($key,( $value || "EMPTY" ),$constraint)
-#: lib/Publican.pm:768
+#: lib/Publican.pm:773
 msgid "Invalid format for %1. Value (%2) does not conform to constraint (%3)"
 msgstr "Neplatný formát pro %1. Hodnota (%2) neodpovídá omezení (%3)"
 
@@ -857,7 +861,7 @@ msgid "Invalid language supplied: %1"
 msgstr "Uveden neplatný jazyk: %1"
 
 #. ($opt)
-#: bin/publican:339
+#: bin/publican:343
 msgid "Invalid option '%1' in $actions{$action}->{options}"
 msgstr "Neplatná možnost '%1' v $akce{$akce}->{možnosti}"
 
@@ -865,7 +869,7 @@ msgstr "Neplatná možnost '%1' v $akce{$akce}->{možnosti}"
 msgid "Is the content confidential?"
 msgstr "Jedná se o důvěrný obsah?"
 
-#: lib/Publican/Builder.pm:1261
+#: lib/Publican/Builder.pm:1250
 msgid "Keywords"
 msgstr ""
 
@@ -877,7 +881,7 @@ msgstr ""
 msgid "Language"
 msgstr "Jazyk"
 
-#: lib/Publican.pm:460
+#: lib/Publican.pm:465
 msgid "Language in which XML is authored."
 msgstr "Jazyk v němž je XML napsán."
 
@@ -885,11 +889,11 @@ msgstr "Jazyk v němž je XML napsán."
 msgid "Languages to replace with xml_lang regardless of translation status."
 msgstr "Jazyky, které se nahradí xml_lang bez ohledu na stav překladu."
 
-#: lib/Publican/Builder.pm:1257
+#: lib/Publican/Builder.pm:1246
 msgid "Legal Notice"
 msgstr "Právní doložka"
 
-#: lib/Publican.pm:1418
+#: lib/Publican.pm:1423
 msgid "Legal notice can not be calculated before building."
 msgstr ""
 
@@ -898,16 +902,16 @@ msgid "License this package uses."
 msgstr "Licence, kterou tento balíček používá."
 
 #. ("$main_file.xml")
-#: lib/Publican.pm:1459
+#: lib/Publican.pm:1464
 msgid "Main XML file (%1) can not be calculated before building."
 msgstr ""
 
 #. ($po_file,$xml_file,$out_file)
-#: lib/Publican/Translate.pm:178
+#: lib/Publican/Translate.pm:187
 msgid "Merging %1 >> %2 -> %3"
 msgstr "Slučování %1 >> %2 -> %3"
 
-#: bin/publican:304
+#: bin/publican:307
 msgid "Migrate a website DataBase from Publican < 3 to Publican 3."
 msgstr "Převést webovou stránku DataBase z Publican < 3 na Publican 3."
 
@@ -917,18 +921,18 @@ msgstr "Převést webovou stránku DataBase z Publican < 3 na Publican 3."
 #. ('surname')
 #. ('email')
 #. ('revnumber')
-#: lib/Publican/Builder.pm:3424 lib/Publican/Builder.pm:3434
-#: lib/Publican/Builder.pm:3447 lib/Publican/Builder.pm:3456
-#: lib/Publican/Builder.pm:3465 lib/Publican/Builder.pm:3473
+#: lib/Publican/Builder.pm:3400 lib/Publican/Builder.pm:3410
+#: lib/Publican/Builder.pm:3423 lib/Publican/Builder.pm:3432
+#: lib/Publican/Builder.pm:3441 lib/Publican/Builder.pm:3449
 msgid "Missing mandatory field '%1' in revision history."
 msgstr "V přehledu změn chybí povinné pole '%1'."
 
 #. ('member')
-#: lib/Publican/Builder.pm:3496
+#: lib/Publican/Builder.pm:3472
 msgid "Missing mandatory field '%1' in revision."
 msgstr "Chybí povinné pole '%1' ve změně."
 
-#: lib/Publican.pm:1690
+#: lib/Publican.pm:1695
 msgid "NOTE: These lists of tags and attributes are brand specific and are not part of Publican itself."
 msgstr "POZNÁMKA: Tyto seznamy tagů a atributů jsou specifické pro obchodní značku a nejsou součástí Publicanu jako takového."
 
@@ -948,18 +952,18 @@ msgstr "Název tohoto balíčku. Získán z tagu title v xml_lang/TYPE_Info.xml,
 msgid "No unused Image files"
 msgstr "Žádné nepoužité grafické soubory."
 
-#: bin/publican:592
+#: bin/publican:596
 msgid ""
 "Now that your site is migrated you will need to rebuild your brands and install the brands web payload on your site.\n"
 "\n"
 "It is also recommended that you rebuild and reinstall all books to ensure the layout is properly migrated."
 msgstr "Nyní, kdy je vaše webová stránka převedena, potřebujete opět sestavit vaše obchodní značky a nainstalovat web payload obchodních značek na vaši stránku. Doporučuje se rovněž, abyste opět sestavili a nainstalovali všechny knihy pro kontrolu, že vzhled byl správně převeden."
 
-#: bin/publican:630
+#: bin/publican:634
 msgid "One of add or del is required when updating the database"
 msgstr "Při aktualizaci databáze se vyžaduje buď přidání nebo odstranění."
 
-#: bin/publican:447
+#: bin/publican:451
 msgid "Options:"
 msgstr "Možnosti:"
 
@@ -991,7 +995,7 @@ msgstr "Potlačit cestu k adresáři Common_Content"
 msgid "Override the book name, bottom level, menu label on a Publican website."
 msgstr "Potlačit název knihy, spodní úroveň, poisek nabídky na webové stránce Publican."
 
-#: lib/Publican.pm:471
+#: lib/Publican.pm:476
 msgid "Override the bookname that will be shown in the drupal menu."
 msgstr "Přepsat název knihy (bookname), který bude zobrazen v nabídce drupalu."
 
@@ -1032,11 +1036,11 @@ msgid "Override the version, middle level, menu label on a Publican website. To 
 msgstr "Potlačit verzi, střední úroveň, popisek nabídky na webové stránce Publican. Chcete-li tuto položku nabídky skrýt, nastavte na: UNUSED (NEPOUŽITO)"
 
 #. ($po_file)
-#: lib/Publican/Builder.pm:537
+#: lib/Publican/Builder.pm:522
 msgid "PO file '%1' not found! Using base XML!"
 msgstr "PO soubor '%1' nenalzen! Použije se základní XML!"
 
-#: bin/publican:229
+#: bin/publican:232
 msgid "Package a language for shipping"
 msgstr "Zabalit jazyk k expedici"
 
@@ -1048,7 +1052,7 @@ msgstr "Balíčky"
 msgid "Packages to obsolete in web RPM."
 msgstr "Balíčky k označení za zastaralé ve webovém RPM."
 
-#: lib/Publican.pm:957
+#: lib/Publican.pm:962
 msgid "Parameters used in the config file:"
 msgstr "Parametry použité v konfiguračním souboru:"
 
@@ -1068,27 +1072,27 @@ msgstr "Cesta k obsahu publican."
 msgid "Preface"
 msgstr "Předmluva"
 
-#: lib/Publican/Builder.pm:482
+#: lib/Publican/Builder.pm:467
 msgid "Preprocessing xml files...\n"
 msgstr "Předzpracování xml souborů...\n"
 
-#: bin/publican:206
+#: bin/publican:209
 msgid "Print a list of QA'd DocBook tags"
 msgstr "Tisknout seznam tagů DocBook s kontrolou kvality."
 
-#: bin/publican:202
+#: bin/publican:205
 msgid "Print a list of banned DocBook tags"
 msgstr "Tisknout seznam nepovolených tagů DocBook"
 
-#: bin/publican:214
+#: bin/publican:217
 msgid "Print a list of unused Image files"
 msgstr "Tisknout seznam nepoužitých grafických souborů"
 
-#: bin/publican:210
+#: bin/publican:213
 msgid "Print a list of unused XML files"
 msgstr "Tisknout seznam nepoužitých souborů XML"
 
-#: bin/publican:198
+#: bin/publican:201
 msgid "Print a tree of the xi:includes"
 msgstr "Tisknout strom xi:includes"
 
@@ -1104,7 +1108,7 @@ msgstr "Zpracování soboru %1"
 
 #. ($pot_file,$po_file)
 #. ($file,$out_file)
-#: lib/Publican/Translate.pm:318 lib/Publican/XmlClean.pm:971
+#: lib/Publican/Translate.pm:327 lib/Publican/XmlClean.pm:987
 msgid "Processing file %1 -> %2"
 msgstr "Zpracování souboru %1 -> %2"
 
@@ -1120,7 +1124,7 @@ msgstr "Seznam produktu"
 msgid "Product this package covers. Fetched from productname tag in xml_lang/TYPE_Info.xml"
 msgstr "Produkt, který je pokryt tímto balíčkem. Získán z tagu productname v souboru xml_lang/TYPE_Info.xml"
 
-#: lib/Publican.pm:1327
+#: lib/Publican.pm:1332
 msgid "Production Editor"
 msgstr "Produkce"
 
@@ -1132,36 +1136,36 @@ msgstr "Produkty"
 msgid "Push SRPM to brew"
 msgstr "Nahrát balíček SRPM do sestavovacího systému brew"
 
-#: lib/Publican/Builder.pm:2176
+#: lib/Publican/Builder.pm:2152
 msgid "Reached the maximum page ordering weight(30) that drupal can support. The rest of the pages will be ordered in alphabetical order\n"
 msgstr "Dosažena maximální váha řazení stran (30), kterou drupal podporuje. Zbytek stran bude seřazen abecedně.\n"
 
-#: lib/Publican/Builder.pm:1007
+#: lib/Publican/Builder.pm:992
 msgid "RelaxNG Validation failed: "
 msgstr "Validace RelaxNG selhala:"
 
 #. ($lang)
-#: lib/Publican/Translate.pm:1224
+#: lib/Publican/Translate.pm:1233
 msgid "Remaining hours for %1"
 msgstr "Pro jazyk %1 zbývá hodin"
 
-#: bin/publican:270
+#: bin/publican:273
 msgid "Remove a book from a WebSite."
 msgstr "Odstranit knihu z webové stránky (WebSite)."
 
-#: bin/publican:184
+#: bin/publican:187
 msgid "Remove all temporary files and directories"
 msgstr "Odstranit všechny dočasné soubory a adresáře"
 
-#: bin/publican:189
+#: bin/publican:192
 msgid "Remove local copies of remote set books"
 msgstr "Odstranit místní kopie vzdálených sad knih "
 
-#: bin/publican:299
+#: bin/publican:302
 msgid "Rename a publican book"
 msgstr "Přejmenovat knihu publican"
 
-#: bin/publican:274
+#: bin/publican:277
 msgid "Report on the contents of a WebSite"
 msgstr "Podat zprávu o obsahu na webové stránce (WebSite)"
 
@@ -1169,7 +1173,7 @@ msgstr "Podat zprávu o obsahu na webové stránce (WebSite)"
 msgid "Repository from which to fetch remote set books."
 msgstr "Úložiště (repository), ze kterého získat vzdálenou sadu knih."
 
-#: lib/Publican.pm:1794 lib/Publican/Builder.pm:574
+#: lib/Publican.pm:1799 lib/Publican/Builder.pm:559
 #: lib/Publican/CreateBook.pm:291
 msgid "Revision History"
 msgstr "Přehled změn"
@@ -1178,20 +1182,20 @@ msgstr "Přehled změn"
 msgid "Revision number to use for a revision."
 msgstr "Číslo revize, které se použije pro změnu."
 
-#: bin/publican:194
+#: bin/publican:197
 msgid "Run clean ids for source XML"
 msgstr "Spustit čištění id pro zdrojový XML"
 
 #. ($0)
-#: bin/publican:390
+#: bin/publican:394
 msgid "Run: '%1 <action> --help' for details on action usage"
 msgstr "Zadejte: '%1 <action> --nápověda' chcete-li zjistit více o použití akce"
 
-#: bin/publican:852
+#: bin/publican:856
 msgid "Running clean process to ensure stale content is not bundled in packages."
 msgstr "Spuštěn čisticí proces, který zajistí, aby starý obsah nebyl součástí balíčků."
 
-#: lib/Publican/Builder.pm:3600
+#: lib/Publican/Builder.pm:3576
 msgid "Running clean_ids to prevent inter-book ID clashes."
 msgstr "Probíhá clean_ids k zamezení kolizí mezi ID knih."
 
@@ -1208,11 +1212,11 @@ msgid "Set up built content for publishing"
 msgstr "Připravit sestavený obsah k publikování"
 
 #. ($lang)
-#: lib/Publican/Builder.pm:454
+#: lib/Publican/Builder.pm:439
 msgid "Setting up %1"
 msgstr "Připravuje se %1"
 
-#: lib/Publican/Builder.pm:3017
+#: lib/Publican/Builder.pm:2993
 msgid "Short-sighted packages can only be used to make desktop rpms. Add --desktop to your argument list."
 msgstr "Krátkozraké balíčky lze použít pouze k vytvoření desktopových rpms. Přidejte --desktop do seznamu argumentů."
 
@@ -1221,11 +1225,11 @@ msgid "Show Menu"
 msgstr "Zobrazit nabídku"
 
 #. ($dir)
-#: lib/Publican.pm:1046
+#: lib/Publican.pm:1051
 msgid "Skipping unknown language: %1"
 msgstr "Přeskočení neznámých jazyků: %1"
 
-#: bin/publican:308
+#: bin/publican:312
 msgid "Snapshot the source language for use in translation."
 msgstr ""
 
@@ -1242,7 +1246,7 @@ msgid "Splash pages should be generated to be compatible with this web style. Va
 msgstr "Uvítací (splash) stránky by měly být generovány kompatibilně s tímto webovým stylem. Platnými hodnotami jsou 1 a 2."
 
 #. ($book)
-#: lib/Publican/Builder.pm:3596
+#: lib/Publican/Builder.pm:3572
 msgid "Start building %1"
 msgstr "Zahájeno sestavování %1 "
 
@@ -1255,11 +1259,11 @@ msgstr "Zahájen %1"
 msgid "Sub title for a book"
 msgstr "Podtitul knihy"
 
-#: lib/Publican/Builder.pm:1262
+#: lib/Publican/Builder.pm:1251
 msgid "Table of Contents"
 msgstr "Obsah"
 
-#: lib/Publican.pm:1330
+#: lib/Publican.pm:1335
 msgid "Technical Editor"
 msgstr "Technický editor"
 
@@ -1283,7 +1287,7 @@ msgstr "Navigační nabídka níže se automaticky sbalí, když se stránky na�
 msgid "The OS for which to build packages."
 msgstr "OS, pro který se mají balíčky vytvořit."
 
-#: lib/Publican.pm:465
+#: lib/Publican.pm:470
 msgid "The author name to be shown in drupal book page. It must be a valid drupal username."
 msgstr "Jméno autora zobrazené v drupalu na stránce knihy. Musí být platné uživatelské jméno drupalu."
 
@@ -1307,7 +1311,7 @@ msgstr "Distribuce sestavovacího systému brew, která se má použít k sestav
 msgid "The brew dist to use for building the web rpm."
 msgstr "Distribuce sestavovacího systému brew, která se má použít k sestavení webového rpm."
 
-#: lib/Publican.pm:482
+#: lib/Publican.pm:487
 msgid "The directory where the image should be stored in drupal server. The default is \"sites/default/files/\""
 msgstr "Adresář, do něhož by obrázek měl být na serveru drupalu uložen. Výchozí je \"sites/default/files/\""
 
@@ -1319,7 +1323,7 @@ msgstr "Vydání knihy, článku nebo sady"
 msgid "The language the XML will be written in"
 msgstr "Jazyk, ve kterém bude napsán XML "
 
-#: lib/Publican.pm:476
+#: lib/Publican.pm:481
 msgid "The menu where we can find the book. The default value is menu-user-guide"
 msgstr "Nabídka, kde lze knihu nalézt. Výchozí hodnota je menu-user-guide"
 
@@ -1396,29 +1400,29 @@ msgid "Total Packages"
 msgstr "Balíčky celkem"
 
 #. ($lang)
-#: lib/Publican/Translate.pm:1215
+#: lib/Publican/Translate.pm:1224
 msgid "Total for %1"
 msgstr "%1 celkem"
 
-#: bin/publican:176
+#: bin/publican:178
 msgid "Transform XML to other formats (pdf, html, html-single, drupal-book, etc)"
 msgstr "Převést  XML do jiných formátů (pdf, html, html-single, drupal-book atd.)"
 
 #. ($!,$@)
-#: lib/Publican/Builder.pm:1574
+#: lib/Publican/Builder.pm:1550
 msgid "Transformation error '%1' : %2"
 msgstr "Chyba transformace '%1' : %2"
 
-#: lib/Publican/Translate.pm:1147
+#: lib/Publican/Translate.pm:1156
 msgid "Translated"
 msgstr "Přeloženo"
 
 #. ($edition,$release)
-#: lib/Publican/Translate.pm:371
+#: lib/Publican/Translate.pm:380
 msgid "Translation files synchronised with XML sources %1-%2"
 msgstr "Soubory překladů synchronizovány s XML zdroji %1-%2"
 
-#: lib/Publican.pm:1333
+#: lib/Publican.pm:1338
 msgid "Translator"
 msgstr "Překladatel"
 
@@ -1443,33 +1447,33 @@ msgid "URL to find tar of source files. Used in RPM Spec files."
 msgstr "URL, kde se nalézá soubor tar se zdrojovými soubory. Použito u souborů RPM Spec."
 
 #. ($format)
-#: lib/Publican/Builder.pm:1478
+#: lib/Publican/Builder.pm:1454
 msgid "Unknown format: %1"
 msgstr "Neznámý formát: %1"
 
 #. ($scm)
-#: lib/Publican/Builder.pm:3533
+#: lib/Publican/Builder.pm:3509
 msgid "Unknown set SCM: %1"
 msgstr "Neznámá sada SCM: %1"
 
 #. ($width)
-#: lib/Publican/Builder.pm:2351
+#: lib/Publican/Builder.pm:2327
 msgid "Unknown width format will be ignored: %1"
 msgstr "Neznámý formát šířky bude ignorován: %1"
 
-#: lib/Publican/Translate.pm:1145 lib/Publican/WebSite.pm:114
+#: lib/Publican/Translate.pm:1154 lib/Publican/WebSite.pm:114
 msgid "Untranslated"
 msgstr "Nepřeloženo"
 
-#: bin/publican:262
+#: bin/publican:265
 msgid "Update an existing sites templates."
 msgstr "Aktualizovat šablony existujících stránek."
 
-#: bin/publican:240
+#: bin/publican:243
 msgid "Update the PO files"
 msgstr "Aktualizovat sobory PO"
 
-#: bin/publican:236
+#: bin/publican:239
 msgid "Update the POT files"
 msgstr "Aktualizovat soubory POT"
 
@@ -1486,12 +1490,12 @@ msgid "Use scratch instead of tag build"
 msgstr "Použít scratch sestavení namísto tagovaného"
 
 #. ($xsl_file)
-#: lib/Publican/Builder.pm:1485 lib/Publican/Builder.pm:2873
-#: lib/Publican/Builder.pm:3266
+#: lib/Publican/Builder.pm:1461 lib/Publican/Builder.pm:2849
+#: lib/Publican/Builder.pm:3242
 msgid "Using XML::LibXSLT on %1"
 msgstr "Používá se XML::LibXSLT na soubor %1"
 
-#: bin/publican:383
+#: bin/publican:387
 msgid "Valid actions are:"
 msgstr "Platnými akcemi jsou:"
 
@@ -1508,61 +1512,61 @@ msgid "Versions"
 msgstr "Verze"
 
 #. ($xml_file,$!)
-#: lib/Publican/XmlClean.pm:1027
+#: lib/Publican/XmlClean.pm:1044
 msgid "WARNING: Could not reset file ownership for %1 because %2"
 msgstr ""
 
 #. ($xml_file,$!)
-#: lib/Publican/XmlClean.pm:1020
+#: lib/Publican/XmlClean.pm:1037
 msgid "WARNING: Could not reset file permissions for %1 because %2"
 msgstr ""
 
-#: lib/Publican/Translate.pm:876
+#: lib/Publican/Translate.pm:885
 msgid "WARNING: Fuzzy message in PO file."
 msgstr "VAROVÁNÍ: Překlad řetězce v souboru PO označen jako nepřesný."
 
 #. ($img_file)
-#: lib/Publican/XmlClean.pm:689
+#: lib/Publican/XmlClean.pm:692
 msgid "WARNING: Image missing: %1"
 msgstr "VAROVÁNÍ: Chybí grafický soubor: %1"
 
-#: lib/Publican/Translate.pm:894
+#: lib/Publican/Translate.pm:903
 msgid "WARNING: Message missing from PO file, consider updating your POT and PO files."
 msgstr "VAROVÁNÍ: Řetězec v souboru PO chybí, zvažte aktualizaci vašich soborů POT a PO."
 
 #. ($pot_file)
-#: lib/Publican/Translate.pm:357
+#: lib/Publican/Translate.pm:366
 msgid "WARNING: No source xml file exists for %1"
 msgstr "VAROVÁNÍ: Neexistuje zdrojový soubor xml pro %1"
 
 #. ($lang)
-#: lib/Publican/Translate.pm:289
+#: lib/Publican/Translate.pm:298
 msgid "WARNING: Skipping invalid language: %1"
 msgstr "VAROVÁNÍ: Vynechán neplatný jazyk: %1"
 
-#: lib/Publican/Translate.pm:880
+#: lib/Publican/Translate.pm:889
 msgid "WARNING: Un-translated message in PO file."
 msgstr "VAROVÁNÍ: Nepřeložený řetězec v soboru PO."
 
 #. ($key)
-#: lib/Publican.pm:566
+#: lib/Publican.pm:571
 msgid "WARNING: Unknow config key %1, ignoring.\n"
 msgstr "VAROVÁNÍ: Neznamý konfigurační klíč %1, ignorováno.\n"
 
-#: lib/Publican/Builder.pm:3248
+#: lib/Publican/Builder.pm:3224
 msgid "WARNING: You can not create RPM packages with a blank abstract. Skipping RPM creation.\n"
 msgstr "VAROVÁNÍ: Nelze vytvořit balíčky RPM s prázdným abstraktem. Vytvoření RPM vynecháno.\n"
 
-#: lib/Publican/Builder.pm:3258
+#: lib/Publican/Builder.pm:3234
 msgid "WARNING: You can not create RPM packages with a blank subtitle. Skipping RPM creation.\n"
 msgstr "VAROVÁNÍ: Nelze vytvořit balíčky RPM s prázdným podtitulem. Vytvoření RPM vynecháno.\n"
 
 #. ($key)
-#: lib/Publican.pm:584
+#: lib/Publican.pm:589
 msgid "WARNING: config key %1 is not valid for this type of object, ignoring.\n"
 msgstr "VAROVÁNÍ: konfigurační klíč %1 není platný pro tento typ objektu, ignorováno.\n"
 
-#: lib/Publican/XmlClean.pm:881
+#: lib/Publican/XmlClean.pm:897
 msgid "WARNING: table validation failed. Could not determine table for tgroup, column numbers cannot be validated"
 msgstr "VAROVÁNÍ: oveření platnosti tabulky selhalo. Nelze určit tabulku pro tgroup, čísla sloupců nelze ověřit"
 
@@ -1578,12 +1582,12 @@ msgstr "Konfigurační soubor webových stránek, který má být použit nebo v
 msgid "Welcome"
 msgstr "Vítejte"
 
-#: lib/Publican/Builder.pm:1255
+#: lib/Publican/Builder.pm:1244
 msgid "With contributions from"
 msgstr ""
 
 #. ("$tmp_dir/$lang/$epub_name")
-#: lib/Publican/Builder.pm:1736
+#: lib/Publican/Builder.pm:1712
 msgid "Wrote epub archive: %1"
 msgstr "Napsal epub archiv: %1"
 
@@ -1592,11 +1596,11 @@ msgstr "Napsal epub archiv: %1"
 msgid "You need to change the HOLDER entity in the %1/%2.ent file"
 msgstr "Potřebujete změnit entitu HOLDER v souboru %1/%2.ent"
 
-#: lib/Publican.pm:1137
+#: lib/Publican.pm:1142
 msgid "abstract can not be calculated before building."
 msgstr "abstrakt nelze před sestavením vypočítat"
 
-#: bin/publican:951
+#: bin/publican:954
 msgid "add_revision does not work for brands."
 msgstr "add_revision pro obchodní označení nefunguje"
 
@@ -1607,16 +1611,16 @@ msgstr "Architektura, na níž se filtruje výstup."
 
 #. ($auth_file)
 #. ($trans_file)
-#: lib/Publican/Builder.pm:628 lib/Publican/Builder.pm:641
+#: lib/Publican/Builder.pm:613 lib/Publican/Builder.pm:626
 msgid "authorgroup not found in %1"
 msgstr "authorgroup v souboru %1 nenalazena"
 
-#: bin/publican:1019
+#: bin/publican:1022
 msgid "can't find 'publish' directory"
 msgstr "nelze nalézt adresář 'publish'"
 
 #. ($opts{pub_dir},$lang)
-#: bin/publican:1037
+#: bin/publican:1042
 #, fuzzy
 msgid "can't find publish directory '%1/%2'"
 msgstr "nelze nalézt adresář 'publish'"
@@ -1625,11 +1629,11 @@ msgstr "nelze nalézt adresář 'publish'"
 msgid "collapse all"
 msgstr "skrýt vše"
 
-#: lib/Publican.pm:869
+#: lib/Publican.pm:874
 msgid "config loaded"
 msgstr "config načten do paměti"
 
-#: lib/Publican.pm:535
+#: lib/Publican.pm:540
 msgid "configfile is a mandatory argument"
 msgstr "configfile je povinný argument"
 
@@ -1638,29 +1642,34 @@ msgstr "configfile je povinný argument"
 msgid "conformance to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
-#: lib/Publican.pm:1306
+#: lib/Publican.pm:1311
 msgid "contributor list can not be calculated before building."
 msgstr ""
 
-#: lib/Publican.pm:1243
+#: lib/Publican.pm:1248
 msgid "corpauthor can not be converted to text as expected."
 msgstr ""
 
 #. ($_,$@)
-#: lib/Publican/Builder.pm:833
+#: lib/Publican/Builder.pm:818
 msgid "couldn't remove unwanted dir '%1', error: %2"
 msgstr "nebylo možné odstranit nechtěný adresář '%1', chyba: %2"
 
 #. ($_,$@)
-#: lib/Publican/Builder.pm:853
+#: lib/Publican/Builder.pm:838
 msgid "couldn't unlink xml file '%1', error: %2"
 msgstr "nebylo možné odstranit (unlink) soubor xml '%1', chyba: %2"
 
-#: bin/publican:768
+#. ($pot_file)
+#: lib/Publican/Translate.pm:152
+msgid "deleted empty pot file: %1\n"
+msgstr ""
+
+#: bin/publican:772
 msgid "destination must exist"
 msgstr "cílová cesta musí existovat"
 
-#: lib/Publican.pm:985
+#: lib/Publican.pm:990
 msgid "dir is a required argument"
 msgstr "argument dir se vyžaduje"
 
@@ -1669,7 +1678,7 @@ msgstr "argument dir se vyžaduje"
 msgid "directory %1 exists!"
 msgstr "adresář %1 existuje!"
 
-#: lib/Publican.pm:1603
+#: lib/Publican.pm:1608
 msgid "dtdver is a mandatory argument"
 msgstr "dtdver je povinný argument"
 
@@ -1677,7 +1686,7 @@ msgstr "dtdver je povinný argument"
 msgid "dump file zip creation failed."
 msgstr "vytvoření zip souboru dump selhalo."
 
-#: lib/Publican/Translate.pm:264
+#: lib/Publican/Translate.pm:273
 msgid "email is a mandatory argument"
 msgstr "email je povinný argument"
 
@@ -1685,15 +1694,15 @@ msgstr "email je povinný argument"
 msgid "email to use for a revision."
 msgstr "email, který se má použít pro změnu."
 
-#: lib/Publican/Builder.pm:1734
+#: lib/Publican/Builder.pm:1710
 msgid "epub creation failed."
 msgstr "vytvoření formátu epub selhalo."
 
-#: lib/Publican/XmlClean.pm:958
+#: lib/Publican/XmlClean.pm:974
 msgid "file is a mandatory argument"
 msgstr "file je povinný argument"
 
-#: lib/Publican/Translate.pm:260
+#: lib/Publican/Translate.pm:269
 msgid "firstname is a mandatory argument"
 msgstr "firstname je povinný argument"
 
@@ -1701,7 +1710,7 @@ msgstr "firstname je povinný argument"
 msgid "firstname to use for a revision."
 msgstr "firstname, které se má použít pro úpravu."
 
-#: lib/Publican/Builder.pm:1030
+#: lib/Publican/Builder.pm:1015
 msgid "format is a mandatory argument"
 msgstr "format je povinný argument"
 
@@ -1709,19 +1718,19 @@ msgstr "format je povinný argument"
 msgid "formats is a mandatory argument"
 msgstr "formáty jsou povinný argument"
 
-#: lib/Publican.pm:1379
+#: lib/Publican.pm:1384
 msgid "keyword list can not be calculated before building."
 msgstr ""
 
-#: lib/Publican.pm:1121 lib/Publican.pm:1167 lib/Publican.pm:1211
-#: lib/Publican.pm:1290 lib/Publican.pm:1362 lib/Publican.pm:1403
-#: lib/Publican.pm:1441 lib/Publican/Builder.pm:1028
-#: lib/Publican/Builder.pm:3002 lib/Publican/Builder.pm:3307
-#: lib/Publican/Builder.pm:878
+#: lib/Publican.pm:1126 lib/Publican.pm:1172 lib/Publican.pm:1216
+#: lib/Publican.pm:1295 lib/Publican.pm:1367 lib/Publican.pm:1408
+#: lib/Publican.pm:1446 lib/Publican/Builder.pm:1013
+#: lib/Publican/Builder.pm:2978 lib/Publican/Builder.pm:3283
+#: lib/Publican/Builder.pm:863
 msgid "lang is a mandatory argument"
 msgstr "lang je povinný argument"
 
-#: lib/Publican/Builder.pm:2010
+#: lib/Publican/Builder.pm:1986
 msgid "lang is a mandatory argument for build_drupal_book"
 msgstr "lang je povinný argument pro build_drupal_book"
 
@@ -1729,7 +1738,7 @@ msgstr "lang je povinný argument pro build_drupal_book"
 msgid "lang is a required parameter"
 msgstr "parametr lang se vyžaduje"
 
-#: lib/Publican/Builder.pm:1842
+#: lib/Publican/Builder.pm:1818
 msgid "lang is the mandatory argument for drupal_transform"
 msgstr "lang je povinný argument pro drupal_transform"
 
@@ -1738,21 +1747,21 @@ msgstr "lang je povinný argument pro drupal_transform"
 msgid "lang to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
-#: lib/Publican/Builder.pm:170 lib/Publican/Builder.pm:3582
-#: lib/Publican/Builder.pm:438 lib/Publican/Translate.pm:256
+#: lib/Publican/Builder.pm:170 lib/Publican/Builder.pm:3558
+#: lib/Publican/Builder.pm:423 lib/Publican/Translate.pm:265
 msgid "langs is a mandatory argument"
 msgstr "langs je povinný argument"
 
-#: lib/Publican/Builder.pm:1671
+#: lib/Publican/Builder.pm:1647
 msgid "manifest not found"
 msgstr "nenalezen manifest"
 
 #. ($s1,$s2)
-#: lib/Publican/Translate.pm:503
+#: lib/Publican/Translate.pm:512
 msgid "match_strings requires 2 arguments %1, %2."
 msgstr "match_strings vyžaduje 2 parametry %1, %2."
 
-#: bin/publican:482 lib/Publican/CreateBook.pm:90
+#: bin/publican:486 lib/Publican/CreateBook.pm:90
 #: lib/Publican/CreateBrand.pm:69
 msgid "name is a required parameter"
 msgstr "Parametr name se vyžaduje"
@@ -1761,7 +1770,7 @@ msgstr "Parametr name se vyžaduje"
 msgid "name label for a book"
 msgstr "popisek názvu knihy"
 
-#: lib/Publican/Builder.pm:2014
+#: lib/Publican/Builder.pm:1990
 msgid "nodes_order is a mandatory argument for build_drupal_book"
 msgstr "nodes_order je povinný argument pro build_drupal_book"
 
@@ -1770,21 +1779,21 @@ msgstr "nodes_order je povinný argument pro build_drupal_book"
 msgid "os to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
-#: lib/Publican/Translate.pm:166 lib/Publican/XmlClean.pm:457
-#: lib/Publican/XmlClean.pm:960
+#: lib/Publican/Translate.pm:175 lib/Publican/XmlClean.pm:458
+#: lib/Publican/XmlClean.pm:976
 msgid "out_file is a mandatory argument"
 msgstr "out_file je povinný argument"
 
 #. ($pdftool)
-#: lib/Publican/Builder.pm:1046
+#: lib/Publican/Builder.pm:1031
 msgid "pdftool only supports fop or wkhtmltopdf, not: %1"
 msgstr ""
 
-#: lib/Publican/Translate.pm:164 lib/Publican/Translate.pm:420
+#: lib/Publican/Translate.pm:173 lib/Publican/Translate.pm:429
 msgid "po_file is a mandatory argument"
 msgstr "po_file je povinný argument"
 
-#: lib/Publican/Translate.pm:422 lib/Publican/Translate.pm:914
+#: lib/Publican/Translate.pm:431 lib/Publican/Translate.pm:923
 msgid "pot_file is a mandatory argument"
 msgstr "pot_file je povinný argument"
 
@@ -1792,11 +1801,11 @@ msgstr "pot_file je povinný argument"
 msgid "product label for a book"
 msgstr "produktový popisek knihy"
 
-#: lib/Publican.pm:660
+#: lib/Publican.pm:665
 msgid "productname not found in Info file"
 msgstr "productname v souboru Info nenalezen"
 
-#: lib/Publican.pm:672
+#: lib/Publican.pm:677
 msgid "productnumber not found in Info file"
 msgstr "productnumber v souboru Info nenalezeno"
 
@@ -1806,20 +1815,20 @@ msgid "pub_dir is a mandatory argument"
 msgstr "po_file je povinný argument"
 
 #. (scalar@ARGV,join( ' & ', @ARGV ))
-#: bin/publican:359
+#: bin/publican:363
 msgid "publican only accepts one action you supplied '%1': %2\n"
 msgstr "publican přijme pouze jednu vámi zadanou akci '%1': %2\n"
 
-#: lib/Publican.pm:992
+#: lib/Publican.pm:997
 msgid "regex is a required argument"
 msgstr "regex je vyžadovaný argument"
 
-#: bin/publican:252
+#: bin/publican:255
 msgid "report PO statistics"
 msgstr "podat zprávu o statistice PO"
 
 #. ($rev_file)
-#: lib/Publican.pm:1807
+#: lib/Publican.pm:1812
 msgid "revhistory not found in %1"
 msgstr "revhistory v souboru %1 nenalezen"
 
@@ -1834,12 +1843,12 @@ msgid "revisionflag to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
 #. ($VR,'^([0-9.]*)-([0-9.]*)$/')
-#: lib/Publican.pm:1872 lib/Publican/Builder.pm:3069
+#: lib/Publican.pm:1877 lib/Publican/Builder.pm:3045
 msgid "revnumber (%1) does not match the required format of '%2'"
 msgstr "revnumber (%1) neodpovídá vyžadovanému formátu '%2'"
 
 #. ($rev_file)
-#: lib/Publican.pm:1867 lib/Publican/Builder.pm:3064
+#: lib/Publican.pm:1872 lib/Publican/Builder.pm:3040
 msgid "revnumber not found in %1"
 msgstr "revnumber v souboru %1 nenalezeno"
 
@@ -1848,7 +1857,7 @@ msgstr "revnumber v souboru %1 nenalezeno"
 msgid "role to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
-#: lib/Publican/Builder.pm:2937
+#: lib/Publican/Builder.pm:2913
 msgid "rpmbuild not found, rpm creation aborted."
 msgstr "rpmbuild nenalzen, vytvoření rpm zrušeno."
 
@@ -1858,15 +1867,15 @@ msgid "security to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
 #. ($dir)
-#: lib/Publican.pm:988
+#: lib/Publican.pm:993
 msgid "skipping non existent directory: %1"
 msgstr "vynechán neexistující adresář: %1"
 
-#: lib/Publican/Builder.pm:1929
+#: lib/Publican/Builder.pm:1905
 msgid "source is a mandatory argument"
 msgstr "zdroj (source) je povinný argument"
 
-#: lib/Publican/Builder.pm:2916
+#: lib/Publican/Builder.pm:2892
 msgid "spec is a mandatory argument"
 msgstr "spec je povinný argument"
 
@@ -1875,11 +1884,11 @@ msgstr "spec je povinný argument"
 msgid "status to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
-#: lib/Publican.pm:1183
+#: lib/Publican.pm:1188
 msgid "subtitle can not be calculated before building."
 msgstr "podnadpis nelze před sestavením vypočítat."
 
-#: lib/Publican/Translate.pm:262
+#: lib/Publican/Translate.pm:271
 msgid "surname is a mandatory argument"
 msgstr "surname je povinný argument"
 
@@ -1887,11 +1896,11 @@ msgstr "surname je povinný argument"
 msgid "surname to use for a revision."
 msgstr "příjmení, které použít pro úpravu."
 
-#: lib/Publican.pm:1601
+#: lib/Publican.pm:1606
 msgid "tag is a mandatory argument"
 msgstr "tag je povinný argument"
 
-#: lib/Publican.pm:647
+#: lib/Publican.pm:652
 msgid "title not found in Info file"
 msgstr "název v souboru Info nenalezen"
 
@@ -1904,23 +1913,23 @@ msgid "type must be book, set, or article"
 msgstr "typ musí být kniha, sada nebo článek"
 
 #. (join( ", ", keys %{$args} ))
-#: lib/Publican.pm:1126 lib/Publican.pm:1172 lib/Publican.pm:1216
-#: lib/Publican.pm:1295 lib/Publican.pm:1367 lib/Publican.pm:1408
-#: lib/Publican.pm:1446 lib/Publican.pm:1490 lib/Publican.pm:1610
-#: lib/Publican.pm:543 lib/Publican.pm:817 lib/Publican/Builder.pm:1038
+#: lib/Publican.pm:1131 lib/Publican.pm:1177 lib/Publican.pm:1221
+#: lib/Publican.pm:1300 lib/Publican.pm:1372 lib/Publican.pm:1413
+#: lib/Publican.pm:1451 lib/Publican.pm:1495 lib/Publican.pm:1615
+#: lib/Publican.pm:548 lib/Publican.pm:822 lib/Publican/Builder.pm:1023
 #: lib/Publican/Builder.pm:144 lib/Publican/Builder.pm:183
-#: lib/Publican/Builder.pm:2740 lib/Publican/Builder.pm:2796
-#: lib/Publican/Builder.pm:2922 lib/Publican/Builder.pm:3010
-#: lib/Publican/Builder.pm:3314 lib/Publican/Builder.pm:446
-#: lib/Publican/Builder.pm:883 lib/Publican/CreateBook.pm:102
-#: lib/Publican/CreateBrand.pm:77 lib/Publican/Translate.pm:1126
-#: lib/Publican/Translate.pm:171 lib/Publican/Translate.pm:269
-#: lib/Publican/Translate.pm:427 lib/Publican/Translate.pm:531
-#: lib/Publican/Translate.pm:560 lib/Publican/Translate.pm:690
-#: lib/Publican/Translate.pm:808 lib/Publican/Translate.pm:919
+#: lib/Publican/Builder.pm:2716 lib/Publican/Builder.pm:2772
+#: lib/Publican/Builder.pm:2898 lib/Publican/Builder.pm:2986
+#: lib/Publican/Builder.pm:3290 lib/Publican/Builder.pm:431
+#: lib/Publican/Builder.pm:868 lib/Publican/CreateBook.pm:102
+#: lib/Publican/CreateBrand.pm:77 lib/Publican/Translate.pm:1135
+#: lib/Publican/Translate.pm:180 lib/Publican/Translate.pm:278
+#: lib/Publican/Translate.pm:436 lib/Publican/Translate.pm:540
+#: lib/Publican/Translate.pm:569 lib/Publican/Translate.pm:699
+#: lib/Publican/Translate.pm:817 lib/Publican/Translate.pm:928
 #: lib/Publican/TreeView.pm:138 lib/Publican/TreeView.pm:223
-#: lib/Publican/TreeView.pm:74 lib/Publican/XmlClean.pm:291
-#: lib/Publican/XmlClean.pm:462 lib/Publican/XmlClean.pm:965
+#: lib/Publican/TreeView.pm:74 lib/Publican/XmlClean.pm:292
+#: lib/Publican/XmlClean.pm:463 lib/Publican/XmlClean.pm:981
 msgid "unknown arguments: %1"
 msgstr "neznámé argumenty: %1"
 
@@ -1938,32 +1947,32 @@ msgstr "Architektura, na níž se filtruje výstup."
 msgid "version label for a book"
 msgstr "popisek verze knihy"
 
-#: lib/Publican/Builder.pm:1311
+#: lib/Publican/Builder.pm:1287
 msgid "wkhtmltopdf died, PDF generation failed. Check log for details."
 msgstr "wkhtmltopdf se zastavil, vytvoření PDF selhalo. Zkontrolujte log pro detaily."
 
-#: lib/Publican.pm:456
+#: lib/Publican.pm:461
 #, fuzzy
 msgid "wordsize to filter output on."
 msgstr "Architektura, na níž se filtruje výstup."
 
-#: lib/Publican/XmlClean.pm:455
+#: lib/Publican/XmlClean.pm:456
 msgid "xml_doc is a mandatory argument"
 msgstr "xml_doc je povinný argument"
 
-#: lib/Publican.pm:1483 lib/Publican/Translate.pm:162
+#: lib/Publican.pm:1488 lib/Publican/Translate.pm:171
 msgid "xml_file is a mandatory argument"
 msgstr "xml_file je povinný argument"
 
-#: lib/Publican/Builder.pm:3309
+#: lib/Publican/Builder.pm:3285
 msgid "xml_lang is a mandatory argument"
 msgstr "xml_lang je povinný argument"
 
-#: lib/Publican.pm:1485
+#: lib/Publican.pm:1490
 msgid "xsl_file is a mandatory argument"
 msgstr "xsl_file je povinný argument"
 
-#: bin/publican:766
+#: bin/publican:770
 msgid "you need to publish the brand first"
 msgstr "potřebujete nejdříve publikovat obchodní značku"
 
