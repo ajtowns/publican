@@ -1203,12 +1203,19 @@ sup {
 }
 
 .footnote sup  {
-	color:#e3dcc0;
+	color: black;
 	left: .4em;
 }
+ 
+.footnote a:link,
+.footnote a:visited {
+       text-decoration:none;
+       border: none;
+}
+
 
 .footnote .para sup  {
-	position:absolute;
+       vertical-align:text-bottom;
 }
 
 a.footnote {
@@ -1228,7 +1235,7 @@ a.footnote {
 }
 
 .footnote p,.footnote div.para {
-	padding-left:2em;
+	padding-left:1em;
 }
 
 .footnote a:link, 
