@@ -2258,19 +2258,7 @@ sub clean_ids {
 
 =head2  adjustColumnWidths
 
-Adjust column widths for XML Tables. Converts hard coded and relative withs to percentages.
-
-Based on xsl-stylesheets-1.74.3/html/dtbl.xsl
-
- Get all the colwidth, NULL == * == 1*
- Convert $table_width to pt
- Convert all hard coded widths to pt
- $total_relative_width = $table_width
- subtract hard coded widths from $total_relative_width
- convert hard coded withs to a % of $table_width
- total all relative widths
- convert relative widths to a proportion of $total_relative_width
- convert relative widths to a % of $table_width
+Adjust column widths for XML Tables. Converts hard coded to px and relative withs to %.
 
 FO input:
 
@@ -2292,8 +2280,14 @@ sub adjustColumnWidths {
 
     my $table_width = $width->string_value();
 
-    debug_msg(
-        "TODO: adjustColumnWidths function is not fully implemented!\n");
+    my %px_ratios = (
+        in => 96.0000000000011,
+        cm => 37.795275591,
+        mm => 3.779527559,
+        pc => 16,
+        pt => 1.333333333,
+        px => 1,
+    );
 
     # XML::LibXML::Document
     my $doc       = $content->get_node(1);
@@ -2304,7 +2298,7 @@ sub adjustColumnWidths {
     my $width_tag      = 'width';
     my $perc_remaining = 100;
 
-    # PDF
+    # FO
     if ( $childnode->nodeName() eq 'fo:table-column' ) {
         $tagname   = 'fo:table-column';
         $width_tag = 'column-width';
@@ -2326,12 +2320,9 @@ sub adjustColumnWidths {
             $perc++;
             $perc_remaining -= $1;
         }
-        elsif ( $width =~ m/^(\d+)(cm|mm|in|pc|pt|px)$/ ) {
-            logger( "TODO: convert exact to % of table_width", RED );
-            debug_msg(
-                "TODO: consider limiting this to matching same units as table_width"
-            );
+        elsif ( $width =~ m/^([0-9]*\.?[0-9]+)(cm|mm|in|pc|pt|px)$/ ) {
             $exact++;
+            $width = sprintf( "%dpx", $1 * $px_ratios{$2} );
         }
         else {
             logger(
@@ -2358,9 +2349,6 @@ sub adjustColumnWidths {
                 + 0.5 )
                 . '%';
 
-        }
-        elsif ( $width =~ m/^(\d+)(pt)$/ ) {
-            debug_msg("TODO: convert exact to %");
         }
 
         $widths[$i] = $width;
