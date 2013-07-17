@@ -2516,4 +2516,32 @@ snip border rubbish. BZ #875967
   </a>
 </xsl:template>
 
+<!--
+
+biblio.xsl
+
+Fix double footnote in bibliography. BZ #653447
+
+-->
+<xsl:template match="bibliography">
+  <xsl:call-template name="id.warning"/>
+
+  <div>
+    <xsl:call-template name="common.html.attributes">
+      <xsl:with-param name="inherit" select="1"/>
+    </xsl:call-template>
+    <xsl:call-template name="id.attribute">
+      <xsl:with-param name="conditional" select="0"/>
+    </xsl:call-template>
+
+    <xsl:call-template name="bibliography.titlepage"/>
+
+    <xsl:apply-templates/>
+
+    <xsl:if test="parent::book|parent::part">
+      <xsl:call-template name="process.footnotes"/>
+    </xsl:if>
+  </div>
+</xsl:template>
+
 </xsl:stylesheet>
