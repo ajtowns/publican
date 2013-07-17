@@ -1770,10 +1770,26 @@ sub add_revision {
                 [ 'email',     $email ],
             ],
             [   'revdescription',
-                [ 'simplelist', map { [ 'member', $_ ] } @{$members}, ],
+                [   'simplelist',
+                    map {
+                        [   'member',
+                            eval {
+                                XML::TreeBuilder->new(
+                                    {   'NoExpand'     => "1",
+                                        'ErrorContext' => "2"
+                                    }
+                                )->parse("<rubbish>$_</rubbish>");
+                            }
+                        ]
+                        } @{$members},
+                ],
             ],
         ],
     );
+
+    foreach my $node ( $revision->root()->look_down( "_tag", 'rubbish' ) ) {
+        $node->replace_with_content()->delete();
+    }
 
     my $dtdver    = $self->param('dtdver');
     my $ent_file  = undef;
