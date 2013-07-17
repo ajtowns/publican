@@ -1258,6 +1258,7 @@ sub transform {
             keywordtitle  => decode_utf8( $locale->maketext("Keywords") ),
             toctitle => decode_utf8( $locale->maketext("Table of Contents") ),
             logo     => ( $logo || 'Common_Content/images/title_logo.svg' ),
+            buildpath => abs_path("$tmp_dir/$lang/html-pdf"),
         };
 
         $template->process(
