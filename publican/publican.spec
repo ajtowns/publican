@@ -162,6 +162,14 @@ Requires:       publican
 %description common-web
 Website style for common brand.
 
+%package common-db5-web
+Group:          Documentation
+Summary:        Website style for common brand for DocBook5 content
+Requires:       publican
+
+%description common-db5-web
+Website style for common brand for DocBook5 content
+
 %prep
 %setup -q -n Publican-v%{version}
 
@@ -199,6 +207,10 @@ mkdir -p -m755 $RPM_BUILD_ROOT/%{wwwdir}/%{brand}
 dir=`pwd`
 cd datadir/Common_Content/common
 %{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican install_brand --web --path=$RPM_BUILD_ROOT/%{wwwdir}/%{brand}
+cd -
+mkdir -p -m755 $RPM_BUILD_ROOT/%{wwwdir}/common-db5
+cd datadir/Common_Content/common-db5
+%{__perl} -CA -I $dir/blib/lib $dir/blib/script/publican install_brand --web --path=$RPM_BUILD_ROOT/%{wwwdir}/common-db5
 cd -
 
 %check
@@ -248,6 +260,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{wwwdir}/%{brand}
 
+%files common-db5-web
+%defattr(-,root,root,-)
+%{wwwdir}/common-db5
 
 %changelog
 * Mon Mar 18 2013 Jeff Fearn <jfearn@redhat.com> 3.1.5-0

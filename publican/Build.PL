@@ -118,7 +118,7 @@ my $class = Module::Build->subclass(
                 my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
                 my $builder = Publican::Builder->new();
                 $builder->build(
-                    { formats => 'xml', langs => $common_langs, publish => 1 } );
+                    { formats => 'xml', langs => $common_langs, publish => 1, pub_dir => 'publish' } );
                 rcopy( "publish/*", "$path/.");
                 rcopy('publican.cfg', "$path/common-db5/.");
                 $dir = undef;
@@ -166,7 +166,7 @@ my $class = Module::Build->subclass(
             my ($self) = @_;
             $self->SUPER::ACTION_build();
             $self->depends_on('common_files');
-##            $self->depends_on('commondb5_files');
+            $self->depends_on('commondb5_files');
         }
         sub ACTION_test {
             my ($self) = @_;
