@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-07-11T03:41:02\n"
-"PO-Revision-Date: 2013-07-11T03:41:02\n"
+"POT-Creation-Date: 2013-07-19 08:51+1000\n"
+"PO-Revision-Date: 2013-07-19 08:51+1000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "$ alternatives --config java\n"
+msgid "<prompt>$</prompt> <command>alternatives --config java</command>\n"
 "\n"
 "There are 3 programs which provide 'java'.\n"
 "\n"
@@ -139,7 +139,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "$ alternatives --config javac\n"
+msgid "<prompt>$</prompt> <command>alternatives --config javac</command>\n"
 "\n"
 "There are 3 programs which provide 'javac'.\n"
 "\n"
@@ -258,7 +258,7 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
-msgid "Refer to <ulink url=\"http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS\" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation."
+msgid "Refer to <ulink url=\"http://search.cpan.org/dist/Syntax-Highlight-Engine-Kate/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS\" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation."
 msgstr ""
 
 #. Tag: para
@@ -294,6 +294,32 @@ msgstr ""
 #. Tag: para
 #, no-c-format
 msgid "Restart your terminal or run <command>source ~/.bashrc</command>."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Why am I having trouble building my large book?"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Probably because the kernel can deal with only a certain number of file handles at a time, and you have exceeded that number. On some linuxes you can run <command>ulimit -n 8192</command> to change the limit for the current shell."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "To make this permanent, open <filename>/etc/security/limits.conf</filename> and add these two lines:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "*                 soft    nofile          8192\n"
+"					*                 hard    nofile          8192"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Then save, and log in again for the changes to take effect."
 msgstr ""
 
 #. Tag: para

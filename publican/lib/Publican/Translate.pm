@@ -990,8 +990,8 @@ Returns a valid PO header string.
 sub header {
     my $self = shift;
 
-    #    my $date = UnixDate( ParseDate("today"), "%Y-%m-%d %H:%M%z" );
-    my $date = DateTime->now->iso8601();
+    my $date
+        = DateTime->now( time_zone => "local" )->strftime("%Y-%m-%d %H:%M%z");
 
     my $string = <<POT;
 # 
