@@ -1176,8 +1176,8 @@ GET_COUNTS
     my $counts = $self->_dbh->selectall_arrayref($sql)->[0];
 
     my $report = "\nThe database contains books that cover ";
-    $report .= $counts->[1] . " products, ";
-    $report .= $counts->[2] . " languages, ";
+    $report .= $counts->[1] . " languages, ";
+    $report .= $counts->[2] . " products, ";
     $report .= " totaling " . $counts->[0] . " packages\n";
 
     return ($report);
