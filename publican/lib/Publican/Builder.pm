@@ -738,9 +738,21 @@ sub setup_xml {
                     )
                 ) if ( scalar(@files) == 0 );
 
-                File::Copy::Recursive::rcopy_glob( "$brand_path/$lang/*",
-                    "$tmp_dir/$lang/xml/Common_Content" )
-                    if ( $lang ne $brand_lang );
+                if ( $lang ne $brand_lang ) {
+                    if ( -d $brand_path . "/$lang" ) {
+                        File::Copy::Recursive::rcopy_glob(
+                            "$brand_path/$lang/*",
+                            "$tmp_dir/$lang/xml/Common_Content" );
+                    }
+                    elsif ( defined( $LANG_MAP{$lang} )
+                        && ( -d $brand_path . "/" . $LANG_MAP{$lang} ) )
+                    {
+                        File::Copy::Recursive::rcopy_glob(
+                            "$brand_path/" . $LANG_MAP{$lang} . "/*",
+                            "$tmp_dir/$lang/xml/Common_Content"
+                        );
+                    }
+                }
             }
 
             my $main_file = $self->{publican}->param('mainfile');
@@ -3009,15 +3021,6 @@ sub package {
     $embedtoc = "" if ( $self->{publican}->param('no_embedtoc') );
 
     $web_formats =~ s/,/ /g;
-
-    # No PDF for Indic packages. BZ #655713
-##    if (   $lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/
-##        || $xml_lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/ )
-##    {
-##        $web_formats_comma =~ s/pdf,//g;
-##        $web_formats_comma =~ s/,pdf//g;
-##        $web_formats       =~ s/\s*pdf\s*/ /g;
-##    }
 
     if ( $lang ne $xml_lang ) {
         $release = undef;

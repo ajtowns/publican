@@ -10,13 +10,13 @@
 # required for desktop file install
 %define my_vendor %(test %{OTHER} == 1 && echo "fedora" || echo "redhat")
 
-%define TESTS 1
+%define TESTS 0
 %define brand common
 %define wwwdir /var/www/html/docs
 
 Name:           publican
 Version:        3.1.5
-Release:        0%{?dist}.t62
+Release:        0%{?dist}.t64
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -25,6 +25,8 @@ URL:            https://publican.fedorahosted.org
 Source0:        https://fedorahosted.org/released/publican/Publican-v%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+Provides:	publican-common = %{version}
+Provides:	publican-common-db5 = %{version}
 
 # Get rid of the old packages
 Obsoletes:      perl-Publican-WebSite
