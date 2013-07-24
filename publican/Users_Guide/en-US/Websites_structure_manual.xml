@@ -169,6 +169,31 @@
 			</para>
 <screen><prompt>$</prompt> <command>touch site_overrides.css</command></screen>
 		</step>
+		<step>
+			<para>
+				Build and install the documents in each brand.
+			</para>
+			<substeps>
+				<step>
+					<screen><prompt>$</prompt><command>cd</command> <replaceable>brandsrc_dir</replaceable></screen>
+					
+				</step>
+				<step>
+					<screen><prompt>$</prompt><command>publican build --formats=xml --langs=all --publish</command></screen>
+					
+				</step>
+				<step>
+					<screen><prompt>$</prompt><command>publican install_brand --web --path=</command><replaceable>path_to_site_root_dir</replaceable></screen>
+					<para>
+						Perform these steps for all brands.
+					</para>
+				</step>
+				<step>
+					<screen><prompt>$</prompt><command>publican update_site --site_config</command> <replaceable>path_to_site_cfg</replaceable></screen>
+				</step>
+			</substeps>
+		</step>
+		
 	</procedure>
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 
