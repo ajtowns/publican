@@ -2795,7 +2795,8 @@ sub package_home {
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $type       = $self->{publican}->param('type');
     my $web_type   = $self->{publican}->param('web_type') || 'home';
-
+    my $web_dir    = $self->{publican}->param('web_dir')
+        || '%{_localstatedir}/www/html/docs';
     my $name_start = "$docname";
     $name_start = "$product-$docname"          if ( $web_type eq 'product' );
     $name_start = "$product-$docname-$version" if ( $web_type eq 'version' );
@@ -2851,6 +2852,7 @@ sub package_home {
         'src_url'    => $src_url,
         'log'        => $log,
         tmpdir       => $tmp_dir,
+        web_dir      => $web_dir,
         web_type     => $web_type,
         spec_version => $Publican::SPEC_VERSION,
         embedtoc     => $embedtoc,

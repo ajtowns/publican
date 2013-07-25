@@ -1,49 +1,24 @@
-The database contains books that cover 23 products, 53 languages,  totalling 2178 packages
+DocBook 5 support:
 
-That appears to be rong ... very wrong.
+1: Split xsl for DocBook 4/5
+
+2: Replace XSL not related to upstream output with Template::Toolkit files
+
+3: Subclass to separate version specific logic
+
+lib/
+|-- Publican
+|   |-- Builder.pm
+|   |-- CreateBook.pm
+|   |-- CreateBrand.pm
+|   |-- Localise.pm
+|   |-- Translate.pm
+|   |-- TreeView.pm
+|   |-- WebSite.pm
+|   `-- XmlClean.pm
+`-- Publican.pm
 
 
-
-NO:
-
-https://bugzilla.redhat.com/show_bug.cgi?id=979846
-https://bugzilla.redhat.com/show_bug.cgi?id=830065
-
-In Action:
-
-https://bugzilla.redhat.com/show_bug.cgi?id=963994
-
-ToDo:
-
-https://bugzilla.redhat.com/show_bug.cgi?id=718717
-https://bugzilla.redhat.com/show_bug.cgi?id=967664
-https://bugzilla.redhat.com/show_bug.cgi?id=697364
-
-NeedInfo:
-
-https://bugzilla.redhat.com/show_bug.cgi?id=811726
-
-SVN->Git
-
-https://bugzilla.redhat.com/show_bug.cgi?id=864226
-https://bugzilla.redhat.com/show_bug.cgi?id=719835
-https://bugzilla.redhat.com/show_bug.cgi?id=719832
- 
-Publican 3.1:
-
-Style Changes:
-
-	div.warning h2 -> div.admonition_header p
-	h1.confidential -> div.confidential
-	h5.formalpara -> div.formalpara
-	$formal h6 -> $formal div.title
-	h4.editedby -> div.editedby
-	h3.author -> div.author etc
-		editor
-	h2.subtitle -> div.subtitle
-
-Draft on cover page?
-Legal notice height 100%?
 
 
 *********************************************************
