@@ -3,7 +3,7 @@
   <xsl:output encoding="UTF-8" indent="no" method="text" omit-xml-declaration="no" standalone="no" version="1.0"/>
 <!-- Note: do not indent this file!  Any whitespace here will be reproduced in the output -->
 <xsl:template match="/">
-%define wwwdir %{_localstatedir}/www/html/docs
+%define wwwdir <xsl:value-of select="$web_dir"/>
 Name:          <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$web_type"/>
 Version:       <xsl:value-of select="$rpmver"/>
 Release:       <xsl:value-of select="$rpmrel"/>%{?dist}
