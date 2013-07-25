@@ -498,6 +498,16 @@
 				</listitem>
 			</varlistentry>
 			 <varlistentry>
+				<term><parameter>footer</parameter></term>
+				 <listitem>
+					<para>
+						specifies content that will be injected into the bottom of every page on the site. 
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
 				<term><parameter>generate_section_toc_level</parameter></term>
 				 <listitem>
 					<para>
@@ -725,6 +735,16 @@
 
 				</listitem>
 
+			</varlistentry>	
+			 <varlistentry>
+				<term><parameter>toc_js</parameter></term>
+				 <listitem>
+					<para>
+						allows a site to override the template used when building the embedded toc using in web_style=1 sites. The template must be in the same directory that <filename>toc.tmpl</filename> is in. The template name must be must be of the form <replaceable>toc_type+.tmpl</replaceable>
+					</para>
+
+				</listitem>
+
 			</varlistentry>
 			 <varlistentry>
 				<term><parameter>toc_type</parameter></term>
@@ -851,6 +871,17 @@
 				</listitem>
 
 			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_style</parameter></term>
+				 <listitem>
+					<para>
+						sets the web style, which determines the layout and presentation of the website. Valid values are <literal>1</literal> and <literal>2</literal>. Style 1 features a navigation pane at the left side of the screen that provides access to all of the documents on the site. Style 2 offers a breadcrumb-like navigation system.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
 			
 			<varlistentry>
 				<term><parameter>web_type</parameter></term>
