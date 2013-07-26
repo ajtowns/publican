@@ -1249,12 +1249,10 @@ sub transform {
         };
 
         my $vars = {
-            draft   => $draft,
-            product => decode_utf8($prod),
-            docname => decode_utf8($name),
-            version => decode_utf8($ver),
-            edition =>
-                decode_utf8( $locale->maketext( 'Edition [_1]', $edition ) ),
+            draft       => $draft,
+            product     => decode_utf8($prod),
+            docname     => decode_utf8($name),
+            version     => decode_utf8($ver),
             release     => decode_utf8( $self->{publican}->param('release') ),
             subtitle    => decode_utf8($subtitle),
             authors     => \@authors,
@@ -1272,6 +1270,11 @@ sub transform {
             logo     => ( $logo || 'Common_Content/images/title_logo.svg' ),
             buildpath => abs_path("$tmp_dir/$lang/html-pdf"),
         };
+
+        if ($edition) {
+            $vars->{edition} = decode_utf8(
+                $locale->maketext( 'Edition [_1]', $edition ) );
+        }
 
         $template->process(
             'cover.tmpl', $vars,

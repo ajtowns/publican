@@ -769,8 +769,8 @@ sub _validate_config {
             if ( defined($value) ) {
                 croak(
                     maketext(
-                        "Parameter [_1] is not permitted in a [_2].",
-                        $key, $self->{config}->param('type')
+                        "Parameter [_1] is not permitted in a [_2].", $key,
+                        $self->{config}->param('type')
                     )
                 );
             }
@@ -781,7 +781,7 @@ sub _validate_config {
 
         if ( defined $PARAMS{$key}->{constraint} ) {
             my $constraint = $PARAMS{$key}->{constraint};
-            if ( $value !~ /$constraint/ ) {
+            if ( defined($value) && ( $value !~ /$constraint/ ) ) {
                 croak(
                     maketext(
                         "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])",
@@ -840,7 +840,7 @@ sub new {
         $self = bless {}, $class;
         $SINGLETON = $self;
 
-# BUGBUG this should be replaced by Publican::Config
+        # BUGBUG this should be replaced by Publican::Config
         if ( $^O eq 'MSWin32' ) {
             eval { require Win32::TieRegistry; };
             croak(
