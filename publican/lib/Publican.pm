@@ -404,6 +404,7 @@ my %PARAMS = (
         descr => maketext(
             'This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version.'
         ),
+        constraint => '^(home|product|version|)$',
     },
     web_host => {
         descr => maketext(
@@ -758,22 +759,33 @@ sub _validate_config {
     my ( $self, $args ) = @_;
 
     foreach my $key ( keys(%PARAMS) ) {
+        my $value = $self->{config}->param($key);
+
+        if (( defined( $PARAMS{$key}->{not_for} ) )
+            && (lc( $PARAMS{$key}->{not_for} ) eq
+                lc( $self->{config}->param('type') ) )
+            )
+        {
+            if ( defined($value) ) {
+                croak(
+                    maketext(
+                        "Parameter [_1] is not permitted in a [_2].",
+                        $key, $self->{config}->param('type')
+                    )
+                );
+            }
+            else {
+                next;
+            }
+        }
+
         if ( defined $PARAMS{$key}->{constraint} ) {
-            my $value      = $self->{config}->param($key);
             my $constraint = $PARAMS{$key}->{constraint};
-            if ((     !$PARAMS{$key}->{not_for}
-                    || $PARAMS{$key}->{not_for} ne
-                    $self->{config}->param('type')
-                )
-                && ( !$value || $value !~ /$constraint/ )
-                )
-            {
+            if ( $value !~ /$constraint/ ) {
                 croak(
                     maketext(
                         "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])",
-                        $key,
-                        ( $value || "EMPTY" ),
-                        $constraint
+                        $key, $value, $constraint
                     )
                 );
             }
@@ -828,6 +840,7 @@ sub new {
         $self = bless {}, $class;
         $SINGLETON = $self;
 
+# BUGBUG this should be replaced by Publican::Config
         if ( $^O eq 'MSWin32' ) {
             eval { require Win32::TieRegistry; };
             croak(
