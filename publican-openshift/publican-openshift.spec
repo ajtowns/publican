@@ -3,7 +3,7 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
-Version:	0.18
+Version:	0.19
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Tue Jul 30 2013 Bilhar Aulakh <baulakh@redhat.com> 0.19-1
+- Removed corporate address from Legal Notice as per rfontana
+
 * Fri Jun 14 2013 Rüdiger Landmann <r.landmann@redhat.com> 0.18-1
 - SVG fixes
 
