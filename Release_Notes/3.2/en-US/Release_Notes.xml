@@ -128,13 +128,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix pre border in PDF. BZ #905752 </term>
+			<term>Fix pre border in PDF.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=905752">BZ #905752</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Code samples in PDF builds were not properly surrounded by border/shading. This update provides proper shading in PDF.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -249,24 +249,24 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Add pub_dir option to override publish directory. BZ #830062 </term>
+			<term>Add pub_dir option to override publish directory.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=830062">BZ #830062</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					When publishing, a custom output directory can now be specified via the --pub_dir option.
 				</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Removed show_unknown parameter and associated code. BZ #915428 </term>
+			<term>Removed show_unknown parameter and associated code.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=915428">BZ #915428</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Certain XML tags caused Publican to display a warning. These warnings come from historical usage decisions made regarding these tags. Publican no longer gives a warning when these tags are encountered.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -469,24 +469,24 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix edition missing on PDF cover pages. BZ #956940 </term>
+			<term>Fix edition missing on PDF cover pages.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=956940">BZ #956940</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The edition value was not displayed in books. Publican has been updated to show this value on the cover and title pages only if specified.
 				</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Support XML in add_revision member. BZ #862465 </term>
+			<term>Support XML in add_revision member.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=862465">BZ #862465</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Special characters in any add_revision member entries were replaced by entities and caused build errors. Publican has been updated, allowing the use and proper display of special characters in add_revision members.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -513,13 +513,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix TOC draft watermark in PDF. BZ #905271 </term>
+			<term>Fix TOC draft watermark in PDF.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=905271">BZ #905271</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The draft watermark was not configured to display in a book's Table of Contents. Publican has been updated to ensure the watermark is displayed as a whole in each page, including in any Table of Contents. 
 				</para>
 			</listitem>
 		</varlistentry>
@@ -546,24 +546,25 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Tweak equation formatting. BZ #804531 </term>
+			<term>Tweak equation formatting.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=804531">BZ #804531</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The equation and mathphrase tags appeared as left-aligned plain text, limiting their visibility. Publican has been updated to validate without warning and display any equation or mathphrase tags to stand out and appear different to plain text.
+ 
 				</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix POT-Creation-Date format. BZ #985836 </term>
+			<term>Fix POT-Creation-Date format.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=985836">BZ #985836</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Dates in PO translation files are generated by Publican to track file creation dates. Publican has been updated to display the creation dates in a format that complies with GNU convention.
 				</para>
 			</listitem>
 		</varlistentry>
