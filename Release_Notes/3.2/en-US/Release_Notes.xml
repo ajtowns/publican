@@ -35,7 +35,7 @@
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953716">BZ #953716</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously, when viewing a book on a web_style 2 site, the web site menu popped in and out when the mouse is moved off the browser, which is annoying. Now, the web site menu stays hidden until moused over.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -46,7 +46,7 @@
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
 				</para>
 				<para>
-					Previously, when viewing a book on a web_style 2 site, the web site menu popped in and out when the mouse is moved off the browser, which is annoying. Now, the web site menu stays hidden until moused over.
+					Cause, consequence, fix, result
 				</para>
 			</listitem>
 		</varlistentry>
@@ -295,7 +295,7 @@
 				</para>
 <programlisting language="XML">arch: "i386"</programlisting>
 				<para>
-					Now, Publican allows multiple conditions to be set on an element, with <literal>;<literal> representing logical <literal>or</literal>. For example:
+                    Now, Publican allows multiple conditions to be set on an element, with <literal>;</literal> representing logical <literal>or</literal>. For example:
 				</para>
 <programlisting language="XML">arch: "i386;x86_64"</programlisting>
 				<important>
@@ -318,10 +318,10 @@
 			<term>Standardized prompts in commands. BZ #880456 </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=880456">BZ #880456</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Prompts ($) have been added to all commands in the Publican 3.0 Users' Guide. In addition, some screen output boxes contained more than one command in sequence. To avoid confusion, these have been fixed to display one command per screen output box.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -384,10 +384,10 @@
 			<term>Fix PDF ignoring cover logo. BZ #974353 </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=974353">BZ #974353</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously when building a .PDF file, Publican had to have a file named title_logo.svg in the /images folder, and would fall back to common content if the file was missing. This is fixed and now PDFs are generated with the title logo specified in Book_Info.xml.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -406,10 +406,10 @@
 			<term>Fix empty pot files not being deleted. BZ #961413 </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=961413">BZ #961413</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously, empty .PO files were produced when an XML file with no translatable content was present. Now Publican checks for content and if there is none, it does not create a .PO file.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -417,10 +417,10 @@
 			<term>Fix long title layout on cover page in PDF. BZ #956934 </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=956934">BZ #956934</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously in a generated .PDF file, a long title (>30chars) overlapped with the line separator between the title and subtitle. This has been fixed and long titles no longer overlap the separator.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -461,10 +461,10 @@
 			<term>Fix UTF8 image names getting mangled in publish. BZ #953618 </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953618">BZ #953618</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously, file names that contained non-ASCII characters would cause Publican to print an "image missing" warning when trying to publish. This has been corrected so that non-ASCII characters in file names are processed correctly.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -505,10 +505,10 @@
 			<term>Fix duplicate footnotes in bibliography. BZ #653447 </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=653447">BZ #653447</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+                  Previously, a footnote in <code>&lt;biblioentry&gt;</code> generated two entries in the HTML. This has been corrected so that the footnote only appears once.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -605,10 +605,10 @@
 			<term>Updated web site instructions - BZ#979224 </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=979224">BZ #979224</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The web site instructions for installing and updating Publican were outdated. These instructions have been brought up to date.
 				</para>
 			</listitem>
 		</varlistentry>
