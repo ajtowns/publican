@@ -7,13 +7,13 @@
 	<xi:include href="Article_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	 <variablelist>
 		<varlistentry>
-			<term>Add spaces to web-spec.xsl to work around newer libxml2 eating white space in spec files BZ #982424 </term>
+			<term>Publican generated faulty specfiles on Fedora&nbsp;19</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=982424">BZ #982424</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The version of <application>libmxl2</application> shipped in Fedora&nbsp;19 ignores some whitespace in XSL templates that previous versions honoured. When Publican used its <filename>web-spec.xsl</filename> and <filename>dt_htmlsingle_spec.xsl</filename> and <filename>web-home-spec.xsl</filename> templates to generate RPM specfiles to package documents, the specfiles would be invalid because various parameters would not begin on new lines. The <literal>%post</literal> and <literal>%postun</literal> scriptlets were also sometimes corrupted because of missing whitespace. Packaging either did not work at all, or the packages caused unexpected results when installed on a Publican-maintained website. The XSL templates are now updated to move whitespace to where new libxml2 honours it to generate valid specfiles. 
 				</para>
 			</listitem>
 		</varlistentry>
@@ -282,14 +282,25 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Support all DocBook conditionals. BZ #919486 </term>
+			<term>Publican now supports all DocBook conditionals</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=919486">BZ #919486</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously, Publican supported only the <sgmltag>arch</sgmltag>, <sgmltag>lang</sgmltag>, and <sgmltag>conditional</sgmltag> conditional attributes. Publican now supports the full list of DocBook&nbsp;4 conditions: <sgmltag>arch</sgmltag>, <sgmltag>condition</sgmltag>, <sgmltag>conformance</sgmltag>, <sgmltag>lang</sgmltag>, <sgmltag>os</sgmltag>, <sgmltag>revision</sgmltag>, <sgmltag>revisionflag</sgmltag>, <sgmltag>role</sgmltag>, <sgmltag>security</sgmltag>, <sgmltag>userlevel</sgmltag>, and <sgmltag>vendor</sgmltag>. 
 				</para>
+				<para>
+					Also, profiling allowed only option to be set at a time, for example:
+				</para>
+<programlisting language="XML">arch: "i386"</programlisting>
+				<para>
+					Now, Publican allows multiple conditions to be set on an element, with <literal>;<literal> representing logical <literal>or</literal>. For example:
+				</para>
+<programlisting language="XML">arch: "i386;x86_64"</programlisting>
+				<important>
+					<para>Publican supports the <sgmltag>lang</sgmltag> attribute, but sets it implicitly when it builds a document and applies any localisations to its XML. Do not attempt to set this attribute in XML.</para>
+				</important>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
