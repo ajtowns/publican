@@ -117,13 +117,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Improve web print CSS. BZ #927513 </term>
+			<term>Improve web print CSS.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=927513">BZ #927513</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+				    	Previously, books were unreadable in print preview due to the same CSS being used for both standalone print preview as well as web content. A separate CSS style sheet has been created for viewing content on web sites and as a result, print preview displays correctly.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -139,13 +139,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix epub DOCTYPE. BZ #875129 </term>
+			<term>Fix EPUB DOCTYPE.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=875129">BZ #875129</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+                                    Previously, EPUB books were published with XHTML 1.0 Strict DOCTYPE. With this update, EPUB files are now constructed with XHTML 1.1. 
 				</para>
 			</listitem>
 		</varlistentry>
@@ -161,13 +161,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix long link word wrap in PDF. BZ #923481 </term>
+			<term>Fix long link word wrap in PDF.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=923481">BZ #923481</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously, long URLs did not wrap correctly. This caused long links to extend far into the right margin of a page and push content to the left. Publican now wraps long URLs so they do not affect page format.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -513,13 +513,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix Link from footlink to footlink-ref not working in PDF. BZ #909786 </term>
+			<term>Fix Link from footlink to footlink-ref not working in PDF.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=909786">BZ #909786</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously in a PDF, inline links within footnotes did not link back to the body text containing the footnote reference, however the book text correctly linked to the footnote. This fix enables these links to work in both directions.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -546,13 +546,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Support decimals in colwidth and convert exact measures to pixels. BZ #913775 </term>
+			<term>Support decimals in colwidth and convert exact measures to pixels. </term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=913775">BZ #913775</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+                                       Previously, when defining a column width in a table using fractions of an inch, Publican was unable to process the <code>&lt;colwidth&gt;</code> parameter when publishing. As a result, Publican would render the table incorrectly using a <code>&lt;colwidth&gt;</code> of 100% instead. This update includes the ability to define a fractional column width and render tables as instructed.
 				</para>
 			</listitem>
 		</varlistentry>
