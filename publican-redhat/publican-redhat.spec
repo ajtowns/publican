@@ -3,8 +3,8 @@
 
 Name:		publican-redhat
 Summary:	Common documentation files for %{brand}
-Version:	3.0
-Release:	2%{?dist}
+Version:	3.1
+Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,6 +55,12 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+* Tue Jul 30 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.1-1
+- remove address from legal notice per rfontana
+- add kernel code snippet as code example BZ#734622
+- revise legal notice per edutton BZ#978616
+- override .docnav.top li.home colour (blue > red)
+
 * Mon Jun 3 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.0-2
 - revise legal notice per rfontana
 
@@ -118,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 - add max_image_width for BZ#580774
 - add confidential_text for BZ#588980
 
-* Wed Apr 03 2010 Jeff Fearn <jfearn@redhat.com> 1.7
+* Wed Apr 07 2010 Jeff Fearn <jfearn@redhat.com> 1.7
 - fix using FO template for xhmtl O_O
 
 * Thu Mar 25 2010 Rüdiger Landmann <r.landmann@redhat.com> 1.6

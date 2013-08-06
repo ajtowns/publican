@@ -18,13 +18,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix typos in common content BZ #952490 #974918 </term>
+			<term>Fixed typos in common content</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=952490">BZ #952490</ulink>, <ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=974918">BZ #974918</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The common content files contained minor instances of incorrect grammar and unnecessary punctuation (such as exclamation marks in titles) in the <citetitle>Document Conventions<citetitle> and <citetitle>Getting Help and Giving Feedback"</citetitle> sections. The grammar issues are now corrected in Publican and the Red Hat brand. As a result, the common content now appears as expected within the preface of a Publican document.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -40,24 +40,24 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix ID missing from admonitions. BZ #966494 </term>
+			<term>Fixed IDs missing from admonitions</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=966494">BZ #966494</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Unlike most other XML elements, admonitions (such as <sgmltag>warning</sgmltag>, <sgmltag>note</sgmltag> and <sgmltag>important</sgmltag> elements) did not have an ID. As a result, linking to admonitions from other locations within the document or via a URL was not possible. This problem persisted event with an explicit admonition ID specified in the XML. This problem is now fixed so that admonition IDs appear in the html, whether they are explicitly set by the user or automatically generated.
 				</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Support corpauthor for PDF. BZ #908666 </term>
+			<term>Corpauthor element supported for PDF covers</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=908666">BZ #908666</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					When building a book without an <sgmltag>authorgroup</sgmltag> and instead using a <sgmltag>corpauthor</sgmltag>, the PDF version of the book would fail to build with a <computeroutput>author list can not be calculated before building</computeroutput> error. This issue is now fixed and as a result, a book without only a <sgmltag>corpauthor</sgmltag> instead of an <sgmltag>authorgroup</sgmltag> builds the PDF version of the document as expected.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -95,24 +95,24 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Add orgname to block/inline code. BZ #872955 </term>
+			<term>Add orgname to block/inline code</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=872955">BZ #872955</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					When generating PO files, the <sgmltag>orgname</sgmltag> information did not appear inline and broke the flow of the sentence, which resulted in translation diffulties. This is now fixed and the <sgmltag>orgname</sgmltag> information appears inline as expected and does not break the flow of the sentence.
 				</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix get_keywords not using correct info file. BZ #957956 </term>
+			<term>Fixed get_keywords not using correct info file</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=957956">BZ #957956</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					When the PDF version of a document is built after specifying an alternate book information file using the <parameter>info_file</parameter> parameter, a <computeroutput>keyword list can not be calculated before building</computeroutput> error displays and the build fails. This occurred because Publican referred to <filename>Book_Info.xml</filename> instead of the file specified using the <parameter>info_file</parameter> parameter to calculate the keyword list. This is now fixed and Publican builds the PDF using the file specified via <parameter>info_file</parameter> (if this parameter is used) and defaults to <filename>Book_Info.xml</filename> if <parameter>info_file</parameter> is not used.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -304,13 +304,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Flag spaces in product number as invalid. BZ #973895 </term>
+			<term>Flag spaces in product number as invalid</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=973895">BZ #973895</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					Previously, building a document with a space in the product version information displayed a FOP error because Publican did not reject the invalid product version values. This is now fixed and Publican rejects product version values with a space and the build fails as expected. 
 				</para>
 			</listitem>
 		</varlistentry>
@@ -326,13 +326,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Updated web_formats publican.cfg info BZ #839141 </term>
+			<term>Updated web_formats publican.cfg info in User Guide</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=839141">BZ #839141</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The <citetitle>Publican User Guide</citetitle> incorrectly advised specifying web formats by enclosing the entire parameter in quotation marks. This is fixed and the Publican User Guide now advises specifying web formats by enclosing only the values of the parameter in quotation marks (for example, <literal>web_formats: "html-single,pdf"</literal>).
 				</para>
 			</listitem>
 		</varlistentry>
@@ -425,13 +425,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Add Mac OS X Lion installation instructions. BZ# 979229 </term>
+			<term>Added Mac OS X Lion installation instructions</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=979229">BZ #979229</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+					The <citetitle>Publican User Guide</citetitle> now includes instructions for installing <application>Publican</application> on OS&nbsp;X version 7.2.3 (Lion).
 				</para>
 			</listitem>
 		</varlistentry>
