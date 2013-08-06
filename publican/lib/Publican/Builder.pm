@@ -9,7 +9,6 @@ use Config::Simple '-strict';
 use Publican;
 use Publican::XmlClean;
 use Publican::Translate;
-use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);
 use File::Path;
 use File::pushd;
 use File::Find;
@@ -41,8 +40,6 @@ use Publican::ConfigData;
 use Sort::Versions;
 use Template;
 use Encode qw(is_utf8 decode_utf8 encode_utf8);
-
-$File::Copy::Recursive::KeepMode = 0;
 
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
@@ -366,8 +363,7 @@ sub build {
                             "$path/." );
                     }
                     else {
-                        rcopy( encode_utf8("$tmp_dir/$lang/$format/*"),
-                            encode_utf8("$path/.") )
+                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
                             if ( -d "$tmp_dir/$lang/$format" );
 
              # for splash pages, we need to rename them if using a web style 2
@@ -692,14 +688,14 @@ sub setup_xml {
             my $brand_path = $self->{publican}->param('brand_dir')
                 || $common_content . "/$brand";
 
-            File::Copy::Recursive::rcopy_glob(
+            rcopy_glob(
                 $common_content . "/$base_brand/en-US/*",
                 "$tmp_dir/$lang/xml/Common_Content"
             );
 
             if ( $lang ne 'en-US' ) {
                 if ( -d $common_content . "/$base_brand/$lang" ) {
-                    File::Copy::Recursive::rcopy_glob(
+                    rcopy_glob(
                         $common_content . "/$base_brand/$lang/*",
                         "$tmp_dir/$lang/xml/Common_Content"
                     );
@@ -711,7 +707,7 @@ sub setup_xml {
                         . $LANG_MAP{$lang} )
                     )
                 {
-                    File::Copy::Recursive::rcopy_glob(
+                    rcopy_glob(
                         $common_content
                             . "/$base_brand/"
                             . $LANG_MAP{$lang} . "/*",
@@ -727,7 +723,7 @@ sub setup_xml {
                 my $brand_lang
                     = $self->{publican}->{brand_config}->param('xml_lang');
 
-                my @files = File::Copy::Recursive::rcopy_glob(
+                my @files = rcopy_glob(
                     $brand_path . "/$brand_lang/*",
                     "$tmp_dir/$lang/xml/Common_Content"
                 );
@@ -740,14 +736,13 @@ sub setup_xml {
 
                 if ( $lang ne $brand_lang ) {
                     if ( -d $brand_path . "/$lang" ) {
-                        File::Copy::Recursive::rcopy_glob(
-                            "$brand_path/$lang/*",
+                        rcopy_glob( "$brand_path/$lang/*",
                             "$tmp_dir/$lang/xml/Common_Content" );
                     }
                     elsif ( defined( $LANG_MAP{$lang} )
                         && ( -d $brand_path . "/" . $LANG_MAP{$lang} ) )
                     {
-                        File::Copy::Recursive::rcopy_glob(
+                        rcopy_glob(
                             "$brand_path/" . $LANG_MAP{$lang} . "/*",
                             "$tmp_dir/$lang/xml/Common_Content"
                         );
@@ -1790,10 +1785,8 @@ sub transform {
     else {
         my $images = $self->{publican}->param('img_dir');
         $dir = undef;
-        dircopy(
-            encode_utf8("$tmp_dir/$lang/xml/$images"),
-            encode_utf8("$tmp_dir/$lang/$format/$images")
-        );
+        dircopy( "$tmp_dir/$lang/xml/$images",
+            "$tmp_dir/$lang/$format/$images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"
@@ -3675,7 +3668,6 @@ Config::Simple
 Publican
 Publican::XmlClean
 Publican::Translate
-File::Copy::Recursive
 File::Path
 File::pushd
 File::Find

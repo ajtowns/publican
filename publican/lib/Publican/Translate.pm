@@ -8,7 +8,6 @@ use Carp qw(carp croak cluck);
 use Publican;
 use Publican::Builder;
 use Publican::Localise;
-use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);
 use File::Path;
 use Term::ANSIColor qw(:constants);
 use DateTime;

@@ -16,15 +16,19 @@ use Publican::ConfigData;
 use Encode;
 use Cwd qw(abs_path);
 use Data::Dumper;
+use File::Copy::Recursive;
+use Encode qw(is_utf8 decode_utf8 encode_utf8);
 
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
+
+$File::Copy::Recursive::KeepMode = 0;
 
 $VERSION = '3.1.5';
 @ISA     = qw(Exporter);
 
 @EXPORT
-    = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string);
+    = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string rcopy dircopy fcopy rcopy_glob);
 
 # Track when the SPEC file generation is incompatible.
 $SPEC_VERSION = '3.0';
@@ -1913,6 +1917,86 @@ sub get_ed_rev {
     $release =~ s/(\d+)$/(1+$1)/e if ($bump);
 
     return ( ( $edition, $release ) );
+}
+
+=head2 fcopy
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub fcopy {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::fcopy( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy file [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
+}
+
+=head2 rcopy
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub rcopy {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::rcopy( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy files [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
+}
+
+=head2 rcopy_glob
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub rcopy_glob {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::rcopy_glob( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy files [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
+}
+
+=head2 dircopy
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub dircopy {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::dircopy( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy directory [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
 }
 
 1;    # Magic true value required at end of module

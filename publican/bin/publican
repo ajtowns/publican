@@ -19,7 +19,6 @@ use Publican::XmlClean;
 use Publican::TreeView;
 use Publican::WebSite;
 use File::Path;
-use File::Copy::Recursive qw(dircopy rcopy);
 use File::Find::Rule;
 use File::pushd;
 use Archive::Tar;
@@ -556,8 +555,7 @@ if ( $action eq 'create_site' ) {
     if ($toc_path) {
         mkpath($toc_path) unless -d $toc_path;
         $config->param( 'toc_path', abs_path($toc_path) );
-        rcopy( "$WEB_TEMPLATE_PATH/*", "$toc_path/." )
-            || croak($!);
+        rcopy( "$WEB_TEMPLATE_PATH/*", "$toc_path/." );
     }
 
     $config->param( 'tmpl_path', abs_path($tmpl_path) ) if ($tmpl_path);
@@ -576,8 +574,7 @@ if ( $action eq 'update_site' ) {
     local $File::Copy::Recursive::RMTrgFil = 1;
     my $ws = Publican::WebSite->new( { site_config => $site_config } );
 
-    rcopy( "$WEB_TEMPLATE_PATH/*", $ws->toc_path() . "/." )
-        || croak($!);
+    rcopy( "$WEB_TEMPLATE_PATH/*", $ws->toc_path() . "/." );
     $ws->regen_all_toc( { force => 1 } );
 
     exit(0);
@@ -793,32 +790,29 @@ if ( $action eq 'install_brand' ) {
             mkpath("$opts{path}/$ln/$images")
                 unless ( -f "$opts{path}/$ln/$images" );
             rcopy( "$xml_lang/$images/*", "$opts{path}/$ln/$images/." )
-                || croak($!)
                 if ( -d "$xml_lang/$images" );
-            rcopy( "$ln/$images/*", "$opts{path}/$ln/$images/." ) || croak($!)
+            rcopy( "$ln/$images/*", "$opts{path}/$ln/$images/." )
                 if ( -d "$ln/$images" );
 
             if ( -d "$xml_lang/scripts" ) {
                 mkpath("$opts{path}/$ln/scripts")
                     unless ( -f "$opts{path}/$ln/scripts" );
-                rcopy( "$xml_lang/scripts/*", "$opts{path}/$ln/scripts/." )
-                    || croak($!);
+                rcopy( "$xml_lang/scripts/*", "$opts{path}/$ln/scripts/." );
             }
 
             if ( -d "$ln/scripts" ) {
                 mkpath("$opts{path}/$ln/scripts")
                     unless ( -f "$opts{path}/$ln/scripts" );
-                rcopy( "$ln/scripts/*", "$opts{path}/$ln/scripts/." )
-                    || croak($!);
+                rcopy( "$ln/scripts/*", "$opts{path}/$ln/scripts/." );
             }
         }
     }
     else {
-        rcopy( "$opts{pub_dir}/*", "$opts{path}/." )        || croak($!);
-        rcopy( "publican.cfg",     "$opts{path}/$brand/." ) || croak($!);
-        rcopy( "defaults.cfg",     "$opts{path}/$brand/." ) || croak($!)
+        rcopy( "$opts{pub_dir}/*", "$opts{path}/." );
+        rcopy( "publican.cfg",     "$opts{path}/$brand/." );
+        rcopy( "defaults.cfg",     "$opts{path}/$brand/." )
             if ( -f "defaults.cfg" );
-        rcopy( "overrides.cfg", "$opts{path}/$brand/." ) || croak($!)
+        rcopy( "overrides.cfg", "$opts{path}/$brand/." )
             if ( -f "overrides.cfg" );
     }
 
@@ -1021,7 +1015,7 @@ if ( $action eq 'install_book' ) {
     if ( $publican->param('web_home') || $publican->param('web_type') ) {
         croak( maketext("can't find 'publish' directory") )
             unless ( -d "$opts{pub_dir}/home" );
-        rcopy( "$opts{pub_dir}/home/*", $ws->toc_path() . "/." ) || croak($!);
+        rcopy( "$opts{pub_dir}/home/*", $ws->toc_path() . "/." );
     }
     else {
         my $lang = $opts{lang}
@@ -1095,8 +1089,7 @@ if ( $action eq 'install_book' ) {
 
         mkpath( $ws->toc_path() . "/$lang" )
             unless ( -d $ws->toc_path() . "/$lang" );
-        rcopy( "$opts{pub_dir}/$lang/*", $ws->toc_path() . "/$lang/." )
-            || croak($!);
+        rcopy( "$opts{pub_dir}/$lang/*", $ws->toc_path() . "/$lang/." );
 
 ##        my @formats = split( /,/, $publican->param('web_formats') );
 ##        foreach my $format (@formats) {
