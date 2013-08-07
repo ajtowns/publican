@@ -16,7 +16,7 @@
 
 Name:           publican
 Version:        3.1.5
-Release:        0%{?dist}.t71
+Release:        0%{?dist}.t72
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -42,7 +42,7 @@ BuildRequires:  perl(Module::Build)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Pod) => 1.14
 BuildRequires:  perl(Test::Pod::Coverage) => 1.04
-BuildRequires:  perl(Archive::Tar)
+BuildRequires:  perl(Archive::Tar) => 1.84
 BuildRequires:  perl(Archive::Zip)
 BuildRequires:  perl(Locale::Maketext::Gettext) >= 1.27-1.2
 BuildRequires:  perl(Carp)

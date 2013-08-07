@@ -284,7 +284,7 @@ my $builder = $class->new(
         'Test::More'                             => 0,
         'Test::Pod'                              => 1.14,
         'Test::Pod::Coverage'                    => 1.04,
-        'Archive::Tar'                           => 0,
+        'Archive::Tar'                           => 1.84,
         'Archive::Zip'                           => 0,
         'Locale::Maketext::Gettext'              => 0,
         'Carp'                                   => 0,
@@ -332,7 +332,7 @@ my $builder = $class->new(
         'Text::CSV_XS'                           => 0,
     },
     requires => {
-        'Archive::Tar'                           => 0,
+        'Archive::Tar'                           => 1.84,
         'Archive::Zip'                           => 0,
         'Locale::Maketext::Gettext'              => 0,
         'Carp'                                   => 0,

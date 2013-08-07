@@ -1030,6 +1030,7 @@ sub dir_list {
     my $images = $SINGLETON->param('img_dir');
 
     while ( my $file = $rule->match ) {
+        utf8::decode($file); ## BUGBUG blowing up Archive::Tar.
         push( @filelist, $file )
             unless ( $clean_images
             and $file =~ m{(/$extras/|/icons/|$images/icon.svg)} );
