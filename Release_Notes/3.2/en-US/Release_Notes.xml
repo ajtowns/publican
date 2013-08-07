@@ -243,8 +243,7 @@
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=891167">BZ #891167</ulink>
 				</para>
 				<para>
-					
-                                   Cause, consequence, fix, result
+                                   Running <command>update_po</command> multiple times resulted in duplicate entries in the translated <filename>Revision_History.xml</filename> if the source language <filename>Revision_History.xml</filename> was not updated first. This created revision numbers that were out of chronological order, and prevented books from being packaged. This has been fixed and version numbers in <filename>Revision_History.xml</filename> now increment correctly when running the <command>update_po</command> command multiple times.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -700,13 +699,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Add common-db5 sub package. BZ #958495 </term>
+                        <term>Add <package>common-db5</package> sub package.</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=958495">BZ #958495</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
+                                   The <package>publican-common-db5-web</package> brand package has been added so that DocBook 5 brands can be used with Publican.
 				</para>
 			</listitem>
 		</varlistentry>
