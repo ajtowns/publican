@@ -39,7 +39,7 @@
 
 </programlisting>
 						 <para>
-							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
+							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <prompt>$</prompt> <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
 						</para>
 						 <para>
 							To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>.
@@ -49,7 +49,7 @@
 					 <important>
 						<title>xrefs and the arch attribute</title>
 						 <para>
-							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
+							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <prompt>$</prompt> <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
 						</para>
 
 					</important>
@@ -71,7 +71,7 @@
 				<term><parameter>brand</parameter></term>
 				 <listitem>
 					<para>
-						sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <command>publican create</command>. If you do not specify a brand, <application>Publican</application> uses its default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
+						sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <prompt>$</prompt> <command>publican create</command>. If you do not specify a brand, <application>Publican</application> uses its default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
 					</para>
 
 				</listitem>
@@ -678,7 +678,7 @@
 				<term><parameter>type</parameter></term>
 				 <listitem>
 					<para>
-						specifies the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, as set by the <option>--type</option> option for <command>publican create</command>.
+						specifies the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, as set by the <option>--type</option> option for <prompt>$</prompt> <command>publican create</command>.
 					</para>
 
 				</listitem>
@@ -807,7 +807,7 @@
 				<term><parameter>xml_lang</parameter></term>
 				 <listitem>
 					<para>
-						specifies the language of the source XML files, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create</command>.
+						specifies the language of the source XML files, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <prompt>$</prompt> <command>publican create</command>.
 					</para>
 
 				</listitem>

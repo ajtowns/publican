@@ -6,23 +6,23 @@
 <chapter conformance="204" id="chap-Users_Guide-Publican_commands">
 	<title>Publican commands</title>
 	 <para>
-		<application>Publican</application> is a command-line tool. To use <application>Publican</application> on a computer with a Linux operating system, you must either start a terminal emulator program (such as <application>GNOME Terminal</application> or <application>Konsole</application>) or switch to a virtual console. To use <application>Publican</application> on a computer with a Windows operating system, run the <command>cmd</command> command from the <guimenu>Start menu</guimenu> to open a command prompt.
+		<application>Publican</application> is a command-line tool. To use <application>Publican</application> on a computer with a Linux operating system, you must either start a terminal emulator program (such as <application>GNOME Terminal</application> or <application>Konsole</application>) or switch to a virtual console. To use <application>Publican</application> on a computer with a Windows operating system, run the <prompt>$</prompt> <command>cmd</command> command from the <guimenu>Start menu</guimenu> to open a command prompt.
 	</para>
 	 <para>
 		<application>Publican</application> commands take one of the following formats: 
 		<variablelist>
 			<varlistentry>
-				<term><command>publican <replaceable>command_option</replaceable></command></term>
+				<term><prompt>$</prompt> <command>publican <replaceable>command_option</replaceable></command></term>
 				 <listitem>
 					<para>
-						The <replaceable>command_option</replaceable> is any of several options for the <command>publican</command> command itself.
+						The <replaceable>command_option</replaceable> is any of several options for the <prompt>$</prompt> <command>publican</command> command itself.
 					</para>
 
 				</listitem>
 
 			</varlistentry>
 			 <varlistentry>
-				<term><command>publican <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
+				<term><prompt>$</prompt> <command>publican <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
 				 <listitem>
 					<para>
 						The <replaceable>action</replaceable> is an action for <application>Publican</application> to perform, such as creating the XML files for a new document or building a HTML document from a document's XML files. The <replaceable>action_options</replaceable> apply to the <replaceable>action</replaceable>, such as specifying the language of a document.
@@ -32,7 +32,7 @@
 
 			</varlistentry>
 			 <varlistentry>
-				<term><command>publican <replaceable>command_option</replaceable> <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
+				<term><prompt>$</prompt> <command>publican <replaceable>command_option</replaceable> <replaceable>action</replaceable> <replaceable>action_options</replaceable></command></term>
 				 <listitem>
 					<para>
 						Some <replaceable>command_options</replaceable> affect the output of <replaceable>actions</replaceable>, for example, whether <application>Publican</application> should use ANSI colors in its output.
@@ -48,7 +48,7 @@
 	 <section conformance="205" id="sect-Users_Guide-Publican_commands-Command_options">
 		<title>Command options</title>
 		 <para>
-			The options for the <command>publican</command> command are: 
+			The options for the <prompt>$</prompt> <command>publican</command> command are: 
 			<variablelist>
 				<varlistentry>
 					<term><option>--help</option></term>
@@ -156,7 +156,7 @@
 					<term>clean</term>
 					 <listitem>
 						<para>
-							removes all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running the <command>publican build</command> command to build a document, such as <command>publican build --formats=html --langs=en-US</command>.
+							removes all files and folders in the <filename>tmp/</filename> subdirectory. The <filename>tmp/</filename> subdirectory is created after running the <prompt>$</prompt> <command>publican build</command> command to build a document, such as <command>publican build --formats=html --langs=en-US</command>.
 						</para>
 
 					</listitem>
@@ -166,24 +166,24 @@
 					<term>clean_ids</term>
 					 <listitem>
 						<para>
-							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after you run <command>publican clean_ids</command>: <sgmltag>&lt;section id="Test_Book-First_Section"&gt;</sgmltag>
+							changes all IDs to a standard format. This format is <replaceable>Book_Name-title</replaceable>. For example, a section with a title of <literal>First Section</literal> in a book named <literal>Test_Book</literal> will have the following ID after you run <prompt>$</prompt> <command>publican clean_ids</command>: <sgmltag>&lt;section id="Test_Book-First_Section"&gt;</sgmltag>
 						</para>
 						 <warning>
-							<title>Warning — <command>publican clean_ids</command></title>
+							<title>Warning — <prompt>$</prompt> <command>publican clean_ids</command></title>
 							 <para>
-								To make translation easier, <command>publican clean_ids</command> uses the first four characters of the tag as a prefix for the ID. Consequently, you must check out the latest versions of the XML source and translations before running this command.
+								To make translation easier, <prompt>$</prompt> <command>publican clean_ids</command> uses the first four characters of the tag as a prefix for the ID. Consequently, you must check out the latest versions of the XML source and translations before running this command.
 							</para>
 							 <para>
-								If you do not have the current versions of the PO files checked out before running <command>publican clean_ids</command>, the XML and PO files will no longer be in synchrony with each other. In this case, all links in the PO files must be manually updated.
+								If you do not have the current versions of the PO files checked out before running <prompt>$</prompt> <command>publican clean_ids</command>, the XML and PO files will no longer be in synchrony with each other. In this case, all links in the PO files must be manually updated.
 							</para>
 						</warning>
 						<important>
 							<title>Important — ID conflicts can occur</title>
 							<para>
-								The <command>publican clean_ids</command> command is intended to facilitate building a DocBook structure around documents ported from other formats such as HTML. However, <command>publican clean_ids</command> is file-based and and only has access to information in the XML file that it is currently processing and to the document name. Therefore, nodes of the same type that have the same title receive the same IDs. These duplicate IDs will prevent the document from building.
+								The <prompt>$</prompt> <command>publican clean_ids</command> command is intended to facilitate building a DocBook structure around documents ported from other formats such as HTML. However, <command>publican clean_ids</command> is file-based and and only has access to information in the XML file that it is currently processing and to the document name. Therefore, nodes of the same type that have the same title receive the same IDs. These duplicate IDs will prevent the document from building.
 							</para>
 							<para>
-								Use the <command>publican clean_ids</command> command to assist you in laying out your document, but expect that some manual adjustment to IDs might be necessary. We recommend that you do not run <command>publican clean_ids</command> on an already well established document.
+								Use the <prompt>$</prompt> <command>publican clean_ids</command> command to assist you in laying out your document, but expect that some manual adjustment to IDs might be necessary. We recommend that you do not run <command>publican clean_ids</command> on an already well established document.
 							</para>
 						</important>
 

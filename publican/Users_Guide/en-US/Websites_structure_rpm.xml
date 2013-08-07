@@ -88,7 +88,7 @@
 				</step>
 				<step>
 					<para>
-						Optionally, configure a <firstterm>dump file</firstterm> for the website. <application>Publican</application> can output an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The file is updated whenever a book is installed or removed from the site, or the <command>publican update_site</command> command is run. Configure the <parameter>dump</parameter>, <parameter>dump_file</parameter>, and <parameter>zip_dump</parameter> parameters as follows:
+						Optionally, configure a <firstterm>dump file</firstterm> for the website. <application>Publican</application> can output an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The file is updated whenever a book is installed or removed from the site, or the <prompt>$</prompt> <command>publican update_site</command> command is run. Configure the <parameter>dump</parameter>, <parameter>dump_file</parameter>, and <parameter>zip_dump</parameter> parameters as follows:
 					</para>
 					<variablelist>
 						<varlistentry>
@@ -132,5 +132,5 @@
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 
 	</para>
-<screen><prompt>$</prompt> <command>publican update_site --site_config /etc/publican-website.cfg</command></screen>
+<screen><prompt>$</prompt> <prompt>$</prompt> <command>publican update_site --site_config /etc/publican-website.cfg</command></screen>
 </section>
