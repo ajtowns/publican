@@ -79,8 +79,7 @@
 					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=891167">BZ #891167</ulink>
 				</para>
 				<para>
-					
-                                   Cause, consequence, fix, result
+                                   Running <command>update_po</command> multiple times resulted in duplicate entries in the translated <filename>Revision_History.xml</filename> if the source language <filename>Revision_History.xml</filename> was not updated first. This created revision numbers that were out of chronological order, and prevented books from being packaged. This has been fixed and version numbers in <filename>Revision_History.xml</filename> now increment correctly when running the <command>update_po</command> command multiple times.
 				</para>
 			</listitem>
 		</varlistentry>
