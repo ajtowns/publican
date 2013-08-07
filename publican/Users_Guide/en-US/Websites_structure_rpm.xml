@@ -31,7 +31,7 @@
 			<para>
 				Install <application>Publican</application>. For example, on a webserver with a Fedora operating system, run:
 			</para>
-<screen><prompt>#</prompt> <command>yum install publican</command></screen>
+<screen><prompt>#</prompt> <command>yum install publican-web publican-$brand-web</command></screen>
 		</step>
 		<step>
 			<para>
@@ -132,5 +132,5 @@
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 
 	</para>
-<screen><prompt>$</prompt> <prompt>$</prompt> <command>publican update_site --site_config /etc/publican-website.cfg</command></screen>
+<screen><prompt>$</prompt> <prompt>$</prompt> <command>publican update_site</command></screen>
 </section>
