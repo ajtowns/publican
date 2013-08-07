@@ -5,7 +5,171 @@
 ]>
 <article>
 	<xi:include href="Article_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	 <variablelist>
+	<variablelist>
+		<varlistentry>
+			<term>trans_drop command added</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=887707">BZ #887707</ulink>
+				</para>
+				<para>
+					A new command, <command>publican trans_drop</command>, creates a snapshot of the source language for use in translation.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>extras.dir parameter added to publican.cfg</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953998">BZ #953998</ulink>
+				</para>
+				<para>
+					A new parameter, <literal>extras_dir</literal>, has been added to the <filename>publican.cfg</filename> file. <literal>extras_dir</literal> allows the user to override the default location of the "extras" directory. This functionality was previously provided by the <literal>extras/</literal> directory.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Duplicate sources no longer installed</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=966143">BZ #966143</ulink>
+				</para>
+				<para>
+					Previously, brand installations caused duplications of css, images, and scripts sources. This caused installations of Publican to be larger than was necessary. A patch to Publican prevents the duplication of these sources. Installations of publican are now reduced in size.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Broken CPAN link repaired</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=973461">BZ #973461</ulink>
+				</para>
+				<para>
+					A broken link to CPAN describing supported highlighting values in <application>Kate</application> has been replaced with a link that is not broken.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Users can now specify the image directory</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=919481">BZ #919481</ulink>
+				</para>
+				<para>
+					A new parameter, <literal>image_dir</literal> has been added to the <filename>publican.cfg</filename> file. <literal>image_dir</literal> allows the user to specify which directory contains images. The default setting of <literal>image_dir</literal> is <literal>images</literal>.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Revision History ID now correctly generated</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=911462">BZ #911462</ulink>
+				</para>
+				<para>
+					Previously, the ID of the <filename>Revision History</filename> file was lost, which caused problems when xrefs linked to the Revision History.
+				</para>
+				<para>
+					IDs for <filename>Revision_History.xml</filename> in translated books are now being generated correctly by publican, allowing the books to build.
+
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Incomplete language codes now mapped to existing translations</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=844202">BZ #844202</ulink>
+				</para>
+				<para>
+					Previously, failure to specify the region in a language parameter (that is, <literal>en</literal> instead of <literal>en-US</literal>) caused Common Content to revert to <literal>en-US</literal>. This caused the Common Content file to fail to translate.
+
+				</para>
+				<para>
+					Two-letter language codes are now mapped to existing translations in cases where there is no contention between existing translations.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Default use of wkhtmltopdf can be overridden</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953728">BZ #953728</ulink>
+				</para>
+				<para>
+					Previously, <application>Publican</application> did not allow users to override the default use of <application>wkhtmltopdf</application>. <application>wkhtmltopdf</application> was the default, and if it was not installed, <application>FOP</application> would be used.
+				</para>
+				<para>
+					It is now possible for a user to override this and choose which PDF tool to use, if both PDF tools are installed.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Site JavaScript is now customizable</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=956935">BZ #956935</ulink>
+				</para>
+				<para>
+					Previously, it was not possible to customize the site JavaScript in <filename>/usr/share/publican/sitetemplate/toc.js</filename>.
+				</para>
+				<para>
+					A site parameter, toc_js, has been added, and brands are now allowed to ship <filename>template/</filename> directory.
+				</para>
+				<para>
+					It is now possible to customize site Javascript in <filename>/usr/share/publican/sitetemplate/toc.js</filename>.
+				</para>
+			</listitem>
+		</varlistentry>
+	 	<varlistentry>
+			<term>book_ver_list now exposed to products_index.tmpl and versions_index.tmpl</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=962643">BZ #962643</ulink>
+				</para>
+				<para>
+					Previously, it was not possible to access the book formats in the product templates and in the version templates.
+				</para>
+				<para>
+					book_ver_list is now exposed to <filename>products_index.tmpl</filename> and <filename>versions_index.tmpl</filename>.
+				</para>
+				<para>
+					It is now possible to access book formats in the product templates and in the version templates. This makes it possible (for instance) to produce tables that provide links to documents in each available format.
+				</para>
+			</listitem>
+		</varlistentry>
+	  	<varlistentry>
+			<term>Chapter headings, section headings, and subsection headings are now different sizes</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=924518">BZ #924518</ulink>
+				</para>
+				<para>
+					Previously, the common brand that was automatically installed with <application>Publican</application> did not use different sizes for chapter headings, section headings, and subsection headings.
+				</para>
+				<para>
+					A patch to <application>Publican</application> adjusts the size of the chapter headings, section headings, and subsection headings to make it easier to determine how deeply nested a chapter, section, or subsection is.
+				</para>
+			</listitem>
+		</varlistentry>
+	 	<varlistentry>
+			<term>Case-insensitive language attributes on programlistings now supported</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=919474">BZ #919474</ulink>
+				</para>
+				<para>
+					Previously, it was not possible to use case-insensitive "language" attributes on programlistings.
+				</para> 
+				<para>
+					This meant that upstream code was not always interoperable with publican (for instance, Publican did not accept <literal>&lt;programlisting language="bash"&gt;</literal> because it expected <literal>&lt;programlisting language="Bash"&gt;').
+				</para>
+				<para>
+					The language attribute on programlistings is now case-insensitive.
+				</para>
+			</listitem>
+		</varlistentry>
 		<varlistentry>
 			<term>Publican generated faulty specfiles on Fedora&nbsp;19</term>
 			<listitem>
