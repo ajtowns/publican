@@ -346,13 +346,13 @@
 				<para>
 					Change directories:
 				</para>
-					<screen><prompt>$</prompt> <prompt>$</prompt> <command>cd</command> <option>publican/publican</option></screen>
+					<screen><prompt>$</prompt> <command>cd</command> <option>publican/publican</option></screen>
 			</step>
 			<step>
 				<para>
 					This directory should contain a file named <filename>Build.pl</filename>. Verify that you are in the correct directory, then run the following command. Ignore all the messages you get.
 				</para>
-					<screen><prompt>$</prompt> <prompt>$</prompt> <command>perl ./Build.PL</command></screen>
+					<screen><prompt>$</prompt> <command>perl ./Build.PL</command></screen>
 					<screen><prompt>$</prompt> <command>./Build</command></screen>
 			</step>
 			<step>
@@ -365,13 +365,13 @@
 		<procedure>
 			<title>Create and build a book</title>
 			<step>
-				<screen><prompt>$</prompt> <prompt>$</prompt> <command>publican create</command> <option>--name=testbook</option></screen>
+				<screen><prompt>$</prompt> <command>publican create</command> <option>--name=testbook</option></screen>
 			</step>
 			<step>
-				<screen><prompt>$</prompt> <prompt>$</prompt> <command>cd testbook</command></screen>
+				<screen><prompt>$</prompt> <command>cd testbook</command></screen>
 			</step>
 			<step>
-				<screen><prompt>$</prompt> <prompt>$</prompt> <command>publican build</command> <option>--formats=html --langs=en-US</option></screen>
+				<screen><prompt>$</prompt> <command>publican build</command> <option>--formats=html --langs=en-US</option></screen>
 			</step>
 			<step>
 				<para>
@@ -408,8 +408,8 @@
 				<para>
 					If you got the brand from SVN, build it.
 				</para>
-					<screen><prompt>$</prompt> <prompt>$</prompt> <command>cd publican/publican-jboss</command></screen>
-					<screen><prompt>$</prompt> <prompt>$</prompt> <command>publican build</command> <option>--formats=xml --langs=all --publish</option></screen>
+					<screen><prompt>$</prompt> <command>cd publican/publican-jboss</command></screen>
+					<screen><prompt>$</prompt> <command>publican build</command> <option>--formats=xml --langs=all --publish</option></screen>
 			</step>
 			<step>
 				<para>
