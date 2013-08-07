@@ -240,17 +240,6 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Fix nested block tags breaking translation flow. BZ #909728 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
                    <term>Fixed multiple calls to <command>update_po</command> breaking packaging.</term>
 			<listitem>
 				<para>
@@ -349,83 +338,7 @@
 				</para>
 			</listitem>
 		</varlistentry>
-		<varlistentry>
-			<term>Support case-insensitive "language" attribute. BZ #919474 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Apply title style patch from Jaromir Hradilek. BZ #924518 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Expose %book_ver_list to products/versions_index.tmpl. BZ #962643 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Allow brands to ship web templates. Add site config toc_js. BZ #956935 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Add pdftool option to build for pdf tool control. BZ #953728 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Add default mapping for language to locale. BZ #844202 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Fix ID missing from translated Revision History. BZ #911462 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
+		
 		<varlistentry>
 			<term>Added pub_dir option to override publish directory</term>
 			<listitem>
@@ -445,17 +358,6 @@
 				</para>
 				<para>
 					Certain XML tags caused Publican to display a warning. These warnings come from historical usage decisions made regarding these tags. Publican no longer gives a warning when these tags are encountered.
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Add img_dir parameter to override images directory. BZ #919481 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
 				</para>
 			</listitem>
 		</varlistentry>
@@ -526,39 +428,6 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Replaced a broken link to CPAN with a working link BZ# 973461 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Remove duplicate brand files from base install. BZ #966143 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Add extras_dir parameter to override extras directory. BZ #953998 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
 			<term>Fix PDF ignoring cover logo</term>
 			<listitem>
 				<para>
@@ -566,17 +435,6 @@
 				</para>
 				<para>
 					Previously when building a .PDF file, Publican had to have a file named title_logo.svg in the /images folder, and would fall back to common content if the file was missing. This is fixed and now PDFs are generated with the title logo specified in Book_Info.xml.
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Add trans_drop action to freeze source language for translation. BZ #887707 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
 				</para>
 			</listitem>
 		</varlistentry>
@@ -614,24 +472,13 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term>Add file handle limit workaround to FAQ BZ #952476 </term>
+			<term>Add file handle limit workaround to FAQ</term>
 			<listitem>
 				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=952476">BZ #952476</ulink>
 				</para>
 				<para>
-					Cause, consequence, fix, result
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Support CDATA tags. BZ #958343 </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
+					A workaround for situations in which the number of file handles open exceeds the default limit has been added to the FAQ in the Publican User's Guide.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -724,6 +571,20 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
+			<term></term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=958343">BZ #958343</ulink>
+				</para>
+				<para>
+                                       Previously, <application>Publican</application> resolved XML entities that appeared in CDATA blocks, causing them to be replaced. 
+				</para>
+				<para>
+					<application>Publican</application> no longer resolves XML entities that appear in CDATA blocks.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
 			<term>Support decimals in colwidth and convert exact measures to pixels. </term>
 			<listitem>
 				<para>
@@ -754,17 +615,6 @@
 				</para>
 				<para>
 					Dates in PO translation files are generated by Publican to track file creation dates. Publican has been updated to display the creation dates in a format that complies with GNU convention.
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term>Fix site stats report swapping languages and products. </term>
-			<listitem>
-				<para>
-					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=xxxxxx">BZ #xxxxxx</ulink>
-				</para>
-				<para>
-					Cause, consequence, fix, result
 				</para>
 			</listitem>
 		</varlistentry>
