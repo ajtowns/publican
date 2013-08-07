@@ -1968,7 +1968,9 @@ UTF8 escape calls to File::Copy::Recursive
 sub rcopy_glob {
     my ( $from, $to ) = @_;
 
-    File::Copy::Recursive::rcopy_glob( encode_utf8($from), encode_utf8($to) )
+    my @files
+        = File::Copy::Recursive::rcopy_glob( encode_utf8($from),
+        encode_utf8($to) )
         || croak(
         maketext(
             "Can not copy files [_1] to [_2] due to error: [_3]",
@@ -1976,7 +1978,7 @@ sub rcopy_glob {
         )
         );
 
-    return;
+    return (@files);
 }
 
 =head2 dircopy
