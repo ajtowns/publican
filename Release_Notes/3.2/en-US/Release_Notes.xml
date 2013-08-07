@@ -7,6 +7,20 @@
 	<xi:include href="Article_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<variablelist>
 		<varlistentry>
+			<term>Tags nested inside &lt;emphasis&gt; tags no longer disapper when publican creates .po files</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=909728">BZ #909728</ulink>
+				</para>
+				<para>
+					Previously, tags nested inside &lt;ulink&gt; tags disappeared during the creation of .po files. This meant that the source string and the translated string did not correspond to one another.
+				</para>
+				<para>
+					A patch to <application>Publican</application> ensures that tags nested inside &lt;ulink&gt; tags do not disappear during the creation of .po files.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
 			<term>trans_drop command added</term>
 			<listitem>
 				<para>
