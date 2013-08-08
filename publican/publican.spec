@@ -44,6 +44,7 @@ BuildRequires:  perl(Test::Pod) => 1.14
 BuildRequires:  perl(Test::Pod::Coverage) => 1.04
 BuildRequires:  perl(Archive::Tar) => 1.84
 BuildRequires:  perl(Archive::Zip)
+BuildRequires:  perl(Compress::Zlib) => 2.030
 BuildRequires:  perl(Locale::Maketext::Gettext) >= 1.27-1.2
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Config::Simple)
