@@ -3,8 +3,13 @@
 
 Name:		publican-jboss
 Summary:	Common documentation files for %{brand}
+<<<<<<< HEAD
+Version:	3.0
+Release:	2%{?dist}
+=======
 Version:	3.1
 Release:	1%{?dist}
+>>>>>>> devel
 License:	CC-BY-SA
 Group:		Applications/Text
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,11 +60,14 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+<<<<<<< HEAD
+=======
 * Tue Jul 30 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.1-1
 - remove address from legal notice per rfontana
 - revise legal notice per edutton BZ#989818
 - override .docnav.top li.home colour (blue > red)
 
+>>>>>>> devel
 * Mon Jun 3 2013 Rüdiger Landmann <r.landmann@redhat.com> 3.0-2
 - revise legal notice per rfontana
 
