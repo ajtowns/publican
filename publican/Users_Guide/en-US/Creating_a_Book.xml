@@ -9,17 +9,17 @@
 		This chapter describes creating books and articles: the main configuration files, example document files, and how to build a document.
 	</para>
 	 <para>
-		Use the <command>publican create</command> command to create a new document, including all the necessary files for the document.
+		Use the <prompt>$</prompt> <command>publican create</command> command to create a new document, including all the necessary files for the document.
 	</para>
 	 <para>
-		The <command>publican create</command> command accepts several options, detailed in this chapter. When an option can accept a value, separate the option from the value with a space or an equals sign; for example, <command>publican create --name New_Book</command> or <command>publican create --name=New_Book</command>.
+		The <prompt>$</prompt> <command>publican create</command> command accepts several options, detailed in this chapter. When an option can accept a value, separate the option from the value with a space or an equals sign; for example, <command>publican create --name New_Book</command> or <command>publican create --name=New_Book</command>.
 	</para>
 	 <variablelist>
 		<varlistentry>
 			<term><option>--help</option></term>
 			 <listitem>
 				<para>
-					print a list of all <command>publican create</command> command options.
+					print a list of all <prompt>$</prompt> <command>publican create</command> command options.
 				</para>
 
 			</listitem>
@@ -29,7 +29,7 @@
 			<term><option>--name<replaceable> Doc_Name</replaceable></option></term>
 			 <listitem>
 				<para>
-					set <replaceable>Doc_Name</replaceable> as the name of the book or article. This variable must not contain any spaces. For example, the command <command>create_book --name Test_Book</command> creates a book named <literal>Test_Book</literal> with all the necessary files to build the book, and sets the <parameter>BOOKID</parameter> in the <filename>Test_Book.ent</filename> file.
+					set <replaceable>Doc_Name</replaceable> as the name of the book or article. This variable must not contain any spaces. For example, the command <prompt>$</prompt> <command>create_book --name Test_Book</command> creates a book named <literal>Test_Book</literal> with all the necessary files to build the book, and sets the <parameter>BOOKID</parameter> in the <filename>Test_Book.ent</filename> file.
 				</para>
 
 			</listitem>
@@ -108,14 +108,14 @@
 
 	</variablelist>
 	 <para>
-		Before running the <command>publican create</command> command, use the <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named <literal>Test_Book</literal> in the <filename>my_books/</filename> directory, run the following commands:
+		Before running the <prompt>$</prompt> <command>publican create</command> command, use the <prompt>$</prompt> <command>cd</command> command to change into the directory where you want the book to be created. For example, to create a book named <literal>Test_Book</literal> in the <filename>my_books/</filename> directory, run the following commands:
 	</para>
-<screen><command>cd my_books/</command> 
-<command>publican create --name Test_Book</command></screen>
+<screen><prompt>$</prompt> <command>cd my_books/</command> 
+<prompt>$</prompt> <command>publican create --name Test_Book</command></screen>
 	 <para>
 		To see the results of this command on a computer with a Linux operating system, run the following:
 	</para>
-<screen><command>ls</command></screen>
+<screen><prompt>$</prompt> <command>ls</command></screen>
 	 <para>
 		The output should be similar to the following:
 	</para>
@@ -123,8 +123,8 @@
 	<para>
 		To see the contents of the new <filename>Test_Book/</filename> directory on a computer with a Linux operating system, run the following:
 	</para>
-<screen><command>cd Test_Book/</command>
-<command>ls</command></screen>
+<screen><prompt>$</prompt> <command>cd Test_Book/</command>
+<prompt>$</prompt> <command>ls</command></screen>
 	 <para>
 		The output should be similar to the following:
 	</para>

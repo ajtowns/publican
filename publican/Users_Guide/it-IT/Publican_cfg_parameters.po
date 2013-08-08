@@ -238,8 +238,8 @@ msgid "the default language for a <application>Publican</application>-managed we
 msgstr "la lingua predefinita per il sito web gestito via <application>Publican</application>. Le tabelle dei contenuti, per le altre lingue, sono collegate ai documenti in lingua predefinita in assenza di traduzioni. (Per impostazione: <literal>en-US</literal> — inglese degli Stati Uniti d'America)"
 
 #. Tag: term
-#, no-c-format
-msgid "<parameter>doc_url</parameter>"
+#, no-c-format, fuzzy
+msgid "<parameter>src_url</parameter>"
 msgstr "<parameter>doc_url</parameter>"
 
 #. Tag: para
@@ -408,9 +408,9 @@ msgid "the desktop menu category (as defined by a corresponding <filename>.menu<
 msgstr "la categoria del desktop menu (come definito dal file <filename>.menu</filename> corrispondente), in cui far comparire un documento quando installato da un pacchetto RPM per desktop. Fare riferimento alla <xref linkend=\"desktop_menus\" />."
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>sort_order</parameter>"
-msgstr "<parameter>os_ver</parameter>"
+#, no-c-format
+msgid "<parameter>os_ver</parameter>"
+msgstr "<parameter>src_url</parameter>"
 
 #. Tag: para
 #, no-c-format
@@ -428,9 +428,9 @@ msgid "URL for the product to which this document applies. (Default: <literal>ht
 msgstr "URL del prodotto cui si applica il documento. (Per impostazione: <literal>https://fedorahosted.org/publican</literal>)"
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<parameter>rev_file</parameter>"
-msgstr "<parameter>release</parameter>"
+#, no-c-format
+msgid "<parameter>license</parameter>"
+msgstr "<parameter>license</parameter>"
 
 #. Tag: para
 #, no-c-format
@@ -448,7 +448,7 @@ msgid "the repository from which to fetch remote books that form part of a distr
 msgstr "il repository da cui scaricare libri remoti, parte di un set distribuito."
 
 #. Tag: term
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "<parameter>rev_file</parameter>"
 msgstr "<parameter>release</parameter>"
 
@@ -479,16 +479,6 @@ msgstr "specifica se visualizzare gli avvisi nelle presentazioni. (Per impostazi
 
 #. Tag: term
 #, no-c-format
-msgid "<parameter>show_unknown</parameter>"
-msgstr "<parameter>show_unknown</parameter>"
-
-#. Tag: para
-#, no-c-format
-msgid "whether <application>Publican</application> reports unknown tags when processing XML. (Default: <literal>1</literal> — report unknown tags)"
-msgstr "specifica se segnalare i tag sconosciuti durante l'elaborazione degli XML. (Per impostazione: <literal>1</literal> — tag sconosciuti segnalati)"
-
-#. Tag: term
-#, no-c-format, fuzzy
 msgid "<parameter>sort_order</parameter>"
 msgstr "<parameter>os_ver</parameter>"
 
@@ -498,24 +488,14 @@ msgid "override the default sort weighting for books in a <application>Publican<
 msgstr ""
 
 #. Tag: term
-#, no-c-format
+#, no-c-format, fuzzy
 msgid "<parameter>src_url</parameter>"
-msgstr "<parameter>src_url</parameter>"
+msgstr "<parameter>doc_url</parameter>"
 
 #. Tag: para
 #, no-c-format
 msgid "URL at which to find tarballs of source files."
 msgstr "URL in cui trovare i tarball dei file sorgenti"
-
-#. Tag: term
-#, no-c-format
-msgid "<parameter>strict</parameter>"
-msgstr "<parameter>strict</parameter>"
-
-#. Tag: para
-#, no-c-format
-msgid "<emphasis role=\"strikethrough\">use <firstterm>strict mode</firstterm> (Default: <literal>0</literal> — not strict)</emphasis> Strict mode is not currently enforced."
-msgstr "<emphasis role=\"strikethrough\">usa <firstterm>strict mode</firstterm> (Per impostazione: <literal>0</literal> — non strict)</emphasis> attualmente la modalità strict non è abilitata"
 
 #. Tag: term
 #, no-c-format
@@ -661,6 +641,16 @@ msgstr "sostituisce il numero di versione che appare nel menu di un sito web ges
 #, no-c-format
 #~ msgid "the CVS package into which to import the SRPM. This parameter takes the literal string <literal>__LANG__</literal> and replaces it with the langauge supplied to the package action at run time."
 #~ msgstr "il pacchetto CVS in cui importare l'SRPM. Il parametro accetta la stringa <literal>__LANG__</literal>, sostituendola con il codice della lingua durante l'elaborazione del pacchetto"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "<emphasis role=\"strikethrough\">use <firstterm>strict mode</firstterm> (Default: <literal>0</literal> — not strict)</emphasis> Strict mode is not currently enforced."
+#~ msgstr "<emphasis role=\"strikethrough\">usa <firstterm>strict mode</firstterm> (Per impostazione: <literal>0</literal> — non strict)</emphasis> attualmente la modalità strict non è abilitata"
+
+#. Tag: para
+#, no-c-format
+#~ msgid "whether <application>Publican</application> reports unknown tags when processing XML. (Default: <literal>1</literal> — report unknown tags)"
+#~ msgstr "specifica se segnalare i tag sconosciuti durante l'elaborazione degli XML. (Per impostazione: <literal>1</literal> — tag sconosciuti segnalati)"
 
 #~ msgid "the desktop packages that this package obsoletes."
 #~ msgstr "i pacchetti desktop resi obsoleti dal pacchetto"

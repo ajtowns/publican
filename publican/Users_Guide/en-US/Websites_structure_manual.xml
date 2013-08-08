@@ -14,12 +14,12 @@
 			<para>
 				On your workstation, create a new directory and change into it. For example, on a Linux system, run:
 			</para>
-<screen><command>mkdir ~/docsite</command>
-<command>cd ~/docsite</command></screen>
+<screen><prompt>$</prompt> <command>mkdir ~/docsite</command>
+<prompt>$</prompt> <command>cd ~/docsite</command></screen>
 		</step>
 		<step>
 			<para>
-				Run <command>publican create_site</command>, specifying the following parameters:
+				Run <prompt>$</prompt> <command>publican create_site</command>, specifying the following parameters:
 			</para>
 			<itemizedlist>
 				<listitem>
@@ -51,7 +51,7 @@
 			<para>
 				For example:
 			</para>
-<screen><command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
+<screen><prompt>$</prompt> <command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command></screen>
 			<para>
 				You might give names to the site configuration file and database file that help you to recognize the site to which they belong. For example, for the <application>FooMaster</application> documentation site, you might call these files <filename>foomaster.cfg</filename> and <filename>foomaster.db</filename>. You can set <parameter>--toc_path</parameter> to whatever you choose.
 			</para>
@@ -111,7 +111,7 @@
 				</step>
 				<step>
 					<para>
-						Optionally, configure a <firstterm>dump file</firstterm> for the website. <application>Publican</application> can output an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The file is updated whenever a book is installed or removed from the site, or the <command>publican update_site</command> command is run. Configure the <parameter>dump</parameter>, <parameter>dump_file</parameter>, and <parameter>zip_dump</parameter> parameters as follows:
+						Optionally, configure a <firstterm>dump file</firstterm> for the website. <application>Publican</application> can output an XML file that provides complete site content details for delivery of other services, such as web feeds or customised search pages. The file is updated whenever a book is installed or removed from the site, or the <prompt>$</prompt> <command>publican update_site</command> command is run. Configure the <parameter>dump</parameter>, <parameter>dump_file</parameter>, and <parameter>zip_dump</parameter> parameters as follows:
 					</para>
 					<variablelist>
 						<varlistentry>
@@ -149,7 +149,16 @@
 					</para>
 <programlisting>manual_toc_update: 1</programlisting>
 					<para>
-						Normally, <application>Publican</application> updates the site's tables of contents every time a documentation package is added or removed. On a site with a large number of documents on it (more than a few hundred), or where documents are updated very frequently (dozens of updates per week), this process is very demanding on a server. On a large or busy site, we recommend that you set this parameter and then periodically update the tables of contents with the <command>publican update_site</command> command. 
+						Normally, <application>Publican</application> updates the site's tables of contents every time a documentation package is added or removed. On a site with a large number of documents on it (more than a few hundred), or where documents are updated very frequently (dozens of updates per week), this process is very demanding on a server. On a large or busy site, we recommend that you set this parameter and then periodically update the tables of contents with the <prompt>$</prompt> <command>publican update_site</command> command. 
+					</para>
+				</step>
+				<step>
+					<para>
+						Optionally, override the default JavaScript for the site with the <parameter>toc_js</parameter> parameter, for example:
+					</para>
+<programlisting>toc_js: "mybrand/scripts/megafoo.js"</programlisting>
+					<para>
+						This file will be symlinked as <parameter>toc_path</parameter>/toc.js with the <prompt>$</prompt> <command>publican update_site</command> command. This path should be relative to the <parameter>toc_path</parameter> parameter.
 					</para>
 				</step>
 			</substeps>
@@ -158,11 +167,48 @@
 			<para>
 			  Create an empty file named <filename>site_overrides.css</filename> in the directory that you specified with <option>doc_path</option> (the directory that contains <filename>interactive.css</filename> and the various language directories). If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend="sect-Users_Guide-Website-homepage-manual" />. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, change into the directory that you specified with <option>doc_path</option> and run: 
 			</para>
-<screen><command>touch site_overrides.css</command></screen>
+<screen><prompt>$</prompt> <command>touch site_overrides.css</command></screen>
+		</step>
+		<step>
+			<para>
+				Build and install each brand, including the <application>Publican</application> <literal>common</literal> brand.
+			</para>
+			<substeps>
+				<step>
+					<para>
+						Change into the directory that holds the source for the brand.
+					</para>
+	
+					<screen><prompt>$</prompt> <command>cd</command> <replaceable>brandsrc_dir</replaceable></screen>
+					
+				</step>
+				<step>
+					<para>
+						Build the brand.
+					</para>
+					<screen><prompt>$</prompt> <command>publican build --formats=xml --langs=all --publish</command></screen>
+					
+				</step>
+				<step>
+					<para>
+						Install the brand on your website.
+					</para>
+					<screen><prompt>$</prompt> <command>publican install_brand --web --path=</command><replaceable>path_to_site_root_dir</replaceable></screen>
+					<para>
+						Perform these steps for all brands.
+					</para>
+				</step>
+			</substeps>
+		</step>
+		<step>
+			<para>
+				Update the site.
+			</para>
+			<screen><prompt>$</prompt> <command>publican update_site</command></screen>
 		</step>
 	</procedure>
 	<para>
 		To make <application>Publican</application> refresh the site structure at any time, run: 
 	</para>
-<screen><command>publican update_site --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg</command></screen>
+<screen><prompt>$</prompt> <command>publican update_site --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg</command></screen>
 </section>

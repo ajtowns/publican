@@ -157,7 +157,18 @@ Windows:
     $ set XML_CATALOG_FILES=c:\publican\publican\publican\win_catalog.xml
     $ perl win_build.pl
 
-    
+
+Q: How do I push new strings to Zanata or retrieve new translations?
+
+A: You need to install the Zanata client (on Fedora, yum install zanata-python-client). Then, to update the translation source on Zanata from the newest version of the POT file:
+ 
+$ zanata push --push-type source
+
+and to retrieve new translations:
+
+$ zanata pull
+
+
 TODO:
 
 what about a real list of valid langauges?

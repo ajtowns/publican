@@ -23,7 +23,7 @@
 				Generate <firstterm>portable object template</firstterm> (POT) files from the XML files:
 			</para>
 			 
-<screen>$ <command>publican update_pot</command>
+<screen><prompt>$</prompt> <command>publican update_pot</command>
 </screen>
 			 <para>
 				If this is the first time that POT files have been created for this document, <application>Publican</application> creates a new subdirectory, named <filename>pot</filename>. The <filename>pot</filename> subdirectory holds a POT file for each XML file in the document. If <application>Publican</application> has created POT files for this document previously, <application>Publican</application> updates the existing POT files to reflect any changes in the XML since the POT files were last updated.
@@ -34,7 +34,7 @@
 					<application>Publican</application> generates a POT file for every XML file in the XML directory, whether the XML file is used in the document or not. If you transform unused XML files into POT files, you waste the time and effort of volunteer translators, and waste money if you are paying for translations.
 				</para>
 				 <para>
-					Use the <command>publican print_unused</command> command to generate a list of XML files that are not used in your document.
+					Use the <prompt>$</prompt> <command>publican print_unused</command> command to generate a list of XML files that are not used in your document.
 				</para>
 
 			</important>
@@ -45,19 +45,19 @@
 				Generate <firstterm>portable object</firstterm> (PO) files from the POT files to begin translation into a particular language:
 			</para>
 			 
-<screen>$ <command>publican update_po --langs=<replaceable>language_code</replaceable></command>
+<screen><prompt>$</prompt> <command>publican update_po --langs=<replaceable>language_code</replaceable></command>
 </screen>
 			 <para>
 				where <replaceable>language_code</replaceable> is the code for the target language. Refer to <xref linkend="appe-Users_Guide-Language_codes" /> for more information about language codes. You can provide multiple language codes, separated by commas, to generate PO files for more than one language at a time. For example:
 			</para>
 			 
-<screen>$ <command>publican update_po --langs=hi-IN,pt-BR,ru-RU,zh-CN</command>
+<screen><prompt>$</prompt> <command>publican update_po --langs=hi-IN,pt-BR,ru-RU,zh-CN</command>
 </screen>
 			 <para>
 				If this is the first time that PO files have been created for a particular language, <application>Publican</application> creates a new subdirectory, named with the language code that you specified with the <option>--langs=</option> option. This subdirectory holds a PO file for each POT file in <filename>pot</filename> subdirectory. If <application>Publican</application> has created PO files for this language previously, <application>Publican</application> updates the existing PO files to reflect any changes in the POT files since the PO files were last updated. You can update existing PO files in every subdirectory with the <option>--langs=all</option> option:
 			</para>
 			 
-<screen>$ <command>publican update_po --langs=all</command>
+<screen><prompt>$</prompt> <command>publican update_po --langs=all</command>
 </screen>
 			 <important>
 				<title>Remove unused POT files</title>
@@ -82,13 +82,13 @@
 				Build the document in the target language, for example:
 			</para>
 			 
-<screen>$ <command>publican build --formats=html,html-single,pdf --langs=is-IS,nb-NO</command>
+<screen><prompt>$</prompt> <command>publican build --formats=html,html-single,pdf --langs=is-IS,nb-NO</command>
 </screen>
 			 <para>
 				or package it in the target language, for example:
 			</para>
 			 
-<screen>$ <command>publican package --lang=is-IS</command>
+<screen><prompt>$</prompt> <command>publican package --lang=is-IS</command>
 </screen>
 			 <para>
 				You can build the document in all languages for which you have translations with the <option>--langs=all</option> option, but note that you must package each language individually. Refer to <xref linkend="sect-Users_Guide-Building_a_document" /> for more information on building a document, and <xref linkend="sect-Users_Guide-Packaging_a_book" /> on packaging a document.

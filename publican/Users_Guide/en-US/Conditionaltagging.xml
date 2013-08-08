@@ -12,7 +12,7 @@
 		<application>Publican</application> makes it easy to manage differences between multiple versions of a book by allowing you to use a single source for all versions. <firstterm>Conditional tagging</firstterm> allows you to make sure that version-specific content only appears in the correct version; that is, you <firstterm>conditionalize</firstterm> the content.
 	</para>
 	 <para>
-		To conditionalize content in a book, use the tag attribute <command>condition</command>. For example, let's say the book <citetitle>How To Use Product Foo</citetitle> has an "upstream", "enterprise", and "beta" version:
+		To conditionalize content in a book, use the tag attribute <prompt>$</prompt> <command>condition</command>. For example, let's say the book <citetitle>How To Use Product Foo</citetitle> has an "upstream", "enterprise", and "beta" version:
 	</para>
 	 
 <programlisting language="XML">&lt;para condition="upstream"&gt;
@@ -31,13 +31,10 @@
 	To make &lt;application&gt;Foo&lt;/application&gt; start automatically at boot time, edit the &lt;filename&gt;/etc/init.d/foo&lt;/filename&gt; file.
 &lt;/para&gt;</programlisting>
 	 <para>
-		To build a specific version (and thereby capture all content conditionalized for that version), add the <command>condition: <replaceable>version</replaceable></command> parameter to the <filename>publican.cfg</filename> file and run the <command>publican build</command> command as normal. For example, if you add <literal>condition: upstream</literal> to the <filename>publican.cfg</filename> file of <citetitle>How To Use Product Foo</citetitle> and run:
+		To build a specific version (and thereby capture all content conditionalized for that version), add the <prompt>$</prompt> <command>condition: <replaceable>version</replaceable></command> parameter to the <filename>publican.cfg</filename> file and run the <prompt>$</prompt> <command>publican build</command> command as normal. For example, if you add <literal>condition: upstream</literal> to the <filename>publican.cfg</filename> file of <citetitle>How To Use Product Foo</citetitle> and run:
 	</para>
 	 
-<screen>
-publican build --formats=pdf --langs=en-US
-
-</screen>
+<screen><prompt>$</prompt> <command>publican build --formats=pdf --langs=en-US</command></screen>
 	 <para>
 		<application>Publican</application> filters out all tags with condition attributes other than <literal>condition="upstream"</literal> and builds <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
 	</para>
@@ -90,7 +87,7 @@ msgstr ""</programlisting>
 			As an alternative to conditionals, consider maintaining separate versions of your book in separate branches of a version-controlled repository. You can still share XML files and even PO files between the various branches as necessary, and some version control systems allow you to share changes readily among branches.
 		</para>
 		<para>
-			If you maintain two versions of a book in the same repository, we recommend using a separate config file for each version. For example, the  <filename>upstream.cfg</filename> file might contain the condition <literal>condition: upstream</literal> and the <filename>enterprise.cfg</filename> file might contain the condition <literal>condition: enterprise</literal>. You could then specify the version of the document to build or package with the <option>--config</option>; for example, <command>publican package --lang en-US --config upstream.cfg</command>. Using two separate config files saves you from having to edit the one config file each time you build or package a document.
+			If you maintain two versions of a book in the same repository, we recommend using a separate config file for each version. For example, the  <filename>upstream.cfg</filename> file might contain the condition <literal>condition: upstream</literal> and the <filename>enterprise.cfg</filename> file might contain the condition <literal>condition: enterprise</literal>. You could then specify the version of the document to build or package with the <option>--config</option>; for example, <prompt>$</prompt> <command>publican package --lang en-US --config upstream.cfg</command>. Using two separate config files saves you from having to edit the one config file each time you build or package a document.
 		</para>
 
 	</section>

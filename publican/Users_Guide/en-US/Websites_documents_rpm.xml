@@ -8,7 +8,7 @@
 	<para>
 		On your workstation, change into the directory that contains the source for the document and run: 
 	</para>
-<screen><command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>publican package --binary --lang <replaceable>language_code</replaceable></command></screen>
 	<para>
 		<application>Publican</application> builds an RPM package and places it in the <filename>/tmp/rpms/noarch/</filename> directory of the document. By default, <application>Publican</application> builds the RPM package for the operating system within which you are running <application>Publican</application>. To build an RPM package to install on a server that runs a different operating system, set the <parameter>os_ver</parameter> parameter in the document's <filename>publican.cfg</filename> file. 
 	</para>
@@ -22,6 +22,6 @@
 		Remove a document from the webserver with the <command>rpm -e</command> or <command>yum erase</command> command.
 	</para>
 	<para>
-		On large or busy sites, we recommend that you set the <parameter>manual_toc_update</parameter> parameter in the site's configuration file. With this parameter set, you must run the <command>publican update_site</command> command after installing, updating, or removing documents. Refer to <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-manual" /> for more information. 
+		On large or busy sites, we recommend that you set the <parameter>manual_toc_update</parameter> parameter in the site's configuration file. With this parameter set, you must run the <prompt>$</prompt> <command>publican update_site</command> command after installing, updating, or removing documents. Refer to <xref linkend="sect-Users_Guide-Website-structure-cfg_and_db-manual" /> for more information. 
 	</para>
 </section>

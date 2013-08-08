@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-08T03:26:30\n"
-"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"POT-Creation-Date: 2013-08-06 09:04+1000\n"
+"PO-Revision-Date: 2013-08-06 09:04+1000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>mkdir ~/docsite</command>\n"
+msgid "<prompt>$</prompt> <command>mkdir ~/docsite</command>\n"
 "<command>cd ~/docsite</command>"
 msgstr ""
 
@@ -70,7 +70,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command>"
+msgid "<prompt>$</prompt> <command>publican create_site --site_config foomaster.cfg --db_file foomaster.db --toc_path html/docs</command>"
 msgstr ""
 
 #. Tag: para
@@ -220,12 +220,77 @@ msgstr ""
 
 #. Tag: para
 #, no-c-format
+msgid "Optionally, override the default JavaScript for the site with the <parameter>toc_js</parameter> parameter, for example:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "toc_js: \"mybrand/scripts/megafoo.js\""
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This file will be symlinked as <parameter>toc_path</parameter>/toc.js with the <command>publican update_site</command> command. This path should be relative to the <parameter>toc_path</parameter> parameter."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
 msgid "Create an empty file named <filename>site_overrides.css</filename> in the directory that you specified with <option>doc_path</option> (the directory that contains <filename>interactive.css</filename> and the various language directories). If you want to use site-specific styles to override those provided by <filename>interactive.css</filename>, you can add a <filename>site_overrides.css</filename> to the document that provides the site <firstterm>home page</firstterm> — refer to <xref linkend=\"sect-Users_Guide-Website-homepage-manual\" />. If you do not want to use site-specific styles, the empty file you add here will prevent 404 errors on your server. On a Linux system, change into the directory that you specified with <option>doc_path</option> and run:"
 msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>touch site_overrides.css</command>"
+msgid "<prompt>$</prompt> <command>touch site_overrides.css</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Build and install each brand, including the <application>Publican</application> <literal>common</literal> brand."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Change into the directory that holds the source for the brand."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt><command>cd</command> <replaceable>brandsrc_dir</replaceable>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Build the brand."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt><command>publican build --formats=xml --langs=all --publish</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install the brand on your website."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt><command>publican install_brand --web --path=</command><replaceable>path_to_site_root_dir</replaceable>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Perform these steps for all brands."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Update the site."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt><command>publican update_site --site_config</command> <replaceable>path_to_site_cfg</replaceable>"
 msgstr ""
 
 #. Tag: para
@@ -235,6 +300,6 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>publican update_site --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg</command>"
+msgid "<prompt>$</prompt> <command>publican update_site --site_config <replaceable>path_to_site_configuration_file</replaceable>.cfg</command>"
 msgstr ""
 

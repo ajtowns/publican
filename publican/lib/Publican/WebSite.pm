@@ -22,11 +22,12 @@ use Publican::ConfigData;
 
 our $VERSION = '1.4';
 
-my $DB_NAME             = 'books';
-my $DEFAULT_LANG        = 'en-US';
-my $DEFAULT_TMPL_PATH   = Publican::ConfigData->config('templates');
-my $DEFAULT_CONFIG_FILE = Publican::ConfigData->config('etc') . '/publican-website.cfg';
-my $DEFAULT_DUMP_FILE   = '/var/www/html/DUMP.xml';
+my $DB_NAME           = 'books';
+my $DEFAULT_LANG      = 'en-US';
+my $DEFAULT_TMPL_PATH = Publican::ConfigData->config('templates');
+my $DEFAULT_CONFIG_FILE
+    = Publican::ConfigData->config('etc') . '/publican-website.cfg';
+my $DEFAULT_DUMP_FILE = '/var/www/html/DUMP.xml';
 
 my %LANG_NAME = (
     'ar-SA'      => 'العربية',
@@ -116,11 +117,16 @@ my %tmpl_strings = (
     ),
     index_toc =>
         $locale->maketext('Click here to view a static Table of Contents'),
-    ProductLinkTitle => $locale->maketext('Information'),
-    ProductList      => $locale->maketext('Product List'),
-    Hide_Menu        => $locale->maketext('Hide Menu'),
-    Show_Menu        => $locale->maketext('Show Menu'),
-    Formats          => $locale->maketext('Formats'),
+    ProductLinkTitle      => $locale->maketext('Information'),
+    ProductList           => $locale->maketext('Product List'),
+    Hide_Menu             => $locale->maketext('Hide Menu'),
+    Show_Menu             => $locale->maketext('Show Menu'),
+    Formats               => $locale->maketext('Formats'),
+    Knowledge             => $locale->maketext('Knowledge'),
+    Document              => $locale->maketext('Document'),
+    Document_Language     => $locale->maketext('Document Language'),
+    Document_Home         => $locale->maketext('Document Home'),
+    Product_Documentation => $locale->maketext('Product Documentation'),
 );
 
 sub new {
@@ -161,6 +167,7 @@ sub new {
     my $dump_file = $config->param('dump_file') || $DEFAULT_DUMP_FILE;
     my $zip_dump  = $config->param('zip_dump')  || undef;
     my $toc_type  = $config->param('toc_type')  || 'toc';
+    my $toc_js    = $config->param('toc_js')    || 'default.js';
     my $manual_toc_update = $config->param('manual_toc_update') || 0;
     my $debug             = $config->param('debug')             || 0;
     my $footer            = $config->param('footer')            || "";
@@ -184,6 +191,7 @@ sub new {
     $self->{dump_file}         = $dump_file;
     $self->{zip_dump}          = $zip_dump;
     $self->{toc_type}          = $toc_type;
+    $self->{toc_js}            = $toc_js;
     $self->{manual_toc_update} = $manual_toc_update;
     $self->{debug}             = $debug;
     $self->{web_style}         = $web_style;
@@ -728,6 +736,9 @@ sub regen_all_toc {
 
     $self->splash_pages() if ( $self->{web_style} == 2 );
 
+    unlink( $self->{toc_path} . '/toc.js' );
+    symlink( $self->{toc_path} . '/' . $self->{toc_js},
+        $self->{toc_path} . '/toc.js' );
     return;
 }
 
@@ -1165,8 +1176,8 @@ GET_COUNTS
     my $counts = $self->_dbh->selectall_arrayref($sql)->[0];
 
     my $report = "\nThe database contains books that cover ";
-    $report .= $counts->[1] . " products, ";
-    $report .= $counts->[2] . " languages, ";
+    $report .= $counts->[1] . " languages, ";
+    $report .= $counts->[2] . " products, ";
     $report .= " totaling " . $counts->[0] . " packages\n";
 
     return ($report);
@@ -1389,6 +1400,7 @@ SQL
                         book_list     => $book_list{$product}{$version},
                         labels        => \%labels,
                         trans_strings => $vars,
+                        book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1400,6 +1412,7 @@ SQL
                         langs         => \@all_lang_array,
                         labels        => \%labels,
                         trans_strings => $vars,
+                        book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1425,6 +1438,7 @@ SQL
                         langs         => \@all_lang_array,
                         labels        => \%labels,
                         trans_strings => $vars,
+                        book_ver_list => \%book_ver_list,
                     }
                 );
 
@@ -1542,6 +1556,7 @@ SQL
                 langs         => \@all_lang_array,
                 labels        => \%labels,
                 trans_strings => $vars,
+                book_ver_list => \%book_ver_list,
             }
         );
 
@@ -1553,6 +1568,7 @@ SQL
                 langs         => \@all_lang_array,
                 labels        => \%labels,
                 trans_strings => $vars,
+                book_ver_list => \%book_ver_list,
             }
         );
 
@@ -1605,6 +1621,8 @@ sub write_version_index {
         || croak "write_version_index: labels required";
     my $trans_strings = delete $arg->{trans_strings}
         || croak "write_version_index: trans_strings required";
+    my $book_ver_list = delete $arg->{book_ver_list}
+        || croak "write_version_index: book_ver_list required";
 
     #    my $    = delete $arg->{}    || croak "_regen_toc:  required";
 
@@ -1627,6 +1645,7 @@ sub write_version_index {
     $index_vars->{trans_strings}    = $trans_strings;
     $index_vars->{footer}           = $self->{footer};
     $index_vars->{site_title}       = $self->{title};
+    $index_vars->{book_ver_list}    = $book_ver_list;
 
     $self->{Template}->process(
         'versions_index.tmpl', $index_vars,
@@ -1659,6 +1678,8 @@ sub write_product_index {
         || croak "write_product_index: labels required";
     my $trans_strings = delete $arg->{trans_strings}
         || croak "write_product_index: trans_strings required";
+    my $book_ver_list = delete $arg->{book_ver_list}
+        || croak "write_product_index: book_ver_list required";
 
     #    my $    = delete $arg->{}    || croak "_regen_toc:  required";
 
@@ -1681,6 +1702,7 @@ sub write_product_index {
     $index_vars->{trans_strings} = $trans_strings;
     $index_vars->{footer}        = $self->{footer};
     $index_vars->{site_title}    = $self->{title};
+    $index_vars->{book_ver_list} = $book_ver_list;
 
     $self->{Template}->process(
         'products_index.tmpl', $index_vars,

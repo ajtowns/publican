@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-08T03:26:30\n"
-"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"POT-Creation-Date: 2013-08-06 09:04+1000\n"
+"PO-Revision-Date: 2013-08-06 09:04+1000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command> yum install publican publican-doc</command>\n"
+msgid "<prompt>$</prompt> <command> yum install publican publican-doc</command>\n"
 ""
 msgstr ""
 
@@ -65,7 +65,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command> yum install publican-<replaceable>brand</replaceable></command>\n"
+msgid "<prompt>$</prompt> <command> yum install publican-<replaceable>brand</replaceable></command>\n"
 ""
 msgstr ""
 
@@ -121,7 +121,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo apt-get install publican</command>\n"
+msgid "<prompt>$</prompt> <command>sudo apt-get install publican</command>\n"
 ""
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo gedit /etc/apt/sources.list</command>\n"
+msgid "<prompt>$</prompt> <command>sudo gedit /etc/apt/sources.list</command>\n"
 ""
 msgstr ""
 
@@ -180,7 +180,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo apt-get update</command>\n"
+msgid "<prompt>$</prompt> <command>sudo apt-get update</command>\n"
 ""
 msgstr ""
 
@@ -262,5 +262,196 @@ msgstr ""
 #. Tag: para
 #, no-c-format
 msgid "Click <guibutton>Close</guibutton> to close the installer."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "OSX Lion"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Test"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install <application>Xcode</application> from Mac App store."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "<application>Xcode</application> is about 4GB. Be prepared to wait. It has things you need, though."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install <application>Macports</application> from <ulink url=\"http://guide.macports.org/chunked/installing.macports.html\" />. Everything you install with it goes into <filename>/opt/local</filename>, away from your normal OS files."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install dependencies for publican, which are available as ports:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt><command>sudo port install</command> <option>docbook-xml docbook-xsl docbook-sgml-4.2 perl5 bash-completion p5-file-pushd p5-config-simple p5-file-find-rule p5-file-slurp p5-class-trigger p5-time-hires p5-list-moreutils p5-ipc-run3 p5-class-accessor p5-test-perl-critic p5-xml-libxslt p5-locale-gettext p5-image-size p5-file-copy-recursive p5-datetime p5-archive-zip p5-timedate p5-html-format p5-dbd-sqlite p5-xml-simple p5-devel-cover p5-test-pod p5-test-pod-coverage p5-template-toolkit</option> \n"
+"					"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install CPAN modules for dependencies which can't be satisfied with ports. Note: this step will generate lots of messages, including warnings. Don't worry about them."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt><command>sudo cpan</command><option>Locale::Maketext::Gettext Locale::PO DateTime::Format::DateParse Syntax::Highlight::Engine::Kate XML::TreeBuilder File::Inplace String::Similarity HTML::FormatText::WithLinks::AndTables</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install FOP if you want PDFs to work:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>sudo port install</command> <option>fop</option>"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>echo</command> <option>\"FOP_OPTS='-Xms50m -Xmx700m'\" &gt; ~/.foprc</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Check out Publican Main branch. This command should be run from your user home directory, for instance <filename>/Users/yourusername</filename>"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>git clone</command> <option>git://git.fedorahosted.org/publican.git</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Change directories:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>cd</command> <option>publican/publican</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This directory should contain a file named <filename>Build.pl</filename>. Verify that you are in the correct directory, then run the following command. Ignore all the messages you get."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>perl ./Build.PL</command>"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>./Build</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Run the following command to install <application>Publican</application> and put all of its bits into <filename>/opt/local</filename>:"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>sudo ./Build install</command>"
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Create and build a book"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>publican create</command> <option>--name=testbook</option>"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>cd testbook</command>"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>publican build</command> <option>--formats=html --langs=en-US</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Open the <filename>tmp/en-US/html/index.html</filename> file in a browser to prove that it built correctly."
+msgstr ""
+
+#. Tag: title
+#, no-c-format
+msgid "Install a brand"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Fix the permissions of the Commons Brand. You have to do this only once. This is a bug that will be addressed eventually."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>find /opt/local/share/publican</command> <option>-type f</option> |<command>xargs sudo chmod 644</command>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Either check out the SVN for your brand, or get a pre-built brand from a friend."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "The SVN location for the brands supplied by Red Hat is <ulink url=\"http://svn.fedorahosted.org/svn/publican\" />"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you use a pre-built brand, extract it as necessary."
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "If you got the brand from SVN, build it."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>cd publican/publican-jboss</command>"
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>publican build</command> <option>--formats=xml --langs=all --publish</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Install the brand."
+msgstr ""
+
+#. Tag: screen
+#, no-c-format
+msgid "<prompt>$</prompt> <command>sudo publican install_brand</command> <option>--path=/opt/local/share/publican/Common_Content</option>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "You can now use the brand in your books by editing your book's <filename>publican.cfg</filename> file or specifying the <option>--brand</option> option when creating your book."
 msgstr ""
 

@@ -11,27 +11,27 @@
 	<procedure>
 		<step>
 			<para>
-				Change into a convenient directory and run the following <command>publican create</command> command:
+				Change into a convenient directory and run the following <prompt>$</prompt> <command>publican create</command> command:
 			</para>
-<screen><command>publican create --type Article --name <replaceable>page_name</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>publican create --type Article --name <replaceable>page_name</replaceable></command></screen>
 			<para>
 				For example, a product page might be:
 			</para>
-<screen><command>publican create --type Article --name FooMaster</command></screen>
+<screen><prompt>$</prompt> <command>publican create --type Article --name FooMaster</command></screen>
 			<para>
 				or a version page might be:
 			</para>
-<screen><command>publican create --type Article --name FooMaster_3</command></screen>
+<screen><prompt>$</prompt> <command>publican create --type Article --name FooMaster_3</command></screen>
 		</step>
 		<step>
 			<para>
 				Change into the article directory:
 			</para>
-<screen><command>cd <replaceable>page_name</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>cd <replaceable>page_name</replaceable></command></screen>
 			<para>
 				For example:
 			</para>
-<screen><command>cd FooMaster</command></screen>
+<screen><prompt>$</prompt> <command>cd FooMaster</command></screen>
 		</step>
 		<step>
 			<para>
@@ -89,17 +89,17 @@
 		</step>
 		<step>
 			<para>
-				If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <command>publican update_pot</command> and <command>publican update_po</command> commands.
+				If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <prompt>$</prompt> <command>publican update_pot</command> and <command>publican update_po</command> commands.
 			</para>
 		</step>
 		<step>
 			<para>
 				Build the product page or version page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:
 			</para>
-<screen><command>publican build --publish --formats html-single --embedtoc --langs all</command> 
-<command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Language_Code</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>publican build --publish --formats html-single --embedtoc --langs all</command> 
+<prompt>$</prompt> <command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Language_Code</replaceable></command></screen>
 			<para>
-				Note that you can build all languages at the same time, but must install the product page or version page for each language with a separate <command>publican install_book</command> command. 
+				Note that you can build all languages at the same time, but must install the product page or version page for each language with a separate <prompt>$</prompt> <command>publican install_book</command> command. 
 			</para>
 		</step>
 	</procedure>

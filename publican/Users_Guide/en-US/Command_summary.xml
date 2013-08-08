@@ -8,7 +8,7 @@
 	 <variablelist conformance="127" id="vari-Users_Guide-Command_summary-Command_options">
 		<title>Command options</title>
 		 <varlistentry>
-			<term><command>publican --help</command></term>
+			<term><prompt>$</prompt> <command>publican --help</command></term>
 			 <listitem>
 				<para>
 					displays help
@@ -18,7 +18,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican --man</command></term>
+			<term><prompt>$</prompt> <command>publican --man</command></term>
 			 <listitem>
 				<para>
 					displays the manual page
@@ -28,7 +28,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican --help_actions</command></term>
+			<term><prompt>$</prompt> <command>publican --help_actions</command></term>
 			 <listitem>
 				<para>
 					displays a list of <firstterm>actions</firstterm>
@@ -38,7 +38,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican --v</command></term>
+			<term><prompt>$</prompt> <command>publican --v</command></term>
 			 <listitem>
 				<para>
 					displays the <application>Publican</application> version number.
@@ -82,7 +82,7 @@
 	 <variablelist conformance="128" id="vari-Users_Guide-Command_summary-Actions">
 		<title>Actions</title>
 		 <varlistentry>
-			<term><command>publican add_revision</command></term>
+			<term><prompt>$</prompt> <command>publican add_revision</command></term>
 			 <listitem>
 				<para>
 					adds an entry in <filename>Revision_History.xml</filename>. Options:
@@ -164,7 +164,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican build</command></term>
+			<term><prompt>$</prompt> <command>publican build</command></term>
 			 <listitem>
 				<para>
 					transforms XML into a document. Options:
@@ -300,13 +300,33 @@
 						</listitem>
 
 					</varlistentry>
+					 <varlistentry>
+						<term>--pdftool=s</term>
+						 <listitem>
+							<para>
+								Override the tool to use when creating PDFs. Valid options are wkhtmltopdf and fop.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
+					 <varlistentry>
+						<term>--pub_dir=<replaceable>PUB_DIR</replaceable></term>
+						 <listitem>
+							<para>
+								Override the directory to publish files to. Defaults to 'publish'.
+							</para>
+
+						</listitem>
+
+					</varlistentry>
 				</variablelist>
 
 			</listitem>
 
 		</varlistentry>
 		<varlistentry>
-			<term><command>publican clean</command></term>
+			<term><prompt>$</prompt> <command>publican clean</command></term>
 			 <listitem>
 				<para>
 					removes the temporary directories from a document directory.
@@ -316,7 +336,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican clean_ids</command></term>
+			<term><prompt>$</prompt> <command>publican clean_ids</command></term>
 			 <listitem>
 				<para>
 					indents XML files neatly, and rebuilds element IDs.
@@ -326,7 +346,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican clean_set</command></term>
+			<term><prompt>$</prompt> <command>publican clean_set</command></term>
 			 <listitem>
 				<para>
 					removes local copies of remote books that are part of a set.
@@ -336,7 +356,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican create</command></term>
+			<term><prompt>$</prompt> <command>publican create</command></term>
 			 <listitem>
 				<para>
 					creates a new book, article, or set. Options:
@@ -419,7 +439,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican create_brand</command></term>
+			<term><prompt>$</prompt> <command>publican create_brand</command></term>
 			 <listitem>
 				<para>
 					creates a new brand. Options:
@@ -507,7 +527,7 @@
 		
 		
 		 <varlistentry>
-			<term><command>publican help_config</command></term>
+			<term><prompt>$</prompt> <command>publican help_config</command></term>
 			 <listitem>
 				<para>
 					displays a list of parameters for the <filename>publican.cfg</filename> file.
@@ -551,7 +571,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican install_brand</command></term>
+			<term><prompt>$</prompt> <command>publican install_brand</command></term>
 			 <listitem>
 				<para>
 					configures a brand for installation. Option:
@@ -575,7 +595,7 @@
 		</varlistentry>
 
 		 <varlistentry>
-			<term><command>publican lang_stats</command></term>
+			<term><prompt>$</prompt> <command>publican lang_stats</command></term>
 			 <listitem>
 				<para>
 					generates a translation report for a language.
@@ -598,7 +618,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican migrate_site</command></term>
+			<term><prompt>$</prompt> <command>publican migrate_site</command></term>
 			 <listitem>
 				<para>
 					migrates a website database from <application>Publican</application> 2.x to <application>Publican</application> 3. Options:
@@ -621,7 +641,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican package</command></term>
+			<term><prompt>$</prompt> <command>publican package</command></term>
 			 <listitem>
 				<para>
 					packages a document or brand for distribution. Options:
@@ -729,7 +749,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican print_tree</command></term>
+			<term><prompt>$</prompt> <command>publican print_tree</command></term>
 			 <listitem>
 				<para>
 					displays a tree of the XML files included in a document.
@@ -793,7 +813,7 @@
 
 		</varlistentry>
 		<varlistentry>
-			<term><command>publican rename</command></term>
+			<term><prompt>$</prompt> <command>publican rename</command></term>
 			 <listitem>
 				<para>
 					renames a document. Options:
@@ -861,7 +881,7 @@
 		
 		
 		 <varlistentry>
-			<term><command>publican update_pot</command></term>
+			<term><prompt>$</prompt> <command>publican update_pot</command></term>
 			 <listitem>
 				<para>
 					updates the POT files in a document.
@@ -871,7 +891,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican update_po</command></term>
+			<term><prompt>$</prompt> <command>publican update_po</command></term>
 			 <listitem>
 				<para>
 					updates the PO files in a document.

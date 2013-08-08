@@ -11,7 +11,6 @@ use DateTime;
 use Publican;
 use Publican::Builder;
 use Term::ANSIColor qw(:constants uncolor);
-use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);
 
 use vars qw( $VERSION $MAX_COUNT );
 
@@ -307,7 +306,6 @@ sub conf_files {
 
     $config = new Config::Simple();
     $config->syntax('http');
-    $config->param( 'strict', 0 );
     $config->write('overrides.cfg')
         || croak(
         maketext(
@@ -418,11 +416,8 @@ sub images {
     my $lang = $self->{config}->param('xml_lang');
 
     my $common_content = $self->{publican}->param('common_content');
-    File::Copy::Recursive::rcopy_glob(
-        $common_content . "/brand-template/images/*",
-        "$lang/images" )
-        || croak(
-        "can't copy $common_content/brand-template/images/* to $lang/images");
+    rcopy_glob( $common_content . "/brand-template/images/*",
+        "$lang/images" );
 
     return;
 }

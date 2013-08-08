@@ -43,6 +43,7 @@ Valid actions are:
     remove_book   Remove a book from a WebSite.
     rename        Rename a publican book
     site_stats    Report on the contents of a WebSite
+    trans_drop    Snapshot the source language for use in translation.
     update_db     Add or remove database entries. Used for processing pre-build books, such as when building packages.
     update_po     Update the PO files
     update_pot    Update the POT files
@@ -91,6 +92,8 @@ build
         --distributed_set         This flag tells publican the data being processed is a distributed set. Note: do not use distributed_set on the command line. Publican uses this flag when calling itself to process distributed sets. This is the only safe way this flag can be used.
         --novalid                 Do not run the DTD validation
         --src_dir=<SRC_DIR>       Directory to source publican files from.
+        --pdftool=<PDFTOOL>       Override the tool to use when creating PDFs. Valid options are wkhtmltopdf and fop.
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 clean
@@ -104,6 +107,7 @@ clean
         --nocolours               Disable ANSI colourisation of logging.
         --quiet                   Disable all logging.
         --brand_dir=s             Directory to source brand files from.
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 clean_ids
@@ -226,6 +230,7 @@ install_brand
         --brand_dir=s             Directory to source brand files from.
         --path=<PATH>             /path/to/install/to
         --web                     Install the web content for a brand.
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 lang_stats
@@ -274,6 +279,7 @@ package
         --short_sighted           Create package without using version in package name
         --binary                  Build binary rpm when running package
         --wait                    Wait for brew to finish building
+        --pub_dir=<PUB_DIR>       Directory to publish files to. Defaults to publish.
 
 
 print_banned
@@ -384,6 +390,19 @@ site_stats
         --quiet                   Disable all logging.
         --brand_dir=s             Directory to source brand files from.
         --site_config=<SITE_CONFIG>    WebSite configuration file to use or create.
+
+
+trans_drop
+    Snapshot the source language for use in translation.
+
+	Options:
+        --help                    Display help message
+        --config=s                Use a nonstandard config file
+        --common_config=s         Override path to Common_Config directory
+        --common_content=s        Override path to Common_Content directory
+        --nocolours               Disable ANSI colourisation of logging.
+        --quiet                   Disable all logging.
+        --brand_dir=s             Directory to source brand files from.
 
 
 update_db

@@ -11,6 +11,8 @@
 <xsl:param name="suppress.navigation" select="1"/>
 <xsl:param name="tablecolumns.extensions" select="1"/>
 <xsl:param name="epub.oebps.dir" select="'OEBPS/'"/> 
+<xsl:param name="chunker.output.doctype-public" select="'-//W3C//DTD XHTML 1.1//EN'"/>
+<xsl:param name="chunker.output.doctype-system" select="'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'"/>
 
 <!--xsl:param name="html.stylesheet" select="''"/-->
 

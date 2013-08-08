@@ -11,13 +11,13 @@
 	<procedure>
 		<step>
 			<para>
-				Change into a convenient directory and run the following <command>publican create</command> command:
+				Change into a convenient directory and run the following <prompt>$</prompt> <command>publican create</command> command:
 			</para>
-<screen><command>publican create --type Article --name <replaceable>page_name</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>publican create --type Article --name <replaceable>page_name</replaceable></command></screen>
 			<para>
 				For example:
 			</para>
-<screen><command>publican create --type Article --name Home_Page</command></screen>
+<screen><prompt>$</prompt> <command>publican create --type Article --name Home_Page</command></screen>
 			<para>
 				Most brands (including the <literal>common</literal> brand) present the name of the document in large, coloured letters close to the top of the page, underneath the banner that contains the product name (the <option>--name</option> option sets the <sgmltag>&lt;title&gt;</sgmltag> tag). Therefore, by default, the value that you set with the <option>--name</option> option is presented prominently to visitors to your site; in the above example, visitors are greeted with the words <literal>Home Page</literal> underneath the product banner. 
 			</para>
@@ -26,11 +26,11 @@
 			<para>
 				Change into the article directory:
 			</para>
-<screen><command>cd <replaceable>page_name</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>cd <replaceable>page_name</replaceable></command></screen>
 			<para>
 				For example:
 			</para>
-<screen><command>cd Home_Page</command></screen>
+<screen><prompt>$</prompt> <command>cd Home_Page</command></screen>
 		</step>
 		<step>
 			<para>
@@ -85,7 +85,7 @@
 		</step>
 		<step>
 			<para>
-				If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <command>publican update_pot</command> and <command>publican update_po</command> commands.
+				If you publish documentation in more than one language, create a set of POT files and a set of PO files for each language with the <prompt>$</prompt> <command>publican update_pot</command> and <command>publican update_po</command> commands.
 			</para>
 		</step>
 		<step>
@@ -102,10 +102,10 @@
 			<para>
 				Build the home page in single-page HTML format with the <option>--embedtoc</option> option and install it in your website structure. For example:
 			</para>
-<screen><command>publican build --publish --formats html-single --embedtoc --langs all</command> 
-<command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Language_Code</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>publican build --publish --formats html-single --embedtoc --langs all</command> 
+<prompt>$</prompt> <command>publican install_book --site_config ~/docsite/foomaster.cfg --lang <replaceable>Language_Code</replaceable></command></screen>
 			<para>
-				Note that you can build all languages at the same time, but must install the home page for each language with a separate <command>publican install_book</command> command. 
+				Note that you can build all languages at the same time, but must install the home page for each language with a separate <prompt>$</prompt> <command>publican install_book</command> command. 
 			</para>
 		</step>
 	</procedure>

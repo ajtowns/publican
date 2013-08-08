@@ -6,7 +6,7 @@
 <chapter conformance="212" id="chap-Users_Guide-Using_sets">
 	<title>Using sets</title>
 	 <para>
-		A <firstterm>set</firstterm> is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. 
+		A <firstterm>set</firstterm> is a collection of books, published as a single output. The <citetitle>Services Plan</citetitle> for example is a set comprised of many books such as the <citetitle>Developer Guide</citetitle>, <citetitle>Engineering Content Services Guide</citetitle> and the <citetitle>Engineering Operations Guide</citetitle> to name just a few. The <prompt>$</prompt> <command>create_book</command> command creates a template for a set by setting the <parameter>type</parameter> parameter to <literal>Set</literal>. 
 	</para>
 	<para>
 		There are two types of set:
@@ -45,18 +45,16 @@
 			</step>
 			 <step>
 				<para>
-					<command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two <emphasis>directories</emphasis> (not books) called <filename>Book_A</filename> and <filename>Book_B</filename>.
+					<prompt>$</prompt> <command>cd</command> into the <filename>My_Set/en-US</filename> directory and create two <emphasis>directories</emphasis> (not books) called <filename>Book_A</filename> and <filename>Book_B</filename>.
 				</para>
 				 
-<screen>cd My_Set/en-US
-mkdir Book_A Book_B
-
-</screen>
+<screen><prompt>$</prompt> <command>cd</command> <filename>My_Set/en-US</filename>
+<prompt>$</prompt> <command>mkdir</command> <filename>Book_A</filename> <filename>Book_B</filename></screen>
 
 			</step>
 			 <step>
 				<para>
-					<command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
+					<prompt>$</prompt> <command>cd</command> into the <filename>books/My_Set/en-US/Book_A</filename> directory. Create and edit the <filename>Book_A.xml</filename>, <filename>Book_Info.xml</filename>, and any other xml files required for your book such as those required for individual chapters. Ensure that <filename>Book_A.xml</filename> contains the correct <sgmltag>xi:include</sgmltag> references to all of your xml files in the directory. For example, if <citetitle>Book A</citetitle> contained <filename>Book_Info.xml</filename> and <filename>Chapter_1.xml</filename>, the <filename>Book_A.xml</filename> file would look like this:
 				</para>
 				 
 <programlisting language="XML">&lt;?xml version='1.0'?&gt;
@@ -124,7 +122,7 @@ mkdir Book_A Book_B
          </step>
 			 <step>
 				<para>
-					Test your set by running the <command>publican build --formats=test --langs=en-US</command> command.
+					Test your set by running the <prompt>$</prompt> <command>publican build --formats=test --langs=en-US</command> command.
 				</para>
 			</step>
       </procedure>
@@ -245,11 +243,11 @@ scm: SVN
          </step>
 			 <step>
 				<para>
-					Test your set by running the <command>publican build --formats=test --langs=en-US</command> command.
+					Test your set by running the <prompt>$</prompt> <command>publican build --formats=test --langs=en-US</command> command.
 				</para>
 				 <important>
 					<para>
-						When building a set, the <command>publican clean_ids</command> command will be run over each book because of the constraint that IDs must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
+						When building a set, the <prompt>$</prompt> <command>publican clean_ids</command> command will be run over each book because of the constraint that IDs must be unique across all books. Be careful of creating IDs that rely on content that may not be available when building books independently of the set.
 					</para>
 
 				</important>

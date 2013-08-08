@@ -60,6 +60,34 @@ Reason: Override Chapter H2 to H1 for PDF titles
 
 <!--
 From: xhtml/docbook.xsl
+Reason: Add css class for draft mode
+Version: 1.72.0
+-->
+<xsl:template name="body.attributes">
+	<xsl:if test="starts-with($writing.mode, 'rl')">
+		<xsl:attribute name="dir">rtl</xsl:attribute>
+	</xsl:if>
+	<xsl:variable name="class">
+		<xsl:if test="($draft.mode = 'yes' or ($draft.mode = 'maybe' and (ancestor-or-self::set | ancestor-or-self::book | ancestor-or-self::article)[1]/@status = 'draft'))">
+			<xsl:value-of select="ancestor-or-self::*[@status][1]/@status"/><xsl:text> </xsl:text>
+		</xsl:if>
+		<xsl:if test="$embedtoc != 0">
+			<xsl:text>toc_embeded </xsl:text>
+		</xsl:if>
+       		<xsl:if test="$desktop != 0">
+		  <xsl:text>desktop </xsl:text>
+		</xsl:if>
+		<xsl:text> pdf</xsl:text>
+	</xsl:variable>
+        <xsl:if test="$class != ''">
+	  <xsl:attribute name="class">
+		<xsl:value-of select="$class"/>
+	  </xsl:attribute>
+	</xsl:if>
+</xsl:template>
+
+<!--
+From: xhtml/docbook.xsl
 Reason: add TOC div for web site
 Version:
 -->
@@ -142,7 +170,11 @@ Version:
   </xsl:if>
 
   <meta name="generator" content="DocBook {$DistroTitle} V{$VERSION}"/>
-
+  <meta xmlns="http://www.w3.org/1999/xhtml" name="generator">
+    <xsl:attribute name="content">
+      <xsl:text>publican </xsl:text><xsl:value-of select="$publican.version"/>
+    </xsl:attribute>
+  </meta>
   <xsl:if test="$generate.meta.abstract != 0">
     <xsl:variable name="info" select="(articleinfo                                       |bookinfo                                       |prefaceinfo                                       |chapterinfo                                       |appendixinfo                                       |sectioninfo                                       |sect1info                                       |sect2info                                       |sect3info                                       |sect4info                                       |sect5info                                       |referenceinfo                                       |refentryinfo                                       |partinfo                                       |info                                       |docinfo)[1]"/>
     <xsl:if test="$info and $info/abstract">

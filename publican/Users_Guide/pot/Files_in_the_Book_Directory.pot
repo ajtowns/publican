@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-08T03:26:30\n"
-"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"POT-Creation-Date: 2013-08-06 09:04+1000\n"
+"PO-Revision-Date: 2013-08-06 09:04+1000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>\n"
+msgid "<prompt>$</prompt> <command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>\n"
 ""
 msgstr ""
 
@@ -528,6 +528,26 @@ msgstr ""
 
 #. Tag: term
 #, no-c-format
+msgid "<parameter>extras_dir</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "the directory <application>Publican</application> will process extra files from. (Default: <literal>extras</literal>)"
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>footer</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "specifies content that will be injected into the bottom of every page on the site."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
 msgid "<parameter>generate_section_toc_level</parameter>"
 msgstr ""
 
@@ -579,6 +599,16 @@ msgstr ""
 #. Tag: para
 #, no-c-format
 msgid "specifies translations to ignore as comma-separated XML language codes; for example, <literal>es-ES,it-IT</literal>. If you build or package a book for a language filtered by this parameter, <application>Publican</application> ignores any translations that exist for this language, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend=\"sect-Users_Guide-Preparing_a_document_for_translation\" />, and to <xref linkend=\"appe-Users_Guide-Language_codes\" />."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>img_dir</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "the directory <application>Publican</application> will process images from. (Default: <literal>images</literal>)"
 msgstr ""
 
 #. Tag: term
@@ -718,16 +748,6 @@ msgstr ""
 
 #. Tag: term
 #, no-c-format
-msgid "<parameter>show_unknown</parameter>"
-msgstr ""
-
-#. Tag: para
-#, no-c-format
-msgid "controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output. <emphasis role=\"strikethrough\"><application>Publican</application> ignores this parameter in <firstterm>strict mode</firstterm>.</emphasis>"
-msgstr ""
-
-#. Tag: term
-#, no-c-format
 msgid "<parameter>sort_order</parameter>"
 msgstr ""
 
@@ -748,16 +768,6 @@ msgstr ""
 
 #. Tag: term
 #, no-c-format
-msgid "<parameter>strict</parameter>"
-msgstr ""
-
-#. Tag: para
-#, no-c-format
-msgid "<emphasis role=\"strikethrough\">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is not currently enforced."
-msgstr ""
-
-#. Tag: term
-#, no-c-format
 msgid "<parameter>tmp_dir</parameter>"
 msgstr ""
 
@@ -774,6 +784,16 @@ msgstr ""
 #. Tag: para
 #, no-c-format
 msgid "specifies the path to <application>Publican</application> templates. By default, this is set to <filename>/usr/share/publican/templates</filename>."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>toc_js</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "allows a site to override the template used when building the embedded toc using in web_style=1 sites. The template must be in the same directory that <filename>toc.tmpl</filename> is in. The template name must be must be of the form <replaceable>toc_type+.tmpl</replaceable>"
 msgstr ""
 
 #. Tag: term
@@ -913,6 +933,16 @@ msgstr ""
 
 #. Tag: term
 #, no-c-format
+msgid "<parameter>web_style</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "sets the web style, which determines the layout and presentation of the website. Valid values are <literal>1</literal> and <literal>2</literal>. Style 1 features a navigation pane at the left side of the screen that provides access to all of the documents on the site. Style 2 offers a breadcrumb-like navigation system."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
 msgid "<parameter>web_type</parameter>"
 msgstr ""
 
@@ -929,6 +959,16 @@ msgstr ""
 #. Tag: para
 #, no-c-format
 msgid "overrides the version number as it appears on the menu of a <application>Publican</application>-managed website. Set this value to <literal>UNUSED</literal> for general documentation that does not apply to any particular version of a product. Refer to <xref linkend=\"sect-Users_Guide-Website\" />."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "<parameter>wkhtmltopdf_opts</parameter>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Extra options to pass to <application>wkhtmltopdf</application>. e.g. <literal>wkhtmltopdf_opts:&nbsp;\"-O&nbsp;landscape&nbsp;-s&nbsp;A3\"</literal>"
 msgstr ""
 
 #. Tag: title

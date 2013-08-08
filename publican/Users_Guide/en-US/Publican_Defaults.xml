@@ -39,27 +39,23 @@
 
 			<example>
 				<title>Setting formats and lang</title>
-<screen>
-$ echo 'formats: "html,html-single,pdf,txt"' &gt;&gt; ~/.publican.cfg
-$ echo 'langs: "en-US"' &gt;&gt; ~/.publican.cfg
-$ publican build
-Setting up en-US
-[...]
-	Finished txt
-</screen> 
+<screen><prompt>$</prompt> <command>echo 'formats: "html,html-single,pdf,txt"' &gt;&gt; ~/.publican.cfg</command>
+<prompt>$</prompt> <command>echo 'langs: "en-US"' &gt;&gt; ~/.publican.cfg</command>
+<prompt>$</prompt> <command>publican build</command>
+<computeroutput>Setting up en-US</computeroutput>
+<computeroutput>[...]</computeroutput>
+<computeroutput>	Finished txt</computeroutput></screen> 
 			</example>
 
 		<para><application>Publican</application> 3.0 allows you to add a revision history entry from the command line. You can set your user details in <filename>~/.publican.cfg</filename>.</para>
 
 		<example>
 			<title>Setting user details</title>
-<screen>
-$ echo 'firstname: "Dude"' &gt;&gt; ~/.publican.cfg 
-$ echo 'surname: "McPants"' &gt;&gt; ~/.publican.cfg 
-$ echo 'email: "dude.mcpants@awesome.com"' &gt;&gt; ~/.publican.cfg 
-$ publican add_revision --member "Updated examples in chapter 2." \
---member "Removed obsolete example in sect 4.1"
-</screen>
+<screen><prompt>$</prompt> <command>echo 'firstname: "Dude"' &gt;&gt; ~/.publican.cfg</command> 
+<prompt>$</prompt> <command>echo 'surname: "McPants"' &gt;&gt; ~/.publican.cfg</command> 
+<prompt>$</prompt> <command>echo 'email: "dude.mcpants@awesome.com"' &gt;&gt; ~/.publican.cfg</command> 
+<prompt>$</prompt> <command>publican add_revision --member "Updated examples in chapter 2." \</command>
+<command>--member "Removed obsolete example in sect 4.1"</command></screen>
 		</example>
 
 	</section>

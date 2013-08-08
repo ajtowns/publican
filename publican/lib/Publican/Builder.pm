@@ -9,7 +9,6 @@ use Config::Simple '-strict';
 use Publican;
 use Publican::XmlClean;
 use Publican::Translate;
-use File::Copy::Recursive qw(fcopy rcopy dircopy fmove rmove dirmove);
 use File::Path;
 use File::pushd;
 use File::Find;
@@ -42,8 +41,6 @@ use Sort::Versions;
 use Template;
 use Encode qw(is_utf8 decode_utf8 encode_utf8);
 
-$File::Copy::Recursive::KeepMode = 0;
-
 use vars qw(@ISA $VERSION @EXPORT @EXPORT_OK);
 
 $VERSION = '0.2';
@@ -53,6 +50,55 @@ my $INVALID = 1;
 
 my $DEFAULT_WRAP = 82;
 $columns = $DEFAULT_WRAP;
+
+my %LANG_MAP = (
+    ar => 'ar-SA',
+    as => 'as-IN',
+    bg => 'bg-BG',
+    bn => 'bn-IN',
+    bs => 'bs-BA',
+    ca => 'ca-ES',
+    cs => 'cs-CZ',
+    da => 'da-DK',
+    de => 'de-DE',
+    el => 'el-GR',
+    en => 'en-US',
+    es => 'es-ES',
+    fa => 'fa-IR',
+    fi => 'fi-FI',
+    fr => 'fr-FR',
+    gu => 'gu-IN',
+    he => 'he-IL',
+    hi => 'hi-IN',
+    hr => 'hr-HR',
+    hu => 'hu-HU',
+    id => 'id-ID',
+    is => 'is-IS',
+    it => 'it-IT',
+    ja => 'ja-JP',
+    kn => 'kn-IN',
+    ko => 'ko-KR',
+    lv => 'lv-LV',
+    ml => 'ml-IN',
+    mr => 'mr-IN',
+    ms => 'ms-MY',
+    nb => 'nb-NO',
+    nl => 'nl-NL',
+    or => 'or-IN',
+    pa => 'pa-IN',
+    pl => 'pl-PL',
+    pt => 'pt-PT',
+    ru => 'ru-RU',
+    si => 'si-LK',
+    sk => 'sk-SK',
+    sr => 'sr-Latn-RS',
+    sv => 'sv-SE',
+    ta => 'ta-IN',
+    te => 'te-IN',
+    th => 'th-TH',
+    tr => 'tr-TR',
+    uk => 'uk-UA',
+);
 
 =head1 NAME
 
@@ -124,6 +170,9 @@ sub build {
     my $publish         = delete( $args->{publish} )         || undef;
     my $embedtoc        = delete( $args->{embedtoc} )        || undef;
     my $distributed_set = delete( $args->{distributed_set} ) || 0;
+    my $pdftool         = delete( $args->{pdftool} )         || undef;
+    my $pub_dir         = delete( $args->{pub_dir} )
+        || croak( maketext("pub_dir is a mandatory argument") );
 
     if ( %{$args} ) {
         croak(
@@ -195,7 +244,9 @@ sub build {
                 {   format   => $format,
                     lang     => $lang,
                     embedtoc => $embedtoc,
-                    rebuild  => $rebuild
+                    rebuild  => $rebuild,
+                    pdftool  => $pdftool,
+
                 }
             ) unless ( $format eq 'xml' );
 
@@ -203,26 +254,26 @@ sub build {
 
             if ($publish) {
                 if ( $type eq 'brand' ) {
-                    my $path = "publish/$brand/$lang";
+                    my $path = "$pub_dir/$brand/$lang";
                     mkpath($path);
                     rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
                         if ( -d "$tmp_dir/$lang/$format" );
                 }
                 else {
                     my $path
-                        = "publish/$lang/$product/$version/$format/$docname";
+                        = "$pub_dir/$lang/$product/$version/$format/$docname";
 
                     # The basic layout is for the web system
                     # but these formats are used differently
                     if ( $self->{publican}->param('web_home') ) {
-                        $path = "publish/home/$lang";
+                        $path = "$pub_dir/home/$lang";
                     }
                     elsif ( $self->{publican}->param('web_type') ) {
                         my $web_type = $self->{publican}->param('web_type');
                         if ( $web_type =~ m/^home$/i ) {
-                            $path = "publish/home/$lang";
+                            $path = "$pub_dir/home/$lang";
                             fcopy( 'site_overrides.css',
-                                'publish/home/site_overrides.css' )
+                                "$pub_dir/home/site_overrides.css" )
                                 if ( -f 'site_overrides.css' );
 
                             # Build ADs
@@ -290,20 +341,20 @@ sub build {
                             }
                         }
                         elsif ( $web_type =~ m/^product$/i ) {
-                            $path = "publish/home/$lang/$product";
+                            $path = "$pub_dir/home/$lang/$product";
                         }
                         elsif ( $web_type =~ m/^version$/i ) {
-                            $path = "publish/home/$lang/$product/$version";
+                            $path = "$pub_dir/home/$lang/$product/$version";
                         }
                     }
                     elsif ( $format eq 'html-desktop' ) {
-                        $path = "publish/desktop/$lang";
+                        $path = "$pub_dir/desktop/$lang";
                     }
                     elsif ( $format eq 'xml' ) {
-                        $path = "publish/xml/$lang";
+                        $path = "$pub_dir/xml/$lang";
                     }
                     elsif ( $format eq 'eclipse' ) {
-                        $path = "publish/eclipse/$lang";
+                        $path = "$pub_dir/eclipse/$lang";
                     }
 
                     mkpath($path);
@@ -312,23 +363,8 @@ sub build {
                             "$path/." );
                     }
                     else {
-## TODO BUGBUG BZ #648126
-# for some reason the UTF8 file name is getting munged dep inside rcopy
-# works from from the command line though O_O
-# perl -e 'use File::Copy::Recursive qw(rcopy);rcopy("build/en-US/html", "test");'
-#
-## Work around BZ #648126 ... gonna need to do an UTF8 audit maybe ...
-##  Check, UTF8 file names, UTF8 output from XmlClean, Translate, WebSite.
-## however the work around blows up on Windows :(
-                        if ( $^O eq 'MSWin32' ) {
-                            rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
-                                if ( -d "$tmp_dir/$lang/$format" );
-                        }
-                        else {
-                            system(
-                                qq|perl -e 'use File::Copy::Recursive qw(rcopy);rcopy( "$tmp_dir/$lang/$format/*", "$path/." )'|
-                            ) if ( -d "$tmp_dir/$lang/$format" );
-                        }
+                        rcopy( "$tmp_dir/$lang/$format/*", "$path/." )
+                            if ( -d "$tmp_dir/$lang/$format" );
 
              # for splash pages, we need to rename them if using a web style 2
                         if ($self->{publican}->param('web_type')
@@ -345,15 +381,22 @@ sub build {
     }
 
     if ($publish) {
-        if ( $type eq 'brand' && -d 'xsl' ) {
-            my $path = "publish/$brand/xsl";
-            mkpath($path);
-            rcopy( "xsl", "$path/." );
-        }
-        if ( $type eq 'brand' && -d 'book_templates' ) {
-            my $path = "publish/$brand/book_templates";
-            mkpath($path);
-            rcopy( "book_templates", "$path/." );
+        if ( $type eq 'brand' ) {
+            if ( -d 'xsl' ) {
+                my $path = "$pub_dir/$brand/xsl";
+                mkpath($path);
+                rcopy( "xsl", "$path/." );
+            }
+            if ( -d 'book_templates' ) {
+                my $path = "$pub_dir/$brand/book_templates";
+                mkpath($path);
+                rcopy( "book_templates", "$path/." );
+            }
+            if ( -d 'templates' ) {
+                my $path = "$pub_dir/$brand/templates";
+                mkpath($path);
+                rcopy( "templates", "$path/." );
+            }
         }
     }
     debug_msg("end of build\n");
@@ -386,6 +429,8 @@ sub setup_xml {
             )
         );
     }
+
+    my $extras = $self->{publican}->param('extras_dir');
 
     foreach my $lang ( split( /,/, $langs ) ) {
         logger( maketext( "Setting up [_1]", $lang ) . "\n" );
@@ -447,16 +492,20 @@ sub setup_xml {
 
             mkpath("$tmp_dir/$lang/xml_tmp");
 
-            my @xml_files
-                = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
+            my $source_dir = $self->{publican}->param('xml_lang');
+            $source_dir = 'trans_drop' if ( -d 'trans_drop' );
+            my $extras = $self->{publican}->param('extras_dir');
+
+            my @xml_files = dir_list( $source_dir, '*.xml' );
 
             foreach my $xml_file ( sort(@xml_files) ) {
+                next if ( $xml_file =~ m|$source_dir/$extras/| );
                 my $po_file = $xml_file;
                 $po_file =~ s/\.xml/\.po/;
-                $po_file =~ s/$xml_lang/$lang/;
+                $po_file =~ s/$source_dir/$lang/;
 
                 my $out_file = $xml_file;
-                $out_file =~ s/$xml_lang//;
+                $out_file =~ s/$source_dir//;
 
                 $out_file =~ m|^(.*)/[^/]+$|;
                 my $path = ( $1 || undef );
@@ -495,8 +544,13 @@ sub setup_xml {
                 $rev_tree->parse_file("$tmp_dir/$lang/xml_tmp/$rev_file");
                 $trans_rev_tree->parse_file("$lang/$rev_file");
 
+                my $id = undef;
+
+                my $anode = $rev_tree->look_down( '_tag', "appendix" );
+                $id = $anode->id() if ( $anode && $anode->id() );
                 my $merged_rev_tree = XML::Element->new_from_lol(
                     [   'appendix',
+                        { id => $id },
                         [   'title',
                             decode_utf8(
                                 $locale->maketext('Revision History')
@@ -600,22 +654,22 @@ sub setup_xml {
 
         # copy css for brand and default images for non-brand
         if ( $type eq 'brand' ) {
-            dircopy( "$xml_lang/css", "$tmp_dir/$lang/xml/css" )
-                if ( -d "$xml_lang/css" );
             dircopy( "$lang/css", "$tmp_dir/$lang/xml/css" )
                 if ( -d "$lang/css" );
 
-            dircopy( "$xml_lang/scripts", "$tmp_dir/$lang/xml/scripts" )
-                if ( -d "$xml_lang/scripts" );
             dircopy( "$lang/scripts", "$tmp_dir/$lang/xml/scripts" )
                 if ( -d "$lang/scripts" );
         }
 
-        dircopy( "$xml_lang/images", "$tmp_dir/$lang/xml/images" )
-            if ( -d "$xml_lang/images" );
+        my $images = $self->{publican}->param('img_dir');
 
-        dircopy( "$lang/images", "$tmp_dir/$lang/xml/images" )
-            if ( -d "$lang/images" );
+        if ( $type ne 'brand' ) {
+            dircopy( "$xml_lang/$images", "$tmp_dir/$lang/xml/$images" )
+                if ( -d "$xml_lang/$images" );
+        }
+
+        dircopy( "$lang/$images", "$tmp_dir/$lang/xml/$images" )
+            if ( -d "$lang/$images" );
 
         unless ($exlude_common) {
             mkpath("$tmp_dir/$lang/xml/Common_Content");
@@ -634,22 +688,42 @@ sub setup_xml {
             my $brand_path = $self->{publican}->param('brand_dir')
                 || $common_content . "/$brand";
 
-            File::Copy::Recursive::rcopy_glob(
+            rcopy_glob(
                 $common_content . "/$base_brand/en-US/*",
                 "$tmp_dir/$lang/xml/Common_Content"
             );
-            File::Copy::Recursive::rcopy_glob(
-                $common_content . "/$base_brand/$lang/*",
-                "$tmp_dir/$lang/xml/Common_Content"
-            ) if ( $lang ne 'en-US' );
 
+            if ( $lang ne 'en-US' ) {
+                if ( -d $common_content . "/$base_brand/$lang" ) {
+                    rcopy_glob(
+                        $common_content . "/$base_brand/$lang/*",
+                        "$tmp_dir/$lang/xml/Common_Content"
+                    );
+                }
+                elsif (
+                    defined( $LANG_MAP{$lang} )
+                    && (  -d $common_content
+                        . "/$base_brand/"
+                        . $LANG_MAP{$lang} )
+                    )
+                {
+                    rcopy_glob(
+                        $common_content
+                            . "/$base_brand/"
+                            . $LANG_MAP{$lang} . "/*",
+                        "$tmp_dir/$lang/xml/Common_Content"
+                    );
+
+                }
+
+            }
             if (   ( $brand ne $base_brand )
                 || ( $brand_path ne $common_content . "/$brand" ) )
             {
                 my $brand_lang
                     = $self->{publican}->{brand_config}->param('xml_lang');
 
-                my @files = File::Copy::Recursive::rcopy_glob(
+                my @files = rcopy_glob(
                     $brand_path . "/$brand_lang/*",
                     "$tmp_dir/$lang/xml/Common_Content"
                 );
@@ -660,9 +734,20 @@ sub setup_xml {
                     )
                 ) if ( scalar(@files) == 0 );
 
-                File::Copy::Recursive::rcopy_glob( "$brand_path/$lang/*",
-                    "$tmp_dir/$lang/xml/Common_Content" )
-                    if ( $lang ne $brand_lang );
+                if ( $lang ne $brand_lang ) {
+                    if ( -d $brand_path . "/$lang" ) {
+                        rcopy_glob( "$brand_path/$lang/*",
+                            "$tmp_dir/$lang/xml/Common_Content" );
+                    }
+                    elsif ( defined( $LANG_MAP{$lang} )
+                        && ( -d $brand_path . "/" . $LANG_MAP{$lang} ) )
+                    {
+                        rcopy_glob(
+                            "$brand_path/" . $LANG_MAP{$lang} . "/*",
+                            "$tmp_dir/$lang/xml/Common_Content"
+                        );
+                    }
+                }
             }
 
             my $main_file = $self->{publican}->param('mainfile');
@@ -673,10 +758,10 @@ sub setup_xml {
             $ent_file = "$lang/$main_file.ent";
             rcopy( $ent_file, "$tmp_dir/$lang/xml/." ) if ( -e $ent_file );
 
-            dircopy( "$xml_lang/extras", "$tmp_dir/$lang/xml/extras" )
-                if ( -d "$xml_lang/extras" );
-            dircopy( "$lang/extras", "$tmp_dir/$lang/xml/extras" )
-                if ( -d "$lang/extras" );
+            dircopy( "$xml_lang/$extras", "$tmp_dir/$lang/xml/$extras" )
+                if ( -d "$xml_lang/$extras" );
+            dircopy( "$lang/$extras", "$tmp_dir/$lang/xml/$extras" )
+                if ( -d "$lang/$extras" );
 
             my @com_xml_files
                 = dir_list( "$tmp_dir/$lang/xml/Common_Content", '*.xml' );
@@ -709,7 +794,7 @@ sub setup_xml {
         }
         else {
             foreach my $xml_file ( sort(@xml_files) ) {
-                next if ( $xml_file =~ m{/extras/} );
+                next if ( $xml_file =~ m{/$extras/} );
                 my $out_file = $xml_file;
                 $out_file =~ s/xml_tmp/xml/;
 
@@ -734,7 +819,7 @@ sub del_unwanted_dirs {
     my $dir      = $_;
     my @unwanted = qw(  );
 
-    if ( $dir =~ /^(CVS|\.svn|.*\.swp|.*\.xml~|.directory)$/ ) {
+    if ( $dir =~ /^(CVS|\.svn|\.git|.*\.swp|.*\.xml~|.directory)$/ ) {
         rmtree($_)
             || croak(
             maketext(
@@ -938,11 +1023,21 @@ sub transform {
         || croak( maketext("format is a mandatory argument") );
     my $embedtoc = delete( $args->{embedtoc} ) || 0;
     my $rebuild  = delete( $args->{rebuild} )  || 0;
+    my $pdftool  = delete( $args->{pdftool} )  || undef;
 
     if ( %{$args} ) {
         croak(
             maketext(
                 "unknown arguments: [_1]", join( ", ", keys %{$args} )
+            )
+        );
+    }
+
+    if ( defined($pdftool) && ( $pdftool !~ /^(?:fop|wkhtmltopdf)$/ ) ) {
+        croak(
+            maketext(
+                "pdftool only supports fop or wkhtmltopdf, not: [_1]",
+                $pdftool
             )
         );
     }
@@ -960,6 +1055,7 @@ sub transform {
 ## BUGBUG test an alternative to fop!
     my $wkhtmltopdf_cmd = which('wkhtmltopdf');
     my $diefopdie = ( $wkhtmltopdf_cmd && $wkhtmltopdf_cmd ne '' );
+    $diefopdie = 0 if ( $pdftool && $pdftool eq 'fop' );
 
     my $tmp_dir           = $self->{publican}->param('tmp_dir');
     my $docname           = $self->{publican}->param('docname');
@@ -1081,6 +1177,12 @@ sub transform {
             $footer
         );
 
+        if ( $self->{publican}->param('wkhtmltopdf_opts') ) {
+            push( @wkhtmltopdf_args,
+                split( /\s+/, $self->{publican}->param('wkhtmltopdf_opts') )
+            );
+        }
+
         my $tmpl_path = "$common_config/book_templates";
         $tmpl_path = "$brand_path/book_templates:$tmpl_path"
             if ( -d "$brand_path/book_templates" );
@@ -1123,16 +1225,33 @@ sub transform {
         my @keywords = $self->{publican}->get_keywords( { lang => $lang } );
         my $draft = $self->{publican}->get_draft( { lang => $lang } );
 
+        my $xml_file = "$tmp_dir/$lang/xml/" . ucfirst($type) . '_Info.xml';
+        $xml_file
+            = "$tmp_dir/$lang/xml/" . $self->{publican}->param('info_file')
+            if ( $self->{publican}->param('info_file') );
+        croak( maketext( "Can't locate required file: [_1]", $xml_file ) )
+            if ( !-f $xml_file );
+
+        my $xml_doc = XML::TreeBuilder->new();
+        $xml_doc->parse_file($xml_file);
+        my $logo = eval {
+            $xml_doc->root()->look_down( "_tag", "corpauthor" )
+                ->look_down( "_tag", "imagedata" )->attr('fileref');
+        };
+
+        my $edition = eval {
+            $xml_doc->root()->look_down( "_tag", "edition" )->as_text();
+        };
+
         my $vars = {
-            draft        => $draft,
-            product      => decode_utf8($prod),
-            docname      => decode_utf8($name),
-            version      => decode_utf8($ver),
-            edition      => decode_utf8($self->{publican}->param('edition')),
-            release      => decode_utf8($self->{publican}->param('release')),
-            subtitle     => decode_utf8($subtitle),
-            authors      => \@authors,
-            editorlabel  => decode_utf8( $locale->maketext("Edited by") ),
+            draft       => $draft,
+            product     => decode_utf8($prod),
+            docname     => decode_utf8($name),
+            version     => decode_utf8($ver),
+            release     => decode_utf8( $self->{publican}->param('release') ),
+            subtitle    => decode_utf8($subtitle),
+            authors     => \@authors,
+            editorlabel => decode_utf8( $locale->maketext("Edited by") ),
             contributors => $contributors,
             contriblabel =>
                 decode_utf8( $locale->maketext("With contributions from") ),
@@ -1143,7 +1262,14 @@ sub transform {
             keywords      => \@keywords,
             keywordtitle  => decode_utf8( $locale->maketext("Keywords") ),
             toctitle => decode_utf8( $locale->maketext("Table of Contents") ),
+            logo     => ( $logo || 'Common_Content/images/title_logo.svg' ),
+            buildpath => abs_path("$tmp_dir/$lang/html-pdf"),
         };
+
+        if ($edition) {
+            $vars->{edition} = decode_utf8(
+                $locale->maketext( 'Edition [_1]', $edition ) );
+        }
 
         $template->process(
             'cover.tmpl', $vars,
@@ -1154,24 +1280,11 @@ sub transform {
         push( @wkhtmltopdf_args,
             'cover', "$tmp_dir/$lang/html-pdf/cover.html" );
 
-        #        $template->process(
-        #            'titlepage.tmpl', $vars,
-        #            "$tmp_dir/$lang/html-pdf/titlepage.html",
-        #            binmode => ':encoding(UTF-8)'
-        #        ) or croak( $template->error() );
-
-        #        push( @wkhtmltopdf_args,
-        #            'cover', "$tmp_dir/$lang/html-pdf/titlepage.html" );
-
         my $toc_xsl = "$tmp_dir/$lang/html-pdf/toc.xsl";
 
         $template->process( 'toc-xsl.tmpl', $vars, $toc_xsl,
             binmode => ':encoding(UTF-8)' )
             or croak( $template->error() );
-
-##        my $toc_xsl = "$common_config/book_templates/toc.xsl";
-##        $toc_xsl = "$brand_path/book_templates/toc.xsl"
-##            if ( -f "$brand_path/book_templates/toc.xsl" );
 
         push(
             @wkhtmltopdf_args,
@@ -1479,8 +1592,9 @@ sub transform {
     }
     elsif ( $format eq 'epub' ) {
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/OEBPS/images" );
+        my $images = $self->{publican}->param('img_dir');
+        dircopy( "$tmp_dir/$lang/xml/$images",
+            "$tmp_dir/$lang/$format/OEBPS/$images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/OEBPS/Common_Content"
@@ -1500,7 +1614,7 @@ sub transform {
 ##            "$tmp_dir/$lang/xml/Common_Content/images/title_logo.svg",
 ##            "$tmp_dir/$lang/$format/OEBPS/Common_Content/images/title_logo.svg"
 ##        );
-        unlink("$tmp_dir/$lang/$format/OEBPS/images/icon.svg");
+        unlink("$tmp_dir/$lang/$format/OEBPS/$images/icon.svg");
 
         unless (
             -f "$tmp_dir/$lang/$format/OEBPS/Common_Content/css/lang.css" )
@@ -1637,9 +1751,10 @@ sub transform {
         my $content_dir = "$lang/$product/$version/$docname";
 
         $self->drupal_transform( { lang => $lang } );
+        my $images = $self->{publican}->param('img_dir');
 
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/$content_dir/images" );
+        dircopy( "$tmp_dir/$lang/xml/$images",
+            "$tmp_dir/$lang/$format/$content_dir/$images" );
         dircopy( "$tmp_dir/$lang/xml/Common_Content/images",
             "$tmp_dir/$lang/$format/$content_dir/Common_Content/images" )
             if ( $embedtoc == 0 );
@@ -1668,9 +1783,10 @@ sub transform {
         $dir = undef;
     }
     else {
+        my $images = $self->{publican}->param('img_dir');
         $dir = undef;
-        dircopy( "$tmp_dir/$lang/xml/images",
-            "$tmp_dir/$lang/$format/images" );
+        dircopy( "$tmp_dir/$lang/xml/$images",
+            "$tmp_dir/$lang/$format/$images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"
@@ -2137,9 +2253,10 @@ sub clean_ids {
 
     my @xml_files = dir_list( $self->{publican}->param('xml_lang'), '*.xml' );
     my $cleaner = Publican::XmlClean->new( { clean_id => 1 } );
+    my $extras = $self->{publican}->param('extras_dir');
 
     foreach my $xml_file ( sort(@xml_files) ) {
-        next if ( $xml_file =~ m{/extras/} );
+        next if ( $xml_file =~ m{/$extras/} );
         $cleaner->process_file(
             { file => $xml_file, out_file => $xml_file } );
     }
@@ -2149,19 +2266,7 @@ sub clean_ids {
 
 =head2  adjustColumnWidths
 
-Adjust column widths for XML Tables. Converts hard coded and relative withs to percentages.
-
-Based on xsl-stylesheets-1.74.3/html/dtbl.xsl
-
- Get all the colwidth, NULL == * == 1*
- Convert $table_width to pt
- Convert all hard coded widths to pt
- $total_relative_width = $table_width
- subtract hard coded widths from $total_relative_width
- convert hard coded withs to a % of $table_width
- total all relative widths
- convert relative widths to a proportion of $total_relative_width
- convert relative widths to a % of $table_width
+Adjust column widths for XML Tables. Converts hard coded to px and relative withs to %.
 
 FO input:
 
@@ -2183,8 +2288,14 @@ sub adjustColumnWidths {
 
     my $table_width = $width->string_value();
 
-    debug_msg(
-        "TODO: adjustColumnWidths function is not fully implemented!\n");
+    my %px_ratios = (
+        in => 96.0000000000011,
+        cm => 37.795275591,
+        mm => 3.779527559,
+        pc => 16,
+        pt => 1.333333333,
+        px => 1,
+    );
 
     # XML::LibXML::Document
     my $doc       = $content->get_node(1);
@@ -2195,7 +2306,7 @@ sub adjustColumnWidths {
     my $width_tag      = 'width';
     my $perc_remaining = 100;
 
-    # PDF
+    # FO
     if ( $childnode->nodeName() eq 'fo:table-column' ) {
         $tagname   = 'fo:table-column';
         $width_tag = 'column-width';
@@ -2217,12 +2328,9 @@ sub adjustColumnWidths {
             $perc++;
             $perc_remaining -= $1;
         }
-        elsif ( $width =~ m/^(\d+)(cm|mm|in|pc|pt|px)$/ ) {
-            logger( "TODO: convert exact to % of table_width", RED );
-            debug_msg(
-                "TODO: consider limiting this to matching same units as table_width"
-            );
+        elsif ( $width =~ m/^([0-9]*\.?[0-9]+)(cm|mm|in|pc|pt|px)$/ ) {
             $exact++;
+            $width = sprintf( "%dpx", $1 * $px_ratios{$2} );
         }
         else {
             logger(
@@ -2249,9 +2357,6 @@ sub adjustColumnWidths {
                 + 0.5 )
                 . '%';
 
-        }
-        elsif ( $width =~ m/^(\d+)(pt)$/ ) {
-            debug_msg("TODO: convert exact to %");
         }
 
         $widths[$i] = $width;
@@ -2314,7 +2419,7 @@ sub highlight {
         },
     );
 
-    my $tmp = $hl->languagePlug($language) || croak(
+    $language = $hl->languagePlug( $language, 1 ) || croak(
         "\n\t"
             . maketext(
             "'[_1]' is not a valid language for highlighting. Language names are case sensitive.",
@@ -2686,7 +2791,8 @@ sub package_home {
     my $xml_lang   = $self->{publican}->param('xml_lang');
     my $type       = $self->{publican}->param('type');
     my $web_type   = $self->{publican}->param('web_type') || 'home';
-
+    my $web_dir    = $self->{publican}->param('web_dir')
+        || '%{_localstatedir}/www/html/docs';
     my $name_start = "$docname";
     $name_start = "$product-$docname"          if ( $web_type eq 'product' );
     $name_start = "$product-$docname-$version" if ( $web_type eq 'version' );
@@ -2742,6 +2848,7 @@ sub package_home {
         'src_url'    => $src_url,
         'log'        => $log,
         tmpdir       => $tmp_dir,
+        web_dir      => $web_dir,
         web_type     => $web_type,
         spec_version => $Publican::SPEC_VERSION,
         embedtoc     => $embedtoc,
@@ -2913,15 +3020,6 @@ sub package {
 
     $web_formats =~ s/,/ /g;
 
-    # No PDF for Indic packages. BZ #655713
-##    if (   $lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/
-##        || $xml_lang =~ /(?:IN|ar-SA|fa-IR|he-IL)/ )
-##    {
-##        $web_formats_comma =~ s/pdf,//g;
-##        $web_formats_comma =~ s/,pdf//g;
-##        $web_formats       =~ s/\s*pdf\s*/ /g;
-##    }
-
     if ( $lang ne $xml_lang ) {
         $release = undef;
 
@@ -3044,7 +3142,6 @@ sub package {
     $self->{publican}->{config}->delete('common_config');
     my $common_content = $self->{publican}->param('common_content');
     $self->{publican}->{config}->delete('common_content');
-    $self->{publican}->{config}->delete('strict');
     $self->{publican}->{config}->delete('release');
     $self->{publican}->{config}->delete('edition');
     $self->{publican}->{config}->delete('brand_dir');
@@ -3571,7 +3668,6 @@ Config::Simple
 Publican
 Publican::XmlClean
 Publican::Translate
-File::Copy::Recursive
 File::Path
 File::pushd
 File::Find

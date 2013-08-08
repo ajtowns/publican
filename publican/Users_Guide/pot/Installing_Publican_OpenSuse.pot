@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0\n"
-"POT-Creation-Date: 2013-03-08T03:26:30\n"
-"PO-Revision-Date: 2013-03-08T03:26:30\n"
+"POT-Creation-Date: 2013-08-06 09:04+1000\n"
+"PO-Revision-Date: 2013-08-06 09:04+1000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo zypper install perl-Config-Simple perl-DateTime \\\n"
+msgid "<prompt>$</prompt> <command>sudo zypper install perl-Config-Simple perl-DateTime \\\n"
 "perl-DateTime-Format-DateParse perl-DBD-SQLite perl-DBI \\\n"
 "perl-File-Find-Rule perl-File-Which perl-HTML-Format \\\n"
 "perl-Locale-MakeText-Gettext perl-Template-Toolkit \\\n"
@@ -109,7 +109,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo sh\n"
+msgid "<prompt>$</prompt> <command>sudo sh\n"
 "cpan File::pushd File::Copy::Recursive Locale::PO pp \\\n"
 "Syntax::Highlight::Engine::Kate XML::TreeBuilder\n"
 "exit\n"
@@ -123,7 +123,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>cd ~\n"
+msgid "<prompt>$</prompt> <command>cd ~\n"
 "mkdir -p SourceCode/publican\n"
 "cd SourceCode/publican\n"
 "svn checkout http://svn.fedorahosted.org/svn/publican/branches/publican-2x ./\n"
@@ -137,7 +137,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>perl Build.PL\n"
+msgid "<prompt>$</prompt> <command>perl Build.PL\n"
 "</command>"
 msgstr ""
 
@@ -148,13 +148,12 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "perl Build.PL\n"
-"WARNING: the following files are missing in your kit:\n"
-"        META.yml\n"
-"Please inform the author.\n"
+msgid "<computeroutput>WARNING: the following files are missing in your kit:</computeroutput>\n"
+"<computeroutput>        META.yml</computeroutput>\n"
+"<computeroutput> Please inform the author.</computeroutput>\n"
 "\n"
-"Created MYMETA.yml and MYMETA.json\n"
-"Creating new 'Build' script for 'Publican' version '2.9'"
+"<computeroutput>Created MYMETA.yml and MYMETA.json</computeroutput>\n"
+"<computeroutput>Creating new 'Build' script for 'Publican' version '2.9'</computeroutput>"
 msgstr ""
 
 #. Tag: para
@@ -164,7 +163,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo sh\n"
+msgid "<prompt>$</prompt> <command>sudo sh\n"
 "cpan File::pushd\n"
 "exit\n"
 "</command>"
@@ -177,7 +176,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>./Build\n"
+msgid "<prompt>$</prompt> <command>./Build\n"
 "</command>"
 msgstr ""
 
@@ -188,7 +187,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "DEBUG: Publican::Builder: end of build"
+msgid "<computeroutput>DEBUG: Publican::Builder: end of build</computeroutput>"
 msgstr ""
 
 #. Tag: para
@@ -198,7 +197,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>./Build test\n"
+msgid "<prompt>$</prompt> <command>./Build test\n"
 "</command>"
 msgstr ""
 
@@ -209,18 +208,17 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "Test Summary Report\n"
-"-------------------\n"
-"t/910.publican.Users_Guide.t (Wstat: 256 Tests: 5 Failed: 1)\n"
-"  Failed test:  5\n"
-"  Non-zero exit status: 1\n"
-"t/pod-coverage.t            (Wstat: 256 Tests: 9 Failed: 1)\n"
-"  Failed test:  7\n"
-"  Non-zero exit status: 1\n"
-"Files=10, Tests=68, 420 wallclock secs ( 0.31 usr  0.17 sys + 246.87 cusr 18.73 csys = 266.08 CPU)\n"
-"Result: FAIL\n"
-"Failed 2/10 test programs. 2/68 subtests failed.\n"
-""
+msgid "<computeroutput>Test Summary Report</computeroutput>\n"
+"<computeroutput>-------------------</computeroutput>\n"
+"<computeroutput>t/910.publican.Users_Guide.t (Wstat: 256 Tests: 5 Failed: 1)</computeroutput>\n"
+"<computeroutput>  Failed test:  5</computeroutput>\n"
+"<computeroutput>  Non-zero exit status: 1</computeroutput>\n"
+"<computeroutput>t/pod-coverage.t            (Wstat: 256 Tests: 9 Failed: 1)</computeroutput>\n"
+"<computeroutput>  Failed test:  7</computeroutput>\n"
+"<computeroutput>  Non-zero exit status: 1</computeroutput>\n"
+"<computeroutput>Files=10, Tests=68, 420 wallclock secs ( 0.31 usr  0.17 sys + 246.87 cusr 18.73 csys = 266.08 CPU)</computeroutput>\n"
+"<computeroutput>Result: FAIL</computeroutput>\n"
+"<computeroutput>Failed 2/10 test programs. 2/68 subtests failed.</computeroutput>"
 msgstr ""
 
 #. Tag: para
@@ -250,7 +248,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>JFEARN=http://jfearn.fedorapeople.org/wkhtmltopdf/f15\n"
+msgid "<prompt>$</prompt> <command>JFEARN=http://jfearn.fedorapeople.org/wkhtmltopdf/f15\n"
 "MYSYSTEM=i686\n"
 "## For 64bit system use MYSYSTEM=x86_64 instead.\n"
 "wget $JFEARN/$MYSYSTEM/wkhtmltopdf-qt-4.7.1-1.git20110804.fc15.i686.rpm\n"
@@ -270,7 +268,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo sh\n"
+msgid "<prompt>$</prompt> <command>sudo sh\n"
 "rpm -ivh wkhtmltopdf-qt*\n"
 "rpm -ivh --nodeps wkhtmltopdf-0*\n"
 "exit\n"
@@ -294,7 +292,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>sudo sh\n"
+msgid "<prompt>$</prompt> <command>sudo sh\n"
 "./Build test\n"
 "exit\n"
 "</command>"
@@ -312,7 +310,7 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "<command>publican create --type=book --product=testing --version=1.2.3 --name=TestPublican</command>\n"
+msgid "<prompt>$</prompt> <command>publican create --type=book --product=testing --version=1.2.3 --name=TestPublican</command>\n"
 "  Processing file en-US/Author_Group.xml -&gt; en-US/Author_Group.xml\n"
 "  Processing file en-US/Book_Info.xml -&gt; en-US/Book_Info.xml\n"
 "  Processing file en-US/Chapter.xml -&gt; en-US/Chapter.xml\n"
@@ -332,9 +330,9 @@ msgstr ""
 
 #. Tag: screen
 #, no-c-format
-msgid "runtime error: file /usr/share/publican/xsl/epub.xsl element choose\n"
-"Variable 'epub.embedded.fonts' has not been declared.\n"
-" at /usr/lib/perl5/site_perl/5.14.2/Publican/Builder.pm line 915"
+msgid "<computeroutput>runtime error: file /usr/share/publican/xsl/epub.xsl element choose</computeroutput>\n"
+"<computeroutput>Variable 'epub.embedded.fonts' has not been declared.</computeroutput>\n"
+"<computeroutput> at /usr/lib/perl5/site_perl/5.14.2/Publican/Builder.pm line 915</computeroutput>"
 msgstr ""
 
 #. Tag: para

@@ -34,7 +34,7 @@
 						Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package:
 					</para>
 					 
-<screen><command> yum install publican publican-doc</command>
+<screen><prompt>$</prompt> <command> yum install publican publican-doc</command>
 </screen>
 
 				</step>
@@ -45,7 +45,7 @@
 				Several brand packages are available for use with <application>Publican</application>. Run the following command as the root user to install packages for building branded books:
 			</para>
 			 
-<screen><command> yum install publican-<replaceable>brand</replaceable></command>
+<screen><prompt>$</prompt> <command> yum install publican-<replaceable>brand</replaceable></command>
 </screen>
 			 <para>
 				Replace <replaceable>brand</replaceable> with, for example, <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, or <literal>gimp</literal>. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information on branding.
@@ -87,7 +87,7 @@
 						Run the following command to install the <package>publican</package> package and the <package>publican-doc</package> documentation package:
 					</para>
 					 
-<screen><command> yum install publican publican-doc</command>
+<screen><prompt>$</prompt> <command> yum install publican publican-doc</command>
 </screen>
 
 				</step>
@@ -98,7 +98,7 @@
 				Several brand packages are available for use with <application>Publican</application>. Run the following command as the root user to install packages for building branded books:
 			</para>
 			 
-<screen><command> yum install publican-<replaceable>brand</replaceable></command>
+<screen><prompt>$</prompt> <command> yum install publican-<replaceable>brand</replaceable></command>
 </screen>
 			 <para>
 				Replace <replaceable>brand</replaceable> with, for example, <literal>redhat</literal>, <literal>fedora</literal>, <literal>jboss</literal>, <literal>ovirt</literal>, or <literal>gimp</literal>. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information on branding.
@@ -127,7 +127,7 @@
 						Run the following command to install the <package>publican</package> package:
 					</para>
 					
-<screen><command>sudo apt-get install publican</command>
+<screen><prompt>$</prompt> <command>sudo apt-get install publican</command>
 </screen>
 
 				</step>
@@ -161,7 +161,7 @@
 						Open your <filename>/etc/apt/sources.list</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
 					</para>
 					 
-<screen><command>sudo gedit /etc/apt/sources.list</command>
+<screen><prompt>$</prompt> <command>sudo gedit /etc/apt/sources.list</command>
 </screen>
 
 				</step>
@@ -186,7 +186,7 @@
 						Run the following command to update the list of packages available to your computer:
 					</para>
 					 
-<screen><command>sudo apt-get update</command>
+<screen><prompt>$</prompt> <command>sudo apt-get update</command>
 </screen>
 
 				</step>
@@ -195,7 +195,7 @@
 						Run the following command to install the <package>publican</package> package:
 					</para>
 					 
-<screen><command>sudo apt-get install publican</command>
+<screen><prompt>$</prompt> <command>sudo apt-get install publican</command>
 </screen>
 
 				</step>
@@ -289,9 +289,18 @@
 
 	</section>
 	
+<<<<<<< HEAD
 	<section conformance="182" id="sect-Users_Guide-Installing_Publican-Installing_Publican_on_OSX_Lion">
 		<title>Mac&nbsp;OS&nbsp;X&nbsp;Lion</title>
 	
+=======
+	<section conformance="235" id="sect-Users_Guide-Installing_Publican-Installing_Publican_on_OSX_Lion">
+		<title>OSX Lion</title>
+		<para>
+			Test
+		</para>
+		
+>>>>>>> devel
 		<procedure>
 			<step>
 				<para>
@@ -305,7 +314,11 @@
 			</step>
 			<step>
 				<para>
+<<<<<<< HEAD
 					Install <application>Macports</application> from <ulink url="http://guide.macports.org/chunked/installing.macports.html"/>. Everything you install with it goes into <filename>/opt/local</filename>, away from your normal OS files.
+=======
+					Install <application>Macports</application> from <ulink url="http://guide.macports.org/chunked/installing.macports.html" />. Everything you install with it goes into <filename>/opt/local</filename>, away from your normal OS files.
+>>>>>>> devel
 				</para>
 			</step>
 			<step>
@@ -331,7 +344,11 @@
 					Install FOP if you want PDFs to work: 
 				</para>
 					<screen><prompt>$</prompt> <command>sudo port install</command> <option>fop</option></screen>
+<<<<<<< HEAD
 					<screen><prompt>$</prompt> <command>echo</command> <option>"FOP_OPTS='-Xms50m -Xmx700m'" > ~/.foprc</option></screen>
+=======
+					<screen><prompt>$</prompt> <command>echo</command> <option>"FOP_OPTS='-Xms50m -Xmx700m'" &gt; ~/.foprc</option></screen>
+>>>>>>> devel
 			</step>
 			<step>
 				<para>
@@ -391,7 +408,11 @@
 				<substeps role="alternatives">
 					<step>
 						<para>
+<<<<<<< HEAD
 							The SVN location for the brands supplied by Red Hat is <ulink url="http://svn.fedorahosted.org/svn/publican"/>
+=======
+							The SVN location for the brands supplied by Red Hat is <ulink url="http://svn.fedorahosted.org/svn/publican" />
+>>>>>>> devel
 						</para>
 					</step>
 					<step>
@@ -419,6 +440,11 @@
 			</step>
 		</procedure>
 	</section>
+<<<<<<< HEAD
 	
+=======
+
+
+>>>>>>> devel
 
 </chapter>

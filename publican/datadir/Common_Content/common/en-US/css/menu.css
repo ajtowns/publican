@@ -182,6 +182,7 @@ h1 {
 
 .part > .titlepage h1.title {
 	text-align: center;
+	font-size: 24px;
 }
 
 div.producttitle {
@@ -226,13 +227,18 @@ div.subtitle {
        font-weight: bold;
 }
 
-.preface > div > div > div > h2.title {
+h1.legalnotice {
+	font-size: 24px;
+}
+
+.preface > div > div > div > h2.title,
+.preface > div > div > div > h1.title {
 	margin-top: 1em;
-	font-size: 18px;
+	font-size: 24px;
 }
 
 .appendix h2 {
-	font-size: 18px;
+	font-size: 24px;
 }
 
 
@@ -261,7 +267,23 @@ h6 {
 .abstract h6 {
 	margin-top:1em;
 	margin-bottom:.5em;
-	font-size: 22px;
+	font-size: 24px;
+}
+
+.index > div > div > div > h2.title {
+	font-size: 24px;
+}
+
+.chapter > div > div > div > h2.title {
+	font-size: 24px;
+}
+
+.section > div > div > div > h2.title {
+	font-size: 21px;
+}
+
+.section > div > div > div > h3.title {
+	font-size: 17px;
 }
 
 /*element rules*/
@@ -735,6 +757,18 @@ img {
        padding-left: 1em;
 }
 
+.equation {
+	border-left: 3px solid #aaaaaa;
+	background-color: #ffffff;
+	padding-top: 1px;
+	padding-bottom: 0.1em;
+	padding-left: 1em;
+}
+
+.equation-contents {
+	margin-left: 4em;
+}
+
 div.title {
        margin-bottom: 1em;
        font-weight: 14px;
@@ -1121,6 +1155,8 @@ dl {
 
 .toc dl {
 	margin-left: 10px;
+	padding-left: 2em;
+	text-indent: -2em;
 }
 
 /*index*/
@@ -1179,12 +1215,19 @@ sup {
 }
 
 .footnote sup  {
-	color:#e3dcc0;
+	color: black;
 	left: .4em;
 }
+ 
+.footnote a:link,
+.footnote a:visited {
+       text-decoration:none;
+       border: none;
+}
+
 
 .footnote .para sup  {
-	position:absolute;
+       vertical-align:text-bottom;
 }
 
 a.footnote {
@@ -1204,7 +1247,7 @@ a.footnote {
 }
 
 .footnote p,.footnote div.para {
-	padding-left:2em;
+	padding-left:1em;
 }
 
 .footnote a:link, 
@@ -1308,13 +1351,13 @@ pre {
 span.remark {
 	background-color: #ff00ff;
 }
-
+/*
 .draft {
 	background-image: url(../images/watermark-draft.png);
 	background-repeat: repeat-y;
         background-position: center;
 }
-
+*/
 .foreignphrase {
 	font-style: inherit;
 }
@@ -1349,7 +1392,6 @@ dl:after {
 .toc dd {
 	padding-bottom: 0px;
 	margin-bottom: 1em;
-	padding-left: 1.3em;
 	margin-left: 0px;
 }
 
@@ -1374,6 +1416,10 @@ div.toc > dl > dt {
 	width: 12pt;
 	display: inline;
 	vertical-align: middle;
+}
+
+li.step > a:first-child {
+	display: none;
 }
 
 .stepalternatives {

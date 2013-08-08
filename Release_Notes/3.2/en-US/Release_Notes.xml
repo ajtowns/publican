@@ -1,0 +1,654 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Release_Notes.ent">
+%BOOK_ENTITIES;
+]>
+<article>
+	<xi:include href="Article_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<variablelist>
+		<varlistentry>
+			<term>Swapped values now in the correct places</term>
+			<listitem>
+				<para>
+					Previously, the site stats report swapped the languages values and the products values. Languages values and products values are now in the correct places.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Tags nested inside &lt;emphasis&gt; tags no longer disapper when publican creates .po files</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=909728">BZ #909728</ulink>
+				</para>
+				<para>
+					Previously, tags nested inside &lt;ulink&gt; tags disappeared during the creation of .po files. This meant that the source string and the translated string did not correspond to one another.
+				</para>
+				<para>
+					A patch to <application>Publican</application> ensures that tags nested inside &lt;ulink&gt; tags do not disappear during the creation of .po files.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>trans_drop command added</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=887707">BZ #887707</ulink>
+				</para>
+				<para>
+					A new command, <command>publican trans_drop</command>, creates a snapshot of the source language for use in translation.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>extras.dir parameter added to publican.cfg</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953998">BZ #953998</ulink>
+				</para>
+				<para>
+					A new parameter, <literal>extras_dir</literal>, has been added to the <filename>publican.cfg</filename> file. <literal>extras_dir</literal> allows the user to override the default location of the "extras" directory. This functionality was previously provided by the <literal>extras/</literal> directory.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Duplicate sources no longer installed</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=966143">BZ #966143</ulink>
+				</para>
+				<para>
+					Previously, brand installations caused duplications of css, images, and scripts sources. This caused installations of Publican to be larger than was necessary. A patch to Publican prevents the duplication of these sources. Installations of publican are now reduced in size.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Broken CPAN link repaired</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=973461">BZ #973461</ulink>
+				</para>
+				<para>
+					A broken link to CPAN describing supported highlighting values in <application>Kate</application> has been replaced with a link that is not broken.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Users can now specify the image directory</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=919481">BZ #919481</ulink>
+				</para>
+				<para>
+					A new parameter, <literal>image_dir</literal> has been added to the <filename>publican.cfg</filename> file. <literal>image_dir</literal> allows the user to specify which directory contains images. The default setting of <literal>image_dir</literal> is <literal>images</literal>.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Revision History ID now correctly generated</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=911462">BZ #911462</ulink>
+				</para>
+				<para>
+					Previously, the ID of the <filename>Revision History</filename> file was lost, which caused problems when xrefs linked to the Revision History.
+				</para>
+				<para>
+					IDs for <filename>Revision_History.xml</filename> in translated books are now being generated correctly by publican, allowing the books to build.
+
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Incomplete language codes now mapped to existing translations</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=844202">BZ #844202</ulink>
+				</para>
+				<para>
+					Previously, failure to specify the region in a language parameter (that is, <literal>en</literal> instead of <literal>en-US</literal>) caused Common Content to revert to <literal>en-US</literal>. This caused the Common Content file to fail to translate.
+
+				</para>
+				<para>
+					Two-letter language codes are now mapped to existing translations in cases where there is no contention between existing translations.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Default use of wkhtmltopdf can be overridden</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953728">BZ #953728</ulink>
+				</para>
+				<para>
+					Previously, <application>Publican</application> did not allow users to override the default use of <application>wkhtmltopdf</application>. <application>wkhtmltopdf</application> was the default, and if it was not installed, <application>FOP</application> would be used.
+				</para>
+				<para>
+					It is now possible for a user to override this and choose which PDF tool to use, if both PDF tools are installed.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Site JavaScript is now customizable</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=956935">BZ #956935</ulink>
+				</para>
+				<para>
+					Previously, it was not possible to customize the site JavaScript in <filename>/usr/share/publican/sitetemplate/toc.js</filename>.
+				</para>
+				<para>
+					A site parameter, toc_js, has been added, and brands are now allowed to ship <filename>template/</filename> directory.
+				</para>
+				<para>
+					It is now possible to customize site Javascript in <filename>/usr/share/publican/sitetemplate/toc.js</filename>.
+				</para>
+			</listitem>
+		</varlistentry>
+	 	<varlistentry>
+			<term>book_ver_list now exposed to products_index.tmpl and versions_index.tmpl</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=962643">BZ #962643</ulink>
+				</para>
+				<para>
+					Previously, it was not possible to access the book formats in the product templates and in the version templates.
+				</para>
+				<para>
+					book_ver_list is now exposed to <filename>products_index.tmpl</filename> and <filename>versions_index.tmpl</filename>.
+				</para>
+				<para>
+					It is now possible to access book formats in the product templates and in the version templates. This makes it possible (for instance) to produce tables that provide links to documents in each available format.
+				</para>
+			</listitem>
+		</varlistentry>
+	  	<varlistentry>
+			<term>Chapter headings, section headings, and subsection headings are now different sizes</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=924518">BZ #924518</ulink>
+				</para>
+				<para>
+					Previously, the common brand that was automatically installed with <application>Publican</application> did not use different sizes for chapter headings, section headings, and subsection headings.
+				</para>
+				<para>
+					A patch to <application>Publican</application> adjusts the size of the chapter headings, section headings, and subsection headings to make it easier to determine how deeply nested a chapter, section, or subsection is.
+				</para>
+			</listitem>
+		</varlistentry>
+	 	<varlistentry>
+			<term>Case-insensitive language attributes on programlistings now supported</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=919474">BZ #919474</ulink>
+				</para>
+				<para>
+					Previously, it was not possible to use case-insensitive "language" attributes on programlistings.
+				</para> 
+				<para>
+					This meant that upstream code was not always interoperable with publican (for instance, Publican did not accept <literal>&lt;programlisting language="bash"&gt;</literal> because it expected <literal>&lt;programlisting language="Bash"&gt;').
+				</para>
+				<para>
+					The language attribute on programlistings is now case-insensitive.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Publican generated faulty specfiles on Fedora&nbsp;19</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=982424">BZ #982424</ulink>
+				</para>
+				<para>
+					The version of <application>libmxl2</application> shipped in Fedora&nbsp;19 ignores some whitespace in XSL templates that previous versions honoured. When Publican used its <filename>web-spec.xsl</filename> and <filename>dt_htmlsingle_spec.xsl</filename> and <filename>web-home-spec.xsl</filename> templates to generate RPM specfiles to package documents, the specfiles would be invalid because various parameters would not begin on new lines. The <literal>%post</literal> and <literal>%postun</literal> scriptlets were also sometimes corrupted because of missing whitespace. Packaging either did not work at all, or the packages caused unexpected results when installed on a Publican-maintained website. The XSL templates are now updated to move whitespace to where new libxml2 honours it to generate valid specfiles. 
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed typos in common content</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=952490">BZ #952490</ulink>, <ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=974918">BZ #974918</ulink>
+				</para>
+				<para>
+                    The common content files contained minor instances of incorrect grammar and unnecessary punctuation (such as exclamation marks in titles) in the <citetitle>Document Conventions</citetitle> and <citetitle>Getting Help and Giving Feedback"</citetitle> sections. The grammar issues are now corrected in Publican and the Red Hat brand. As a result, the common content now appears as expected within the preface of a Publican document.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Stopped menu bouncing</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953716">BZ #953716</ulink>
+				</para>
+				<para>
+					Previously, when viewing a book on a web_style 2 site, the web site menu popped in and out when the mouse is moved off the browser, which is annoying. Now, the web site menu stays hidden until moused over.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed IDs missing from admonitions</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=966494">BZ #966494</ulink>
+				</para>
+				<para>
+					Unlike most other XML elements, admonitions (such as <sgmltag>warning</sgmltag>, <sgmltag>note</sgmltag> and <sgmltag>important</sgmltag> elements) did not have an ID. As a result, linking to admonitions from other locations within the document or via a URL was not possible. This problem persisted event with an explicit admonition ID specified in the XML. This problem is now fixed so that admonition IDs appear in the html, whether they are explicitly set by the user or automatically generated.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Corpauthor element supported for PDF covers</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=908666">BZ #908666</ulink>
+				</para>
+				<para>
+					When building a book without an <sgmltag>authorgroup</sgmltag> and instead using a <sgmltag>corpauthor</sgmltag>, the PDF version of the book would fail to build with a <computeroutput>author list can not be calculated before building</computeroutput> error. This issue is now fixed and as a result, a book without only a <sgmltag>corpauthor</sgmltag> instead of an <sgmltag>authorgroup</sgmltag> builds the PDF version of the document as expected.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+                   <term>Fixed multiple calls to <command>update_po</command> breaking packaging.</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=891167">BZ #891167</ulink>
+				</para>
+				<para>
+                                   Running <command>update_po</command> multiple times resulted in duplicate entries in the translated <filename>Revision_History.xml</filename> if the source language <filename>Revision_History.xml</filename> was not updated first. This created revision numbers that were out of chronological order, and prevented books from being packaged. This has been fixed and version numbers in <filename>Revision_History.xml</filename> now increment correctly when running the <command>update_po</command> command multiple times.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Added website labels and translations</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=979885">BZ #979885</ulink>
+				</para>
+				<para>
+					English versions of localized strings were requested to be added to the  Publican source code as part of <code>trans_strings</code> (available in templates)  and <filename>labels.js</filename> (available in JavaScript). The strings were: <literal>Knowledge</literal>, <literal>Document</literal>, <literal>Document Language</literal>, <literal>Document Home</literal> and <literal>Product Documentation</literal>. The strings were added as a patch to the Publican source code and are now available.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add orgname to block/inline code</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=872955">BZ #872955</ulink>
+				</para>
+				<para>
+					When generating PO files, the <sgmltag>orgname</sgmltag> information did not appear inline and broke the flow of the sentence, which resulted in translation diffulties. This is now fixed and the <sgmltag>orgname</sgmltag> information appears inline as expected and does not break the flow of the sentence.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed get_keywords not using correct info file</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=957956">BZ #957956</ulink>
+				</para>
+				<para>
+					When the PDF version of a document is built after specifying an alternate book information file using the <parameter>info_file</parameter> parameter, a <computeroutput>keyword list can not be calculated before building</computeroutput> error displays and the build fails. This occurred because Publican referred to <filename>Book_Info.xml</filename> instead of the file specified using the <parameter>info_file</parameter> parameter to calculate the keyword list. This is now fixed and Publican builds the PDF using the file specified via <parameter>info_file</parameter> (if this parameter is used) and defaults to <filename>Book_Info.xml</filename> if <parameter>info_file</parameter> is not used.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Improved web print CSS</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=927513">BZ #927513</ulink>
+				</para>
+				<para>
+				    	Previously, books were unreadable in print preview due to the same CSS being used for both standalone print preview as well as web content. A separate CSS style sheet has been created for viewing content on web sites and as a result, print preview displays correctly.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed pre border in PDF</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=905752">BZ #905752</ulink>
+				</para>
+				<para>
+					Code samples in PDF builds were not properly surrounded by border/shading. This update provides proper shading in PDF.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed EPUB DOCTYPE</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=875129">BZ #875129</ulink>
+				</para>
+				<para>
+                                    Previously, EPUB books were published with XHTML 1.0 Strict DOCTYPE. With this update, EPUB files are now constructed with XHTML 1.1. 
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed step first child style</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=971221">BZ #971221</ulink>
+				</para>
+				<para>
+					Using  <sgmltag>&lt;step&gt;</sgmltag> tags with an id allocated resulted in the associated anchor tag creating an empty line after the number. This formatting issue has been corrected.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed long link word wrap in PDF.</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=923481">BZ #923481</ulink>
+				</para>
+				<para>
+					Previously, long URLs did not wrap correctly. This caused long links to extend far into the right margin of a page and push content to the left. Publican now wraps long URLs so they do not affect page format.
+				</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>Added pub_dir option to override publish directory</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=830062">BZ #830062</ulink>
+				</para>
+				<para>
+					When publishing, a custom output directory can now be specified via the --pub_dir option.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Removed show_unknown parameter and associated code</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=915428">BZ #915428</ulink>
+				</para>
+				<para>
+					Certain XML tags caused Publican to display a warning. These warnings come from historical usage decisions made regarding these tags. Publican no longer gives a warning when these tags are encountered.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Publican now supports all DocBook conditionals</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=919486">BZ #919486</ulink>
+				</para>
+				<para>
+					Previously, Publican supported only the <sgmltag>arch</sgmltag>, <sgmltag>lang</sgmltag>, and <sgmltag>conditional</sgmltag> conditional attributes. Publican now supports the full list of DocBook&nbsp;4 conditions: <sgmltag>arch</sgmltag>, <sgmltag>condition</sgmltag>, <sgmltag>conformance</sgmltag>, <sgmltag>lang</sgmltag>, <sgmltag>os</sgmltag>, <sgmltag>revision</sgmltag>, <sgmltag>revisionflag</sgmltag>, <sgmltag>role</sgmltag>, <sgmltag>security</sgmltag>, <sgmltag>userlevel</sgmltag>, and <sgmltag>vendor</sgmltag>. 
+				</para>
+				<para>
+					Also, profiling allowed only option to be set at a time, for example:
+				</para>
+<programlisting language="XML">arch: "i386"</programlisting>
+				<para>
+                    Now, Publican allows multiple conditions to be set on an element, with <literal>;</literal> representing logical <literal>or</literal>. For example:
+				</para>
+<programlisting language="XML">arch: "i386;x86_64"</programlisting>
+				<important>
+					<para>Publican supports the <sgmltag>lang</sgmltag> attribute, but sets it implicitly when it builds a document and applies any localisations to its XML. Do not attempt to set this attribute in XML.</para>
+				</important>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Flag spaces in product number as invalid</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=973895">BZ #973895</ulink>
+				</para>
+				<para>
+					Previously, building a document with a space in the product version information displayed a FOP error because Publican did not reject the invalid product version values. This is now fixed and Publican rejects product version values with a space and the build fails as expected. 
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Standardized prompts in commands</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=880456">BZ #880456</ulink>
+				</para>
+				<para>
+					Prompts ($) have been added to all commands in the Publican 3.0 Users' Guide. In addition, some screen output boxes contained more than one command in sequence. To avoid confusion, these have been fixed to display one command per screen output box.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Updated web_formats publican.cfg info in User Guide</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=839141">BZ #839141</ulink>
+				</para>
+				<para>
+					The <citetitle>Publican User Guide</citetitle> incorrectly advised specifying web formats by enclosing the entire parameter in quotation marks. This is fixed and the Publican User Guide now advises specifying web formats by enclosing only the values of the parameter in quotation marks (for example, <literal>web_formats: "html-single,pdf"</literal>).
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Replaced 'home page' with 'product or version page'</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=921803">BZ #921803</ulink>
+				</para>
+				<para>
+					<citetitle>Publican 3.0 User Guide</citetitle> documentation incorrectly instructed the user to create a home page using the procedure described in Section 7.1.3. This has been corrected to instruct the user to create a product or version page.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix PDF ignoring cover logo</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=974353">BZ #974353</ulink>
+				</para>
+				<para>
+					Previously when building a .PDF file, Publican had to have a file named title_logo.svg in the /images folder, and would fall back to common content if the file was missing. This is fixed and now PDFs are generated with the title logo specified in Book_Info.xml.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix empty pot files not being deleted</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=961413">BZ #961413</ulink>
+				</para>
+				<para>
+					Previously, empty .PO files were produced when an XML file with no translatable content was present. Now Publican checks for content and if there is none, it does not create a .PO file.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix long title layout on cover page in PDF</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=956934">BZ #956934</ulink>
+				</para>
+				<para>
+					Previously in a generated .PDF file, a long title (>30chars) overlapped with the line separator between the title and subtitle. This has been fixed and long titles no longer overlap the separator.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Added Mac OS X Lion installation instructions</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=979229">BZ #979229</ulink>
+				</para>
+				<para>
+					The <citetitle>Publican User Guide</citetitle> now includes instructions for installing <application>Publican</application> on OS&nbsp;X version 7.2.3 (Lion).
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Add file handle limit workaround to FAQ</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=952476">BZ #952476</ulink>
+				</para>
+				<para>
+					A workaround for situations in which the number of file handles open exceeds the default limit has been added to the FAQ in the Publican User's Guide.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix UTF8 image names getting mangled in publish</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=953618">BZ #953618</ulink>
+				</para>
+				<para>
+					Previously, file names that contained non-ASCII characters would cause Publican to print an "image missing" warning when trying to publish. This has been corrected so that non-ASCII characters in file names are processed correctly.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+                   <term>Added <parameter>wkhtmltopdf_opts</parameter> parameter to pass options to wkhtmltopdf.</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=951290">BZ #951290</ulink>
+				</para>
+				<para>
+                                   The <parameter>wkhtmltopdf_opts</parameter> parameter has been added to allow <command>wkhtmltopdf</command> command line arguments when building a book in PDF format. This allows users to specify page layout options, such as portrait or landscape.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix edition missing on PDF cover pages</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=956940">BZ #956940</ulink>
+				</para>
+				<para>
+					The edition value was not displayed in books. Publican has been updated to show this value on the cover and title pages only if specified.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Support XML in add_revision member</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=862465">BZ #862465</ulink>
+				</para>
+				<para>
+					Special characters in any add_revision member entries were replaced by entities and caused build errors. Publican has been updated, allowing the use and proper display of special characters in add_revision members.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix duplicate footnotes in bibliography</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=653447">BZ #653447</ulink>
+				</para>
+				<para>
+                  Previously, a footnote in <code>&lt;biblioentry&gt;</code> generated two entries in the HTML. This has been corrected so that the footnote only appears once.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix Link from footlink to footlink-ref not working in PDF</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=909786">BZ #909786</ulink>
+				</para>
+				<para>
+					Previously in a PDF, inline links within footnotes did not link back to the body text containing the footnote reference, however the book text correctly linked to the footnote. This fix enables these links to work in both directions.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix TOC draft watermark in PDF</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=905271">BZ #905271</ulink>
+				</para>
+				<para>
+					The draft watermark was not configured to display in a book's Table of Contents. Publican has been updated to ensure the watermark is displayed as a whole in each page, including in any Table of Contents. 
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+                        <term>Add <package>common-db5</package> sub package.</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=958495">BZ #958495</ulink>
+				</para>
+				<para>
+                                   The <package>publican-common-db5-web</package> brand package has been added so that DocBook 5 brands can be used with Publican.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term></term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=958343">BZ #958343</ulink>
+				</para>
+				<para>
+                                       Previously, <application>Publican</application> resolved XML entities that appeared in CDATA blocks, causing them to be replaced. 
+				</para>
+				<para>
+					<application>Publican</application> no longer resolves XML entities that appear in CDATA blocks.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Support decimals in colwidth and convert exact measures to pixels. </term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=913775">BZ #913775</ulink>
+				</para>
+				<para>
+                                       Previously, when defining a column width in a table using fractions of an inch, Publican was unable to process the <code>&lt;colwidth&gt;</code> parameter when publishing. As a result, Publican would render the table incorrectly using a <code>&lt;colwidth&gt;</code> of 100% instead. This update includes the ability to define a fractional column width and render tables as instructed.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Tweak equation formatting</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=804531">BZ #804531</ulink>
+				</para>
+				<para>
+					The equation and mathphrase tags appeared as left-aligned plain text, limiting their visibility. Publican has been updated to validate without warning and display any equation or mathphrase tags to stand out and appear different to plain text.
+ 
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fix POT-Creation-Date format</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=985836">BZ #985836</ulink>
+				</para>
+				<para>
+					Dates in PO translation files are generated by Publican to track file creation dates. Publican has been updated to display the creation dates in a format that complies with GNU convention.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Fixed web_dir not used for home page packages</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=988191">BZ #988191</ulink>
+				</para>
+				<para>
+					The <parameter>web_dir</parameter> parameter was introduced for Publican 3.1 to specify the  default web directory location was not extended to <filename>web-home-spec.xsl</filename> resulting in the parameter not working for a web home package. This has been and <filename>web-home-spec.xsl</filename> now uses <parameter>web_dir</parameter> correctly.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Updated web site instructions</term>
+			<listitem>
+				<para>
+					<ulink url="https://bugzilla.redhat.com/show_bug.cgi?id=979224">BZ #979224</ulink>
+				</para>
+				<para>
+					The web site instructions for installing and updating Publican were outdated. These instructions have been brought up to date.
+				</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</article>
+

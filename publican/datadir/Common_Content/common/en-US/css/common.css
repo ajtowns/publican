@@ -73,6 +73,10 @@ body.desktop .book > .toc {
 	font-size: 12px;
 }
 
+body.pdf {
+	max-width: 100%;
+}
+
 .toc {
 	line-height:1.35em;
 }
@@ -129,6 +133,10 @@ a:link {
 	text-decoration: none;
 	border-bottom: 1px dotted ;
 	color:#3366cc;
+}
+
+body.pdf a:link {
+	word-wrap: break-word;
 }
 
 a:visited {
@@ -188,6 +196,7 @@ h1 {
 
 .part > .titlepage h1.title {
 	text-align: center;
+	font-size: 24px;
 }
 
 div.producttitle {
@@ -232,13 +241,18 @@ div.subtitle {
 	font-weight: bold;
 }
 
-.preface > div > div > div > h2.title {
+h1.legalnotice {
+	font-size: 24px;
+}
+
+.preface > div > div > div > h2.title,
+.preface > div > div > div > h1.title {
 	margin-top: 1em;
-	font-size: 18px;
+	font-size: 24px;
 }
 
 .appendix h2 {
-	font-size: 18px;
+	font-size: 24px;
 }
 
 
@@ -267,7 +281,23 @@ h6 {
 .abstract h6 {
 	margin-top:1em;
 	margin-bottom:.5em;
-	font-size: 22px;
+	font-size: 24px;
+}
+
+.index > div > div > div > h2.title {
+	font-size: 24px;
+}
+
+.chapter > div > div > div > h2.title {
+	font-size: 24px;
+}
+
+.section > div > div > div > h2.title {
+	font-size: 21px;
+}
+
+.section > div > div > div > h3.title {
+	font-size: 17px;
 }
 
 /*element rules*/
@@ -741,6 +771,18 @@ img {
 	padding-left: 1em;
 }
 
+.equation {
+	border-left: 3px solid #aaaaaa;
+	background-color: #ffffff;
+	padding-top: 1px;
+	padding-bottom: 0.1em;
+	padding-left: 1em;
+}
+
+.equation-contents {
+	margin-left: 4em;
+}
+
 div.title {
 	margin-bottom: 1em;
 	font-weight: 14px;
@@ -808,11 +850,21 @@ pre {
 	white-space: -o-pre-wrap; /* Opera 7 */
 	word-wrap: break-word; /* Internet Explorer 5.5+ */
 	font-size: 0.9em;
-	border-style:none; box-shadow: 0 2px 5px #AAAAAA inset;
+	border-style:none;
+	box-shadow: 0 2px 5px #AAAAAA inset;
 	-moz-box-shadow:  0 2px 5px #AAAAAA inset;
 	-webkit-box-shadow: 0 2px 5px #AAAAAA inset;
 	-o-box-shadow: 0 2px 5px #AAAAAA inset;
 }
+
+body.pdf pre {
+	border: 1px solid #AAAAAA;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	-o-box-shadow: none;
+}
+
 
 pre .replaceable, 
 pre .keycap {
@@ -1183,12 +1235,19 @@ sup {
 }
 
 .footnote sup  {
-	color:#e3dcc0;
+	color: black;
 	left: .4em;
 }
 
+.footnote a:link,
+.footnote a:visited {
+	text-decoration:none;
+	border: none;
+}
+
 .footnote .para sup  {
-	position:absolute;
+/*	position:absolute; */
+	vertical-align:text-bottom;
 }
 
 a.footnote {
@@ -1208,7 +1267,7 @@ a.footnote {
 }
 
 .footnote p,.footnote div.para {
-	padding-left:2em;
+	padding-left:1em;
 }
 
 .footnote a:link, 
@@ -1651,6 +1710,10 @@ div.toc > dl > dt {
 	width: 12pt;
 	display: inline;
 	vertical-align: middle;
+}
+
+li.step > a:first-child {
+	display: none;
 }
 
 .stepalternatives {

@@ -14,7 +14,7 @@
 			If you maintain multiple versions of a document, you can create a configuration file for each version. When building the document, you can use the <option>--config</option> to specify which configuration file (and therefore which set of parameters) to use in a particular build, for example:
 		</para>
 		 
-<screen><command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command></screen>
+<screen><prompt>$</prompt> <command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command></screen>
 
 	</note>
 	 <para>
@@ -32,7 +32,7 @@
 				Change into the root directory of the document. For example, if the document is named <literal>Test_Book</literal> and is located in the <filename>~/books/</filename> directory, run the following command:
 			</para>
 			 
-<screen><command>cd ~/books/Test_Book</command></screen>
+<screen><prompt>$</prompt> <command>cd ~/books/Test_Book</command></screen>
 
 		</step>
 		 <step>
@@ -40,7 +40,7 @@
 				Run a test for any errors that would stop the book from building in your chosen language, for example:
 			</para>
 			 
-<screen><command>publican build --formats=test --langs=en-US</command></screen>
+<screen><prompt>$</prompt> <command>publican build --formats=test --langs=en-US</command></screen>
 
 		</step>
 		 <step>
@@ -48,7 +48,7 @@
 				Run the following command to build the book:
 			</para>
 			 
-<screen><command>publican build --formats=<replaceable>formats</replaceable> --langs=<replaceable>languages</replaceable></command></screen>
+<screen><prompt>$</prompt> <command>publican build --formats=<replaceable>formats</replaceable> --langs=<replaceable>languages</replaceable></command></screen>
 			 <para>
 				Replace <replaceable>formats</replaceable> with a comma-separated list of the formats that you want to build; for example, <literal>html,html-single,pdf</literal>. Replace <replaceable>langs</replaceable> with a comma-separated list of the languages that you want to build; for example, <literal>en-US,sv-SE,uk-UA,ko-KR</literal>.
 			</para>
@@ -155,31 +155,31 @@
 
 	</variablelist>
 	 <para>
-		The following examples demonstrate commonly used <command>publican build</command> commands:
+		The following examples demonstrate commonly used <prompt>$</prompt> <command>publican build</command> commands:
 	</para>
 	 <variablelist>
 		<varlistentry>
-			<term><command>publican build --help</command></term>
+			<term><prompt>$</prompt> <command>publican build --help</command></term>
 			 <listitem>
 				<para>
-					List available <command>publican build</command> options for building a book.
+					List available <prompt>$</prompt> <command>publican build</command> options for building a book.
 				</para>
 
 			</listitem>
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican build --formats=test --langs=<replaceable>languages</replaceable></command></term>
+			<term><prompt>$</prompt> <command>publican build --formats=test --langs=<replaceable>languages</replaceable></command></term>
 			 <listitem>
 				<para>
-					Check that the book can be built correctly. Build <command>--formats=test</command> before running any other <command>publican build</command> command, and before checking a book back into a version-controlled repository from which other contributors might download it.
+					Check that the book can be built correctly. Build <command>--formats=test</command> before running any other <prompt>$</prompt> <command>publican build</command> command, and before checking a book back into a version-controlled repository from which other contributors might download it.
 				</para>
 
 			</listitem>
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican build --formats=html --langs=<replaceable>languages</replaceable></command></term>
+			<term><prompt>$</prompt> <command>publican build --formats=html --langs=<replaceable>languages</replaceable></command></term>
 			 <listitem>
 				<para>
 					Build the book in multi-page HTML format. The HTML output will be located in the <filename><replaceable>Doc_Name</replaceable>/tmp/<replaceable>language</replaceable>/html/</filename> directory. Each chapter and major section is placed in a separate HTML file. You can control the depth at which <application>Publican</application> places subsections into separate HTML files with the <literal>chunk-section-depth</literal> parameter in the <filename>publican.cfg</filename> — refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" />.
@@ -189,7 +189,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican build --formats=html-single --langs=<replaceable>languages</replaceable></command></term>
+			<term><prompt>$</prompt> <command>publican build --formats=html-single --langs=<replaceable>languages</replaceable></command></term>
 			 <listitem>
 				<para>
 					Build the book in single-page HTML format. The output will be a single HTML file located in the <filename><replaceable>Doc_Name</replaceable>/tmp/<replaceable>language</replaceable>/html-single/</filename> directory.
@@ -199,7 +199,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican build --formats=pdf --langs=<replaceable>languages</replaceable></command></term>
+			<term><prompt>$</prompt> <command>publican build --formats=pdf --langs=<replaceable>languages</replaceable></command></term>
 			 <listitem>
 				<para>
 					Build the book as a PDF file. <application>Publican</application> relies on an external application, <application>FOP</application> to render PDF. Therefore, building PDF might not be available on all systems, depending on the availability of <application>FOP</application>. The output will be a single PDF file located in the <filename><replaceable>Doc_Name</replaceable>/tmp/<replaceable>language</replaceable>/pdf/</filename> directory.
@@ -209,7 +209,7 @@
 
 		</varlistentry>
 		 <varlistentry>
-			<term><command>publican build --formats=html,html-single,pdf --langs=<replaceable>languages</replaceable></command></term>
+			<term><prompt>$</prompt> <command>publican build --formats=html,html-single,pdf --langs=<replaceable>languages</replaceable></command></term>
 			 <listitem>
 				<para>
 					Build the book in multi-page HTML, single-page HTML, and PDF formats.
@@ -224,7 +224,7 @@
 	<section conformance="125" id="sect-Users_Guide-Building_a_document-Building_without_validation">
 		<title>Building a document without validation</title>
 		<para>
-			<application>Publican</application> validates your XML against the DocBook <firstterm>document type definition</firstterm> (DTD) before it builds the content. However, while a document is under development, you might sometimes want to skip validation while building, especially if the document contains cross-references (<sgmltag>&lt;xref&gt;</sgmltag>s) to sections of the document that do not yet exist. To skip validation, run <command>publican build</command> with the <option>--novalid</option> option. Cross-references to non-existent content appear in the built document as three question marks: <literal>???</literal>.
+			<application>Publican</application> validates your XML against the DocBook <firstterm>document type definition</firstterm> (DTD) before it builds the content. However, while a document is under development, you might sometimes want to skip validation while building, especially if the document contains cross-references (<sgmltag>&lt;xref&gt;</sgmltag>s) to sections of the document that do not yet exist. To skip validation, run <prompt>$</prompt> <command>publican build</command> with the <option>--novalid</option> option. Cross-references to non-existent content appear in the built document as three question marks: <literal>???</literal>.
 		</para>
 		<para>
 			Because the document has not been validated against the DTD, the quality of the output produced when you build with the <option>--novalid</option> option is highly suspect. Do not publish documentation that you have built with the <option>--novalid</option> option.

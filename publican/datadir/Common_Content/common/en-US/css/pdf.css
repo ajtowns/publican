@@ -12,7 +12,7 @@ body.cover {
 	font-weight:300;
 	font-size: 14px;
 	margin: 0 auto;
-	max-width: 770px;
+	max-width: 100%;
 }
 
 body.cover > div {
@@ -54,7 +54,8 @@ body.cover div.version {
 body.cover div.docname {
 	font-size: 40px;
 	font-weight: 600;
-	height: 10%;
+	min-height: 10%;
+	line-height: 40px;
 }
 
 body.cover div.subtitle {
@@ -64,6 +65,8 @@ body.cover div.subtitle {
 	color: black;
 	border-top: .1em solid black;
 	padding-top: 40px;
+	margin-top: 40px;
+	margin-bottom: 0px;
 }
 body.cover div.authors {
 }

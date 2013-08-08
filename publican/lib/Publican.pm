@@ -16,15 +16,19 @@ use Publican::ConfigData;
 use Encode;
 use Cwd qw(abs_path);
 use Data::Dumper;
+use File::Copy::Recursive;
+use Encode qw(is_utf8 decode_utf8 encode_utf8);
 
 use vars
     qw(@ISA $VERSION @EXPORT @EXPORT_OK $SINGLETON $LOCALISE $SPEC_VERSION);
 
-$VERSION = '3.1.5';
+$File::Copy::Recursive::KeepMode = 0;
+
+$VERSION = '3.2.0';
 @ISA     = qw(Exporter);
 
 @EXPORT
-    = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string);
+    = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string rcopy dircopy fcopy rcopy_glob);
 
 # Track when the SPEC file generation is incompatible.
 $SPEC_VERSION = '3.0';
@@ -79,6 +83,10 @@ my %PARAMS = (
 
     arch => {
         descr => maketext('Arch to filter output on.'),
+
+    },
+    audience => {
+        descr => maketext('audience to filter output on.'),
 
     },
     books => {
@@ -161,6 +169,10 @@ my %PARAMS = (
             maketext('The text used to indicate content is confidential.'),
         default => maketext('CONFIDENTIAL'),
     },
+    conformance => {
+        descr => maketext('conformance to filter output on.'),
+
+    },
     debug => {
         descr   => maketext('Print out extra messages?'),
         default => 0,
@@ -223,6 +235,10 @@ my %PARAMS = (
             'Eclipse plugin provider. Defaults to "Publican-[_1]"', $VERSION
         ),
     },
+    extras_dir => {
+        descr   => maketext('Directory where images are located.'),
+        default => 'extras',
+    },
     generate_section_toc_level => {
         descr => maketext(
             'Generate table of contents down to the given section depth.'),
@@ -235,8 +251,16 @@ my %PARAMS = (
         ),
 
     },
+    img_dir => {
+        descr   => maketext('Directory where images are located.'),
+        default => 'images',
+    },
     info_file => { descr => maketext('Override the default Info file.'), },
-    license   => {
+    lang      => {
+        descr => maketext('lang to filter output on.'),
+
+    },
+    license => {
         descr   => maketext('License this package uses.'),
         default => 'GFDL',
 
@@ -256,6 +280,10 @@ my %PARAMS = (
             'Brand option to disable embedding the navigational toc in web packages'
         ),
         limit_to => 'brand',
+    },
+    os => {
+        descr => maketext('os to filter output on.'),
+
     },
     os_ver  => { descr => maketext('The OS for which to build packages.'), },
     product => {
@@ -281,14 +309,25 @@ my %PARAMS = (
     },
     rev_file =>
         { descr => maketext('Override the default Revision History file.'), },
+    revision => {
+        descr => maketext('revision to filter output on.'),
+
+    },
+    revisionflag => {
+        descr => maketext('revisionflag to filter output on.'),
+
+    },
+    role => {
+        descr => maketext('role to filter output on.'),
+
+    },
+    security => {
+        descr => maketext('security to filter output on.'),
+
+    },
     show_remarks => {
         descr   => maketext('Display remarks in transformed output.'),
         default => 0,
-
-    },
-    show_unknown => {
-        descr   => maketext('Report unknown tags when processing XML.'),
-        default => 1,
 
     },
     sort_order => {
@@ -298,6 +337,10 @@ my %PARAMS = (
     src_url => {
         descr => maketext(
             'URL to find tar of source files. Used in RPM Spec files.'),
+    },
+    status => {
+        descr => maketext('status to filter output on.'),
+
     },
     tmp_dir => {
         descr   => maketext('Directory to use for building.'),
@@ -323,11 +366,19 @@ my %PARAMS = (
         constraint => '^(links{1}|tables{1}|default)$',
         default    => 'default',
     },
+    userlevel => {
+        descr => maketext('userlevel to filter output on.'),
+
+    },
+    vendor => {
+        descr => maketext('vendor to filter output on.'),
+
+    },
     version => {
         descr => maketext(
             'Version of this package. Fetched from productnumber tag in xml_lang/TYPE_Info.xml'
         ),
-        constraint => '^[0-9]',
+        constraint => '^[0-9][^\p{IsSpace}]*$',
     },
     web_brew_dist => {
         descr   => maketext('The brew dist to use for building the web rpm.'),
@@ -357,6 +408,7 @@ my %PARAMS = (
         descr => maketext(
             'This is a special page for a Publican-generated website, not a standard book. Valid types are home, product, and version.'
         ),
+        constraint => '^(home|product|version|)$',
     },
     web_host => {
         descr => maketext(
@@ -404,6 +456,15 @@ my %PARAMS = (
             'Name of site package for non standard RPM websites. Required to ensure the site is installed.'
         ),
         limit_to => 'brand',
+    },
+    wkhtmltopdf_opts => {
+        descr => maketext(
+            'Extra options to pass to wkhtmltopdf. e.g. wkhtmltopdf_opts: "-O landscape -s A3"'
+        ),
+    },
+    wordsize => {
+        descr => maketext('wordsize to filter output on.'),
+
     },
     xml_lang => {
         descr   => maketext('Language in which XML is authored.'),
@@ -702,22 +763,33 @@ sub _validate_config {
     my ( $self, $args ) = @_;
 
     foreach my $key ( keys(%PARAMS) ) {
+        my $value = $self->{config}->param($key);
+
+        if (( defined( $PARAMS{$key}->{not_for} ) )
+            && (lc( $PARAMS{$key}->{not_for} ) eq
+                lc( $self->{config}->param('type') ) )
+            )
+        {
+            if ( defined($value) ) {
+                croak(
+                    maketext(
+                        "Parameter [_1] is not permitted in a [_2].", $key,
+                        $self->{config}->param('type')
+                    )
+                );
+            }
+            else {
+                next;
+            }
+        }
+
         if ( defined $PARAMS{$key}->{constraint} ) {
-            my $value      = $self->{config}->param($key);
             my $constraint = $PARAMS{$key}->{constraint};
-            if ((     !$PARAMS{$key}->{not_for}
-                    || $PARAMS{$key}->{not_for} ne
-                    $self->{config}->param('type')
-                )
-                && ( !$value || $value !~ /$constraint/ )
-                )
-            {
+            if ( defined($value) && ( $value !~ /$constraint/ ) ) {
                 croak(
                     maketext(
                         "Invalid format for [_1]. Value ([_2]) does not conform to constraint ([_3])",
-                        $key,
-                        ( $value || "EMPTY" ),
-                        $constraint
+                        $key, $value, $constraint
                     )
                 );
             }
@@ -772,6 +844,7 @@ sub new {
         $self = bless {}, $class;
         $SINGLETON = $self;
 
+        # BUGBUG this should be replaced by Publican::Config
         if ( $^O eq 'MSWin32' ) {
             eval { require Win32::TieRegistry; };
             croak(
@@ -952,10 +1025,15 @@ sub dir_list {
     }
 
     $rule->start($dir);
+
+    my $extras = $SINGLETON->param('extras_dir');
+    my $images = $SINGLETON->param('img_dir');
+
     while ( my $file = $rule->match ) {
+        utf8::decode($file); ## BUGBUG blowing up Archive::Tar.
         push( @filelist, $file )
             unless ( $clean_images
-            and $file =~ m{(/extras/|/icons/|images/icon.svg)} );
+            and $file =~ m{(/$extras/|/icons/|$images/icon.svg)} );
     }
 
     return @filelist;
@@ -981,7 +1059,7 @@ sub get_all_langs {
         if ( -d $dir ) {
             next
                 if ( $dir
-                =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish|book_templates)$/
+                =~ /^(\.|\.\.|pot|$tmp_dir|xsl|\..*|CVS|publish|book_templates|trans_drop)$/
                 );
 
             if ( valid_lang($dir) ) {
@@ -1175,27 +1253,44 @@ sub get_author_list {
         { 'NoExpand' => "0", 'ErrorContext' => "2" } );
     $xml_doc->parse_file($file);
 
-    foreach my $author ( $xml_doc->root()->look_down( "_tag", "author" ) ) {
-        my ( $fn, $sn );
-        eval { $fn = $author->look_down( "_tag", 'firstname' )->as_text; };
-        if ($@) {
-            croak(
-                maketext(
-                    "Author’s firstname not found in Author_Group.xml as expected."
-                )
-            );
-        }
+    foreach my $author (
+        $xml_doc->root()->look_down( "_tag", qr/author|corpauthor/ ) )
+    {
+        if ( $author->tag() eq 'corpauthor' ) {
+            my $name;
 
-        eval { $sn = $author->look_down( "_tag", 'surname' )->as_text; };
-        if ($@) {
-            croak(
-                maketext(
-                    "Author’s surname not found in Author_Group.xml as expected."
-                )
-            );
+            eval { $name = $author->as_text; };
+            if ($@) {
+                croak(
+                    maketext(
+                        "corpauthor can not be converted to text as expected."
+                    )
+                );
+            }
+            push( @authors, "$name" );
         }
+        else {
+            my ( $fn, $sn );
+            eval { $fn = $author->look_down( "_tag", 'firstname' )->as_text; };
+            if ($@) {
+                croak(
+                    maketext(
+                        "Author’s firstname not found in Author_Group.xml as expected."
+                    )
+                );
+            }
 
-        push( @authors, "$fn $sn" );
+            eval { $sn = $author->look_down( "_tag", 'surname' )->as_text; };
+            if ($@) {
+                croak(
+                    maketext(
+                        "Author’s surname not found in Author_Group.xml as expected."
+                    )
+                );
+            }
+
+            push( @authors, "$fn $sn" );
+        }
     }
 
     unless (@authors) {
@@ -1239,7 +1334,8 @@ sub get_contributors {
     $xml_doc->parse_file($file);
 
     foreach my $node ( $xml_doc->root()
-        ->look_down( "_tag", qr/^(?:author|editor|othercredit)$/ ) )
+        ->look_down( "_tag", qr/^(?:author|editor|othercredit|corpauthor)$/ )
+        )
     {
         my %person;
         if ( $node->attr('class') ) {
@@ -1261,7 +1357,8 @@ sub get_contributors {
             }
         }
 
-        my @fields = qw/firstname surname email contrib orgname orgdiv/;
+        my @fields
+            = qw/firstname surname email contrib orgname orgdiv corpauthor/;
         foreach my $field (@fields) {
             my $field_node = $node->look_down( "_tag", $field );
             if ($field_node) {
@@ -1298,7 +1395,9 @@ sub get_keywords {
     my @keywords;
 
     my $tmp_dir = $self->param('tmp_dir');
-    my $file    = "$tmp_dir/$lang/xml/" . $self->param('type') . '_Info.xml';
+    my $info
+        = ( $self->param('info_file') || $self->param('type') . '_Info.xml' );
+    my $file = "$tmp_dir/$lang/xml/$info";
 
     croak( maketext("keyword list can not be calculated before building.") )
         unless ( -f $file );
@@ -1689,10 +1788,26 @@ sub add_revision {
                 [ 'email',     $email ],
             ],
             [   'revdescription',
-                [ 'simplelist', map { [ 'member', $_ ] } @{$members}, ],
+                [   'simplelist',
+                    map {
+                        [   'member',
+                            eval {
+                                XML::TreeBuilder->new(
+                                    {   'NoExpand'     => "1",
+                                        'ErrorContext' => "2"
+                                    }
+                                )->parse("<rubbish>$_</rubbish>");
+                            }
+                        ]
+                        } @{$members},
+                ],
             ],
         ],
     );
+
+    foreach my $node ( $revision->root()->look_down( "_tag", 'rubbish' ) ) {
+        $node->replace_with_content()->delete();
+    }
 
     my $dtdver    = $self->param('dtdver');
     my $ent_file  = undef;
@@ -1803,6 +1918,88 @@ sub get_ed_rev {
     $release =~ s/(\d+)$/(1+$1)/e if ($bump);
 
     return ( ( $edition, $release ) );
+}
+
+=head2 fcopy
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub fcopy {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::fcopy( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy file [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
+}
+
+=head2 rcopy
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub rcopy {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::rcopy( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy files [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
+}
+
+=head2 rcopy_glob
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub rcopy_glob {
+    my ( $from, $to ) = @_;
+
+    my @files
+        = File::Copy::Recursive::rcopy_glob( encode_utf8($from),
+        encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy files [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return (@files);
+}
+
+=head2 dircopy
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub dircopy {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::dircopy( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not copy directory [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
 }
 
 1;    # Magic true value required at end of module

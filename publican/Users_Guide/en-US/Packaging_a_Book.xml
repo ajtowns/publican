@@ -6,7 +6,7 @@
 <section conformance="193" id="sect-Users_Guide-Packaging_a_book">
 	<title>Packaging a document</title>
 	 <xi:include href="Applicable_to_RPM_only.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	 <note>
+	 <note conformance="234" id="Note-Customizing-output">
 		<title>Note — Customizing output</title>
 		 <para>
 			The parameters set in the document configuration file (by default, <filename>publican.cfg</filename>) allow you to control many aspects of the way in which a document is presented and packaged — refer to <xref linkend="sect-Users_Guide-Files_in_the_book_directory-The_publican.cfg_file" />.
@@ -15,7 +15,7 @@
 			If you maintain multiple versions of a document, you can create a configuration file for each version. When packaging the document, you can use the <option>--config</option> to specify which configuration file (and therefore which set of parameters) to use in a particular build, for example:
 		</para>
 		 
-<screen><command>publican package --lang hi-IN --config community.cfg</command>
+<screen><prompt>$</prompt> <command>publican package --lang hi-IN --config community.cfg</command>
 </screen>
 
 	</note>
@@ -60,7 +60,7 @@
 				</listitem>
 				<listitem>
 					<para>
-						your book or your brand contains the <parameter>web_formats</parameter> parameter. The value of this parameter overrides the default formats that <application>Publican</application> packages. For example, to publish the document only as single-page HTML, PDF, and text, set <literal>web_formats: html-single,pdf,txt</literal>
+						your book or your brand contains the <parameter>web_formats</parameter> parameter. The value of this parameter overrides the default formats that <application>Publican</application> packages. For example, to publish the document only as single-page HTML, PDF, and text, set <literal>web_formats: "html-single,pdf,txt"</literal>
 					</para>
 				</listitem>
 			</itemizedlist>
@@ -75,12 +75,12 @@
 	</section>
 	
 	 <section conformance="197" id="sect-Users_Guide-Packaging_a_book-The_publican_package_command">
-		<title>The <command>publican package</command> command</title>
+		<title>The <prompt>$</prompt> <command>publican package</command> command</title>
 		 <para>
-			Use the <command>publican package --lang=<replaceable>Language_Code</replaceable></command> command to package documents for distribution in the language that you specify with the <option>--lang</option> option. Refer to <xref linkend="appe-Users_Guide-Language_codes" /> for more information about language codes.
+			Use the <prompt>$</prompt> <command>publican package --lang=<replaceable>Language_Code</replaceable></command> command to package documents for distribution in the language that you specify with the <option>--lang</option> option. Refer to <xref linkend="appe-Users_Guide-Language_codes" /> for more information about language codes.
 		</para>
 		 <para>
-			If you run <command>publican package</command> with no options other than the mandatory <option>--lang</option> option, <application>Publican</application> produces a web SRPM package. The full range of options for <command>publican package</command> is as follows:
+			If you run <prompt>$</prompt> <command>publican package</command> with no options other than the mandatory <option>--lang</option> option, <application>Publican</application> produces a web SRPM package. The full range of options for <command>publican package</command> is as follows:
 		</para>
 		 <variablelist>
 			<varlistentry>
@@ -172,7 +172,7 @@
 			</varlistentry>
 		</variablelist>
 		 <para>
-			After you run the <command>publican package</command> command, <application>Publican</application> outputs completed SRPM packages to the document's <filename>tmp/rpm</filename> directory, and completed binary RPM packages to the document's <filename>tmp/rpm/noarch</filename> directory.
+			After you run the <prompt>$</prompt> <command>publican package</command> command, <application>Publican</application> outputs completed SRPM packages to the document's <filename>tmp/rpm</filename> directory, and completed binary RPM packages to the document's <filename>tmp/rpm/noarch</filename> directory.
 		</para>
 		 <para>
 		   By default, <application>Publican</application> documentation packages are named:
@@ -218,13 +218,13 @@
 
 
 		 <section conformance="198" id="sect-Users_Guide-The_publican_package_command-The_publican_package_command_Example_usage">
-			<title>The <command>publican package</command> command — Example usage</title>
+			<title>The <prompt>$</prompt> <command>publican package</command> command — Example usage</title>
 			 <para>
 				The following examples illustrate some common options, illustrated with the <citetitle>Foomaster 9 Configuration Guide</citetitle>, edition 2, revision 6.
 			</para>
 			 <variablelist>
 				<varlistentry>
-					<term><command>publican package --lang=cs-CZ</command></term>
+					<term><prompt>$</prompt> <command>publican package --lang=cs-CZ</command></term>
 					 <listitem>
 						<para>
 							produces a web SRPM package named <package>Foomaster-Configuration_Guide-9-web-cs-CZ-2-6.src.rpm</package> that contains XML source files in Czech, together with a spec file.
@@ -234,7 +234,7 @@
 
 				</varlistentry>
 				 <varlistentry>
-					<term><command>publican package --desktop --lang=cs-CZ</command></term>
+					<term><prompt>$</prompt> <command>publican package --desktop --lang=cs-CZ</command></term>
 					 <listitem>
 						<para>
 							produces a desktop SRPM package named <package>Foomaster-Configuration_Guide-9-cs-CZ-2-6.src.rpm</package> that contains XML source files in Czech, together with a spec file.
@@ -244,7 +244,7 @@
 
 				</varlistentry>
 				 <varlistentry>
-					<term><command>publican package --binary --lang=cs-CZ</command></term>
+					<term><prompt>$</prompt> <command>publican package --binary --lang=cs-CZ</command></term>
 					 <listitem>
 						<para>
 							produces both a web binary RPM package named <package>Foomaster-Configuration_Guide-9-web-cs-CZ-2-6.el5.noarch.rpm</package> and a desktop binary RPM package named <package>Foomaster-Configuration_Guide-9-cs-CZ-2-6.el5.noarch.rpm</package> that contain documentation in Czech, built for the Red Hat Enterprise Linux 5 operating system.
@@ -254,7 +254,7 @@
 
 				</varlistentry>
 				 <varlistentry>
-					<term><command>publican package --desktop --binary --lang=cs-CZ</command></term>
+					<term><prompt>$</prompt> <command>publican package --desktop --binary --lang=cs-CZ</command></term>
 					 <listitem>
 						<para>
 							produces a desktop binary RPM package named <package>Foomaster-Configuration_Guide-9-cs-CZ-2-6.el5.noarch.rpm</package> that contains documentation in Czech, built for the Red Hat Enterprise Linux 5 operating system.
@@ -264,7 +264,7 @@
 
 				</varlistentry>
 				 <varlistentry>
-					<term><command>publican package --desktop --short_sighted --lang=cs-CZ</command></term>
+					<term><prompt>$</prompt> <command>publican package --desktop --short_sighted --lang=cs-CZ</command></term>
 					 <listitem>
 						<para>
 							produces a desktop SRPM package named <package>Foomaster-Configuration_Guide-cs-CZ-2-6.src.rpm</package> that contains documentation in Czech. This package will replace any Configuration Guides for previous versions of <application>Foomaster</application> that exists on a system. Users cannot have access to both the <citetitle>Foomaster 8 Configuration Guide</citetitle> and the <citetitle>Foomaster 9 Configuration Guide</citetitle>.

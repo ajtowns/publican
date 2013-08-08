@@ -3,7 +3,11 @@
 
 Name:		publican-openshift
 Summary:	Common documentation files for %{brand}
+<<<<<<< HEAD
 Version:	0.19
+=======
+Version:	0.14
+>>>>>>> devel
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -55,6 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
+<<<<<<< HEAD
 * Tue Jul 30 2013 Bilhar Aulakh <baulakh@redhat.com> 0.19-1
 - Removed corporate address from Legal Notice as per rfontana
 
@@ -71,6 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 - Updated Feedback to remove broken kbase link
 - Updated OpenShift logos
 
+=======
+>>>>>>> devel
 * Mon Jun 3 2013 Rüdiger Landmann <r.landmann@redhat.com> 0.14-1
 - revise legal notice per rfontana
 

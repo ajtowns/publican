@@ -15,7 +15,7 @@
 			</question>
 			 <answer>
 				<para>
-					Run <command>publican update_po --langs=<replaceable>language</replaceable></command>, where <replaceable>language</replaceable> is the code for the new language that you want to add. You can add more than one language at a time, with the language codes separated by commas. For example, <command>publican update_po --langs=ja-JP</command> creates the Japanese language directory and Japanese PO files, and <command>publican update_po --langs=ja-JP,ko-KR</command> creates directories and PO files for both Japanese and Korean.
+					Run <prompt>$</prompt> <command>publican update_po --langs=<replaceable>language</replaceable></command>, where <replaceable>language</replaceable> is the code for the new language that you want to add. You can add more than one language at a time, with the language codes separated by commas. For example, <command>publican update_po --langs=ja-JP</command> creates the Japanese language directory and Japanese PO files, and <command>publican update_po --langs=ja-JP,ko-KR</command> creates directories and PO files for both Japanese and Korean.
 				</para>
 
 			</answer>
@@ -24,7 +24,7 @@
 		 <qandaentry>
 			<question>
 				<para>
-					What if I do not want to use the country code? For example, can I run <command>publican update_po --langs=es,de,fr</command>?
+					What if I do not want to use the country code? For example, can I run <prompt>$</prompt> <command>publican update_po --langs=es,de,fr</command>?
 				</para>
 
 			</question>
@@ -45,7 +45,7 @@
 			</question>
 			 <answer>
 				<para>
-					Run the <command>publican update_po --langs=all</command> command.
+					Run the <prompt>$</prompt> <command>publican update_po --langs=all</command> command.
 				</para>
 
 			</answer>
@@ -60,7 +60,7 @@
 			</question>
 			 <answer>
 				<para>
-					Run the <command>publican build --help</command> command.
+					Run the <prompt>$</prompt> <command>publican build --help</command> command.
 				</para>
 
 			</answer>
@@ -75,7 +75,7 @@
 			</question>
 			 <answer>
 				<para>
-					Run the <command>publican help_config</command> command in a directory that holds any <application>Publican</application> document.
+					Run the <prompt>$</prompt> <command>publican help_config</command> command in a directory that holds any <application>Publican</application> document.
 				</para>
 
 			</answer>
@@ -134,21 +134,6 @@
 			</answer>
 
 		</qandaentry>
-		 <qandaentry>
-			<question>
-				<para>
-					<emphasis role="strikethrough">Which brands enable strict mode?</emphasis> Strict mode is not currently enforced.
-				</para>
-
-			</question>
-			 <answer>
-				<para>
-					<emphasis role="strikethrough">Currently the Red Hat and JBoss brands enable strict mode.</emphasis>
-				</para>
-
-			</answer>
-
-		</qandaentry>
 		<qandaentry>
 			<question>
 				<para>
@@ -158,12 +143,12 @@
 			</question>
 			 <answer>
 				<para>
-					Try building a PDF version of a different document — perhaps a fresh one that you create with the <command>publican create</command> command. If the problem is not just with one particular document, you probably have a mismatch between the <application>Java Runtime Environment</application> (JRE) and the <application>Java Development Kit</application> (JDK) in use on your system. If you have a JDK installed, <application>FOP</application> requires that the JDK is of the same version as the JRE. Furthermore, <application>FOP</application> cannot use the <application>GNU Compiler for Java</application> (GCJ).
+					Try building a PDF version of a different document — perhaps a fresh one that you create with the <prompt>$</prompt> <command>publican create</command> command. If the problem is not just with one particular document, you probably have a mismatch between the <application>Java Runtime Environment</application> (JRE) and the <application>Java Development Kit</application> (JDK) in use on your system. If you have a JDK installed, <application>FOP</application> requires that the JDK is of the same version as the JRE. Furthermore, <application>FOP</application> cannot use the <application>GNU Compiler for Java</application> (GCJ).
 				</para>
 				<para>
 					Run <command>alternatives --config java</command> and <command>alternatives --config javac</command> to determine which JRE and JDK are in use, then select versions that match and which do not have <literal>gcj</literal> in their name. For example, the following Java configuration shows a matching JRE and JDK that allow PDFs to build:
 				</para>
-<screen>$ alternatives --config java
+<screen><prompt>$</prompt> <command>alternatives --config java</command>
 
 There are 3 programs which provide 'java'.
 
@@ -175,7 +160,7 @@ There are 3 programs which provide 'java'.
 
 Enter to keep the current selection[+], or type selection number:</screen>
 
-<screen>$ alternatives --config javac
+<screen><prompt>$</prompt> <command>alternatives --config javac</command>
 
 There are 3 programs which provide 'javac'.
 
@@ -220,7 +205,7 @@ Enter to keep the current selection[+], or type selection number: </screen>
 			</question>
 			 <answer>
 				<para>
-					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <command>publican build</command> run <command>echo "FOP_OPTS='-Xms50m -Xmx700m'" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
+					The default memory allocated for Java is not big enough to build your PDF. You need to increase the memory allocated to <application>FOP</application>. Before running <prompt>$</prompt> <command>publican build</command> run <command>echo "FOP_OPTS='-Xms50m -Xmx700m'" &gt; ~/.foprc</command>. This sets the initial heap space to 50&nbsp;MB and allows it to grow to a maximum of 700&nbsp;MB.
 				</para>
 
 			</answer>
@@ -310,7 +295,7 @@ Enter to keep the current selection[+], or type selection number: </screen>
 					Note that <application>Syntax::Highlight::Engine::Kate</application> is very strict about names of languages and is case sensitive. Therefore, <sgmltag>&lt;programlisting language="Java"&gt;</sgmltag> works, but <sgmltag>&lt;programlisting language="java"&gt;</sgmltag> and <sgmltag>&lt;programlisting language="JAVA"&gt;</sgmltag> do not. The error message that you receive identifies the problematic language attribute.
 				</para>
 				 <para>
-					Refer to <ulink url="http://search.cpan.org/~szabgab/Syntax-Highlight-Engine-Kate-0.06/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation.
+					Refer to <ulink url="http://search.cpan.org/dist/Syntax-Highlight-Engine-Kate/lib/Syntax/Highlight/Engine/Kate.pm#PLUGINS" /> for the full list of languages that <application>Syntax::Highlight::Engine::Kate</application> supports, including their expected capitalization and punctuation.
 				</para>
 
 			</answer>
@@ -351,6 +336,30 @@ fi
 					</step>
 				</procedure>
 			</answer>
+		</qandaentry>
+		 <qandaentry>
+			<question>
+				<para>
+					Why am I having trouble building my large book?
+				</para>
+
+			</question>
+			 <answer>
+				<para>
+					Probably because the kernel can deal with only a certain number of file handles at a time, and you have exceeded that number. On some linuxes you can run <command>ulimit -n 8192</command> to change the limit for the current shell.
+				</para>
+				<para>
+					To make this permanent, open <filename>/etc/security/limits.conf</filename> and add these two lines:
+				</para>
+					<screen>
+*                 soft    nofile          8192
+*                 hard    nofile          8192
+					</screen>
+				<para>
+					Then save, and log in again for the changes to take effect.
+				</para>
+			</answer>
+
 		</qandaentry>
 		 <qandaentry>
 			<question>

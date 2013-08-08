@@ -3,7 +3,7 @@
   <xsl:output encoding="UTF-8" indent="no" method="text" omit-xml-declaration="no" standalone="no" version="1.0"/>
 <!-- Note: do not indent this file!  Any whitespace here will be reproduced in the output -->
 <xsl:template match="/">
-%define wwwdir %{_localstatedir}/www/html/docs
+%define wwwdir <xsl:value-of select="$web_dir"/>
 Name:          <xsl:value-of select="$book-title"/>-web-<xsl:value-of select="$web_type"/>
 Version:       <xsl:value-of select="$rpmver"/>
 Release:       <xsl:value-of select="$rpmrel"/>%{?dist}
@@ -16,7 +16,8 @@ BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: publican >= <xsl:value-of select="$spec_version"/>
 Requires:      publican >= <xsl:value-of select="$spec_version"/>
-<xsl:if test="$brand != 'publican-common'">BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
+<xsl:if test="$brand != 'publican-common'">
+BuildRequires: <xsl:value-of select="$brand"/></xsl:if>
 
 %description
 This is Publican Website <xsl:value-of select="$web_type"/> page using the brand: <xsl:value-of select="$brand"/>

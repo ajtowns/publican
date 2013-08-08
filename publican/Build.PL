@@ -90,7 +90,7 @@ my $class = Module::Build->subclass(
                 my $publican = Publican->new({NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
                 my $builder = Publican::Builder->new();
                 $builder->build(
-                    { formats => 'xml', langs => $common_langs, publish => 1 } );
+                    { formats => 'xml', langs => $common_langs, publish => 1, pub_dir => 'publish' } );
                 mkpath("$path");
                 rcopy( "publish/*", "$path/.");
                 rcopy('publican.cfg', "$path/common/.");
@@ -118,7 +118,7 @@ my $class = Module::Build->subclass(
                 my $publican = Publican->new({ NOCOLOURS => $self->args('nocolours'), common_config => "$cwd/datadir"});
                 my $builder = Publican::Builder->new();
                 $builder->build(
-                    { formats => 'xml', langs => $common_langs, publish => 1 } );
+                    { formats => 'xml', langs => $common_langs, publish => 1, pub_dir => 'publish' } );
                 rcopy( "publish/*", "$path/.");
                 rcopy('publican.cfg', "$path/common-db5/.");
                 $dir = undef;
@@ -192,7 +192,6 @@ my $class = Module::Build->subclass(
         sub ACTION_update_pod {
             my ($self) = @_;
             use List::MoreUtils qw|uniq|;
-            $self->depends_on('build');
             my $POD_FILE;
             open($POD_FILE, '>', 'pod1/publican') || die("can't open POD file");
             print($POD_FILE <<EOL);
@@ -285,7 +284,7 @@ my $builder = $class->new(
         'Test::More'                             => 0,
         'Test::Pod'                              => 1.14,
         'Test::Pod::Coverage'                    => 1.04,
-        'Archive::Tar'                           => 0,
+        'Archive::Tar'                           => 1.84,
         'Archive::Zip'                           => 0,
         'Locale::Maketext::Gettext'              => 0,
         'Carp'                                   => 0,
@@ -320,7 +319,7 @@ my $builder = $class->new(
         'Pod::Usage'                             => 0,
         'Sort::Versions'                         => 0,
         'String::Similarity'                     => 0,
-        'Syntax::Highlight::Engine::Kate'        => 0,
+        'Syntax::Highlight::Engine::Kate'        => 0.07,
         'Template'                               => 0,
         'Template::Constants'                    => 0,
         'Term::ANSIColor'                        => 0,
@@ -329,11 +328,11 @@ my $builder = $class->new(
         'XML::LibXML'                            => 1.67,
         'XML::LibXSLT'                           => 1.67,
         'XML::Simple'                            => 0,
-        'XML::TreeBuilder'                       => 4.0,
+        'XML::TreeBuilder'                       => 4.2,
         'Text::CSV_XS'                           => 0,
     },
     requires => {
-        'Archive::Tar'                           => 0,
+        'Archive::Tar'                           => 1.84,
         'Archive::Zip'                           => 0,
         'Locale::Maketext::Gettext'              => 0,
         'Carp'                                   => 0,
@@ -367,7 +366,7 @@ my $builder = $class->new(
         'Pod::Usage'                             => 0,
         'Sort::Versions'                         => 0,
         'String::Similarity'                     => 0,
-        'Syntax::Highlight::Engine::Kate'        => 0,
+        'Syntax::Highlight::Engine::Kate'        => 0.07,
         'Template'                               => 0,
         'Template::Constants'                    => 0,
         'Term::ANSIColor'                        => 0,
@@ -376,7 +375,7 @@ my $builder = $class->new(
         'XML::LibXML'                            => 1.67,
         'XML::LibXSLT'                           => 1.67,
         'XML::Simple'                            => 0,
-        'XML::TreeBuilder'                       => 4.0,
+        'XML::TreeBuilder'                       => 4.2,
         'Text::CSV_XS'                           => 0,
     },
     add_to_cleanup => [
@@ -441,7 +440,7 @@ my $builder = $class->new(
     },
     web_files => {
         'web/index.html'              => 'web/index.html',
-        'web/toc.js'                  => 'web/toc.js',
+        'web/default.js'              => 'web/default.js',
         'web/interactive.css'         => 'web/interactive.css',
         'web/images/arrows.png'       => 'web/images/arrows.png',
         'web/images/close.png'        => 'web/images/close.png',

@@ -6,7 +6,7 @@
 <section conformance="157" id="sect-Users_Guide-Files_in_the_book_directory">
 	<title>Files in the book directory</title>
 	 <para>
-		If you run the command <command>publican create --name Test_Book --lang en-US</command>, <application>Publican</application> creates a directory structure and required files, similar to the following:
+		If you run the command <prompt>$</prompt> <command>publican create --name Test_Book --lang en-US</command>, <application>Publican</application> creates a directory structure and required files, similar to the following:
 	</para>
 	 <itemizedlist>
 		<listitem>
@@ -91,7 +91,7 @@
 				If you maintain multiple versions of a document, you can create a configuration file for each version. When building or packaging the document, you can use the <option>--config</option> to specify a configuration file other than the <filename>publican.cfg</filename> file and therefore a different set of parameters to use in a particular build. For example:
 			</para>
 			 
-<screen><command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>
+<screen><prompt>$</prompt> <command>publican build --formats html,pdf --langs en-US,de-DE,hu-HU --config community.cfg</command>
 </screen>
 
 		</note>
@@ -108,7 +108,7 @@
 				<term><parameter>xml_lang</parameter></term>
 				 <listitem>
 					<para>
-						specifies the language of the source XML files, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <command>publican create</command>.
+						specifies the language of the source XML files, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <prompt>$</prompt> <command>publican create</command>.
 					</para>
 
 				</listitem>
@@ -118,7 +118,7 @@
 				<term><parameter>type</parameter></term>
 				 <listitem>
 					<para>
-						specifies the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, as set by the <option>--type</option> option for <command>publican create</command>.
+						specifies the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, as set by the <option>--type</option> option for <prompt>$</prompt> <command>publican create</command>.
 					</para>
 
 				</listitem>
@@ -128,7 +128,7 @@
 				<term><parameter>brand</parameter></term>
 				 <listitem>
 					<para>
-						sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <command>publican create</command>. If you do not specify a brand, <application>Publican</application> uses its default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
+						sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <prompt>$</prompt> <command>publican create</command>. If you do not specify a brand, <application>Publican</application> uses its default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
 					</para>
 
 				</listitem>
@@ -170,7 +170,7 @@
 
 </programlisting>
 						 <para>
-							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
+							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <prompt>$</prompt> <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
 						</para>
 						 <para>
 							To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>.
@@ -180,7 +180,7 @@
 					 <important>
 						<title>xrefs and the arch attribute</title>
 						 <para>
-							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
+							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <prompt>$</prompt> <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
 						</para>
 
 					</important>
@@ -489,6 +489,25 @@
 
 			</varlistentry>
 			 <varlistentry>
+				<term><parameter>extras_dir</parameter></term>
+				 <listitem>
+					<para>
+						the directory <application>Publican</application> will process extra files from. (Default: <literal>extras</literal>)
+					</para>
+
+				</listitem>
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>footer</parameter></term>
+				 <listitem>
+					<para>
+						specifies content that will be injected into the bottom of every page on the site. 
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
 				<term><parameter>generate_section_toc_level</parameter></term>
 				 <listitem>
 					<para>
@@ -536,6 +555,14 @@
 
 				</listitem>
 
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>img_dir</parameter></term>
+				 <listitem>
+					<para>
+						the directory <application>Publican</application> will process images from. (Default: <literal>images</literal>)
+					</para>
+				</listitem>
 			</varlistentry>
 			 <varlistentry>
 				<term><parameter>info_file</parameter></term>
@@ -670,16 +697,6 @@
 
 			</varlistentry>
 			 <varlistentry>
-				<term><parameter>show_unknown</parameter></term>
-				 <listitem>
-					<para>
-						controls whether <application>Publican</application> reports unknown tags when processing XML. By default, this value is set to <literal>1</literal>, so <application>Publican</application> reports unknown tags. Set this value to <literal>0</literal> to hide this output. <emphasis role="strikethrough"><application>Publican</application> ignores this parameter in <firstterm>strict mode</firstterm>.</emphasis>
-					</para>
-
-				</listitem>
-
-			</varlistentry>
-			 <varlistentry>
 				<term><parameter>sort_order</parameter></term>
 				 <listitem>
 					<para>
@@ -700,16 +717,6 @@
 
 			</varlistentry>
 			 <varlistentry>
-				<term><parameter>strict</parameter></term>
-				 <listitem>
-					<para>
-						<emphasis role="strikethrough">sets <application>Publican</application> to use <firstterm>strict mode</firstterm>, which prevents the use of tags that are unusable for professional output and translation. By default, the <literal>strict</literal> parameter is set of <literal>0</literal>, which disables strict mode. To enable strict mode, set this parameter to <literal>1</literal></emphasis> Strict mode is not currently enforced.
-					</para>
-
-				</listitem>
-
-			</varlistentry>
-			 <varlistentry>
 				<term><parameter>tmp_dir</parameter></term>
 				 <listitem>
 					<para>
@@ -724,6 +731,16 @@
 				 <listitem>
 					<para>
 						specifies the path to <application>Publican</application> templates. By default, this is set to <filename>/usr/share/publican/templates</filename>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>	
+			 <varlistentry>
+				<term><parameter>toc_js</parameter></term>
+				 <listitem>
+					<para>
+						allows a site to override the template used when building the embedded toc using in web_style=1 sites. The template must be in the same directory that <filename>toc.tmpl</filename> is in. The template name must be must be of the form <replaceable>toc_type+.tmpl</replaceable>
 					</para>
 
 				</listitem>
@@ -854,6 +871,17 @@
 				</listitem>
 
 			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_style</parameter></term>
+				 <listitem>
+					<para>
+						sets the web style, which determines the layout and presentation of the website. Valid values are <literal>1</literal> and <literal>2</literal>. Style 1 features a navigation pane at the left side of the screen that provides access to all of the documents on the site. Style 2 offers a breadcrumb-like navigation system.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
 			
 			<varlistentry>
 				<term><parameter>web_type</parameter></term>
@@ -877,11 +905,20 @@
 				</listitem>
 
 			</varlistentry>
+			<varlistentry>
+				<term><parameter>wkhtmltopdf_opts</parameter></term>
+				<listitem>
+					<para>
+						Extra options to pass to <application>wkhtmltopdf</application>. e.g. <literal>wkhtmltopdf_opts:&nbsp;"-O&nbsp;landscape&nbsp;-s&nbsp;A3"</literal>
+					</para>
+
+				</listitem>
+			</varlistentry>
 		</variablelist>
 		 <note>
 			<title>Help from the command line</title>
 			 <para>
-				Run the <command>publican help_config</command> command in the root directory of a book for a summary of these parameters.
+				Run the <prompt>$</prompt> <command>publican help_config</command> command in the root directory of a book for a summary of these parameters.
 			</para>
 
 		</note>
@@ -928,7 +965,7 @@
 				 <term><sgmltag>&lt;setinfo id="<replaceable>set_id</replaceable>"&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						The document ID is used internally and is not displayed to readers when the book is built. If you run the <command>publican clean_ids</command> command, any manually entered ID, including this one, changes to a <replaceable>Doc_Name-Title</replaceable> format, where <replaceable>Title</replaceable> is the title of the associated book, article, section, or chapter.
+						The document ID is used internally and is not displayed to readers when the book is built. If you run the <prompt>$</prompt> <command>publican clean_ids</command> command, any manually entered ID, including this one, changes to a <replaceable>Doc_Name-Title</replaceable> format, where <replaceable>Title</replaceable> is the title of the associated book, article, section, or chapter.
 					</para>
 
 				</listitem>
@@ -981,7 +1018,7 @@
 						The version number of the product the book covers, for example &lsquo;5.2&rsquo; for Red Hat Enterprise Linux 5.2 and &lsquo;4.3&rsquo; for JBoss EAP 4.3.
 					</para>
 					 <para>
-						Running the <command>publican create --name <replaceable>Doc_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the product number.
+						Running the <prompt>$</prompt> <command>publican create --name <replaceable>Doc_Name</replaceable> --version <replaceable>version</replaceable></command> command correctly configures the product number.
 					</para>
 					 <para>
 						Override this tag with the <parameter>version</parameter> variable in the <filename>publican.cfg</filename> file if the product version is anything other than a number.
@@ -995,13 +1032,13 @@
 				<term><sgmltag>&lt;edition&gt;<replaceable>edition</replaceable>&lt;/edition&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						This is the edition number of the book. The first edition of the book should be 1.0 (unless you use 0.<replaceable>x</replaceable> for pre-release versions of a book). Subsequent editions should increment the 1.<replaceable>x</replaceable> to indicate to readers that the book is a new edition. The edition changes the version number in the file name when building a book with the <command>publican package</command> command.
+						This is the edition number of the book. The first edition of the book should be 1.0 (unless you use 0.<replaceable>x</replaceable> for pre-release versions of a book). Subsequent editions should increment the 1.<replaceable>x</replaceable> to indicate to readers that the book is a new edition. The edition changes the version number in the file name when building a book with the <prompt>$</prompt> <command>publican package</command> command.
 					</para>
 					 <para>
-						For example, setting the edition to <filename>1.2</filename> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-1.2-0.src.rpm</filename>.
+						For example, setting the edition to <filename>1.2</filename> and building the book using the <prompt>$</prompt> <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-1.2-0.src.rpm</filename>.
 					</para>
 					 <para>
-						Running the <command>publican create --name<replaceable> Doc_Name</replaceable> --edition <replaceable>x</replaceable>.<replaceable>y</replaceable></command> command correctly configures the edition.
+						Running the <prompt>$</prompt> <command>publican create --name<replaceable> Doc_Name</replaceable> --edition <replaceable>x</replaceable>.<replaceable>y</replaceable></command> command correctly configures the edition.
 					</para>
 					 <para>
 						Override this tag with the <parameter>edition</parameter> variable in the <filename>publican.cfg</filename> file if the edition of your document is identified by anything other than a number.
@@ -1015,7 +1052,7 @@
 				<term><sgmltag>&lt;pubsnumber&gt;<replaceable>pubsnumber</replaceable>&lt;/pubsnumber&gt;</sgmltag></term>
 				 <listitem>
 					<para>
-						The pubsnumber sets the release number (the last digit in the file name) when building a book with the <command>publican package</command> command. For example, setting the pubsnumber to <literal>1</literal> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
+						The pubsnumber sets the release number (the last digit in the file name) when building a book with the <prompt>$</prompt> <command>publican package</command> command. For example, setting the pubsnumber to <literal>1</literal> and building the book using the <command>publican package --binary --lang=en-US</command> command creates an RPM file named <filename><replaceable>productname</replaceable>-<replaceable>title</replaceable>-<replaceable>productnumber</replaceable>-en-US-<replaceable>edition</replaceable>-1.src.rpm</filename>.
 					</para>
 					 <para>
 						Override this tag with the <parameter>release</parameter> variable in the <filename>publican.cfg</filename> file if the release number of your document contains anything other than whole numbers.
@@ -1159,7 +1196,7 @@
 		 <important>
 			<title>Articles and chapters</title>
 			 <para>
-				DocBook articles cannot contain chapters. If you use the <option>--type=article</option> option with <command>publican create</command>, <application>Publican</application> does not create a <filename>Chapter.xml</filename> file. Use sections to organize content within articles.
+				DocBook articles cannot contain chapters. If you use the <option>--type=article</option> option with <prompt>$</prompt> <command>publican create</command>, <application>Publican</application> does not create a <filename>Chapter.xml</filename> file. Use sections to organize content within articles.
 			</para>
 			 <para>
 				Refer to <citetitle>DocBook: The Definitive Guide</citetitle> by Norman Walsh and Leonard Muellner available at <ulink url="http://www.docbook.org/tdg/en/html/docbook.html" /> for details of the different ways that sets, books, articles, parts, chapters, and sections interact. In particular, note that articles can be stand-alone documents, or can be incorporated into books.
@@ -1167,7 +1204,7 @@
 
 		</important>
 		 <para>
-			The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created by the <command>publican create</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
+			The <filename>Chapter.xml</filename> file is a template for creating chapter files. Chapter files contain the content that make up a book. The following is a chapter template (<filename>Chapter.xml</filename>) that is created by the <prompt>$</prompt> <command>publican create</command> command. Note the <filename>DOCTYPE</filename> is set to <filename>chapter</filename>:
 		</para>
 		 
 <programlisting language="XML"><xi:include href="extras/Chapter.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -1269,7 +1306,7 @@
 	 <section conformance="167" id="sect-Users_Guide-Files_in_the_book_directory-Revision_History.xml">
 		<title>Revision_History.xml</title>
 		 <para>
-			The <command>publican package</command> command searches for the first XML file in the document's XML directory containing a <literal>&lt;revhistory&gt;</literal> tag. <application>Publican</application> then uses that file to build the RPM revision history.
+			The <prompt>$</prompt> <command>publican package</command> command searches for the first XML file in the document's XML directory containing a <literal>&lt;revhistory&gt;</literal> tag. <application>Publican</application> then uses that file to build the RPM revision history.
 		</para>
 
 	</section>

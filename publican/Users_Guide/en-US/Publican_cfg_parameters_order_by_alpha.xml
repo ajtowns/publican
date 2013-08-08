@@ -1,0 +1,818 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<appendix conformance="236" id="appe-Users_Guide-publican.cfg_parameters-alpha-by-order">
+	<title>Alphabetical index of <filename>publican.cfg</filename> parameters</title>
+	 <variablelist conformance="237" id="vari-Users_Guide-The_publican.cfg_file-all-parameters-alpha">
+			<title><filename>publican.cfg</filename> parameters</title>
+			 <varlistentry>
+				<term><parameter>arch</parameter></term>
+				 <listitem>
+					<para>
+						filters output by computer <firstterm>architecture</firstterm>. For example, if you set <literal>arch: x86_64</literal> in the <filename>publican.cfg</filename> file, <application>Publican</application> will only include XML elements tagged with the equivalent attribute, such as <sgmltag>&lt;para arch="x86_64"&gt;</sgmltag>.
+					</para>
+					 <warning>
+						<title>Use with caution</title>
+						 <para>
+							As with conditional tagging more generally, <literal>arch</literal> can cause great difficulties when translating documents. Refer to <xref linkend="sect-Users_Guide-Conditional_tagging-Conditional_tagging_and_translation" /> for an explanation of the issues.
+						</para>
+
+					</warning>
+					 <important>
+						<title>arch set for root nodes</title>
+						 <para>
+							If the root node of an XML file is excluded by the <parameter>arch</parameter> attribute, your document will not build, because empty files are not valid XML. For example, if <filename>Installation_and_configuration-PPC.xml</filename> contains a single chapter:
+						</para>
+						 
+<programlisting>
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]&gt;
+&lt;chapter id="chap-Installation_and_configuration_on_PowerPC" arch="PowerPC"&gt;
+&lt;title&gt;Installation and configuration on PowerPC&lt;/title&gt;
+
+[text of chapter]
+
+&lt;/chapter&gt;
+
+</programlisting>
+						 <para>
+							and this chapter is included in <filename>User_Guide.xml</filename> with an <sgmltag>&lt;xi:include&gt;</sgmltag> tag, the document will not build with <prompt>$</prompt> <command>condition: x86</command> set in the <filename>publican.cfg</filename> file.
+						</para>
+						 <para>
+							To exclude this chapter, add the <parameter>arch</parameter> attribute to the <sgmltag>&lt;xi:include&gt;</sgmltag> tag in <filename>User_Guide.xml</filename>, not to the <sgmltag>&lt;chapter&gt;</sgmltag> tag in <filename>Installation_and_configuration-PPC.xml</filename>.
+						</para>
+
+					</important>
+					 <important>
+						<title>xrefs and the arch attribute</title>
+						 <para>
+							If an <sgmltag>&lt;xref&gt;</sgmltag> points to content not included in the build due to the <parameter>arch</parameter> attribute, the build will fail. For example, with <literal>arch: x86</literal> set in the <filename>publican.cfg</filename> file, <prompt>$</prompt> <command>publican build --formats=pdf --langs=en-US</command> will fail if the book has the tag <sgmltag>&lt;xref linkend="Itanium_installation"&gt;</sgmltag> pointing to <sgmltag>&lt;section id="Itanium_installation" arch="IA64"&gt;</sgmltag>.
+						</para>
+
+					</important>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>books</parameter></term>
+				 <listitem>
+					<para>
+						specifies a space-separated list of books used in a remote set. Refer to <xref linkend="sect-Users_Guide-Using_sets-Distributed_sets" /> for more information on distributed sets.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>brand</parameter></term>
+				 <listitem>
+					<para>
+						sets the <firstterm>brand</firstterm> of the document, for example, <computeroutput>RedHat</computeroutput>, <computeroutput>fedora</computeroutput>, <computeroutput>JBoss</computeroutput>, <computeroutput>oVirt</computeroutput> or <computeroutput>GIMP</computeroutput> , as set by the <option>--brand</option> option for <prompt>$</prompt> <command>publican create</command>. If you do not specify a brand, <application>Publican</application> uses its default brand. Refer to <xref linkend="chap-Users_Guide-Branding" /> for more information.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>brew_dist</parameter></term>
+				 <listitem>
+					<para>
+						specifies the build target to use for building the desktop RPM package in <application>Brew</application>, Red Hat's internal build system. This parameter defaults to <literal>docs-5E</literal>. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book-The_publican_package_command" /> and <xref linkend="sect-Users_Guide-Packaging_a_brand" /> for more information on building RPM packages.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>bridgehead_in_toc</parameter></term>
+				 <listitem>
+					<para>
+						specifies whether the contents of <sgmltag>&lt;bridgehead&gt;</sgmltag> elements (free-floating titles) should be included among other titles (such as section titles and chapter titles) in tables of contents. To enable this feature, set <literal>bridgehead_in_toc: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and <sgmltag>&lt;bridgehead&gt;</sgmltag>s are not included in tables of contents.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>chunk_first</parameter></term>
+				 <listitem>
+					<para>
+						controls whether the first section should appear on a new page when rendered in HTML. To make the first section appear on a new HTML page, set this parameter to <literal>chunk_first: 1</literal>. Otherwise, the parameter defaults to <literal>0</literal>, and the first section appears on the same page of its chapter.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>chunk_section_depth</parameter></term>
+				 <listitem>
+					<para>
+						controls the section depth at which <application>Publican</application> no longer splits sub-subsections onto a new page when rendering HTML. By default, this value is set to <literal>4</literal>. 
+					</para>
+					<example>
+						<title>Controlling the section depth with chunk_section_depth</title>
+						<variablelist>
+						<varlistentry>
+							<term>chunk_section_depth: 0</term>
+							<listitem>
+								<para>
+									no section split. All sections with their sub-sections appear on the same page of the chapter they belong. The page succession is chapter 1, chapter 2, chapter 3, &hellip;
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>chunk_section_depth: 1</term>
+							<listitem>
+								<para>
+									the split is at "level 1" section. Each level section one with its sub-sections, appear on a new page. The page succession is chapter 1, 1.2, 1.3, 1.4 &hellip; chapter 2, 2.1, 2.2, 2.3 &hellip;
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>chunk_section_depth: 2</term>
+							<listitem>
+								<para>
+									the split is at "level 2" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.3, 1.2.4 &hellip; 1.3, 1.3.2, 1.3.3 &hellip;
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>chunk_section_depth: 3</term>
+							<listitem>
+								<para>
+									the split is at "level 3" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.3, 1.2.2.4 &hellip; 1.3, 1.3.2, 1.3.2.2, 1.3.2.3 &hellip; 
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>chunk_section_depth: 4 (default)</term>
+							<listitem>
+								<para>
+									the split is at "level 4" section. The page succession is chapter 1, 1.2, 1.2.2, 1.2.2.2, 1.2.2.2.2, 1.2.2.2.3, 1.2.2.2.4 &hellip; 1.2.3, 1.2.3.2, 1.2.3.2.2, 1.2.3.2.3 &hellip; 
+								</para>
+							</listitem>			
+						</varlistentry>			
+					</variablelist>	
+					</example>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>classpath</parameter></term>
+				 <listitem>
+					<para>
+						sets the path to the <firstterm>Java archive</firstterm> (<firstterm>jar</firstterm>) files for <application>FOP</application>. <application>Publican</application> relies on Apache <application>FOP</application> — a Java application — to render documents as PDF files. The default path for <application>FOP</application>'s jar files on a computer with a Linux operating system is: <filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/ant</filename><filename>/ant-trax-1.7.0.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xmlgraphics-commons.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/batik-all.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis.jar:</filename><filename>/usr</filename><filename>/share</filename><filename>/java</filename><filename>/xml-commons-apis-ext.jar</filename>
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>common_config</parameter></term>
+				 <listitem>
+					<para>
+						sets the path to the <application>Publican</application> installation. The default location on a computer with a Linux operating system is <filename>/usr/share/publican</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican</filename> — most usually <filename>C:/Program Files/publican</filename>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>common_content</parameter></term>
+				 <listitem>
+					<para>
+						sets the path to the <application>Publican</application> <firstterm>common content</firstterm> files. These files provide default formatting, plus some boilerplate text and generic graphics. The default location on a computer with a Linux operating system is <filename>/usr/share/publican/Common_Content</filename>. On a computer with a Windows operating system, the default location is <filename>%SystemDrive%/%ProgramFiles%/publican/Common_Content</filename> — most usually <filename>C:/Program Files/publican/Common_Content</filename>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>condition</parameter></term>
+				 <listitem>
+					<para>
+						specifies conditions on which to prune XML before transformation. Refer to <xref linkend="sect-Users_Guide-Conditional_tagging" /> for more information.
+					</para>
+					 <xi:include href="Root_nodes_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+					 <xi:include href="xrefs_and_conditionals.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>confidential</parameter></term>
+				 <listitem>
+					<para>
+						marks a document as confidential. When this parameter is set to <literal>1</literal>, <application>Publican</application> adds the text specified by the <parameter>confidential_text</parameter> parameter (by default, <literal>CONFIDENTIAL</literal>) to the foot of each HTML page and the head of every page in a PDF document. The default value is <literal>0</literal> (no header or footer).
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>confidential_text</parameter></term>
+				 <listitem>
+					<para>
+						specifies the text to use when the <parameter>confidential</parameter> parameter is set to <literal>1</literal>. The default text is <literal>CONFIDENTIAL</literal>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>debug</parameter></term>
+				 <listitem>
+					<para>
+						controls whether <application>Publican</application> should display debugging messages as it works. When set to its default of <literal>0</literal>, <application>Publican</application> does not display debugging messages. Change this value to <literal>1</literal> to view these messages.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>def_lang</parameter></term>
+				 <listitem>
+					<para>
+						sets the default language for a <application>Publican</application>-managed website. Tables of contents for languages other than the default language will link to documents in the default language when translations are not available. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>doc_url</parameter></term>
+				 <listitem>
+					<para>
+						provides a URL for the documentation team for this package. In HTML output, <application>Publican</application> links to this URL at the top right of each page, through the <filename>image_right.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>docname</parameter></term>
+				 <listitem>
+					<para>
+						specifies the document name. If set, this value overrides the content of the <sgmltag>&lt;title&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must contain only upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>dt_obsoletes</parameter></term>
+				<listitem>
+					<para>
+						a package that a desktop package obsoletes.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>dt_requires</parameter></term>
+				<listitem>
+					<para>
+					  a package that the desktop package requires, for example, a documentation menu package. Refer to <xref linkend="desktop_menus" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>dtdver</parameter></term>
+				 <listitem>
+					<para>
+						specifies the version of the DocBook XML <firstterm>Document Type Definition</firstterm> (DTD) on which this project is based. <application>Publican</application> defaults to version 4.5. The specification for DocBook XML DTD version 4.5 is available from <ulink url="http://www.docbook.org/specs/docbook-4.5-spec.html" />.
+					</para>
+					 <important>
+						<title>A different DTD might slow your build</title>
+						 <para>
+							When you install <application>Publican</application>, you also install a local copy of the DocBook XML DTD version 4.5 and accompanying <firstterm>Extensible Stylesheet Language</firstterm> (XSL). If you set a version of the DTD for which there is no local support, <application>Publican</application> must download the appropriate DTD and XSL from an online source every time that it builds the document. Building your document is delayed while this download takes place. The combined size of the required files is around 70&nbsp;MB.
+						</para>
+
+					</important>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>dtd_type</parameter></term>
+				<listitem>
+					<para>
+						Override Type for DocType. Must be a complete string.
+					</para>
+					<note>
+						<para>
+							This parameter is only permitted in a brand.
+						</para>
+					</note>
+				</listitem>
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>dtd_uri</parameter></term>
+				 <listitem>
+					<para>
+						Override URI for DocType. Must be a complete string.
+					</para>
+					<note>
+						<para>
+							This parameter is only permitted in a brand.
+						</para>
+					</note>
+				</listitem>
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>ec_id</parameter></term>
+				 <listitem>
+					<para>
+						sets the ID for an <application>Eclipse</application> help plugin. Every <application>Eclipse</application> help plugin must have a unique ID, and these generally follow Java package naming conventions — refer to <ulink url="http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html" />. By default, <application>Publican</application> sets the ID to <replaceable>org.product</replaceable>.<replaceable>docname</replaceable>. The ID that you set here also determines the directory name for this plugin in the <filename>plugin</filename> directory.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>ec_name</parameter></term>
+				 <listitem>
+					<para>
+						sets the name of an <application>Eclipse</application> help plugin. This is the human-readable name visible in the help list in <application>Eclipse</application>. This name does not need to be unique or to follow a special convention. By default, <application>Publican</application> sets the name to <replaceable>product</replaceable> <replaceable>docname</replaceable>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>ec_provider</parameter></term>
+				 <listitem>
+					<para>
+						sets the provider name for an <application>Eclipse</application> help plugin. This should be your name, or the name of your project or organization. This name is presented to users and does not need to be unique or follow a special convention. By default, <application>Publican</application> sets the provider name to <replaceable>Publican</replaceable>-<replaceable>Publican version</replaceable>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>edition</parameter></term>
+				 <listitem>
+					<para>
+						specifies the edition number for this document. If set, this value overrides the content of the <sgmltag>&lt;edition&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>extras_dir</parameter></term>
+				 <listitem>
+					<para>
+						the directory <application>Publican</application> will process extra files from. (Default: <literal>extras</literal>)
+					</para>
+
+				</listitem>
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>footer</parameter></term>
+				 <listitem>
+					<para>
+						specifies content that will be injected into the bottom of every page on the site. 
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>generate_section_toc_level</parameter></term>
+				 <listitem>
+					<para>
+						controls the section depth at which <application>Publican</application> will generate a table of contents. At the default value of <literal>0</literal>, <application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections. If (for example) the value is set to <literal>1</literal>, tables of contents also appear in each "level 1" section, such as sections 1.1, 1.2, 2.1, and 2.2. If set to <literal>2</literal>, tables of contents also appear in "level 2" sections, such as sections 1.1.1, 1.1.2, and 1.2.1.
+					</para>
+					<example>
+						<title>Setting the section depth at which tables of contents appear</title>
+						<variablelist>
+						<varlistentry>
+							<term>generate_section_toc_level: 0 (default)</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents at the start of the document and in parts, chapters, and appendixes, but not in sections.
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>generate_section_toc_level: 1</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents also at the start of each "level 1" section, such as sections 1.1, 1.2 &hellip; 2.1, 2.2 &hellip; 
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>generate_section_toc_level: 2</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents also at the start of each "level 2" section, such as as sections 1.1.1, 1.1.2. 1.1.3 &hellip; 1.2.1., 1.2.2, 1.2.3 &hellip; 
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>	
+					</example>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>ignored_translations</parameter></term>
+				 <listitem>
+					<para>
+						specifies translations to ignore as comma-separated XML language codes; for example, <literal>es-ES,it-IT</literal>. If you build or package a book for a language filtered by this parameter, <application>Publican</application> ignores any translations that exist for this language, and builds or packages the book in the language of the original XML instead. Refer to <xref linkend="sect-Users_Guide-Preparing_a_document_for_translation" />, and to <xref linkend="appe-Users_Guide-Language_codes" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>img_dir</parameter></term>
+				 <listitem>
+					<para>
+						the directory <application>Publican</application> will process images from. (Default: <literal>images</literal>)
+					</para>
+				</listitem>
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>info_file</parameter></term>
+				 <listitem>
+					<para>
+						overrides the default Info file. Specifies where <application>Publican</application> looks for info fields. Use the full filename without the path.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>license</parameter></term>
+				 <listitem>
+					<para>
+						specifies the license this package uses. By default, <application>Publican</application> selects the GNU Free Documentation License (GFDL). Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>max_image_width</parameter></term>
+				 <listitem>
+					<para>
+						specifies the maximum width allowable for images in the document in pixels. By default, <application>Publican</application> scales down any images wider than 444 pixels so that they fit within this limit. Keeping images no wider than 444 pixels ensures that they present no wider than the right-hand margin of the text in HTML output and that they fit within the pages of PDF output. Refer to <xref linkend="sect-Users_Guide-Adding_images" /> for more information on using images.
+					</para>
+					 <xi:include href="Image_width.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>mainfile</parameter></term>
+				<listitem>
+					<para>
+						specifies the name of the XML file in your document that contains the root XML node <sgmltag>&lt;article&gt;</sgmltag>, <sgmltag>&lt;book&gt;</sgmltag>, or <sgmltag>&lt;set&gt;</sgmltag>, and the name of the corresponding <filename>.ent</filename> file that contains the document's entities. For example, if you set <literal>mainfile: master</literal>, <application>Publican</application> looks for the root XML node in <filename>master.xml</filename> and the document entities in <filename>master.ent</filename>.
+					</para>
+					<para>
+						If <parameter>mainfile</parameter> is not set, <application>Publican</application> looks for the root XML node in a file that matches the <sgmltag>&lt;title&gt;</sgmltag> of the document set in the <filename>Article_Info.xml</filename>, <filename>Book_Info.xml</filename>, or <filename>Set_Info.xml</filename> file, and looks for the document entities in a file with a corresponding name.
+					</para> 
+				</listitem>
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>menu_category</parameter></term>
+				<listitem>
+					<para>
+					  the desktop menu category (as defined by a corresponding <filename>.menu</filename> file) in which a document should appear when installed from a desktop RPM package. Refer to <xref linkend="desktop_menus" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>os_ver</parameter></term>
+				 <listitem>
+					<para>
+						specifies the operating system for which to build packages. <application>Publican</application> appends the value that you provide here to the RPM packages that it builds. For example, <literal>.fc15</literal> for Fedora&nbsp;15. The default value is <literal>.el5</literal>, which signifies Red Hat Enterprise Linux 5 and operating systems derived from it. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" /> and <xref linkend="sect-Users_Guide-Packaging_a_brand" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>prod_url</parameter></term>
+				 <listitem>
+					<para>
+						provides a URL for the product to which this document applies. In HTML output, <application>Publican</application> links to this URL at the top left of each page, through the <filename>image_left.png</filename> image in the <filename>Common_Content/images</filename> directory for the brand. This parameter defaults to <literal>https://fedorahosted.org/publican</literal>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>product</parameter></term>
+				 <listitem>
+					<para>
+						specifies the product to which this documentation applies. If set, this value overrides the content of the <sgmltag>&lt;productname&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only contain upper- and lower-case un-accented letters, digits, and the underscore and space characters (&lsquo;a&ndash;z&rsquo;, &lsquo;A&ndash;Z&rsquo;, &lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;, and &lsquo;_&rsquo; and &lsquo;&nbsp;&rsquo;).
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>release</parameter></term>
+				 <listitem>
+					<para>
+						specifies the release number of this package. If set, this value overrides the value of <sgmltag>&lt;pubsnumber&gt;</sgmltag> in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo;).
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>repo</parameter></term>
+				 <listitem>
+					<para>
+						specifies the repository from which to fetch remote books that form part of a distributed set. Refer to <xref linkend="sect-Users_Guide-Using_sets-Distributed_sets" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+		 <varlistentry>
+			<term><parameter>rev_file</parameter></term>
+			 <listitem>
+				<para>
+					override the default Revision History file. Specifies where <application>Publican</application> looks for revision fields. Use the full filename without the path. When combined with the <application>Publican</application> action add_revision, it enables you to build a book without a <filename>Revision_History.xml</filename>.
+				</para>
+
+			</listitem>
+
+		</varlistentry>
+			 <varlistentry>
+				<term><parameter>scm</parameter></term>
+				 <listitem>
+					<para>
+						specifies the version control (or <firstterm>source code management</firstterm>) system used in the repository in that stores the remote books in a distributed set. At present, <application>Publican</application> can use only <application>Subversion</application> (SVN), and therefore uses <literal>SVN</literal> as its default setting. Refer to <xref linkend="sect-Users_Guide-Using_sets-Distributed_sets" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>show_remarks</parameter></term>
+				 <listitem>
+					<para>
+						controls whether to display DocBook <sgmltag>&lt;remark&gt;</sgmltag>s in transformed output. By default, this value is set to <literal>0</literal>, which causes <application>Publican</application> to hide remarks. Set this value to <literal>1</literal> to display remarks. In <application>Publican</application>'s <literal>common</literal> brand, displayed remarks are highlighted in magenta. 
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>sort_order</parameter></term>
+				 <listitem>
+					<para>
+						override the default sort weighting for books in a <application>Publican</application> website. Books are displayed on the website in descending sort order. For example, a book with sort order 10 appears before a book with sort order 5. By default, this value is set to 50.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>src_url</parameter></term>
+				 <listitem>
+					<para>
+						specifies the URL at which to find tarballs of source files. This parameter provides the <literal>Source:</literal> field in the header of an RPM spec file. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>tmp_dir</parameter></term>
+				 <listitem>
+					<para>
+						specifies the directory for <application>Publican</application> output. By default, this is set to <literal>tmp</literal>, which creates a directory named <filename>tmp</filename> inside the directory that holds your article or book.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>tmpl_path</parameter></term>
+				 <listitem>
+					<para>
+						specifies the path to <application>Publican</application> templates. By default, this is set to <filename>/usr/share/publican/templates</filename>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>	
+			 <varlistentry>
+				<term><parameter>toc_js</parameter></term>
+				 <listitem>
+					<para>
+						allows a site to override the template used when building the embedded toc using in web_style=1 sites. The template must be in the same directory that <filename>toc.tmpl</filename> is in. The template name must be must be of the form <replaceable>toc_type+.tmpl</replaceable>
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>toc_type</parameter></term>
+				 <listitem>
+					<para>
+						specifies the name of a custom TOC template. By default, <application>Publican</application> looks for <filename>toc-<replaceable>$toc_type</replaceable>.tmpl</filename> in <filename>/usr/share/publican/templates</filename>. You can override this by setting an alternative path with <filename>tmpl_path</filename>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>toc_section_depth</parameter></term>
+				 <listitem>
+					<para>
+						controls the depth of sections that <application>Publican</application> includes in the main table of contents. By default, this value is set to <literal>2</literal>. With the default setting, sections 1.1 and 1.1.1 will appear in the main table of contents, but section 1.1.1.1 will not. (Note that the first digit in these examples represents a chapter, not a section).
+					</para>
+					<example>
+						<title>Controlling the depth of sections in the main table of contents</title>
+						<variablelist>
+						<varlistentry>
+						<term>toc_section_depth: 0</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate a main table of contents only for chapters.
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>toc_section_depth: 1</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate a main table of contents only for chapters and "level 1" sections, such as 1, 1.1, 1.2, 1.3 &hellip; 9, 9.1, 9.2 &hellip; but not for sections 1.1.1, 1.1.2 &hellip;
+								</para>					
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+						<term>toc_section_depth: 2 (default)</term>
+							<listitem>
+								<para>
+									<application>Publican</application> will generate tables of contents for chapters and "level 1 and "level 2" sections, such as 1, 1.1, 1.1.1, &hellip; 1,2, 1.2.1, 1.2.2 &hellip; but not for deeper sections x.x.x.x .  									
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>	
+					</example>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>type</parameter></term>
+				 <listitem>
+					<para>
+						specifies the type of document — a DocBook <sgmltag>&lt;article&gt;</sgmltag>, DocBook <sgmltag>&lt;book&gt;</sgmltag>, or DocBook <sgmltag>&lt;set&gt;</sgmltag>, as set by the <option>--type</option> option for <prompt>$</prompt> <command>publican create</command>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>version</parameter></term>
+				 <listitem>
+					<para>
+						specifies the version number of that product to which this document applies. If set, this value overrides the content of the <sgmltag>&lt;productnumber&gt;</sgmltag> tag in the <filename>Book_Info.xml</filename> file when you package a document. This value must include only digits and the period (&lsquo;0&rsquo;&ndash;&lsquo;9&rsquo; and &lsquo;.&rsquo;).
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_brew_dist</parameter></term>
+				 <listitem>
+					<para>
+						specifies the <application>brew</application> build target to use for building the web RPM packages. <application>Brew</application> is the internal build system used by Red Hat. By default, this value is set to <literal>docs-5E</literal>, representing documentation packages for Red Hat Enterprise Linux 5. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>web_formats</parameter></term>
+				  <listitem>
+					<para>
+						a comma-separated list of formats to include in the web RPM package. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book-The_publican_package_command" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
+			<varlistentry>
+				<term><parameter>web_home</parameter></term>
+				 <listitem>
+					<para>
+						specifies that the document is the home page of a documentation website, not a standard document. Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+					<important>
+						<title>Important — <literal>web_home</literal> is deprecated</title>
+						<para>
+							In <application>Publican</application>&nbsp;2.2, <literal>web_home</literal> is replaced by <literal>web_type: home</literal>. Support for <literal>web_home</literal> will be removed in a future version of <application>Publican</application>.
+						</para>
+					</important>
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_name_label</parameter></term>
+				 <listitem>
+					<para>
+						overrides the book name as it appears on the menu of a <application>Publican</application>-managed website.  Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_obsoletes</parameter></term>
+				 <listitem>
+					<para>
+						specifies packages that the web RPM obsoletes. Refer to <xref linkend="sect-Users_Guide-Packaging_a_book" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_product_label</parameter></term>
+				 <listitem>
+					<para>
+						overrides the product name as it appears on the menu of a <application>Publican</application>-managed website. Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			 <varlistentry>
+				<term><parameter>web_style</parameter></term>
+				 <listitem>
+					<para>
+						sets the web style, which determines the layout and presentation of the website. Valid values are <literal>1</literal> and <literal>2</literal>. Style 1 features a navigation pane at the left side of the screen that provides access to all of the documents on the site. Style 2 offers a breadcrumb-like navigation system.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
+			
+			<varlistentry>
+				<term><parameter>web_type</parameter></term>
+				 <listitem>
+					<para>
+						specifies that the document is descriptive content for a <application>Publican</application>-managed website rather than product documentation. This content includes the home page of the website (<literal>web_type:&nbsp;home</literal>), product description pages  (<literal>web_type:&nbsp;product</literal>), and version description pages  (<literal>web_type:&nbsp;version</literal>). Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
+			
+			 <varlistentry>
+				<term><parameter>web_version_label</parameter></term>
+				 <listitem>
+					<para>
+						overrides the version number as it appears on the menu of a <application>Publican</application>-managed website. Set this value to <literal>UNUSED</literal> for general documentation that does not apply to any particular version of a product. Refer to <xref linkend="sect-Users_Guide-Website" />.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>wkhtmltopdf_opts</parameter></term>
+				<listitem>
+					<para>
+						Extra options to pass to <application>wkhtmltopdf</application>. e.g. <literal>wkhtmltopdf_opts:&nbsp;"-O&nbsp;landscape&nbsp;-s&nbsp;A3"</literal>
+					</para>
+
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><parameter>xml_lang</parameter></term>
+				 <listitem>
+					<para>
+						specifies the language of the source XML files, for example, <literal>en-US</literal>, as set by the <option>--lang</option> option for <prompt>$</prompt> <command>publican create</command>.
+					</para>
+
+				</listitem>
+
+			</varlistentry>
+			
+		</variablelist>
+</appendix>

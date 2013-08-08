@@ -1,18 +1,24 @@
-Publican 3.1:
+DocBook 5 support:
 
-Style Changes:
+1: Split xsl for DocBook 4/5
 
-	div.warning h2 -> div.admonition_header p
-	h1.confidential -> div.confidential
-	h5.formalpara -> div.formalpara
-	$formal h6 -> $formal div.title
-	h4.editedby -> div.editedby
-	h3.author -> div.author etc
-		editor
-	h2.subtitle -> div.subtitle
+2: Replace XSL not related to upstream output with Template::Toolkit files
 
-Draft on cover page?
-Legal notice height 100%?
+3: Subclass to separate version specific logic
+
+lib/
+|-- Publican
+|   |-- Builder.pm
+|   |-- CreateBook.pm
+|   |-- CreateBrand.pm
+|   |-- Localise.pm
+|   |-- Translate.pm
+|   |-- TreeView.pm
+|   |-- WebSite.pm
+|   `-- XmlClean.pm
+`-- Publican.pm
+
+
 
 
 *********************************************************

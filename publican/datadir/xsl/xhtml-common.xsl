@@ -125,22 +125,26 @@ Version: 1.72.0
 
 	<div xmlns="http://www.w3.org/1999/xhtml">
 		<xsl:apply-templates select="." mode="class.attribute"/>
-			<xsl:if test="$admon.style != ''">
-				<xsl:attribute name="style">
-					<xsl:value-of select="$admon.style"/>
-				</xsl:attribute>
-			</xsl:if>
-
-	                <xsl:call-template name="common.html.attributes"/>
-			<xsl:if test="$admon.textlabel != 0 or title">
-				<div class="admonition_header">
-					<p>
-						<strong><xsl:apply-templates select="." mode="object.title.markup"/></strong>
-					</p>
-				</div>
-			</xsl:if>
+		<xsl:if test="$admon.style != ''">
+			<xsl:attribute name="style">
+				<xsl:value-of select="$admon.style"/>
+			</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="@id or @xml:id">
+			<xsl:attribute name="id">
+				<xsl:value-of select="(@id|@xml:id)[1]"/>
+			</xsl:attribute>
+		</xsl:if>
+                <xsl:call-template name="common.html.attributes"/>
+		<xsl:if test="$admon.textlabel != 0 or title">
+			<div class="admonition_header">
+				<p>
+					<strong><xsl:apply-templates select="." mode="object.title.markup"/></strong>
+				</p>
+			</div>
+		</xsl:if>
 		<div class="admonition">
-		<xsl:apply-templates/>
+			<xsl:apply-templates/>
 		</div>
 	</div>
 </xsl:template>
@@ -2510,6 +2514,34 @@ snip border rubbish. BZ #875967
       <xsl:text>]</xsl:text>
     </sup>
   </a>
+</xsl:template>
+
+<!--
+
+biblio.xsl
+
+Fix double footnote in bibliography. BZ #653447
+
+-->
+<xsl:template match="bibliography">
+  <xsl:call-template name="id.warning"/>
+
+  <div>
+    <xsl:call-template name="common.html.attributes">
+      <xsl:with-param name="inherit" select="1"/>
+    </xsl:call-template>
+    <xsl:call-template name="id.attribute">
+      <xsl:with-param name="conditional" select="0"/>
+    </xsl:call-template>
+
+    <xsl:call-template name="bibliography.titlepage"/>
+
+    <xsl:apply-templates/>
+
+    <xsl:if test="parent::book|parent::part">
+      <xsl:call-template name="process.footnotes"/>
+    </xsl:if>
+  </div>
 </xsl:template>
 
 </xsl:stylesheet>

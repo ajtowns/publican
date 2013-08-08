@@ -320,8 +320,28 @@ msgstr ""
 
 #. Tag: term
 #, no-c-format
+msgid "--pdftool=s"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Override the tool to use when creating PDFs. Valid options are wkhtmltopdf and fop."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
+msgid "--src_dir=<replaceable>SRC_DIR</replaceable>"
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "Override the directory to publish files to. Defaults to 'publish'."
+msgstr ""
+
+#. Tag: term
+#, no-c-format
 msgid "<command>publican clean</command>"
-msgstr "<command>publican clean</command>"
+msgstr "<command>publican clean_ids</command>"
 
 #. Tag: para
 #, no-c-format
@@ -329,9 +349,9 @@ msgid "removes the temporary directories from a document directory."
 msgstr "rimuove le cartelle temporanee dalla cartella di un documento"
 
 #. Tag: term
-#, no-c-format
-msgid "<command>publican clean_ids</command>"
-msgstr "<command>publican clean_ids</command>"
+#, no-c-format, fuzzy
+msgid "<command>publican clean_set</command>"
+msgstr "<command>publican clean_set</command>"
 
 #. Tag: para
 #, no-c-format
@@ -339,7 +359,7 @@ msgid "indents XML files neatly, and rebuilds element IDs."
 msgstr "indenta ordinatamente i file XML e ricrea gli ID degli elementi"
 
 #. Tag: term
-#, no-c-format
+#, no-c-format, fuzzy
 msgid "<command>publican clean_set</command>"
 msgstr "<command>publican clean_set</command>"
 
@@ -349,9 +369,9 @@ msgid "removes local copies of remote books that are part of a set."
 msgstr "rimuove le copie locali di libri remoti, parte di un set"
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "<command>publican migrate_site</command>"
-msgstr "<command>publican create</command>"
+#, no-c-format
+msgid "<command>publican create</command>"
+msgstr "<command>publican clean</command>"
 
 #. Tag: para
 #, no-c-format
@@ -559,7 +579,7 @@ msgid "a comma-separated list of languages for which the report will be generate
 msgstr "una lista di lingue, separate da virgole"
 
 #. Tag: term
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "<command>publican migrate_site</command>"
 msgstr "<command>publican create</command>"
 
@@ -674,9 +694,9 @@ msgid "displays a tree of the XML files included in a document."
 msgstr "viusalizza la struttura ad albero dei file XML di un documento"
 
 #. Tag: term
-#, no-c-format, fuzzy
-msgid "publican print_unused_images"
-msgstr "publican print_unused"
+#, no-c-format
+msgid "publican print_banned"
+msgstr "publican print_banned"
 
 #. Tag: para
 #, no-c-format, fuzzy
@@ -684,7 +704,7 @@ msgid "prints a list of the image files <emphasis>not</emphasis> referenced by a
 msgstr "visualizza l'elenco dei file XML <emphasis>non</emphasis> inclusi in tag <sgmltag>&lt;xi:include&gt;</sgmltag> in un libro, articolo o set"
 
 #. Tag: term
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "publican print_unused_images"
 msgstr "publican print_unused"
 
@@ -710,8 +730,8 @@ msgstr "il documento in lingua da rimuovere (necessario)"
 
 #. Tag: term
 #, no-c-format
-msgid "<command>publican add_revision</command>"
-msgstr "<command>publican rename</command>"
+msgid "<command>publican create</command>"
+msgstr "<command>publican clean</command>"
 
 #. Tag: para
 #, no-c-format
@@ -719,7 +739,7 @@ msgid "renames a document. Options:"
 msgstr "rinomina un documento. Opzioni:"
 
 #. Tag: para
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "the new title for the document."
 msgstr "il nuovo titolo per il documento"
 

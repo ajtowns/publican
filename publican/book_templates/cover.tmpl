@@ -8,13 +8,15 @@
 </head>
 <body class="cover">
     <div [%- IF draft -%]class="draft"[%- END -%]>
-	<div class="logo"></div>
+	<div class="logo" style="background-image:url([% logo %])"></div>
 	<div class="leader">
 		<div class="product">[%- product -%]</div>
 		<div class="version">[%- version -%]</div>
 	</div>
 	<div class="docname">[%- docname -%]</div>
-	<div class="subtitle">[%- subtitle -%]</div>
+	<div class="subtitle">[%- subtitle -%]
+	[% IF edition -%]<div class="edition">[%- edition -%]</div>[%- END %]
+	</div>
 	<div class="authors">
 	[%- FOREACH author = authors %]
 		<div class="author">[%- author -%]</div>
@@ -26,7 +28,9 @@
 	<div class="title">
 		<span class="product">[%- product -%]</span> <span class="version">[%- version -%]</span> <span class="docname">[%- docname -%]</span>
 	</div>
-	<div class="subtitle">[%- subtitle -%]</div>
+	<div class="subtitle">[%- subtitle -%]
+	[% IF edition -%]<div class="edition">[%- edition -%]</div>[%- END %]
+	</div>
 	<div class="authors">
 	[%- FOREACH contributor = contributors.author %]
 		<div class="contributor">
@@ -40,6 +44,13 @@
 			</div>[%- END %]
 			[% IF contributor.email -%]<div class="email">[%- contributor.email -%]</div>[%- END %]
 			[% IF contributor.contrib -%]<div class="contrib">[%- contributor.contrib -%]</div>[%- END %]
+		</div>
+	[%- END %]
+	[%- FOREACH contributor = contributors.corpauthor %]
+		<div class="contributor">
+			<div class="name">
+				<span class="">[%- contributor.corpauthor -%]</span>
+			</div>
 		</div>
 	[%- END %]
 	</div>
@@ -111,3 +122,4 @@
 </body>
 
 </html>
+

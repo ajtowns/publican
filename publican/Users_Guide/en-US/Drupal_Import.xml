@@ -14,9 +14,9 @@
 			The CSV File consists of information that tells Drupal how to import the book. Each row in the CSV file represents a html page.
 		</para>
 		<para>
-			Use the <command>publican build</command> command to create the CSV file for Drupal import. Before running the command, use the cd command to change into the directory where your book is located. For example, if you have a book call "User_Guide" in your home directory, then run the following command.
-			<screen><command>cd User_Guide/</command>
-<command>publican build --langs en-US --formats=drupal-book</command></screen>
+			Use the <prompt>$</prompt> <command>publican build</command> command to create the CSV file for Drupal import. Before running the command, use the cd command to change into the directory where your book is located. For example, if you have a book call "User_Guide" in your home directory, then run the following command.
+			<screen><prompt>$</prompt> <command>cd User_Guide/</command>
+<prompt>$</prompt> <command>publican build --langs en-US --formats=drupal-book</command></screen>
 		</para>
 		<para>
 			After running the command, you will see CSV file is created in the <filename>tmp/en-US/drupal-book/</filename> directory.
@@ -45,7 +45,7 @@
 		<important>
 			<title>Important — Use version control system</title>
 				<para>
-					After running the <command>publican build --langs en-US --formats=drupal-book</command> command, you will notice that the xml files in the <filename>en-US</filename> directory had been changed. This is because <application>Publican</application> added a <parameter>'Conformance'</parameter> attribute for every xml tag that has id. This attribute contains a number which is unique across xml files in the book. If you are using a version control system like <application>git</application> for your xml files, then you need to commit the changes so that the number won't get reset when other users run it. These unique numbers are very important, because they are use as the url path in drupal. Besides, <application>Publican</application> also created a database file name <filename>max_unique_id.db</filename> in the <filename>en-US</filename> directory. This database file is use to track the current maximum unique number in the book, so that <application>Publican</application> can know where you are up to and add a new unique number for your newly created Chapter or Section. Therefore, it is very important to add the database file to the version control and commit it if there is any change. If you add a new section in the xml, don't set the <parameter>'Comformance'</parameter> attribute yourself as that will make the database outdated. Just leave it for <application>publican</application> to set it.
+					After running the <prompt>$</prompt> <command>publican build --langs en-US --formats=drupal-book</command> command, you will notice that the xml files in the <filename>en-US</filename> directory had been changed. This is because <application>Publican</application> added a <parameter>'Conformance'</parameter> attribute for every xml tag that has id. This attribute contains a number which is unique across xml files in the book. If you are using a version control system like <application>git</application> for your xml files, then you need to commit the changes so that the number won't get reset when other users run it. These unique numbers are very important, because they are use as the url path in drupal. Besides, <application>Publican</application> also created a database file name <filename>max_unique_id.db</filename> in the <filename>en-US</filename> directory. This database file is use to track the current maximum unique number in the book, so that <application>Publican</application> can know where you are up to and add a new unique number for your newly created Chapter or Section. Therefore, it is very important to add the database file to the version control and commit it if there is any change. If you add a new section in the xml, don't set the <parameter>'Comformance'</parameter> attribute yourself as that will make the database outdated. Just leave it for <application>publican</application> to set it.
 				</para>
 		</important>
 	</section>

@@ -13,7 +13,7 @@ containing product, version, title, subtitle and all author/editor/translator/ot
 <body class="titlepages">
     <div class="[%- IF draft -%] draft[%- END -%]">
 	<div class="title">
-		<span class="product">[%- product -%]</span> <span class="edition">[%- edition -%]</span> <span class="docname">[%- docname -%]</span>
+		<span class="product">[%- product -%]</span>[% IF edition -%] <span class="edition">[%- edition -%]</span>[%- END % <span class="docname">[%- docname -%]</span>
 	</div>
 	<div class="subtitle">[%- subtitle -%]</div>
 	<div class="authors">

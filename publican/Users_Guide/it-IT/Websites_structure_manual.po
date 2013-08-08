@@ -66,7 +66,7 @@ msgid "On a computer with an operating system other than Linux, also set:"
 msgstr "Su un computer con sistema operativo diverso da Linux, impostare anche:"
 
 #. Tag: para
-#, no-c-format, fuzzy
+#, no-c-format
 msgid "<option>--tmpl_path</option> — the path to the <filename>templates/</filename> directory of your <application>Publican</application> installation. On computers with Windows operating systems, this is typically <filename><replaceable>%SystemDrive%</replaceable>\\<replaceable>%ProgramFiles%</replaceable>\\Publican\\templates</filename>."
 msgstr "<option>--temp_path</option> — il percorso alla cartella <filename>templates/</filename> nella directory di installazione di <application>Publican</application>. Sui computer con sistemi operativi Windows, il percorso tipicamente coincide con <filename><replaceable>%SystemDrive%</replaceable>\\<replaceable>%ProgramFiles%</replaceable>\\Publican\\templates</filename>."
 
@@ -224,6 +224,21 @@ msgstr "manual_toc_update: 1"
 #, no-c-format
 msgid "Normally, <application>Publican</application> updates the site's tables of contents every time a documentation package is added or removed. On a site with a large number of documents on it (more than a few hundred), or where documents are updated very frequently (dozens of updates per week), this process is very demanding on a server. On a large or busy site, we recommend that you set this parameter and then periodically update the tables of contents with the <command>publican update_site</command> command."
 msgstr "Normalmente, <application>Publican</application> aggiorna le tabelle dei contenuti del sito, ogniqualvolta viene aggiunto o rimosso un pacchetto di documentazione. Su un sito con un gran numero di documenti (più di un centinaio), o in cui i documenti sono spesso aggiornati (dozzine per settimana), questo processo è oneroso di risorse. Su un sito di grandi dimensioni o molto occupato, si raccomanda di impostare questo parametro e poi di aggiornare periodicamente le tabelle dei contenuti con il comando <command>publican update_site</command>."
+
+#. Tag: para
+#, no-c-format
+msgid "Optionally, override the default JavaScript for the site with the <parameter>toc_js</parameter> parameter, for example:"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+msgid "toc_js: \"mybrand/scripts/megafoo.js\""
+msgstr ""
+
+#. Tag: para
+#, no-c-format
+msgid "This file will be symlinked as <parameter>toc_path</parameter>/toc.js with the <command>publican update_site</command> command. This path should be relative to the <parameter>toc_path</parameter> parameter."
+msgstr ""
 
 #. Tag: para
 #, no-c-format

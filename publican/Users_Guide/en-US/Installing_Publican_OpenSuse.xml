@@ -69,7 +69,7 @@
           online repositories - many of these are not present in the
           installation DVD repository.</para>
 
-          <screen><command>sudo zypper install perl-Config-Simple perl-DateTime \
+          <screen><prompt>$</prompt> <command>sudo zypper install perl-Config-Simple perl-DateTime \
 perl-DateTime-Format-DateParse perl-DBD-SQLite perl-DBI \
 perl-File-Find-Rule perl-File-Which perl-HTML-Format \
 perl-Locale-MakeText-Gettext perl-Template-Toolkit \
@@ -88,7 +88,7 @@ perl-YAML liberation-fonts</command></screen>
           dependencies which cannot be installed by
           <application>zypper</application>:</para>
 
-          <screen><command>sudo sh
+          <screen><prompt>$</prompt> <command>sudo sh
 cpan File::pushd File::Copy::Recursive Locale::PO pp \
 Syntax::Highlight::Engine::Kate XML::TreeBuilder
 exit
@@ -98,7 +98,7 @@ exit
         <step>
           <para>Download the source code:</para>
 
-          <screen><command>cd ~
+          <screen><prompt>$</prompt> <command>cd ~
 mkdir -p SourceCode/publican
 cd SourceCode/publican
 svn checkout http://svn.fedorahosted.org/svn/publican/branches/publican-2x ./
@@ -109,19 +109,18 @@ svn checkout http://svn.fedorahosted.org/svn/publican/branches/publican-2x ./
           <para>Build the <application>Publican</application> build
           script:</para>
 
-          <screen><command>perl Build.PL
+          <screen><prompt>$</prompt> <command>perl Build.PL
 </command></screen>
 
           <para>If all the dependencies are installed, you should see the
           following:</para>
 
-          <screen>perl Build.PL
-WARNING: the following files are missing in your kit:
-        META.yml
-Please inform the author.
+          <screen><computeroutput>WARNING: the following files are missing in your kit:</computeroutput>
+<computeroutput>        META.yml</computeroutput>
+<computeroutput> Please inform the author.</computeroutput>
 
-Created MYMETA.yml and MYMETA.json
-Creating new 'Build' script for 'Publican' version '2.9'</screen>
+<computeroutput>Created MYMETA.yml and MYMETA.json</computeroutput>
+<computeroutput>Creating new 'Build' script for 'Publican' version '2.9'</computeroutput></screen>
 
           <para>If not, then use <application>cpan</application> (as root) to
           install the missing modules and run the build again. Replace any
@@ -130,7 +129,7 @@ Creating new 'Build' script for 'Publican' version '2.9'</screen>
           <filename>File/pushd.pm</filename> is reported as missing, you would
           use this to install it:</para>
 
-          <screen><command>sudo sh
+          <screen><prompt>$</prompt> <command>sudo sh
 cpan File::pushd
 exit
 </command></screen>
@@ -140,36 +139,35 @@ exit
           <filename>Build</filename> which we will use to create, test and
           install <application>Publican</application> 2.9.</para>
 
-          <screen><command>./Build
+          <screen><prompt>$</prompt> <command>./Build
 </command></screen>
 
           <para>There will be lots of text scrolling up the screen for a few
           minutes, you should eventually see the following:</para>
 
-          <screen>DEBUG: Publican::Builder: end of build</screen>
+          <screen><computeroutput>DEBUG: Publican::Builder: end of build</computeroutput></screen>
         </step>
 
         <step>
           <para>Test the build:</para>
 
-          <screen><command>./Build test
+          <screen><prompt>$</prompt> <command>./Build test
 </command></screen>
 
           <para>Again, lots of scrolling text at the end of which you may see
           the following:</para>
 
-          <screen>Test Summary Report
--------------------
-t/910.publican.Users_Guide.t (Wstat: 256 Tests: 5 Failed: 1)
-  Failed test:  5
-  Non-zero exit status: 1
-t/pod-coverage.t            (Wstat: 256 Tests: 9 Failed: 1)
-  Failed test:  7
-  Non-zero exit status: 1
-Files=10, Tests=68, 420 wallclock secs ( 0.31 usr  0.17 sys + 246.87 cusr 18.73 csys = 266.08 CPU)
-Result: FAIL
-Failed 2/10 test programs. 2/68 subtests failed.
-</screen>
+          <screen><computeroutput>Test Summary Report</computeroutput>
+<computeroutput>-------------------</computeroutput>
+<computeroutput>t/910.publican.Users_Guide.t (Wstat: 256 Tests: 5 Failed: 1)</computeroutput>
+<computeroutput>  Failed test:  5</computeroutput>
+<computeroutput>  Non-zero exit status: 1</computeroutput>
+<computeroutput>t/pod-coverage.t            (Wstat: 256 Tests: 9 Failed: 1)</computeroutput>
+<computeroutput>  Failed test:  7</computeroutput>
+<computeroutput>  Non-zero exit status: 1</computeroutput>
+<computeroutput>Files=10, Tests=68, 420 wallclock secs ( 0.31 usr  0.17 sys + 246.87 cusr 18.73 csys = 266.08 CPU)</computeroutput>
+<computeroutput>Result: FAIL</computeroutput>
+<computeroutput>Failed 2/10 test programs. 2/68 subtests failed.</computeroutput></screen>
 
           <para>Don't worry. This is because of a missing
           <application>wkhtmltopdf</application> utility which is undergoing
@@ -206,7 +204,7 @@ Failed 2/10 test programs. 2/68 subtests failed.
             is better in a printed document.</para>
           </note>
 
-          <screen><command>JFEARN=http://jfearn.fedorapeople.org/wkhtmltopdf/f15
+          <screen><prompt>$</prompt> <command>JFEARN=http://jfearn.fedorapeople.org/wkhtmltopdf/f15
 MYSYSTEM=i686
 ## For 64bit system use MYSYSTEM=x86_64 instead.
 wget $JFEARN/$MYSYSTEM/wkhtmltopdf-qt-4.7.1-1.git20110804.fc15.i686.rpm
@@ -220,7 +218,7 @@ wget $JFEARN/$MYSYSTEM/wkhtmltopdf-0.10.0_rc2-1.fc15.i686.rpm
 
           <para>Once downloaded, install both rpms as follows:</para>
 
-          <screen><command>sudo sh
+          <screen><prompt>$</prompt> <command>sudo sh
 rpm -ivh wkhtmltopdf-qt*
 rpm -ivh --nodeps wkhtmltopdf-0*
 exit
@@ -237,7 +235,7 @@ exit
           <para>The final stage is to install Publican, even though the
           testing stage had a couple of sub-tests which failed.</para>
 
-          <screen><command>sudo sh
+          <screen><prompt>$</prompt> <command>sudo sh
 ./Build test
 exit
 </command></screen>
@@ -251,7 +249,7 @@ exit
           <para>Test the installed <application>Publican</application>
           build:</para>
 
-          <screen><command>publican create --type=book --product=testing --version=1.2.3 --name=TestPublican</command>
+          <screen><prompt>$</prompt> <command>publican create --type=book --product=testing --version=1.2.3 --name=TestPublican</command>
   Processing file en-US/Author_Group.xml -&gt; en-US/Author_Group.xml
   Processing file en-US/Book_Info.xml -&gt; en-US/Book_Info.xml
   Processing file en-US/Chapter.xml -&gt; en-US/Chapter.xml
@@ -259,7 +257,7 @@ exit
   Processing file en-US/Revision_History.xml -&gt; en-US/Revision_History.xml
   Processing file en-US/TestPublican.xml -&gt; en-US/TestPublican.xml
 
-<command>cd TestPublican/
+<prompt>$</prompt> <command>cd TestPublican/
 publican build --lang=all --formats=html,html-single,html-desktop,txt,pdf,epub</command>
 </screen>
 
@@ -268,9 +266,9 @@ publican build --lang=all --formats=html,html-single,html-desktop,txt,pdf,epub</
             <application>Publican</application> 2.9 on OpenSuse gave the
             following error:</para>
 
-            <screen>runtime error: file /usr/share/publican/xsl/epub.xsl element choose
-Variable 'epub.embedded.fonts' has not been declared.
- at /usr/lib/perl5/site_perl/5.14.2/Publican/Builder.pm line 915</screen>
+            <screen><computeroutput>runtime error: file /usr/share/publican/xsl/epub.xsl element choose</computeroutput>
+<computeroutput>Variable 'epub.embedded.fonts' has not been declared.</computeroutput>
+<computeroutput> at /usr/lib/perl5/site_perl/5.14.2/Publican/Builder.pm line 915</computeroutput></screen>
 
             <para>No epub file was created. The individual working files were
             however, and can be built into an epub book using
