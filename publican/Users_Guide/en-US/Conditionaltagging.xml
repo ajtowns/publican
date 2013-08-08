@@ -34,7 +34,7 @@
 		To build a specific version (and thereby capture all content conditionalized for that version), add the <prompt>$</prompt> <command>condition: <replaceable>version</replaceable></command> parameter to the <filename>publican.cfg</filename> file and run the <prompt>$</prompt> <command>publican build</command> command as normal. For example, if you add <literal>condition: upstream</literal> to the <filename>publican.cfg</filename> file of <citetitle>How To Use Product Foo</citetitle> and run:
 	</para>
 	 
-<screen><prompt>$</prompt> <prompt>$</prompt> <command>publican build --formats=pdf --langs=en-US</command></screen>
+<screen><prompt>$</prompt> <command>publican build --formats=pdf --langs=en-US</command></screen>
 	 <para>
 		<application>Publican</application> filters out all tags with condition attributes other than <literal>condition="upstream"</literal> and builds <citetitle>How To Use Product Foo</citetitle> in as a PDF file in American English.
 	</para>
