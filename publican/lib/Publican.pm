@@ -28,7 +28,7 @@ $VERSION = '3.2.0';
 @ISA     = qw(Exporter);
 
 @EXPORT
-    = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string rcopy dircopy fcopy rcopy_glob);
+    = qw(dir_list debug_msg get_all_langs logger help_config maketext new_tree dtd_string rcopy dircopy fcopy rcopy_glob fmove);
 
 # Track when the SPEC file generation is incompatible.
 $SPEC_VERSION = '3.0';
@@ -1933,6 +1933,26 @@ sub fcopy {
         || croak(
         maketext(
             "Can not copy file [_1] to [_2] due to error: [_3]",
+            $from, $to, $@
+        )
+        );
+
+    return;
+}
+
+=head2 fmove
+
+UTF8 escape calls to File::Copy::Recursive
+
+=cut
+
+sub fmove {
+    my ( $from, $to ) = @_;
+
+    File::Copy::Recursive::fmove( encode_utf8($from), encode_utf8($to) )
+        || croak(
+        maketext(
+            "Can not move file [_1] to [_2] due to error: [_3]",
             $from, $to, $@
         )
         );
