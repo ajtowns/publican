@@ -15,8 +15,8 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.1.5
-Release:        0%{?dist}.t72
+Version:        3.2.0
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -267,6 +267,62 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/common-db5
 
 %changelog
+* Thu Aug 8 2013 Jeff Fearn <jfearn@redhat.com> 3.2.0-0
+  - Add spaces to web-spec.xsl to work around newer libxml2 eating white space in spec files  BZ #982424
+  - Fix typos in common content BZ #952490 #974918
+  - Stop menu bouncing. BZ #953716
+  - Fix ID missing from admonitions. BZ #966494
+  - Support corpauthor for PDF. BZ #908666
+  - Fix nested block tags breaking translation flow. BZ #909728
+  - Fix multiple calls to update_po breaking packaging. BZ #891167
+  - Add website labels and translations. BZ #979885
+  - Add orgname to block/inline code. BZ #872955
+  - Fix get_keywords not using correct info file. BZ #957956
+  - Improve web print CSS. BZ #927513
+  - Fix pre border in PDF. BZ #905752
+  - Fix epub DOCTYPE. BZ #875129
+  - Fix step first child style. BZ #971221
+  - Fix long link word wrap in PDF. BZ #923481
+  - Support case-insensitive "language" attribute. BZ #919474
+  - Apply title style patch from Jaromir Hradilek. BZ #924518
+  - Expose %book_ver_list to products/versions_index.tmpl. BZ #962643
+  - Allow brands to ship web templates. Add site config toc_js. BZ #956935
+  - Add pdftool option to build for pdf tool control. BZ #953728
+  - Add default mapping for language to locale. BZ #844202
+  - Fix ID missing from translated Revision History. BZ #911462
+  - Add pub_dir option to override publish directory. BZ #830062
+  - Removed show_unknown parameter and associated code. BZ #915428
+  - Add img_dir parameter to override images directory. BZ #919481
+  - Support all DocBook conditionals. BZ #919486
+  - Flag spaces in product number as invalid. BZ #973895
+  - Standardized prompts in commands. BZ #880456
+  - Updated web_formats publican.cfg info BZ #839141
+  - Replaced 'home page' with 'product or version page' BZ #921803
+  - Replaced a broken link to CPAN with a working link BZ# 973461
+  - Remove duplicate brand files from base install. BZ #966143
+  - Add extras_dir parameter to override extras directory. BZ #953998
+  - Fix PDF ignoring cover logo. BZ #974353
+  - Add trans_drop action to freeze source language for translation. BZ #887707
+  - Fix empty pot files not being deleted. BZ #961413
+  - Fix long title layout on cover page in PDF. BZ #956934
+  - Add Mac OS X Lion installation instructions. BZ# 979229
+  - Add file handle limit workaround to FAQ BZ #952476
+  - Support CDATA tags. BZ #958343
+  - Fix UTF8 image names getting mangled in publish. BZ #953618
+  - Add wkhtmltopdf_opts parameter to pass options to wkhtmltopdf. BZ #951290
+  - Fix edition missing on PDF cover pages. BZ #956940
+  - Support XML in add_revision member. BZ #862465
+  - Fix duplicate footnotes in bibliography. BZ #653447
+  - Fix Link from footlink to footlink-ref not working in PDF. BZ #909786
+  - Fix TOC draft watermark in PDF. BZ #905271
+  - Add common-db5 sub package. BZ #958495
+  - Support decimals in colwidth & convert exact measures to pixels. BZ #913775
+  - Tweak equation formatting. BZ #804531
+  - Fix POT-Creation-Date format. BZ #985836
+  - Fix site stats report swapping languages and products.
+  - Fix web_dir not used for home page packages. BZ #988191
+  - Updated web site instructions - BZ#979224
+
 * Mon Mar 18 2013 Jeff Fearn <jfearn@redhat.com> 3.1.5-0
 - Fix translated PDF encode issue when build from packaged books. BZ #922618
 
