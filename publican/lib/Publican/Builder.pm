@@ -1594,7 +1594,7 @@ sub transform {
         $dir = undef;
         my $images = $self->{publican}->param('img_dir');
         dircopy( "$tmp_dir/$lang/xml/$images",
-            "$tmp_dir/$lang/$format/OEBPS/$images" );
+            "$tmp_dir/$lang/$format/OEBPS/$images" )  if (-d "$tmp_dir/$lang/xml/$images");
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/OEBPS/Common_Content"
@@ -1754,7 +1754,7 @@ sub transform {
         my $images = $self->{publican}->param('img_dir');
 
         dircopy( "$tmp_dir/$lang/xml/$images",
-            "$tmp_dir/$lang/$format/$content_dir/$images" );
+            "$tmp_dir/$lang/$format/$content_dir/$images" )  if (-d "$tmp_dir/$lang/xml/$images");
         dircopy( "$tmp_dir/$lang/xml/Common_Content/images",
             "$tmp_dir/$lang/$format/$content_dir/Common_Content/images" )
             if ( $embedtoc == 0 );
@@ -1786,7 +1786,7 @@ sub transform {
         my $images = $self->{publican}->param('img_dir');
         $dir = undef;
         dircopy( "$tmp_dir/$lang/xml/$images",
-            "$tmp_dir/$lang/$format/$images" );
+            "$tmp_dir/$lang/$format/$images" )  if (-d "$tmp_dir/$lang/xml/$images");
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"
