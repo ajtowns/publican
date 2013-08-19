@@ -1594,7 +1594,8 @@ sub transform {
         $dir = undef;
         my $images = $self->{publican}->param('img_dir');
         dircopy( "$tmp_dir/$lang/xml/$images",
-            "$tmp_dir/$lang/$format/OEBPS/$images" )  if (-d "$tmp_dir/$lang/xml/$images");
+            "$tmp_dir/$lang/$format/OEBPS/$images" )
+            if ( -d "$tmp_dir/$lang/xml/$images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/OEBPS/Common_Content"
@@ -1754,7 +1755,8 @@ sub transform {
         my $images = $self->{publican}->param('img_dir');
 
         dircopy( "$tmp_dir/$lang/xml/$images",
-            "$tmp_dir/$lang/$format/$content_dir/$images" )  if (-d "$tmp_dir/$lang/xml/$images");
+            "$tmp_dir/$lang/$format/$content_dir/$images" )
+            if ( -d "$tmp_dir/$lang/xml/$images" );
         dircopy( "$tmp_dir/$lang/xml/Common_Content/images",
             "$tmp_dir/$lang/$format/$content_dir/Common_Content/images" )
             if ( $embedtoc == 0 );
@@ -1786,7 +1788,8 @@ sub transform {
         my $images = $self->{publican}->param('img_dir');
         $dir = undef;
         dircopy( "$tmp_dir/$lang/xml/$images",
-            "$tmp_dir/$lang/$format/$images" )  if (-d "$tmp_dir/$lang/xml/$images");
+            "$tmp_dir/$lang/$format/$images" )
+            if ( -d "$tmp_dir/$lang/xml/$images" );
         dircopy(
             "$tmp_dir/$lang/xml/Common_Content",
             "$tmp_dir/$lang/$format/Common_Content"
@@ -2419,7 +2422,7 @@ sub highlight {
         },
     );
 
-    $language = $hl->languagePlug( $language, 1 ) || croak(
+    my $lang_module = $hl->languagePlug( $language, 1 ) || croak(
         "\n\t"
             . maketext(
             "'[_1]' is not a valid language for highlighting. Language names are case sensitive.",
@@ -2427,6 +2430,24 @@ sub highlight {
             )
             . "\n"
     );
+
+    my $modname = "Syntax::Highlight::Engine::Kate::$lang_module";
+    my $plug;
+    ## This has to be a sting to stop use being run in BEGIN
+    eval "use $modname; \$plug = new $modname(engine => \$hl);";
+
+    if ( defined($plug) ) {
+        $language = $plug->language();
+    }
+    else {
+        croak(
+            maketext(
+                "Cannot create plugin for language '[_1]': [_2]",
+                $language, $@
+            )
+        );
+    }
+
     $hl->language($language);
 
     my $parser = XML::LibXML->new();
