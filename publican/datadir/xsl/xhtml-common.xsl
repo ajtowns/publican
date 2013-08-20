@@ -31,7 +31,7 @@
       </xsl:otherwise>
     </xsl:choose>
 </xsl:param>
-<xsl:param name="callout.graphics.path"><xsl:value-of select="$admon.graphics.path"/></xsl:param>
+<xsl:param name="callout.graphics.path"><xsl:value-of select="$admon.graphics.path"/><xsl:text>/</xsl:text></xsl:param>
 
 <xsl:param name="package" select="''"/>
 
