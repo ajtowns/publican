@@ -1,28 +1,24 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook XML 5.0//EN" "http://docbook.org/xml/5.0/rng/docbook.rng" [
 ]>
-<programlisting language="C">static int kvm_vm_ioctl_deassign_device(struct kvm *kvm,
-                 struct kvm_assigned_pci_dev *assigned_dev)
+
+<programlisting language="Java" version="5.0" xml:lang="en-US" xmlns="http://docbook.org/ns/docbook"><!--  Converted by db4-upgrade version 1.0  -->package org.jboss.book.jca.ex1;
+
+import javax.naming.InitialContext;
+
+public class ExClient
 {
-         int r = 0;
-         struct kvm_assigned_dev_kernel *match;
+   public static void main(String args[]) 
+       throws Exception
+   {
+      InitialContext iniCtx = new InitialContext();
+      Object         ref    = iniCtx.lookup("EchoBean");
+      EchoHome       home   = (EchoHome) ref;
+      Echo           echo   = home.create();
 
-         mutex_lock(&amp;kvm->lock);
+      System.out.println("Created Echo");
 
-         match = kvm_find_assigned_dev(&amp;kvm->arch.assigned_dev_head,
-                                       assigned_dev->assigned_dev_id);
-         if (!match) {
-                 printk(KERN_INFO "%s: device hasn't been assigned before, "
-                   "so cannot be deassigned\n", __func__);
-                 r = -EINVAL;
-                 goto out;
-         }
-
-         kvm_deassign_device(kvm, match);
-
-         kvm_free_assigned_device(kvm, match);
-
-out:
-         mutex_unlock(&amp;kvm->lock);
-         return r;
+      System.out.println("Echo.echo('Hello') = " + echo.echo("Hello"));
+   }
 }</programlisting>
+
