@@ -215,5 +215,17 @@ git push
 git checkout master
 git pull
 git merge devel
+git push
+git tag -a Release-3.2.1 -m "Release Version 3.2.1"
+git push origin --tags
 
+5: Upload to public site
+
+scp Publican-v3.2.1.tar.gz fedorahosted.org:publican
+scp publican.spec fedorahosted.org:publican
+scp tmp/rpm/publican-3.2.1-0.el6.src.rpm fedorahosted.org:publican
+
+6: Bug Rudi to do release announcement
+
+Poke him!
 
