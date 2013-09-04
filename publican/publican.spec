@@ -15,8 +15,8 @@
 %define wwwdir /var/www/html/docs
 
 Name:           publican
-Version:        3.2.0
-Release:        3%{?dist}.t7
+Version:        3.2.1
+Release:        0%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
@@ -271,8 +271,13 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/common-db5
 
 %changelog
-* Fri Aug 16 2013 Jeff Fearn <jfearn@redhat.com> 3.2.1-0
+* Wed Sep 04 2013 Jeff Fearn <jfearn@redhat.com> 3.2.1-0
 - Fix empty images dir causing packaging fail. BZ #996349
+- Fix draft background being in front. BZ #996361
+- Fix Titles that are ulinks are incorrectly positioned. BZ #995095
+- Fix Syntax Highlighting not working when Language and Module names differ. BZ #995932
+- Fix missing '/' on callout image url. BZ #998736
+- Add string for brand customistaion BZ #1002388
 
 * Thu Aug 8 2013 Jeff Fearn <jfearn@redhat.com> 3.2.0-0
 - Add spaces to web-spec.xsl to work around newer libxml2 eating white space in spec files  BZ #982424

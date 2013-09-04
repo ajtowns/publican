@@ -69,7 +69,7 @@ CPAN
         $ ./Build installdeps
     $ ./Build
     $ ./Build test
-    $ ./Build install
+    $ sudo ./Build install
 
 RHEL/Fedora
     cd publican
@@ -180,12 +180,38 @@ what about a real list of valid langauges?
     sub valid_lang looks good
         http://cpansearch.perl.org/src/TOBYINK/XRD-Parser-0.101/lib/XRD/Parser.pm
 
+
 Release Process:
 
-git merge
-git tag
-...
-scp to hosted
-...
+1: Get updated sources
+
+git checkout devel
+./Build realclean
+git pull
+
+2: Update versions
+
+gvim lib/Publican.pm 
+	Set $VERSION
+gvim Changes 
+	Set release date
+gvim publican.spec 
+	Set Version:
+	Reset Release: to 0, remove any .t*
+	Copy Changes entry to %changelog
+
+3: Test code
+
+perl Build.PL
+./Build manifest
+./Build
+./Build test
+./Build realclean
+
+4: Commit version changes and merge code to master
+
+git commit -a -m"Release version 3.2.1"
+git checkout master
+git merge devel
 
 
