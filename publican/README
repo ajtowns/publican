@@ -211,7 +211,9 @@ perl Build.PL
 4: Commit version changes and merge code to master
 
 git commit -a -m"Release version 3.2.1"
+git push
 git checkout master
+git pull
 git merge devel
 
 
