@@ -1,4 +1,4 @@
-# 
+#
 # AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
@@ -14,7 +14,39 @@ msgstr ""
 
 #. Tag: programlisting
 #, no-c-format
-msgid "package org.jboss.book.jca.ex1;\n"
+msgid ""
+"static int kvm_vm_ioctl_deassign_device(struct kvm *kvm,\n"
+"                 struct kvm_assigned_pci_dev *assigned_dev)\n"
+"{\n"
+"         int r = 0;\n"
+"         struct kvm_assigned_dev_kernel *match;\n"
+"\n"
+"         mutex_lock(&amp;kvm-&gt;lock);\n"
+"\n"
+"         match = kvm_find_assigned_dev(&amp;kvm-&gt;arch.assigned_dev_head,\n"
+"                                       assigned_dev-&gt;assigned_dev_id);\n"
+"         if (!match) {\n"
+"                 printk(KERN_INFO \"%s: device hasn't been assigned before, \"\n"
+"                   \"so cannot be deassigned\n"
+"\", __func__);\n"
+"                 r = -EINVAL;\n"
+"                 goto out;\n"
+"         }\n"
+"\n"
+"         kvm_deassign_device(kvm, match);\n"
+"\n"
+"         kvm_free_assigned_device(kvm, match);\n"
+"\n"
+"out:\n"
+"         mutex_unlock(&amp;kvm-&gt;lock);\n"
+"         return r;\n"
+"}"
+msgstr ""
+
+#. Tag: programlisting
+#, no-c-format
+#~ msgid ""
+"package org.jboss.book.jca.ex1;\n"
 "\n"
 "import javax.naming.InitialContext;\n"
 "\n"
@@ -33,5 +65,5 @@ msgid "package org.jboss.book.jca.ex1;\n"
 "      System.out.println(\"Echo.echo('Hello') = \" + echo.echo(\"Hello\"));\n"
 "   }\n"
 "}"
-msgstr ""
+#~ msgstr ""
 
