@@ -3,7 +3,7 @@
 
 Name:		publican-redhat-db5
 Summary:	Common documentation files for %{brand}
-Version:	3.1
+Version:	1.2
 Release:	1%{?dist}
 License:	CC-BY-SA
 Group:		Applications/Text
@@ -26,7 +26,7 @@ Requires:	publican
 Web Site common files for the %{brand} brand.
 
 %prep
-%setup -q
+%setup -q 
 
 %build
 publican build --formats=xml --langs=all --publish
@@ -53,11 +53,6 @@ rm -rf $RPM_BUILD_ROOT
 %{wwwdir}/%{brand}
 
 %changelog
-* Thu Aug 08 2013 Stephen Gordon <sgordon@redhat.com> 3.1-1
-- Rebased from publican-redhat, in particular:
-  * Added updated Program_Listing.xml.
-  * Updated overrides.css to fix several bugs.
-  * Added updated Legal_Notice.xml to pick up Node.js and OpenStack marks.
 * Thu Jan 10 2013 Stephen Gordon <sgordon@redhat.com> 1.2-1
 - Rebased from publican-redhat.
 - Added subtitle.xsl
