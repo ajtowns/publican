@@ -164,10 +164,12 @@ Pin-Priority: -10
 				Can't open publican: No such file or directory at /usr/bin/publican line 430.
 				</screen>
 				Which indicates that you might need to upgrade libxml2 and libxslt to the testing repository version too. This can be done by
-				<procedure>
-					<step>
-						<para>
-							searching to find the likely library:
+			</para>
+
+			<procedure>
+				<step>
+					<para>
+						searching to find the likely library:
 <screen><prompt>$</prompt> <command>apt-get search libxslt</command>
 gambas3-gb-xml-xslt - Gambas XSLT component
 libidzebra-2.0-mod-alvis - IDZebra filter alvis (XSLT filter for XML)
@@ -193,16 +195,15 @@ swfmill - xml2swf and swf2xml processor
 libxslthl-java - XSLT syntax highlighting
 </screen>
 (and the same again for libxml2)
-						</para>
-					</step>
-					<step>
-						<para>
+					</para>
+				</step>
+				<step>
+					<para>
 And then upgrading those packages to testing.
 <screen><prompt>$</prompt> <command>apt-get -t testing upgrade libxml2 libxslt1.1</command>
 </screen>
-						</para>
-					</step>
-				</procedure>
-			</para>
+					</para>
+				</step>
+			</procedure>
 
 		</section>
