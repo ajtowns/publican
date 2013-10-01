@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Users_Guide.ent">
+]>
+		 <section conformance="186" id="sect-Users_Guide-Linux_operating_systems-Debian">
+			<title>Debian</title>
+			 <warning>
+				<title> Warning — Debian's release cycle is out of step with <application>Publican</application> </title>
+				 <para>
+					This means that chosen version of the Debian distribution is likely to contain an older version.
+				</para>
+***********THIS ASSUMES sudo IS INSTALLED - WHICH IS NOT DEFAULT****************
+			</warning>
+			<para>
+				This initial procdure will install the <application>Publican</application> publican version that is in your default repostiory.
+			</para>
+
+			 <procedure>
+				<step>
+					<para>
+						Open a terminal.
+					</para>
+
+				</step>
+				 <step>
+					<para>
+						Run the following command to install the <package>publican</package> package:
+					</para>
+					
+					<screen><prompt>$</prompt> <command>sudo apt-get install publican</command>
+					</screen>
+
+				</step>
+				 <step>
+					<para>
+						Run the following command to determine what version of <package>publican</package> is installed:
+					</para>
+					
+					<screen><prompt>$</prompt> <command>publican -v</command>
+					version=2.8
+					</screen>
+
+				</step>
+			</procedure>
+
+			 <important>
+				<title> Important — Installing more recent packages using Apt-Pinning</title>
+				 <para>
+					If you need a more recent release of <package>publican</package> than installed by the procedure above, you can query if there other versions available: <ulink url="http://packages.debian.org/search?keywords=publican+searchon=names+suite=allsection=all" />.
+
+					(to date, there has not been any backport (<ulink url="http://backports.debian.org/Instructions/" />) available for <aplication>publican</application>, so we need to use Apt Pinning <ulink url="https://wiki.debian.org/AptPreferences" />
+				</para>
+
+			</important>
+			<para>
+				Assuming there is a more recent version available in the testing repository, and that you are running the current stable, you should follow the following carefully:
+			</para>
+
+			 <procedure>
+				<step>
+					<para>
+						Open a terminal.
+					</para>
+
+				</step>
+				 <step>
+					<para>
+						Open your <filename>/etc/apt/sources.list</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
+					</para>
+					 
+<screen><prompt>$</prompt> <command>sudo gedit /etc/apt/sources.list</command>
+</screen>
+
+				</step>
+				 <step>
+					<para>
+						Add the following line to the end of the file:
+					</para>
+					 
+<programlisting> #### testing  #########
+ deb http://ftp.us.debian.org/debian testing main contrib non-free
+</programlisting>
+
+				</step>
+				 <step>
+					<para>
+						Save the file and close the text editor.
+					</para>
+
+				</step>
+				 <step>
+					<para>
+						Open (or create) your <filename>/etc/apt/preferences</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
+					</para>
+					 
+<screen><prompt>$</prompt> <command>sudo gedit /etc/apt/preferences</command>
+</screen>
+
+				</step>
+				 <step>
+					<para>
+						Add the following line to the end of the file:
+					</para>
+					 
+<programlisting>Package: *
+Pin: release a=stable
+Pin-Priority: 900
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 400
+
+Package: *
+Pin: release o=Debian
+Pin-Priority: -10
+
+</programlisting>
+
+				</step>
+				 <step>
+					<para>
+						Save the file and close the text editor.
+					</para>
+
+				</step>
+				 <step>
+					<para>
+						Run the following command to update the list of packages available to your computer:
+					</para>
+					 
+<screen><prompt>$</prompt> <command>sudo apt-get update</command>
+</screen>
+
+				</step>
+				 <step>
+					<para>
+						Run the following command to try to install the <package>publican</package> package:
+					</para>
+					 
+<screen><prompt>$</prompt> <command>sudo apt-get install publican/testing</command>
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Selected version '3.2.1-1' (Debian:testing [all]) for 'publican'
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ publican : Depends: docbook-xsl (>= 1.77) but 1.76.1+dfsg-1 is to be installed
+            Depends: fop but it is not going to be installed
+            Depends: libxml-treebuilder-perl (>= 4.2) but 4.0-1 is to be installed
+E: Unable to correct problems, you have held broken packages.
+</screen>
+
+				</step>
+				 <step>
+					<para>
+						Assuming that you get a failure as shown in the step above, add each unmet dependency with a trailing <filename>/testing</filename>:
+					</para>
+					 
+<screen><prompt>$</prompt> <command>sudo apt-get install publican/testing docbook-xsl/testing fop/testing libxml-treebuilder-perl/testing libsaxon-java/testing libfop-java/testing</command>
+Reading state information... Done
+Selected version '3.2.1-1' (Debian:testing [all]) for 'publican'
+Selected version '1.78.1+dfsg-1' (Debian:testing [all]) for 'docbook-xsl'
+Selected version '4.5-7.2' (Debian:7.1/stable, Debian:testing [all]) for 'docbook-xml' because of 'docbook-xsl'
+Selected version '1:1.1.dfsg-2' (Debian:testing [all]) for 'fop'
+Selected version '4.3-1' (Debian:testing [all]) for 'libxml-treebuilder-perl'
+Selected version '1:6.5.5-10' (Debian:testing [all]) for 'libsaxon-java'
+Selected version '1:1.1.dfsg-2' (Debian:testing [all]) for 'libfop-java'
+The following extra packages will be installed:
+  acl autopoint colord consolekit dbus dconf-gsettings-backend dconf-service docbook-xml fontconfig fontconfig-config fonts-droid gcj-4.6-base gcj-4.6-jre-headless gettext ghostscript
+  git git-man gsfonts hicolor-icon-theme imagemagick-common java-wrappers libapache-pom-java libappconfig-perl libarchive-zip-perl libasound2 libatk1.0-0 libatk1.0-data
+  libavahi-client3 libavahi-common-data libavahi-common3 libavalon-framework-java libbatik-java libbsf-java libcairo-gobject2 libcairo2 libck-connector0 libclass-accessor-perl
+  libclass-data-inheritable-perl libclass-load-perl libclass-singleton-perl libclass-trigger-perl libclone-perl libcolord1 libcommons-io-java libcommons-logging-java
+  libcommons-parent-java libconfig-simple-perl libcroco3 libcups2 libcupsimage2 libcurl3-gnutls libdata-optlist-perl libdatetime-format-dateparse-perl libdatetime-locale-perl
+  libdatetime-perl libdatetime-timezone-perl libdatrie1 libdbd-sqlite3-perl libdbi-perl libdbus-1-3 libdbus-glib-1-2 libdconf0 libencode-locale-perl liberror-perl libexif12 libffi5
+  libfile-copy-recursive-perl libfile-find-rule-perl libfile-homedir-perl libfile-inplace-perl libfile-listing-perl libfile-pushd-perl libfile-slurp-perl libfile-which-perl
+  libfont-afm-perl libfontconfig1 libgcj-common libgcj12 libgd2-xpm libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-common libgettextpo0 libglib2.0-0 libglib2.0-data libgmp10 libgomp1 libgphoto2-2
+  libgphoto2-l10n libgphoto2-port0 libgs9 libgs9-common libgtk-3-0 libgtk-3-bin libgtk-3-common libgudev-1.0-0 libgusb2 libhtml-form-perl libhtml-format-perl
+  libhtml-formattext-withlinks-andtables-perl libhtml-formattext-withlinks-perl libhtml-parser-perl libhtml-tagset-perl libhtml-template-perl libhtml-tree-perl libhttp-cookies-perl
+  libhttp-daemon-perl libhttp-date-perl libhttp-message-perl libhttp-negotiate-perl libice6 libieee1284-3 libijs-0.35 libimage-size-perl libio-socket-ip-perl libio-socket-ssl-perl
+  libio-string-perl libio-stringy-perl libipc-run3-perl libjasper1 libjaxp1.3-java libjbig0 libjbig2dec0 libjpeg8 liblcms2-2 liblist-moreutils-perl liblocale-maketext-gettext-perl
+  liblocale-po-perl liblqr-1-0 libltdl7 liblwp-mediatypes-perl liblwp-protocol-https-perl libmagickcore5 libmailtools-perl libmakefile-dom-perl libmakefile-parser-perl
+  libmath-round-perl libmodule-implementation-perl libmodule-runtime-perl libnet-daemon-perl libnet-http-perl libnet-ssleay-perl libnumber-compare-perl
+  libpackage-deprecationmanager-perl libpackage-stash-perl libpackage-stash-xs-perl libpam-ck-connector libpango1.0-0 libpaper-utils libpaper1 libparams-classify-perl
+  libparams-util-perl libparams-validate-perl libpcsclite1 libperl5.14 libpixman-1-0 libplrpc-perl libpng12-0 libpolkit-agent-1-0 libpolkit-backend-1-0 libpolkit-gobject-1-0 librsvg2-2
+  librsvg2-bin librsvg2-common librtmp0 libsane libsane-common libsane-extras libsane-extras-common libsm6 libsocket-perl libsort-versions-perl libssh2-1 libstring-similarity-perl
+  libsub-install-perl libsub-name-perl libsyntax-highlight-engine-kate-perl libsystemd-login0 libtemplate-perl libtext-csv-xs-perl libtext-glob-perl libthai-data libthai0 libtiff4
+  libtimedate-perl libtry-tiny-perl libunistring0 liburi-perl libv4l-0 libv4lconvert0 libwww-perl libwww-robotrules-perl libxalan2-java libxcb-render0 libxcb-shm0 libxcomposite1
+  libxcursor1 libxdamage1 libxerces2-java libxfixes3 libxft2 libxi6 libxinerama1 libxml-commons-external-java libxml-commons-resolver1.1-java libxml-libxml-perl libxml-libxslt-perl
+  libxml-namespacesupport-perl libxml-parser-perl libxml-sax-base-perl libxml-sax-expat-perl libxml-sax-perl libxml-simple-perl libxmlgraphics-commons-java libxpm4 libxrandr2
+  libxrender1 libxslt1.1 libxt6 libxtst6 perlmagick policykit-1 poppler-data rsync sane-utils sgml-data shared-mime-info ttf-dejavu-core unzip update-inetd x11-common
+Suggested packages:
+  dbus-x11 docbook docbook-dsssl docbook-defguide dbtoepub docbook-xsl-doc-html docbook-xsl-doc-pdf docbook-xsl-doc-text docbook-xsl-doc docbook-xsl-saxon libxslthl-java xalan fop-doc
+  libservlet2.5-java fastjar gcj-4.6-jdk libgcj12-awt gettext-doc ghostscript-cups ghostscript-x hpijs git-daemon-run git-daemon-sysvinit git-doc git-el git-arch git-cvs git-svn
+  git-email git-gui gitk gitweb libasound2-plugins libavalon-framework-java-doc bsh libcommons-io-java-doc libcommons-logging-java-doc libexcalibur-logkit-java liblog4j1.2-java
+  cups-common libgcj12-dbg libgd-tools gphoto2 gtkam gvfs libdata-dump-perl libipc-sharedcache-perl libjasper-runtime libjaxp1.3-java-gcj liblcms2-utils libcrypt-ssleay-perl
+  libmagickcore5-extra ttf-baekmuk ttf-arphic-gbsn00lp ttf-arphic-bsmi00lp ttf-arphic-gkai00mp ttf-arphic-bkai00mp libscalar-number-perl pcscd avahi-daemon hpoj hplip libjdom1-java
+  libsaxon-java-doc libtemplate-perl-doc libtemplate-plugin-gd-perl libtemplate-plugin-xml-perl libauthen-ntlm-perl libxalan2-java-doc libxsltc-java libxerces2-java-doc
+  libxerces2-java-gcj libxml-commons-resolver1.1-java-doc imagemagick-doc poppler-utils fonts-japanese-mincho fonts-ipafont-mincho fonts-japanese-gothic fonts-ipafont-gothic
+  fonts-arphic-ukai fonts-arphic-uming fonts-unfonts-core unpaper perlsgml w3-recs opensp libxml2-utils zip
+Recommended packages:
+  rhino openjdk-6-jre openjdk-7-jre-headless gcj-4.6-jre-lib
+The following NEW packages will be installed:
+  acl autopoint colord consolekit dbus dconf-gsettings-backend dconf-service docbook-xml docbook-xsl fontconfig fontconfig-config fonts-droid fop gcj-4.6-base gcj-4.6-jre-headless
+  gettext ghostscript git git-man gsfonts hicolor-icon-theme imagemagick-common java-wrappers libapache-pom-java libappconfig-perl libarchive-zip-perl libasound2 libatk1.0-0
+  libatk1.0-data libavahi-client3 libavahi-common-data libavahi-common3 libavalon-framework-java libbatik-java libbsf-java libcairo-gobject2 libcairo2 libck-connector0
+  libclass-accessor-perl libclass-data-inheritable-perl libclass-load-perl libclass-singleton-perl libclass-trigger-perl libclone-perl libcolord1 libcommons-io-java
+  libcommons-logging-java libcommons-parent-java libconfig-simple-perl libcroco3 libcups2 libcupsimage2 libcurl3-gnutls libdata-optlist-perl libdatetime-format-dateparse-perl
+  libdatetime-locale-perl libdatetime-perl libdatetime-timezone-perl libdatrie1 libdbd-sqlite3-perl libdbi-perl libdbus-1-3 libdbus-glib-1-2 libdconf0 libencode-locale-perl
+  liberror-perl libexif12 libffi5 libfile-copy-recursive-perl libfile-find-rule-perl libfile-homedir-perl libfile-inplace-perl libfile-listing-perl libfile-pushd-perl
+  libfile-slurp-perl libfile-which-perl libfont-afm-perl libfontconfig1 libfop-java libgcj-common libgcj12 libgd2-xpm libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-common libgettextpo0
+  libglib2.0-0 libglib2.0-data libgmp10 libgomp1 libgphoto2-2 libgphoto2-l10n libgphoto2-port0 libgs9 libgs9-common libgtk-3-0 libgtk-3-bin libgtk-3-common libgudev-1.0-0 libgusb2
+  libhtml-form-perl libhtml-format-perl libhtml-formattext-withlinks-andtables-perl libhtml-formattext-withlinks-perl libhtml-parser-perl libhtml-tagset-perl libhtml-template-perl
+  libhtml-tree-perl libhttp-cookies-perl libhttp-daemon-perl libhttp-date-perl libhttp-message-perl libhttp-negotiate-perl libice6 libieee1284-3 libijs-0.35 libimage-size-perl
+  libio-socket-ip-perl libio-socket-ssl-perl libio-string-perl libio-stringy-perl libipc-run3-perl libjasper1 libjaxp1.3-java libjbig0 libjbig2dec0 libjpeg8 liblcms2-2
+  liblist-moreutils-perl liblocale-maketext-gettext-perl liblocale-po-perl liblqr-1-0 libltdl7 liblwp-mediatypes-perl liblwp-protocol-https-perl libmagickcore5 libmailtools-perl
+  libmakefile-dom-perl libmakefile-parser-perl libmath-round-perl libmodule-implementation-perl libmodule-runtime-perl libnet-daemon-perl libnet-http-perl libnet-ssleay-perl
+  libnumber-compare-perl libpackage-deprecationmanager-perl libpackage-stash-perl libpackage-stash-xs-perl libpam-ck-connector libpango1.0-0 libpaper-utils libpaper1
+  libparams-classify-perl libparams-util-perl libparams-validate-perl libpcsclite1 libperl5.14 libpixman-1-0 libplrpc-perl libpng12-0 libpolkit-agent-1-0 libpolkit-backend-1-0
+  libpolkit-gobject-1-0 librsvg2-2 librsvg2-bin librsvg2-common librtmp0 libsane libsane-common libsane-extras libsane-extras-common libsaxon-java libsm6 libsocket-perl
+  libsort-versions-perl libssh2-1 libstring-similarity-perl libsub-install-perl libsub-name-perl libsyntax-highlight-engine-kate-perl libsystemd-login0 libtemplate-perl
+  libtext-csv-xs-perl libtext-glob-perl libthai-data libthai0 libtiff4 libtimedate-perl libtry-tiny-perl libunistring0 liburi-perl libv4l-0 libv4lconvert0 libwww-perl
+  libwww-robotrules-perl libxalan2-java libxcb-render0 libxcb-shm0 libxcomposite1 libxcursor1 libxdamage1 libxerces2-java libxfixes3 libxft2 libxi6 libxinerama1
+  libxml-commons-external-java libxml-commons-resolver1.1-java libxml-libxml-perl libxml-libxslt-perl libxml-namespacesupport-perl libxml-parser-perl libxml-sax-base-perl
+  libxml-sax-expat-perl libxml-sax-perl libxml-simple-perl libxml-treebuilder-perl libxmlgraphics-commons-java libxpm4 libxrandr2 libxrender1 libxslt1.1 libxt6 libxtst6 perlmagick
+  policykit-1 poppler-data publican rsync sane-utils sgml-data shared-mime-info ttf-dejavu-core unzip update-inetd x11-common
+0 upgraded, 236 newly installed, 0 to remove and 1 not upgraded.
+Need to get 109 MB of archives.
+After this operation, 326 MB of additional disk space will be used.
+Do you want to continue [Y/n]? 
+Get:1 http://ftp.iinet.net.au/debian/debian/ wheezy/main libffi5 amd64 3.0.10-3 [24.8 kB]
+Get:2 http://ftp.iinet.net.au/debian/debian/ wheezy/main libglib2.0-0 amd64 2.33.12+really2.32.4-5 [1,838 kB]      
+Get:3 http://ftp.us.debian.org/debian/ testing/main docbook-xsl all 1.78.1+dfsg-1 [2,339 kB]
+Get:4 http://security.debian.org/ wheezy/updates/main libdbus-1-3 amd64 1.6.8-1+deb7u1 [173 kB]
+.........
+</screen>
+
+				</step>
+			</procedure>
+			
+			 <para>
+				Note that until the release of "Squeeze" as the stable version of Debian, you must manually enable and disable access to the testing repository as described in this procedure whenever a new version of <application>Publican</application> becomes available in the testing repository. You can find up-to-date information about the status of <application>Publican</application> for Debian at <ulink url="http://packages.debian.org/squeeze/publican" />, including the version number of <application>Publican</application> available in the repository (2.1 at the time of writing).
+			</para>
+			 <para>
+				When "Squeeze" becomes the stable version of Debian, you will not need to enable or disable access to extra repositories to install <application>Publican</application> on systems that run that version of the operating system.
+			</para>
+
+		</section>
