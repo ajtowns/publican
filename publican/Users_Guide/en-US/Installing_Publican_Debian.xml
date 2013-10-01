@@ -50,7 +50,7 @@
 					To date, there has not been any backport (<ulink url="http://backports.Debian.org/Instructions/" />) available for <application>publican</application>, so we need to use Apt Pinning <ulink url="https://wiki.Debian.org/AptPreferences" />
 				</para>
 				<para>
-					Alternatively, you could run Debian testing or unstable in a virtual machine, or jail. 
+					Alternatively, you could run Debian testing or unstable in a virtual machine, chroot or linux container. 
 				</para>
 				<para>
 **************** docker image anyone?***************
@@ -154,7 +154,55 @@ Pin-Priority: -10
 				</step>
 			</procedure>
 			<para>
-				
+				Because Apt Pinning mixes 2 different debian streams in an un-tested way, incompatibilities may happen. For example, you may get a warning like:
+
+				<screen><prompt>$</prompt> <command>publican</command>
+				Warning: program compiled against libxml 209 using older 208
+				Warning: XML::LibXML compiled against libxml2 20901, but runtime libxml2 is older 20800
+				Warning: program compiled against libxml 209 using older 208
+				Warning: XML::LibXSLT compiled against libxslt 10128, but runtime libxslt is older 10126
+				Can't open publican: No such file or directory at /usr/bin/publican line 430.
+				</screen>
+				Which indicates that you might need to upgrade libxml2 and libxslt to the testing repository version too. This can be done by
+				<procedure>
+					<step>
+						<para>
+							searching to find the likely library:
+<screen><prompt>$</prompt> <command>apt-get search libxslt</command>
+gambas3-gb-xml-xslt - Gambas XSLT component
+libidzebra-2.0-mod-alvis - IDZebra filter alvis (XSLT filter for XML)
+libidzebra-2.0-mod-dom - IDZebra filter 'dom' (XML DOM internal document model with XSLT)
+libical-parser-html-perl - generates HTML calendars from iCalendars
+libxsltc-java - XSL Transformations (XSLT) compiler from Xalan-Java
+libxml-filter-xslt-perl - Perl module for XSLT as a SAX Filter
+libxml-libxslt-perl - Perl interface to the GNOME libxslt library
+libxslt1-dbg - XSLT 1.0 processing library - debugging symbols
+libxslt1-dev - XSLT 1.0 processing library - development kit
+libxslt1.1 - XSLT 1.0 processing library - runtime library
+python-libxslt1 - Python bindings for libxslt1
+python-libxslt1-dbg - Python bindings for libxslt1 (debug extension)
+python-lxml - pythonic binding for the libxml2 and libxslt libraries
+python-lxml-dbg - pythonic binding for the libxml2 and libxslt libraries (debug extension)
+python-lxml-doc - pythonic binding for the libxml2 and libxslt libraries (documentation)
+python3-lxml - pythonic binding for the libxml2 and libxslt libraries
+python3-lxml-dbg - pythonic binding for the libxml2 and libxslt libraries (debug extension)
+php5-xsl - XSL module for php5
+libsp-gxmlcpp-dev - S+P C++ wrapper for Gnome libxml2/libxslt
+libsp-gxmlcpp1 - S+P C++ wrapper for Gnome libxml2/libxslt
+swfmill - xml2swf and swf2xml processor
+libxslthl-java - XSLT syntax highlighting
+</screen>
+(and the same again for libxml2)
+						</para>
+					</step>
+					<step>
+						<para>
+And then upgrading those packages to testing.
+<screen><prompt>$</prompt> <command>apt-get -t testing upgrade libxml2 libxslt1.1</command>
+</screen>
+						</para>
+					</step>
+				</procedure>
 			</para>
 
 		</section>
