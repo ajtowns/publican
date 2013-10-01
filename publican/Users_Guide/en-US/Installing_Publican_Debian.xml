@@ -4,16 +4,8 @@
 ]>
 		 <section conformance="186" id="sect-Users_Guide-Linux_operating_systems-Debian">
 			<title>Debian</title>
-			 <warning>
-				<title> Warning — Debian's release cycle is different from <application>Publican</application>'s </title>
-				 <para>
-					This means that the current stable version of the Debian distribution is likely to contain an older version of <application>publican</application>. 
-***********THIS PROCEDURE ASSUMES sudo IS INSTALLED - WHICH IS NOT DEFAULT****************
-				</para>
-
-			</warning>
 			<para>
-				This initial procedure will install the <application>publican</application> version that is in your default Debian repository. It will install a large number of packages that <application>publican</application> depends on, like Java, XML and image processing libraries and many ancillary Perl modules.
+				This procedure will install the <application>publican</application> version that is in your default Debian repository. It will also install a large number of packages that <application>publican</application> depends on, like Java, XML and image processing libraries and many ancillary Perl modules.
 			</para>
 
 			 <procedure>
@@ -23,12 +15,17 @@
 					</para>
 
 				</step>
+				<step>
+					<para>
+						Change to the root user: <command> su - </command>
+					</para>
+				</step>
 				 <step>
 					<para>
 						Run the following command to install the <package>publican</package> package:
 					</para>
 					
-					<screen><prompt>$</prompt> <command>sudo apt-get install publican</command>
+					<screen><prompt>$</prompt> <command>apt-get install publican</command>
 					</screen>
 
 				</step>
@@ -48,11 +45,14 @@
 				<title> Important — Installing more recent packages using Apt-Pinning</title>
 				 <para>
 					If you need a more recent release of <package>publican</package> than installed by the procedure above, you can query if there other versions available: <ulink url="http://packages.Debian.org/search?keywords=publican+searchon=names+suite=allsection=all" />.
-
+				</para>
+				<para>
 					To date, there has not been any backport (<ulink url="http://backports.Debian.org/Instructions/" />) available for <application>publican</application>, so we need to use Apt Pinning <ulink url="https://wiki.Debian.org/AptPreferences" />
-
+				</para>
+				<para>
 					Alternatively, you could run Debian testing or unstable in a virtual machine, or jail. 
-
+				</para>
+				<para>
 **************** docker image anyone?***************
 				</para>
 
@@ -66,14 +66,18 @@
 					<para>
 						Open a terminal.
 					</para>
-
+				</step>
+				<step>
+					<para>
+						Change to the root user: <command> su - </command>
+					</para>
 				</step>
 				 <step>
 					<para>
 						Open your <filename>/etc/apt/sources.list</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
 					</para>
 					 
-<screen><prompt>$</prompt> <command>sudo gedit /etc/apt/sources.list</command>
+<screen><prompt>$</prompt> <command>gedit /etc/apt/sources.list</command>
 </screen>
 
 				</step>
@@ -82,8 +86,9 @@
 						Add the following line to the end of the file:
 					</para>
 					 
-<programlisting> #### testing  #########
- deb http://ftp.us.Debian.org/Debian testing main contrib non-free
+<programlisting>
+#### testing  #########
+deb http://ftp.us.Debian.org/Debian testing main contrib non-free
 </programlisting>
 
 				</step>
@@ -98,7 +103,7 @@
 						Open (or create) your <filename>/etc/apt/preferences</filename> file in a text editor. For example, to edit the file in <application>gedit</application> run:
 					</para>
 					 
-<screen><prompt>$</prompt> <command>sudo gedit /etc/apt/preferences</command>
+<screen><prompt>$</prompt> <command>gedit /etc/apt/preferences</command>
 </screen>
 
 				</step>
@@ -107,7 +112,8 @@
 						Add the following line to the end of the file:
 					</para>
 					 
-<programlisting>Package: *
+<programlisting>
+Package: *
 Pin: release a=stable
 Pin-Priority: 900
 
@@ -133,7 +139,7 @@ Pin-Priority: -10
 						Run the following command to update the list of packages available to your computer:
 					</para>
 					 
-<screen><prompt>$</prompt> <command>sudo apt-get update</command>
+<screen><prompt>$</prompt> <command>apt-get update</command>
 </screen>
 
 				</step>
@@ -142,7 +148,7 @@ Pin-Priority: -10
 						Run the following command to try to install the testing version of <package>publican</package> package, and any updated dependancies:
 					</para>
 					 
-<screen><prompt>$</prompt> <command>sudo apt-get -t testing install publican</command>
+<screen><prompt>$</prompt> <command>apt-get -t testing install publican</command>
 </screen>
 
 				</step>
