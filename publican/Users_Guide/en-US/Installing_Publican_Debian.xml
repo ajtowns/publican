@@ -44,10 +44,10 @@
 			 <important>
 				<title> Important — Installing more recent packages using Apt-Pinning</title>
 				 <para>
-					If you need a more recent release of <package>publican</package> than installed by the procedure above, you can query if there other versions available: <ulink url="http://packages.Debian.org/search?keywords=publican+searchon=names+suite=allsection=all" />.
+					If you need a more recent release of <package>publican</package> than installed by the procedure above, you can query if there other versions available: <ulink url="http://packages.debian.org/publican" />.
 				</para>
 				<para>
-					To date, there has not been any backport (<ulink url="http://backports.Debian.org/Instructions/" />) available for <application>publican</application>, so we need to use Apt Pinning <ulink url="https://wiki.Debian.org/AptPreferences" />
+					To date, there has not been any backport (<ulink url="http://backports.debian.org/Instructions/" />) available for <application>publican</application>, so we need to use Apt Pinning <ulink url="https://wiki.debian.org/AptPreferences" />
 				</para>
 				<para>
 					Alternatively, you could run Debian testing or unstable in a virtual machine, chroot or linux container. 
@@ -88,7 +88,7 @@
 					 
 <programlisting>
 #### testing  #########
-deb http://ftp.us.Debian.org/Debian testing main contrib non-free
+deb http://ftp.us.debian.org/debian testing main contrib non-free
 </programlisting>
 
 				</step>
@@ -164,12 +164,12 @@ Pin-Priority: -10
 				Can't open publican: No such file or directory at /usr/bin/publican line 430.
 				</screen>
 				Which indicates that you might need to upgrade libxml2 and libxslt to the testing repository version too. This can be done by
+				searching to find the likely library:
 			</para>
 
 			<procedure>
 				<step>
 					<para>
-						searching to find the likely library:
 <screen><prompt>$</prompt> <command>apt-get search libxslt</command>
 gambas3-gb-xml-xslt - Gambas XSLT component
 libidzebra-2.0-mod-alvis - IDZebra filter alvis (XSLT filter for XML)
